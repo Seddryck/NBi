@@ -10,7 +10,7 @@ namespace NBi.Core.Configuration
     public class Configuration : IConfiguration
     {
         public IReadOnlyDictionary<string, string> Providers { get; private set; }
-        public IReadOnlyCollection<Type> Extensions { get; private set; }
+        public IReadOnlyDictionary<Type, IDictionary<string, string>> Extensions { get; private set; }
         public IFailureReportProfile FailureReportProfile { get; private set; }
 
         public Configuration()
@@ -21,9 +21,9 @@ namespace NBi.Core.Configuration
             Providers = new ReadOnlyDictionary<string, string>(providers);
         }
 
-        public void LoadExtensions(IList<Type> extensions)
+        public void LoadExtensions(IDictionary<Type, IDictionary<string, string>> extensions)
         {
-            Extensions = new ReadOnlyCollection<Type>(extensions);
+            Extensions = new ReadOnlyDictionary<Type, IDictionary<string, string>>(extensions);
         }
 
         public void LoadFailureReportProfile(IFailureReportProfile profile)
@@ -48,7 +48,7 @@ namespace NBi.Core.Configuration
             {
                 FailureReportProfile = FailureReport.FailureReportProfile.Default,
                 Providers = new ReadOnlyDictionary<string, string>(new Dictionary<string, string>()),
-                Extensions = new ReadOnlyCollection<Type>(new List<Type>())
+                Extensions = new ReadOnlyDictionary<Type, IDictionary<string, string>>(new Dictionary<Type, IDictionary<string, string>>())
             };
         }
     }

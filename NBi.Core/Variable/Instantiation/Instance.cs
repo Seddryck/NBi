@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NBi.Core.Scalar.Resolver;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,10 +10,14 @@ namespace NBi.Core.Variable.Instantiation
     public class Instance
     {
         public IDictionary<string, ITestVariable> Variables { get; }
+        public IEnumerable<string> Categories { get; }
+        public IDictionary<string, string> Traits { get; }
 
-        public Instance(IDictionary<string, ITestVariable> variables)
+        public Instance(IDictionary<string, ITestVariable> variables, IEnumerable<string> categories, IDictionary<string, string> traits)
         {
             Variables = variables;
+            Categories = categories ?? new List<string>();
+            Traits = traits ?? new Dictionary<string, string>();
         }
 
         public virtual string GetName() => Variables.ElementAt(0).Value.GetValue().ToString();
@@ -26,7 +31,7 @@ namespace NBi.Core.Variable.Instantiation
         public class DefaultInstance : Instance
         {
             public DefaultInstance()
-                : base(new Dictionary<string, ITestVariable>())
+                : base(new Dictionary<string, ITestVariable>(),null, null)
             { }
 
             public override string GetName() => string.Empty;

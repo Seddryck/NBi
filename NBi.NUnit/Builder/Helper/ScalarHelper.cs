@@ -21,7 +21,7 @@ using System.Threading.Tasks;
 
 namespace NBi.NUnit.Builder.Helper
 {
-    class ScalarHelper
+    public class ScalarHelper
     {
         private readonly ServiceLocator serviceLocator;
         private readonly IDictionary<string, ITestVariable> variables;

@@ -62,7 +62,7 @@ namespace NBi.Core.Scalar.Comparer
                     readableNames.Add(correctName);
                 }
                 var tolerance = (FuzzyStringComparisonTolerance)Enum.Parse(typeof(FuzzyStringComparisonTolerance), distanceEnum);
-                Func<string, string, bool> implementation = (x, y) => x.ApproximatelyEquals(y, options, tolerance);
+                bool implementation(string x, string y) => x.ApproximatelyEquals(y, options, tolerance);
                 return new TextMultipleMethodsTolerance(string.Join(", ", readableNames), distanceEnum, implementation);
             }
 
@@ -133,7 +133,7 @@ namespace NBi.Core.Scalar.Comparer
             else
             {
                 var firstDelegate = methodInfo.CreateDelegate(typeof(Func<string, string, Int32>));
-                Func<string, string, double> convert = (x, y) => { return Convert.ToDouble(firstDelegate.DynamicInvoke(new[] { x, y })); };
+                double convert(string x, string y) { return Convert.ToDouble(firstDelegate.DynamicInvoke(new[] { x, y })); }
                 return convert;
             }
         }

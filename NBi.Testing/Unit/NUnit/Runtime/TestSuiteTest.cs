@@ -1,5 +1,6 @@
 ﻿#region Using directives
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -11,6 +12,8 @@ using NBi.NUnit.Runtime.Configuration;
 using NBi.Xml;
 using NBi.Xml.Items;
 using NBi.Xml.Systems;
+using NBi.Xml.Variables;
+using NBi.Xml.Variables.Sequence;
 using NUnit.Framework;
 using NUnit.Framework.Constraints;
 #endregion
@@ -53,7 +56,7 @@ namespace NBi.Testing.Unit.NUnit.Runtime
         {
             //Buiding object used during test
             var testSuite = new TestSuite();
-            
+
             //Call the method to test
             var filename = testSuite.GetOwnFilename();
 
@@ -76,7 +79,7 @@ namespace NBi.Testing.Unit.NUnit.Runtime
 
         [Test]
         public void GetTestCases_TestCaseWithRegexName_ReplaceRegexByValueInName()
-        {          
+        {
             //Buiding object used during test
             //TestSuite invoked
             var test = new TestXml()
@@ -89,7 +92,7 @@ namespace NBi.Testing.Unit.NUnit.Runtime
                 {
                     Item = new MeasureXml()
                     {
-                        Caption="My Caption",
+                        Caption = "My Caption",
                         DisplayFolder = "My Display Folder"
                     }
                 }
@@ -97,7 +100,7 @@ namespace NBi.Testing.Unit.NUnit.Runtime
 
             var testSuiteXml = new TestSuiteXml();
             testSuiteXml.Tests.Add(test);
-                    
+
             //Building a stub for TestSuiteManager
             var testSuiteManagerStub = new Mock<XmlManager>();
             testSuiteManagerStub.Setup(mgr => mgr.Load(It.IsAny<string>()));
@@ -119,6 +122,98 @@ namespace NBi.Testing.Unit.NUnit.Runtime
                                             .StringContaining("My Caption").And
                                             .StringContaining("My Display Folder").And
                                             .StringContaining("and it's parsed!"));
+        }
+
+        [Test]
+        public void GetTestCases_TestWithInstanceSettling_TestNameIsCorrect()
+        {
+            var testSuiteXml = new TestSuiteXml()
+            {
+                Tests = new List<TestXml>()
+                {
+                    new TestXml()
+                    {
+                        Name = "~My test for {@month:MMMM}",
+                        InstanceSettling = new InstanceSettlingXml()
+                        {
+                            Variable = new InstanceVariableXml()
+                            {
+                                Name = "month",
+                                Type = ColumnType.DateTime,
+                                SentinelLoop = new SentinelLoopXml()
+                                    { Seed = "2019-01-01", Terminal = "2019-02-01", Step = "1 month" }
+                            }
+                        }
+                    }
+                }
+            };
+
+            //Building a stub for TestSuiteManager
+            var testSuiteManagerStub = new Mock<XmlManager>();
+            testSuiteManagerStub.Setup(mgr => mgr.Load(It.IsAny<string>()));
+            testSuiteManagerStub.Setup(mgr => mgr.TestSuite).Returns(testSuiteXml);
+
+            //Building a stub for TestSuiteFinder
+            var testSuiteFinderStub = new Mock<TestSuiteProvider>();
+            testSuiteFinderStub.Setup(finder => finder.GetFilename(string.Empty)).Returns(string.Empty);
+
+            var testSuite = new TestSuite(testSuiteManagerStub.Object, testSuiteFinderStub.Object);
+
+            //Call the method to test
+            var testCases = testSuite.GetTestCases();
+
+            //Assertion
+            Assert.That(testCases.ElementAt(0).TestName, Is.StringContaining("My test for January"));
+            Assert.That(testCases.ElementAt(1).TestName, Is.StringContaining("My test for February"));
+        }
+
+        [Test]
+        public void GetTestCases_TestWithInstanceSettlingCategories_CorrectCategories()
+        {
+            var testSuiteXml = new TestSuiteXml()
+            {
+                Tests = new List<TestXml>()
+                {
+                    new TestXml()
+                    {
+                        Name = "Youpla",
+                        InstanceSettling = new InstanceSettlingXml()
+                        {
+                            Variable = new InstanceVariableXml()
+                            {
+                                Name = "month",
+                                Type = ColumnType.DateTime,
+                                SentinelLoop = new SentinelLoopXml()
+                                    { Seed = "2019-01-01", Terminal = "2019-02-01", Step = "1 month" }
+                            },
+                            Categories = new List<string>() { "~{@month:MMMM}", "~{@month:yy}" },
+                        },
+                        Categories = new List<string>() { "Category" },
+                    }
+                }
+            };
+
+            //Building a stub for TestSuiteManager
+            var testSuiteManagerStub = new Mock<XmlManager>();
+            testSuiteManagerStub.Setup(mgr => mgr.Load(It.IsAny<string>()));
+            testSuiteManagerStub.Setup(mgr => mgr.TestSuite).Returns(testSuiteXml);
+
+            //Building a stub for TestSuiteFinder
+            var testSuiteFinderStub = new Mock<TestSuiteProvider>();
+            testSuiteFinderStub.Setup(finder => finder.GetFilename(string.Empty)).Returns(string.Empty);
+
+            var testSuite = new TestSuite(testSuiteManagerStub.Object, testSuiteFinderStub.Object);
+
+            //Call the method to test
+            var testCases = testSuite.GetTestCases();
+
+            //Assertion
+            Assert.That(testCases.ElementAt(0).Categories, Has.Member("January"));
+            Assert.That(testCases.ElementAt(0).Categories, Has.Member("19"));
+            Assert.That(testCases.ElementAt(0).Categories, Has.Member("Category"));
+            Assert.That(testCases.ElementAt(1).Categories, Has.Member("February"));
+            Assert.That(testCases.ElementAt(1).Categories, Has.Member("19"));
+            Assert.That(testCases.ElementAt(1).Categories, Has.Member("Category"));
         }
 
         [Test]
@@ -191,7 +286,7 @@ namespace NBi.Testing.Unit.NUnit.Runtime
             }
             catch (Exception ex)
             {
-                if (ex.InnerException==null)
+                if (ex.InnerException == null)
                     Assert.Fail("The exception should have been an CustomStackTraceErrorException but was {0}.\r\n{1}", new object[] { ex.GetType().FullName, ex.StackTrace });
                 else
                     Assert.Fail("The exception should have been an CustomStackTraceErrorException but was something else. The inner exception is {0}.\r\n{1}", new object[] { ex.InnerException.GetType().FullName, ex.InnerException.StackTrace });
@@ -245,7 +340,7 @@ namespace NBi.Testing.Unit.NUnit.Runtime
 
             var testSuite = new TestSuite(manager);
             var testCases = testSuite.BuildTestCases();
-            Assert.That(testCases.Count(), Is.EqualTo(2+2+1+1));
+            Assert.That(testCases.Count(), Is.EqualTo(2 + 2 + 1 + 1));
         }
 
         [Test]

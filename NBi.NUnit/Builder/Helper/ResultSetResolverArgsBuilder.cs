@@ -1,7 +1,4 @@
-﻿using NBi.Core;
-using NBi.Core.Injection;
-using NBi.Core.Query;
-using NBi.Core.Query.Resolver;
+﻿using NBi.Core.Injection;
 using NBi.Core.ResultSet;
 using NBi.Core.ResultSet.Resolver;
 using NBi.Core.Sequence.Resolver;
@@ -62,24 +59,31 @@ namespace NBi.NUnit.Builder.Helper
 
             if (obj is ResultSetSystemXml)
             {
-                //ResultSet (external CSV file)
+                //ResultSet (external flat file)
                 if (!string.IsNullOrEmpty((obj as ResultSetSystemXml).File))
-                    args = BuildCsvResolverArgs((obj as ResultSetSystemXml).File);
+                {
+                    ParseFileInfo((obj as ResultSetSystemXml).File, out var filename, out var parserName);
+                    args = BuildCsvResolverArgs(filename, parserName);
+                }
                 //Query
                 else if ((obj as ResultSetSystemXml).Query != null)
                     args = BuildQueryResolverArgs((obj as ResultSetSystemXml).Query);
+                //Sequences combination
                 else if ((obj as ResultSetSystemXml).SequenceCombination != null)
                         args = BuildSequenceCombinationResolverArgs((obj as ResultSetSystemXml).SequenceCombination);
-                    //ResultSet (embedded)
-                    else if ((obj as ResultSetSystemXml).Rows != null)
+                //ResultSet (embedded)
+                else if ((obj as ResultSetSystemXml).Rows != null)
                     args = BuildEmbeddedResolverArgs((obj as ResultSetSystemXml).Content);
             }
 
             if (obj is ResultSetXml)
             {
-                //ResultSet (external CSV file)
+                //ResultSet (external flat file)
                 if (!string.IsNullOrEmpty((obj as ResultSetXml).File))
-                    args = BuildCsvResolverArgs((obj as ResultSetXml).File);
+                {
+                    ParseFileInfo((obj as ResultSetXml).File, out var filename, out var parserName);
+                    args = BuildCsvResolverArgs(filename, parserName);
+                }
                 //ResultSet (embedded)
                 else if ((obj as ResultSetXml).Rows != null)
                     args = BuildEmbeddedResolverArgs((obj as ResultSetXml).Content);
@@ -116,6 +120,13 @@ namespace NBi.NUnit.Builder.Helper
             return new SequenceCombinationResultSetResolverArgs(resolvers);
         }
 
+        private void ParseFileInfo(string input, out string filename, out string parserName)
+        {
+            var split = input.Split(new char[] { '!' }, StringSplitOptions.RemoveEmptyEntries);
+            filename = split[0];
+            parserName = split.Count() == 1 ? string.Empty : split[1];
+        }
+
         private ResultSetResolverArgs BuildEmbeddedResolverArgs(IContent content)
         {
             Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceVerbose, "ResultSet defined in embedded resultSet.");
@@ -135,9 +146,9 @@ namespace NBi.NUnit.Builder.Helper
             return new QueryResultSetResolverArgs(argsQuery);
         }
 
-        private ResultSetResolverArgs BuildCsvResolverArgs(string path)
+        private ResultSetResolverArgs BuildCsvResolverArgs(string path, string parserName)
         {
-            Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceVerbose, "ResultSet defined in external CSV file.");
+            Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceVerbose, $"ResultSet defined in an external flat file to be read with {(string.IsNullOrEmpty(parserName) ? "the default CSV parser" : parserName)}.");
 
             var builder = new ScalarResolverArgsBuilder(serviceLocator);
             builder.Setup(path);
@@ -149,7 +160,7 @@ namespace NBi.NUnit.Builder.Helper
             var factory = serviceLocator.GetScalarResolverFactory();
             var resolverPath = factory.Instantiate<string>(argsPath);
 
-            return new CsvResultSetResolverArgs(resolverPath, settings?.BasePath, settings?.CsvProfile);
+            return new FlatFileResultSetResolverArgs(resolverPath, settings?.BasePath, parserName, settings?.CsvProfile);
         }
 
         private ResultSetResolverArgs BuildXPathResolverArgs(XmlSourceXml xmlSource)

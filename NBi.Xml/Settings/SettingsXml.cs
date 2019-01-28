@@ -30,7 +30,8 @@ namespace NBi.Xml.Settings
         {
             var value = 
                 CsvProfile.InternalFieldSeparator != GetDefaultValue<string>(x => x.InternalFieldSeparator)
-                || CsvProfile.InternalRecordSeparator != GetDefaultValue<string>(x => x.InternalRecordSeparator);
+                || CsvProfile.InternalRecordSeparator != GetDefaultValue<string>(x => x.InternalRecordSeparator)
+                || CsvProfile.InternalTextQualifier != GetDefaultValue<string>(x => x.InternalTextQualifier);
 
             return value;
         }
@@ -103,6 +104,7 @@ namespace NBi.Xml.Settings
             CsvProfile = new CsvProfileXml
             (
                 GetDefaultValue<string>(x => x.InternalFieldSeparator)[0]
+                , '\"'
                 , GetDefaultValue<string>(x => x.InternalRecordSeparator)
             );
         }

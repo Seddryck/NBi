@@ -11,6 +11,7 @@ using System.IO;
 using System.Diagnostics;
 using NBi.Xml.Items;
 using System.Reflection;
+using NBi.Xml.Settings;
 
 namespace NBi.Testing.Unit.Xml
 {
@@ -22,8 +23,8 @@ namespace NBi.Testing.Unit.Xml
 
             using (Stream stream = Assembly.GetExecutingAssembly()
                                            .GetManifestResourceStream("NBi.Testing.Unit.Xml.Resources.InstanceSettlingXmlTestSuite.xml"))
-                using (StreamReader reader = new StreamReader(stream))
-                    manager.Read(reader);
+            using (StreamReader reader = new StreamReader(stream))
+                manager.Read(reader);
 
             return manager.TestSuite;
         }
@@ -63,6 +64,8 @@ namespace NBi.Testing.Unit.Xml
 
             Assert.That(content, Is.StringContaining("<instance-settling"));
             Assert.That(content, Is.StringContaining("<local-variable"));
+            Assert.That(content, Is.Not.StringContaining("<category"));
+            Assert.That(content, Is.Not.StringContaining("<trait"));
         }
 
         [Test]
@@ -103,6 +106,33 @@ namespace NBi.Testing.Unit.Xml
             Assert.That(content, Is.Not.StringContaining("<instance-settling"));
         }
 
+        [Test]
+        public void Serialize_WithCategorieAndTrait_CategorieAndTraitNotSerialized()
+        {
+            var test = new TestXml()
+            {
+                InstanceSettling = new InstanceSettlingXml()
+                {
+                    Variable = new InstanceVariableXml() { Name = "firstOfMonth" },
+                    Categories = new List<string>() { "~{@firstOfMonth:MMM}", "~{@firstOfMonth:MM}" },
+                    Traits = new List<TraitXml>() { new TraitXml() { Name = "Year", Value = "~{@firstOfMonth:YYYY}" } }
+                }
+            };
 
+            var serializer = new XmlSerializer(test.GetType());
+            using (var stream = new MemoryStream())
+            using (var writer = new StreamWriter(stream, Encoding.UTF8))
+            {
+                serializer.Serialize(writer, test);
+                var content = Encoding.UTF8.GetString(stream.ToArray());
+
+
+                Debug.WriteLine(content);
+
+                Assert.That(content, Is.StringContaining("<instance-settling"));
+                Assert.That(content, Is.StringContaining("<category"));
+                Assert.That(content, Is.StringContaining("<trait"));
+            }
+        }
     }
 }

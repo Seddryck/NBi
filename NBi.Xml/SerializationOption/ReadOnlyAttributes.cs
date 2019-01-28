@@ -46,7 +46,8 @@ namespace NBi.Xml.SerializationOption
 
             AddToElements((ProjectionXml x) => x.ResultSetOld, "resultSet", typeof(ResultSetSystemXml));
             AddToElements((LookupExistsXml x) => x.ResultSetOld, "resultSet", typeof(ResultSetSystemXml));
-            #pragma warning restore 0618
+            AddToElements((LookupMatchesXml x) => x.ResultSetOld, "resultSet", typeof(ResultSetSystemXml));
+#pragma warning restore 0618
         }
     }
 }

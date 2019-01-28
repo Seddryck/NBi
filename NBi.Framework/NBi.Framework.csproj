@@ -42,6 +42,9 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net461\System.ValueTuple.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -52,16 +55,34 @@
     <Compile Include="..\AssemblyInfo.cs">
       <Link>Properties\AssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="FailureMessage\Common\Helper\BaseTableHelper.cs" />
+    <Compile Include="FailureMessage\Common\LookupViolationMessage.cs" />
     <Compile Include="FailureMessage\IScoreMessageFormatter.cs" />
+    <Compile Include="FailureMessage\Json\Helper\LookupTableHelperJson.cs" />
+    <Compile Include="FailureMessage\Json\Helper\TableHelperJson.cs" />
+    <Compile Include="FailureMessage\Json\Helper\BaseTableHelperJson.cs" />
+    <Compile Include="FailureMessage\Json\LookupReverseExistsViolationMessageJson.cs" />
+    <Compile Include="FailureMessage\Json\LookupMatchesViolationMessageJson.cs" />
+    <Compile Include="FailureMessage\Json\LookupExistsViolationMessageJson.cs" />
+    <Compile Include="FailureMessage\Json\sbReference.cs" />
     <Compile Include="FailureMessage\Json\ScoreMessageJson.cs" />
+    <Compile Include="FailureMessage\Common\Helper\ITableHelper.cs" />
+    <Compile Include="FailureMessage\LookupExistsViolationsMessageFormatterFactory.cs" />
+    <Compile Include="FailureMessage\LookupReverseExistsViolationsMessageFormatterFactory.cs" />
+    <Compile Include="FailureMessage\Markdown\Helper\StandardTableHelperMarkdown.cs" />
+    <Compile Include="FailureMessage\Markdown\Helper\LookupTableHelperMarkdown.cs" />
+    <Compile Include="FailureMessage\Markdown\Helper\BaseTableHelperMarkdown.cs" />
+    <Compile Include="FailureMessage\Markdown\LookupReverseExistsViolationMessageMarkdown.cs" />
+    <Compile Include="FailureMessage\Markdown\LookupExistsViolationMessageMarkdown.cs" />
+    <Compile Include="FailureMessage\Markdown\LookupMatchesViolationMessageMarkdown.cs" />
     <Compile Include="FailureMessage\Markdown\ScoreMessageMarkdown.cs" />
     <Compile Include="FailureMessage\ScoreMessageFormatterFactory.cs" />
-    <Compile Include="FailureMessage\ILookupViolationsMessageFormatter.cs" />
-    <Compile Include="FailureMessage\Json\CompareTableHelperJson.cs" />
+    <Compile Include="FailureMessage\ILookupViolationMessageFormatter.cs" />
+    <Compile Include="FailureMessage\Json\Helper\CompareTableHelperJson.cs" />
     <Compile Include="FailureMessage\Json\ItemsMessageJson.cs" />
-    <Compile Include="FailureMessage\Json\ReferenceViolationsMessageJson.cs" />
-    <Compile Include="FailureMessage\Markdown\LookupViolationsMessageMarkdown.cs" />
-    <Compile Include="FailureMessage\LookupViolationsMessageFormatterFactory.cs" />
+    <Compile Include="FailureMessage\Json\LookupViolationMessageJson.cs" />
+    <Compile Include="FailureMessage\Markdown\LookupViolationMessageMarkdown.cs" />
+    <Compile Include="FailureMessage\LookupMatchesViolationsMessageFormatterFactory.cs" />
     <Compile Include="Sampling\FullSampler.cs" />
     <Compile Include="Sampling\NoneSampler.cs" />
     <Compile Include="Sampling\ISampler.cs" />
@@ -71,7 +92,7 @@
     <Compile Include="FailureMessage\IItemsMessageFormatter.cs" />
     <Compile Include="FailureMessage\IDataRowsMessageFormatter.cs" />
     <Compile Include="FailureMessage\Json\DataRowsMessageJson.cs" />
-    <Compile Include="FailureMessage\Json\TableHelperJson.cs" />
+    <Compile Include="FailureMessage\Json\Helper\StandardTableHelperJson.cs" />
     <Compile Include="FailureMessage\Markdown\MarkdownLogExtension\EmptyTableCellExtended.cs" />
     <Compile Include="FailureMessage\Markdown\MarkdownLogExtension\ITableCellExtended.cs" />
     <Compile Include="FailureMessage\Markdown\MarkdownLogExtension\TableCellExtended.cs" />
@@ -81,15 +102,9 @@
     <Compile Include="FailureMessage\Markdown\MarkdownLogExtension\TableRowExtended.cs" />
     <Compile Include="Sampling\SamplersFactory.cs" />
     <Compile Include="FailureMessage\Markdown\ItemsMessageMarkdown.cs" />
-    <Compile Include="FailureMessage\Common\BooleanCellFormatter.cs" />
-    <Compile Include="FailureMessage\Common\CellFormatter.cs" />
-    <Compile Include="FailureMessage\Common\CellFormatterFactory.cs" />
-    <Compile Include="FailureMessage\Common\DateTimeCellFormatter.cs" />
-    <Compile Include="FailureMessage\Common\NumericCellFormatter.cs" />
-    <Compile Include="FailureMessage\Common\TextCellFormatter.cs" />
     <Compile Include="FailureMessage\Common\ColumnPropertiesFormatter.cs" />
-    <Compile Include="FailureMessage\Markdown\Helper\CompareTableHelper.cs" />
-    <Compile Include="FailureMessage\Markdown\Helper\TableHelper.cs" />
+    <Compile Include="FailureMessage\Markdown\Helper\CompareTableHelperMarkdown.cs" />
+    <Compile Include="FailureMessage\Markdown\Helper\TableHelperMarkdown.cs" />
     <Compile Include="Properties\ProjectAssemblyInfo.cs" />
     <Compile Include="FailureMessage\Markdown\DataRowsMessageMarkdown.cs" />
   </ItemGroup>
@@ -106,6 +121,7 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

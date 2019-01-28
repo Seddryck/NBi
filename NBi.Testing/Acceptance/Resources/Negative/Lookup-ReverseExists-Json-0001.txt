@@ -1,0 +1,1 @@
+﻿{"timestamp":"2019-01-25T19:03:43.8911517+01:00","expected":{"total-rows":4},"actual":{"total-rows":2},"analysis":{"missing":{"total-rows":1,"table":{"columns":[{"position":0,"name":"Column1","role":"KEY","type":"Text"}],"rows":[["Gamma"]]}}}}

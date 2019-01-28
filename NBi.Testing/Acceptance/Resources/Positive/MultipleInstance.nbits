@@ -61,7 +61,28 @@
       </no-rows>
     </assert>
   </test>
-  <test name="Instances are defined through a single variable based on a predefined list" uid="0004">
+  <test name="~Instance also defines the test's name and categories and traits for {@firstDayOfMonth:MMMM}" uid="0002">
+    <instance-settling>
+      <local-variable name="firstDayOfMonth" type="dateTime">
+        <loop-sentinel seed="2016-01-01" terminal="2016-03-01" step="1 month"/>
+      </local-variable>
+      <category>~{@firstDayOfMonth:MMMM}</category>
+      <trait name="Year">~{@firstDayOfMonth:yyyy}</trait>
+      <trait name="Month">~{@firstDayOfMonth:yyyy}</trait>
+      <trait name="Date">@firstDayOfMonth</trait>
+    </instance-settling>
+    <system-under-test>
+      <resultSet file="~..\csv\MyData_{@firstDayOfMonth:yyyy}_{@firstDayOfMonth:MM}.csv"/>
+    </system-under-test>
+    <assert>
+      <no-rows>
+        <predicate name="#0">
+          <null/>
+        </predicate>
+      </no-rows>
+    </assert>
+  </test>
+  <test name="~Instance also defines the test's name and categories and traits for {@firstDayOfMonth:MMMM}" uid="0002">
     <instance-settling>
       <local-variable name="department" type="text">
         <item>Production</item>

@@ -70,7 +70,9 @@ namespace NBi.NUnit.Builder.Helper
                 args = new SingleVariableInstanceArgs()
                 {
                     Name = variable.Name,
-                    Resolver = factory.Instantiate(variable.Type, argsBuilder.GetArgs())
+                    Resolver = factory.Instantiate(variable.Type, argsBuilder.GetArgs()),
+                    Categories = (obj as InstanceSettlingXml).Categories,
+                    Traits = (obj as InstanceSettlingXml).Traits.ToDictionary( x => x.Name, x => x.Value),
                 };
             }
         }

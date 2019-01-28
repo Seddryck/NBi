@@ -179,9 +179,42 @@
         </lookup-exists>
       </assert>
     </test>
-  </group>-->
+    <test name="lookup-matches" uid="00091">
+      <system-under-test>
+        <result-set>
+          <query>
+            select 
+              NationalIdNumber,
+              h.[DepartmentID]as DepartmentID,
+              d.Name as DepartmentName
+            from 
+              [HumanResources].[Employee] e
+            inner join [HumanResources].[EmployeeDepartmentHistory] 
+              h on e.BusinessEntityId = h.BusinessEntityId
+            inner join [HumanResources].[Department] d on 
+              h.DepartmentId = d.DepartmentId
+          </query>
+        </result-set>
+      </system-under-test>
+      <assert>
+        <lookup-matches>
+          <join>
+            <mapping candidate="DepartmentID" reference="Id" type="numeric"/>
+          </join>
+          <inclusion>
+            <mapping candidate="DepartmentName" reference="Name" type="text"/>
+          </inclusion>
+          <result-set>
+            <query>
+              select [DepartmentID] as Id, [Name] from [HumanResources].[Department]
+            </query>
+          </result-set>
+        </lookup-matches>
+      </assert>
+    </test>
+  <!--</group>
   <group name="system-under-tests">
-    <!--<test name="Embedded result-set" uid="0101">
+    <test name="Embedded result-set" uid="0101">
       <system-under-test>
         <resultSet>
           <row>
@@ -462,7 +495,6 @@
         </equalTo>
       </assert>
     </test>
-    
     <test name="Filter with one ranking top" uid="0211">
       <system-under-test>
         <resultSet file="..\Csv\ResellerOrderCountByYearBefore2006.csv">

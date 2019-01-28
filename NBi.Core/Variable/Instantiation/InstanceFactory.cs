@@ -14,18 +14,22 @@ namespace NBi.Core.Variable.Instantiation
             switch (args)
             {
                 case DefaultInstanceArgs d: return new[] { Instance.Default };
-                case SingleVariableInstanceArgs s: return Instantiate(s.Name, s.Resolver);
+                case SingleVariableInstanceArgs s: return Instantiate(s.Name, s.Resolver, args.Categories, args.Traits);
                 default:
                     throw new ArgumentOutOfRangeException();
             }
         }
 
-        private IEnumerable<Instance> Instantiate(string variableName, ISequenceResolver resolver)
+        private IEnumerable<Instance> Instantiate(string variableName, ISequenceResolver resolver, IEnumerable<string> categories, IDictionary<string, string> traits)
         {
             foreach (var obj in resolver.Execute())
             {
                 var instanceVariable = new InstanceVariable(obj);
-                yield return new Instance(new Dictionary<string, ITestVariable>() { { variableName, instanceVariable } });
+                yield return new Instance(
+                    new Dictionary<string, ITestVariable>() { { variableName, instanceVariable } },
+                    categories,
+                    traits
+                    );
             }
         }
     }

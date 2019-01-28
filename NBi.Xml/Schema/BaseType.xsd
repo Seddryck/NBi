@@ -18,6 +18,7 @@
   </xs:complexType>
   <xs:complexType name="csv-profile-type">
     <xs:attribute name="field-separator" type="xs:string"/>
+    <xs:attribute name="text-qualifier" type="xs:string"/>
     <xs:attribute name="record-separator" type="xs:string"/>
     <xs:attribute name="first-row-header" type="xs:boolean"/>
     <xs:attribute name="empty-cell" type="xs:string"/>
@@ -1050,6 +1051,7 @@
                 <xs:element name="single-row" type="filter-base-type"/>
                 <xs:element name="unique-rows" type="unique-rows-type"/>
                 <xs:element name="lookup-exists" type="lookup-exists-type"/>
+                <xs:element name="lookup-matches" type="lookup-matches-type"/>
                 <xs:element name="score" type="score-type"/>
               </xs:choice>
             </xs:complexType>
@@ -1068,9 +1070,11 @@
     <xs:attribute name="description" type="xs:string" use="optional" />
   </xs:complexType>
   <xs:complexType name="instance-settling-type">
-    <xs:choice minOccurs="1" maxOccurs="1">
-      <xs:element name="local-variable" type="local-variable-type"/>
-    </xs:choice>
+    <xs:sequence minOccurs="1" maxOccurs="1">
+      <xs:element name="local-variable" type="local-variable-type" minOccurs="1" maxOccurs="1"/>
+      <xs:element name="category" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="trait" type="trait-type" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
   </xs:complexType>
   <xs:complexType name="sequence-type">
     <xs:choice minOccurs="1" maxOccurs="1">
@@ -1231,6 +1235,17 @@
   <xs:complexType name="lookup-exists-type">
     <xs:sequence minOccurs="0" maxOccurs="unbounded">
       <xs:element name="join" type="join-type" minOccurs="1" maxOccurs="1" />
+      <xs:choice minOccurs="1" maxOccurs="1">
+        <xs:element name="resultSet" type="result-set-type" minOccurs="1" maxOccurs="1"/>
+        <xs:element name="result-set" type="result-set-type" minOccurs="1" maxOccurs="1"/>
+      </xs:choice>
+    </xs:sequence>
+    <xs:attribute name="reverse" type="xs:boolean"/>
+  </xs:complexType>
+  <xs:complexType name="lookup-matches-type">
+    <xs:sequence minOccurs="0" maxOccurs="unbounded">
+      <xs:element name="join" type="join-type" minOccurs="1" maxOccurs="1" />
+      <xs:element name="inclusion" type="join-type" minOccurs="1" maxOccurs="1" />
       <xs:choice minOccurs="1" maxOccurs="1">
         <xs:element name="resultSet" type="result-set-type" minOccurs="1" maxOccurs="1"/>
         <xs:element name="result-set" type="result-set-type" minOccurs="1" maxOccurs="1"/>

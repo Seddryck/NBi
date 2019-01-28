@@ -146,7 +146,13 @@ namespace NBi.Testing.Unit.Core.Query.Execution
         {
             var localServiceLocator = new ServiceLocator();
             var setupConfig = localServiceLocator.GetConfiguration();
-            setupConfig.LoadExtensions(new List<Type>() { typeof(FakeSessionFactory), typeof(FakeCommandFactory), typeof(FakeExecutionEngine) });
+            var extensions = new Dictionary<Type, IDictionary<string, string>>
+            {
+                { typeof(FakeSessionFactory), new Dictionary<string, string>() },
+                { typeof(FakeCommandFactory), new Dictionary<string, string>() },
+                { typeof(FakeExecutionEngine), new Dictionary<string, string>() },
+            };
+            setupConfig.LoadExtensions(extensions);
 
             var query = Mock.Of<IQuery>(x => x.ConnectionString == "fake://MyConnectionString");
 

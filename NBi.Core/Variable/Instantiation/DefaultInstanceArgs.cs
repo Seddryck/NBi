@@ -7,5 +7,8 @@ using System.Threading.Tasks;
 namespace NBi.Core.Variable.Instantiation
 {
     public class DefaultInstanceArgs : IInstanceArgs
-    { }
+    {
+        public IEnumerable<string> Categories { get; } = new List<string>();
+        public IDictionary<string, string> Traits { get; } = new Dictionary<string, string>();
+    }
 }

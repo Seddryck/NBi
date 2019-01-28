@@ -54,11 +54,11 @@
     <Reference Include="FuzzyString, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\FuzzyString.1.0.0\lib\FuzzyString.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.AnalysisServices.AdomdClient, Version=15.8.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.AnalysisServices.AdomdClient.retail.amd64.15.8.0\lib\net45\Microsoft.AnalysisServices.AdomdClient.dll</HintPath>
+    <Reference Include="Microsoft.AnalysisServices.AdomdClient, Version=15.12.1.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AnalysisServices.AdomdClient.retail.amd64.15.12.1\lib\net45\Microsoft.AnalysisServices.AdomdClient.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.AnalysisServices.SPClient.Interfaces, Version=15.8.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.AnalysisServices.AdomdClient.retail.amd64.15.8.0\lib\net45\Microsoft.AnalysisServices.SPClient.Interfaces.dll</HintPath>
+    <Reference Include="Microsoft.AnalysisServices.SPClient.Interfaces, Version=15.12.1.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AnalysisServices.AdomdClient.retail.amd64.15.12.1\lib\net45\Microsoft.AnalysisServices.SPClient.Interfaces.dll</HintPath>
     </Reference>
     <Reference Include="NCalc, Version=1.5.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\NCalc-Edge.1.5.0\lib\net35\NCalc.dll</HintPath>
@@ -69,10 +69,16 @@
     <Reference Include="Ninject, Version=3.3.4.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
       <HintPath>..\packages\Ninject.3.3.4\lib\net45\Ninject.dll</HintPath>
     </Reference>
+    <Reference Include="PocketCsvReader, Version=0.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\PocketCsvReader.0.1.0-beta.6\lib\net461\PocketCsvReader.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Management" />
     <Reference Include="System.ServiceProcess" />
+    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net461\System.ValueTuple.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -189,6 +195,8 @@
     <Compile Include="Configuration\IExtensionsConfiguration.cs" />
     <Compile Include="Configuration\FailureReport\IFailureReportProfile.cs" />
     <Compile Include="Configuration\IFailureReportProfileConfiguration.cs" />
+    <Compile Include="DataRowExtensions.cs" />
+    <Compile Include="FlatFile\FlatFileReaderFactory.cs" />
     <Compile Include="Injection\ConfigurationModule.cs" />
     <Compile Include="Injection\QueryModule.cs" />
     <Compile Include="Injection\ServiceLocator.cs" />
@@ -199,7 +207,7 @@
     <Compile Include="Connection\IConnectionWaitCommand.cs" />
     <Compile Include="Connection\ConnectionWaitCommand.cs" />
     <Compile Include="Connection\ConnectionWaitFactory.cs" />
-    <Compile Include="CsvWriter.cs" />
+    <Compile Include="FlatFile\CsvWriter.cs" />
     <Compile Include="Batch\BatchRunnerFactory.cs" />
     <Compile Include="Batch\IBatchRunnerFatory.cs" />
     <Compile Include="Batch\IBatchRunCommand.cs" />
@@ -247,7 +255,7 @@
     <Compile Include="Etl\IEtlRunner.cs" />
     <Compile Include="ExecutionFactory.cs" />
     <Compile Include="IDecorationCheckImplementation.cs" />
-    <Compile Include="CsvReader.cs" />
+    <Compile Include="FlatFile\CsvReader.cs" />
     <Compile Include="Analysis\Request\BaseDiscoveryRequest.cs" />
     <Compile Include="Analysis\Request\FactoryValidations\AtLeastOneNotNull.cs" />
     <Compile Include="Analysis\Request\FactoryValidations\MeasureNotNull.cs" />
@@ -385,23 +393,31 @@
     <Compile Include="ResultSet\Analyzer\UnexpectedRowsAnalyzer.cs" />
     <Compile Include="ResultSet\Analyzer\MissingRowsAnalyzer.cs" />
     <Compile Include="ResultSet\ColumnIdentifierFactory.cs" />
+    <Compile Include="ResultSet\ColumnMetadata.cs" />
     <Compile Include="ResultSet\ColumnOrdinalIdentifier.cs" />
     <Compile Include="ResultSet\ColumnNameIdentifier.cs" />
     <Compile Include="ResultSet\ColumnRole.cs" />
     <Compile Include="ResultSet\ColumnType.cs" />
     <Compile Include="ResultSet\Combination\CartesianProductSequenceCombination.cs" />
     <Compile Include="ResultSet\Combination\SequenceCombinationOperation.cs" />
+    <Compile Include="ResultSet\Lookup\ILookupAnalyzer.cs" />
+    <Compile Include="ResultSet\Lookup\LookupMatchesAnalyzer.cs" />
     <Compile Include="ResultSet\Lookup\LookupExistsAnalyzer.cs" />
     <Compile Include="ResultSet\IColumnIdentifier.cs" />
     <Compile Include="ResultSet\Lookup\ColumnMapping.cs" />
-    <Compile Include="ResultSet\Lookup\KeysRetriever.cs" />
-    <Compile Include="ResultSet\Lookup\KeysRetrieverByOrdinal.cs" />
-    <Compile Include="ResultSet\Lookup\KeysRetrieverByName.cs" />
+    <Compile Include="ResultSet\Lookup\CellRetriever.cs" />
+    <Compile Include="ResultSet\Lookup\CellRetrieverByOrdinal.cs" />
+    <Compile Include="ResultSet\Lookup\CellRetrieverByName.cs" />
     <Compile Include="ResultSet\Lookup\ColumnMappingCollection.cs" />
-    <Compile Include="ResultSet\Lookup\LookupViolations.cs" />
+    <Compile Include="ResultSet\Lookup\Violation\LookupMatchesViolationComposite.cs" />
     <Compile Include="ResultSet\Resolver\SequenceCombinationResultSetResolverArgs.cs" />
     <Compile Include="ResultSet\Resolver\SequenceCombinationResultSetResolver.cs" />
     <Compile Include="Scalar\Casting\ImplicitCaster.cs" />
+    <Compile Include="ResultSet\Lookup\Violation\LookupViolationCollection.cs" />
+    <Compile Include="ResultSet\Lookup\Violation\LookupMatchesViolationRecord.cs" />
+    <Compile Include="ResultSet\Lookup\Violation\LookupViolationInformation.cs" />
+    <Compile Include="ResultSet\Lookup\Violation\LookupMatchesViolationData.cs" />
+    <Compile Include="ResultSet\Lookup\Violation\RowViolationState.cs" />
     <Compile Include="Scalar\Comparer\CellComparer.cs" />
     <Compile Include="Scalar\Comparer\ComparerFactory.cs" />
     <Compile Include="Report\DatabaseReportingParser.cs" />
@@ -419,7 +435,7 @@
     <Compile Include="Scalar\Comparer\SideTolerance.cs" />
     <Compile Include="ResultSet\Conversion\ConverterEngine.cs" />
     <Compile Include="ResultSet\Equivalence\EquivalerFactory.cs" />
-    <Compile Include="ResultSet\Resolver\CsvResultSetResolverArgs.cs" />
+    <Compile Include="ResultSet\Resolver\FlatFileResultSetResolverArgs.cs" />
     <Compile Include="ResultSet\Resolver\QueryResultSetResolverArgs.cs" />
     <Compile Include="ResultSet\Resolver\RowsResultSetResolverArgs.cs" />
     <Compile Include="ResultSet\Resolver\ContentResultSetResolverArgs.cs" />
@@ -439,7 +455,7 @@
     <Compile Include="Scalar\Casting\TextCaster.cs" />
     <Compile Include="ResultSet\DataRowKeysComparerByName.cs" />
     <Compile Include="ResultSet\DataRowKeysComparerByOrdinal.cs" />
-    <Compile Include="ResultSet\Resolver\CsvResultSetResolver.cs" />
+    <Compile Include="ResultSet\Resolver\FlatFileResultSetResolver.cs" />
     <Compile Include="ResultSet\Resolver\IResultSetResolver.cs" />
     <Compile Include="ResultSet\IResultSetService.cs" />
     <Compile Include="ResultSet\Resolver\ContentResultSetResolver.cs" />
@@ -468,6 +484,13 @@
     <Compile Include="ResultSet\Uniqueness\NameEvaluator.cs" />
     <Compile Include="ResultSet\Uniqueness\SettingsEvaluatorBuilder.cs" />
     <Compile Include="ResultSet\Uniqueness\ResultUniqueRows.cs" />
+    <Compile Include="Scalar\Presentation\BooleanPresenter.cs" />
+    <Compile Include="Scalar\Presentation\BasePresenter.cs" />
+    <Compile Include="Scalar\Presentation\IPresenter.cs" />
+    <Compile Include="Scalar\Presentation\NumericPresenter.cs" />
+    <Compile Include="Scalar\Presentation\PresenterFactory.cs" />
+    <Compile Include="Scalar\Presentation\DateTimePresenter.cs" />
+    <Compile Include="Scalar\Presentation\TextPresenter.cs" />
     <Compile Include="Scalar\Duration\DateTimeExtensions.cs" />
     <Compile Include="Scalar\Duration\FixedDuration.cs" />
     <Compile Include="Scalar\Duration\IDuration.cs" />
@@ -531,13 +554,10 @@
     <Compile Include="ResultSet\ResultResultSet.cs" />
     <Compile Include="ResultSet\Equivalence\IEquivaler.cs" />
     <Compile Include="ConnectionException.cs" />
-    <Compile Include="CsvDefinition.cs" />
+    <Compile Include="FlatFile\CsvProfile.cs" />
     <Compile Include="Query\ParserResult.cs" />
     <Compile Include="Query\Performance\PerformanceResult.cs" />
-    <Compile Include="IProgressStatusAware.cs" />
     <Compile Include="Analysis\Member\MemberResult.cs" />
-    <Compile Include="ProgressStatusHandler.cs" />
-    <Compile Include="ProgressStatusEventArgs.cs" />
     <Compile Include="Properties\ProjectAssemblyInfo.cs" />
     <Compile Include="Scalar\Resolver\FormatScalarResolverArgs.cs" />
     <Compile Include="Scalar\Resolver\EnvironmentScalarResolverArgs.cs" />

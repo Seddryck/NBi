@@ -111,16 +111,16 @@
   <!--<test name="Instances are defined through multiple variables" uid="0010">
     <instances>
       <combination>
-        <variable name="firstDayOfMonth" type="dateTime">
+        <local-variable name="firstDayOfMonth" type="dateTime">
           <loop-sentinel seed="2016-01-01" terminal="2016-12-01" step="1 month"/>
-        </variable>
-        <variable name="area">
+        </local-variable>
+        <local-variable name="area">
           <items>
             <item>BE</item>
             <item>FR</item>
             <item>NL</item>
           </items>
-        </variable>
+        </local-variable>
       </combination>
     </instances>
     <system-under-test>

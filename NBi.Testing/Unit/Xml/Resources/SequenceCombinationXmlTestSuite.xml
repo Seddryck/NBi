@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<testSuite name="The TestSuite" xmlns="http://NBi/TestSuite">
+  <test name="Result-set is combination of two sequences" uid="0000">
+    <system-under-test>
+      <result-set>
+        <sequences-combination operation="cartesian-product">
+          <sequence type="text">
+            <item>be</item>
+            <item>fr</item>
+          </sequence>
+          <sequence type="dateTime">
+            <loop-sentinel seed="2015-01-01" terminal="2017-01-01" step="1 year"/>
+          </sequence>
+        </sequences-combination>
+      </result-set>
+    </system-under-test>
+    <assert>
+      <equal-to>
+        <resultSet>
+          <row>
+            <cell>be</cell>
+            <cell>2015-01-01</cell>
+          </row>
+          <row>
+            <cell>fr</cell>
+            <cell>2015-01-01</cell>
+          </row>
+          <row>
+            <cell>be</cell>
+            <cell>2016-01-01</cell>
+          </row>
+          <row>
+            <cell>fr</cell>
+            <cell>2016-01-01</cell>
+          </row>
+          <row>
+            <cell>be</cell>
+            <cell>2017-01-01</cell>
+          </row>
+          <row>
+            <cell>fr</cell>
+            <cell>2017-01-01</cell>
+          </row>
+        </resultSet>
+      </equal-to>
+    </assert>
+  </test>
+</testSuite>

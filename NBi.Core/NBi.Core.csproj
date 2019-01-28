@@ -389,6 +389,8 @@
     <Compile Include="ResultSet\ColumnNameIdentifier.cs" />
     <Compile Include="ResultSet\ColumnRole.cs" />
     <Compile Include="ResultSet\ColumnType.cs" />
+    <Compile Include="ResultSet\Combination\CartesianProductSequenceCombination.cs" />
+    <Compile Include="ResultSet\Combination\SequenceCombinationOperation.cs" />
     <Compile Include="ResultSet\Lookup\LookupExistsAnalyzer.cs" />
     <Compile Include="ResultSet\IColumnIdentifier.cs" />
     <Compile Include="ResultSet\Lookup\ColumnMapping.cs" />
@@ -397,6 +399,8 @@
     <Compile Include="ResultSet\Lookup\KeysRetrieverByName.cs" />
     <Compile Include="ResultSet\Lookup\ColumnMappingCollection.cs" />
     <Compile Include="ResultSet\Lookup\LookupViolations.cs" />
+    <Compile Include="ResultSet\Resolver\SequenceCombinationResultSetResolverArgs.cs" />
+    <Compile Include="ResultSet\Resolver\SequenceCombinationResultSetResolver.cs" />
     <Compile Include="Scalar\Casting\ImplicitCaster.cs" />
     <Compile Include="Scalar\Comparer\CellComparer.cs" />
     <Compile Include="Scalar\Comparer\ComparerFactory.cs" />

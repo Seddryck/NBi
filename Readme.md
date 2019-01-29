@@ -6,7 +6,7 @@ The main goal of this framework is to let users create tests with a declarative 
 
 [![Build status](https://img.shields.io/badge/website-nbi.io-fe762d.svg)](http://www.nbi.io)
 [![Build status](https://ci.appveyor.com/api/projects/status/t5m0hr57vnsdv0v7?svg=true)](https://ci.appveyor.com/project/Seddryck/nbi)
-![Still maintained](https://img.shields.io/maintenance/yes/2018.svg)
+![Still maintained](https://img.shields.io/maintenance/yes/2019.svg)
 ![nuget](https://img.shields.io/nuget/v/NBi.Framework.svg) 
 [![licence badge]][licence]
 [![stars badge]][stars]

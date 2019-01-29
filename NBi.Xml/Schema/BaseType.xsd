@@ -605,7 +605,8 @@
   <xs:complexType name="enhanced-transformation-type">
     <xs:simpleContent>
       <xs:extension base="transformation-type">
-        <xs:attribute name="column-index" type="xs:integer" use="required"/>
+        <xs:attribute name="column-index" type="xs:integer" use="optional"/>
+        <xs:attribute name="column" type="xs:string" use="optional"/>
       </xs:extension>
     </xs:simpleContent>
   </xs:complexType>

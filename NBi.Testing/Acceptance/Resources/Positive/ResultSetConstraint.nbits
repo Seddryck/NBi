@@ -25,7 +25,7 @@
       <script language="c-sharp">new DateTime(2006, 1, 1)</script>
     </variable>
   </variables>
-  <!--<group name="asserts">
+  <group name="asserts">
     <test name="Csv equal to embedded result-set" uid="0001">
       <system-under-test>
         <resultSet file="..\Csv\ResellerOrderCountByYearBefore2006.csv"/>
@@ -212,7 +212,7 @@
         </lookup-matches>
       </assert>
     </test>
-  <!--</group>
+  </group>
   <group name="system-under-tests">
     <test name="Embedded result-set" uid="0101">
       <system-under-test>
@@ -355,7 +355,7 @@
           </resultSet>
         </equalTo>
       </assert>
-    </test>-->
+    </test>
     <test name="Result-set is the cartesian product of two sequences" uid="0130">
       <system-under-test>
         <result-set>
@@ -404,7 +404,7 @@
       </assert>
     </test>
   </group>
-  <!--<group name="alterations">
+  <group name="alterations">
     <test name="Filter with one predicate" uid="0201">
       <system-under-test>
         <resultSet file="..\Csv\ResellerOrderCountByYearBefore2006.csv">
@@ -722,5 +722,5 @@
         </equalTo>
       </assert>
     </test>
-  </group>-->
+  </group>
 </testSuite>

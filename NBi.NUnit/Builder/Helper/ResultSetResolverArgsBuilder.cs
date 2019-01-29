@@ -1,10 +1,12 @@
 ﻿using NBi.Core.Injection;
 using NBi.Core.ResultSet;
 using NBi.Core.ResultSet.Resolver;
+using NBi.Core.Sequence.Resolver;
 using NBi.Core.Variable;
 using NBi.Core.Xml;
 using NBi.Xml.Items;
 using NBi.Xml.Items.ResultSet;
+using NBi.Xml.Items.ResultSet.Combination;
 using NBi.Xml.Items.Xml;
 using NBi.Xml.Settings;
 using NBi.Xml.Systems;
@@ -66,6 +68,9 @@ namespace NBi.NUnit.Builder.Helper
                 //Query
                 else if ((obj as ResultSetSystemXml).Query != null)
                     args = BuildQueryResolverArgs((obj as ResultSetSystemXml).Query);
+                //Sequences combination
+                else if ((obj as ResultSetSystemXml).SequenceCombination != null)
+                        args = BuildSequenceCombinationResolverArgs((obj as ResultSetSystemXml).SequenceCombination);
                 //ResultSet (embedded)
                 else if ((obj as ResultSetSystemXml).Rows != null)
                     args = BuildEmbeddedResolverArgs((obj as ResultSetSystemXml).Content);
@@ -90,8 +95,29 @@ namespace NBi.NUnit.Builder.Helper
             if (obj is XmlSourceXml)
                 args = BuildXPathResolverArgs((obj as XmlSourceXml));
 
+            
+
             if (args == null)
                 throw new ArgumentException();
+        }
+
+        private ResultSetResolverArgs BuildSequenceCombinationResolverArgs(SequenceCombinationXml sequenceCombinationXml)
+        {
+            var resolvers = new List<ISequenceResolver>();
+
+            var sequenceFactory = new SequenceResolverFactory(serviceLocator);
+            var builder = new SequenceResolverArgsBuilder(serviceLocator);
+            builder.Setup(settings);
+            builder.Setup(globalVariables);
+
+            foreach (var sequenceXml in sequenceCombinationXml.Sequences)
+            {
+                builder.Setup(sequenceXml.Type);
+                builder.Setup((object)sequenceXml.SentinelLoop ?? sequenceXml.Items);
+                builder.Build();
+                resolvers.Add(sequenceFactory.Instantiate(sequenceXml.Type, builder.GetArgs()));
+            }
+            return new SequenceCombinationResultSetResolverArgs(resolvers);
         }
 
         private void ParseFileInfo(string input, out string filename, out string parserName)

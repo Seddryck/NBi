@@ -317,11 +317,13 @@
     <Compile Include="Unit\Core\Query\QueryParameterTest.cs" />
     <Compile Include="Unit\Core\Report\FileReportingParserTest.cs" />
     <Compile Include="Unit\Core\ResultSet\ColumnIdentifierFactory.cs" />
+    <Compile Include="Unit\Core\ResultSet\Combination\CartesianProductSequenceCombinationTest.cs" />
     <Compile Include="Unit\Core\ResultSet\Lookup\ColumnMappingCollectionTest.cs" />
     <Compile Include="Unit\Core\ResultSet\Lookup\CellsRetrieverByNameTest.cs" />
     <Compile Include="Unit\Core\ResultSet\Lookup\CellsRetrieverByOrdinalTest.cs" />
     <Compile Include="Unit\Core\ResultSet\Lookup\LookupMatchesAnalyzerTest.cs" />
     <Compile Include="Unit\Core\ResultSet\Lookup\LookupExistsAnalyzerTest.cs" />
+    <Compile Include="Unit\Core\ResultSet\Resolver\SequenceCombinationResultSetResolverTest.cs" />
     <Compile Include="Unit\Core\Scalar\Casting\NumericCasterTest.cs" />
     <Compile Include="Unit\Core\Scalar\Comparer\CellComparerTest.cs" />
     <Compile Include="Unit\Core\Scalar\Comparer\ToleranceFactoryTest.cs" />
@@ -527,6 +529,7 @@
     <Compile Include="Unit\Xml\Decoration\DecorationXmlTest.cs" />
     <Compile Include="Unit\Xml\Items\Calculation\RankingXmlTest.cs" />
     <Compile Include="Unit\Xml\Items\Calculation\PredicateXmlTest.cs" />
+    <Compile Include="Unit\Xml\Items\ResultSet\SequenceCombinationXmlTest.cs" />
     <Compile Include="Unit\Xml\Items\ResultSet\TransformXmlTest.cs" />
     <Compile Include="Unit\Xml\Items\SharedDatasetXmlTest.cs" />
     <Compile Include="Unit\Xml\Items\RoutineParameterXmlTest.cs" />
@@ -577,7 +580,6 @@
     <Folder Include="Integration\Core\Etl\" />
     <Folder Include="Integration\Core\ResultSet\" />
     <Folder Include="Integration\NUnit\Builder\" />
-    <Folder Include="Unit\Core\ResultSet\Resolver\" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Acceptance\Resources\Csv\ResellerOrderCountByYearBefore2006.csv">
@@ -1104,9 +1106,8 @@
     <EmbeddedResource Include="Unit\Xml\Resources\SettingsXmlWithDefaultEverywhere.xml" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Unit\Xml\Resources\LookupMatchesXmlTestSuite.xml">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
+    <EmbeddedResource Include="Unit\Xml\Resources\SequenceCombinationXmlTestSuite.xml" />
+    <EmbeddedResource Include="Unit\Xml\Resources\LookupMatchesXmlTestSuite.xml"/>
     <EmbeddedResource Include="Unit\Xml\Resources\SentinelLoopXmlTestSuite.xml" />
     <EmbeddedResource Include="Unit\Xml\Resources\LocalVariableXmlTestSuite.xml" />
     <EmbeddedResource Include="Unit\Xml\Resources\InstanceSettlingXmlTestSuite.xml" />

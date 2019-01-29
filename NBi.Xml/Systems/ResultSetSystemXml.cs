@@ -8,6 +8,7 @@ using NBi.Core.ResultSet;
 using NBi.Xml.Items.ResultSet;
 using System.IO;
 using NBi.Xml.Items.Alteration;
+using NBi.Xml.Items.ResultSet.Combination;
 
 namespace NBi.Xml.Systems
 {
@@ -64,6 +65,12 @@ namespace NBi.Xml.Systems
 
         [XmlElement("query")]
         public virtual QueryXml Query { get; set; }
+
+        [XmlElement("sequences-combination")]
+        public virtual SequenceCombinationXml SequenceCombination { get; set; }
+
+        [XmlIgnore]
+        public bool SequenceCombinationSpecified { get => SequenceCombination!=null; set { } }
 
         [XmlElement("alteration")]
         public virtual AlterationXml Alteration { get; set; }

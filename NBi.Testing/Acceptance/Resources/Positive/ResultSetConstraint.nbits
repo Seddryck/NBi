@@ -25,7 +25,7 @@
       <script language="c-sharp">new DateTime(2006, 1, 1)</script>
     </variable>
   </variables>
-  <group name="asserts">
+  <!--<group name="asserts">
     <test name="Csv equal to embedded result-set" uid="0001">
       <system-under-test>
         <resultSet file="..\Csv\ResellerOrderCountByYearBefore2006.csv"/>
@@ -212,8 +212,8 @@
         </lookup-matches>
       </assert>
     </test>
-  </group>
-  <!--<group name="system-under-tests">
+  <!--</group>
+  <group name="system-under-tests">
     <test name="Embedded result-set" uid="0101">
       <system-under-test>
         <resultSet>
@@ -355,9 +355,56 @@
           </resultSet>
         </equalTo>
       </assert>
+    </test>-->
+    <test name="Result-set is the cartesian product of two sequences" uid="0130">
+      <system-under-test>
+        <result-set>
+          <sequences-combination operation="cartesian-product">
+            <sequence type="text">
+              <item>be</item>
+              <item>fr</item>
+            </sequence>
+            <sequence type="dateTime">
+              <loop-sentinel seed="2015-01-01" terminal="2017-01-01" step="1 year"/>
+            </sequence>
+          </sequences-combination>
+        </result-set>
+      </system-under-test>
+      <assert>
+        <equal-to>
+          <column index="0" role="key" type="text"/>
+          <column index="1" role="key" type="dateTime"/>
+          <resultSet>
+            <row>
+              <cell>be</cell>
+              <cell>2015-01-01</cell>
+            </row>
+            <row>
+              <cell>fr</cell>
+              <cell>2015-01-01</cell>
+            </row>
+            <row>
+              <cell>be</cell>
+              <cell>2016-01-01</cell>
+            </row>
+            <row>
+              <cell>fr</cell>
+              <cell>2016-01-01</cell>
+            </row>
+            <row>
+              <cell>be</cell>
+              <cell>2017-01-01</cell>
+            </row>
+            <row>
+              <cell>fr</cell>
+              <cell>2017-01-01</cell>
+            </row>
+          </resultSet>
+        </equal-to>
+      </assert>
     </test>
   </group>
-  <group name="alterations">
+  <!--<group name="alterations">
     <test name="Filter with one predicate" uid="0201">
       <system-under-test>
         <resultSet file="..\Csv\ResellerOrderCountByYearBefore2006.csv">

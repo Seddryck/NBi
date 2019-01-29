@@ -54,9 +54,11 @@ namespace NBi.Core.Scalar.Resolver
             string finalCode = string.Format(codeTemplate, code);
 
             CSharpCodeProvider provider = new CSharpCodeProvider();
-            CompilerParameters parameters = new CompilerParameters();
-            parameters.GenerateInMemory = true;
-            parameters.GenerateExecutable = false;
+            CompilerParameters parameters = new CompilerParameters()
+            {
+                GenerateInMemory = true,
+                GenerateExecutable = false,
+            };
 
             CompilerResults results = provider.CompileAssemblyFromSource(parameters, finalCode);
 
@@ -75,5 +77,7 @@ namespace NBi.Core.Scalar.Resolver
             Type function = results.CompiledAssembly.GetType("NBi.Core.Variable.Dynamic.VariableClass");
             return function.GetMethod("Function");
         }
+
+        object IScalarResolver.Execute() => Execute();
     }
 }

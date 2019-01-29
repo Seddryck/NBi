@@ -77,38 +77,44 @@ namespace NBi.Testing.Acceptance
         //[TestCase("EvaluateRows.nbits")]
         [Category("Acceptance")]
         public override void RunPositiveTestSuite(string filename)
-            => base.RunPositiveTestSuite(filename);
+        {
+            base.RunPositiveTestSuite(filename);
+        }
 
         [Test]
-        //[TestCase("QueryEqualToResultSetProvider.nbits")]
-        //[TestCase("Variable.nbits")]
-        [TestCase("CustomFlatFileParser.nbits")]
+        [TestCase("QueryEqualToResultSetProvider.nbits")]
+        [TestCase("Variable.nbits")]
         [Category("Acceptance")]
         public override void RunPositiveTestSuiteWithConfig(string filename)
-            => base.RunPositiveTestSuiteWithConfig(filename);
+        {
+            base.RunPositiveTestSuiteWithConfig(filename);
+        }
 
         [Test]
         [TestCase("DataRowsMessage.nbits")]
         [TestCase("ItemsMessage.nbits")]
         [Category("Acceptance")]
         public override void RunNegativeTestSuite(string filename)
-            => base.RunNegativeTestSuite(filename);
+        {
+            base.RunNegativeTestSuite(filename);
+        }
 
         [Test]
-        [TestCase("Config-Full-Json.nbits")]
-        [TestCase("Config-Full.nbits")]
-        [TestCase("Config-Light.nbits")]
+        //[TestCase("Config-Full-Json.nbits")]
+        //[TestCase("Config-Full.nbits")]
+        //[TestCase("Config-Light.nbits")]
         [TestCase("Scoring-Json.nbits")]
-        [TestCase("Lookup-Exists-Json.nbits")]
-        [TestCase("Lookup-ReverseExists-Json.nbits")]
-        [TestCase("Lookup-Matches-Json.nbits")]
         [Category("Acceptance")]
         public override void RunNegativeTestSuiteWithConfig(string filename)
-            => base.RunNegativeTestSuiteWithConfig(filename);
+        {
+            base.RunNegativeTestSuiteWithConfig(filename);
+        }
 
         [Test]
         [TestCase("Ignored.nbits")]
         public override void RunIgnoredTests(string filename)
-            => base.RunIgnoredTests(filename);
+        {
+            base.RunIgnoredTests(filename);
+        }
     }
 }

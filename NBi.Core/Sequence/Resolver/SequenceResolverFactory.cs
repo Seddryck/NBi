@@ -1,4 +1,5 @@
 ﻿using NBi.Core.Injection;
+using NBi.Core.ResultSet;
 using NBi.Core.Scalar.Duration;
 using NBi.Core.Sequence.Resolver.Loop;
 using System;
@@ -29,6 +30,18 @@ namespace NBi.Core.Sequence.Resolver
             return new ListSequenceResolver<T>((ListSequenceResolverArgs)args);
 
             throw new ArgumentOutOfRangeException($"Type '{args.GetType().Name}' is not expected when building a Scalar");
+        }
+
+        public ISequenceResolver Instantiate(ColumnType type, ISequenceResolverArgs args)
+        {
+            switch (type)
+            {
+                case ColumnType.Text: return Instantiate<string>(args);
+                case ColumnType.Numeric: return Instantiate<decimal>(args);
+                case ColumnType.DateTime: return Instantiate<DateTime>(args);
+                case ColumnType.Boolean: return Instantiate<bool>(args);
+                default: throw new ArgumentOutOfRangeException();
+            }
         }
 
         private ILoopStrategy MapStrategy<T>(ILoopSequenceResolverArgs args)

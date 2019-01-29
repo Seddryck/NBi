@@ -398,6 +398,8 @@
     <Compile Include="ResultSet\ColumnNameIdentifier.cs" />
     <Compile Include="ResultSet\ColumnRole.cs" />
     <Compile Include="ResultSet\ColumnType.cs" />
+    <Compile Include="ResultSet\Combination\CartesianProductSequenceCombination.cs" />
+    <Compile Include="ResultSet\Combination\SequenceCombinationOperation.cs" />
     <Compile Include="ResultSet\Lookup\ILookupAnalyzer.cs" />
     <Compile Include="ResultSet\Lookup\LookupMatchesAnalyzer.cs" />
     <Compile Include="ResultSet\Lookup\LookupExistsAnalyzer.cs" />
@@ -408,6 +410,9 @@
     <Compile Include="ResultSet\Lookup\CellRetrieverByName.cs" />
     <Compile Include="ResultSet\Lookup\ColumnMappingCollection.cs" />
     <Compile Include="ResultSet\Lookup\Violation\LookupMatchesViolationComposite.cs" />
+    <Compile Include="ResultSet\Resolver\SequenceCombinationResultSetResolverArgs.cs" />
+    <Compile Include="ResultSet\Resolver\SequenceCombinationResultSetResolver.cs" />
+    <Compile Include="Scalar\Casting\ImplicitCaster.cs" />
     <Compile Include="ResultSet\Lookup\Violation\LookupViolationCollection.cs" />
     <Compile Include="ResultSet\Lookup\Violation\LookupMatchesViolationRecord.cs" />
     <Compile Include="ResultSet\Lookup\Violation\LookupViolationInformation.cs" />

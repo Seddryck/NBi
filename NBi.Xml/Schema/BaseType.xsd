@@ -1076,12 +1076,18 @@
       <xs:element name="trait" type="trait-type" minOccurs="0" maxOccurs="unbounded"/>
     </xs:sequence>
   </xs:complexType>
-  <xs:complexType name="local-variable-type">
+  <xs:complexType name="sequence-type">
     <xs:choice minOccurs="1" maxOccurs="1">
       <xs:element name="loop-sentinel" type="loop-sentinel-type"/>
+      <xs:element name="item" type="xs:string" minOccurs="1" maxOccurs="unbounded"/>
     </xs:choice>
     <xs:attribute name="name" type="xs:string"/>
     <xs:attribute name="type" type="column-type-enum"/>
+  </xs:complexType>
+  <xs:complexType name="local-variable-type">
+    <xs:complexContent>
+      <xs:extension base="sequence-type"/>
+    </xs:complexContent>
   </xs:complexType>
   <xs:complexType name="loop-sentinel-type">
     <xs:attribute name="seed" type="xs:string"/>
@@ -1330,10 +1336,23 @@
           </xs:complexType>
         </xs:element>
         <xs:element name="query" minOccurs="0" maxOccurs="1" type="query-enhanced-type"/>
+        <xs:element name="sequences-combination" minOccurs="0" maxOccurs="1" type="sequences-combination-type"/>
       </xs:choice>
       <xs:element name="alteration" type="alteration-type" minOccurs="0" maxOccurs="1"/>
     </xs:sequence>
     <xs:attribute name="file" type="xs:string" use="optional" />
+  </xs:complexType>
+  <xs:complexType name="sequences-combination-type">
+    <xs:sequence>
+      <xs:element name="sequence" minOccurs="1" maxOccurs="unbounded" type="sequence-type"/>
+    </xs:sequence>
+    <xs:attribute name="operation">
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="cartesian-product"/>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:attribute>
   </xs:complexType>
   <xs:complexType name="scalar-type">
     <xs:sequence>

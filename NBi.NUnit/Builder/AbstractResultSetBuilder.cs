@@ -14,7 +14,7 @@ using NBi.Core.Calculation;
 using NBi.NUnit.Builder.Helper;
 using NBi.Core.Query.Resolver;
 using NBi.Core.Query.Command;
-using NBi.Core.Scalar.Caster;
+using NBi.Core.Scalar.Casting;
 using NBi.Core.Scalar.Conversion;
 using NBi.Core.ResultSet.Conversion;
 using NBi.Core.Transformation;

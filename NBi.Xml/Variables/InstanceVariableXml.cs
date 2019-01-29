@@ -9,15 +9,6 @@ using System.Xml.Serialization;
 
 namespace NBi.Xml.Variables
 {
-    public class InstanceVariableXml
-    {
-        [XmlAttribute("name")]
-        public string Name { get; set; }
-
-        [XmlAttribute("type")]
-        public ColumnType Type { get; set; }
-
-        [XmlElement("loop-sentinel")]
-        public SentinelLoopXml SentinelLoop { get; set; }
-    }
+    public class InstanceVariableXml : SequenceXml
+    { }
 }

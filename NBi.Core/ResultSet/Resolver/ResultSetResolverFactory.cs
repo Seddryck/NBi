@@ -14,7 +14,7 @@ namespace NBi.Core.ResultSet.Resolver
     {
         private CsvProfile profile = CsvProfile.SemiColumnDoubleQuote;
         private readonly ServiceLocator serviceLocator;
-        
+
         public ResultSetResolverFactory(ServiceLocator serviceLocator)
         {
             this.serviceLocator = serviceLocator;
@@ -28,20 +28,17 @@ namespace NBi.Core.ResultSet.Resolver
 
         public IResultSetResolver Instantiate(ResultSetResolverArgs args)
         {
-            if (args is ContentResultSetResolverArgs)
-                    return new ContentResultSetResolver(args as ContentResultSetResolverArgs); 
-            else if (args is RowsResultSetResolverArgs)
-                return new RowsResultSetResolver(args as RowsResultSetResolverArgs);
-            else if (args is QueryResultSetResolverArgs)
-                return new QueryResultSetResolver(args as QueryResultSetResolverArgs, serviceLocator);
-            else if (args is FlatFileResultSetResolverArgs)
-                return new FlatFileResultSetResolver(args as FlatFileResultSetResolverArgs, serviceLocator);
-            else if (args is XPathResultSetResolverArgs)
-                return new XPathResultSetResolver(args as XPathResultSetResolverArgs);
-            else if (args is ObjectsResultSetResolverArgs)
-                return new ObjectsResultSetResolver(args as ObjectsResultSetResolverArgs);
-
-            throw new ArgumentOutOfRangeException($"Type '{args.GetType().Name}' is not expected when building a ResultSet");
+            switch (args)
+            {
+                case ContentResultSetResolverArgs x: return new ContentResultSetResolver(x);
+                case RowsResultSetResolverArgs x: return new RowsResultSetResolver(x);
+                case QueryResultSetResolverArgs x: return new QueryResultSetResolver(x, serviceLocator);
+                case FlatFileResultSetResolverArgs x: return new FlatFileResultSetResolver(x, serviceLocator);
+                case XPathResultSetResolverArgs x: return new XPathResultSetResolver(x);
+                case ObjectsResultSetResolverArgs x: return new ObjectsResultSetResolver(x);
+                case SequenceCombinationResultSetResolverArgs x: return new SequenceCombinationResultSetResolver(x);
+                default: throw new ArgumentOutOfRangeException($"Type '{args.GetType().Name}' is not expected when building a ResultSet");
+            }
         }
     }
 }

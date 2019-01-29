@@ -5,6 +5,7 @@ using NBi.Core.Query.Resolver;
 using NBi.Core.ResultSet;
 using NBi.Core.ResultSet.Resolver;
 using NBi.Core.Scalar.Duration;
+using NBi.Core.Scalar.Resolver;
 using NBi.Core.Sequence.Resolver;
 using NBi.Core.Variable;
 using NBi.Core.Xml;
@@ -81,6 +82,14 @@ namespace NBi.NUnit.Builder.Helper
                     default:
                         throw new ArgumentOutOfRangeException();
                 }
+            }
+            else if (obj is List<string>)
+            {
+                var helper = new ScalarHelper(serviceLocator, globalVariables);
+                var resolvers = new List<IScalarResolver>();
+                foreach (var value in obj as List<string>)
+                    resolvers.Add(helper.InstantiateResolver<string>(value));
+                args = new ListSequenceResolverArgs(resolvers);
             }
 
             if (args == null)

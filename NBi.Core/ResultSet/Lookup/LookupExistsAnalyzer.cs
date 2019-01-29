@@ -1,5 +1,5 @@
-﻿using NBi.Core.ResultSet.Lookup.Violation;
-using NBi.Core.Scalar.Caster;
+﻿using NBi.Core.Scalar.Casting;
+using NBi.Core.ResultSet.Lookup.Violation;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;

@@ -1,4 +1,5 @@
 ﻿using NBi.Core.Scalar.Duration;
+using NBi.Core.Scalar.Resolver;
 using NBi.Core.Sequence.Resolver;
 using NUnit.Framework;
 using System;
@@ -15,7 +16,12 @@ namespace NBi.Testing.Unit.Core.Sequence.Resolver
         [Test]
         public void Instantiate_List_ListSequenceResolver()
         {
-            var args = new ListSequenceResolverArgs(new List<object>() { new DateTime(2015, 1, 1), new DateTime(2016, 1, 1) });
+            var resolvers = new List<IScalarResolver>()
+            {
+                new LiteralScalarResolver<string>("2015-01-01"),
+                new LiteralScalarResolver<string>("2016-01-01"),
+            };
+            var args = new ListSequenceResolverArgs(resolvers);
 
             var factory = new SequenceResolverFactory(null);
             var resolver = factory.Instantiate<DateTime>(args);

@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using NBi.Core.Scalar.Interval;
-using NBi.Core.Scalar.Caster;
+using NBi.Core.Scalar.Casting;
 
 namespace NBi.Core.Calculation.Predicate.DateTime
 {

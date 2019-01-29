@@ -154,6 +154,7 @@
     <Compile Include="Items\Filters\IOwnerFilter.cs" />
     <Compile Include="Items\ProjectionXml.cs" />
     <Compile Include="Items\QueryScalarXml.cs" />
+    <Compile Include="Items\ResultSet\Combination\SequenceCombinationXml.cs" />
     <Compile Include="Items\ResultSet\Lookup\ColumnUsingXml.cs" />
     <Compile Include="Items\ResultSet\Lookup\ColumnMappingXml.cs" />
     <Compile Include="Items\ResultSet\Lookup\InclusionXml.cs" />
@@ -271,6 +272,7 @@
     <Compile Include="Variables\GlobalVariableXml.cs" />
     <Compile Include="Variables\GlobalVariablesStandaloneXml.cs" />
     <Compile Include="Variables\Sequence\SentinelLoopXml.cs" />
+    <Compile Include="Variables\Sequence\SequenceXml.cs" />
     <Compile Include="XmlBeautifier.cs" />
     <Compile Include="XmlManager.cs" />
   </ItemGroup>

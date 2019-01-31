@@ -27,6 +27,12 @@
   - connection-powerbi-desktop
   - connection-roles
 
+- title: Lookups' testing
+  docs:
+  - lookup-exists
+  - lookup-reverse
+  - lookup-matches
+
 - title: Additional tests for result-sets
   docs:
   - resultset-all-no-rows
@@ -39,6 +45,7 @@
 
 - title: Transform a result-set
   docs:
+  - transform-column
   - transform-column
 
 - title: Query's execution

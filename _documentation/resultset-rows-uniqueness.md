@@ -2,7 +2,7 @@
 layout: documentation
 title: Rows' uniqueness
 prev_section: resultset-rows-count-advanced
-next_section: referential-integrity
+next_section: resultset-format
 permalink: /docs/resultset-rows-uniqueness/
 ---
 This assertion checks that all rows of a result-set are unique. If a row has two or more occurences the test will fail. To compare two rows of a result-set, all the columns will be used and all the columns will be considered as *text* column.

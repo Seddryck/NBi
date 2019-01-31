@@ -1,7 +1,7 @@
 ---
 layout: documentation
 title: Cell's format in a result-set
-prev_section: referential-integrity
+prev_section: resultset-rows-uniqueness
 next_section: transform-column
 permalink: /docs/resultset-format/
 ---

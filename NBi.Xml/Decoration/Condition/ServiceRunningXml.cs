@@ -6,7 +6,7 @@ using NBi.Core.WindowsService;
 
 namespace NBi.Xml.Decoration.Condition
 {
-    public class ServiceRunningXml : DecorationConditionXml, IWindowsServiceRunningCheck
+    public class ServiceRunningXml : DecorationConditionXml, IWindowsServiceRunningMetadata
     {
         [XmlAttribute("name")]
         public string ServiceName { get; set; }

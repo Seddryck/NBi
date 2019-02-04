@@ -24,13 +24,13 @@ namespace NBi.Testing.Integration.Core.WindowsService
             service.WaitForStatus(ServiceControllerStatus.Stopped, timeout);
 
             //Mock the commandXml
-            var info = Mock.Of<IWindowsServiceRunningCheck>(
+            var info = Mock.Of<IWindowsServiceRunningMetadata>(
                 start => start.ServiceName==SERVICE_NAME
                     && start.TimeOut==5000
                 );
             
             //Apply the test
-            var predicate = WindowsServiceCheck.IsRunning(info);
+            var predicate = WindowsServiceCondition.IsRunning(info);
             var result = predicate.Validate();
 
             //Assert
@@ -41,13 +41,13 @@ namespace NBi.Testing.Integration.Core.WindowsService
         public void IsRunning_OnNotExistingService_False()
         {
             //Mock the commandXml
-            var info = Mock.Of<IWindowsServiceRunningCheck>(
+            var info = Mock.Of<IWindowsServiceRunningMetadata>(
                 start => start.ServiceName == "NotExisting"
                     && start.TimeOut == 5000
                 );
 
             //Apply the test
-            var predicate = WindowsServiceCheck.IsRunning(info);
+            var predicate = WindowsServiceCondition.IsRunning(info);
             var result = predicate.Validate();
 
             //Assert
@@ -65,13 +65,13 @@ namespace NBi.Testing.Integration.Core.WindowsService
             service.WaitForStatus(ServiceControllerStatus.Running, timeout);
 
             //Mock the commandXml
-            var info = Mock.Of<IWindowsServiceRunningCheck>(
+            var info = Mock.Of<IWindowsServiceRunningMetadata>(
                 start => start.ServiceName == SERVICE_NAME
                     && start.TimeOut == 5000
                 );
 
             //Apply the test
-            var predicate = WindowsServiceCheck.IsRunning(info);
+            var predicate = WindowsServiceCondition.IsRunning(info);
             var result = predicate.Validate();
 
             //Assert

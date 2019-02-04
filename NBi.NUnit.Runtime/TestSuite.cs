@@ -112,7 +112,7 @@ namespace NBi.NUnit.Runtime
             else
             {
                 Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceInfo, $"Running test '{testName}' #{test.UniqueIdentifier}");
-                ExecuteChecks(test.Condition);
+                ValidateConditions(test.Condition);
                 ExecuteSetup(test.Setup);
                 var allVariables = Variables.Union(localVariables).ToDictionary(x => x.Key, x=>x.Value);
                 foreach (var sut in test.Systems)
@@ -136,18 +136,19 @@ namespace NBi.NUnit.Runtime
             }
         }
 
-        private void ExecuteChecks(ConditionXml check)
+        private void ValidateConditions(ConditionXml condition)
         {
-            foreach (var predicate in check.Predicates)
+            foreach (var predicate in condition.Predicates)
             {
-                var impl = new DecorationFactory().Get(predicate);
+                var helper = new ConditionHelper();
+                var metadata = helper.Execute(predicate);
+                var impl = new DecorationFactory().Instantiate(metadata);
                 var isVerified = impl.Validate();
                 if (!isVerified)
                 {
                     Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceInfo, $"Test ignored. At least one condition was not validated: '{impl.Message}'");
                     Assert.Ignore($"This test has been ignored because following check wasn't successful: {impl.Message}");
                 }
-
             }
         }
 
@@ -167,7 +168,7 @@ namespace NBi.NUnit.Runtime
 
                     if (!skip)
                     {
-                        var impl = new DecorationFactory().Get(command);
+                        var impl = new DecorationFactory().Instantiate(command);
                         impl.Execute();
                         if (command is IGroupCommand)
                         {
@@ -203,7 +204,7 @@ namespace NBi.NUnit.Runtime
             {
                 foreach (var command in cleanup.Commands)
                 {
-                    var impl = new DecorationFactory().Get(command);
+                    var impl = new DecorationFactory().Instantiate(command);
                     impl.Execute();
                 }
             }

@@ -14,6 +14,7 @@ namespace NBi.Core.FlatFile
             (string)(attributes.ContainsKey("record-separator")         ? attributes["record-separator"]        : "\r\n"),
             (bool)  (attributes.ContainsKey("first-row-header")         ? attributes["first-row-header"]        : false),
             (bool)  (attributes.ContainsKey("performance-optimized")    ? attributes["performance-optimized"]   : true),
+            (int)   (attributes.ContainsKey("buffer-size")              ? attributes["buffer-size"]             : 4096),
             (string)(attributes.ContainsKey("empty-cell")               ? attributes["empty-cell"]              : "(empty)"),
             (string)(attributes.ContainsKey("missing-cell")             ? attributes["missing-cell"]            : "(null)")
         ) {}
@@ -30,12 +31,12 @@ namespace NBi.Core.FlatFile
                 };
 
         private CsvProfile(char fieldSeparator)
-            : base(fieldSeparator, '\"', '\\', "\r\n", false, true, "(empty)", "(null)") { }
+            : base(fieldSeparator, '\"', '\\', "\r\n", false, true, 4096, "(empty)", "(null)") { }
 
         public CsvProfile(bool firstRowHeader)
             : base(firstRowHeader) { }
 
         public CsvProfile(char fieldSeparator, char textQualifier, string recordSeparator, bool firstRowHeader, bool performanceOptimized, string emptyCell, string missingCell)
-            : base(fieldSeparator, textQualifier, recordSeparator, firstRowHeader, performanceOptimized, emptyCell, missingCell) { }
+            : base(fieldSeparator, textQualifier, recordSeparator, firstRowHeader, performanceOptimized, 4096, emptyCell, missingCell) { }
     }
 }

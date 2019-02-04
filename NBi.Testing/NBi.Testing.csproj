@@ -170,7 +170,7 @@
       <HintPath>..\packages\NUnit.2.6.4\lib\nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="PocketCsvReader, Version=0.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\PocketCsvReader.0.1.0-beta.6\lib\net461\PocketCsvReader.dll</HintPath>
+      <HintPath>..\packages\PocketCsvReader.0.1.0-beta.9\lib\net461\PocketCsvReader.dll</HintPath>
     </Reference>
     <Reference Include="Sprache, Version=2.2.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Sprache.2.2.0\lib\net45\Sprache.dll</HintPath>
@@ -1107,7 +1107,7 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Unit\Xml\Resources\SequenceCombinationXmlTestSuite.xml" />
-    <EmbeddedResource Include="Unit\Xml\Resources\LookupMatchesXmlTestSuite.xml"/>
+    <EmbeddedResource Include="Unit\Xml\Resources\LookupMatchesXmlTestSuite.xml" />
     <EmbeddedResource Include="Unit\Xml\Resources\SentinelLoopXmlTestSuite.xml" />
     <EmbeddedResource Include="Unit\Xml\Resources\LocalVariableXmlTestSuite.xml" />
     <EmbeddedResource Include="Unit\Xml\Resources\InstanceSettlingXmlTestSuite.xml" />

@@ -16,7 +16,7 @@ namespace NBi.Testing.Acceptance.Resources
         public bool IsFirstLine { get; set; } = true;
 
         public TsvReader()
-            : base(new CsvProfile('\t', '\"', "\r\n", true, true, "(empty)", "(null)"))
+            : base(new CsvProfile('\t', '\"', "\r\n", true, true, 4096, "(empty)", "(null)"))
         {
             base.ProgressStatusChanged += (s, e) 
                 => ProgressStatusChanged?.Invoke(this

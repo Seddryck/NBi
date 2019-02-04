@@ -70,7 +70,7 @@
       <HintPath>..\packages\Ninject.3.3.4\lib\net45\Ninject.dll</HintPath>
     </Reference>
     <Reference Include="PocketCsvReader, Version=0.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\PocketCsvReader.0.1.0-beta.6\lib\net461\PocketCsvReader.dll</HintPath>
+      <HintPath>..\packages\PocketCsvReader.0.1.0-beta.9\lib\net461\PocketCsvReader.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />

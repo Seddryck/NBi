@@ -359,9 +359,7 @@ namespace NBi.Xml
         }
 
         protected internal string XmlSerializeFrom<T>(T objectData)
-        {
-            return SerializeFrom(objectData, typeof(T));
-        }
+            =>SerializeFrom(objectData, typeof(T));
 
         protected string SerializeFrom(object objectData, Type type)
         {
@@ -387,6 +385,28 @@ namespace NBi.Xml
                 serializer.Serialize(writer, objectData);
                 return writer.ToString();
             }
+        }
+
+        protected internal T XmlDeserializeTo<T>(string objectData)
+            => (T)DeserializeTo(objectData, typeof(T));
+
+        protected object DeserializeTo(string objectData, Type type)
+        {
+            var serializer = new XmlSerializer(type);
+            var result = string.Empty;
+            using (var reader = new StringReader(objectData))
+                return serializer.Deserialize(reader);
+        }
+
+        protected internal T XmlDeserializeTo<T>(string objectData, ReadWriteAttributes attr)
+            => (T)DeserializeTo(objectData, typeof(T), attr);
+
+        protected object DeserializeTo(string objectData, Type type, ReadWriteAttributes attr)
+        {
+            var serializer = new XmlSerializer(type, attr);
+            var result = string.Empty;
+            using (var reader = new StringReader(objectData))
+                return serializer.Deserialize(reader);
         }
     }
 }

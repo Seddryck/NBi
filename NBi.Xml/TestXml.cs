@@ -113,7 +113,7 @@ namespace NBi.Xml
         XmlArrayItem(Type = typeof(StructureXml), ElementName = "structure"),
         XmlArrayItem(Type = typeof(DataTypeXml), ElementName = "data-type"),
         ]
-        public List<AbstractSystemUnderTestXml> Systems;
+        public List<AbstractSystemUnderTestXml> Systems { get; set; }
 
         [XmlArray("assert", Order = 10),
         XmlArrayItem(Type = typeof(SyntacticallyCorrectXml), ElementName = "syntactically-correct"),
@@ -142,7 +142,7 @@ namespace NBi.Xml
         XmlArrayItem(Type = typeof(LookupMatchesXml), ElementName = "lookup-matches"),
         XmlArrayItem(Type = typeof(ScoreXml), ElementName = "score"),
         ]
-        public List<AbstractConstraintXml> Constraints;
+        public List<AbstractConstraintXml> Constraints { get; set; }
 
         [XmlElement("cleanup", Order = 11)]
         public CleanupXml Cleanup

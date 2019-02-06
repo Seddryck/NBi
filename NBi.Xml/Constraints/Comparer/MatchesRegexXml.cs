@@ -12,10 +12,12 @@ namespace NBi.Xml.Constraints.Comparer
 {
     public class MatchesRegexXml : CaseSensitiveTextPredicateXml
     {
+
         [XmlIgnore]
-        [XmlText]
-        public CData ValueWrite { get => base.Value; set => base.Value = value; }
-        
+        public CData ValueWrite { get => Value; set => Value = value; }
+
+        public override bool ShouldSerializeValue() => false;
+
         internal override ComparerType ComparerType { get => ComparerType.MatchesRegex; }
     }
 }

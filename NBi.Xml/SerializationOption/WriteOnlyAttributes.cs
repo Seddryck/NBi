@@ -14,16 +14,13 @@ namespace NBi.Xml.SerializationOption
     {
 
         public WriteOnlyAttributes()
-            : base()
-        {
-        }
+            : base() { }
 
         protected override void AdditionalBuild()
         {
             AddAsIgnore((QueryXml x) => x.InlineQuery, true);
             AddAsAnyNotIgnore((QueryXml x) => x.InlineQueryWrite);
 
-            AddAsIgnore((MatchesRegexXml x) => x.Value, true);
             AddAsAnyNotIgnore((MatchesRegexXml x) => x.ValueWrite);
         }
     }

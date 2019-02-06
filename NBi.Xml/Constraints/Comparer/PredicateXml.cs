@@ -15,6 +15,8 @@ namespace NBi.Xml.Constraints.Comparer
         [XmlText]
         public virtual string Value { get; set; }
 
+        public virtual bool ShouldSerializeValue() => true;
+
         [DefaultValue(false)]
         [XmlAttribute("not")]
         public bool Not { get; set; }

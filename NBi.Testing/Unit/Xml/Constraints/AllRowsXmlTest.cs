@@ -14,6 +14,8 @@ using System.Collections.Generic;
 using System.Xml.Serialization;
 using System.Text;
 using System.Diagnostics;
+using System;
+using NBi.Xml.SerializationOption;
 #endregion
 
 namespace NBi.Testing.Unit.Xml.Constraints
@@ -477,5 +479,26 @@ namespace NBi.Testing.Unit.Xml.Constraints
             Assert.That(content.LastIndexOf("<expression"), Is.LessThan(content.IndexOf("<predicate")));
         }
 
+        [Test]
+        public void Serialize_MatchesRegex_WithCDATA()
+        {
+            var root = new PredicationXml()
+            {
+                Predicate = new MatchesRegexXml
+                {
+                    Value="<|>|&"
+                }
+            };
+
+            var overrides = new WriteOnlyAttributes();
+            overrides.Build();
+
+            var manager = new XmlManager();
+            var xml = manager.XmlSerializeFrom(root, overrides);
+            Console.WriteLine(xml);
+            Assert.That(xml, Is.StringContaining("<matches-regex>"));
+            Assert.That(xml, Is.Not.StringContaining("<ValueWrite>"));
+            Assert.That(xml, Is.StringContaining("<![CDATA[<|>|&]]>"));
+        }
     }
 }

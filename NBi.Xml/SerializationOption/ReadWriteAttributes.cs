@@ -72,6 +72,21 @@ namespace NBi.Xml.SerializationOption
             Add(parent.DeclaringType, parent.Name, attrs);
         }
 
+        protected void AddAsIgnore<T, U>(Expression<Func<T, U>> expression, bool value = true)
+        {
+            var parent = GetMemberInfo(expression);
+            var attrs = new XmlAttributes() { XmlIgnore = value };
+            Add(parent.DeclaringType, parent.Name, attrs);
+        }
+
+        protected void AddAsAnyNotIgnore<T, U>(Expression<Func<T, U>> expression)
+        {
+            var parent = GetMemberInfo(expression);
+            var attrs = new XmlAttributes() { XmlIgnore = false };
+            attrs.XmlAnyElements.Add(new XmlAnyElementAttribute());
+            Add(parent.DeclaringType, parent.Name, attrs);
+        }
+
         protected void AddToArrayAttributes<T, U>(Expression<Func<T, U>> expression, Dictionary<string, Type> mappings)
         {
             var parent = GetMemberInfo(expression);

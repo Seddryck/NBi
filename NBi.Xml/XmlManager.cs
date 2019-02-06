@@ -375,5 +375,18 @@ namespace NBi.Xml
             }
             return result;
         }
+
+        protected internal string XmlSerializeFrom<T>(T objectData, ReadWriteAttributes attr)
+            =>  SerializeFrom(objectData, typeof(T), attr);
+
+        protected string SerializeFrom(object objectData, Type type, ReadWriteAttributes attr)
+        {
+            var serializer = new XmlSerializer(type, attr);
+            using (var writer = new StringWriter())
+            {
+                serializer.Serialize(writer, objectData);
+                return writer.ToString();
+            }
+        }
     }
 }

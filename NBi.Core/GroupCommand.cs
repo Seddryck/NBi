@@ -40,7 +40,7 @@ namespace NBi.Core
             var implementations = new List<IDecorationCommandImplementation>();
             foreach (var command in Commands)
             {
-                var impl = new DecorationFactory().Get(command);
+                var impl = new DecorationFactory().Instantiate(command);
                 implementations.Add(impl);
             }
             System.Threading.Tasks.Parallel.ForEach
@@ -55,7 +55,7 @@ namespace NBi.Core
             var implemntations = new List<IDecorationCommandImplementation>();
             foreach (var command in Commands)
             {
-                var impl = new DecorationFactory().Get(command);
+                var impl = new DecorationFactory().Instantiate(command);
                 impl.Execute();
             }
         }

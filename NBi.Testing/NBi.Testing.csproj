@@ -213,6 +213,7 @@
     <Compile Include="Acceptance\GenbiL\CaseCrossTest.cs" />
     <Compile Include="Acceptance\GenbiL\GenbiLTest.cs" />
     <Compile Include="Acceptance\Resources\AssemblyClass.cs" />
+    <Compile Include="Acceptance\Resources\CustomConditionTrue.cs" />
     <Compile Include="Acceptance\Resources\TsvReader.cs" />
     <Compile Include="Acceptance\RuntimeOverrider.cs" />
     <Compile Include="Acceptance\TestSuiteOverrider.cs" />
@@ -269,6 +270,11 @@
     <Compile Include="Integration\NUnit\Structure\ExistsConstraintTest.cs" />
     <Compile Include="StringExtensions.cs" />
     <Compile Include="Unit\Core\Analysis\Metadata\Adomd\MeasureGroupLinkedToDiscoveryCommandTest.cs" />
+    <Compile Include="Unit\Core\Assemblies\CustomConditionFactoryTest.cs" />
+    <Compile Include="Unit\Core\Assemblies\Resource\CustomConditionWithMulipleCtors.cs" />
+    <Compile Include="Unit\Core\Assemblies\Resource\CustomConditionWithTwoParameters.cs" />
+    <Compile Include="Unit\Core\Assemblies\Resource\CustomConditionWithOneParameter.cs" />
+    <Compile Include="Unit\Core\Assemblies\Resource\CustomConditionWithoutParameter.cs" />
     <Compile Include="Unit\Core\Calculation\CombinationPredicateFilterTest.cs" />
     <Compile Include="Unit\Core\Calculation\CultureSensitivePredicateMatchesTest.cs" />
     <Compile Include="Unit\Core\Calculation\Predicate\Text\TextAnyOfTest.cs" />

@@ -88,4 +88,27 @@
       </assert>
     </test>
   </group>
+  <group name="Custom condition">
+    <test name="decoration with custom condition">
+      <condition>
+        <custom assembly-path="NBi.Testing.dll" type="CustomConditionTrue"/>
+      </condition>
+      <system-under-test>
+        <result-set>
+          <row>
+            <cell>OK</cell>
+          </row>
+        </result-set>
+      </system-under-test>
+      <assert>
+        <equal-to>
+          <resultSet>
+            <row>
+              <cell>OK</cell>
+            </row>
+          </resultSet>
+        </equal-to>
+      </assert>
+    </test>
+  </group>
 </testSuite>

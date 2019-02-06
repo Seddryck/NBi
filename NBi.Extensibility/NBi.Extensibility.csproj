@@ -46,6 +46,8 @@
     <Compile Include="..\AssemblyInfo.cs">
       <Link>Properties\AssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="Condition\CustomConditionResult.cs" />
+    <Compile Include="Condition\ICustomCondition.cs" />
     <Compile Include="FlatFile\IFlatFileProfile.cs" />
     <Compile Include="FlatFile\IFlatFileReader.cs" />
     <Compile Include="ITemplateEngine.cs" />

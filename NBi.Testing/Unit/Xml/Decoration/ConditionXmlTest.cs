@@ -1,4 +1,6 @@
-﻿using System.IO;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Reflection;
 using NBi.Xml;
 using NBi.Xml.Decoration;
@@ -72,6 +74,73 @@ namespace NBi.Testing.Unit.Xml.Decoration
             Assert.That(check2.ServiceName, Is.EqualTo("MyService2")); 
         }
 
+        [Test]
+        public void Deserialize_SampleFile_Custom()
+        {
+            int testNr = 1;
 
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            TestSuiteXml ts = DeserializeSample();
+
+            // Check the properties of the object.
+            Assert.That(ts.Tests[testNr].Condition.Predicates[0], Is.TypeOf<CustomConditionXml>());
+            var condition = ts.Tests[testNr].Condition.Predicates[0] as CustomConditionXml;
+            Assert.That(condition.AssemblyPath, Is.EqualTo("myAssembly.dll"));
+            Assert.That(condition.TypeName, Is.EqualTo("myType"));
+            Assert.That(condition.Parameters, Has.Count.EqualTo(2));
+            Assert.That(condition.Parameters[0].Name, Is.EqualTo("firstParam"));
+            Assert.That(condition.Parameters[0].StringValue, Is.EqualTo("2012-10-10"));
+            Assert.That(condition.Parameters[1].Name, Is.EqualTo("secondParam"));
+            Assert.That(condition.Parameters[1].StringValue, Is.EqualTo("102"));
+        }
+
+        [Test]
+        public void Serialize_Custom_Correct()
+        {
+            var root = new ConditionXml()
+            {
+                Predicates = new List<DecorationConditionXml>()
+                {
+                    new CustomConditionXml()
+                    {
+                        AssemblyPath = "myAssembly.dll",
+                        TypeName = "myType",
+                    }
+                }
+            };
+
+            var manager = new XmlManager();
+            var xml = manager.XmlSerializeFrom(root);
+            Console.WriteLine(xml);
+            Assert.That(xml, Is.StringContaining("<custom "));
+            Assert.That(xml, Is.StringContaining("assembly-path=\"myAssembly.dll\""));
+            Assert.That(xml, Is.StringContaining("type=\"myType\""));
+            Assert.That(xml, Is.Not.StringContaining("<parameter"));
+        }
+
+        [Test]
+        public void Serialize_CustomWithParameters_Correct()
+        {
+            var root = new ConditionXml()
+            {
+                Predicates = new List<DecorationConditionXml>()
+                {
+                    new CustomConditionXml()
+                    {
+                        AssemblyPath = "myAssembly.dll",
+                        TypeName = "myType",
+                        Parameters = new List<CustomConditionParameterXml>()
+                        {
+                            new CustomConditionParameterXml() { Name="firstParam", StringValue="myValue" }
+                        }
+                    }
+                }
+            };
+
+            var manager = new XmlManager();
+            var xml = manager.XmlSerializeFrom(root);
+            Console.WriteLine(xml);
+            Assert.That(xml, Is.StringContaining("<parameter name=\"firstParam\">myValue</parameter>"));
+        }
     }
 }

@@ -72,6 +72,7 @@
     <Compile Include="Builder\AbstractExecutionBuilder.cs" />
     <Compile Include="Builder\AbstractStructureBuilder.cs" />
     <Compile Include="Builder\AbstractExecutionNonQueryBuilder.cs" />
+    <Compile Include="Builder\Helper\ConditionHelper.cs" />
     <Compile Include="Builder\Helper\InstanceArgsBuilder.cs" />
     <Compile Include="Builder\Helper\SequenceResolverArgsBuilder.cs" />
     <Compile Include="Builder\Helper\ScalarHelper.cs" />

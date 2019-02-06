@@ -1,4 +1,5 @@
-﻿using NBi.Xml.Items;
+﻿using NBi.Xml.Constraints.Comparer;
+using NBi.Xml.Items;
 using NBi.Xml.Systems;
 using System;
 using System.Collections.Generic;
@@ -13,18 +14,14 @@ namespace NBi.Xml.SerializationOption
     {
 
         public WriteOnlyAttributes()
-            : base()
-        {
-        }
+            : base() { }
 
         protected override void AdditionalBuild()
         {
-            var attrs = new XmlAttributes() { XmlIgnore = true };
-            Add(typeof(QueryXml), "InlineQuery", attrs);
+            AddAsIgnore((QueryXml x) => x.InlineQuery, true);
+            AddAsAnyNotIgnore((QueryXml x) => x.InlineQueryWrite);
 
-            attrs = new XmlAttributes() { XmlIgnore = false };
-            attrs.XmlAnyElements.Add(new XmlAnyElementAttribute());
-            Add(typeof(QueryXml), "InlineQueryWrite", attrs);
+            AddAsAnyNotIgnore((MatchesRegexXml x) => x.ValueWrite);
         }
     }
 }

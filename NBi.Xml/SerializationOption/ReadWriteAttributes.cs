@@ -26,7 +26,8 @@ namespace NBi.Xml.SerializationOption
 
         public void Build()
         {
-            #pragma warning disable 0618
+            
+#pragma warning disable 0618
             AddToArrayAttributes((TestXml t) => t.Constraints,
                 new Dictionary<string, Type>()
                 {
@@ -42,7 +43,7 @@ namespace NBi.Xml.SerializationOption
                 {
                     { "resultSet", typeof(ResultSetSystemOldXml) },
                 });
-            #pragma warning restore 0618
+#pragma warning restore 0618
             AdditionalBuild();
         }
 
@@ -72,6 +73,21 @@ namespace NBi.Xml.SerializationOption
             Add(parent.DeclaringType, parent.Name, attrs);
         }
 
+        protected void AddAsIgnore<T, U>(Expression<Func<T, U>> expression, bool value = true)
+        {
+            var parent = GetMemberInfo(expression);
+            var attrs = new XmlAttributes() { XmlIgnore = value };
+            Add(parent.DeclaringType, parent.Name, attrs);
+        }
+
+        protected void AddAsAnyNotIgnore<T, U>(Expression<Func<T, U>> expression)
+        {
+            var parent = GetMemberInfo(expression);
+            var attrs = new XmlAttributes() { XmlIgnore = false };
+            attrs.XmlAnyElements.Add(new XmlAnyElementAttribute());
+            Add(parent.DeclaringType, parent.Name, attrs);
+        }
+
         protected void AddToArrayAttributes<T, U>(Expression<Func<T, U>> expression, Dictionary<string, Type> mappings)
         {
             var parent = GetMemberInfo(expression);
@@ -94,13 +110,31 @@ namespace NBi.Xml.SerializationOption
             Add(parent.DeclaringType, parent.Name, attrs);
         }
 
-        private MemberInfo GetMemberInfo<T, U>(Expression<Func<T, U>> expression)
-        {
-            if (expression.Body is MemberExpression member)
-                return member.Member;
 
-            throw new ArgumentException("Expression is not a member access", "expression");
+        /// <summary>
+        /// Extracts the PropertyInfo for the property being accessed in the given expression.
+        /// </summary>
+        /// <remarks>
+        /// If possible, the actual owning type of the property is used, rather than the declaring class (so if "x" in "() => x.Foo" is a subclass overriding "Foo", then x's PropertyInfo for "Foo" is returned rather than the declaring base class's PropertyInfo for "Foo").
+        /// </remarks>
+        /// <typeparam name="T"></typeparam>
+        /// <typeparam name="U"></typeparam>
+        /// <param name="propertyExpression"></param>
+        /// <returns></returns>
+        private MemberInfo GetMemberInfo<T, U>(Expression<Func<T, U>> propertyExpression)
+        {
+            var memberExpression = propertyExpression?.Body as MemberExpression
+                ?? throw new ArgumentNullException(nameof(propertyExpression));
+
+            if (memberExpression == null)
+                throw new ArgumentException($"Expression not a MemberExpresssion: {propertyExpression}", nameof(propertyExpression));
+
+            var realType = memberExpression.Expression.Type;
+            if (realType == null) throw new ArgumentException($"Expression has no DeclaringType: {propertyExpression})");
+
+            return realType.GetProperty(memberExpression.Member.Name);
         }
+
 
         private string GetXmlName(string input) => string.Concat(input.Select((x, i) => i > 0 && char.IsUpper(x) ? "-" + x.ToString() : x.ToString().ToLowerInvariant()));
     }

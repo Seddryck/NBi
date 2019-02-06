@@ -14,6 +14,8 @@ using System.Collections.Generic;
 using System.Xml.Serialization;
 using System.Text;
 using System.Diagnostics;
+using System;
+using NBi.Xml.SerializationOption;
 #endregion
 
 namespace NBi.Testing.Unit.Xml.Constraints
@@ -477,5 +479,108 @@ namespace NBi.Testing.Unit.Xml.Constraints
             Assert.That(content.LastIndexOf("<expression"), Is.LessThan(content.IndexOf("<predicate")));
         }
 
+        [Test]
+        public void Serialize_MatchesRegex_WithCDATA()
+        {
+            var root = new PredicationXml()
+            {
+                Predicate = new MatchesRegexXml
+                {
+                    Value="<|>|&"
+                }
+            };
+
+            var overrides = new WriteOnlyAttributes();
+            overrides.Build();
+
+            var manager = new XmlManager();
+            var xml = manager.XmlSerializeFrom(root, overrides);
+            Console.WriteLine(xml);
+            Assert.That(xml, Is.StringContaining("<matches-regex>"));
+            Assert.That(xml, Is.Not.StringContaining("<ValueWrite>"));
+            Assert.That(xml, Is.StringContaining("<![CDATA[<|>|&]]>"));
+            Assert.That(xml, Is.Not.StringContaining("&lt;|&gt;|&amp;"));
+        }
+
+        [Test]
+        public void Deserialize_MatchesRegex_WithCDATA()
+        {
+            var xml = "<PredicationXml xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\"><matches-regex><![CDATA[<|>|&]]></matches-regex></PredicationXml>";
+            var manager = new XmlManager();
+            var overrides = new ReadOnlyAttributes();
+            overrides.Build();
+            var objectData = manager.XmlDeserializeTo<PredicationXml>(xml, overrides);
+            Assert.That(objectData, Is.TypeOf<PredicationXml>());
+            Assert.That(objectData, Is.Not.Null);
+            Assert.That(objectData.Predicate, Is.TypeOf<MatchesRegexXml>());
+            Assert.That(objectData.Predicate, Is.Not.Null);
+            Assert.That(objectData.Predicate.Value, Is.EqualTo("<|>|&"));
+        }
+
+        [Test]
+        public void Deserialize_MatchesRegex_WithoutCDATA()
+        {
+            var xml = "<PredicationXml xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\"><matches-regex>&lt;|&gt;|&amp;</matches-regex></PredicationXml>";
+            var manager = new XmlManager();
+            var overrides = new ReadOnlyAttributes();
+            overrides.Build();
+            var objectData = manager.XmlDeserializeTo<PredicationXml>(xml, overrides);
+            Assert.That(objectData, Is.TypeOf<PredicationXml>());
+            Assert.That(objectData, Is.Not.Null);
+            Assert.That(objectData.Predicate, Is.TypeOf<MatchesRegexXml>());
+            Assert.That(objectData.Predicate, Is.Not.Null);
+            Assert.That(objectData.Predicate.Value, Is.EqualTo("<|>|&"));
+        }
+
+        [Test]
+        public void Serialize_Equal_WithoutCDATAButWithZero()
+        {
+            var root = new PredicationXml()
+            {
+                Predicate = new EqualXml
+                {
+                    Value = "0"
+                }
+            };
+
+            var overrides = new WriteOnlyAttributes();
+            overrides.Build();
+
+            var manager = new XmlManager();
+            var xml = manager.XmlSerializeFrom(root, overrides);
+            Console.WriteLine(xml);
+            Assert.That(xml, Is.StringContaining("<equal>0</equal>"));
+            Assert.That(xml, Is.Not.StringContaining("<equal />"));
+        }
+
+        [Test]
+        public void Deserialize_Equal_WithCDATA()
+        {
+            var xml = "<PredicationXml xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\"><equal><![CDATA[<|>|&]]></equal></PredicationXml>";
+            var manager = new XmlManager();
+            var overrides = new ReadOnlyAttributes();
+            overrides.Build();
+            var objectData = manager.XmlDeserializeTo<PredicationXml>(xml, overrides);
+            Assert.That(objectData, Is.TypeOf<PredicationXml>());
+            Assert.That(objectData, Is.Not.Null);
+            Assert.That(objectData.Predicate, Is.TypeOf<EqualXml>());
+            Assert.That(objectData.Predicate, Is.Not.Null);
+            Assert.That(objectData.Predicate.Value, Is.EqualTo("<|>|&"));
+        }
+
+        [Test]
+        public void Deserialize_Equal_WithoutCDATA()
+        {
+            var xml = "<PredicationXml xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\"><equal>&lt;|&gt;|&amp;</equal></PredicationXml>";
+            var manager = new XmlManager();
+            var overrides = new ReadOnlyAttributes();
+            overrides.Build();
+            var objectData = manager.XmlDeserializeTo<PredicationXml>(xml, overrides);
+            Assert.That(objectData, Is.TypeOf<PredicationXml>());
+            Assert.That(objectData, Is.Not.Null);
+            Assert.That(objectData.Predicate, Is.TypeOf<EqualXml>());
+            Assert.That(objectData.Predicate, Is.Not.Null);
+            Assert.That(objectData.Predicate.Value, Is.EqualTo("<|>|&"));
+        }
     }
 }

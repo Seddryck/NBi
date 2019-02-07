@@ -9,8 +9,10 @@ namespace NBi.Xml.Items
 {
     public class FileXml
     {
-        [XmlText]
-        public string Value { get; set; }
+        [Obsolete("Use 'Path' instead of 'Value'")]
+        public string Value { get => Path; set => Path = value; }
 
+        [XmlElement("path")]
+        public string Path { get; set; }
     }
 }

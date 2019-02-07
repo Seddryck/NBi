@@ -5,6 +5,7 @@ using NBi.Xml.Items;
 using NBi.Xml.Items.Xml;
 using NBi.Xml.Constraints;
 using NUnit.Framework;
+using System;
 
 namespace NBi.Testing.Unit.Xml.Items
 {
@@ -49,8 +50,26 @@ namespace NBi.Testing.Unit.Xml.Items
             // Check the properties of the object.
             var xmlSource = (ts.Tests[testNr].Constraints[0]).BaseItem as XmlSourceXml;
             Assert.That(xmlSource.File, Is.TypeOf<FileXml>());
-            Assert.That(xmlSource.File.Value, Is.Not.Empty.And.Not.Null);
-            Assert.That(xmlSource.File.Value, Is.EqualTo("Myfile.csv"));
+            Assert.That(xmlSource.File.Path, Is.Not.Empty.And.Not.Null);
+            Assert.That(xmlSource.File.Path, Is.EqualTo("Myfile.csv"));
+        }
+
+        [Test]
+        public void Serialize_File_PathIsSet()
+        {
+            var root = new XmlSourceXml()
+            {
+                File = new FileXml
+                {
+                    Path = "C:\\myPath.txt"
+                }
+            };
+            var manager = new XmlManager();
+            var xml = manager.XmlSerializeFrom(root);
+            Console.WriteLine(xml);
+            Assert.That(xml, Is.StringContaining("<file>"));
+            Assert.That(xml, Is.StringContaining("<path>"));
+            Assert.That(xml, Is.StringContaining("C:\\myPath.txt"));
         }
 
         [Test]

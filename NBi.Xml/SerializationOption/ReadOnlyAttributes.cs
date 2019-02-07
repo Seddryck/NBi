@@ -33,21 +33,22 @@ namespace NBi.Xml.SerializationOption
             AddAsAttribute((ConnectionWaitXml c) =>  c.SpecificConnectionStringOld, "connectionString");
             AddAsAttribute((DataManipulationAbstractXml x) => x.SpecificConnectionStringOld, "connectionString");
             AddAsAttribute((SqlRunXml x) => x.SpecificConnectionStringOld, "connectionString");
-            
+            AddAsAttribute((PredicationXml p) => p.Name, "name");
+
             AddAsElement((NoRowsXml c) => c.InternalAliasesOld, "variable", 2);
             AddAsElement((FilterXml f) => f.InternalAliasesOld, "variable");
             AddAsElement((ColumnDefinitionXml c) => c.InternalTransformationInner, "transformation");
             AddAsElement((DefaultXml x) => x.ConnectionStringOld, "connectionString");
             AddAsElement((ReferenceXml x) => x.ConnectionStringOld, "connectionString");
 
-            AddAsAttribute((PredicationXml p) => p.Name, "name");
+            AddAsText((FileXml x) => x.Value);
 
             AddToElements((PredicationXml p) => p.Predicate, "within-list", typeof(WithinListXml));
 
             AddToElements((ProjectionXml x) => x.ResultSetOld, "resultSet", typeof(ResultSetSystemXml));
             AddToElements((LookupExistsXml x) => x.ResultSetOld, "resultSet", typeof(ResultSetSystemXml));
             AddToElements((LookupMatchesXml x) => x.ResultSetOld, "resultSet", typeof(ResultSetSystemXml));
-#pragma warning restore 0618
+            #pragma warning restore 0618
         }
     }
 }

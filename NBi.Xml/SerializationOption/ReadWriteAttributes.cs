@@ -80,6 +80,13 @@ namespace NBi.Xml.SerializationOption
             Add(parent.DeclaringType, parent.Name, attrs);
         }
 
+        protected void AddAsText<T, U>(Expression<Func<T, U>> expression)
+        {
+            var parent = GetMemberInfo(expression);
+            var attrs = new XmlAttributes() { XmlText = new XmlTextAttribute() };
+            Add(parent.DeclaringType, parent.Name, attrs);
+        }
+
         protected void AddAsAnyNotIgnore<T, U>(Expression<Func<T, U>> expression)
         {
             var parent = GetMemberInfo(expression);

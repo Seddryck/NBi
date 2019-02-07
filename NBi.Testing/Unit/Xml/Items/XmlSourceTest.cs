@@ -70,6 +70,25 @@ namespace NBi.Testing.Unit.Xml.Items
             Assert.That(xml, Is.StringContaining("<file>"));
             Assert.That(xml, Is.StringContaining("<path>"));
             Assert.That(xml, Is.StringContaining("C:\\myPath.txt"));
+            Assert.That(xml, Is.Not.StringContaining("<parser"));
+        }
+
+        [Test]
+        public void Serialize_File_ParserIsSet()
+        {
+            var root = new XmlSourceXml()
+            {
+                File = new FileXml
+                {
+                    Path = "C:\\myPath.txt",
+                    Parser = new ParserXml() { Name = "myName" },
+                },
+            };
+            var manager = new XmlManager();
+            var xml = manager.XmlSerializeFrom(root);
+            Console.WriteLine(xml);
+            Assert.That(xml, Is.StringContaining("<parser "));
+            Assert.That(xml, Is.StringContaining("name=\"myName\""));
         }
 
         [Test]

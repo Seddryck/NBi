@@ -14,5 +14,8 @@ namespace NBi.Xml.Items
 
         [XmlElement("path")]
         public string Path { get; set; }
+
+        [XmlElement("parser")]
+        public ParserXml Parser { get; set; }
     }
 }

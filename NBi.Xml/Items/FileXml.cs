@@ -18,7 +18,10 @@ namespace NBi.Xml.Items
         [XmlElement("parser")]
         public virtual ParserXml Parser { get; set; }
 
-        public virtual bool IsBasic() => Parser == null;
+        [XmlElement("if-missing")]
+        public virtual IfMissingXml IfMissing { get; set; }
+
+        public virtual bool IsBasic() => Parser == null && IfMissing==null;
         public virtual bool IsEmpty() => string.IsNullOrEmpty(Path);
     }
 }

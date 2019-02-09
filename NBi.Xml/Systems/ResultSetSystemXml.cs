@@ -53,15 +53,15 @@ namespace NBi.Xml.Systems
             }
         }
 
-        [XmlIgnore]
+        [XmlAttribute("path")]
         [Obsolete("Use File in place of FileAttribute")]
         public virtual string FilePath { get => File.Path; set => File.Path = value; }
 
         [XmlElement("file")]
         public virtual FileXml File { get; set; } = new FileXml();
 
-        public bool ShouldSerialiazeFileAttribute() => File.IsBasic() && !File.IsEmpty();
-        public bool ShouldSerialiazeFileElement() => !File.IsBasic() && !File.IsEmpty();
+        public bool ShouldSerializeFilePath() => File.IsBasic() && !File.IsEmpty();
+        public bool ShouldSerializeFile() => !File.IsBasic() || !File.IsEmpty();
 
         public override BaseItem BaseItem
         {

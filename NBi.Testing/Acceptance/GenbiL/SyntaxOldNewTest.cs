@@ -75,6 +75,5 @@ namespace NBi.Testing.Acceptance.GenbiL
             var expected = File.ReadAllText(ExpectedFilename);
             Assert.That(content, Is.EqualTo(expected));
         }
-
     }
 }

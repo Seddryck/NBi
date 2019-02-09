@@ -31,10 +31,7 @@ namespace NBi.NUnit.Builder.Helper
 
         private readonly ServiceLocator serviceLocator;
 
-        public ResultSetResolverArgsBuilder(ServiceLocator serviceLocator)
-        {
-            this.serviceLocator = serviceLocator;
-        }
+        public ResultSetResolverArgsBuilder(ServiceLocator serviceLocator) => this.serviceLocator = serviceLocator;
 
         public void Setup(object obj)
         {
@@ -42,15 +39,9 @@ namespace NBi.NUnit.Builder.Helper
             isSetup = true;
         }
 
-        public void Setup(SettingsXml settingsXml)
-        {
-            this.settings = settingsXml;
-        }
+        public void Setup(SettingsXml settingsXml) => this.settings = settingsXml;
 
-        public void Setup(IDictionary<string, ITestVariable> globalVariables)
-        {
-            this.globalVariables = globalVariables;
-        }
+        public void Setup(IDictionary<string, ITestVariable> globalVariables) => this.globalVariables = globalVariables;
 
         public void Build()
         {
@@ -60,12 +51,7 @@ namespace NBi.NUnit.Builder.Helper
             if (obj is ResultSetSystemXml)
             {
                 //ResultSet (external flat file)
-                if (!string.IsNullOrEmpty((obj as ResultSetSystemXml).FilePath))
-                {
-                    ParseFileInfo((obj as ResultSetSystemXml).FilePath, out var filename, out var parserName);
-                    args = BuildCsvResolverArgs(filename, parserName);
-                }
-                else if (!(obj as ResultSetSystemXml).File.IsEmpty())
+                if (!(obj as ResultSetSystemXml).File.IsEmpty())
                 {
                     ParseFileInfo((obj as ResultSetSystemXml).File.Path, out var filename, out var parserName);
                     if ((obj as ResultSetSystemXml).File.Parser != null)
@@ -101,8 +87,6 @@ namespace NBi.NUnit.Builder.Helper
 
             if (obj is XmlSourceXml)
                 args = BuildXPathResolverArgs((obj as XmlSourceXml));
-
-            
 
             if (args == null)
                 throw new ArgumentException();
@@ -188,9 +172,6 @@ namespace NBi.NUnit.Builder.Helper
             return new XPathResultSetResolverArgs(engine);
         }
 
-        public ResultSetResolverArgs GetArgs()
-        {
-            return args;
-        }
+        public ResultSetResolverArgs GetArgs() => args;
     }
 }

@@ -535,6 +535,7 @@
     <Compile Include="Unit\Xml\Decoration\DecorationXmlTest.cs" />
     <Compile Include="Unit\Xml\Items\Calculation\RankingXmlTest.cs" />
     <Compile Include="Unit\Xml\Items\Calculation\PredicateXmlTest.cs" />
+    <Compile Include="Unit\Xml\Items\FileXmlTest.cs" />
     <Compile Include="Unit\Xml\Items\ResultSet\SequenceCombinationXmlTest.cs" />
     <Compile Include="Unit\Xml\Items\ResultSet\TransformXmlTest.cs" />
     <Compile Include="Unit\Xml\Items\SharedDatasetXmlTest.cs" />

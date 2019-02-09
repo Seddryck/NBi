@@ -138,20 +138,19 @@ namespace NBi.NUnit.Builder.Helper
         }
 
         private ResultSetResolverArgs BuildCsvResolverArgs(string path, string parserName)
+            => BuildCsvResolverArgs(path, parserName, null);
+
+        private ResultSetResolverArgs BuildCsvResolverArgs(string path, string parserName, string redirectPath = null)
         {
             Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceVerbose, $"ResultSet defined in an external flat file to be read with {(string.IsNullOrEmpty(parserName) ? "the default CSV parser" : parserName)}.");
 
-            var builder = new ScalarResolverArgsBuilder(serviceLocator);
-            builder.Setup(path);
-            builder.Setup(settings);
-            builder.Setup(globalVariables);
-            builder.Build();
-            var argsPath = builder.GetArgs();
+            var helper = new ScalarHelper(serviceLocator, globalVariables, settings);
+            var resolverPath = helper.InstantiateResolver<string>(path);
+            var resolverRedirectPath = string.IsNullOrEmpty(redirectPath)
+                ? helper.InstantiateResolver<string>(redirectPath)
+                : null;
 
-            var factory = serviceLocator.GetScalarResolverFactory();
-            var resolverPath = factory.Instantiate<string>(argsPath);
-
-            return new FlatFileResultSetResolverArgs(resolverPath, settings?.BasePath, parserName, settings?.CsvProfile);
+            return new FlatFileResultSetResolverArgs(resolverPath, settings?.BasePath, parserName, resolverRedirectPath, settings?.CsvProfile);
         }
 
         private ResultSetResolverArgs BuildXPathResolverArgs(XmlSourceXml xmlSource)

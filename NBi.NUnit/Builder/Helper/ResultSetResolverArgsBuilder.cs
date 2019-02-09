@@ -51,7 +51,7 @@ namespace NBi.NUnit.Builder.Helper
             if (obj is ResultSetSystemXml)
             {
                 //ResultSet (external flat file)
-                if (!(obj as ResultSetSystemXml).File.IsEmpty())
+                if (!(obj as ResultSetSystemXml)?.File?.IsEmpty() ?? false)
                 {
                     ParseFileInfo((obj as ResultSetSystemXml).File.Path, out var filename, out var parserName);
                     if ((obj as ResultSetSystemXml).File.Parser != null)

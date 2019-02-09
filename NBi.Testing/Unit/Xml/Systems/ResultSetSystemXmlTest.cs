@@ -1,9 +1,11 @@
 ﻿using NBi.Core.ResultSet;
 using NBi.Core.Transformation;
 using NBi.Xml;
+using NBi.Xml.Items;
 using NBi.Xml.Items.Alteration.Conversion;
 using NBi.Xml.Items.Alteration.Transform;
 using NBi.Xml.Items.ResultSet;
+using NBi.Xml.SerializationOption;
 using NBi.Xml.Systems;
 using NUnit.Framework;
 using System;
@@ -204,6 +206,53 @@ namespace NBi.Testing.Unit.Xml.Systems
             Assert.That(rs.Alteration.Transformations[0].Identifier, Is.TypeOf<ColumnOrdinalIdentifier>());
             Assert.That((rs.Alteration.Transformations[0].Identifier as ColumnOrdinalIdentifier).Ordinal, Is.EqualTo(1));
             Assert.That(rs.Alteration.Transformations[0].Code.Trim(), Is.EqualTo("value.EndsWith(\".\") ? value : value + \".\""));
+        }
+
+        [Test]
+        public void Serialize_FileWithParser_NoAttributeTwoElements()
+        {
+            var root = new ResultSetSystemXml()
+            {
+                File = new FileXml
+                {
+                    Path = "c:\\myFile.txt",
+                    Parser = new ParserXml() { Name = "myName" }
+                }
+            };
+
+            var overrides = new WriteOnlyAttributes();
+            overrides.Build();
+
+            var manager = new XmlManager();
+            var xml = manager.XmlSerializeFrom(root, overrides);
+            Console.WriteLine(xml);
+            Assert.That(xml, Is.StringContaining("<file>"));
+            Assert.That(xml, Is.StringContaining("<path>c:\\myFile.txt</path>"));
+            Assert.That(xml, Is.StringContaining("<parser name=\"myName\" />"));
+            Assert.That(xml, Is.StringContaining("</file>"));
+        }
+
+        [Test]
+        public void Serialize_JustFileName_NoElementForParser()
+        {
+            var root = new ResultSetSystemXml()
+            {
+                File = new FileXml
+                {
+                    Path = "c:\\myFile.txt",
+                }
+            };
+
+            var overrides = new WriteOnlyAttributes();
+            overrides.Build();
+
+            var manager = new XmlManager();
+            var xml = manager.XmlSerializeFrom(root, overrides);
+            Console.WriteLine(xml);
+            Assert.That(xml, Is.StringContaining("<file>"));
+            Assert.That(xml, Is.StringContaining("<path>c:\\myFile.txt</path>"));
+            Assert.That(xml, Is.StringContaining("</file>"));
+            Assert.That(xml, Is.Not.StringContaining("<parser"));
         }
     }
 }

@@ -13,9 +13,12 @@ namespace NBi.Xml.Items
         public string Value { get => Path; set => Path = value; }
 
         [XmlElement("path")]
-        public string Path { get; set; }
+        public virtual string Path { get; set; }
 
         [XmlElement("parser")]
-        public ParserXml Parser { get; set; }
+        public virtual ParserXml Parser { get; set; }
+
+        public virtual bool IsBasic() => Parser == null;
+        public virtual bool IsEmpty() => string.IsNullOrEmpty(Path);
     }
 }

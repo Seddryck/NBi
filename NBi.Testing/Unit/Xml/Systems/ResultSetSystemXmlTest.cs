@@ -46,7 +46,7 @@ namespace NBi.Testing.Unit.Xml.Systems
             Assert.That(ts.Tests[testNr].Systems[0], Is.AssignableTo<ResultSetSystemXml>());
             var rs = ts.Tests[testNr].Systems[0] as ResultSetSystemXml;
 
-            Assert.That(rs.File, Is.EqualTo("myFile.csv"));
+            Assert.That(rs.File.Path, Is.EqualTo("myFile.csv"));
         }
 
         [Test]

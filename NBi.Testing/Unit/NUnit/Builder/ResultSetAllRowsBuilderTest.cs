@@ -186,7 +186,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
         public void GetSystemUnderTest_ResultSetSystemXml_IResultSetService()
         {
             var sutXmlStub = new Mock<Systems.ResultSetSystemXml>();
-            sutXmlStub.Setup(s => s.File).Returns("myFile.csv");
+            sutXmlStub.Setup(s => s.File.Path).Returns("myFile.csv");
             var sutXml = sutXmlStub.Object;
 
             var ctrXml = new AllRowsXml()

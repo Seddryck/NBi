@@ -52,18 +52,13 @@ namespace NBi.NUnit.Builder.Helper
             {
                 //ResultSet (external flat file)
                 if (!(obj as ResultSetSystemXml)?.File?.IsEmpty() ?? false)
-                {
-                    ParseFileInfo((obj as ResultSetSystemXml).File.Path, out var filename, out var parserName);
-                    if ((obj as ResultSetSystemXml).File.Parser != null)
-                        parserName = (obj as ResultSetSystemXml).File.Parser.Name;
-                    args = BuildCsvResolverArgs(filename, parserName);
-                }
+                    args = BuildFlatFileResultSetResolverArgs((obj as ResultSetSystemXml).File);
                 //Query
                 else if ((obj as ResultSetSystemXml).Query != null)
                     args = BuildQueryResolverArgs((obj as ResultSetSystemXml).Query);
                 //Sequences combination
                 else if ((obj as ResultSetSystemXml).SequenceCombination != null)
-                        args = BuildSequenceCombinationResolverArgs((obj as ResultSetSystemXml).SequenceCombination);
+                    args = BuildSequenceCombinationResolverArgs((obj as ResultSetSystemXml).SequenceCombination);
                 //ResultSet (embedded)
                 else if ((obj as ResultSetSystemXml).Rows != null)
                     args = BuildEmbeddedResolverArgs((obj as ResultSetSystemXml).Content);
@@ -75,7 +70,10 @@ namespace NBi.NUnit.Builder.Helper
                 if (!string.IsNullOrEmpty((obj as ResultSetXml).File))
                 {
                     ParseFileInfo((obj as ResultSetXml).File, out var filename, out var parserName);
-                    args = BuildCsvResolverArgs(filename, parserName);
+                    if (string.IsNullOrEmpty(parserName))
+                        args = BuildFlatFileResultSetResolverArgs(new FileXml() { Path = filename });
+                    else
+                        args = BuildFlatFileResultSetResolverArgs(new FileXml() { Path = filename, Parser = new ParserXml() { Name = parserName } });
                 }
                 //ResultSet (embedded)
                 else if ((obj as ResultSetXml).Rows != null)
@@ -137,20 +135,23 @@ namespace NBi.NUnit.Builder.Helper
             return new QueryResultSetResolverArgs(argsQuery);
         }
 
-        private ResultSetResolverArgs BuildCsvResolverArgs(string path, string parserName)
-            => BuildCsvResolverArgs(path, parserName, null);
-
-        private ResultSetResolverArgs BuildCsvResolverArgs(string path, string parserName, string redirectPath = null)
+        private ResultSetResolverArgs BuildFlatFileResultSetResolverArgs(FileXml fileMetadata)
         {
-            Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceVerbose, $"ResultSet defined in an external flat file to be read with {(string.IsNullOrEmpty(parserName) ? "the default CSV parser" : parserName)}.");
+            Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceVerbose, $"ResultSet defined in an external flat file to be read with {(string.IsNullOrEmpty(fileMetadata.Parser?.Name) ? "the default CSV parser" : fileMetadata.Parser?.Name)}.");
 
             var helper = new ScalarHelper(serviceLocator, globalVariables, settings);
-            var resolverPath = helper.InstantiateResolver<string>(path);
-            var resolverRedirectPath = string.IsNullOrEmpty(redirectPath)
-                ? helper.InstantiateResolver<string>(redirectPath)
-                : null;
+            var resolverPath = helper.InstantiateResolver<string>(fileMetadata.Path);
+            if (fileMetadata.IfMissing == null)
+                return new FlatFileResultSetResolverArgs(resolverPath, settings?.BasePath, fileMetadata.Parser?.Name, settings?.CsvProfile);
 
-            return new FlatFileResultSetResolverArgs(resolverPath, settings?.BasePath, parserName, resolverRedirectPath, settings?.CsvProfile);
+            var builder = new ResultSetResolverArgsBuilder(serviceLocator);
+            builder.Setup(fileMetadata.IfMissing);
+            builder.Build();
+            var redirection = builder.GetArgs();
+            var factory = new ResultSetResolverFactory(serviceLocator);
+            var resolver = factory.Instantiate(redirection);
+
+            return new FlatFileResultSetResolverArgs(resolverPath, settings?.BasePath, fileMetadata.Parser.Name, resolver, settings?.CsvProfile);
         }
 
         private ResultSetResolverArgs BuildXPathResolverArgs(XmlSourceXml xmlSource)

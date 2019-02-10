@@ -31,16 +31,10 @@ namespace NBi.Core.ResultSet.Resolver
 
             if (!IsFileExisting(file))
             {
-                var redirectPath = args.RedirectPath?.Execute();
-                if (string.IsNullOrEmpty(redirectPath))
+                if (args.Redirection == null)
                     throw new ExternalDependencyNotFoundException(file);
                 else
-                {
-                    file = (Path.IsPathRooted(redirectPath)) ? redirectPath : args.BasePath + redirectPath;
-                    if (!IsFileExisting(file))
-                        throw new ExternalDependencyNotFoundException(file);
-                    Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceInfo, $"After redirection, loading data from flat file '{file}'");
-                }
+                    args.Redirection.Execute();
             }
             else
                 Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceInfo, $"Loading data from flat file '{file}'");
@@ -60,5 +54,6 @@ namespace NBi.Core.ResultSet.Resolver
         }
 
         protected virtual bool IsFileExisting(string fullpath) => File.Exists(fullpath);
+
     }
 }

@@ -54,6 +54,25 @@ Using the previous notation, if the value of *myVar* is *1st January 2018* then 
 
 The formatting syntax is the one supported by .Net and explained in MSDN for the [numerics](https://docs.microsoft.com/en-us/dotnet/standard/base-types/custom-numeric-format-strings) and [dateTimes](https://docs.microsoft.com/en-us/dotnet/standard/base-types/custom-date-and-time-format-strings)
 
+### Sequences-based definition
+
+You can define a result-set as the combination of one or more sequences. Each sequence creates a new column in the result-set. The resulting rows' count is depending on the combination type. Currently, the only combination-type supported is a *cartesian-product*. The *cartesian-product* will create one row for each combination of the different elements of the two sequences.
+
+In the following definition, the two sequences contain 2 elements and 3 elements. The result of this combination will be a result-set with 2 columns (first of type *text*, next of type *dateTime*) and 6 rows.
+
+{% highlight xml %}
+<sequences-combination operation="cartesian-product">
+  <sequence type="text">
+    <item>be</item>
+    <item>fr</item>
+  </sequence>
+  <sequence type="dateTime">
+    <loop-sentinel seed="2015-01-01" terminal="2017-01-01" step="1 year"/>
+  </sequence>
+</sequences-combination>
+
+{% endhighlight %}
+
 ### Query-based definition
 
 Naturally, all the queries defined here under can take advantage of all features: [parameters](../query-parameter), [template-variables](../query-template), [timeout](../query-timeout).

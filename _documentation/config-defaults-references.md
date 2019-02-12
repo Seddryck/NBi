@@ -1,11 +1,11 @@
 ---
 layout: documentation
 title: Defaults and references
-prev_section: setup-condition
+prev_section: extension-flatfile
 next_section: config-settings-external-file
 permalink: /docs/config-defaults-references/
 ---
-Defaults and references are a generic case of the feature exposed in previous chapter about [connection strings](/docs/config-connection-strings). The goal of this feature is to avoid repetition of common values for all (or a sub-part) of your tests. You write your values at one place (in the *settings* element) and these values will be applied in each of your tests. The big advantage is the centralization: in case you need to adapt these values, you'll have to change them at a unique place and not everywhere in your test-suite.
+Defaults and references are a generic case of the feature exposed in previous chapter about [connection strings](../config-connection-strings). The goal of this feature is to avoid repetition of common values for all (or a sub-part) of your tests. You write your values at one place (in the *settings* element) and these values will be applied in each of your tests. The big advantage is the centralization: in case you need to adapt these values, you'll have to change them at a unique place and not everywhere in your test-suite.
 
 The difference between the two concepts is that a *default* will inject an information into your test if no value is provided for this information within your test. If a value is provided for this information, the *default* will be ignored.
 

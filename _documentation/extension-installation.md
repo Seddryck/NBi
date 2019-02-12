@@ -2,7 +2,7 @@
 layout: documentation
 title: Install extensions
 prev_section: extension-support
-next_section: config-defaults-references
+next_section: extension-flatfile
 permalink: /docs/extension-installation/
 ---
 

@@ -2,7 +2,7 @@
 layout: documentation
 title: Override variables
 prev_section: variable-define
-next_section: metadata-concept
+next_section: variable-instance
 permalink: /docs/variable-override/
 ---
 Version 1.19 introduces the notion of *override* in a *variable*. This option offers the opportunity to enforce the value of a *variable* using a config file.

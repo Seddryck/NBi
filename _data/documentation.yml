@@ -107,6 +107,7 @@
   docs:
   - extension-support
   - extension-installation
+  - extension-flatfile
 
 - title: Configuration and settings
   docs:

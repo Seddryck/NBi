@@ -25,8 +25,7 @@ namespace NBi.NUnit.Builder.Helper
     public class ScalarHelper
     {
         private ServiceLocator ServiceLocator { get; }
-        private IDictionary<string, ITestVariable> Variables { get; }
-        private IDictionary<string, ITestVariable> GlobalVariables { get; }
+        private IDictionary<string, ITestVariable> Variables { get; } = new Dictionary<string, ITestVariable>();
         private SettingsXml Settings { get; set; }
 
         public ScalarHelper(ServiceLocator serviceLocator, IDictionary<string, ITestVariable> variables)
@@ -35,10 +34,10 @@ namespace NBi.NUnit.Builder.Helper
             Variables = variables;
         }
 
-        public ScalarHelper(ServiceLocator serviceLocator, IDictionary<string, ITestVariable> globalVariables, SettingsXml settings)
+        public ScalarHelper(ServiceLocator serviceLocator, IDictionary<string, ITestVariable> variables, SettingsXml settings)
         {
             ServiceLocator = serviceLocator;
-            GlobalVariables = globalVariables;
+            Variables = variables;
             Settings = settings;
         }
 
@@ -58,7 +57,8 @@ namespace NBi.NUnit.Builder.Helper
         public IScalarResolver<T> InstantiateResolver<T>(string value)
         {
             var argsBuilder = new ScalarResolverArgsBuilder(ServiceLocator);
-            argsBuilder.Setup(GlobalVariables);
+
+            argsBuilder.Setup(Variables);
             argsBuilder.Setup(value);
             argsBuilder.Build();
 

@@ -34,7 +34,7 @@ namespace NBi.Core.ResultSet.Resolver
                 if (args.Redirection == null)
                     throw new ExternalDependencyNotFoundException(file);
                 else
-                    args.Redirection.Execute();
+                    return args.Redirection.Execute();
             }
             else
                 Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceInfo, $"Loading data from flat file '{file}'");

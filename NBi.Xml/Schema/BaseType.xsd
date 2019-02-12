@@ -1353,6 +1353,7 @@
         </xs:element>
         <xs:element name="query" minOccurs="0" maxOccurs="1" type="query-enhanced-type"/>
         <xs:element name="sequences-combination" minOccurs="0" maxOccurs="1" type="sequences-combination-type"/>
+        <xs:element name="file" minOccurs="0" maxOccurs="1" type="file-type"/>
       </xs:choice>
       <xs:element name="alteration" type="alteration-type" minOccurs="0" maxOccurs="1"/>
     </xs:sequence>
@@ -1369,6 +1370,17 @@
         </xs:restriction>
       </xs:simpleType>
     </xs:attribute>
+  </xs:complexType>
+  <xs:complexType name="file-type">
+    <xs:sequence>
+      <xs:element name="path" minOccurs="1" maxOccurs="1" type="xs:string"/>
+      <xs:element name="if-missing" minOccurs="0" maxOccurs="1" type="if-missing-type"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="if-missing-type">
+  <xs:sequence>
+    <xs:element name="file" minOccurs="1" maxOccurs="1" type="file-type"/>
+  </xs:sequence>
   </xs:complexType>
   <xs:complexType name="scalar-type">
     <xs:sequence>

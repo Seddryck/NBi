@@ -58,7 +58,7 @@ namespace NBi.NUnit.Builder.Helper
         public IScalarResolver<T> InstantiateResolver<T>(string value)
         {
             var argsBuilder = new ScalarResolverArgsBuilder(ServiceLocator);
-            argsBuilder.Setup(Variables);
+            argsBuilder.Setup(GlobalVariables);
             argsBuilder.Setup(value);
             argsBuilder.Build();
 

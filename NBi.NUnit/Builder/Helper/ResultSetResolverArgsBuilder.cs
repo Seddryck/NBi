@@ -64,6 +64,13 @@ namespace NBi.NUnit.Builder.Helper
                     args = BuildEmbeddedResolverArgs((obj as ResultSetSystemXml).Content);
             }
 
+            if (obj is IfMissingXml)
+            {
+                //ResultSet (external flat file)
+                if (!(obj as IfMissingXml)?.File?.IsEmpty() ?? false)
+                    args = BuildFlatFileResultSetResolverArgs((obj as IfMissingXml).File);
+            }
+
             if (obj is ResultSetXml)
             {
                 //ResultSet (external flat file)
@@ -146,12 +153,14 @@ namespace NBi.NUnit.Builder.Helper
 
             var builder = new ResultSetResolverArgsBuilder(serviceLocator);
             builder.Setup(fileMetadata.IfMissing);
+            builder.Setup(settings);
+            builder.Setup(globalVariables);
             builder.Build();
             var redirection = builder.GetArgs();
             var factory = new ResultSetResolverFactory(serviceLocator);
             var resolver = factory.Instantiate(redirection);
 
-            return new FlatFileResultSetResolverArgs(resolverPath, settings?.BasePath, fileMetadata.Parser.Name, resolver, settings?.CsvProfile);
+            return new FlatFileResultSetResolverArgs(resolverPath, settings?.BasePath, fileMetadata.Parser?.Name, resolver, settings?.CsvProfile);
         }
 
         private ResultSetResolverArgs BuildXPathResolverArgs(XmlSourceXml xmlSource)

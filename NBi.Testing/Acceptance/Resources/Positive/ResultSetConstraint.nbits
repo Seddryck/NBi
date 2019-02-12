@@ -247,9 +247,26 @@
         <unique-rows/>
       </assert>
     </test>
-    <test name="External result-set" uid="0103">
+    <test name="External result-set defined with variable formatting" uid="0103">
       <system-under-test>
         <resultSet file="~..\Csv\ResellerOrderCountByYearBefore{@year:yyyy}.csv"/>
+      </system-under-test>
+      <assert>
+        <unique-rows/>
+      </assert>
+    </test>
+    <test name="External result-set with if-missing" uid="0103">
+      <system-under-test>
+        <result-set>
+          <file>
+            <path>~..\Csv\ResellerOrderCountByYearBefore{@year:yy}.csv</path>
+            <if-missing>
+              <file>
+                <path>..\Csv\ResellerOrderCountByYearBefore2006.csv</path>
+              </file>
+            </if-missing>
+          </file>
+        </result-set>
       </system-under-test>
       <assert>
         <unique-rows/>

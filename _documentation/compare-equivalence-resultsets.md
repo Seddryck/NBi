@@ -113,6 +113,10 @@ Once your source is identified, you'll need to apply a query on your xml file. N
 </equalTo>
 {% endhighlight %}
 
+### Combination of sequences
+
+It's also possible to define a result-set as the combination of sequences.
+
 ## Advanced features
 
 With NBi, you can also check a cell's value against special values such as *null*, *empty* or *any value*. This is detailed in the article about [special and generic values](/docs/compare-special-generic-values/).

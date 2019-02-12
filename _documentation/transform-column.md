@@ -1,13 +1,13 @@
 ---
 layout: documentation
 title: Transform a column
-prev_section: resultset-format
+prev_section: primitive-result-set
 next_section: query-syntax
 permalink: /docs/transform-column/
 ---
 It happens that it's impossible (stored procedures) or not suitable (readibility of the test) to tune the query in your assertion to match with the expectations of your *system-under-test*. The feature *transform* is built for these cases.
 
-The element *transform* works as a modification of the content of all cells for a given column.
+The element *transform* works as a modification of the content of all cells (scalar) for a given column.
 
 ## Languages
 

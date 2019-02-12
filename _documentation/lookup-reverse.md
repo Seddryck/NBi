@@ -7,7 +7,7 @@ permalink: /docs/lookup-reverse/
 ---
 A reverse-lookup must be considered when you want to be sure that the candidate result-set effectively contains each key available in your reference resut-set.
 
-At the opposite of equivalence's tests, lookup's tests don't require the uniqueness of the rows in the reference or candidate tables. If a key from the reference result-set is not found in the candidate resut-set then the test will fail.
+At the opposite of equivalence's tests, lookup's tests don't require the uniqueness of the rows in the reference or candidate result-sets. If a key from the reference result-set is not found in the candidate resut-set then the test will fail.
 
 ## System-under-test
 

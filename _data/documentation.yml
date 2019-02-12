@@ -40,12 +40,16 @@
   - resultset-rows-count
   - resultset-rows-count-advanced
   - resultset-rows-uniqueness
-  - referential-integrity
   - resultset-format
+
+- title: Primitives
+  docs:
+  - primitive-scalar
+  - primitive-sequence
+  - primitive-result-set   
 
 - title: Transform a result-set
   docs:
-  - transform-column
   - transform-column
 
 - title: Query's execution

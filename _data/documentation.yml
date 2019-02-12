@@ -117,10 +117,11 @@
   - config-dtd-processing
   - config-traces-debugging
 
-- title: Global variables
+- title: Variables
   docs:
   - variable-define
   - variable-override
+  - variable-instance
 
 - title: Metadata
   docs:

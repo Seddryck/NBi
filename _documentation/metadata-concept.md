@@ -1,7 +1,7 @@
 ---
 layout: documentation
 title: Concept of metadata
-prev_section: variable-override
+prev_section: variable-instance
 next_section: metadata-description
 permalink: /docs/metadata-concept/
 ---

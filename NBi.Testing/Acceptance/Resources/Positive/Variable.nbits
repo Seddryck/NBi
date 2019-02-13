@@ -12,6 +12,9 @@
     <variable name="common">
       <script>new DateTime(DateTime.Now.Year+2, 1, 1)</script>
     </variable>
+    <variable name="januarySecond">
+      <script>new DateTime(DateTime.Now.Year, 1, 2)</script>
+    </variable>
   </variables>
 	<test name="'Reseller Order Count' by year before 2006 (csv)" uid="0001">
 		<system-under-test>
@@ -45,6 +48,24 @@
         <query>
           <parameter name="common">@common</parameter>
           select @common;
+        </query>
+      </equalTo>
+    </assert>
+  </test>
+  <test name="Usage of a native transformation to a variable" uid="0020">
+    <system-under-test>
+      <resultSet>
+        <query>
+          <parameter name="value" sql-type="DateTime">@januarySecond | dateTime-to-first-of-month</parameter>
+          select @value;
+        </query>
+      </resultSet>
+    </system-under-test>
+    <assert>
+      <equalTo>
+        <column index="0" type="dateTime" role="key"/>
+        <query>
+          select cast(YEAR(getdate()) as varchar(4)) + '-01-01';
         </query>
       </equalTo>
     </assert>

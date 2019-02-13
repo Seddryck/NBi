@@ -13,6 +13,6 @@ namespace NBi.Core.Scalar.Resolver
 
     public interface IScalarResolver<T> : IScalarResolver
     {
-        new T Execute();
+        T Execute();
     }
 }

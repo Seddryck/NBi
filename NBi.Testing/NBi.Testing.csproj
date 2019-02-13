@@ -376,6 +376,7 @@
     <Compile Include="Unit\Core\Scalar\Presentation\TextPresenterTest.cs" />
     <Compile Include="Unit\Core\Scalar\Resolver\EnvironmentScalarResolverTest.cs" />
     <Compile Include="Unit\Core\Scalar\Resolver\FormatScalarResolverTest.cs" />
+    <Compile Include="Unit\Core\Scalar\Resolver\FunctionScalarResolverTest.cs" />
     <Compile Include="Unit\Core\Scalar\Resolver\GlobalVariableScalarResolverTest.cs" />
     <Compile Include="Unit\Core\Scalar\Resolver\LiteralScalarResolverTest.cs" />
     <Compile Include="Unit\Core\Scalar\Resolver\ProjectionResultSetScalarResolverTest.cs" />
@@ -451,6 +452,7 @@
     <Compile Include="Unit\GenbiL\Parser\CommentParserTest.cs" />
     <Compile Include="Unit\GenbiL\Parser\GrammarParserTest.cs" />
     <Compile Include="Unit\GenbiL\Parser\VariableParserTest.cs" />
+    <Compile Include="Unit\NUnit\Builder\Helper\ScalarResolverArgsBuilderTest.cs" />
     <Compile Include="Unit\NUnit\Builder\ResultSetAllRowsBuilderTest.cs" />
     <Compile Include="Unit\NUnit\Builder\ScalarScoreBuilderTest.cs" />
     <Compile Include="Unit\NUnit\Builder\ResultSetSomeRowsBuilderTest.cs" />

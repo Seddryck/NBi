@@ -19,22 +19,27 @@ namespace NBi.Core.Scalar.Resolver
 
         public IScalarResolver<T> Instantiate<T>(IScalarResolverArgs args)
         {
-            if (args is LiteralScalarResolverArgs)
-                    return new LiteralScalarResolver<T>((LiteralScalarResolverArgs)args); 
-            else if (args is GlobalVariableScalarResolverArgs)
-                return new GlobalVariableScalarResolver<T>((GlobalVariableScalarResolverArgs)args);
-            else if (args is QueryScalarResolverArgs)
-                return new QueryScalarResolver<T>((QueryScalarResolverArgs)args, serviceLocator);
-            else if (args is ProjectionResultSetScalarResolverArgs)
-                return new ProjectionResultSetScalarResolver<T>((ProjectionResultSetScalarResolverArgs)args, serviceLocator.GetResultSetResolverFactory());
-            else if (args is CSharpScalarResolverArgs)
-                return new CSharpScalarResolver<T>((CSharpScalarResolverArgs)args);
-            else if (args is EnvironmentScalarResolverArgs)
-                return new EnvironmentScalarResolver<T>((EnvironmentScalarResolverArgs)args);
-            else if (args is FormatScalarResolverArgs)
-                return (IScalarResolver<T>)new FormatScalarResolver((FormatScalarResolverArgs)args, serviceLocator);
-
-            throw new ArgumentOutOfRangeException($"Type '{args.GetType().Name}' is not expected when building a Scalar");
+            switch (args)
+            {
+                case LiteralScalarResolverArgs x:
+                    return new LiteralScalarResolver<T>(x);
+                case GlobalVariableScalarResolverArgs x:
+                    return new GlobalVariableScalarResolver<T>(x);
+                case QueryScalarResolverArgs x:
+                    return new QueryScalarResolver<T>(x, serviceLocator);
+                case ProjectionResultSetScalarResolverArgs x:
+                    return new ProjectionResultSetScalarResolver<T>(x, serviceLocator.GetResultSetResolverFactory());
+                case CSharpScalarResolverArgs x:
+                    return new CSharpScalarResolver<T>(x);
+                case EnvironmentScalarResolverArgs x:
+                    return new EnvironmentScalarResolver<T>(x);
+                case FormatScalarResolverArgs x:
+                    return (IScalarResolver<T>)new FormatScalarResolver(x, serviceLocator);
+                case FunctionScalarResolverArgs x:
+                    return new FunctionScalarResolver<T>(x);
+                default:
+                    throw new ArgumentOutOfRangeException($"Type '{args.GetType().Name}' is not expected when building a Scalar");
+            }
         }
     }
 }

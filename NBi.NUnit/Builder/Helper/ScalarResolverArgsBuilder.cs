@@ -3,6 +3,8 @@ using NBi.Core.Query;
 using NBi.Core.Query.Resolver;
 using NBi.Core.Scalar.Resolver;
 using NBi.Core.Transformation;
+using NBi.Core.Transformation.Transformer;
+using NBi.Core.Transformation.Transformer.Native;
 using NBi.Core.Variable;
 using NBi.Xml.Items;
 using NBi.Xml.Items.ResultSet;
@@ -87,8 +89,24 @@ namespace NBi.NUnit.Builder.Helper
 
             else if (obj is string && !string.IsNullOrEmpty((string)obj) && ((string)obj).Trim().StartsWith("@"))
             {
-                var variableName = ((string)obj).Trim().Substring(1);
+                var tokens = ((string)obj).Trim().Split(new[] { "|" }, StringSplitOptions.RemoveEmptyEntries).Select(x => x.Trim());
+                var variableName = tokens.First().Trim().Substring(1);
+                var functions = tokens.Skip(1);
+
                 args = new GlobalVariableScalarResolverArgs(variableName, globalVariables);
+
+                if (functions.Count() > 0)
+                {
+                    var factory = serviceLocator.GetScalarResolverFactory();
+                    var resolver = factory.Instantiate<object>(args);
+
+                    var transformations = new List<INativeTransformation>();
+                    var nativeTransformationFactory = new NativeTransformationFactory();
+                    foreach (var function in functions)
+                        transformations.Add(nativeTransformationFactory.Instantiate(function));
+
+                    args = new FunctionScalarResolverArgs(resolver, transformations);
+                }
             }
 
             else if (obj is string && !string.IsNullOrEmpty((string)obj) && ((string)obj).Trim().StartsWith("~"))

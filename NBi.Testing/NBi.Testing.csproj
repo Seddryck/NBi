@@ -190,7 +190,7 @@
     <Compile Include="Acceptance\GenbiL\ConcatenateSplitGroupTest.cs" />
     <Compile Include="Acceptance\GenbiL\DictionaryTest.cs" />
     <Compile Include="Acceptance\GenbiL\ConsumablesTest.cs" />
-    <Compile Include="Acceptance\GenbiL\SplitDistinct.cs" />
+    <Compile Include="Acceptance\GenbiL\SplitDistinctTest.cs" />
     <Compile Include="Acceptance\GenbiL\SyntaxOldNewTest.cs" />
     <Compile Include="Acceptance\GenbiL\MultipleTemplatesTest.cs" />
     <Compile Include="Acceptance\GenbiL\VariablesTest.cs" />
@@ -1064,10 +1064,7 @@
     <None Include="Acceptance\Resources\Positive\MultipleInstance.nbits">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <EmbeddedResource Include="Acceptance\GenbiL\Resources\SplitDistinct-1.csv">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Acceptance\GenbiL\Resources\SplitDistinct-2.csv">
+    <EmbeddedResource Include="Acceptance\GenbiL\Resources\SplitDistinct.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <Content Include="Acceptance\Resources\Query\ResellerOrderCount.sql">

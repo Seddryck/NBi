@@ -46,7 +46,7 @@ namespace NBi.Testing.Unit.GenbiL.Action.Case
 
 
         [Test]
-        public void Execute_OneRowDuplicatedContainingAnArray_OnlyOneRemains()
+        public void Execute_TwoRowsDuplicatedContainingAnArray_OnlyOneRemains()
         {
             var state = new GenerationState();
             state.TestCaseCollection.Scope.Content.Columns.Add("firstColumn");
@@ -55,12 +55,15 @@ namespace NBi.Testing.Unit.GenbiL.Action.Case
             state.TestCaseCollection.Scope.Variables.Add("secondColumn");
             var firstRow = state.TestCaseCollection.Scope.Content.NewRow();
             firstRow[0] = "firstCell1";
-            firstRow[1] = new[] { "foo", "bar" };
+            firstRow[1] = "foo/bar";
             state.TestCaseCollection.Scope.Content.Rows.Add(firstRow);
             var secondRow = state.TestCaseCollection.Scope.Content.NewRow();
             secondRow[0] = "firstCell1";
-            secondRow[1] = new[] { "foo", "bar" };
+            secondRow[1] = "foo/bar";
             state.TestCaseCollection.Scope.Content.Rows.Add(secondRow);
+
+            var splitAction = new SplitCaseAction(new[] { "secondColumn" }, "/");
+            splitAction.Execute(state);
 
             var action = new FilterDistinctCaseAction();
             action.Execute(state);
@@ -72,7 +75,7 @@ namespace NBi.Testing.Unit.GenbiL.Action.Case
             Assert.That(state.TestCaseCollection.Scope.Content.Rows[0].ItemArray[1], Has.Member("bar"));
         }
 
-        public void Execute_OneRowDuplicatedContainingAnArrayWithDifference_TwoRowsRemain()
+        public void Execute_TwoRowsDuplicatedContainingAnArrayWithDifference_TwoRowsRemain()
         {
             var state = new GenerationState();
             state.TestCaseCollection.Scope.Content.Columns.Add("firstColumn", typeof(object));
@@ -81,12 +84,15 @@ namespace NBi.Testing.Unit.GenbiL.Action.Case
             state.TestCaseCollection.Scope.Variables.Add("secondColumn");
             var firstRow = state.TestCaseCollection.Scope.Content.NewRow();
             firstRow[0] = "firstCell1";
-            firstRow[1] = new[] { "foo", "bar" };
+            firstRow[1] = "foo/bar";
             state.TestCaseCollection.Scope.Content.Rows.Add(firstRow);
             var secondRow = state.TestCaseCollection.Scope.Content.NewRow();
             secondRow[0] = "firstCell1";
-            secondRow[1] = new[] { "foo", "bar", "x" };
+            secondRow[1] = "foo/bar/x";
             state.TestCaseCollection.Scope.Content.Rows.Add(secondRow);
+
+            var splitAction = new SplitCaseAction(new[] { "secondColumn" }, "/");
+            splitAction.Execute(state);
 
             var action = new FilterDistinctCaseAction();
             action.Execute(state);

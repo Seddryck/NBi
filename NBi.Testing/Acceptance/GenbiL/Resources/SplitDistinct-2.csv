@@ -1,8 +1,0 @@
-identifier;fileIdentification;class;name
-159;FinancialExpensesAndIncomeForBalancing;completeness;Financial Expenses and Income for Balancing [17.1.I]
-162;NetPositionsIntraday;completeness;Implicit Allocations - Net positions Intraday [12.1.E.NP]
-164;NetPositionsDaily;completeness;Implicit Allocations - Net positions Day Ahead [12.1.E.NP]
-165;FinancialExpensesAndIncomeForBalancing;validity;Financial Expenses and Income for Balancing [17.1.I]
-179;ActualGenerationOutputPerUnit;validity;Actual Generation Output per Generation Unit [16.1.A]
-185;ActualGenerationOutputPerUnit;completeness;Actual Generation Output per Generation Unit [16.1.A]
-186;ActualGenerationOutputPerUnit;timeliness;Actual Generation Output per Generation Unit [16.1.A]

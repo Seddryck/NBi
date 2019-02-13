@@ -3,42 +3,11 @@
 *******************/
 
 case scope 'metadata';
-case load file 'Acceptance\GenbiL\Resources\SplitDistinct-1.csv';
+case load file 'Acceptance\GenbiL\Resources\SplitDistinct.csv';
 
-case scope 'rules';
-case load file 'Acceptance\GenbiL\Resources\SplitDistinct-2.csv';
-//case substitute into column 'name' value '"' with value ''';
-
-case copy 'rules' to 'full';
-case scope 'full';
-case cross 'full' with 'metadata' on 'fileIdentification';
-case add column 'ftpRoot' values '\\isofile05\EntsoEReplicator$\SFTP';
-
-
-/*******************
-	Completeness
-*******************/
-
-case copy 'full' to 'completeness';
-case scope 'completeness';
-case filter on column 'class' values equal 'completeness';
-case remove column 'valueColumn';
+case split columns 'array' with value '/';
 case filter distinct;
-case split columns 'filterColumns', 'filterValues' with value '/';
 
-case scope 'full';
-case split columns 'filterColumns', 'filterValues' with value '/';
-
-/*******************
-	Validity
-*******************/
-
-case copy 'full' to 'validity';
-case scope 'validity';
-case filter on column 'class' values equal 'validity';
-case filter on column 'fileIdentification' values equal 'FinancialExpensesAndIncomeForBalancing';
-case remove column 'valueColumn';
-case filter distinct;
 template load file 'Acceptance\GenbiL\Resources\SplitDistinct.nbitt'; 
 suite generate;
 suite save as 'Acceptance\GenbiL\Resources\SplitDistinct.nbits';

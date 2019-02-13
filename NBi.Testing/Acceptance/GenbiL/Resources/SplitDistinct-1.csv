@@ -1,6 +1,0 @@
-fileIdentification;targetDay;valueColumn;dateTimeColumn;filterColumns;filterValues;startDate
-ActualGenerationOutputPerUnit;DayPlusFive;ActualGenerationOutput;DateTime;AreaCode/AreaTypeCode/ResolutionCode;10YBE----------2/CTA/PT60M;2015-01-01
-NetPositionsIntraday;DayPlusOne;Capacity;DateTime;areaCode/AreaTypeCode/ResolutionCode;10YBE----------2/BZN/PT60M;2018-06-01
-NetPositionsDaily;DayPlusOne;Capacity;DateTime;areaCode/AreaTypeCode/ResolutionCode;10YBE----------2/BZN/PT60M;2015-01-01
-FinancialExpensesAndIncomeForBalancing;MonthPlusThree;Expenses;DateTime;AreaCode/AreaTypeCode/ResolutionCode;10YBE----------2/MBA/P1M;2015-01-01
-FinancialExpensesAndIncomeForBalancing;MonthPlusThree;Income;DateTime;AreaCode/AreaTypeCode/ResolutionCode;10YBE----------2/MBA/P1M;2015-01-01

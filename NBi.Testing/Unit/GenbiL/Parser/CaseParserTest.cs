@@ -531,8 +531,8 @@ namespace NBi.Testing.Unit.GenbiL.Parser
 
             Assert.That(result, Is.Not.Null);
             Assert.That(result, Is.InstanceOf<GroupCaseAction>());
-            Assert.That(((GroupCaseAction)result).columnNames, Has.Member("foo"));
-            Assert.That(((GroupCaseAction)result).columnNames, Has.Member("bar"));
+            Assert.That(((GroupCaseAction)result).ColumnNames, Has.Member("foo"));
+            Assert.That(((GroupCaseAction)result).ColumnNames, Has.Member("bar"));
         }
 
         [Test]

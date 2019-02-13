@@ -22,8 +22,8 @@ namespace NBi.GenbiL.Action.Case
             {
                 foreach (var columnName in columnNames)
                 {
-                    if (row[columnName] is IList<string> list)
-                        row[columnName] = list.Distinct().ToList();
+                    if (row[columnName] is IEnumerable<string> list)
+                        row[columnName] = list.Distinct().ToArray();
                 }
             }
         }

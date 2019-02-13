@@ -13,7 +13,7 @@ namespace NBi.GenbiL.Action.Case
         public string FirstSet { get; private set; }
         public string SecondSet { get; private set; }
 
-        
+
 
         public CrossCaseAction(string firstSet, string secondSet)
         {
@@ -30,7 +30,7 @@ namespace NBi.GenbiL.Action.Case
                 throw new ArgumentException($"The test case set named '{SecondSet}' doesn't exist.", nameof(SecondSet));
 
             Cross(
-                state.TestCaseCollection.Item(FirstSet).Content, 
+                state.TestCaseCollection.Item(FirstSet).Content,
                 state.TestCaseCollection.Item(SecondSet).Content,
                 state.TestCaseCollection.Scope,
                 MatchingRow);
@@ -71,10 +71,15 @@ namespace NBi.GenbiL.Action.Case
         {
             var table = new DataTable();
             foreach (DataColumn column in firstSet.Columns)
-                table.Columns.Add(column.ColumnName, typeof(object));
+                table.Columns.Add(column.ColumnName, column.DataType);
             foreach (DataColumn column in secondSet.Columns)
-                if (!table.Columns.Contains(column.ColumnName))
-                    table.Columns.Add(column.ColumnName, typeof(object));
+                if (table.Columns.Contains(column.ColumnName))
+                {
+                    if (table.Columns[column.ColumnName].DataType == typeof(object) && column.DataType == typeof(string[]))
+                        table.Columns[column.ColumnName].DataType = typeof(string[]);
+                }
+                else
+                    table.Columns.Add(column.ColumnName, column.DataType);
 
             return table;
         }

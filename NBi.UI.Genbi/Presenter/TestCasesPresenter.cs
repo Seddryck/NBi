@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Linq;
+using NBi.GenbiL.Action.Case;
 using NBi.Service;
 using NBi.UI.Genbi.Command;
 using NBi.UI.Genbi.Command.TestCases;
@@ -249,6 +250,7 @@ namespace NBi.UI.Genbi.Presenter
         internal void FilterDistinct()
         {
             var action = new FilterDistinctCaseAction();
+            //TODO: action.Execute(state);
             Reload();
             OnPropertyChanged("TestCases");
         }

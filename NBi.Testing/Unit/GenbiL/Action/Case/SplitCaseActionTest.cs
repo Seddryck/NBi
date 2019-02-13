@@ -45,11 +45,11 @@ namespace NBi.Testing.Unit.GenbiL.Action.Case
             Assert.That(dataTable.Rows, Has.Count.EqualTo(3));
 
             Assert.That(dataTable.Rows[0]["otherColumn"], Is.TypeOf<string>());
-            Assert.That(dataTable.Rows[0]["initialColumn"], Is.TypeOf<List<string>>());
+            Assert.That(dataTable.Rows[0]["initialColumn"], Is.TypeOf<string[]>());
             
-            Assert.That(dataTable.Rows[0]["initialColumn"] as List<string>, Has.Count.EqualTo(3));
-            Assert.That(dataTable.Rows[1]["initialColumn"] as List<string>, Has.Count.EqualTo(2));
-            Assert.That(dataTable.Rows[2]["initialColumn"] as List<string>, Has.Count.EqualTo(4));
+            Assert.That((dataTable.Rows[0]["initialColumn"] as Array).Length, Is.EqualTo(3));
+            Assert.That((dataTable.Rows[1]["initialColumn"] as Array).Length, Is.EqualTo(2));
+            Assert.That((dataTable.Rows[2]["initialColumn"] as Array).Length, Is.EqualTo(4));
         }
 
         [Test]
@@ -90,16 +90,16 @@ namespace NBi.Testing.Unit.GenbiL.Action.Case
             Assert.That(dataTable.Rows, Has.Count.EqualTo(3));
 
             Assert.That(dataTable.Rows[0]["otherColumn"], Is.TypeOf<string>());
-            Assert.That(dataTable.Rows[0]["initialColumn"], Is.TypeOf<List<string>>());
-            Assert.That(dataTable.Rows[0]["thirdColumn"], Is.TypeOf<List<string>>());
+            Assert.That(dataTable.Rows[0]["initialColumn"], Is.TypeOf<string[]>());
+            Assert.That(dataTable.Rows[0]["thirdColumn"], Is.TypeOf<string[]>());
 
-            Assert.That(dataTable.Rows[0]["initialColumn"] as List<string>, Has.Count.EqualTo(3));
-            Assert.That(dataTable.Rows[1]["initialColumn"] as List<string>, Has.Count.EqualTo(2));
-            Assert.That(dataTable.Rows[2]["initialColumn"] as List<string>, Has.Count.EqualTo(4));
+            Assert.That((dataTable.Rows[0]["initialColumn"] as Array).Length, Is.EqualTo(3));
+            Assert.That((dataTable.Rows[1]["initialColumn"] as Array).Length, Is.EqualTo(2));
+            Assert.That((dataTable.Rows[2]["initialColumn"] as Array).Length, Is.EqualTo(4));
 
-            Assert.That(dataTable.Rows[0]["thirdColumn"] as List<string>, Has.Count.EqualTo(2));
-            Assert.That(dataTable.Rows[1]["thirdColumn"] as List<string>, Has.Count.EqualTo(2));
-            Assert.That(dataTable.Rows[2]["thirdColumn"] as List<string>, Has.Count.EqualTo(4));
+            Assert.That((dataTable.Rows[0]["thirdColumn"] as Array).Length, Is.EqualTo(2));
+            Assert.That((dataTable.Rows[1]["thirdColumn"] as Array).Length, Is.EqualTo(2));
+            Assert.That((dataTable.Rows[2]["thirdColumn"] as Array).Length, Is.EqualTo(4));
         }
     }
 }

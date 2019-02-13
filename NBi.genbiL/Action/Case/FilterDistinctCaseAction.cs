@@ -6,7 +6,7 @@ using System.Text;
 
 namespace NBi.GenbiL.Action.Case
 {
-    class FilterDistinctCaseAction: ICaseAction
+    public class FilterDistinctCaseAction: ICaseAction
     {
 
         public FilterDistinctCaseAction()

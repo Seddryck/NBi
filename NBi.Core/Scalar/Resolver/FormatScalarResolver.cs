@@ -32,5 +32,7 @@ namespace NBi.Core.Scalar.Resolver
             var value = formatter.Execute(args.Text);
             return value;
         }
+
+        object IScalarResolver.Execute() => Execute();
     }
 }

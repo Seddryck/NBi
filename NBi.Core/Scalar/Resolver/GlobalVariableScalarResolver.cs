@@ -32,6 +32,8 @@ namespace NBi.Core.Scalar.Resolver
             return (T)typedEvaluation;
         }
 
+        object IScalarResolver.Execute() => Execute();
+
         private void DisplayVariable(string name, object value)
         {
             var invariantCulture = new CultureFactory().Invariant;

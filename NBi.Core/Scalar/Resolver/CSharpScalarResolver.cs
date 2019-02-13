@@ -75,5 +75,7 @@ namespace NBi.Core.Scalar.Resolver
             Type function = results.CompiledAssembly.GetType("NBi.Core.Variable.Dynamic.VariableClass");
             return function.GetMethod("Function");
         }
+
+        object IScalarResolver.Execute() => Execute();
     }
 }

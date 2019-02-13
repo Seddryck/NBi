@@ -13,6 +13,9 @@ namespace NBi.Core.Scalar.Resolver
         public IEnumerable<INativeTransformation> Transformations { get; }
 
         public FunctionScalarResolverArgs(IScalarResolver resolver, IEnumerable<INativeTransformation> transformations)
-            => (Resolver, Transformations) = (resolver, transformations);
+        {
+            Resolver = resolver;
+            Transformations = transformations;
+        }
     }
 }

@@ -538,6 +538,8 @@
     <Compile Include="Scalar\Resolver\EnvironmentScalarResolverArgs.cs" />
     <Compile Include="Scalar\Resolver\EnvironmentScalarResolver.cs" />
     <Compile Include="Scalar\Resolver\FormatScalarResolver.cs" />
+    <Compile Include="Scalar\Resolver\FunctionScalarResolver.cs" />
+    <Compile Include="Scalar\Resolver\FunctionScalarResolverArgs.cs" />
     <Compile Include="Scalar\ThreeStateBoolean.cs" />
     <Compile Include="ResultSet\Uniqueness\ResultOccurenceUniqueRows.cs" />
     <Compile Include="Scalar\Conversion\BaseConverter.cs" />
@@ -641,6 +643,7 @@
     <Compile Include="Structure\TargetType.cs" />
     <Compile Include="Structure\Target.cs" />
     <Compile Include="Transformation\Transformer\FormatTransformer.cs" />
+    <Compile Include="Transformation\Transformer\NativeTransformationFactory.cs" />
     <Compile Include="Transformation\Transformer\NativeTransformer.cs" />
     <Compile Include="Transformation\Transformer\Native\DateTimeToPointInTime.cs" />
     <Compile Include="Transformation\Transformer\Native\NumericToTruncation.cs" />

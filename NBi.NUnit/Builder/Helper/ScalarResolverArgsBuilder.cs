@@ -26,15 +26,12 @@ namespace NBi.NUnit.Builder.Helper
 
         private object obj = null;
         private SettingsXml settings = SettingsXml.Empty;
-        private IDictionary<string, ITestVariable> globalVariables = new Dictionary<string, ITestVariable>();
+        private IDictionary<string, ITestVariable> variables = new Dictionary<string, ITestVariable>();
         private IScalarResolverArgs args = null;
 
         private readonly ServiceLocator serviceLocator;
 
-        public ScalarResolverArgsBuilder(ServiceLocator serviceLocator)
-        {
-            this.serviceLocator = serviceLocator;
-        }
+        public ScalarResolverArgsBuilder(ServiceLocator serviceLocator) => this.serviceLocator = serviceLocator;
 
         public void Setup(object obj)
         {
@@ -42,15 +39,9 @@ namespace NBi.NUnit.Builder.Helper
             isSetup = true;
         }
 
-        public void Setup(SettingsXml settings)
-        {
-            this.settings = settings;
-        }
+        public void Setup(SettingsXml settings)=>this.settings = settings;
 
-        public void Setup(IDictionary<string, ITestVariable> globalVariables)
-        {
-            this.globalVariables = globalVariables;
-        }
+        public void Setup(IDictionary<string, ITestVariable> variables) => this.variables = variables;
 
         public void Build()
         {
@@ -67,7 +58,7 @@ namespace NBi.NUnit.Builder.Helper
                 var builder = new QueryResolverArgsBuilder(serviceLocator);
                 builder.Setup((QueryXml)obj);
                 builder.Setup(settings);
-                builder.Setup(globalVariables);
+                builder.Setup(variables);
                 builder.Build();
                 args = new QueryScalarResolverArgs(builder.GetArgs());
             }
@@ -77,7 +68,7 @@ namespace NBi.NUnit.Builder.Helper
                 var builder = new ResultSetResolverArgsBuilder(serviceLocator);
                 builder.Setup(((ProjectionXml)obj).ResultSet);
                 builder.Setup(settings);
-                builder.Setup(globalVariables);
+                builder.Setup(variables);
                 builder.Build();
                 args = new RowCountResultSetScalarResolverArgs(builder.GetArgs());
             }
@@ -112,7 +103,7 @@ namespace NBi.NUnit.Builder.Helper
             else if (obj is string && !string.IsNullOrEmpty((string)obj) && ((string)obj).Trim().StartsWith("~"))
             {
                 var formatText = ((string)obj).Trim().Substring(1);
-                args = new FormatScalarResolverArgs(formatText, globalVariables);
+                args = new FormatScalarResolverArgs(formatText, variables);
             }
 
             else if (obj is object && obj != null)

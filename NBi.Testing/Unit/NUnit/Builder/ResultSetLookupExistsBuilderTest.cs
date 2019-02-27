@@ -60,12 +60,12 @@ namespace NBi.Testing.Unit.NUnit.Builder
         public void GetConstraint_LookupExistsXml_LookupExistsConstraint()
         {
             var sutXmlStub = new Mock<Systems.ResultSetSystemXml>();
-            sutXmlStub.Setup(s => s.File).Returns("myCandidate.csv");
+            sutXmlStub.Setup(s => s.File.Path).Returns("myCandidate.csv");
             var sutXml = sutXmlStub.Object;
 
             var ctrXml = new LookupExistsXml();
             var rsXmlStub = new Mock<Systems.ResultSetSystemXml>();
-            rsXmlStub.Setup(s => s.File).Returns("myReference.csv");
+            rsXmlStub.Setup(s => s.File.Path).Returns("myReference.csv");
             ctrXml.ResultSet = rsXmlStub.Object;
             ctrXml.Join = new JoinXml();
 
@@ -81,12 +81,12 @@ namespace NBi.Testing.Unit.NUnit.Builder
         public void GetConstraint_LookupExistsXml_LookupReverseExistsConstraint()
         {
             var sutXmlStub = new Mock<Systems.ResultSetSystemXml>();
-            sutXmlStub.Setup(s => s.File).Returns("myCandidate.csv");
+            sutXmlStub.Setup(s => s.File.Path).Returns("myCandidate.csv");
             var sutXml = sutXmlStub.Object;
 
             var ctrXml = new LookupExistsXml() { IsReversed = true };
             var rsXmlStub = new Mock<Systems.ResultSetSystemXml>();
-            rsXmlStub.Setup(s => s.File).Returns("myReference.csv");
+            rsXmlStub.Setup(s => s.File.Path).Returns("myReference.csv");
             ctrXml.ResultSet = rsXmlStub.Object;
             ctrXml.Join = new JoinXml();
 
@@ -103,12 +103,12 @@ namespace NBi.Testing.Unit.NUnit.Builder
         public void GetSystemUnderTest_ResultSetSystemXml_IResultSetService()
         {
             var sutXmlStub = new Mock<Systems.ResultSetSystemXml>();
-            sutXmlStub.Setup(s => s.File).Returns("myFile.csv");
+            sutXmlStub.Setup(s => s.File.Path).Returns("myFile.csv");
             var sutXml = sutXmlStub.Object;
 
             var ctrXml = new LookupExistsXml();
             var parentXmlStub = new Mock<Systems.ResultSetSystemXml>();
-            parentXmlStub.Setup(s => s.File).Returns("myParent.csv");
+            parentXmlStub.Setup(s => s.File.Path).Returns("myParent.csv");
             ctrXml.ResultSet = parentXmlStub.Object;
             ctrXml.Join = new JoinXml();
 

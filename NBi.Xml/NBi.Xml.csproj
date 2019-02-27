@@ -154,6 +154,8 @@
     <Compile Include="Items\ColumnsXml.cs" />
     <Compile Include="Items\EtlBaseXml.cs" />
     <Compile Include="Items\Filters\IOwnerFilter.cs" />
+    <Compile Include="Items\IfMissingXml.cs" />
+    <Compile Include="Items\ParserXml.cs" />
     <Compile Include="Items\ProjectionXml.cs" />
     <Compile Include="Items\QueryScalarXml.cs" />
     <Compile Include="Items\ResultSet\Combination\SequenceCombinationXml.cs" />

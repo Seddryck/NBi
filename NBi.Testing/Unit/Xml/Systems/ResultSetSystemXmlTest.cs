@@ -1,9 +1,11 @@
 ﻿using NBi.Core.ResultSet;
 using NBi.Core.Transformation;
 using NBi.Xml;
+using NBi.Xml.Items;
 using NBi.Xml.Items.Alteration.Conversion;
 using NBi.Xml.Items.Alteration.Transform;
 using NBi.Xml.Items.ResultSet;
+using NBi.Xml.SerializationOption;
 using NBi.Xml.Systems;
 using NUnit.Framework;
 using System;
@@ -46,7 +48,7 @@ namespace NBi.Testing.Unit.Xml.Systems
             Assert.That(ts.Tests[testNr].Systems[0], Is.AssignableTo<ResultSetSystemXml>());
             var rs = ts.Tests[testNr].Systems[0] as ResultSetSystemXml;
 
-            Assert.That(rs.File, Is.EqualTo("myFile.csv"));
+            Assert.That(rs.File.Path, Is.EqualTo("myFile.csv"));
         }
 
         [Test]
@@ -205,5 +207,6 @@ namespace NBi.Testing.Unit.Xml.Systems
             Assert.That((rs.Alteration.Transformations[0].Identifier as ColumnOrdinalIdentifier).Ordinal, Is.EqualTo(1));
             Assert.That(rs.Alteration.Transformations[0].Code.Trim(), Is.EqualTo("value.EndsWith(\".\") ? value : value + \".\""));
         }
+
     }
 }

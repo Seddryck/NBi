@@ -29,10 +29,15 @@ namespace NBi.Core.ResultSet.Resolver
             var path = args.Path.Execute();
             var file = (Path.IsPathRooted(path)) ? path : args.BasePath + path;
 
-            if (!File.Exists(file))
-                throw new ExternalDependencyNotFoundException(file);
-
-            Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceInfo, $"Loading data from flat file '{file}'");
+            if (!IsFileExisting(file))
+            {
+                if (args.Redirection == null)
+                    throw new ExternalDependencyNotFoundException(file);
+                else
+                    return args.Redirection.Execute();
+            }
+            else
+                Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceInfo, $"Loading data from flat file '{file}'");
 
             var stopWatch = new Stopwatch();
             stopWatch.Start();
@@ -44,8 +49,11 @@ namespace NBi.Core.ResultSet.Resolver
             rs.Load(dataTable);
             stopWatch.Stop();
             Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceInfo, $"Time needed to load data from flat file: {stopWatch.Elapsed:d'.'hh':'mm':'ss'.'fff'ms'}");
-            Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceInfo, $"Result-set contains {dataTable.Rows.Count} row{(dataTable.Rows.Count>1 ? "s" : string.Empty)} and {dataTable.Columns.Count} column{(dataTable.Columns.Count > 1 ? "s" : string.Empty)}");
+            Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceInfo, $"Result-set contains {dataTable.Rows.Count} row{(dataTable.Rows.Count > 1 ? "s" : string.Empty)} and {dataTable.Columns.Count} column{(dataTable.Columns.Count > 1 ? "s" : string.Empty)}");
             return rs;
         }
+
+        protected virtual bool IsFileExisting(string fullpath) => File.Exists(fullpath);
+
     }
 }

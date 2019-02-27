@@ -9,6 +9,7 @@ using NBi.Xml.Items.ResultSet;
 using System.IO;
 using NBi.Xml.Items.Alteration;
 using NBi.Xml.Items.ResultSet.Combination;
+using System;
 
 namespace NBi.Xml.Systems
 {
@@ -52,8 +53,15 @@ namespace NBi.Xml.Systems
             }
         }
 
-        [XmlAttribute("file")]
-        public virtual string File { get; set; }
+        [XmlAttribute("path")]
+        [Obsolete("Use File in place of FileAttribute")]
+        public virtual string FilePath { get => File.Path; set => File.Path = value; }
+
+        [XmlElement("file")]
+        public virtual FileXml File { get; set; } = new FileXml();
+
+        public bool ShouldSerializeFilePath() => File.IsBasic() && !File.IsEmpty();
+        public bool ShouldSerializeFile() => !File.IsBasic() || !File.IsEmpty();
 
         public override BaseItem BaseItem
         {

@@ -31,10 +31,7 @@ namespace NBi.NUnit.Builder.Helper
 
         private readonly ServiceLocator serviceLocator;
 
-        public ResultSetResolverArgsBuilder(ServiceLocator serviceLocator)
-        {
-            this.serviceLocator = serviceLocator;
-        }
+        public ResultSetResolverArgsBuilder(ServiceLocator serviceLocator) => this.serviceLocator = serviceLocator;
 
         public void Setup(object obj)
         {
@@ -42,15 +39,9 @@ namespace NBi.NUnit.Builder.Helper
             isSetup = true;
         }
 
-        public void Setup(SettingsXml settingsXml)
-        {
-            this.settings = settingsXml;
-        }
+        public void Setup(SettingsXml settingsXml) => this.settings = settingsXml;
 
-        public void Setup(IDictionary<string, ITestVariable> globalVariables)
-        {
-            this.globalVariables = globalVariables;
-        }
+        public void Setup(IDictionary<string, ITestVariable> globalVariables) => this.globalVariables = globalVariables;
 
         public void Build()
         {
@@ -60,20 +51,24 @@ namespace NBi.NUnit.Builder.Helper
             if (obj is ResultSetSystemXml)
             {
                 //ResultSet (external flat file)
-                if (!string.IsNullOrEmpty((obj as ResultSetSystemXml).File))
-                {
-                    ParseFileInfo((obj as ResultSetSystemXml).File, out var filename, out var parserName);
-                    args = BuildCsvResolverArgs(filename, parserName);
-                }
+                if (!(obj as ResultSetSystemXml)?.File?.IsEmpty() ?? false)
+                    args = BuildFlatFileResultSetResolverArgs((obj as ResultSetSystemXml).File);
                 //Query
                 else if ((obj as ResultSetSystemXml).Query != null)
                     args = BuildQueryResolverArgs((obj as ResultSetSystemXml).Query);
                 //Sequences combination
                 else if ((obj as ResultSetSystemXml).SequenceCombination != null)
-                        args = BuildSequenceCombinationResolverArgs((obj as ResultSetSystemXml).SequenceCombination);
+                    args = BuildSequenceCombinationResolverArgs((obj as ResultSetSystemXml).SequenceCombination);
                 //ResultSet (embedded)
                 else if ((obj as ResultSetSystemXml).Rows != null)
                     args = BuildEmbeddedResolverArgs((obj as ResultSetSystemXml).Content);
+            }
+
+            if (obj is IfMissingXml)
+            {
+                //ResultSet (external flat file)
+                if (!(obj as IfMissingXml)?.File?.IsEmpty() ?? false)
+                    args = BuildFlatFileResultSetResolverArgs((obj as IfMissingXml).File);
             }
 
             if (obj is ResultSetXml)
@@ -82,7 +77,10 @@ namespace NBi.NUnit.Builder.Helper
                 if (!string.IsNullOrEmpty((obj as ResultSetXml).File))
                 {
                     ParseFileInfo((obj as ResultSetXml).File, out var filename, out var parserName);
-                    args = BuildCsvResolverArgs(filename, parserName);
+                    if (string.IsNullOrEmpty(parserName))
+                        args = BuildFlatFileResultSetResolverArgs(new FileXml() { Path = filename });
+                    else
+                        args = BuildFlatFileResultSetResolverArgs(new FileXml() { Path = filename, Parser = new ParserXml() { Name = parserName } });
                 }
                 //ResultSet (embedded)
                 else if ((obj as ResultSetXml).Rows != null)
@@ -94,8 +92,6 @@ namespace NBi.NUnit.Builder.Helper
 
             if (obj is XmlSourceXml)
                 args = BuildXPathResolverArgs((obj as XmlSourceXml));
-
-            
 
             if (args == null)
                 throw new ArgumentException();
@@ -146,21 +142,25 @@ namespace NBi.NUnit.Builder.Helper
             return new QueryResultSetResolverArgs(argsQuery);
         }
 
-        private ResultSetResolverArgs BuildCsvResolverArgs(string path, string parserName)
+        private ResultSetResolverArgs BuildFlatFileResultSetResolverArgs(FileXml fileMetadata)
         {
-            Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceVerbose, $"ResultSet defined in an external flat file to be read with {(string.IsNullOrEmpty(parserName) ? "the default CSV parser" : parserName)}.");
+            Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceVerbose, $"ResultSet defined in an external flat file to be read with {(string.IsNullOrEmpty(fileMetadata.Parser?.Name) ? "the default CSV parser" : fileMetadata.Parser?.Name)}.");
 
-            var builder = new ScalarResolverArgsBuilder(serviceLocator);
-            builder.Setup(path);
+            var helper = new ScalarHelper(serviceLocator, globalVariables, settings);
+            var resolverPath = helper.InstantiateResolver<string>(fileMetadata.Path);
+            if (fileMetadata.IfMissing == null)
+                return new FlatFileResultSetResolverArgs(resolverPath, settings?.BasePath, fileMetadata.Parser?.Name, settings?.CsvProfile);
+
+            var builder = new ResultSetResolverArgsBuilder(serviceLocator);
+            builder.Setup(fileMetadata.IfMissing);
             builder.Setup(settings);
             builder.Setup(globalVariables);
             builder.Build();
-            var argsPath = builder.GetArgs();
+            var redirection = builder.GetArgs();
+            var factory = new ResultSetResolverFactory(serviceLocator);
+            var resolver = factory.Instantiate(redirection);
 
-            var factory = serviceLocator.GetScalarResolverFactory();
-            var resolverPath = factory.Instantiate<string>(argsPath);
-
-            return new FlatFileResultSetResolverArgs(resolverPath, settings?.BasePath, parserName, settings?.CsvProfile);
+            return new FlatFileResultSetResolverArgs(resolverPath, settings?.BasePath, fileMetadata.Parser?.Name, resolver, settings?.CsvProfile);
         }
 
         private ResultSetResolverArgs BuildXPathResolverArgs(XmlSourceXml xmlSource)
@@ -181,9 +181,6 @@ namespace NBi.NUnit.Builder.Helper
             return new XPathResultSetResolverArgs(engine);
         }
 
-        public ResultSetResolverArgs GetArgs()
-        {
-            return args;
-        }
+        public ResultSetResolverArgs GetArgs() => args;
     }
 }

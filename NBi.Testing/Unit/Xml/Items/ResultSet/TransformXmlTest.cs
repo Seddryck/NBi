@@ -178,7 +178,7 @@ namespace NBi.Testing.Unit.Xml.Items.ResultSet
                 {
                     new TransformXml()
                     {
-                        ColumnOrdinal = 2,
+                        Identifier = new ColumnOrdinalIdentifier(2),
                         Language = LanguageType.Native,
                         Code = "empty-to-null"
                     }

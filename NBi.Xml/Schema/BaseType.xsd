@@ -1187,7 +1187,7 @@
   </xs:complexType>
   <xs:complexType name="combination-predicate-type">
     <xs:sequence>
-      <xs:element name="predicate" type="predicate-type" minOccurs="2" maxOccurs="unbounded"/>
+      <xs:element name="predicate" type="predicate-type" minOccurs="1" maxOccurs="unbounded"/>
     </xs:sequence>
     <xs:attribute name="operator" use="required">
       <xs:simpleType>

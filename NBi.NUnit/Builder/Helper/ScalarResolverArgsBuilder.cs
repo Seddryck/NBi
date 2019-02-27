@@ -84,7 +84,7 @@ namespace NBi.NUnit.Builder.Helper
                 var variableName = tokens.First().Trim().Substring(1);
                 var functions = tokens.Skip(1);
 
-                args = new GlobalVariableScalarResolverArgs(variableName, globalVariables);
+                args = new GlobalVariableScalarResolverArgs(variableName, variables);
 
                 if (functions.Count() > 0)
                 {

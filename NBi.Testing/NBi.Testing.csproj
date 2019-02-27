@@ -202,6 +202,7 @@
     <Compile Include="Acceptance\GenbiL\ConcatenateSplitGroupTest.cs" />
     <Compile Include="Acceptance\GenbiL\DictionaryTest.cs" />
     <Compile Include="Acceptance\GenbiL\ConsumablesTest.cs" />
+    <Compile Include="Acceptance\GenbiL\SplitDistinctTest.cs" />
     <Compile Include="Acceptance\GenbiL\SyntaxOldNewTest.cs" />
     <Compile Include="Acceptance\GenbiL\MultipleTemplatesTest.cs" />
     <Compile Include="Acceptance\GenbiL\VariablesTest.cs" />
@@ -427,6 +428,7 @@
     <Compile Include="Unit\GenbiL\Action\Case\CopyCaseActionTest.cs" />
     <Compile Include="Unit\GenbiL\Action\Case\CrossJoinCaseActionTest.cs" />
     <Compile Include="Unit\GenbiL\Action\Case\CrossFullCaseActionTest.cs" />
+    <Compile Include="Unit\GenbiL\Action\Case\FilterDistinctCaseActionTest.cs" />
     <Compile Include="Unit\GenbiL\Action\Case\ReduceCaseTest.cs" />
     <Compile Include="Unit\GenbiL\Action\Case\GroupCaseActionTest.cs" />
     <Compile Include="Unit\GenbiL\Action\Case\SplitCaseActionTest.cs" />
@@ -696,6 +698,12 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="Acceptance\GenbiL\Resources\SyntaxOldNew.genbil">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Acceptance\GenbiL\Resources\SplitDistinct.genbiL">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Acceptance\GenbiL\Resources\SplitDistinct.nbitt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <None Include="Acceptance\GenbiL\Resources\SyntaxOldNew.csv">
@@ -1126,6 +1134,9 @@
     <EmbeddedResource Include="Acceptance\Resources\Negative\Lookup-Matches-Json-0001.txt" />
     <EmbeddedResource Include="Acceptance\Resources\Negative\Lookup-ReverseExists-Json-0001.txt" />
     <EmbeddedResource Include="Acceptance\Resources\Negative\Lookup-Exists-Json-0001.txt" />
+    <EmbeddedResource Include="Acceptance\GenbiL\Resources\SplitDistinct.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
     <Content Include="Acceptance\Resources\Query\ResellerOrderCount.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

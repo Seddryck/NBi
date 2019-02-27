@@ -53,11 +53,13 @@ namespace NBi.Testing.Unit.GenbiL.Action.Case
             Assert.That(state.TestCaseCollection.Scope.Content.Columns["secondColumn"].Ordinal, Is.EqualTo(1));
 
             Assert.That(state.TestCaseCollection.Scope.Content.Rows, Has.Count.EqualTo(2));
-            Assert.That(state.TestCaseCollection.Scope.Content.Rows[0]["secondColumn"], Is.TypeOf<List<string>>());
-            Assert.That(state.TestCaseCollection.Scope.Content.Rows[0]["secondColumn"], Has.Member("secondCell1"));
-            Assert.That(state.TestCaseCollection.Scope.Content.Rows[0]["secondColumn"], Has.Member("secondCell2"));
-            Assert.That(state.TestCaseCollection.Scope.Content.Rows[0]["secondColumn"], Has.Count.EqualTo(2));
-            Assert.That(state.TestCaseCollection.Scope.Content.Rows[1]["secondColumn"], Has.Member("secondCell3"));
+            Assert.That(state.TestCaseCollection.Scope.Content.Rows[0]["secondColumn"], Is.TypeOf<string[]>());
+            var list = (state.TestCaseCollection.Scope.Content.Rows[0]["secondColumn"] as string[]).ToList();
+            Assert.That(list, Has.Member("secondCell1"));
+            Assert.That(list, Has.Member("secondCell2"));
+            Assert.That(list, Has.Count.EqualTo(2));
+            list = (state.TestCaseCollection.Scope.Content.Rows[1]["secondColumn"] as string[]).ToList();
+            Assert.That(list, Has.Member("secondCell3"));
         }
 
         [Test]
@@ -89,11 +91,13 @@ namespace NBi.Testing.Unit.GenbiL.Action.Case
             Assert.That(state.TestCaseCollection.Scope.Content.Columns["secondColumn"].Ordinal, Is.EqualTo(1));
 
             Assert.That(state.TestCaseCollection.Scope.Content.Rows, Has.Count.EqualTo(2));
-            Assert.That(state.TestCaseCollection.Scope.Content.Rows[0]["secondColumn"], Is.TypeOf<List<string>>());
-            Assert.That(state.TestCaseCollection.Scope.Content.Rows[1]["secondColumn"], Has.Member("secondCell2"));
-            Assert.That(state.TestCaseCollection.Scope.Content.Rows[1]["secondColumn"], Has.Member("secondCell3"));
-            Assert.That(state.TestCaseCollection.Scope.Content.Rows[1]["secondColumn"], Has.Count.EqualTo(2));
-            Assert.That(state.TestCaseCollection.Scope.Content.Rows[0]["secondColumn"], Has.Member("secondCell1"));
+            Assert.That(state.TestCaseCollection.Scope.Content.Rows[0]["secondColumn"], Is.TypeOf<string[]>());
+            var list = (state.TestCaseCollection.Scope.Content.Rows[1]["secondColumn"] as string[]).ToList();
+            Assert.That(list, Has.Member("secondCell2"));
+            Assert.That(list, Has.Member("secondCell3"));
+            Assert.That(list, Has.Count.EqualTo(2));
+            list = (state.TestCaseCollection.Scope.Content.Rows[0]["secondColumn"] as string[]).ToList();
+            Assert.That(list, Has.Member("secondCell1"));
         }
 
         [Test]
@@ -122,14 +126,15 @@ namespace NBi.Testing.Unit.GenbiL.Action.Case
             Assert.That(state.TestCaseCollection.Scope.Content.Columns, Has.Count.EqualTo(3));
 
             Assert.That(state.TestCaseCollection.Scope.Content.Rows, Has.Count.EqualTo(1));
-            Assert.That(state.TestCaseCollection.Scope.Content.Rows[0]["secondColumn"], Is.TypeOf<List<string>>());
-            Assert.That(state.TestCaseCollection.Scope.Content.Rows[0]["secondColumn"], Has.Member("secondCell1"));
-            Assert.That(state.TestCaseCollection.Scope.Content.Rows[0]["secondColumn"], Has.Member("secondCell2"));
-            Assert.That(state.TestCaseCollection.Scope.Content.Rows[0]["secondColumn"], Has.Member("secondCell3"));
-            Assert.That(state.TestCaseCollection.Scope.Content.Rows[0]["secondColumn"], Has.Count.EqualTo(3));
+            Assert.That(state.TestCaseCollection.Scope.Content.Rows[0]["secondColumn"], Is.TypeOf<string[]>());
+            var list = (state.TestCaseCollection.Scope.Content.Rows[0]["secondColumn"] as string[]).ToList();
+            Assert.That(list, Has.Member("secondCell1"));
+            Assert.That(list, Has.Member("secondCell2"));
+            Assert.That(list, Has.Member("secondCell3"));
+            Assert.That(list, Has.Count.EqualTo(3));
 
-            Assert.That(state.TestCaseCollection.Scope.Content.Rows[0]["thirdColumn"], Is.TypeOf<List<string>>());
-            var list = state.TestCaseCollection.Scope.Content.Rows[0]["thirdColumn"] as List<string>;
+            Assert.That(state.TestCaseCollection.Scope.Content.Rows[0]["thirdColumn"], Is.TypeOf<string[]>());
+            list = (state.TestCaseCollection.Scope.Content.Rows[0]["thirdColumn"] as string[]).ToList();
             Assert.That(list, Has.Member("thirdCell1"));
             Assert.That(list, Has.Member("thirdCell2"));
             Assert.That(list[1], Is.EqualTo("thirdCell2"));
@@ -164,8 +169,9 @@ namespace NBi.Testing.Unit.GenbiL.Action.Case
 
             Assert.That(state.TestCaseCollection.Scope.Content.Rows, Has.Count.EqualTo(1));
             Assert.That(state.TestCaseCollection.Scope.Content.Rows[0]["secondColumn"], Is.EqualTo("secondCell1"));
-            Assert.That(state.TestCaseCollection.Scope.Content.Rows[0]["firstColumn"], Is.TypeOf<List<string>>());
-            Assert.That(state.TestCaseCollection.Scope.Content.Rows[0]["firstColumn"], Has.Count.EqualTo(5));
+            Assert.That(state.TestCaseCollection.Scope.Content.Rows[0]["firstColumn"], Is.TypeOf<string[]>());
+            var list = (state.TestCaseCollection.Scope.Content.Rows[0]["firstColumn"] as string[]).ToList();
+            Assert.That(list, Has.Count.EqualTo(5));
         }
     }
 }

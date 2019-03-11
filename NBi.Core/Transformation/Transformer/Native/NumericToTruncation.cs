@@ -55,4 +55,19 @@ namespace NBi.Core.Transformation.Transformer.Native
 
         protected override decimal Truncate(decimal numeric) => Math.Round(numeric, Digits);
     }
+
+    class NumericToClip : AbstractNumericToTruncation
+    {
+        public decimal Min { get; }
+        public decimal Max { get; }
+
+        public NumericToClip(string min, string max)
+        {
+            var caster = new NumericCaster();
+            Min = caster.Execute(min);
+            Max = caster.Execute(max);
+        }
+
+        protected override decimal Truncate(decimal numeric) => (numeric < Min) ? Min : (numeric > Max) ? Max : numeric;
+    }
 }

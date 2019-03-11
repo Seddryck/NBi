@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NBi.Core.Scalar.Casting;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -40,5 +41,20 @@ namespace NBi.Core.Transformation.Transformer.Native
     class DateTimeToLastOfYear : DateTimeToPointInTime
     {
         protected override object EvaluateDateTime(DateTime value) => new DateTime(value.Year, 12, 31);
+    }
+
+    class DateTimeToClip : DateTimeToPointInTime
+    {
+        public DateTime Min { get; }
+        public DateTime Max { get; }
+
+        public DateTimeToClip(string min, string max)
+        {
+            var caster = new DateTimeCaster();
+            Min = caster.Execute(min);
+            Max = caster.Execute(max);
+        }
+
+        protected override object EvaluateDateTime(DateTime value) => (value < Min) ? Min : (value > Max) ? Max : value;
     }
 }

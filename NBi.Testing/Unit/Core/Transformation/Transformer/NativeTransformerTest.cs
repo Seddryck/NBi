@@ -566,5 +566,33 @@ namespace NBi.Testing.Unit.Core.Transformation.Transformer
             var result = provider.Execute(value);
             Assert.That(result, Is.EqualTo(expected));
         }
+
+        [Test]
+        [TestCase(10, 8, 12, 10)]
+        [TestCase(10, 12, 16, 12)]
+        [TestCase(10, 6, 9, 9)]
+        public void Execute_NumericToClip_Valid(object value, object min, object max, decimal expected)
+        {
+            var code = $"numeric-to-clip({min}, {max})";
+            var provider = new NativeTransformer<decimal>();
+            provider.Initialize(code);
+
+            var result = provider.Execute(value);
+            Assert.That(result, Is.EqualTo(expected));
+        }
+
+        [Test]
+        [TestCase("2019-03-11", "2019-03-11")]
+        [TestCase("2019-02-11", "2019-03-01")]
+        [TestCase("2019-04-11", "2019-03-31")]
+        public void Execute_DateTimeToClip_Valid(object value, DateTime expected)
+        {
+            var code = $"dateTime-to-clip(2019-03-01, 2019-03-31)";
+            var provider = new NativeTransformer<DateTime>();
+            provider.Initialize(code);
+
+            var result = provider.Execute(value);
+            Assert.That(result, Is.EqualTo(expected));
+        }
     }
 }

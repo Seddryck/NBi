@@ -53,14 +53,14 @@ The exemple here under is transformating the content of two columns:
 
 {% highlight xml %}
 <assert>
-  <equalTo>
+  <equal-to>
     <column index="1" role="value" type="text">
       <transform language="ncalc" original-type="numeric">value * 1.21</transform>
     </column>
     <column index="2" role="value" type="text">
       <transform language="ncalc" original-type="numeric">Round(value/1000, 2)</transform>
     </column>
-  </row-count>
+  </equal-to>
 </assert>
 {% endhighlight %}
 
@@ -76,7 +76,7 @@ The exemple here under is transformating the content of three columns:
 
 {% highlight xml %}
 <assert>
-  <equalTo>
+  <equal-to>
     <column index="0" role="key" type="text">
       <transform language="format" original-type="dateTime">yyyy.MM</transform>
     </column>
@@ -86,7 +86,7 @@ The exemple here under is transformating the content of three columns:
     <column index="2" role="value" type="text">
       <transform language="format" original-type="numeric">k€000,</transform>
     </column>
-  </row-count>
+  </equal-to>
 </assert>
 {% endhighlight %}
 
@@ -104,7 +104,7 @@ The exemple here under is transformating the content of two columns:
 
 {% highlight xml %}
 <assert>
-  <equalTo>
+  <equal-to>
     <column index="0" role="key" type="text">
       <transform language="c-sharp" original-type="dateTime">
         value.AddMonth(1).Year.ToString() + "." + (value.AddMonth(1).Month.ToString()
@@ -120,7 +120,7 @@ The exemple here under is transformating the content of two columns:
         value < 5000 ? string.Format(€{0:##00.00}, value) : "k€" + Math.Round(value/1000, 2).ToString()
       </transform>
     </column>
-  </row-count>
+  </equal-to>
 </assert>
 {% endhighlight %}
 
@@ -165,10 +165,12 @@ The parameter is a valid TimeZone. User must specify the identification of a tim
 * ```null-to-date(dateTime)```: returns the original date if the value wasn't null or empty else returns the value specified as a parameter. ```dateTime``` must be expressed as string: ```2018-05-09```
 
 * ```numeric-to-round(integer)```: rounds a value to the specified number of fractional digits.
+* ```numeric-to-clip(numeric, numeric)```: Clip a value such as if smaller than the first argument then it will return the first argument or if larger than the second argument then will return the second argument. If the original value is between the first and second argument then the original value is returned.
+* ```dateTime-to-clip(dateTime, dateTime)```: Clip a value such as if smaller than the first argument then it will return the first argument or if larger than the second argument then will return the second argument. If the original value is between the first and second argument then the original value is returned.
 
 {% highlight xml %}
 <assert>
-  <equalTo>
+  <equal-to>
     <column index="0" role="key" type="text">
       <transform language="native" original-type="text">
         string-to-trim
@@ -184,6 +186,11 @@ The parameter is a valid TimeZone. User must specify the identification of a tim
         any-to-value
       </transform>
     </column>
-  </row-count>
+    <column index="3" role="value" type="dateTime">
+      <transform language="native" original-type="dateTime">
+        dateTime-to-clip(2010-01-01, 2019-12-31)
+      </transform>
+    </column>
+  </equal-to>
 </assert>
 {% endhighlight %}

@@ -39,7 +39,7 @@ namespace NBi.NUnit.Builder.Helper
             isSetup = true;
         }
 
-        public void Setup(SettingsXml settings)=>this.settings = settings;
+        public void Setup(SettingsXml settings) => this.settings = settings;
 
         public void Setup(IDictionary<string, ITestVariable> variables) => this.variables = variables;
 
@@ -48,76 +48,72 @@ namespace NBi.NUnit.Builder.Helper
             if (!isSetup)
                 throw new InvalidOperationException();
 
-            if (obj is ScriptXml && (obj as ScriptXml).Language==LanguageType.CSharp)
+            switch (obj)
             {
-                args = new CSharpScalarResolverArgs((obj as ScriptXml).Code);
-            }
-
-            else if (obj is QueryXml)
-            {
-                var builder = new QueryResolverArgsBuilder(serviceLocator);
-                builder.Setup((QueryXml)obj);
-                builder.Setup(settings);
-                builder.Setup(variables);
-                builder.Build();
-                args = new QueryScalarResolverArgs(builder.GetArgs());
-            }
-
-            else if (obj is ProjectionXml)
-            {
-                var builder = new ResultSetResolverArgsBuilder(serviceLocator);
-                builder.Setup(((ProjectionXml)obj).ResultSet);
-                builder.Setup(settings);
-                builder.Setup(variables);
-                builder.Build();
-                args = new RowCountResultSetScalarResolverArgs(builder.GetArgs());
-            }
-
-            else if (obj is EnvironmentXml)
-            {
-                args = new EnvironmentScalarResolverArgs((obj as EnvironmentXml).Name);
-            }
-
-            else if (obj is string && !string.IsNullOrEmpty((string)obj) && ((string)obj).Trim().StartsWith("@"))
-            {
-                var tokens = ((string)obj).Trim().Split(new[] { "|" }, StringSplitOptions.RemoveEmptyEntries).Select(x => x.Trim());
-                var variableName = tokens.First().Trim().Substring(1);
-                var functions = tokens.Skip(1);
-
-                args = new GlobalVariableScalarResolverArgs(variableName, variables);
-
-                if (functions.Count() > 0)
-                {
+                case ScriptXml obj when obj.Language == LanguageType.CSharp:
+                    args = new CSharpScalarResolverArgs(obj.Code);
+                    break;
+                case QueryXml obj:
+                    var queryBuilder = new QueryResolverArgsBuilder(serviceLocator);
+                    queryBuilder.Setup(obj);
+                    queryBuilder.Setup(settings);
+                    queryBuilder.Setup(variables);
+                    queryBuilder.Build();
+                    args = new QueryScalarResolverArgs(queryBuilder.GetArgs());
+                    break;
+                case ProjectionXml obj:
+                    var resultSetBuilder = new ResultSetResolverArgsBuilder(serviceLocator);
+                    resultSetBuilder.Setup(obj.ResultSet);
+                    resultSetBuilder.Setup(settings);
+                    resultSetBuilder.Setup(variables);
+                    resultSetBuilder.Build();
+                    args = new RowCountResultSetScalarResolverArgs(resultSetBuilder.GetArgs());
+                    break;
+                case EnvironmentXml obj:
+                    args = new EnvironmentScalarResolverArgs(obj.Name);
+                    break;
+                case string obj when !string.IsNullOrEmpty(obj):
+                    var tokens = obj.Trim().Split(new[] { "|" }, StringSplitOptions.RemoveEmptyEntries).Select(x => x.Trim());
+                    var variable = tokens.First().Trim();
+                    var prefix = tokens.First().Trim().ToCharArray()[0];
+                    var functions = tokens.Skip(1);
                     var factory = serviceLocator.GetScalarResolverFactory();
-                    var resolver = factory.Instantiate<object>(args);
+                    IScalarResolver resolver = null;
 
-                    var transformations = new List<INativeTransformation>();
-                    var nativeTransformationFactory = new NativeTransformationFactory();
-                    foreach (var function in functions)
-                        transformations.Add(nativeTransformationFactory.Instantiate(function));
+                    switch (prefix)
+                    {
+                        case '@':
+                            args = new GlobalVariableScalarResolverArgs(variable.Substring(1), variables);
+                            resolver = factory.Instantiate<object>(args);
+                            break;
+                        case '~':
+                            args = new FormatScalarResolverArgs(variable.Substring(1), variables);
+                            resolver = factory.Instantiate<string>(args);
+                            break;
+                        default:
+                            args = new LiteralScalarResolverArgs(obj);
+                            resolver = factory.Instantiate<object>(args);
+                            break;
+                    }
 
-                    args = new FunctionScalarResolverArgs(resolver, transformations);
-                }
+                    if (functions.Count() > 0)
+                    {
+                        var transformations = new List<INativeTransformation>();
+                        var nativeTransformationFactory = new NativeTransformationFactory();
+                        foreach (var function in functions)
+                            transformations.Add(nativeTransformationFactory.Instantiate(function));
+
+                        args = new FunctionScalarResolverArgs(resolver, transformations);
+                    }
+                    break;
+                case null:
+                    throw new ArgumentException();
+                default:
+                    args = new LiteralScalarResolverArgs(obj);
+                    break;
             }
-
-            else if (obj is string && !string.IsNullOrEmpty((string)obj) && ((string)obj).Trim().StartsWith("~"))
-            {
-                var formatText = ((string)obj).Trim().Substring(1);
-                args = new FormatScalarResolverArgs(formatText, variables);
-            }
-
-            else if (obj is object && obj != null)
-            {
-                args = new LiteralScalarResolverArgs(obj);
-            }
-
-            if (args == null)
-                throw new ArgumentException();
         }
 
-        public IScalarResolverArgs GetArgs()
-        {
-            return args;
-        }
+        public IScalarResolverArgs GetArgs() => args;
     }
 }

@@ -37,7 +37,7 @@ namespace NBi.Core.Transformation.Transformer
             else if ((typeof(T)!=typeof(string)) && (value is string) && ((string.IsNullOrEmpty(value as string) || value as string == "(empty)")))
                 typedValue = null;
             else
-                typedValue = (object)(caster.Execute(value));
+                typedValue = caster.Execute(value);
 
             var transformedValue = transformation.Evaluate(typedValue);
 

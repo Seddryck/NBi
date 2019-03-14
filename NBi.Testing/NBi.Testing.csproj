@@ -398,6 +398,7 @@
     <Compile Include="Unit\Core\Structure\Olap\Builders\SetDiscoveryCommandTest.cs" />
     <Compile Include="Unit\Core\Structure\StructureDiscoveryFactoryProviderTest.cs" />
     <Compile Include="Unit\Core\Transformation\Transformer\FormatTransformerTest.cs" />
+    <Compile Include="Unit\Core\Transformation\Transformer\Native\DateToPointInTimeTest.cs" />
     <Compile Include="Unit\Core\Transformation\Transformer\NativeTransformerTest.cs" />
     <Compile Include="Unit\Core\Transformation\Transformer\NCalcTransformerTest.cs" />
     <Compile Include="Unit\Core\Transformation\TransformationProviderTest.cs" />

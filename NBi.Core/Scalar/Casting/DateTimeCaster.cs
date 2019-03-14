@@ -35,7 +35,7 @@ namespace NBi.Core.Scalar.Casting
             if (value is string)
                 return StringParse((string)value);
 
-            return System.Convert.ToDateTime(value, DateTimeFormatInfo.InvariantInfo);
+            return Convert.ToDateTime(value, DateTimeFormatInfo.InvariantInfo);
         }
 
         object ICaster.Execute(object value) => Execute(value);

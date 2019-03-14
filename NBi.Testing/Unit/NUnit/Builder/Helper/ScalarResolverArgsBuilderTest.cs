@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using NBi.Core.Injection;
+using NBi.Core.Transformation.Transformer.Native;
 
 namespace NBi.Testing.Unit.NUnit.Builder.Helper
 {
@@ -20,6 +21,12 @@ namespace NBi.Testing.Unit.NUnit.Builder.Helper
             builder.Build();
             var args = builder.GetArgs();
             Assert.That(args, Is.TypeOf<FunctionScalarResolverArgs>());
+
+            var typedArgs = args as FunctionScalarResolverArgs;
+            Assert.That(typedArgs.Resolver, Is.TypeOf<GlobalVariableScalarResolver<object>>());
+            Assert.That(typedArgs.Transformations, Has.Count.EqualTo(2));
+            Assert.That(typedArgs.Transformations.ElementAt(0), Is.TypeOf<TextToTrim>());
+            Assert.That(typedArgs.Transformations.ElementAt(1), Is.TypeOf<TextToLength>());
         }
 
         [Test]
@@ -39,7 +46,13 @@ namespace NBi.Testing.Unit.NUnit.Builder.Helper
             builder.Setup("2019-03-12 | dateTime-to-first-of-month");
             builder.Build();
             var args = builder.GetArgs();
+
             Assert.That(args, Is.TypeOf<FunctionScalarResolverArgs>());
+            var typedArgs = args as FunctionScalarResolverArgs;
+            Assert.That(typedArgs.Resolver, Is.TypeOf<LiteralScalarResolver<object>>());
+            Assert.That(typedArgs.Resolver.Execute(), Is.EqualTo("2019-03-12"));
+            Assert.That(typedArgs.Transformations, Has.Count.EqualTo(1));
+            Assert.That(typedArgs.Transformations.ElementAt(0), Is.TypeOf<DateTimeToFirstOfMonth>());
         }
 
         [Test]
@@ -60,6 +73,11 @@ namespace NBi.Testing.Unit.NUnit.Builder.Helper
             builder.Build();
             var args = builder.GetArgs();
             Assert.That(args, Is.TypeOf<FunctionScalarResolverArgs>());
+
+            var typedArgs = args as FunctionScalarResolverArgs;
+            Assert.That(typedArgs.Resolver, Is.TypeOf<FormatScalarResolver>());
+            Assert.That(typedArgs.Transformations, Has.Count.EqualTo(1));
+            Assert.That(typedArgs.Transformations.ElementAt(0), Is.TypeOf<TextToLength>());
         }
 
         [Test]

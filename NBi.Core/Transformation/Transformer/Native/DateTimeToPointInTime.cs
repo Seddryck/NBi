@@ -12,12 +12,15 @@ namespace NBi.Core.Transformation.Transformer.Native
 
         public object Evaluate(object value)
         {
-            if (value == null)
-                return null;
-            else if (value is DateTime)
-                return EvaluateDateTime((DateTime)value);
-            else
-                throw new NotImplementedException();
+            switch (value)
+            {
+                case null: return null;
+                case DateTime dt: return EvaluateDateTime(dt);
+                default:
+                    var caster = new DateTimeCaster();
+                    var dateTime = caster.Execute(value);
+                    return EvaluateDateTime(dateTime);
+            }
         }
 
         protected abstract object EvaluateDateTime(DateTime value);

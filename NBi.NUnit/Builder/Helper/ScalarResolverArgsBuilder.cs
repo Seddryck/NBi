@@ -91,7 +91,7 @@ namespace NBi.NUnit.Builder.Helper
                             resolver = factory.Instantiate<string>(args);
                             break;
                         default:
-                            args = new LiteralScalarResolverArgs(obj);
+                            args = new LiteralScalarResolverArgs(variable);
                             resolver = factory.Instantiate<object>(args);
                             break;
                     }

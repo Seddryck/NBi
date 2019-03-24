@@ -66,5 +66,69 @@ namespace NBi.Testing.Unit.Core.Transformation.Transformer
             var result = function.Evaluate(value);
             Assert.That(result, Is.EqualTo(expected));
         }
+
+        [Test]
+        [TestCase("2019-03-11", "2019-03-12")]
+        [TestCase("2019-02-11", "2019-02-12")]
+        [TestCase("2019-03-31", "2019-04-01")]
+        public void Execute_DateTimeToNextDay_Valid(object value, DateTime expected)
+        {
+            var function = new DateTimeToNextDay();
+            var result = function.Evaluate(value);
+            Assert.That(result, Is.EqualTo(expected));
+        }
+
+        [Test]
+        [TestCase("2019-03-11", "2019-04-11")]
+        [TestCase("2019-03-31", "2019-04-30")]
+        [TestCase("2020-01-31", "2020-02-29")]
+        public void Execute_DateTimeToNextMonth_Valid(object value, DateTime expected)
+        {
+            var function = new DateTimeToNextMonth();
+            var result = function.Evaluate(value);
+            Assert.That(result, Is.EqualTo(expected));
+        }
+
+        [Test]
+        [TestCase("2019-03-11", "2020-03-11")]
+        [TestCase("2020-02-29", "2021-02-28")]
+        public void Execute_DateTimeToNextYear_Valid(object value, DateTime expected)
+        {
+            var function = new DateTimeToNextYear();
+            var result = function.Evaluate(value);
+            Assert.That(result, Is.EqualTo(expected));
+        }
+
+        [Test]
+        [TestCase("2019-03-11", "2019-03-10")]
+        [TestCase("2019-02-01", "2019-01-31")]
+        [TestCase("2020-03-01", "2020-02-29")]
+        public void Execute_DateTimeToPreviousDay_Valid(object value, DateTime expected)
+        {
+            var function = new DateTimeToPreviousDay();
+            var result = function.Evaluate(value);
+            Assert.That(result, Is.EqualTo(expected));
+        }
+
+        [Test]
+        [TestCase("2019-03-11", "2019-02-11")]
+        [TestCase("2019-03-31", "2019-02-28")]
+        [TestCase("2020-01-31", "2019-12-31")]
+        public void Execute_DateTimeToPreviousMonth_Valid(object value, DateTime expected)
+        {
+            var function = new DateTimeToPreviousMonth();
+            var result = function.Evaluate(value);
+            Assert.That(result, Is.EqualTo(expected));
+        }
+
+        [Test]
+        [TestCase("2019-03-11", "2018-03-11")]
+        [TestCase("2020-02-29", "2019-02-28")]
+        public void Execute_DateTimeToPreviousYear_Valid(object value, DateTime expected)
+        {
+            var function = new DateTimeToPreviousYear();
+            var result = function.Evaluate(value);
+            Assert.That(result, Is.EqualTo(expected));
+        }
     }
 }

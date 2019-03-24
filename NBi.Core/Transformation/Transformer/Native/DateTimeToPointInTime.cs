@@ -46,6 +46,36 @@ namespace NBi.Core.Transformation.Transformer.Native
         protected override object EvaluateDateTime(DateTime value) => new DateTime(value.Year, 12, 31);
     }
 
+    class DateTimeToNextDay : DateTimeToPointInTime
+    {
+        protected override object EvaluateDateTime(DateTime value) => value.AddDays(1);
+    }
+
+    class DateTimeToNextMonth : DateTimeToPointInTime
+    {
+        protected override object EvaluateDateTime(DateTime value) => value.AddMonths(1);
+    }
+
+    class DateTimeToNextYear : DateTimeToPointInTime
+    {
+        protected override object EvaluateDateTime(DateTime value) => value.AddYears(1);
+    }
+
+    class DateTimeToPreviousDay : DateTimeToPointInTime
+    {
+        protected override object EvaluateDateTime(DateTime value) => value.AddDays(-1);
+    }
+
+    class DateTimeToPreviousMonth : DateTimeToPointInTime
+    {
+        protected override object EvaluateDateTime(DateTime value) => value.AddMonths(-1);
+    }
+
+    class DateTimeToPreviousYear : DateTimeToPointInTime
+    {
+        protected override object EvaluateDateTime(DateTime value) => value.AddYears(-1);
+    }
+
     class DateTimeToClip : DateTimeToPointInTime
     {
         public DateTime Min { get; }

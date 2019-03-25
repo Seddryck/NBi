@@ -134,4 +134,25 @@
       </equalTo>
     </assert>
   </test>
+  <test name="Result-set has csv file" uid="0009">
+    <system-under-test>
+      <resultSet>
+        <file>
+          <path>myFile.csv</path>
+          <parser name="tabular"/>
+        </file>
+      </resultSet>
+    </system-under-test>
+    <assert>
+      <unique-rows/>
+    </assert>
+  </test>
+  <test name="Result-set has csv file" uid="0010">
+    <system-under-test>
+      <resultSet file="myFile.csv!tabular"/>
+    </system-under-test>
+    <assert>
+      <unique-rows/>
+    </assert>
+  </test>
 </testSuite>

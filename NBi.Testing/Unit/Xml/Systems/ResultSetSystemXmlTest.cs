@@ -52,6 +52,38 @@ namespace NBi.Testing.Unit.Xml.Systems
         }
 
         [Test]
+        public void Deserialize_SampleFileWithParser_CsvFile()
+        {
+            int testNr = 9;
+
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            TestSuiteXml ts = DeserializeSample();
+
+            // Check the properties of the object.
+            Assert.That(ts.Tests[testNr].Systems[0], Is.AssignableTo<ResultSetSystemXml>());
+            var rs = ts.Tests[testNr].Systems[0] as ResultSetSystemXml;
+
+            Assert.That(rs.File.Path, Is.EqualTo("myFile.csv"));
+            Assert.That(rs.File.Parser.Name, Is.EqualTo("tabular"));
+        }
+
+        [Test]
+        public void Deserialize_SampleFileWithParserInline_CsvFile()
+        {
+            int testNr = 10;
+
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            TestSuiteXml ts = DeserializeSample();
+
+            // Check the properties of the object.
+            Assert.That(ts.Tests[testNr].Systems[0], Is.AssignableTo<ResultSetSystemXml>());
+            var rs = ts.Tests[testNr].Systems[0] as ResultSetSystemXml;
+
+            Assert.That(rs.File.Path, Is.EqualTo("myFile.csv"));
+            Assert.That(rs.File.Parser.Name, Is.EqualTo("tabular"));
+        }
+
+        [Test]
         public void Deserialize_SampleFile_EmbeddedResultSet()
         {
             int testNr = 1;
@@ -206,6 +238,68 @@ namespace NBi.Testing.Unit.Xml.Systems
             Assert.That(rs.Alteration.Transformations[0].Identifier, Is.TypeOf<ColumnOrdinalIdentifier>());
             Assert.That((rs.Alteration.Transformations[0].Identifier as ColumnOrdinalIdentifier).Ordinal, Is.EqualTo(1));
             Assert.That(rs.Alteration.Transformations[0].Code.Trim(), Is.EqualTo("value.EndsWith(\".\") ? value : value + \".\""));
+        }
+
+        [Test]
+        public void Serialize_FileAndParser_Correct()
+        {
+            var root = new ResultSetSystemXml()
+            {
+                File = new FileXml()
+                {
+                    Path = "myFile.csv",
+                    Parser = new ParserXml()
+                    {
+                        Name = "myParser",
+                    }
+                }
+            };
+
+            var manager = new XmlManager();
+            var xml = manager.XmlSerializeFrom(root);
+            Console.WriteLine(xml);
+            Assert.That(xml, Is.StringContaining("<file>"));
+            Assert.That(xml, Is.StringContaining("<path>myFile.csv</path>"));
+            Assert.That(xml, Is.StringContaining("<parser name=\"myParser\" />"));
+            Assert.That(xml, Is.StringContaining("</file>"));
+        }
+
+        [Test]
+        public void Serialize_InlineFileAndParser_Correct()
+        {
+            var root = new ResultSetSystemXml()
+            {
+#pragma warning disable 0618
+                FilePath = "myFile.csv!myParser",
+#pragma warning restore 0618
+            };
+
+            var manager = new XmlManager();
+            var xml = manager.XmlSerializeFrom(root);
+            Console.WriteLine(xml);
+            Assert.That(xml, Is.StringContaining("<file>"));
+            Assert.That(xml, Is.StringContaining("<path>myFile.csv</path>"));
+            Assert.That(xml, Is.StringContaining("<parser name=\"myParser\" />"));
+            Assert.That(xml, Is.StringContaining("</file>"));
+        }
+
+        [Test]
+        public void Serialize_InlineFileWithoutParser_Correct()
+        {
+            var root = new ResultSetSystemXml()
+            {
+#pragma warning disable 0618
+                FilePath = "myFile.csv",
+#pragma warning restore 0618
+            };
+
+            var manager = new XmlManager();
+            var xml = manager.XmlSerializeFrom(root);
+            Console.WriteLine(xml);
+            Assert.That(xml, Is.StringContaining("<file>"));
+            Assert.That(xml, Is.StringContaining("<path>myFile.csv</path>"));
+            Assert.That(xml, Is.Not.StringContaining("<parser"));
+            Assert.That(xml, Is.StringContaining("</file>"));
         }
 
     }

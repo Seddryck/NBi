@@ -55,7 +55,19 @@ namespace NBi.Xml.Systems
 
         [XmlAttribute("path")]
         [Obsolete("Use File in place of FileAttribute")]
-        public virtual string FilePath { get => File.Path; set => File.Path = value; }
+        public virtual string FilePath
+        {
+            get => File.Path + (File.IsBasic() ? string.Empty : $"!{File.Parser.Name}");
+            set
+            {
+                var tokens = value.Split(new[] { '!' }, StringSplitOptions.RemoveEmptyEntries);
+                File.Path = tokens[0];
+                if (tokens.Count() > 1)
+                    File.Parser = new ParserXml() { Name = tokens[1] };
+                else
+                    File.Parser = null;
+            }
+        }
 
         [XmlElement("file")]
         public virtual FileXml File { get; set; } = new FileXml();
@@ -78,7 +90,7 @@ namespace NBi.Xml.Systems
         public virtual SequenceCombinationXml SequenceCombination { get; set; }
 
         [XmlIgnore]
-        public bool SequenceCombinationSpecified { get => SequenceCombination!=null; set { } }
+        public bool SequenceCombinationSpecified { get => SequenceCombination != null; set { } }
 
         [XmlElement("alteration")]
         public virtual AlterationXml Alteration { get; set; }

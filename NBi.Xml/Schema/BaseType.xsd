@@ -535,7 +535,7 @@
       <xs:extension base="xs:string">
         <xs:attribute name="name" type="xs:string" use="required" />
       </xs:extension>
-    </xs:simpleContent>    
+    </xs:simpleContent>
   </xs:complexType>
   <xs:complexType name="shared-dataset-light-type">
     <xs:attribute name="source" type="xs:string"/>
@@ -1374,13 +1374,17 @@
   <xs:complexType name="file-type">
     <xs:sequence>
       <xs:element name="path" minOccurs="1" maxOccurs="1" type="xs:string"/>
+      <xs:element name="parser" minOccurs="0" maxOccurs="1" type="parser-type"/>
       <xs:element name="if-missing" minOccurs="0" maxOccurs="1" type="if-missing-type"/>
     </xs:sequence>
   </xs:complexType>
+  <xs:complexType name="parser-type">
+      <xs:attribute name="name" use="required" type="xs:string"/>
+  </xs:complexType>
   <xs:complexType name="if-missing-type">
-  <xs:sequence>
-    <xs:element name="file" minOccurs="1" maxOccurs="1" type="file-type"/>
-  </xs:sequence>
+    <xs:sequence>
+      <xs:element name="file" minOccurs="1" maxOccurs="1" type="file-type"/>
+    </xs:sequence>
   </xs:complexType>
   <xs:complexType name="scalar-type">
     <xs:sequence>

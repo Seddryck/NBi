@@ -96,7 +96,7 @@
             '001', 100
           union all
           select
-            null, 300
+            null, null
           union all
           select
             '', 300
@@ -113,7 +113,7 @@
           </row>
           <row>
             <cell>(null)</cell>
-            <cell>300</cell>
+            <cell>(null)</cell>
           </row>
           <row>
             <cell>(empty)</cell>

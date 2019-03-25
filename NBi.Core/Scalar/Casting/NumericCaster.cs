@@ -20,7 +20,7 @@ namespace NBi.Core.Scalar.Casting
             }
             catch
             {
-                throw new NBiException($"Can't cast the value '{value}' to a decimal.");
+                throw new NBiException($"Can't cast the value '{(value==null || value==DBNull.Value ? "(null)" : value)}' to a decimal.");
             }
             
         }

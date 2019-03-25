@@ -56,7 +56,15 @@ namespace NBi.Testing.Unit.Core.Scalar.Caster
         [Test]
         public void Execute_NonNumeric_ThrowNBiException()
         {
-            Assert.Throws<NBiException>(() => new NumericCaster().Execute("zero"));
+            var ex = Assert.Throws<NBiException>(() => new NumericCaster().Execute("zero"));
+            Assert.That(ex.Message, Is.EqualTo("Can't cast the value 'zero' to a decimal."));
+        }
+
+        [Test]
+        public void Execute_Null_ThrowNBiException()
+        {
+            var ex = Assert.Throws<NBiException>(() => new NumericCaster().Execute(DBNull.Value));
+            Assert.That(ex.Message, Is.EqualTo("Can't cast the value '(null)' to a decimal."));
         }
 
     }

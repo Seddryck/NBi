@@ -30,13 +30,13 @@ The most straightforward is to define rows and cells inline. This is relatively 
 
 ### External definition
 
-You can also refer to an external CSV file:
+You can also refer to an external flat file. By default, flat files are considered as CSV with a field-separator set to a semi-column (*;*) and a record-separator set to carriage return/line feed (*CrLf*) and no quoting character. You can edit this default format as explained in [this section](../config-profile-csv/).
 
 {% highlight xml %}
 <result-set file="myFile.csv"/>
 {% endhighlight %}
 
-the filename can be dynamically evaulated based on a variable (formatting). To enable this feature, you must precede the filename by a tilt ```~``` and mix static part of the filename with dynamic part. The dynamic part must be contained between curly barces ```{}``` and start by the variable name to consider.
+the filename can be dynamically evaluated based on a variable (formatting). To enable this feature, you must precede the filename by a tilt ```~``` and mix static part of the filename with dynamic part. The dynamic part must be contained between curly barces ```{}``` and is starting by the variable's name to consider.
 
 {% highlight xml %}
 <result-set file="File_{@myVar}.csv"/>
@@ -53,6 +53,45 @@ In case the variable is a numeric or dateTime, it can be useful to format it. Th
 Using the previous notation, if the value of *myVar* is *1st January 2018* then the filename *File_2018_01.csv* will be considered for loading the result-set.
 
 The formatting syntax is the one supported by .Net and explained in MSDN for the [numerics](https://docs.microsoft.com/en-us/dotnet/standard/base-types/custom-numeric-format-strings) and [dateTimes](https://docs.microsoft.com/en-us/dotnet/standard/base-types/custom-date-and-time-format-strings)
+
+You can also use the long version to reference an external flat file:
+{% highlight xml %}
+<result-set>
+  <file>
+    <path>File_{@myDate:yyyy}_{@myDate:MM}.csv"</path>
+  </file>
+</result-set>
+{% endhighlight %}
+
+#### if-missing directive
+
+If the mentionned file is not available, by default, the test will throw an error stating that a dependency has not been found. It's possible to override this behaviour and specify that when the file is missing, you should take a look to another location. This is a recurrent statement, so it's possible to define a thrid place to use when the two first are not available and so on.
+
+{% highlight xml %}
+<result-set>
+  <file>
+    <path>File_{@myDate:yyyy}_{@myDate:MM}.csv"</path>
+    <if-missing behaviour="redirect">
+      <file>
+        <path>AnotherFile_{@myDate:yyyy}_{@myDate:MM}.csv"</path>
+      </file>
+    </if-missing>
+  </file>
+</result-set>
+{% endhighlight %}
+
+#### Custom parser
+
+If you need you can also define a custom parser. More information are available at [this page](../extension-flatfile/).
+
+{% highlight xml %}
+<result-set>
+  <file>
+    <path>File_{@myDate:yyyy}_{@myDate:MM}.csv"</path>
+    <parser name="opendata"/>
+  </file>
+</result-set>
+{% endhighlight %}
 
 ### Sequences-based definition
 

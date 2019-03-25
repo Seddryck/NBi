@@ -154,6 +154,12 @@ Currently, you cannot assemble native transformations, it means that you're limi
 * ```dateTime-to-first-of-year```: returns the first day of the year where a given date lies in.
 * ```dateTime-to-last-of-month```: returns the last day of the month where a given date lies in.
 * ```dateTime-to-last-of-year```: returns the last day of the year where a given date lies in.
+* ```dateTime-to-next-day```: returns the next day.
+* ```dateTime-to-previous-day```: returns the previous day.
+* ```dateTime-to-next-month```: returns a dateTime corresponding to one month after the given date.
+* ```dateTime-to-previous-month```: returns a dateTime corresponding to one month before the given date.
+* ```dateTime-to-next-year```: returns a dateTime corresponding to one year after the given date.
+* ```dateTime-to-previous-year```: returns a dateTime corresponding to one year before the given date.
 
 The following transformations except parameters to operate. You must replace the information beween parenthesis with a string matching your expectation.
 

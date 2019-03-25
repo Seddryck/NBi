@@ -1,6 +1,7 @@
 ﻿using NBi.Core.Scalar.Duration;
 using NBi.Core.Scalar.Resolver;
 using NBi.Core.Sequence.Resolver;
+using NBi.Core.Sequence.Resolver.Loop;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
@@ -41,7 +42,7 @@ namespace NBi.Testing.Unit.Core.Sequence.Resolver
         [Test]
         public void Instantiate_SentinelLoopDecimal_LoopSequenceResolver()
         {
-            var args = new SentinelLoopSequenceResolverArgs<decimal, decimal>(5, 10, 2);
+            var args = new SentinelLoopSequenceResolverArgs<decimal, decimal>(5, 10, 2, IntervalMode.Close);
 
             var factory = new SequenceResolverFactory(null);
             var resolver = factory.Instantiate<decimal>(args);
@@ -61,7 +62,7 @@ namespace NBi.Testing.Unit.Core.Sequence.Resolver
         [Test]
         public void Instantiate_SentinelLoopDateTime_LoopSequenceResolver()
         {
-            var args = new SentinelLoopSequenceResolverArgs<DateTime, IDuration>(new DateTime(2018, 1, 1), new DateTime(2018, 3, 1), new FixedDuration(new TimeSpan(1, 0, 0, 0)));
+            var args = new SentinelLoopSequenceResolverArgs<DateTime, IDuration>(new DateTime(2018, 1, 1), new DateTime(2018, 3, 1), new FixedDuration(new TimeSpan(1, 0, 0, 0)), IntervalMode.Close);
 
             var factory = new SequenceResolverFactory(null);
             var resolver = factory.Instantiate<DateTime>(args);

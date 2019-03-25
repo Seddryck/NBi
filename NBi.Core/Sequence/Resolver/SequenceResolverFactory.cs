@@ -50,12 +50,28 @@ namespace NBi.Core.Sequence.Resolver
             {
                 case CountLoopSequenceResolverArgs<decimal, decimal> x:
                     return new CountNumericLoopStrategy(x.Count, x.Seed, x.Step) as ILoopStrategy;
-                case SentinelLoopSequenceResolverArgs<decimal, decimal> x:
-                    return new SentinelNumericLoopStrategy(x.Seed, x.Terminal, x.Step) as ILoopStrategy;
                 case CountLoopSequenceResolverArgs<DateTime, IDuration> x:
                     return new CountDateTimeLoopStrategy(x.Count, x.Seed, x.Step) as ILoopStrategy;
+                case SentinelLoopSequenceResolverArgs<decimal, decimal> x:
+                    switch (x.IntervalMode)
+                    {
+                        case IntervalMode.Close:
+                            return new SentinelCloseNumericLoopStrategy(x.Seed, x.Terminal, x.Step) as ILoopStrategy;
+                        case IntervalMode.HalfOpen:
+                            return new SentinelHalfOpenNumericLoopStrategy(x.Seed, x.Terminal, x.Step) as ILoopStrategy;
+                        default:
+                            throw new ArgumentOutOfRangeException();
+                    }
                 case SentinelLoopSequenceResolverArgs<DateTime, IDuration> x:
-                    return new SentinelDateTimeLoopStrategy(x.Seed, x.Terminal, x.Step) as ILoopStrategy;
+                    switch (x.IntervalMode)
+                    {
+                        case IntervalMode.Close:
+                            return new SentinelCloseDateTimeLoopStrategy(x.Seed, x.Terminal, x.Step) as ILoopStrategy;
+                        case IntervalMode.HalfOpen:
+                            return new SentinelHalfOpenDateTimeLoopStrategy(x.Seed, x.Terminal, x.Step) as ILoopStrategy;
+                        default:
+                            throw new ArgumentOutOfRangeException();
+                    }
                 default:
                     throw new ArgumentOutOfRangeException();
             }

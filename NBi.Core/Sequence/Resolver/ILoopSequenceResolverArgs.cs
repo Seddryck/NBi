@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NBi.Core.Sequence.Resolver.Loop;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,4 +9,9 @@ namespace NBi.Core.Sequence.Resolver
 {
     public interface ILoopSequenceResolverArgs : ISequenceResolverArgs
     { }
+
+    public interface ISentinelLoopSequenceResolverArgs : ILoopSequenceResolverArgs
+    {
+        IntervalMode IntervalMode { get; }
+    }
 }

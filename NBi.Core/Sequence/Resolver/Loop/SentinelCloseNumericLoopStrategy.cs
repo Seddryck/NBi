@@ -1,5 +1,4 @@
-﻿using NBi.Core.Scalar.Duration;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace NBi.Core.Sequence.Resolver.Loop
 {
-    class SentinelDateTimeLoopStrategy : SentinelLoopStrategy<DateTime, IDuration>
+    class SentinelCloseNumericLoopStrategy : SentinelLoopStrategy<decimal, decimal>
     {
-        public SentinelDateTimeLoopStrategy(DateTime seed, DateTime terminal, IDuration step)
+        public SentinelCloseNumericLoopStrategy(decimal seed, decimal terminal, decimal step)
             : base(seed, terminal, step)
         { }
 
-        protected override DateTime GetNextValue(DateTime previousValue, IDuration step) => previousValue.Add(step);
+        protected override decimal GetNextValue(decimal previousValue, decimal step) => previousValue + step;
         public override bool IsOngoing() => (CurrentValue <= Terminal && FirstLoop) || (GetNextValue(CurrentValue, Step) <= Terminal);
     }
 }

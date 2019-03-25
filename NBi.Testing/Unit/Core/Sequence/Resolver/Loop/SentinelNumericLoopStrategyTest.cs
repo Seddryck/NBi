@@ -17,7 +17,7 @@ namespace NBi.Testing.Unit.Core.Sequence.Resolver.Loop
         [TestCase(3, 4)]
         public void Run_parameters_CorrectResult(decimal step, decimal expected)
         {
-            var strategy = new SentinelNumericLoopStrategy(1, 5, step);
+            var strategy = new SentinelCloseNumericLoopStrategy(1, 5, step);
             var final = 0m;
             while (strategy.IsOngoing())
                 final = strategy.GetNext();
@@ -27,21 +27,21 @@ namespace NBi.Testing.Unit.Core.Sequence.Resolver.Loop
         [Test]
         public void GetNext_FirstTime_Seed()
         {
-            var strategy = new SentinelNumericLoopStrategy(10, 10, 1);
+            var strategy = new SentinelCloseNumericLoopStrategy(10, 10, 1);
             Assert.That(strategy.GetNext(), Is.EqualTo(10));
         }
 
         [Test]
         public void IsOngoing_ZeroTimes_False()
         {
-            var strategy = new SentinelNumericLoopStrategy(10, 3, 2);
+            var strategy = new SentinelCloseNumericLoopStrategy(10, 3, 2);
             Assert.That(strategy.IsOngoing(), Is.False);
         }
 
         [Test]
         public void IsOngoing_OneTimes_TrueThenFalse()
         {
-            var strategy = new SentinelNumericLoopStrategy(1, 1, 2);
+            var strategy = new SentinelCloseNumericLoopStrategy(1, 1, 2);
             Assert.That(strategy.IsOngoing(), Is.True);
             strategy.GetNext();
             Assert.That(strategy.IsOngoing(), Is.False);
@@ -50,7 +50,7 @@ namespace NBi.Testing.Unit.Core.Sequence.Resolver.Loop
         [Test]
         public void IsOngoing_NTimes_True()
         {
-            var strategy = new SentinelNumericLoopStrategy(1, 30, 2);
+            var strategy = new SentinelCloseNumericLoopStrategy(1, 30, 2);
             Assert.That(strategy.IsOngoing(), Is.True);
         }
     }

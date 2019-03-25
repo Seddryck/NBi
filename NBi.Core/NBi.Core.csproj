@@ -598,10 +598,13 @@
     <Compile Include="Sequence\Resolver\ILoopSequenceResolverArgs.cs" />
     <Compile Include="Sequence\Resolver\LoopSequenceResolver.cs" />
     <Compile Include="Sequence\Resolver\CountLoopSequenceResolverArgs..cs" />
+    <Compile Include="Sequence\Resolver\Loop\IntervalMode.cs" />
+    <Compile Include="Sequence\Resolver\Loop\SentinelHalfOpenNumericLoopStrategy.cs" />
+    <Compile Include="Sequence\Resolver\Loop\SentinelHalfOpenDateTimeLoopStrategy.cs" />
     <Compile Include="Sequence\Resolver\SentinelLoopSequenceResolverArgs.cs" />
     <Compile Include="Sequence\Resolver\Loop\CountDateTimeLoopStrategy.cs" />
-    <Compile Include="Sequence\Resolver\Loop\SentinelDateTimeLoopStrategy.cs" />
-    <Compile Include="Sequence\Resolver\Loop\SentinelNumericLoopStrategy.cs" />
+    <Compile Include="Sequence\Resolver\Loop\SentinelCloseDateTimeLoopStrategy.cs" />
+    <Compile Include="Sequence\Resolver\Loop\SentinelCloseNumericLoopStrategy.cs" />
     <Compile Include="Sequence\Resolver\Loop\SentinelLoopStrategy.cs" />
     <Compile Include="Sequence\Resolver\Loop\CountLoopStrategy.cs" />
     <Compile Include="Sequence\Resolver\Loop\CountNumericLoopStrategy.cs" />

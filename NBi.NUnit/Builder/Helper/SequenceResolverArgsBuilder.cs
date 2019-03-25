@@ -7,6 +7,7 @@ using NBi.Core.ResultSet.Resolver;
 using NBi.Core.Scalar.Duration;
 using NBi.Core.Scalar.Resolver;
 using NBi.Core.Sequence.Resolver;
+using NBi.Core.Sequence.Resolver.Loop;
 using NBi.Core.Variable;
 using NBi.Core.Xml;
 using NBi.Xml.Items;
@@ -74,10 +75,10 @@ namespace NBi.NUnit.Builder.Helper
                 switch (columnType)
                 {
                     case ColumnType.Numeric:
-                        args = BuildSentinelLoopResolverArgs<decimal,decimal>(loop.Seed, loop.Terminal, loop.Step);
+                        args = BuildSentinelLoopResolverArgs<decimal,decimal>(loop.Seed, loop.Terminal, loop.Step, loop.IntervalMode);
                         break;
                     case ColumnType.DateTime:
-                        args = BuildSentinelLoopResolverArgs<DateTime,IDuration>(loop.Seed, loop.Terminal, loop.Step);
+                        args = BuildSentinelLoopResolverArgs<DateTime,IDuration>(loop.Seed, loop.Terminal, loop.Step, loop.IntervalMode);
                         break;
                     default:
                         throw new ArgumentOutOfRangeException();
@@ -98,14 +99,15 @@ namespace NBi.NUnit.Builder.Helper
 
         public ISequenceResolverArgs GetArgs() => args ?? throw new InvalidOperationException();
         
-        private ISequenceResolverArgs BuildSentinelLoopResolverArgs<T, U>(string seed, string terminal, string step)
+        private ISequenceResolverArgs BuildSentinelLoopResolverArgs<T, U>(string seed, string terminal, string step, IntervalMode intervalMode)
         {
             var helper = new ScalarHelper(serviceLocator, globalVariables);
             
             var args = new SentinelLoopSequenceResolverArgs<T, U>(
                     helper.InstantiateResolver<T>(seed).Execute(),
                     helper.InstantiateResolver<T>(terminal).Execute(),
-                    helper.InstantiateResolver<U>(step).Execute()
+                    helper.InstantiateResolver<U>(step).Execute(),
+                    intervalMode
                 );
 
             return args;

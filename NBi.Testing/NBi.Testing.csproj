@@ -390,7 +390,7 @@
     <Compile Include="Unit\Core\Sequence\Resolver\Loop\SentinelDateTimeLoopStrategyTest.cs" />
     <Compile Include="Unit\Core\Sequence\Resolver\Loop\CountDateTimeLoopStrategyTest.cs" />
     <Compile Include="Unit\Core\Sequence\Resolver\Loop\CountNumericLoopStrategyTest.cs" />
-    <Compile Include="Unit\Core\Sequence\Resolver\SequenceResolverFactory.cs" />
+    <Compile Include="Unit\Core\Sequence\Resolver\SequenceResolverFactoryTest.cs" />
     <Compile Include="Unit\Core\SqlServer\Smo\SmoBatchRunnerFactoryTest.cs" />
     <Compile Include="Unit\Core\Structure\Olap\Builders\HierarchyDiscoveryCommandBuilderTest.cs" />
     <Compile Include="Unit\Core\Structure\Olap\Builders\MeasureDiscoveryCommandBuilderTest.cs" />

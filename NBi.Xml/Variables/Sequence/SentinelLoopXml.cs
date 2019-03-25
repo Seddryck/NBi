@@ -1,5 +1,7 @@
-﻿using System;
+﻿using NBi.Core.Sequence.Resolver.Loop;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,5 +19,14 @@ namespace NBi.Xml.Variables.Sequence
 
         [XmlAttribute("step")]
         public string Step { get; set; }
+
+        [XmlAttribute("interval")]
+        [DefaultValue(IntervalMode.Close)]
+        public IntervalMode IntervalMode { get; set; }
+
+        public SentinelLoopXml()
+        {
+            IntervalMode = IntervalMode.Close;
+        }
     }
 }

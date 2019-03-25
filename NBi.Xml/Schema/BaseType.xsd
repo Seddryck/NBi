@@ -1109,7 +1109,14 @@
     <xs:attribute name="seed" type="xs:string"/>
     <xs:attribute name="terminal" type="xs:string"/>
     <xs:attribute name="step" type="xs:string"/>
+    <xs:attribute name="interval" type="interval-mode-enum" use="optional"/>
   </xs:complexType>
+  <xs:simpleType name="interval-mode-enum">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="close"/>
+      <xs:enumeration value="half-open"/>
+    </xs:restriction>
+  </xs:simpleType>
   <xs:simpleType name="column-type-enum">
     <xs:restriction base="xs:string">
       <xs:enumeration value="numeric"/>

@@ -78,7 +78,28 @@
       </no-rows>
     </assert>
   </test>
-  <test name="~Instance also defines the test's name and categories and traits for {@firstDayOfMonth:MMMM}" uid="0005">
+  <test name="Instances are defined through a single variable and a duration step but a native function is used" uid="0004">
+    <instance-settling>
+      <local-variable name="magicDate" type="dateTime">
+        <loop-sentinel seed="2016-01-31 22:00:00" terminal="2016-01-07 | dateTime-to-last-of-month | dateTime-to-next-day" step="01:00:00" interval="half-open"/>
+      </local-variable>
+    </instance-settling>
+    <system-under-test>
+      <result-set>
+        <file>
+          <path>~..\csv\MyData_{@magicDate:yyyy}_{@magicDate:MM}.csv</path>
+        </file>
+      </result-set>
+    </system-under-test>
+    <assert>
+      <no-rows>
+        <predicate name="#0">
+          <null/>
+        </predicate>
+      </no-rows>
+    </assert>
+  </test>
+  <test name="~Instance also defines the test's name and categories and traits for {@firstDayOfMonth:MMMM}" uid="0008">
     <instance-settling>
       <local-variable name="firstDayOfMonth" type="dateTime">
         <loop-sentinel seed="2016-01-01" terminal="2016-03-01" step="1 month"/>

@@ -56,7 +56,7 @@ public class TsvReader : CsvReader, IFlatFileReader
 
 You've to inform NBi that an extension is installed. To achieve this, you'll have to edit your *configuration file* and add the section *extensions* to the *nbi* section of your file. for more information check [how to register an extension for databases](../extension-installation)
 
-{% highlight csharp %}
+{% highlight xml %}
 <extensions>
   <add assembly="NBi.Testing" extension="custom"/>
 </extensions>
@@ -68,7 +68,7 @@ You've to inform NBi that an extension is installed. To achieve this, you'll hav
 
 To specify that a flat file should be read with a specific custom parser, you'll need to explictely tell it in the test definition. Immediately after the filename, add a exclamation point (!) and foolow it by the custom parser's name (defined in the parameter *extension* of your *config* file).
 
-{% highlight csharp %}
+{% highlight xml %}
 <system-under-test>
   <result-set file="..\Csv\entsoe.tsv!custom"></result-set>
 </system-under-test>
@@ -76,9 +76,9 @@ To specify that a flat file should be read with a specific custom parser, you'll
 
 ### Explicit reference
 
-Another way to express the need of a custom parser is to use the long form of a file reference.
+Another way to express the need of a custom parser is to use the long form of an [external file definition](../primitive-result-set/#external-definition).
 
-{% highlight csharp %}
+{% highlight xml %}
 <system-under-test>
   <result-set>
     <file path="..\Csv\entsoe.tsv">

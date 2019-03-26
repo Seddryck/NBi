@@ -104,7 +104,7 @@ If the mentionned file is not available, by default, the test will throw an erro
 
 #### Custom parser
 
-If you need you can also define a custom parser. More information are available at [this page](../extension-flatfile/).
+If you need, you can also define a custom parser. More information are available at [this page](../extension-flatfile/).
 
 {% highlight xml %}
 <result-set>

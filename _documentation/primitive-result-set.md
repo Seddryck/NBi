@@ -28,6 +28,28 @@ The most straightforward is to define rows and cells inline. This is relatively 
 </result-set>
 {% endhighlight %}
 
+#### Null and empty values
+
+To define a cell wih a value equal to *null*, you'll have to use the notation with brackets or the auto-closing xml element.
+
+The following row contains two cells with a *null* value:
+{% highlight xml %}
+<row>
+  <cell>(null)</cell>
+  <cell/>
+</row>
+{% endhighlight %}
+
+To define a cell wih a value equal to *empty*, you'll have to use the notation with brackets or an empty xml element.
+
+The following row contains two cells with an *empty* value:
+{% highlight xml %}
+<row>
+  <cell>(empty)</cell>
+  <cell></cell>
+</row>
+{% endhighlight %}
+
 ### External definition
 
 You can also refer to an external flat file. By default, flat files are considered as CSV with a field-separator set to a semi-column (*;*) and a record-separator set to carriage return/line feed (*CrLf*) and no quoting character. You can edit this default format as explained in [this section](../config-profile-csv/).
@@ -100,16 +122,17 @@ You can define a result-set as the combination of one or more sequences. Each se
 In the following definition, the two sequences contain 2 elements and 3 elements. The result of this combination will be a result-set with 2 columns (first of type *text*, next of type *dateTime*) and 6 rows.
 
 {% highlight xml %}
-<sequences-combination operation="cartesian-product">
-  <sequence type="text">
-    <item>be</item>
-    <item>fr</item>
-  </sequence>
-  <sequence type="dateTime">
-    <loop-sentinel seed="2015-01-01" terminal="2017-01-01" step="1 year"/>
-  </sequence>
-</sequences-combination>
-
+<result-set>
+  <sequences-combination operation="cartesian-product">
+    <sequence type="text">
+      <item>be</item>
+      <item>fr</item>
+    </sequence>
+    <sequence type="dateTime">
+      <loop-sentinel seed="2015-01-01" terminal="2017-01-01" step="1 year"/>
+    </sequence>
+  </sequences-combination>
+</result-set>
 {% endhighlight %}
 
 ### Query-based definition

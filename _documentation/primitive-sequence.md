@@ -42,7 +42,7 @@ Due to its definition, a loop-sentinel can only be used for the definition of a 
 
 For a *numeric* type, the *seed*, *step* and *terminal* attributes are defined as *numeric* scalars. In the case of a sequence containing scalar with a *dateTime* type, then the attributes *seed* and *terminal* are *dateTime* but the *step* is a *duration*.
 
-### Half-open
+#### Half-open
 
 It's possible to define a sentinel loop where the terminal value shouldn't be included in the sequence. This is done by setting the xml attribute *interval* to the value *half-open*.
 

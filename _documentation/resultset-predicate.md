@@ -47,7 +47,7 @@ In this kind of test, a cell can be used later in the *predicate* or in an *expr
 {% highlight xml %}
 <assertion>
     <all-rows>
-        <expression name="TotalPriceWithVAT">UnitPrice * Quantity * 1.21</variable>
+        <expression name="TotalPriceWithVAT">UnitPrice * Quantity * 1.21</expression>
     </all-rows>
 </assertion>
 {% endhighlight %}
@@ -57,8 +57,8 @@ It's possible to use an expression in an expression (nested expressions). The pr
 {% highlight xml %}
 <assertion>
     <all-rows>
-        <expression name="TotalPrice">UnitPrice * Quantity</variable>
-        <expression name="TotalPriceWithVAT">TotalPrice * 1.21</variable>
+        <expression name="TotalPrice">UnitPrice * Quantity</expression>
+        <expression name="TotalPriceWithVAT">TotalPrice * 1.21</expression>
     </all-rows>
 </assertion>
 {% endhighlight %}
@@ -79,7 +79,7 @@ As most predicates are valid for different types, you must specify the type of t
         ...
         <predicate operand="FirstName" type="text">
            ...
-        <predicate>
+        </predicate>
     </all-rows>
 </assertion>
 {% endhighlight %}
@@ -117,8 +117,8 @@ Each predicate is not valid for each data type. The list of possible combinaison
     <all-rows>
         ...
         <predicate operand="FirstName" type="text">
-           <upper-case>
-        <predicate>
+           <upper-case/>
+        </predicate>
     </all-rows>
 </assertion>
 {% endhighlight %}
@@ -133,7 +133,7 @@ Some of the predicates, require to specify a *reference*. For example if you wan
         ...
         <predicate operand="Value">
            <equal>1000</equal>
-        <predicate>
+        </predicate>
     </all-rows>
 </assertion>
 {% endhighlight %}
@@ -149,7 +149,7 @@ The predicate *any-of* is not expecting a unique reference but a list of items a
                <item>first</item>
                <item>second</item>
            </any-of>
-        <predicate>
+        </predicate>
     </all-rows>
 </assertion>
 {% endhighlight %}
@@ -164,7 +164,7 @@ The predicates *equal*, *more/less-than*, *starts/ends-with*, *contains*, *match
         ...
         <predicate operand="FirstName" type="text">
            <equal ignore-case="true">John</equal>
-        <predicate>
+        </predicate>
     </all-rows>
 </assertion>
 {% endhighlight %}
@@ -179,7 +179,7 @@ The following predicates are expecting a culture: *matches-numeric*, *matches-da
         ...
         <predicate operand="birthDate" type="text">
            <matches-date culture="fr-fr"/>
-        <predicate>
+        </predicate>
     </all-rows>
 </assertion>
 {% endhighlight %}
@@ -209,7 +209,7 @@ The two predicates *more-than* and *less-than* also supports the variant *or-equ
         ...
         <predicate operand="TotalPriceWithVAT">
            <more-than or-equal="true">1000<more-than>
-        <predicate>
+        </predicate>
     </all-rows>
 </assertion>
 {% endhighlight %}
@@ -224,7 +224,7 @@ It could be useful to use the negation of a predicate. By specifying the attribu
         ...
         <predicate operand="Name" type="text">
            <lower-case not="true"/>
-        <predicate>
+        </predicate>
     </all-rows>
 </assertion>
 {% endhighlight %}
@@ -244,8 +244,8 @@ Sometimes, the [reference](#reference) must be dynamic. One of the most famous e
 ...
 <assertion>
     <all-rows>
-        <alias column-index="1">Quantity</variable>
-        <expression name="TotalPriceWithVAT">[UnitPrice] * Quantity * [#3]</variable>
+        <alias column-index="1">Quantity</alias>
+        <expression name="TotalPriceWithVAT">[UnitPrice] * Quantity * [#3]</expression>
         <predicate name="TotalPriceWithVAT">
            <more-than or-equal="true">@maxAmount<more-than>
         <predicate>
@@ -260,8 +260,8 @@ It's possible to combine predicates with one of the three operators *and*, *or* 
 {% highlight xml %}
 <assertion>
     <all-rows>
-        <alias column-index="1">Quantity</variable>
-        <expression name="TotalPriceWithVAT">[UnitPrice] * Quantity * [#3]</variable>
+        <alias column-index="1">Quantity</alias>
+        <expression name="TotalPriceWithVAT">[UnitPrice] * Quantity * [#3]</expression>
         <combination operator="or">
             <predicate operand="TotalPriceWithVAT">
                 <more-than or-equal="true">@maxAmount<more-than>

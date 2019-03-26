@@ -24,9 +24,9 @@ Note that the field-separator must be limited to 1 character but the record sepa
 
 The xml element automatically translates a few special values to their corresponding caracters.
 
-* Tab is translated to \t (tabulation) only for field-separator
-* Cr is translated to \r (carriage return) only for record-separator
-* Lf is translated to \n (line feed) only for record-separator
+* *Tab* is translated to ```\t``` (tabulation) only for field-separator
+* *Cr* is translated to ```\r``` (carriage return) only for record-separator
+* *Lf* is translated to ```\n``` (line feed) only for record-separator
 
 In this example, a tabulation is specified as field-separator and a carriage return line feed for record-separator.
 {% highlight xml %}
@@ -34,6 +34,21 @@ In this example, a tabulation is specified as field-separator and a carriage ret
    <csv-profile field-separator="Tab" record-separator="CrLf"/>
 </settings>
 {% endhighlight %}
+
+## Text qualifier
+
+A text qualifier is a symbol that let's the parser know where a field begins and ends. It is used specifically when importing data containing the field separator. Say you need to import a text file that is comma delimited (comma is the field separator) but some of the fields can also contain comma.
+
+{% highlight xml %}
+<settings>
+   <csv-profile text-qualifier="Double-quote"/>
+</settings>
+{% endhighlight %}
+
+The xml attribute automatically translates a few special values to their corresponding caracters.
+
+* *Double-quote* is translated to ```"``` (double quotes) only for text-qualifier
+* *Single-quote* is translated to ```'``` (single quote) only for text-qualifier
 
 ## First row and missing/empty cells
 

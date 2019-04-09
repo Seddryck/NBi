@@ -10,6 +10,7 @@ using Moq;
 using NBi.Core.Evaluate;
 using NBi.Core.ResultSet;
 using NBi.Core.ResultSet.Resolver;
+using NBi.Core.Transformation;
 
 namespace NBi.Testing.Unit.Core.Calculation
 {
@@ -174,8 +175,8 @@ namespace NBi.Testing.Unit.Core.Calculation
 
             var expressions = new List<IColumnExpression>()
             {
-                Mock.Of<IColumnExpression>(e => e.Value == "Abs([a])+[e]" && e.Name == "d"),
-                Mock.Of<IColumnExpression>(e => e.Value == "[b]*[c]" && e.Name == "e")
+                Mock.Of<IColumnExpression>(e => e.Value == "Abs([a])+[e]" && e.Name == "d" && e.Language == LanguageType.NCalc),
+                Mock.Of<IColumnExpression>(e => e.Value == "[b]*[c]" && e.Name == "e" && e.Language == LanguageType.NCalc)
             };
 
             var predicate = new Mock<IPredicateInfo>();
@@ -212,15 +213,56 @@ namespace NBi.Testing.Unit.Core.Calculation
 
             var expressions = new List<IColumnExpression>()
             {
-                Mock.Of<IColumnExpression>(e => e.Value == "Abs([a])+[e]" && e.Name == "d"),
-                Mock.Of<IColumnExpression>(e => e.Value == "[#1]*[c1]" && e.Name == "e")
+                Mock.Of<IColumnExpression>(e => e.Value == "Abs([a])+[e]" && e.Name == "d" && e.Language == LanguageType.NCalc),
+                Mock.Of<IColumnExpression>(e => e.Value == "[#1]*[c1]" && e.Name == "e" && e.Language == LanguageType.NCalc)
             };
-            
+
             var predicate = new Mock<IPredicateInfo>();
             predicate.SetupGet(p => p.ColumnType).Returns(ColumnType.Numeric);
             predicate.SetupGet(p => p.ComparerType).Returns(ComparerType.MoreThanOrEqual);
             predicate.SetupGet(p => p.Operand).Returns(new ColumnNameIdentifier("d"));
             predicate.As<IReferencePredicateInfo>().SetupGet(p => p.Reference).Returns((object)200);
+
+            var factory = new ResultSetFilterFactory(null);
+            var filter = factory.Instantiate(aliases, expressions, predicate.Object);
+            var result = filter.Apply(rs);
+
+            Assert.That(result.Rows, Has.Count.EqualTo(2));
+        }
+
+        [Test]
+        public void Apply_NativeExpression_CorrectResult()
+        {
+            var service = new ObjectsResultSetResolver(
+                new ObjectsResultSetResolverArgs(
+                    new object[]
+                    {
+                        new List<object>() { new DateTime(2019, 10, 01, 8, 0, 0), 10, 100 },
+                        new List<object>() { new DateTime(2019, 10, 01, 23, 0, 0), 2, 75 },
+                        new List<object>() { new DateTime(2019, 10, 02, 05, 0, 0), 5, 50 }
+                    }));
+            var rs = service.Execute();
+            rs.Table.Columns[0].ColumnName = "a";
+
+            var aliases = new List<IColumnAlias>()
+            {
+                Mock.Of<IColumnAlias>(v => v.Column == 0 && v.Name == "x"),
+            };
+
+            var expressions = new List<IColumnExpression>()
+            {
+                Mock.Of<IColumnExpression>(
+                    e => e.Value == "a | utc-to-local(Brussels) | dateTime-to-date" 
+                    && e.Name == "d" 
+                    && e.Language == LanguageType.Native 
+                    && e.Type==ColumnType.DateTime),
+            };
+
+            var predicate = new Mock<IPredicateInfo>();
+            predicate.SetupGet(p => p.ColumnType).Returns(ColumnType.DateTime);
+            predicate.SetupGet(p => p.ComparerType).Returns(ComparerType.MoreThanOrEqual);
+            predicate.SetupGet(p => p.Operand).Returns(new ColumnNameIdentifier("d"));
+            predicate.As<IReferencePredicateInfo>().SetupGet(p => p.Reference).Returns((object)new DateTime(2019, 10, 2));
 
             var factory = new ResultSetFilterFactory(null);
             var filter = factory.Instantiate(aliases, expressions, predicate.Object);

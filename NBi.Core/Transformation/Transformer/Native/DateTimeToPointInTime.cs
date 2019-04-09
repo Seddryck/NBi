@@ -90,4 +90,17 @@ namespace NBi.Core.Transformation.Transformer.Native
 
         protected override object EvaluateDateTime(DateTime value) => (value < Min) ? Min : (value > Max) ? Max : value;
     }
+
+    class DateTimeToSetTime : DateTimeToPointInTime
+    {
+        public TimeSpan Instant { get; }
+
+        public DateTimeToSetTime(string instant)
+        {
+            Instant = TimeSpan.Parse(instant);
+        }
+
+        protected override object EvaluateDateTime(DateTime value)
+            => new DateTime(value.Year, value.Month, value.Day, Instant.Hours, Instant.Minutes, Instant.Seconds);
+    }
 }

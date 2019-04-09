@@ -15,20 +15,19 @@ namespace NBi.Xml.Items.Calculation
     [XmlType("")]
     public class ExpressionXml: IColumnExpression
     {
-        [Obsolete("Use the attribute Script in place of Value")]
         [XmlText()]
         public string Value
         {
-            get => ShouldSerializeValue() ? Script.Code : null;
-            set => Script = new ScriptXml() { Language = LanguageType.NCalc, Code = value };
+            get => Script.Code;
+            set => Script.Code = value;
         }
 
-        public bool ShouldSerializeValue() => Script?.Language == LanguageType.NCalc;
+        public bool ShouldSerializeValue() => Script.Language == LanguageType.NCalc;
 
         [XmlElement("script")]
         public ScriptXml Script { get; set; }
 
-        public bool ShouldSerializeScript() => Script?.Language != LanguageType.NCalc;
+        public bool ShouldSerializeScript() => Script.Language != LanguageType.NCalc;
 
         [XmlIgnore()]
         public LanguageType Language
@@ -50,5 +49,10 @@ namespace NBi.Xml.Items.Calculation
         [XmlAttribute("tolerance")]
         [DefaultValue("")]
         public string Tolerance { get; set; }
+
+        public ExpressionXml()
+        {
+            Script = new ScriptXml() { Language = LanguageType.NCalc };
+        }
     }
 }

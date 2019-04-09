@@ -16,10 +16,11 @@ namespace NBi.Core.Transformation.Transformer
 
             var parameters = code.Replace("(", ",")
                 .Replace(")", ",")
+                .Replace(" ", "")
                 .Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
                 .ToList().Skip(1).Select(x => x.Trim()).ToArray();
 
-            var classToken = code.Contains("(") ? code.Replace(" ", "").Substring(0, code.IndexOf('(')) : code;
+            var classToken = code.Contains("(") ? code.Replace(" ", "").Substring(0, code.IndexOf('(') - 1) : code;
             var className = textInfo.ToTitleCase(classToken.Trim().Replace("-", " ")).Replace(" ", "").Replace("Datetime", "DateTime");
 
             var clazz = AppDomain.CurrentDomain.GetAssemblies()

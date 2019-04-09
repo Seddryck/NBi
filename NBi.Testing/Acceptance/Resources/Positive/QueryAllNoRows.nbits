@@ -682,6 +682,39 @@
       </no-rows>
     </assert>
   </test>
+  <test name="Single-row with dateTime informations using an expression based on native functions" uid="0140">
+    <system-under-test>
+      <execution>
+        <query
+					connectionString="Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly"
+				>
+          select '2019-10-01 06:00:00' as A, '2019-09-30 21:47:00' as 'B', 12 as 'C'
+          union all select '2019-10-01 23:00:00', '2019-10-01 21:42:00' as 'B',7
+          union all select '2019-10-02 02:00:00', '2019-10-01 21:42:00' as 'B',9
+        </query>
+      </execution>
+    </system-under-test>
+    <assert>
+      <all-rows>
+        <expression name="createdTime" original-type="dateTime">
+          <script language="native">
+            [B] | utc-to-local(Brussels)
+          </script>
+        </expression>
+        <expression name="deadLine" original-type="dateTime">
+          <script language="native">
+            [A] | utc-to-local(Brussels) | dateTime-to-date
+          </script>
+        </expression>
+        <expression name="check">
+          <![CDATA[[createdTime]<[deadLine]]]>
+        </expression>
+        <predicate name="check" type="boolean">
+          <true/>
+        </predicate>
+      </all-rows>
+    </assert>
+  </test>
   <test name="No-row with textual informations direct column name for predicate" uid="0011">
     <system-under-test>
       <execution>

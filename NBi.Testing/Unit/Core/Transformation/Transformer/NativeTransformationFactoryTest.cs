@@ -42,6 +42,17 @@ namespace NBi.Testing.Unit.Core.Transformation.Transformer
             Assert.That((result as UtcToLocal).TimeZoneLabel, Is.EqualTo("Brussels"));
         }
 
+        [Test]
+        public void Instantiate_ExistingWithParameterIncludingSpaces_CorrectType()
+        {
+            var factory = new NativeTransformationFactory();
+            var result = factory.Instantiate("utc-to-local( Romance Standard Time )");
+
+            Assert.That(result, Is.AssignableTo<INativeTransformation>());
+            Assert.That(result, Is.TypeOf<UtcToLocal>());
+            Assert.That((result as UtcToLocal).TimeZoneLabel, Is.EqualTo("Romance Standard Time"));
+        }
+
 
         [Test]
         public void Instantiate_ExistingWithParameterAndWhitespaces_CorrectType()
@@ -70,7 +81,19 @@ namespace NBi.Testing.Unit.Core.Transformation.Transformer
         public void Instantiate_ExistingWithParametersAndWhitespaces_CorrectType()
         {
             var factory = new NativeTransformationFactory();
-            var result = factory.Instantiate("\r\n\t\t\tnumeric-to-clip(10,   2000)\t\t\t\r\n");
+            var result = factory.Instantiate("\r\n\t\t\tnumeric-to-clip(  10,   2000   )\t\t\t\r\n");
+
+            Assert.That(result, Is.AssignableTo<INativeTransformation>());
+            Assert.That(result, Is.TypeOf<NumericToClip>());
+            Assert.That((result as NumericToClip).Min, Is.EqualTo(10));
+            Assert.That((result as NumericToClip).Max, Is.EqualTo(2000));
+        }
+
+        [Test]
+        public void Instantiate_ExistingWithParametersAndSpaces_CorrectType()
+        {
+            var factory = new NativeTransformationFactory();
+            var result = factory.Instantiate("numeric-to-clip (10,   2000)");
 
             Assert.That(result, Is.AssignableTo<INativeTransformation>());
             Assert.That(result, Is.TypeOf<NumericToClip>());

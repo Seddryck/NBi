@@ -15,6 +15,7 @@ namespace NBi.Xml.Items.Calculation
     [XmlType("")]
     public class ExpressionXml: IColumnExpression
     {
+        [Obsolete("Use the attribute Script in place of Value")]
         [XmlText()]
         public string Value
         {
@@ -28,6 +29,12 @@ namespace NBi.Xml.Items.Calculation
         public ScriptXml Script { get; set; }
 
         public bool ShouldSerializeScript() => Script?.Language != LanguageType.NCalc;
+
+        [XmlIgnore()]
+        public LanguageType Language
+        {
+            get => ShouldSerializeValue() ? LanguageType.NCalc : Script.Language;
+        }
 
         [XmlAttribute("name")]
         public string Name { get; set; }

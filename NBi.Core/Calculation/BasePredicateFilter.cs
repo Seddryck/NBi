@@ -108,7 +108,7 @@ namespace NBi.Core.Calculation
 
         protected object EvaluateExpression(IColumnExpression expression, DataRow row)
         {
-            if (expression.Language == Transformation.LanguageType.NCalc)
+            if (expression.Language == LanguageType.NCalc)
             {
                 var exp = new NCalc.Expression(expression.Value);
                 var factory = new ColumnIdentifierFactory();
@@ -120,7 +120,7 @@ namespace NBi.Core.Calculation
 
                 return exp.Evaluate();
             }
-            else if (expression.Language == Transformation.LanguageType.Native)
+            else if (expression.Language == LanguageType.Native)
             {
                 var parse = expression.Value.Split(new[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
                 var variable = new ColumnIdentifierFactory().Instantiate(parse.ElementAt(0));

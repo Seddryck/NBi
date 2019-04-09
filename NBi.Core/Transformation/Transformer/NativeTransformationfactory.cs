@@ -16,7 +16,7 @@ namespace NBi.Core.Transformation.Transformer
 
             var parameters = code.Replace("(", ",")
                 .Replace(")", ",")
-                .Replace(" ", "")
+                .Replace(" ", "").Trim()
                 .Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
                 .ToList().Skip(1).Select(x => x.Trim()).ToArray();
 

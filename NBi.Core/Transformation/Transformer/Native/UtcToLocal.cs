@@ -22,7 +22,7 @@ namespace NBi.Core.Transformation.Transformer.Native
             else if (value is DateTime)
                 return EvaluateDateTime((DateTime)value);
             else
-                throw new NotImplementedException();
+                throw new NotImplementedException($"The evaluation of the function utc-to-local is not possible for the value '{value}' of  type '{value.GetType()}'. Only DateTime and null are supported, you must specify the type of the expression");
         }
 
         protected virtual object EvaluateDateTime(DateTime value) =>

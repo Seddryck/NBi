@@ -130,5 +130,15 @@ namespace NBi.Testing.Unit.Core.Transformation.Transformer
             var result = function.Evaluate(value);
             Assert.That(result, Is.EqualTo(expected));
         }
+
+        [Test]
+        [TestCase("2019-03-11 12:00:00", "07:00:00", "2019-03-11 07:00:00")]
+        [TestCase("2019-02-11 08:45:12", "07:13:11", "2019-02-11 07:13:11")]
+        public void Execute_DateTimeToSetTime_Valid(object value, string instant, DateTime expected)
+        {
+            var function = new DateTimeToSetTime(instant);
+            var result = function.Evaluate(value);
+            Assert.That(result, Is.EqualTo(expected));
+        }
     }
 }

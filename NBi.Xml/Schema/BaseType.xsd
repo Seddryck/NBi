@@ -1151,12 +1151,11 @@
       </xs:extension>
     </xs:simpleContent>
   </xs:complexType>
-  <xs:complexType name="expression2-type">
-    <xs:simpleContent>
-      <xs:extension base="xs:string">
-        <xs:attribute name="name" type="xs:string" use="required"/>
-      </xs:extension>
-    </xs:simpleContent>
+  <xs:complexType name="expression2-type" mixed="true">
+    <xs:sequence>
+      <xs:element name="script" type="script-type" minOccurs="0" maxOccurs="1"/>
+    </xs:sequence>
+    <xs:attribute name="name" type="xs:string" use="required"/>
   </xs:complexType>
   <xs:complexType name="predicate-type">
     <xs:choice>
@@ -1386,7 +1385,7 @@
     </xs:sequence>
   </xs:complexType>
   <xs:complexType name="parser-type">
-      <xs:attribute name="name" use="required" type="xs:string"/>
+    <xs:attribute name="name" use="required" type="xs:string"/>
   </xs:complexType>
   <xs:complexType name="if-missing-type">
     <xs:sequence>
@@ -1606,6 +1605,7 @@
           <xs:simpleType>
             <xs:restriction base="xs:string">
               <xs:enumeration value="c-sharp"/>
+              <xs:enumeration value="native"/>
             </xs:restriction>
           </xs:simpleType>
         </xs:attribute>

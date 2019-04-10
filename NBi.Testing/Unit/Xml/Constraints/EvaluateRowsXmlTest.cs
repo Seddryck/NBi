@@ -65,7 +65,7 @@ namespace NBi.Testing.Unit.Xml.Constraints
             Assert.That(ctr.Expressions, Has.Count.EqualTo(1));
             Assert.That(ctr.Expressions[0].Value, Is.EqualTo("= OrderQuantity*(UnitPrice-(UnitPrice*UnitDiscount))"));
             Assert.That(ctr.Expressions[0].Column, Is.EqualTo(5));
-            Assert.That(ctr.Expressions[0].Type, Is.EqualTo(ColumnType.Numeric));
+            //Assert.That(ctr.Expressions[0].Type, Is.EqualTo(ColumnType.Numeric));
             Assert.That(ctr.Expressions[0].Tolerance, Is.EqualTo("0.01"));
         }
     }

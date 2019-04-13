@@ -83,7 +83,7 @@ permalink: /release/
 
             var downloadCount = 0;
             for (var i = 0; i < release.assets.length; i++) {
-				if (release.assets.count()>0){
+				if (release.assets.length>0){
                 	downloadCount += release.assets[i].download_count;
 				}
             }
@@ -105,11 +105,14 @@ permalink: /release/
 			{
 				var release = releases[id];
 				console.log(release.updated_at);
-				if (!release.draft && release.assets.count()>0)
+				if (!release.draft)
 				{
 					var version = release.name;
 					var releaseDate = release.created_at;
-					var downloadURL = release.assets[0].browser_download_url;
+					var downloadURL = "";
+					if (release.assets.length>0) {
+						downloadURL = release.assets[0].browser_download_url;
+					}
 					var releaseNote = release.html_url;
 				}
 

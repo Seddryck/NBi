@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace NBi.Core.Transformation.Transformer.Native
 {
-    class UtcToLocal : INativeTransformation
+    class UtcToLocal : AbstractDateTimeTransformation
     {
         public string TimeZoneLabel { get; }
 
@@ -15,17 +15,7 @@ namespace NBi.Core.Transformation.Transformer.Native
             TimeZoneLabel = timeZoneLabel;
         }
 
-        public object Evaluate(object value)
-        {
-            if (value == null)
-                return null;
-            else if (value is DateTime)
-                return EvaluateDateTime((DateTime)value);
-            else
-                throw new NotImplementedException();
-        }
-
-        protected virtual object EvaluateDateTime(DateTime value) =>
+        protected override object EvaluateDateTime(DateTime value) =>
             TimeZoneInfo.ConvertTimeFromUtc(value, InstantiateTimeZoneInfo(TimeZoneLabel));
 
         protected TimeZoneInfo InstantiateTimeZoneInfo(string label)
@@ -43,7 +33,15 @@ namespace NBi.Core.Transformation.Transformer.Native
             .Replace(":", ",")
             .Replace(" ", "")
             .Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+    }
 
-        
+    class LocalToUtc : UtcToLocal
+    {
+        public LocalToUtc(string timeZoneLabel)
+            : base(timeZoneLabel)
+        { }
+
+        protected override object EvaluateDateTime(DateTime value) =>
+            TimeZoneInfo.ConvertTimeToUtc(value, InstantiateTimeZoneInfo(TimeZoneLabel));
     }
 }

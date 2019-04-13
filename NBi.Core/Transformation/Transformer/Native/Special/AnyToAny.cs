@@ -8,10 +8,6 @@ namespace NBi.Core.Transformation.Transformer.Native
 {
     class AnyToAny : INativeTransformation
     {
-        public object Evaluate(object value)
-        {
-            return "(any)";
-        }
-        
+        public object Evaluate(object value) => "(any)";
     }
 }

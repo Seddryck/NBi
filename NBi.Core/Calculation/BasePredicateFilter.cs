@@ -1,6 +1,8 @@
 ﻿using NBi.Core.Calculation.Predicate;
 using NBi.Core.Evaluate;
 using NBi.Core.ResultSet;
+using NBi.Core.Transformation;
+using NBi.Core.Transformation.Transformer;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -106,17 +108,44 @@ namespace NBi.Core.Calculation
 
         protected object EvaluateExpression(IColumnExpression expression, DataRow row)
         {
-            var exp = new NCalc.Expression(expression.Value);
-            var factory = new ColumnIdentifierFactory();
-
-            exp.EvaluateParameter += delegate (string name, NCalc.ParameterArgs args)
+            if (expression.Language == LanguageType.NCalc)
             {
-                args.Result = GetValueFromRow(row, factory.Instantiate(name));
-            };
+                var exp = new NCalc.Expression(expression.Value);
+                var factory = new ColumnIdentifierFactory();
 
-            return exp.Evaluate();
+                exp.EvaluateParameter += delegate (string name, NCalc.ParameterArgs args)
+                {
+                    args.Result = GetValueFromRow(row, factory.Instantiate(name));
+                };
+
+                return exp.Evaluate();
+            }
+            else if (expression.Language == LanguageType.Native)
+            {
+                var parse = expression.Value.Split(new[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
+                var variable = new ColumnIdentifierFactory().Instantiate(parse.ElementAt(0));
+                var value = GetValueFromRow(row, variable);
+
+                foreach (var nativeFunction in parse.Skip(1))
+                {
+                    var factory = new NativeTransformationFactory();
+                    var transformer = factory.Instantiate(nativeFunction);
+                    value = transformer.Evaluate(value);
+                }
+                
+                return value;
+            }
+            else
+                throw new ArgumentOutOfRangeException($"The language {expression.Language} is not supported during the evaluation of an expression.");
         }
 
         public abstract string Describe();
+
+        private class TransformationInfo : ITransformationInfo
+        {
+            public ColumnType OriginalType { get; set; }
+            public LanguageType Language { get; set; }
+            public string Code { get; set; }
+        }
     }
 }

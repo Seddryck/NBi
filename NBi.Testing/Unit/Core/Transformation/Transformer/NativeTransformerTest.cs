@@ -286,8 +286,8 @@ namespace NBi.Testing.Unit.Core.Transformation.Transformer
         [TestCase("My taylor is rich", "Mytaylorisrich")]
         [TestCase(" My Lord ! ", "MyLord!")]
         [TestCase("My Lord !\r\nMy taylor is \t rich", "MyLord!Mytaylorisrich")]
-        [TestCase("(null)", null)]
-        [TestCase(null, null)]
+        [TestCase("(null)", "(null)")]
+        [TestCase(null, "(null)")]
         [TestCase("(empty)", "(empty)")]
         [TestCase("(blank)", "(empty)")]
         public void Execute_Whitespace_Valid(object value, string expected)

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace NBi.Core.Transformation.Transformer.Native
 {
-    class TextToWithoutDiacritics : AbstractTextToText
+    class TextToWithoutDiacritics : AbstractTextTransformation
     {
         protected override object EvaluateString(string value) => RemoveDiacritics(value);
 

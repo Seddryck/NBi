@@ -652,6 +652,7 @@
       <xs:enumeration value="empty-to-null"/>
       <xs:enumeration value="null-to-empty"/>
       <xs:enumeration value="null-to-value"/>
+      <xs:enumeration value="null-to-zero"/>
       <xs:enumeration value="value-to-value"/>
       <xs:enumeration value="any-to-any"/>
       <xs:enumeration value="text-to-trim"/>
@@ -660,12 +661,29 @@
       <xs:enumeration value="text-to-length"/>
       <xs:enumeration value="text-to-html"/>
       <xs:enumeration value="text-to-without-diacritics"/>
+      <xs:enumeration value="text-to-token-count"/>
+      <xs:enumeration value="text-to-without-whitespaces"/>
       <xs:enumeration value="html-to-text"/>
       <xs:enumeration value="date-to-age"/>
       <xs:enumeration value="utc-to-local("/>
       <xs:enumeration value="local-to-utc("/>
       <xs:enumeration value="dateTime-to-date"/>
-      <xs:enumeration value="null-to-date"/>
+      <xs:enumeration value="null-to-date("/>
+      <xs:enumeration value="dateTime-to-first-of-month"/>
+      <xs:enumeration value="dateTime-to-last-of-month"/>
+      <xs:enumeration value="dateTime-to-first-of-year"/>
+      <xs:enumeration value="dateTime-to-last-of-year"/>
+      <xs:enumeration value="dateTime-to-next-day"/>
+      <xs:enumeration value="dateTime-to-previous-day"/>
+      <xs:enumeration value="dateTime-to-next-month"/>
+      <xs:enumeration value="dateTime-to-previous-month"/>
+      <xs:enumeration value="dateTime-to-next-year"/>
+      <xs:enumeration value="dateTime-to-previous-year"/>
+      <xs:enumeration value="dateTime-to-set-time("/>
+      <xs:enumeration value="numeric-to-round("/>
+      <xs:enumeration value="numeric-to-floor"/>
+      <xs:enumeration value="numeric-to-ceiling"/>
+      <xs:enumeration value="numeric-to-integer"/>
     </xs:restriction>
   </xs:simpleType>
   <xs:simpleType name="not-native-transformation-type">
@@ -1151,12 +1169,11 @@
       </xs:extension>
     </xs:simpleContent>
   </xs:complexType>
-  <xs:complexType name="expression2-type">
-    <xs:simpleContent>
-      <xs:extension base="xs:string">
-        <xs:attribute name="name" type="xs:string" use="required"/>
-      </xs:extension>
-    </xs:simpleContent>
+  <xs:complexType name="expression2-type" mixed="true">
+    <xs:sequence>
+      <xs:element name="script" type="script-type" minOccurs="0" maxOccurs="1"/>
+    </xs:sequence>
+    <xs:attribute name="name" type="xs:string" use="required"/>
   </xs:complexType>
   <xs:complexType name="predicate-type">
     <xs:choice>
@@ -1386,7 +1403,7 @@
     </xs:sequence>
   </xs:complexType>
   <xs:complexType name="parser-type">
-      <xs:attribute name="name" use="required" type="xs:string"/>
+    <xs:attribute name="name" use="required" type="xs:string"/>
   </xs:complexType>
   <xs:complexType name="if-missing-type">
     <xs:sequence>
@@ -1606,6 +1623,7 @@
           <xs:simpleType>
             <xs:restriction base="xs:string">
               <xs:enumeration value="c-sharp"/>
+              <xs:enumeration value="native"/>
             </xs:restriction>
           </xs:simpleType>
         </xs:attribute>

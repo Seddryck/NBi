@@ -167,12 +167,11 @@ The parameter is a valid TimeZone. User must specify the identification of a tim
 
 * ```utc-to-local(TimeZone)```: returns the dateTime converted from UTC to the local time of the specified time zone
 * ```local-to-utc(TimeZone)```: returns the dateTime converted from the local time of the specified time zone to utc. If the local time was ambiguous (at the moment of the switch between summer and winter the same local time occurs twice) then the first occurance is selected.
-
 * ```null-to-date(dateTime)```: returns the original date if the value wasn't null or empty else returns the value specified as a parameter. ```dateTime``` must be expressed as string: ```2018-05-09```
-
 * ```numeric-to-round(integer)```: rounds a value to the specified number of fractional digits.
 * ```numeric-to-clip(numeric, numeric)```: Clip a value such as if smaller than the first argument then it will return the first argument or if larger than the second argument then will return the second argument. If the original value is between the first and second argument then the original value is returned.
 * ```dateTime-to-clip(dateTime, dateTime)```: Clip a value such as if smaller than the first argument then it will return the first argument or if larger than the second argument then will return the second argument. If the original value is between the first and second argument then the original value is returned.
+* ```dateTime-to-set-time(timeSpan)```: Set the hours, minutes, second of a dateTime to the specified value without changing the date part. The timespan should be defined with the format *hh:mm:ss* such as ```07:00:00```.
 
 {% highlight xml %}
 <assert>

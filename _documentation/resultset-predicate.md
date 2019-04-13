@@ -40,7 +40,32 @@ Before version 1.16, only the third option was available and the element was nam
 
 ## Expressions
 
+### Using native transformations to adjust the value of a cell
+
+You can define an *expression* to create a new virtual column to your result-set containing a  slightly adjust cell's value. The adjustement is defined with the help of [native transformations](../docs/transform-column/#native). 
+
+In the example bellow, we've a *dateTime* value contained in the column named ```myDateTime``` but we want to convert the value from UTC to local time (at Brussels), take the previous day, and finally set the time part of this date to 7.00AM.
+
+{% highlight xml %}
+<assertion>
+  <all-rows>
+    <expression name="localTime">
+      <script language="native">
+        [myDateTime] 
+        | utc-to-local(Brussels) 
+        | dateTime-to-previous-day 
+        | dateTime-to-set-time(07:00:00)
+      </script>
+    </expression>
+  </all-rows>
+</assertion>
+{% endhighlight %}
+
+### Using two or more cells of the current row to create a new value
+
 You can use an *expression* to combine two cells of the same row. For example, if you've two columns *UnitPrice* and *Quantity*, you can calculate the *TotalPrice* with an expression. To achieve this, you must define en element *expression* and set its formula. To reference a cell in your formula, use one of the three strategies above. You can also combine the content of the cells with fixed value. If you want to calculate a *TotalPriceWithVAT* based on the columns *Quantity* and *UnitPrice*, you can define an expression equal to *UnitPrice * Quantity * 1.21*
+
+The functions supported in an *expression* are these supported by [NCalc](https://ncalc.codeplex.com/wikipage?title=functions&referringTitle=Home)
 
 In this kind of test, a cell can be used later in the *predicate* or in an *expression*. For each row, the value contained in the different columns will be assigned to the variable. If you want to assert that the column with index 1 is greater than 1000 then the first step is to create a variable for the column with a column-index equal to 1 and give it a name.
 
@@ -52,6 +77,8 @@ In this kind of test, a cell can be used later in the *predicate* or in an *expr
 </assertion>
 {% endhighlight %}
 
+### Nested expressions
+
 It's possible to use an expression in an expression (nested expressions). The previous example could be written:
 
 {% highlight xml %}
@@ -62,8 +89,6 @@ It's possible to use an expression in an expression (nested expressions). The pr
     </all-rows>
 </assertion>
 {% endhighlight %}
-
-The functions supported in an *expression* are these supported by [NCalc](https://ncalc.codeplex.com/wikipage?title=functions&referringTitle=Home)
 
 # List of predicates
 

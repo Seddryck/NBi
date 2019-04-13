@@ -136,9 +136,9 @@ layout: default
         
                   $.getJSON("https://api.github.com/repos/Seddryck/NBi/releases").done(function (json) {
                       for (i in json) {
-                          if (json[i].assets.length>0){
-                            downloadCount += json[i].assets[0].download_count;
-                          }
+                        for (j in json[i].assets) {
+                            downloadCount += json[i].assets[j].download_count;
+                        }
                       }
                       $("#downloadCount").text(downloadCount);
                   });           

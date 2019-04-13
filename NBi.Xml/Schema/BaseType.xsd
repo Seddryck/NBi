@@ -1174,7 +1174,6 @@
       <xs:element name="script" type="script-type" minOccurs="0" maxOccurs="1"/>
     </xs:sequence>
     <xs:attribute name="name" type="xs:string" use="required"/>
-    <xs:attribute name="original-type" type="column-type-enum" use="optional"/>
   </xs:complexType>
   <xs:complexType name="predicate-type">
     <xs:choice>

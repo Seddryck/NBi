@@ -128,18 +128,9 @@ namespace NBi.Core.Calculation
 
                 foreach (var nativeFunction in parse.Skip(1))
                 {
-                    var info = new TransformationInfo()
-                    {
-                        OriginalType = expression.Type,
-                        Language = expression.Language,
-                        Code = nativeFunction,
-                    };
-
-                    var factory = new TransformerFactory();
-                    var transformer = factory.Instantiate(info);
-
-                    transformer.Initialize(info.Code);
-                    value = transformer.Execute(value);
+                    var factory = new NativeTransformationFactory();
+                    var transformer = factory.Instantiate(nativeFunction);
+                    value = transformer.Evaluate(value);
                 }
                 
                 return value;

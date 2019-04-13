@@ -682,7 +682,7 @@
       </no-rows>
     </assert>
   </test>
-  <test name="Single-row with dateTime informations using an expression based on native functions" uid="0140">
+  <test name="all-rows with dateTime informations using an expression based on native functions" uid="0140">
     <system-under-test>
       <execution>
         <query
@@ -696,12 +696,12 @@
     </system-under-test>
     <assert>
       <all-rows>
-        <expression name="createdTime" original-type="dateTime">
+        <expression name="createdTime">
           <script language="native">
             [B] | utc-to-local(Brussels)
           </script>
         </expression>
-        <expression name="deadLine" original-type="dateTime">
+        <expression name="deadLine">
           <script language="native">
             [A] | utc-to-local(Brussels) | dateTime-to-date | dateTime-to-previous-day | dateTime-to-set-time(07:00:00)
           </script>

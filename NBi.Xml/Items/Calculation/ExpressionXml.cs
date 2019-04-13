@@ -42,8 +42,8 @@ namespace NBi.Xml.Items.Calculation
         [DefaultValue(0)]
         public int Column { get; set; }
 
-        [XmlAttribute("original-type")]
-        [DefaultValue(ColumnType.Numeric)]
+        [XmlAttribute("type")]
+        [DefaultValue(ColumnType.Text)]
         public ColumnType Type { get; set; }
 
         [XmlAttribute("tolerance")]

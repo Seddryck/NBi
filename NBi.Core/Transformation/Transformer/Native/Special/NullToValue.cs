@@ -10,7 +10,7 @@ namespace NBi.Core.Transformation.Transformer.Native
     {
         public object Evaluate(object value)
         {
-            if (value == null || DBNull.Value.Equals(value) || string.IsNullOrEmpty(value as string) || value as string == "(null)")
+            if (value == null || DBNull.Value.Equals(value) || (value is string && (string.IsNullOrEmpty(value as string) || value as string == "(null)")))
                 return "(value)";
             else
                 return value;

@@ -52,9 +52,9 @@ In the example bellow, we've a *dateTime* value contained in the column named ``
     <expression name="localTime">
       <script language="native">
         [myDateTime] 
-        | utc-to-local(Brussels) 
-        | dateTime-to-previous-day 
-        | dateTime-to-set-time(07:00:00)
+          | utc-to-local(Brussels) 
+          | dateTime-to-previous-day 
+          | dateTime-to-set-time(07:00:00)
       </script>
     </expression>
   </all-rows>

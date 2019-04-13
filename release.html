@@ -83,7 +83,9 @@ permalink: /release/
 
             var downloadCount = 0;
             for (var i = 0; i < release.assets.length; i++) {
-                downloadCount += release.assets[i].download_count;
+				if (release.assets.count()>0){
+                	downloadCount += release.assets[i].download_count;
+				}
             }
             downloadCount +=  170 + 607 + 46 + 495 + 65 + 51 + 562 + 21 + 8 + 115 + 1488 + 250 + 7 + 5 + 49 + 1956;
             var releaseInfo = release.name + " downloaded " + downloadCount + " times.";
@@ -103,7 +105,7 @@ permalink: /release/
 			{
 				var release = releases[id];
 				console.log(release.updated_at);
-				if (!release.draft)
+				if (!release.draft && release.assets.count()>0)
 				{
 					var version = release.name;
 					var releaseDate = release.created_at;

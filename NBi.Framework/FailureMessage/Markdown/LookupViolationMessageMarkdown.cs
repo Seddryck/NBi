@@ -20,7 +20,11 @@ namespace NBi.Framework.FailureMessage.Markdown
 
         public LookupViolationMessageMarkdown(IDictionary<string, ISampler<DataRow>> samplers)
             : base(samplers)
-        { }
+        {
+            reference = new MarkdownContainer();
+            candidate = new MarkdownContainer();
+            analysis = new MarkdownContainer();
+        }
 
         protected override void RenderStandardTable(IEnumerable<DataRow> rows, IEnumerable<ColumnMetadata> metadata, ISampler<DataRow> sampler, string title, MarkdownContainer container)
         {

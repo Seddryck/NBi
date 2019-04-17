@@ -20,5 +20,15 @@ namespace NBi.Core.ResultSet
 
         public DataColumn GetColumn(DataTable dataTable) => dataTable.Columns[Ordinal];
         public object GetValue(DataRow dataRow) => dataRow[Ordinal];
+
+        public override int GetHashCode() => Ordinal.GetHashCode();
+
+        public override bool Equals(object value)
+        {
+            var columnOrdinalIdentifier = value as ColumnOrdinalIdentifier;
+
+            return !(columnOrdinalIdentifier is null)
+                && Ordinal==columnOrdinalIdentifier.Ordinal;
+        }
     }
 }

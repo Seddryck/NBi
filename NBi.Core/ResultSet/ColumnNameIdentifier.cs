@@ -21,5 +21,14 @@ namespace NBi.Core.ResultSet
 
         public object GetValue(DataRow dataRow) => dataRow[Name];
 
+        public override int GetHashCode() => Name.GetHashCode();
+
+        public override bool Equals(object value)
+        {
+            var columnNameIdentifier = value as ColumnNameIdentifier;
+
+            return !(columnNameIdentifier is null)
+                && Name == columnNameIdentifier.Name;
+        }
     }
 }

@@ -2,6 +2,7 @@
 using NBi.Core.Configuration.FailureReport;
 using NBi.Core.ResultSet;
 using NBi.Core.ResultSet.Lookup;
+using NBi.Core.Scalar.Comparer;
 using NBi.Framework.FailureMessage;
 using NUnit.Framework;
 using System;
@@ -17,11 +18,14 @@ namespace NBi.NUnit.ResultSetComparison
 {
     public class LookupMatchesConstraint : LookupExistsConstraint
     {
+        
+
         protected internal override ILookupAnalyzer Engine
         {
             get => engine ?? (engine = new LookupMatchesAnalyzer(
                         keyMappings ?? ColumnMappingCollection.Default
                         , valueMappings ?? throw new ArgumentNullException()
+                        , tolerances 
                     ));
             set => engine = value ?? throw new ArgumentNullException();
         }
@@ -39,10 +43,12 @@ namespace NBi.NUnit.ResultSetComparison
 
         private ColumnMappingCollection keyMappings;
         private ColumnMappingCollection valueMappings;
-        public LookupExistsConstraint Using(ColumnMappingCollection keyMappings, ColumnMappingCollection valueMappings)
+        private IDictionary<IColumnIdentifier, Tolerance> tolerances;
+        public LookupExistsConstraint Using(ColumnMappingCollection keyMappings, ColumnMappingCollection valueMappings, IDictionary<IColumnIdentifier, Tolerance> tolerances)
         {
             this.keyMappings = keyMappings;
             this.valueMappings = valueMappings;
+            this.tolerances = tolerances;
             return this;
         }
     }

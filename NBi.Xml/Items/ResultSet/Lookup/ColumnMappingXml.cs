@@ -18,5 +18,9 @@ namespace NBi.Xml.Items.ResultSet.Lookup
         [XmlAttribute("type")]
         [DefaultValue(ColumnType.Text)]
         public ColumnType Type { get; set; }
+
+        [XmlAttribute("tolerance")]
+        [DefaultValue("")]
+        public string Tolerance { get; set; }
     }
 }

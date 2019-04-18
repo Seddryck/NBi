@@ -26,7 +26,7 @@
     </variable>
   </variables>
   <group name="asserts">
-    <test name="Csv equal to embedded result-set" uid="0001">
+    <!--<test name="Csv equal to embedded result-set" uid="0001">
       <system-under-test>
         <resultSet file="..\Csv\ResellerOrderCountByYearBefore2006.csv"/>
       </system-under-test>
@@ -178,7 +178,7 @@
           <result-set file="..\Csv\Orders.csv"/>
         </lookup-exists>
       </assert>
-    </test>
+    </test>-->
     <test name="lookup-matches" uid="00091">
       <system-under-test>
         <result-set>
@@ -212,8 +212,41 @@
         </lookup-matches>
       </assert>
     </test>
+    <test name="lookup-matches with tolerances" uid="00092">
+      <system-under-test>
+        <result-set>
+          <query>
+            select
+            NationalIdNumber,
+            h.[DepartmentID]as DepartmentID,
+            d.Name as DepartmentName
+            from
+            [HumanResources].[Employee] e
+            inner join [HumanResources].[EmployeeDepartmentHistory]
+            h on e.BusinessEntityId = h.BusinessEntityId
+            inner join [HumanResources].[Department] d on
+            h.DepartmentId = d.DepartmentId
+          </query>
+        </result-set>
+      </system-under-test>
+      <assert>
+        <lookup-matches>
+          <join>
+            <mapping candidate="DepartmentID" reference="Id" type="numeric"/>
+          </join>
+          <inclusion>
+            <mapping candidate="DepartmentName" reference="LowerName" type="text" tolerance="ignore-case"/>
+          </inclusion>
+          <result-set>
+            <query>
+              select [DepartmentID] as Id, Lower([Name]) as LowerName from [HumanResources].[Department]
+            </query>
+          </result-set>
+        </lookup-matches>
+      </assert>
+    </test>
   </group>
-  <group name="system-under-tests">
+  <!--<group name="system-under-tests">
     <test name="Embedded result-set" uid="0101">
       <system-under-test>
         <resultSet>
@@ -768,5 +801,5 @@
         </equalTo>
       </assert>
     </test>
-  </group>
+  </group>-->
 </testSuite>

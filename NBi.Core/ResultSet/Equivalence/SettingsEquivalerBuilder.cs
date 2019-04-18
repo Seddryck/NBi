@@ -31,7 +31,7 @@ namespace NBi.Core.ResultSet.Equivalence
         public void Setup(ColumnType valuesDefaultType, string toleranceString)
         {
             isBuild = false;
-            var tolerance = ToleranceFactory.Instantiate(valuesDefaultType, toleranceString);
+            var tolerance = new ToleranceFactory().Instantiate(valuesDefaultType, toleranceString);
             Setup(valuesDefaultType, tolerance);
         }
 

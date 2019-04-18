@@ -1,5 +1,6 @@
 ﻿using NBi.Core.ResultSet;
 using NBi.Core.ResultSet.Lookup;
+using NBi.Core.Scalar.Comparer;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
@@ -53,11 +54,11 @@ namespace NBi.Testing.Unit.Core.ResultSet.Lookup
             return dt;
         }
 
-        private ColumnMappingCollection BuildColumnMapping(int count, int shift = 0)
+        private ColumnMappingCollection BuildColumnMapping(int count, int shift = 0, ColumnType columnType = ColumnType.Text)
         {
             var mappings = new ColumnMappingCollection();
             for (int i = 0; i < count; i++)
-                mappings.Add(new ColumnMapping(new ColumnOrdinalIdentifier(i + shift), new ColumnOrdinalIdentifier(i + shift), ColumnType.Text));
+                mappings.Add(new ColumnMapping(new ColumnOrdinalIdentifier(i + shift), new ColumnOrdinalIdentifier(i + shift), columnType));
             return mappings;
         }
 
@@ -68,6 +69,29 @@ namespace NBi.Testing.Unit.Core.ResultSet.Lookup
             var reference = BuildDataTable(new[] { "Key0", "Key1", "Key2" }, new object[] { 0, 1, 1 });
 
             var analyzer = new LookupMatchesAnalyzer(BuildColumnMapping(1), BuildColumnMapping(1,1));
+            var violations = analyzer.Execute(candidate, reference);
+            Assert.That(violations.Count(), Is.EqualTo(0));
+        }
+
+        [Test]
+        public void Execute_ReferenceLargerThanCandidateMatchingValueWhenNoToleranceApplied_OneViolation()
+        {
+            var candidate = BuildDataTable(new[] { "Key0", "Key1" }, new object[] { 0, 1 });
+            var reference = BuildDataTable(new[] { "Key0", "Key1", "Key2" }, new object[] { 0, 2, 1 });
+
+            var analyzer = new LookupMatchesAnalyzer(BuildColumnMapping(1), BuildColumnMapping(1, 1, ColumnType.Numeric));
+            var violations = analyzer.Execute(candidate, reference);
+            Assert.That(violations.Count(), Is.EqualTo(1));
+        }
+
+        [Test]
+        public void Execute_ReferenceLargerThanCandidateMatchingValueWhenToleranceApplied_NoViolation()
+        {
+            var candidate = BuildDataTable(new[] { "Key0", "Key1" }, new object[] { 0, 1 });
+            var reference = BuildDataTable(new[] { "Key0", "Key1", "Key2" }, new object[] { 0, 2, 1 });
+            var tolerances = new Dictionary<IColumnIdentifier, Tolerance>() { { new ColumnIdentifierFactory().Instantiate("#1"), new NumericAbsoluteTolerance(1, SideTolerance.Both) } };
+ 
+            var analyzer = new LookupMatchesAnalyzer(BuildColumnMapping(1), BuildColumnMapping(1, 1, ColumnType.Numeric), tolerances);
             var violations = analyzer.Execute(candidate, reference);
             Assert.That(violations.Count(), Is.EqualTo(0));
         }
@@ -115,6 +139,8 @@ namespace NBi.Testing.Unit.Core.ResultSet.Lookup
             var violations = referencer.Execute(candidate, reference);
             Assert.That(violations.Count(), Is.EqualTo(0));
         }
+
+        
 
         [Test]
         [TestCase(1000)]

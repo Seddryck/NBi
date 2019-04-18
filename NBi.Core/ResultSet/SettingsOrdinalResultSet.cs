@@ -170,7 +170,7 @@ namespace NBi.Core.ResultSet
                 }
             }
 
-            return ToleranceFactory.Instantiate(col);
+            return new ToleranceFactory().Instantiate(col);
         }
 
         public int GetLastColumnOrdinal()

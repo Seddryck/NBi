@@ -8,7 +8,7 @@ namespace NBi.Core.Scalar.Comparer
     public class ToleranceFactory
     {
 
-        public static Tolerance Instantiate(IColumnDefinition columnDefinition)
+        public Tolerance Instantiate(IColumnDefinition columnDefinition)
         {
             if (string.IsNullOrEmpty(columnDefinition.Tolerance) || string.IsNullOrWhiteSpace(columnDefinition.Tolerance))
                 return null;
@@ -19,7 +19,7 @@ namespace NBi.Core.Scalar.Comparer
             return Instantiate(columnDefinition.Type, columnDefinition.Tolerance);
         }
 
-        public static Tolerance Instantiate(ColumnType type, string value)
+        public Tolerance Instantiate(ColumnType type, string value)
         {
             if (string.IsNullOrEmpty(value) || string.IsNullOrWhiteSpace(value))
                 return None(type);
@@ -44,7 +44,7 @@ namespace NBi.Core.Scalar.Comparer
 
             return tolerance;
         }
-
+        
         public static Tolerance None(ColumnType type)
         {
             Tolerance tolerance = null;

@@ -12,7 +12,7 @@ namespace NBi.Framework.FailureMessage.Markdown.Helper
     {
 
         public virtual string GetText(IColumnDefinition definition)
-            => GetText(definition.Role, definition.Type, ToleranceFactory.Instantiate(definition) , null);
+            => GetText(definition.Role, definition.Type, new ToleranceFactory().Instantiate(definition) , null);
 
         public virtual string GetText(ColumnMetadata metadata)
             => GetText(metadata.Role, metadata.Type, metadata.Tolerance, metadata.Rounding);

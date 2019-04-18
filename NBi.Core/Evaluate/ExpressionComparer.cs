@@ -12,7 +12,7 @@ namespace NBi.Core.Evaluate
         public bool Equal(Object x, Object y, ColumnType type, string tolerance)
         {
             var comparer = new ComparerFactory().Get(type);
-            var res = comparer.Compare(x, y, ToleranceFactory.Instantiate(type, tolerance));
+            var res = comparer.Compare(x, y, new ToleranceFactory().Instantiate(type, tolerance));
             return res.AreEqual;
         }
 

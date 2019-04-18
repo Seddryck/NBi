@@ -26,7 +26,7 @@ namespace NBi.Testing.Unit.Core.Scalar.Comparer
                 Role = columnRole,
                 Tolerance = string.Empty
             };
-            var tolerance = ToleranceFactory.Instantiate(colDef);
+            var tolerance = new ToleranceFactory().Instantiate(colDef);
             
             Assert.That(Tolerance.IsNullOrNone(tolerance), Is.True);
         }
@@ -38,7 +38,7 @@ namespace NBi.Testing.Unit.Core.Scalar.Comparer
         [TestCase(ColumnType.Boolean)]
         public void Instantiate_NoToleranceDefined_InstantiatedToNullOrNone(ColumnType columnType)
         {
-            var tolerance = ToleranceFactory.Instantiate(columnType, string.Empty);
+            var tolerance = new ToleranceFactory().Instantiate(columnType, string.Empty);
             Assert.That(Tolerance.IsNullOrNone(tolerance), Is.True);
         }
     }

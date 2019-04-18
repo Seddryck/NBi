@@ -1285,7 +1285,7 @@
   <xs:complexType name="lookup-matches-type">
     <xs:sequence minOccurs="0" maxOccurs="unbounded">
       <xs:element name="join" type="join-type" minOccurs="1" maxOccurs="1" />
-      <xs:element name="inclusion" type="join-type" minOccurs="1" maxOccurs="1" />
+      <xs:element name="inclusion" type="inclusion-type" minOccurs="1" maxOccurs="1" />
       <xs:choice minOccurs="1" maxOccurs="1">
         <xs:element name="resultSet" type="result-set-type" minOccurs="1" maxOccurs="1"/>
         <xs:element name="result-set" type="result-set-type" minOccurs="1" maxOccurs="1"/>
@@ -1297,6 +1297,12 @@
     <xs:sequence>
       <xs:element name="using" type="column-using-type" minOccurs="0" maxOccurs="unbounded"/>
       <xs:element name="mapping" type="column-mapping-type" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="inclusion-type">
+    <xs:sequence>
+      <xs:element name="using" type="extended-column-using-type" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="mapping" type="extended-column-mapping-type" minOccurs="0" maxOccurs="unbounded"/>
     </xs:sequence>
   </xs:complexType>
   <xs:complexType name="column-using-type">
@@ -1315,6 +1321,13 @@
       </xs:extension>
     </xs:simpleContent>
   </xs:complexType>
+  <xs:complexType name="extended-column-using-type">
+    <xs:simpleContent>
+      <xs:extension base="column-using-type">
+        <xs:attribute name="tolerance" use="optional" type="xs:string"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
   <xs:complexType name="column-mapping-type">
     <xs:attribute name="candidate" type="xs:string" use="required"/>
     <xs:attribute name="reference" type="xs:string" use="required"/>
@@ -1328,6 +1341,13 @@
         </xs:restriction>
       </xs:simpleType>
     </xs:attribute>
+  </xs:complexType>
+  <xs:complexType name="extended-column-mapping-type">
+    <xs:complexContent>
+      <xs:extension base="column-mapping-type">
+        <xs:attribute name="tolerance" use="optional" type="xs:string"/>
+      </xs:extension>
+    </xs:complexContent>
   </xs:complexType>
   <xs:complexType name="score-type">
     <xs:attribute name="threshold" use="optional"/>

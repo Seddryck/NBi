@@ -130,7 +130,7 @@ namespace NBi.Core.ResultSet
                     return DateTimeTolerance.None;
             }
 
-            return ToleranceFactory.Instantiate(col);
+            return new ToleranceFactory().Instantiate(col);
         }
         
 

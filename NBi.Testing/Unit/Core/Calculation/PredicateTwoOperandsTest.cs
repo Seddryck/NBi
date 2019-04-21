@@ -2,6 +2,7 @@
 using NBi.Core.Calculation;
 using NBi.Core.Calculation.Predicate;
 using NBi.Core.ResultSet;
+using NBi.Core.Scalar.Resolver;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
@@ -21,7 +22,8 @@ namespace NBi.Testing.Unit.Core.Calculation
             var predicate = new Mock<IPredicateInfo>();
             predicate.SetupGet(p => p.ColumnType).Returns(ColumnType.Numeric);
             predicate.SetupGet(p => p.ComparerType).Returns(comparerType);
-            predicate.As<IReferencePredicateInfo>().SetupGet(p => p.Reference).Returns(reference);
+            var resolver = new LiteralScalarResolver<decimal>(reference);
+            predicate.As<IReferencePredicateInfo>().SetupGet(p => p.Reference).Returns(resolver);
             predicate.As<ISecondOperandPredicateInfo>().SetupGet(p => p.SecondOperand).Returns(sop);
 
             var factory = new PredicateFactory();
@@ -37,7 +39,8 @@ namespace NBi.Testing.Unit.Core.Calculation
             var predicate = new Mock<IPredicateInfo>();
             predicate.SetupGet(p => p.ColumnType).Returns(ColumnType.Numeric);
             predicate.SetupGet(p => p.ComparerType).Returns(comparerType);
-            predicate.As<IReferencePredicateInfo>().SetupGet(p => p.Reference).Returns(reference);
+            var resolver = new LiteralScalarResolver<decimal>(reference);
+            predicate.As<IReferencePredicateInfo>().SetupGet(p => p.Reference).Returns(resolver);
             predicate.As<ISecondOperandPredicateInfo>().SetupGet(p => p.SecondOperand).Returns(sop);
 
             var factory = new PredicateFactory();

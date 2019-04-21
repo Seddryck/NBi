@@ -1,4 +1,5 @@
 ﻿using NBi.Core.Scalar.Comparer;
+using NBi.Core.Scalar.Resolver;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -10,7 +11,7 @@ namespace NBi.Core.Calculation.Predicate.Text
 {
     class TextEqual : AbstractPredicateReference
     {
-        public TextEqual(bool not, object reference) : base(not, reference)
+        public TextEqual(bool not, IScalarResolver reference) : base(not, reference)
         { }
 
         protected override bool ApplyWithReference(object reference, object x)

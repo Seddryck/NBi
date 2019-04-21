@@ -2,6 +2,7 @@
 using NBi.Core.Calculation;
 using NBi.Core.Calculation.Predicate;
 using NBi.Core.ResultSet;
+using NBi.Core.Scalar.Resolver;
 using NBi.Core.Variable;
 using NUnit.Framework;
 using System;
@@ -33,7 +34,8 @@ namespace NBi.Testing.Unit.Core.Calculation
             var predicate = new Mock<IPredicateInfo>();
             predicate.SetupGet(p => p.ColumnType).Returns(ColumnType.Text);
             predicate.SetupGet(p => p.ComparerType).Returns(comparerType);
-            predicate.As<IReferencePredicateInfo>().SetupGet(p => p.Reference).Returns(y);
+            var resolver = new LiteralScalarResolver<string>(y);
+            predicate.As<IReferencePredicateInfo>().SetupGet(p => p.Reference).Returns(resolver);
             predicate.As<ICaseSensitivePredicateInfo>().SetupGet(p => p.StringComparison).Returns(StringComparison.InvariantCultureIgnoreCase);
 
             var factory = new PredicateFactory();
@@ -50,7 +52,8 @@ namespace NBi.Testing.Unit.Core.Calculation
             var predicate = new Mock<IPredicateInfo>();
             predicate.SetupGet(p => p.ColumnType).Returns(ColumnType.Text);
             predicate.SetupGet(p => p.ComparerType).Returns(comparerType);
-            predicate.As<IReferencePredicateInfo>().SetupGet(p => p.Reference).Returns(y);
+            var resolver = new LiteralScalarResolver<string>(y);
+            predicate.As<IReferencePredicateInfo>().SetupGet(p => p.Reference).Returns(resolver);
             predicate.As<ICaseSensitivePredicateInfo>().SetupGet(p => p.StringComparison).Returns(StringComparison.InvariantCultureIgnoreCase);
 
             var factory = new PredicateFactory();
@@ -73,7 +76,8 @@ namespace NBi.Testing.Unit.Core.Calculation
             var predicate = new Mock<IPredicateInfo>();
             predicate.SetupGet(p => p.ColumnType).Returns(ColumnType.Text);
             predicate.SetupGet(p => p.ComparerType).Returns(comparerType);
-            predicate.As<IReferencePredicateInfo>().SetupGet(p => p.Reference).Returns(y);
+            var resolver = new LiteralScalarResolver<string>(y);
+            predicate.As<IReferencePredicateInfo>().SetupGet(p => p.Reference).Returns(resolver);
             predicate.As<ICaseSensitivePredicateInfo>().SetupGet(p => p.StringComparison).Returns(StringComparison.InvariantCulture);
 
             var factory = new PredicateFactory();
@@ -87,7 +91,7 @@ namespace NBi.Testing.Unit.Core.Calculation
             var predicate = new Mock<IPredicateInfo>();
             predicate.SetupGet(p => p.ColumnType).Returns(ColumnType.Text);
             predicate.SetupGet(p => p.ComparerType).Returns(ComparerType.Equal);
-            predicate.As<IReferencePredicateInfo>().SetupGet(p => p.Reference).Returns("(null)");
+            predicate.As<IReferencePredicateInfo>().SetupGet(p => p.Reference).Returns(new LiteralScalarResolver<string>("(null)"));
 
             var factory = new PredicateFactory();
             var comparer = factory.Instantiate(predicate.Object);
@@ -114,7 +118,8 @@ namespace NBi.Testing.Unit.Core.Calculation
             var predicate = new Mock<IPredicateInfo>();
             predicate.SetupGet(p => p.ColumnType).Returns(ColumnType.Numeric);
             predicate.SetupGet(p => p.ComparerType).Returns(comparerType);
-            predicate.As<IReferencePredicateInfo>().SetupGet(p => p.Reference).Returns(y);
+            var resolver = new LiteralScalarResolver<object>(y);
+            predicate.As<IReferencePredicateInfo>().SetupGet(p => p.Reference).Returns(resolver);
 
             var factory = new PredicateFactory();
             var comparer = factory.Instantiate(predicate.Object);
@@ -139,7 +144,8 @@ namespace NBi.Testing.Unit.Core.Calculation
             var predicate = new Mock<IPredicateInfo>();
             predicate.SetupGet(p => p.ColumnType).Returns(ColumnType.Numeric);
             predicate.SetupGet(p => p.ComparerType).Returns(comparerType);
-            predicate.As<IReferencePredicateInfo>().SetupGet(p => p.Reference).Returns(y);
+            var resolver = new LiteralScalarResolver<decimal>(y);
+            predicate.As<IReferencePredicateInfo>().SetupGet(p => p.Reference).Returns(resolver);
 
             var factory = new PredicateFactory();
             var comparer = factory.Instantiate(predicate.Object);
@@ -159,7 +165,7 @@ namespace NBi.Testing.Unit.Core.Calculation
             var predicate = new Mock<IPredicateInfo>();
             predicate.SetupGet(p => p.ColumnType).Returns(ColumnType.DateTime);
             predicate.SetupGet(p => p.ComparerType).Returns(comparerType);
-            predicate.As<IReferencePredicateInfo>().SetupGet(p => p.Reference).Returns((object)new DateTime(2015, y, 1));
+            predicate.As<IReferencePredicateInfo>().SetupGet(p => p.Reference).Returns(new LiteralScalarResolver<DateTime>(new DateTime(2015, y, 1)));
 
             var factory = new PredicateFactory();
             var comparer = factory.Instantiate(predicate.Object);
@@ -173,7 +179,8 @@ namespace NBi.Testing.Unit.Core.Calculation
             var predicate = new Mock<IPredicateInfo>();
             predicate.SetupGet(p => p.ColumnType).Returns(ColumnType.DateTime);
             predicate.SetupGet(p => p.ComparerType).Returns(ComparerType.WithinRange);
-            predicate.As<IReferencePredicateInfo>().SetupGet(p => p.Reference).Returns((object)range);
+            var resolver = new LiteralScalarResolver<string>(range);
+            predicate.As<IReferencePredicateInfo>().SetupGet(p => p.Reference).Returns(resolver);
 
             var factory = new PredicateFactory();
             var comparer = factory.Instantiate(predicate.Object);
@@ -189,7 +196,8 @@ namespace NBi.Testing.Unit.Core.Calculation
             var predicate = new Mock<IPredicateInfo>();
             predicate.SetupGet(p => p.ColumnType).Returns(ColumnType.Boolean);
             predicate.SetupGet(p => p.ComparerType).Returns(comparerType);
-            predicate.As<IReferencePredicateInfo>().SetupGet(p => p.Reference).Returns((object)y);
+            var resolver = new LiteralScalarResolver<bool>(y);
+            predicate.As<IReferencePredicateInfo>().SetupGet(p => p.Reference).Returns(resolver);
 
             var factory = new PredicateFactory();
             var comparer = factory.Instantiate(predicate.Object);
@@ -217,11 +225,12 @@ namespace NBi.Testing.Unit.Core.Calculation
         {
             var variable = new Mock<ITestVariable>();
             variable.Setup(v => v.GetValue()).Returns(10);
+            var variables = new Dictionary<string, ITestVariable>() { { "var", variable.Object } };
 
             var info = new Mock<IPredicateInfo>();
             info.SetupGet(i => i.ColumnType).Returns(ColumnType.Numeric);
             info.SetupGet(i => i.ComparerType).Returns(ComparerType.LessThan);
-            info.As<IReferencePredicateInfo>().SetupGet(p => p.Reference).Returns(variable.Object);
+            info.As<IReferencePredicateInfo>().SetupGet(p => p.Reference).Returns(new GlobalVariableScalarResolver<decimal>("var", variables));
 
             var factory = new PredicateFactory();
             var predicate = factory.Instantiate(info.Object);
@@ -240,7 +249,8 @@ namespace NBi.Testing.Unit.Core.Calculation
             var info = new Mock<IPredicateInfo>();
             info.SetupGet(i => i.ColumnType).Returns(ColumnType.Numeric);
             info.SetupGet(i => i.ComparerType).Returns(ComparerType.LessThan);
-            info.As<IReferencePredicateInfo>().SetupGet(p => p.Reference).Returns("@var");
+            info.As<IReferencePredicateInfo>().SetupGet(p => p.Reference)
+                .Returns(new GlobalVariableScalarResolver<decimal>("var", variables));
 
             var factory = new PredicateFactory();
             var predicate = factory.Instantiate(info.Object, variables);
@@ -261,7 +271,8 @@ namespace NBi.Testing.Unit.Core.Calculation
             var info = new Mock<IPredicateInfo>();
             info.SetupGet(i => i.ColumnType).Returns(ColumnType.Numeric);
             info.SetupGet(i => i.ComparerType).Returns(ComparerType.LessThan);
-            info.As<IReferencePredicateInfo>().SetupGet(p => p.Reference).Returns("@var");
+            info.As<IReferencePredicateInfo>().SetupGet(p => p.Reference)
+                .Returns(new GlobalVariableScalarResolver<decimal>("var", variables));
 
             var factory = new PredicateFactory();
             var predicate = factory.Instantiate(info.Object, variables);

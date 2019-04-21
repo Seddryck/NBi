@@ -1,4 +1,5 @@
 ﻿using NBi.Core.Scalar.Casting;
+using NBi.Core.Scalar.Resolver;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -12,7 +13,7 @@ namespace NBi.Core.Calculation.Predicate.Numeric
     {
         private object secondOperand;
 
-        public NumericModulo(bool not, object secondOperand, object reference) 
+        public NumericModulo(bool not, object secondOperand, IScalarResolver reference) 
             : base(not, reference)
         {
             this.secondOperand = secondOperand;

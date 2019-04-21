@@ -11,6 +11,7 @@ using NBi.Core.Evaluate;
 using System.Collections.Generic;
 using NUnit.Framework;
 using NBi.Core.ResultSet.Resolver;
+using NBi.Core.Scalar.Resolver;
 
 namespace NBi.Testing.Unit.NUnit.ResultSetComparison
 {
@@ -50,7 +51,7 @@ namespace NBi.Testing.Unit.NUnit.ResultSetComparison
             predicate.SetupGet(p => p.ColumnType).Returns(ColumnType.Numeric);
             predicate.SetupGet(p => p.ComparerType).Returns(ComparerType.Equal);
             predicate.SetupGet(p => p.Operand).Returns(new ColumnNameIdentifier("Value"));
-            predicate.As<IReferencePredicateInfo>().SetupGet(p => p.Reference).Returns((object)1);
+            predicate.As<IReferencePredicateInfo>().SetupGet(p => p.Reference).Returns(new LiteralScalarResolver<decimal>(1));
 
             var factory = new ResultSetFilterFactory(null);
             var filter = factory.Instantiate
@@ -79,7 +80,7 @@ namespace NBi.Testing.Unit.NUnit.ResultSetComparison
             predicate.SetupGet(p => p.ColumnType).Returns(ColumnType.Numeric);
             predicate.SetupGet(p => p.ComparerType).Returns(ComparerType.LessThan);
             predicate.SetupGet(p => p.Operand).Returns(new ColumnOrdinalIdentifier(1));
-            predicate.As<IReferencePredicateInfo>().SetupGet(p => p.Reference).Returns((object)0);
+            predicate.As<IReferencePredicateInfo>().SetupGet(p => p.Reference).Returns(new LiteralScalarResolver<decimal>(0));
 
             var factory = new ResultSetFilterFactory(null);
             var filter = factory.Instantiate
@@ -103,7 +104,7 @@ namespace NBi.Testing.Unit.NUnit.ResultSetComparison
             predicate.SetupGet(p => p.ColumnType).Returns(ColumnType.Numeric);
             predicate.SetupGet(p => p.ComparerType).Returns(ComparerType.LessThan);
             predicate.SetupGet(p => p.Operand).Returns(new ColumnOrdinalIdentifier(1));
-            predicate.As<IReferencePredicateInfo>().SetupGet(p => p.Reference).Returns((object)0);
+            predicate.As<IReferencePredicateInfo>().SetupGet(p => p.Reference).Returns(new LiteralScalarResolver<decimal>(0));
 
             var factory = new ResultSetFilterFactory(null);
             var filter = factory.Instantiate
@@ -127,7 +128,7 @@ namespace NBi.Testing.Unit.NUnit.ResultSetComparison
             predicate.SetupGet(p => p.ColumnType).Returns(ColumnType.Numeric);
             predicate.SetupGet(p => p.ComparerType).Returns(ComparerType.LessThan);
             predicate.SetupGet(p => p.Operand).Returns(new ColumnOrdinalIdentifier(1));
-            predicate.As<IReferencePredicateInfo>().SetupGet(p => p.Reference).Returns((object)0);
+            predicate.As<IReferencePredicateInfo>().SetupGet(p => p.Reference).Returns(new LiteralScalarResolver<decimal>(0));
 
             var factory = new ResultSetFilterFactory(null);
             var filter = factory.Instantiate
@@ -151,7 +152,7 @@ namespace NBi.Testing.Unit.NUnit.ResultSetComparison
             predicate.SetupGet(p => p.ColumnType).Returns(ColumnType.Numeric);
             predicate.SetupGet(p => p.ComparerType).Returns(ComparerType.LessThan);
             predicate.SetupGet(p => p.Operand).Returns(new ColumnOrdinalIdentifier(1));
-            predicate.As<IReferencePredicateInfo>().SetupGet(p => p.Reference).Returns((object)0);
+            predicate.As<IReferencePredicateInfo>().SetupGet(p => p.Reference).Returns(new LiteralScalarResolver<decimal>(0));
 
             var factory = new ResultSetFilterFactory(null);
             var filter = factory.Instantiate

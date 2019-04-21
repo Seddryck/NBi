@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NBi.Core.Scalar.Resolver;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -9,7 +10,7 @@ namespace NBi.Core.Calculation.Predicate.Text
 {
     class TextMoreThanOrEqual : AbstractPredicateReference
     {
-        public TextMoreThanOrEqual(bool not, object reference) : base(not, reference)
+        public TextMoreThanOrEqual(bool not, IScalarResolver reference) : base(not, reference)
         { }
 
         protected override bool ApplyWithReference(object reference, object x)

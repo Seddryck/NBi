@@ -13,7 +13,7 @@ using System.Xml.Serialization;
 
 namespace NBi.Xml.Items.Calculation
 {
-    public class PredicationXml : IPredicateInfo, IReferencePredicateInfo, ISecondOperandPredicateInfo, ICultureSensitivePredicateInfo, ICaseSensitivePredicateInfo 
+    public class PredicationXml : IPredicateInfo, ISecondOperandPredicateInfo, ICultureSensitivePredicateInfo, ICaseSensitivePredicateInfo 
     {
         public PredicationXml()
         {

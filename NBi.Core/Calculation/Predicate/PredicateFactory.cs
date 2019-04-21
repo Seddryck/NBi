@@ -3,6 +3,7 @@ using NBi.Core.Calculation.Predicate.DateTime;
 using NBi.Core.Calculation.Predicate.Numeric;
 using NBi.Core.Calculation.Predicate.Text;
 using NBi.Core.ResultSet;
+using NBi.Core.Scalar.Resolver;
 using NBi.Core.Variable;
 using System;
 using System.Collections.Generic;
@@ -14,7 +15,7 @@ namespace NBi.Core.Calculation.Predicate
 {
     class PredicateFactory
     {
-        public IPredicate Instantiate(ComparerType comparerType, ColumnType columnType, bool not, object reference, string culture, StringComparison stringComparison, object secondOperand)
+        public IPredicate Instantiate(ComparerType comparerType, ColumnType columnType, bool not, IScalarResolver reference, string culture, StringComparison stringComparison, object secondOperand)
         {
             switch (columnType)
             {
@@ -101,21 +102,21 @@ namespace NBi.Core.Calculation.Predicate
 
         public IPredicate Instantiate(IPredicateInfo info, IDictionary<string, ITestVariable> variables)
         {
-            object reference = null;
+            IScalarResolver reference = null;
             if (info is IReferencePredicateInfo)
             {
                 reference = (info as IReferencePredicateInfo).Reference;
-                if ((info as IReferencePredicateInfo).Reference is string)
-                    if (((info as IReferencePredicateInfo).Reference as string).StartsWith("@"))
-                    {
-                        if (variables == null)
-                            throw new ArgumentException("The dictionary of variables can't be null", nameof(variables));
+                //if ((info as IReferencePredicateInfo).Reference is GlobalVariableScalarResolver)
+                //    if (((info as IReferencePredicateInfo).Reference as string).StartsWith("@"))
+                //    {
+                //        if (variables == null)
+                //            throw new ArgumentException("The dictionary of variables can't be null", nameof(variables));
 
-                        var key = ((info as IReferencePredicateInfo).Reference as string).Substring(1);
-                        if (!variables.ContainsKey(key))
-                            throw new NBiException($"The predicate uses the variable '{key}' as a reference but this variable is not defined.");
-                        reference = variables[key];
-                    }
+                //        var key = ((info as IReferencePredicateInfo).Reference as string).Substring(1);
+                //        if (!variables.ContainsKey(key))
+                //            throw new NBiException($"The predicate uses the variable '{key}' as a reference but this variable is not defined.");
+                //        reference = variables[key];
+                //    }
             }
 
             return Instantiate(info.ComparerType, info.ColumnType, info.Not

@@ -2,6 +2,7 @@
 using NBi.Core.Calculation;
 using NBi.Core.Calculation.Predicate;
 using NBi.Core.ResultSet;
+using NBi.Core.Scalar.Resolver;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
@@ -16,7 +17,7 @@ namespace NBi.Testing.Unit.Core.Calculation.Predicate.Text
         [Test]
         [TestCase("Paris", new[] { "Paris", "Bruxelles", "Amsterdam" }, StringComparison.InvariantCulture)]
         [TestCase("paris", new[] { "Paris", "Bruxelles", "Amsterdam" }, StringComparison.InvariantCultureIgnoreCase)]
-        public void Compare_Text_Success(object value, object reference, StringComparison stringComparison)
+        public void Compare_Text_Success(object value, IScalarResolver reference, StringComparison stringComparison)
         {
             var predicate = new Mock<IPredicateInfo>();
             predicate.SetupGet(i => i.ColumnType).Returns(ColumnType.Text);
@@ -38,7 +39,8 @@ namespace NBi.Testing.Unit.Core.Calculation.Predicate.Text
             var predicate = new Mock<IPredicateInfo>();
             predicate.SetupGet(i => i.ColumnType).Returns(ColumnType.Text);
             predicate.SetupGet(i => i.ComparerType).Returns(ComparerType.AnyOf);
-            predicate.As<IReferencePredicateInfo>().SetupGet(i => i.Reference).Returns(reference);
+            var resolver = new LiteralScalarResolver<string>(reference);
+            predicate.As<IReferencePredicateInfo>().SetupGet(i => i.Reference).Returns(resolver);
             predicate.As<ICaseSensitivePredicateInfo>().SetupGet(i => i.StringComparison).Returns(stringComparison);
 
             var factory = new PredicateFactory();

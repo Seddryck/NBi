@@ -11,6 +11,7 @@ using NBi.Core.Evaluate;
 using NBi.Core.ResultSet;
 using NBi.Core.ResultSet.Resolver;
 using NBi.Core.Transformation;
+using NBi.Core.Scalar.Resolver;
 
 namespace NBi.Testing.Unit.Core.Calculation
 {
@@ -183,7 +184,7 @@ namespace NBi.Testing.Unit.Core.Calculation
             predicate.SetupGet(p => p.ColumnType).Returns(ColumnType.Numeric);
             predicate.SetupGet(p => p.ComparerType).Returns(ComparerType.MoreThanOrEqual);
             predicate.SetupGet(p => p.Operand).Returns(new ColumnNameIdentifier("d"));
-            predicate.As<IReferencePredicateInfo>().SetupGet(p => p.Reference).Returns((object)200);
+            predicate.As<IReferencePredicateInfo>().SetupGet(p => p.Reference).Returns(new LiteralScalarResolver<decimal>(200));
 
             var factory = new ResultSetFilterFactory(null);
             var filter = factory.Instantiate(aliases, expressions, predicate.Object);
@@ -221,7 +222,7 @@ namespace NBi.Testing.Unit.Core.Calculation
             predicate.SetupGet(p => p.ColumnType).Returns(ColumnType.Numeric);
             predicate.SetupGet(p => p.ComparerType).Returns(ComparerType.MoreThanOrEqual);
             predicate.SetupGet(p => p.Operand).Returns(new ColumnNameIdentifier("d"));
-            predicate.As<IReferencePredicateInfo>().SetupGet(p => p.Reference).Returns((object)200);
+            predicate.As<IReferencePredicateInfo>().SetupGet(p => p.Reference).Returns(new LiteralScalarResolver<decimal>(200));
 
             var factory = new ResultSetFilterFactory(null);
             var filter = factory.Instantiate(aliases, expressions, predicate.Object);
@@ -262,7 +263,7 @@ namespace NBi.Testing.Unit.Core.Calculation
             predicate.SetupGet(p => p.ColumnType).Returns(ColumnType.DateTime);
             predicate.SetupGet(p => p.ComparerType).Returns(ComparerType.MoreThanOrEqual);
             predicate.SetupGet(p => p.Operand).Returns(new ColumnNameIdentifier("d"));
-            predicate.As<IReferencePredicateInfo>().SetupGet(p => p.Reference).Returns((object)new DateTime(2019, 10, 2));
+            predicate.As<IReferencePredicateInfo>().SetupGet(p => p.Reference).Returns(new LiteralScalarResolver<DateTime>(new DateTime(2019, 10, 2)));
 
             var factory = new ResultSetFilterFactory(null);
             var filter = factory.Instantiate(aliases, expressions, predicate.Object);

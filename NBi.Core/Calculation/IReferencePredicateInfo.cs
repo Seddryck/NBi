@@ -1,4 +1,5 @@
 ﻿using NBi.Core.ResultSet;
+using NBi.Core.Scalar.Resolver;
 using NBi.Core.Variable;
 using System;
 using System.Collections.Generic;
@@ -11,6 +12,6 @@ namespace NBi.Core.Calculation
 {
     public interface IReferencePredicateInfo
     {
-        object Reference { get; }
+        IScalarResolver Reference { get; }
     }
 }

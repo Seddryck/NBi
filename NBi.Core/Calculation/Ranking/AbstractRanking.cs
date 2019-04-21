@@ -8,6 +8,7 @@ using NBi.Core.Calculation.Predicate;
 using NBi.Core.Calculation.Ranking.Scoring;
 using NBi.Core.Evaluate;
 using NBi.Core.ResultSet;
+using NBi.Core.Scalar.Resolver;
 
 namespace NBi.Core.Calculation.Ranking
 {
@@ -49,12 +50,12 @@ namespace NBi.Core.Calculation.Ranking
         {
             var info = new PredicateInfo();
             var factory = new PredicateFactory();
-            var predicateInfo = BuildPredicateInfo(oldObj.Score);
+            var predicateInfo = BuildPredicateInfo(new LiteralScalarResolver<decimal>(oldObj.Score));
             var predicate = factory.Instantiate(predicateInfo);
             return predicate.Execute(newObj.Score);
         }
 
-        private IPredicateInfo BuildPredicateInfo(object reference)
+        private IPredicateInfo BuildPredicateInfo(IScalarResolver reference)
             => new PredicateInfo()
             {
                 Operand = operand,
@@ -71,7 +72,7 @@ namespace NBi.Core.Calculation.Ranking
             public ColumnType ColumnType { get; set; }
             public ComparerType ComparerType { get; set; }
             public bool Not { get; set; }
-            public object Reference { get; set; }
+            public IScalarResolver Reference { get; set; }
         }
     }
 }

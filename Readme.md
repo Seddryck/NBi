@@ -4,18 +4,17 @@ NBi is a **testing framework** (add-on to NUnit) for **Business Intelligence**. 
 
 The main goal of this framework is to let users create tests with a declarative approach based on an **Xml** syntax. By the means of NBi, you don't need to develop C# code to specify your tests! Either, you don't need Visual Studio to compile your test suite. Just create an Xml file and let the framework interpret it and play your tests. The framework is designed as an add-on of NUnit but with the possibility to port it easily to other testing frameworks.
 
-[![Build status](https://img.shields.io/badge/website-nbi.io-fe762d.svg)](http://www.nbi.io)
+[![website](https://img.shields.io/badge/website-nbi.io-fe762d.svg)](http://www.nbi.io)
+[![twitter badge](https://img.shields.io/badge/twitter-@Seddryck-blue.svg?style=flat&logo=twitter)](https://twitter.com/Seddryck)
+
+![nuget](https://img.shields.io/nuget/v/NBi.Framework.svg) 
+![GitHub Release Date](https://img.shields.io/github/release-date/seddryck/nbi.svg)
+[![licence badge](https://img.shields.io/badge/License-Apache%202.0-yellow.svg)](https://github.com/Seddryck/NBi/blob/master/LICENSE)
+
+![GitHub last commit](https://img.shields.io/github/last-commit/Seddryck/nbi.svg)
 [![Build status](https://ci.appveyor.com/api/projects/status/t5m0hr57vnsdv0v7?svg=true)](https://ci.appveyor.com/project/Seddryck/nbi)
 ![Still maintained](https://img.shields.io/maintenance/yes/2019.svg)
-![nuget](https://img.shields.io/nuget/v/NBi.Framework.svg) 
-[![licence badge]][licence]
-[![stars badge]][stars]
-
-[licence badge]:https://img.shields.io/badge/License-Apache%202.0-yellow.svg
-[stars badge]:https://img.shields.io/github/stars/Seddryck/NBi.svg
-
-[licence]:https://github.com/Seddryck/NBi/blob/master/LICENSE
-[stars]:https://github.com/Seddryck/NBi/stargazers
+[![stars badge](https://img.shields.io/github/stars/Seddryck/NBi.svg)](https://github.com/Seddryck/NBi/stargazers)
 
 ## Releases ##
 Binaries for the different releases are hosted on [www.nbi.io](http://www.nbi.io/release/) or [GitHub](https://github.com/Seddryck/NBi/releases)
@@ -54,7 +53,7 @@ Two artefacts are provided by this CI:
 NBi is using **Git** as DCVS and the code is hosted on [Github](https://github.com/Seddryck/NBi). 
 
 ### Automated Testing ###
-NBi has around 1600 automated tests, asserting a lot of features before each release. These tests are organized in three folders:
+NBi has around 2500 automated tests, asserting a lot of features before each release. These tests are organized in three folders:
 
 - Acceptance: The tests are effectively written in nbits file and played end-to-end by the framework itself. They don't use any fake, mock or stub and are connected to real databases and cubes and perform queries on them.
 - Integration: These tests are used to assert interactions with external resources such as databases or cubes. They make usage of stubs to define parameters impacting the code to use.

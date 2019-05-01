@@ -621,9 +621,6 @@
     <EmbeddedResource Include="Acceptance\GenbiL\Resources\MatchPattern.genbil">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="Acceptance\Resources\Etl\DateTime.dtsx">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
     <EmbeddedResource Include="Acceptance\Resources\Positive\Is.nbits">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
@@ -863,14 +860,6 @@
     <None Include="Acceptance\Resources\Reports\Store_Contacts.rdl">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <EmbeddedResource Include="Acceptance\Resources\Positive\Etl.nbits">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Acceptance\Resources\Etl\Sample.dtsx">
-      <SubType>Designer</SubType>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
     <EmbeddedResource Include="Acceptance\Resources\Negative\DataRowsMessage.nbits">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
@@ -1186,7 +1175,6 @@
     <None Include="Acceptance\GenbiL\Resources\dimension.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <Content Include="Acceptance\Resources\Etl\Password for ETL.txt" />
     <EmbeddedResource Include="Unit\Xml\Resources\TraitXmlTestSuite.xml" />
     <EmbeddedResource Include="Unit\Xml\Resources\CsvProfileXmlTestSuite.xml" />
     <EmbeddedResource Include="Acceptance\Resources\Negative\ItemsMessage-0002.txt" />

@@ -15,10 +15,6 @@ namespace NBi.Testing.Acceptance
         [TestFixtureSetUp]
         public void SetupMethods()
         {
-            //Build the fullpath for the file to read
-            Directory.CreateDirectory("Etl");
-            DiskOnFile.CreatePhysicalFile(@"Etl\Sample.dtsx", "NBi.Testing.Integration.SqlServer.IntegrationService.Resources.Sample.dtsx");
-
             //Set environment variable
             Environment.SetEnvironmentVariable("FirstJanuary2015", "2015-01-01", EnvironmentVariableTarget.User);
             Environment.SetEnvironmentVariable("ConnStrAdvWorksCloud", ConnectionStringReader.GetSqlClient(), EnvironmentVariableTarget.User);

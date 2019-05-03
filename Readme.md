@@ -17,8 +17,8 @@ The main goal of this framework is to let users create tests with a declarative 
 ![Still maintained](https://img.shields.io/maintenance/yes/2019.svg)
 
 [![stars badge](https://img.shields.io/github/stars/Seddryck/NBi.svg)](https://github.com/Seddryck/NBi/stargazers)
-[![Board Status](https://seddryck.visualstudio.com/1ffee8db-c272-4d19-b571-192052cef255/b227a8a4-e4a5-4af1-82e4-cccbea4ba390/_apis/work/boardbadge/7521abfe-676b-4641-b76d-22c3eec56051)](https://seddryck.visualstudio.com/1ffee8db-c272-4d19-b571-192052cef255/_boards/board/t/b227a8a4-e4a5-4af1-82e4-cccbea4ba390/Microsoft.RequirementCategory)
-
+[![Bugs badge](https://img.shields.io/github/issues/Seddryck/NBi/bug.svg?color=red&label=Bugs)](https://github.com/Seddryck/NBi/issues?utf8=%E2%9C%93&q=is:issue+is:open+label:bug+)
+[![Features badge](https://img.shields.io/github/issues/seddryck/nbi/feature-request.svg?color=purple&label=Feature%20requests)](https://github.com/Seddryck/NBi/issues?utf8=%E2%9C%93&q=is:issue+is:open+label:feature-request+)
 ## Releases ##
 Binaries for the different releases are hosted on [www.nbi.io](http://www.nbi.io/release/) or [GitHub](https://github.com/Seddryck/NBi/releases)
 

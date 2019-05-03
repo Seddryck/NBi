@@ -13,8 +13,11 @@ The main goal of this framework is to let users create tests with a declarative 
 
 ![GitHub last commit](https://img.shields.io/github/last-commit/Seddryck/nbi.svg)
 [![Build status](https://ci.appveyor.com/api/projects/status/t5m0hr57vnsdv0v7?svg=true)](https://ci.appveyor.com/project/Seddryck/nbi)
+[![Build Status](https://seddryck.visualstudio.com/NBi/_apis/build/status/NBi-CI?branchName=develop)](https://seddryck.visualstudio.com/NBi/_build/latest?definitionId=1&branchName=develop)
 ![Still maintained](https://img.shields.io/maintenance/yes/2019.svg)
+
 [![stars badge](https://img.shields.io/github/stars/Seddryck/NBi.svg)](https://github.com/Seddryck/NBi/stargazers)
+[![Board Status](https://seddryck.visualstudio.com/1ffee8db-c272-4d19-b571-192052cef255/b227a8a4-e4a5-4af1-82e4-cccbea4ba390/_apis/work/boardbadge/7521abfe-676b-4641-b76d-22c3eec56051)](https://seddryck.visualstudio.com/1ffee8db-c272-4d19-b571-192052cef255/_boards/board/t/b227a8a4-e4a5-4af1-82e4-cccbea4ba390/Microsoft.RequirementCategory)
 
 ## Releases ##
 Binaries for the different releases are hosted on [www.nbi.io](http://www.nbi.io/release/) or [GitHub](https://github.com/Seddryck/NBi/releases)

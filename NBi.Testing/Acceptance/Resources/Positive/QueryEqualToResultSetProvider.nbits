@@ -1,6 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <testSuite name="Acceptance Testing: query equalTo ResultSet" xmlns="http://NBi/TestSuite">
   <test name="'Reseller Orders' count, year by year, between 2005 and 2008 on an Excel file" uid="0001">
+    <condition>
+      <service-running name="MSOLAP$SQL2017"/>
+    </condition>
     <system-under-test>
       <execution>
         <query

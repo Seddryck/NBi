@@ -1,3 +1,4 @@
+[![Board Status](https://seddryck.visualstudio.com/1ffee8db-c272-4d19-b571-192052cef255/b227a8a4-e4a5-4af1-82e4-cccbea4ba390/_apis/work/boardbadge/7521abfe-676b-4641-b76d-22c3eec56051)](https://seddryck.visualstudio.com/1ffee8db-c272-4d19-b571-192052cef255/_boards/board/t/b227a8a4-e4a5-4af1-82e4-cccbea4ba390/Microsoft.RequirementCategory)
 ![Logo](https://github.com/Seddryck/nbi/raw/gh-pages/img/logo-2x.png)
 # NBi #
 NBi is a **testing framework** (add-on to NUnit) for **Business Intelligence**. It supports most of the relational databases (SQL server, MySQL, postgreSQL ...) and OLAP platforms (Analysis Services, Mondrian ...) but also ETL and reporting components (Microsoft technologies).

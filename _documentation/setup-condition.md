@@ -53,8 +53,8 @@ The following custom condition, returns true if the day of month is even, else r
 {% highlight csharp %}
 public class CustomConditionBasedOnDay : ICustomCondition
 {
-	public CustomConditionResult Execute() 
-		=> new CustomConditionResult(Date.Now.Day % 2 == 0, "Oh man, retry tomorrow!");
+    public CustomConditionResult Execute() 
+        => new CustomConditionResult(Date.Now.Day % 2 == 0, "Oh man, retry tomorrow!");
 }
 {% endhighlight %}
 

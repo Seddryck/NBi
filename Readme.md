@@ -7,24 +7,24 @@ The main goal of this framework is to let users create tests with a declarative 
 [![website](https://img.shields.io/badge/website-nbi.io-fe762d.svg)](http://www.nbi.io)
 [![twitter badge](https://img.shields.io/badge/twitter-@Seddryck-blue.svg?style=flat&logo=twitter)](https://twitter.com/Seddryck)
 
-![nuget](https://img.shields.io/nuget/v/NBi.Framework.svg) 
-![GitHub Release Date](https://img.shields.io/github/release-date/seddryck/nbi.svg)
+[![nuget](https://img.shields.io/nuget/v/NBi.Framework.svg)](https://www.nuget.org/packages/NBi.Framework/)
+[![GitHub Release Date](https://img.shields.io/github/release-date/seddryck/nbi.svg)](https://github.com/Seddryck/NBi/releases/latest)
 [![licence badge](https://img.shields.io/badge/License-Apache%202.0-yellow.svg)](https://github.com/Seddryck/NBi/blob/master/LICENSE)
 
-![GitHub last commit](https://img.shields.io/github/last-commit/Seddryck/nbi.svg)
+[![GitHub last commit](https://img.shields.io/github/last-commit/Seddryck/nbi.svg)](https://github.com/Seddryck/NBi/releases/latest)
 ![Still maintained](https://img.shields.io/maintenance/yes/2019.svg)
 
 [![Build status](https://ci.appveyor.com/api/projects/status/t5m0hr57vnsdv0v7?svg=true)](https://ci.appveyor.com/project/Seddryck/nbi)
 [![Tests](https://img.shields.io/appveyor/tests/seddryck/nbi.svg)](https://ci.appveyor.com/project/Seddryck/nbi/build/tests)
 [![Build Status](https://seddryck.visualstudio.com/NBi/_apis/build/status/NBi-CI?branchName=develop)](https://seddryck.visualstudio.com/NBi/_build/latest?definitionId=1&branchName=develop)
 
-![Pre-release](https://img.shields.io/github/tag-pre/seddryck/nbi.svg?color=%23ee41f4&label=Pre-release)
-![nuget](https://img.shields.io/nuget/vpre/NBi.Framework.svg?color=%23427682&label=Beta) 
+[![Pre-release](https://img.shields.io/github/tag-pre/seddryck/nbi.svg?color=%23ee41f4&label=Pre-release)](https://github.com/Seddryck/NBi/releases/)
+[![nuget](https://img.shields.io/nuget/vpre/NBi.Framework.svg?color=%23427682&label=Beta)](https://www.nuget.org/packages/NBi.Framework/)
 
 [![stars badge](https://img.shields.io/github/stars/Seddryck/NBi.svg)](https://github.com/Seddryck/NBi/stargazers)
 [![Bugs badge](https://img.shields.io/github/issues/Seddryck/NBi/bug.svg?color=red&label=Bugs)](https://github.com/Seddryck/NBi/issues?utf8=%E2%9C%93&q=is:issue+is:open+label:bug+)
 [![Features badge](https://img.shields.io/github/issues/seddryck/nbi/feature-request.svg?color=purple&label=Feature%20requests)](https://github.com/Seddryck/NBi/issues?utf8=%E2%9C%93&q=is:issue+is:open+label:feature-request+)
-![Top language](https://img.shields.io/github/languages/top/seddryck/nbi.svg)
+[![Top language](https://img.shields.io/github/languages/top/seddryck/nbi.svg)](https://github.com/Seddryck/NBi/search?l=C%23)
 
 ## Releases ##
 Binaries for the different releases are hosted on [www.nbi.io](http://www.nbi.io/release/) or [GitHub](https://github.com/Seddryck/NBi/releases)
@@ -74,9 +74,9 @@ NBi is using **Git** as DCVS and the code is hosted on [Github](https://github.c
 
 If you want to develop a new feature, you're encouraged to read the [contribution guidelines](https://github.com/Seddryck/NBi/blob/develop/contributing.md).
 
-NBi is mostly developed in C# with a bit of SQL and MDX.
+NBi is mostly developed in [C#](https://github.com/Seddryck/NBi/search?l=c%23) with a bit of [SQL](https://github.com/Seddryck/NBi/search?l=sql) and [XML](https://github.com/Seddryck/NBi/search?l=xml).
 
 ## Tracking ##
 This OSS project is tracked by [Ohloh](http://www.ohloh.net/p/NBi)
 
-[![Project Stats](https://www.ohloh.net/p/nbi/widgets/project_thin_badge.gif)](https://www.ohloh.net/p/nbi)
+[![Project Stats](https://www.openhub.net/p/nbi/widgets/project_thin_badge.gif)](https://www.openhub.net/p/nbi)

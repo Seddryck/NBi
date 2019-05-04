@@ -23,15 +23,17 @@ namespace NBi.Xsd.Preprocess
 {
     public class XsdSchemaNormalizer
     {
-        private static bool NormalizeXmlSchema(String url, TextWriter writer)
+        private static bool NormalizeXmlSchema(string url, TextWriter writer)
         {
             try
             {
-                XmlTextReader txtRead = new XmlTextReader(url);
-                XmlSchema sch = XmlSchema.Read(txtRead, null);
+                var txtRead = new XmlTextReader(url);
+                var sch = XmlSchema.Read(txtRead, null);
+                var schemaSet = new XmlSchemaSet();
+                schemaSet.Add(sch);
 
                 // Compiling Schema
-                sch.Compile(null);
+                schemaSet.Compile();
 
                 var outSch = XmlSchemaIncludeNormalizer.BuildIncludeFreeXmlSchema(sch);
 

@@ -9,6 +9,9 @@
 		</default>
 	</settings>
 	<test name="Members of department bellow 'Corporate' are in the following list" uid="0001">
+    <condition>
+      <service-running name="MSOLAP$SQL2017"/>
+    </condition>
 		<system-under-test>
 			<members children-of="Corporate">
 				<hierarchy caption="Departments" dimension="Department" perspective="Adventure Works"/>
@@ -27,6 +30,9 @@
 		</assert>
 	</test>
   <test name="Members of department bellow 'Corporate' are in the following list" uid="0002">
+    <condition>
+      <service-running name="MSOLAP$SQL2017"/>
+    </condition>
     <system-under-test>
       <members children-of="Corporate">
         <hierarchy caption="Departments" dimension="Department" perspective="Adventure Works"/>

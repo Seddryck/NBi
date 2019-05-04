@@ -237,18 +237,14 @@
     <Compile Include="Integration\Core\Query\Resolver\AssemblyQueryResolverTest.cs" />
     <Compile Include="Integration\Core\Query\Resolver\ExternalFileQueryResolverTest.cs" />
     <Compile Include="Integration\NUnit\Runtime\Embed\EngineTest.cs" />
-    <Compile Include="Integration\SqlServer\IntegrationService\EtlCatalogRunnerTest.cs" />
     <Compile Include="Integration\Core\Query\Validation\OdbcValidationEngineTest.cs" />
     <Compile Include="Integration\Core\Query\Validation\OleDbValidationEngineTest.cs" />
     <Compile Include="Integration\Core\Query\Validation\SqlValidationEngineTest.cs" />
-    <Compile Include="Integration\SqlServer\Smo\BatchRunCommandTest.cs" />
     <Compile Include="Integration\Core\DataManipulation\SqlServer\BulkLoadCommandTest.cs" />
     <Compile Include="Integration\Core\DataManipulation\SqlServer\TruncateCommandTest.cs" />
     <Compile Include="Integration\Core\DataType\Relational\RelationalDataTypeDiscoveryFactoryTest.cs" />
     <Compile Include="Integration\Core\OfficeDataConnectionFileParserTest.cs" />
     <Compile Include="Integration\GenbiL\Action\ActionTest.cs" />
-    <Compile Include="Integration\SqlServer\IntegrationService\EtlDtsWindowsRunnerTest.cs" />
-    <Compile Include="Integration\SqlServer\IntegrationService\EtlFileRunnerTest.cs" />
     <Compile Include="Integration\Core\FileManipulation\CopyCommandTest.cs" />
     <Compile Include="Integration\Core\Process\ProcessRunCommandTest.cs" />
     <Compile Include="Integration\Core\FileManipulation\DeleteCommandTest.cs" />
@@ -299,7 +295,6 @@
     <Compile Include="Unit\Core\DataType\DataTypeInfoFactoryTest.cs" />
     <Compile Include="Unit\Core\FlatFile\FlatFileReaderfactoryTest.cs" />
     <Compile Include="Unit\Core\GroupCommandFactoryTest.cs" />
-    <Compile Include="Unit\Core\Etl\SsisEtlRunnerFactoryTest.cs" />
     <Compile Include="Unit\Core\Evaluate\RowValidatorTest.cs" />
     <Compile Include="Unit\Core\DataManipulation\DataManipulationFactoryTest.cs" />
     <Compile Include="Unit\Core\Evaluate\ExpressionComparableTest.cs" />
@@ -391,7 +386,6 @@
     <Compile Include="Unit\Core\Sequence\Resolver\Loop\CountDateTimeLoopStrategyTest.cs" />
     <Compile Include="Unit\Core\Sequence\Resolver\Loop\CountNumericLoopStrategyTest.cs" />
     <Compile Include="Unit\Core\Sequence\Resolver\SequenceResolverFactoryTest.cs" />
-    <Compile Include="Unit\Core\SqlServer\Smo\SmoBatchRunnerFactoryTest.cs" />
     <Compile Include="Unit\Core\Structure\Olap\Builders\HierarchyDiscoveryCommandBuilderTest.cs" />
     <Compile Include="Unit\Core\Structure\Olap\Builders\MeasureDiscoveryCommandBuilderTest.cs" />
     <Compile Include="Unit\Core\Structure\Olap\Builders\DimensionDiscoveryCommandBuilderTest.cs" />
@@ -625,9 +619,6 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="Acceptance\GenbiL\Resources\MatchPattern.genbil">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Acceptance\Resources\Etl\DateTime.dtsx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="Acceptance\Resources\Positive\Is.nbits">
@@ -869,14 +860,6 @@
     <None Include="Acceptance\Resources\Reports\Store_Contacts.rdl">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <EmbeddedResource Include="Acceptance\Resources\Positive\Etl.nbits">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Acceptance\Resources\Etl\Sample.dtsx">
-      <SubType>Designer</SubType>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
     <EmbeddedResource Include="Acceptance\Resources\Negative\DataRowsMessage.nbits">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
@@ -894,21 +877,20 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="app.config" />
+    <None Include="ConnectionString.azuredevops.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="ConnectionString.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <EmbeddedResource Include="Integration\NUnit\Resources\NonEmptyAmountByYear.csv" />
     <EmbeddedResource Include="Integration\Core\DataManipulation\Load.csv" />
-    <EmbeddedResource Include="Integration\SqlServer\IntegrationService\Resources\Sample.dtsx" />
     <EmbeddedResource Include="Integration\Core\Resources\MyBatch.cmd" />
     <EmbeddedResource Include="Integration\Core\Resources\MyInvalidBatch.cmd" />
     <EmbeddedResource Include="Integration\GenbiL\Resources\Simple.genbil" />
     <None Include="Integration\GenbiL\Resources\action.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <EmbeddedResource Include="Integration\SqlServer\IntegrationService\Resources\DimCalendar.csv" />
-    <EmbeddedResource Include="Integration\SqlServer\IntegrationService\Resources\DimGeography.csv" />
-    <EmbeddedResource Include="Integration\SqlServer\IntegrationService\Resources\DimScientist.csv" />
     <EmbeddedResource Include="Unit\Core\Report\Resources\Currency_Rates.rdl" />
     <EmbeddedResource Include="Unit\Core\Report\Resources\Currency_List.rdl" />
     <EmbeddedResource Include="Unit\Service\Resources\OrderedLight.nbitt" />
@@ -1037,10 +1019,6 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\NBi.Core.SqlServer\NBi.Core.SqlServer.csproj">
-      <Project>{687f2843-268c-43e2-8369-9eb06b9b59f8}</Project>
-      <Name>NBi.Core.SqlServer</Name>
-    </ProjectReference>
     <ProjectReference Include="..\NBi.Core\NBi.Core.csproj">
       <Project>{3f730647-fe31-4907-8a6e-a0c4a0c970ea}</Project>
       <Name>NBi.Core</Name>
@@ -1200,10 +1178,8 @@
     <None Include="Acceptance\GenbiL\Resources\dimension.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <Content Include="Acceptance\Resources\Etl\Password for ETL.txt" />
     <EmbeddedResource Include="Unit\Xml\Resources\TraitXmlTestSuite.xml" />
     <EmbeddedResource Include="Unit\Xml\Resources\CsvProfileXmlTestSuite.xml" />
-    <EmbeddedResource Include="Integration\SqlServer\Smo\Batch.sql" />
     <EmbeddedResource Include="Acceptance\Resources\Negative\ItemsMessage-0002.txt" />
     <EmbeddedResource Include="Acceptance\Resources\Negative\ItemsMessage-0001.txt" />
     <EmbeddedResource Include="Acceptance\Resources\Negative\DataRowsMessage-0001.txt" />

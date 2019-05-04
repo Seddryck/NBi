@@ -17,21 +17,21 @@ namespace NBi.Testing.Unit.Core.FlatFile
         #region Fake
         public class FakeFlatFileReader : IFlatFileReader
         {
-            public event ProgressStatusHandler ProgressStatusChanged;
+            public event ProgressStatusHandler ProgressStatusChanged { add { } remove { } }
 
             public DataTable ToDataTable(string filename) => throw new NotImplementedException();
         }
 
         public class FakeFlatFileReader2 : IFlatFileReader
         {
-            public event ProgressStatusHandler ProgressStatusChanged;
+            public event ProgressStatusHandler ProgressStatusChanged { add { } remove { } }
 
             public DataTable ToDataTable(string filename) => throw new NotImplementedException();
         }
 
         public class FakeFlatFileReader3 : IFlatFileReader
         {
-            public event ProgressStatusHandler ProgressStatusChanged;
+            public event ProgressStatusHandler ProgressStatusChanged { add { } remove { } }
 
             public DataTable ToDataTable(string filename) => throw new NotImplementedException();
         }
@@ -41,7 +41,7 @@ namespace NBi.Testing.Unit.Core.FlatFile
             public FakeFlatFileReaderWrong(string whatsup)
                 : base() { }
 
-            public event ProgressStatusHandler ProgressStatusChanged;
+            public event ProgressStatusHandler ProgressStatusChanged { add { } remove { } }
 
             public DataTable ToDataTable(string filename) => throw new NotImplementedException();
         }

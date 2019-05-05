@@ -35,7 +35,7 @@ namespace NBi.Testing.Integration.Core.Query.Validation
             var res = qp.Parse();
 
             Assert.That(res.IsSuccesful, Is.False);
-            Assert.That(res.Errors[0], Is.EqualTo("Invalid object name 'WrongTableName'."));
+            Assert.That(res.Errors, Has.Member("Invalid object name 'WrongTableName'."));
         }
 
         [Test]
@@ -60,7 +60,7 @@ namespace NBi.Testing.Integration.Core.Query.Validation
             var res = qp.Parse();
 
             Assert.That(res.IsSuccesful, Is.False);
-            Assert.That(res.Errors[0], Is.EqualTo("Invalid column name 'WrongField'."));
+            Assert.That(res.Errors, Has.Member("Invalid column name 'WrongField'."));
         }
 
         [Test]
@@ -87,7 +87,7 @@ namespace NBi.Testing.Integration.Core.Query.Validation
             var res = qp.Parse();
 
             Assert.That(res.IsSuccesful, Is.False);
-            Assert.That(res.Errors[0], Is.EqualTo("Incorrect syntax near 'SELECTION'."));
+            Assert.That(res.Errors, Has.Member("Incorrect syntax near 'SELECTION'."));
         }
 
 

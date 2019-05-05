@@ -13,8 +13,6 @@ before_package:
 - cmd: clone-extensions.cmd
 after_build:
 - ps: >-
-    .\NBi.Core.SqlServer\build-multiple-version.ps1 @("2008R2", "2012", "2014", "2016", "2017", "2019")
-
     $nuget_version = "$env:GitVersion_NuGetVersionV2"
 
     .\.packages\package-NBi.ps1 $nuget_version

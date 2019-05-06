@@ -4,24 +4,24 @@ NBi is a **testing framework** (add-on to NUnit) for **Business Intelligence**. 
 
 The main goal of this framework is to let users create tests with a declarative approach based on an **Xml** syntax. By the means of NBi, you don't need to develop C# code to specify your tests! Either, you don't need Visual Studio to compile your test suite. Just create an Xml file and let the framework interpret it and play your tests. The framework is designed as an add-on of NUnit but with the possibility to port it easily to other testing frameworks.
 
-[![website](https://img.shields.io/badge/website-nbi.io-fe762d.svg)](http://www.nbi.io)
+**Social media:** [![website](https://img.shields.io/badge/website-nbi.io-fe762d.svg)](http://www.nbi.io)
 [![twitter badge](https://img.shields.io/badge/twitter-@Seddryck-blue.svg?style=flat&logo=twitter)](https://twitter.com/Seddryck)
 
-[![nuget](https://img.shields.io/nuget/v/NBi.Framework.svg)](https://www.nuget.org/packages/NBi.Framework/)
+**Releases:** [![nuget](https://img.shields.io/nuget/v/NBi.Framework.svg)](https://www.nuget.org/packages/NBi.Framework/)
 [![GitHub Release Date](https://img.shields.io/github/release-date/seddryck/nbi.svg)](https://github.com/Seddryck/NBi/releases/latest)
 [![licence badge](https://img.shields.io/badge/License-Apache%202.0-yellow.svg)](https://github.com/Seddryck/NBi/blob/master/LICENSE)
 
-[![GitHub last commit](https://img.shields.io/github/last-commit/Seddryck/nbi.svg)](https://github.com/Seddryck/NBi/releases/latest)
-![Still maintained](https://img.shields.io/maintenance/yes/2019.svg)
-
-[![Build status](https://ci.appveyor.com/api/projects/status/t5m0hr57vnsdv0v7?svg=true)](https://ci.appveyor.com/project/Seddryck/nbi)
-[![Tests](https://img.shields.io/appveyor/tests/seddryck/nbi.svg)](https://ci.appveyor.com/project/Seddryck/nbi/build/tests)
+**Latest RC and beta:** [![Pre-release](https://img.shields.io/github/tag-pre/seddryck/nbi.svg?color=%23ee41f4&label=Pre-release)](https://github.com/Seddryck/NBi/releases/)
+[![nuget](https://img.shields.io/nuget/vpre/NBi.Framework.svg?color=%23427682&label=Beta)](https://www.nuget.org/packages/NBi.Framework/)
 [![Build Status](https://seddryck.visualstudio.com/NBi/_apis/build/status/NBi-CI?branchName=develop)](https://seddryck.visualstudio.com/NBi/_build/latest?definitionId=1&branchName=develop)
 
-[![Pre-release](https://img.shields.io/github/tag-pre/seddryck/nbi.svg?color=%23ee41f4&label=Pre-release)](https://github.com/Seddryck/NBi/releases/)
-[![nuget](https://img.shields.io/nuget/vpre/NBi.Framework.svg?color=%23427682&label=Beta)](https://www.nuget.org/packages/NBi.Framework/)
+**Dev. activity:** [![GitHub last commit](https://img.shields.io/github/last-commit/Seddryck/nbi.svg)](https://github.com/Seddryck/NBi/releases/latest)
+![Still maintained](https://img.shields.io/maintenance/yes/2019.svg)
 
-[![stars badge](https://img.shields.io/github/stars/Seddryck/NBi.svg)](https://github.com/Seddryck/NBi/stargazers)
+**Continuous integration builds:** [![Build status](https://ci.appveyor.com/api/projects/status/t5m0hr57vnsdv0v7?svg=true)](https://ci.appveyor.com/project/Seddryck/nbi)
+[![Tests](https://img.shields.io/appveyor/tests/seddryck/nbi.svg)](https://ci.appveyor.com/project/Seddryck/nbi/build/tests)
+
+**Status:** [![stars badge](https://img.shields.io/github/stars/Seddryck/NBi.svg)](https://github.com/Seddryck/NBi/stargazers)
 [![Bugs badge](https://img.shields.io/github/issues/Seddryck/NBi/bug.svg?color=red&label=Bugs)](https://github.com/Seddryck/NBi/issues?utf8=%E2%9C%93&q=is:issue+is:open+label:bug+)
 [![Features badge](https://img.shields.io/github/issues/seddryck/nbi/feature-request.svg?color=purple&label=Feature%20requests)](https://github.com/Seddryck/NBi/issues?utf8=%E2%9C%93&q=is:issue+is:open+label:feature-request+)
 [![Top language](https://img.shields.io/github/languages/top/seddryck/nbi.svg)](https://github.com/Seddryck/NBi/search?l=C%23)

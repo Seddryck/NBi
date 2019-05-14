@@ -15,6 +15,11 @@
     <variable name="januarySecond">
       <script>new DateTime(DateTime.Now.Year, 1, 2)</script>
     </variable>
+    <variable name="random">
+      <query-scalar>
+        select cast(RAND() as varchar(40))
+      </query-scalar>
+    </variable>
   </variables>
 	<test name="'Reseller Order Count' by year before 2006 (csv)" uid="0001">
 		<system-under-test>
@@ -68,6 +73,24 @@
           select cast(YEAR(getdate()) as varchar(4)) + '-01-01';
         </query>
       </equalTo>
+    </assert>
+  </test>
+  <test name="Two execution of the same variable returning a random value returns the same value" uid="0040">
+    <system-under-test>
+      <resultSet>
+        <query>
+          <parameter name="var">@random</parameter>
+          select @var;
+        </query>
+      </resultSet>
+    </system-under-test>
+    <assert>
+      <equal-to>
+        <query>
+          <parameter name="var">@random</parameter>
+          select @var;
+        </query>
+      </equal-to>
     </assert>
   </test>
 </testSuite>

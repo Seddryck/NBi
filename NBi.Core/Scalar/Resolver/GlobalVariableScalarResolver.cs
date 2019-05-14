@@ -11,6 +11,7 @@ namespace NBi.Core.Scalar.Resolver
     class GlobalVariableScalarResolver<T> : IScalarResolver<T>
     {
         private readonly GlobalVariableScalarResolverArgs args;
+        private static readonly object locker = new object();
 
         public GlobalVariableScalarResolver(GlobalVariableScalarResolverArgs args)
         {
@@ -50,8 +51,8 @@ namespace NBi.Core.Scalar.Resolver
 
         private static object StrongTypingVariable(object input)
         {
-            IFormatProvider formatProvider =  typeof(T) == typeof(DateTime) 
-                ? (IFormatProvider) System.Globalization.DateTimeFormatInfo.InvariantInfo
+            IFormatProvider formatProvider = typeof(T) == typeof(DateTime)
+                ? (IFormatProvider)System.Globalization.DateTimeFormatInfo.InvariantInfo
                 : System.Globalization.NumberFormatInfo.InvariantInfo;
 
             if (input != null && input.ToString().EndsWith("%"))
@@ -86,14 +87,16 @@ namespace NBi.Core.Scalar.Resolver
 
         private object EvaluateVariable(ITestVariable variable)
         {
-            if (!variable.IsEvaluated())
+            lock (locker)
             {
-                var stopWatch = new Stopwatch();
-                stopWatch.Start();
-                variable.GetValue();
-                Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceInfo, $"Time needed for evaluation of variable '{args.VariableName}': {stopWatch.Elapsed.ToString(@"d\d\.hh\h\:mm\m\:ss\s\ \+fff\m\s")}");
+                if (!variable.IsEvaluated())
+                {
+                    var stopWatch = new Stopwatch();
+                    stopWatch.Start();
+                    variable.GetValue();
+                    Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceInfo, $"Time needed for the evaluation of the variable '{args.VariableName}': {stopWatch.Elapsed.ToString(@"d\d\.hh\h\:mm\m\:ss\s\ \+fff\m\s")}");
+                }
             }
-
             var output = variable.GetValue();
             return output;
         }

@@ -1,4 +1,5 @@
-﻿using NBi.Core.Scalar.Resolver;
+﻿using Moq;
+using NBi.Core.Scalar.Resolver;
 using NBi.Core.Variable;
 using NUnit.Framework;
 using System;
@@ -49,5 +50,26 @@ namespace NBi.Testing.Unit.Core.Scalar.Resolver
             var resolver = new GlobalVariableScalarResolver<DateTime>(args);
             Assert.That(resolver.Execute(), Is.EqualTo(new DateTime(2017,5,12)));
         }
+
+        [Test]
+        public void Execute_ManyParallelExecutionOnlyOneEvaluation_CorrectEvaluation()
+        {
+            var resolverMock = Mock.Of<IScalarResolver<object>>();
+            Mock.Get(resolverMock).Setup(r => r.Execute()).Returns(true);
+
+            var globalVariables = new Dictionary<string, ITestVariable>()
+            {
+                { "myVar" , new GlobalVariable(resolverMock) }
+            };
+            var args = new GlobalVariableScalarResolverArgs("myVar", globalVariables);
+            var resolver = new GlobalVariableScalarResolver<bool>(args);
+            Parallel.Invoke(
+                () => resolver.Execute(),
+                () => resolver.Execute()
+            );
+            Mock.Get(resolverMock).Verify(x => x.Execute(), Times.Once);
+        }
+
+        
     }
 }

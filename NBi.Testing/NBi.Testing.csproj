@@ -417,6 +417,7 @@
     <Compile Include="Unit\NUnit\Query\SyntacticallyCorrectConstraintTest.cs" />
     <Compile Include="Unit\NUnit\ResultSetComparison\EqualToConstraintTest.cs" />
     <Compile Include="Properties\ProjectAssemblyInfo.cs" />
+    <Compile Include="Unit\PathHelperTest.cs" />
     <Compile Include="Unit\Service\RunnerConfig\GallioRunnerConfigBuilderTest.cs" />
     <Compile Include="Unit\Service\RunnerConfig\NUnitRunnerConfigBuilderTest.cs" />
     <Compile Include="Unit\Service\RunnerConfig\RunnerConfigManagerTest.cs" />

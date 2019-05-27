@@ -12,9 +12,9 @@ namespace NBi.Core
         public string Combine(string basePath, string path, string filename)
         {
             if (Path.IsPathRooted(path) || string.IsNullOrEmpty(basePath))
-                return $"{path}{filename}";
+                return Path.Combine(path, filename);
             else
-                return $"{basePath}{path}{filename}";
+                return Path.Combine(basePath, path, filename);
         }
     }
 }

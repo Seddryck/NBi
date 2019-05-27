@@ -9,7 +9,7 @@ using NBi.Core;
 
 namespace NBi.Xml.Decoration.Command
 {
-    public class CommandGroupXml : DecorationCommandXml, IGroupCommand
+    public class CommandGroupXml : DecorationCommandXml
     {
         [
         XmlElement(Type = typeof(SqlRunXml), ElementName = "sql-run"),
@@ -28,11 +28,11 @@ namespace NBi.Xml.Decoration.Command
         public List<DecorationCommandXml> InternalCommands { get; set; }
 
         [XmlIgnore]
-        public List<IDecorationCommand> Commands
+        public List<DecorationCommandXml> Commands
         {
             get
             {
-                return InternalCommands.Cast<IDecorationCommand>().ToList();
+                return InternalCommands.Cast<DecorationCommandXml>().ToList();
             }
             set
             {

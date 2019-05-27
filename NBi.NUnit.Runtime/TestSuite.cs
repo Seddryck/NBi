@@ -5,24 +5,20 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using NBi.Core;
-using NBi.Core.DataManipulation;
 using NBi.Xml;
 using NBi.Xml.Decoration;
 using NUnit.Framework;
 using NUnitCtr = NUnit.Framework.Constraints;
 using NBi.NUnit.Runtime.Configuration;
-using NBi.Framework;
 using NBi.Core.Configuration;
 using NBi.Core.Variable;
 using NBi.Xml.Variables;
 using NBi.NUnit.Builder.Helper;
-using NBi.Core.Scalar.Resolver;
-using System.Collections.ObjectModel;
-using Ninject;
 using NBi.Core.Injection;
 using NBi.Core.Configuration.Extension;
 using NBi.Core.Scalar.Casting;
 using NBi.Core.Variable.Instantiation;
+using NBi.Core.Decoration;
 
 namespace NBi.NUnit.Runtime
 {
@@ -140,7 +136,7 @@ namespace NBi.NUnit.Runtime
         {
             foreach (var predicate in condition.Predicates)
             {
-                var helper = new ConditionHelper();
+                var helper = new ConditionHelper(serviceLocator, Variables);
                 var metadata = helper.Execute(predicate);
                 var impl = new DecorationFactory().Instantiate(metadata);
                 var isVerified = impl.Validate();
@@ -154,9 +150,12 @@ namespace NBi.NUnit.Runtime
 
         private void ExecuteSetup(SetupXml setup)
         {
+            var setupHelper = new SetupHelper(serviceLocator, Variables);
+            var commands = setupHelper.Execute(setup.Commands);
+
             try
             {
-                foreach (var command in setup.Commands)
+                foreach (var command in commands)
                 {
                     var skip = false;
                     if (command is IGroupCommand)
@@ -200,9 +199,12 @@ namespace NBi.NUnit.Runtime
 
         private void ExecuteCleanup(CleanupXml cleanup)
         {
+            var cleanupHelper = new SetupHelper(serviceLocator, Variables);
+            var commands = cleanupHelper.Execute(cleanup.Commands);
+
             try
             {
-                foreach (var command in cleanup.Commands)
+                foreach (var command in commands)
                 {
                     var impl = new DecorationFactory().Instantiate(command);
                     impl.Execute();

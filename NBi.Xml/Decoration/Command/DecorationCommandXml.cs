@@ -8,7 +8,7 @@ using System.Collections.Generic;
 
 namespace NBi.Xml.Decoration.Command
 {
-    public abstract class DecorationCommandXml : IDecorationCommand
+    public abstract class DecorationCommandXml
     {
         [XmlIgnore()]
         public virtual Settings.SettingsXml Settings { get; set; }

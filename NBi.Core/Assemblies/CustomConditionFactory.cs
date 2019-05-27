@@ -11,7 +11,7 @@ namespace NBi.Core.Assemblies
 {
     public class CustomConditionFactory
     {
-        public IDecorationCondition Instantiate(ICustomConditionMetadata metadata)
+        public IDecorationCondition Instantiate(ICustomConditionArgs metadata)
         {
             var assembly = GetAssembly(metadata.AssemblyPath);
             try

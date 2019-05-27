@@ -165,7 +165,7 @@ namespace NBi.Testing.Unit.Core.Assemblies
             var factory = new CustomConditionFactoryProxy();
             void instantiate() => factory.Instantiate
             (
-                Mock.Of<ICustomConditionMetadata>(x =>
+                Mock.Of<ICustomConditionArgs>(x =>
                     x.AssemblyPath=="." &&
                     x.TypeName == "NotExistingType" &&
                     x.Parameters == null
@@ -180,7 +180,7 @@ namespace NBi.Testing.Unit.Core.Assemblies
             var factory = new CustomConditionFactoryProxy();
             void instantiate() => factory.Instantiate
             (
-                Mock.Of<ICustomConditionMetadata>(x =>
+                Mock.Of<ICustomConditionArgs>(x =>
                     x.AssemblyPath == "." &&
                     x.TypeName == "Namespace.NotExistingType" &&
                     x.Parameters == null
@@ -195,7 +195,7 @@ namespace NBi.Testing.Unit.Core.Assemblies
             var factory = new CustomConditionFactoryProxy();
             void instantiate() => factory.Instantiate
             (
-                Mock.Of<ICustomConditionMetadata>(x =>
+                Mock.Of<ICustomConditionArgs>(x =>
                     x.AssemblyPath == "." &&
                     x.TypeName == this.GetType().Name &&
                     x.Parameters == null
@@ -210,7 +210,7 @@ namespace NBi.Testing.Unit.Core.Assemblies
             var factory = new CustomConditionFactoryProxy();
             void instantiate() => factory.Instantiate
             (
-                Mock.Of<ICustomConditionMetadata>(x =>
+                Mock.Of<ICustomConditionArgs>(x =>
                     x.AssemblyPath == "." &&
                     x.TypeName == typeof(CustomConditionWithMulipleCtors).Name &&
                     x.Parameters == new ReadOnlyDictionary<string, object>(new Dictionary<string, object>() {

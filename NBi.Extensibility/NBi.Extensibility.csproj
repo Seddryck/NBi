@@ -48,6 +48,9 @@
     </Compile>
     <Compile Include="Condition\CustomConditionResult.cs" />
     <Compile Include="Condition\ICustomCondition.cs" />
+    <Compile Include="DataEngineering\IEtl.cs" />
+    <Compile Include="DataEngineering\IEtlRunCommand.cs" />
+    <Compile Include="DataEngineering\IBatchRunCommand.cs" />
     <Compile Include="FlatFile\IFlatFileProfile.cs" />
     <Compile Include="FlatFile\IFlatFileReader.cs" />
     <Compile Include="ITemplateEngine.cs" />

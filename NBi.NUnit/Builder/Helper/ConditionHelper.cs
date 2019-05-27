@@ -1,6 +1,10 @@
 ﻿using NBi.Core;
 using NBi.Core.Assemblies;
-using NBi.Core.WindowsService;
+using NBi.Core.Decoration;
+using NBi.Core.Decoration.Process;
+using NBi.Core.Injection;
+using NBi.Core.Scalar.Resolver;
+using NBi.Core.Variable;
 using NBi.Xml.Decoration.Condition;
 using System;
 using System.Collections.Generic;
@@ -13,28 +17,56 @@ namespace NBi.NUnit.Builder.Helper
 {
     public class ConditionHelper
     {
-        public IDecorationConditionMetadata Execute(object condition)
+        private readonly ServiceLocator serviceLocator;
+        private readonly IDictionary<string, ITestVariable> variables;
+
+        public ConditionHelper(ServiceLocator serviceLocator, IDictionary<string, ITestVariable> variables)
+        {
+            this.serviceLocator = serviceLocator;
+            this.variables = variables;
+        }
+
+        public IDecorationConditionArgs Execute(object condition)
         {
             switch (condition)
             {
                 case CustomConditionXml custom: return BuildCustomCondition(custom);
                 case ServiceRunningXml serviceRunning: return BuildServiceRunning(serviceRunning);
-                default:throw new ArgumentOutOfRangeException();
+                default: throw new ArgumentOutOfRangeException();
             }
         }
 
-        private IDecorationConditionMetadata BuildCustomCondition(CustomConditionXml custom)
+        private IDecorationConditionArgs BuildCustomCondition(CustomConditionXml custom)
         {
             var parameters = new Dictionary<string, object>();
             custom.Parameters.ForEach(p => parameters.Add(p.Name, p.StringValue));
 
-            return new CustomConditionMetadata(custom.AssemblyPath, custom.TypeName, parameters);
+            return new CustomConditionArgs(custom.AssemblyPath, custom.TypeName, parameters);
         }
 
-        private IDecorationConditionMetadata BuildServiceRunning(ServiceRunningXml serviceRunning)
-            => new WindowsServiceRunningMetadata(serviceRunning.ServiceName, serviceRunning.TimeOut);
+        private IDecorationConditionArgs BuildServiceRunning(ServiceRunningXml serviceRunning)
+        {
+            var scalarHelper = new ScalarHelper(serviceLocator, variables);
+            return new RunningArgs(
+                scalarHelper.InstantiateResolver<string>(serviceRunning.ServiceName)
+                , scalarHelper.InstantiateResolver<int>(serviceRunning.TimeOut)
+            );
+        }
 
-        private class CustomConditionMetadata : ICustomConditionMetadata
+        private class RunningArgs : IRunningConditionArgs
+        {
+            public RunningArgs(IScalarResolver<string> serviceName, IScalarResolver<int> timeOut)
+            {
+                ServiceName = serviceName;
+                TimeOut = timeOut;
+            }
+
+            public IScalarResolver<string> ServiceName { get; }
+
+            public IScalarResolver<int> TimeOut { get; }
+        }
+
+        private class CustomConditionArgs : ICustomConditionArgs
         {
             public string AssemblyPath { get; }
 
@@ -42,7 +74,7 @@ namespace NBi.NUnit.Builder.Helper
 
             public IReadOnlyDictionary<string, object> Parameters { get; }
 
-            public CustomConditionMetadata(string assemblyPath, string typeName, IDictionary<string, object> parameters)
+            public CustomConditionArgs(string assemblyPath, string typeName, IDictionary<string, object> parameters)
                 => (AssemblyPath, TypeName, Parameters)
                 = (assemblyPath, typeName, new ReadOnlyDictionary<string, object>(parameters));
         }

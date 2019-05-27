@@ -11,12 +11,12 @@ namespace NBi.Xml.Decoration.Command
         public string ServiceName { get; set; }
 
         [XmlAttribute("timeout-milliseconds")]
-        [DefaultValue(5000)]
-        public int TimeOut { get; set; }
+        [DefaultValue("5000")]
+        public string TimeOut { get; set; }
 
         public ServiceAbstractXml()
         {
-            TimeOut = 5000;
+            TimeOut = "5000";
         }
     }
 }

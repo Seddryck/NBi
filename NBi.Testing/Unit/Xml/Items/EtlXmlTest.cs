@@ -66,7 +66,8 @@ namespace NBi.Testing.Unit.Xml.Items
             // Create an instance of the XmlSerializer specifying type and namespace.
             TestSuiteXml ts = DeserializeSample("EtlXmlTest");
 
-            Assert.That(ts.Tests[testNr].Setup.Commands[0], Is.InstanceOf<IEtlRunCommand>());
+            Assert.Fail();
+            //Assert.That(ts.Tests[testNr].Setup.Commands[0], Is.InstanceOf<IEtlRunCommand>());
             var etl = ts.Tests[testNr].Setup.Commands[0] as EtlRunXml;
 
             Assert.That(etl, Is.Not.Null);
@@ -84,7 +85,8 @@ namespace NBi.Testing.Unit.Xml.Items
             // Create an instance of the XmlSerializer specifying type and namespace.
             TestSuiteXml ts = DeserializeSample("EtlXmlTest");
 
-            Assert.That(ts.Tests[testNr].Setup.Commands[0], Is.InstanceOf<IEtlRunCommand>());
+            Assert.Fail();
+            //Assert.That(ts.Tests[testNr].Setup.Commands[0], Is.InstanceOf<IEtlRunCommand>());
             var etl = ts.Tests[testNr].Setup.Commands[0] as EtlRunXml;
 
             Assert.That(etl, Is.Not.Null);

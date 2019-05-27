@@ -4,47 +4,20 @@ using System.Linq;
 
 namespace NBi.Core.Etl
 {
-    public class EtlRunResult: IExecutionResult
+    public class EtlRunResult : IExecutionResult
     {
         private readonly bool isSuccess;
-        public bool IsSuccess
-        {
-            get
-            {
-                return isSuccess;
-            }
-        }
+        public bool IsSuccess { get => isSuccess; }
 
-        public bool IsFailure
-        {
-            get
-            {
-                return !IsSuccess;
-            }
-        }
+        public bool IsFailure { get => !IsSuccess; }
 
         private readonly string message;
-        public string Message
-        {
-            get
-            {
-                return message;
-            }
-        }
+        public string Message { get => message; }
 
         private readonly TimeSpan timeElapsed;
-        public TimeSpan TimeElapsed
-        {
-            get
-            {
-                return timeElapsed;
-            }
-        }
+        public TimeSpan TimeElapsed { get => timeElapsed; }
 
-        protected EtlRunResult(bool isSuccess)
-        {
-            this.isSuccess = isSuccess;
-        }
+        protected EtlRunResult(bool isSuccess) => this.isSuccess = isSuccess;
 
         protected EtlRunResult(bool isSuccess, TimeSpan timeElapsed)
         {
@@ -72,14 +45,8 @@ namespace NBi.Core.Etl
             throw new ArgumentException();
         }
 
-        public static EtlRunResult Failure(string message)
-        {
-            return new EtlRunResult(false, message);
-        }
+        public static EtlRunResult Failure(string message) => new EtlRunResult(false, message);
 
-        public static EtlRunResult Success(TimeSpan executionTime)
-        {
-            return new EtlRunResult(true, executionTime);
-        }
+        public static EtlRunResult Success(TimeSpan executionTime) => new EtlRunResult(true, executionTime);
     }
 }

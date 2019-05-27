@@ -6,11 +6,10 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 using System.IO;
-using NBi.Core.Process;
 
 namespace NBi.Xml.Decoration.Command
 {
-    public class ExeRunXml : DecorationCommandXml, IRunCommand
+    public class ExeRunXml : DecorationCommandXml
     {
         [XmlAttribute("name")]
         public string Name { get; set; }
@@ -41,12 +40,12 @@ namespace NBi.Xml.Decoration.Command
         }
 
         [XmlAttribute("timeout-milliseconds")]
-        [DefaultValue(0)]
-        public int TimeOut { get; set; }
+        [DefaultValue("0")]
+        public string TimeOut { get; set; }
 
         public ExeRunXml()
         {
-            TimeOut = 0;
+            TimeOut = "0";
         }
     }
 }

@@ -12,7 +12,7 @@ namespace NBi.Core.Decoration.Process.Conditions
         private readonly IRunningConditionArgs args;
         public RunningCondition(IRunningConditionArgs args) => this.args = args;
 
-        public string Message { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public string Message { get => $"Check that the service named '{args.ServiceName}' is running."; }
 
         public bool Validate() => Validate(args.ServiceName.Execute(), args.TimeOut.Execute());
 

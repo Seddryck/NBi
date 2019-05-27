@@ -63,6 +63,7 @@ namespace NBi.NUnit.Builder.Helper
                 Name = helper.InstantiateResolver<string>(xml.Name),
                 Path = helper.InstantiateResolver<string>(xml.InternalPath),
                 Version = helper.InstantiateResolver<string>(xml.Version),
+                xml.ConnectionString,
             };
             return args.ActLike<IBatchRunCommandArgs>();
         }
@@ -84,7 +85,7 @@ namespace NBi.NUnit.Builder.Helper
             var helper = new ScalarHelper(serviceLocator, variables);
             var args = new
             {
-                Name = xml.ConnectionString,
+                xml.ConnectionString,
                 Version = helper.InstantiateResolver<int>(xml.TimeOut),
             };
             return args.ActLike<IConnectionWaitCommandArgs>();

@@ -270,7 +270,7 @@ namespace NBi.Testing.Unit.Xml.Decoration
             Assert.That(command, Is.TypeOf<ExeRunXml>());
             var run = command as ExeRunXml;
             Assert.That(run.Name, Is.EqualTo("clean.exe"));
-            Assert.That(run.InternalPath, Is.EqualTo(@"Batches\"));
+            Assert.That(run.Path, Is.EqualTo(@"Batches\"));
             Assert.That(run.Argument, Is.EqualTo("-all"));
             Assert.That(run.TimeOut, Is.EqualTo("1000"));
         }
@@ -334,7 +334,7 @@ namespace NBi.Testing.Unit.Xml.Decoration
             Assert.That(command, Is.TypeOf<ExeRunXml>());
             var run = command as ExeRunXml;
             Assert.That(run.Name, Is.EqualTo(@"load.exe"));
-            Assert.That(run.InternalPath, Is.Null.Or.Empty);
+            Assert.That(run.Path, Is.Null.Or.Empty);
             Assert.That(run.TimeOut, Is.EqualTo("0"));
         }
 
@@ -352,7 +352,7 @@ namespace NBi.Testing.Unit.Xml.Decoration
             Assert.That(command, Is.TypeOf<SqlRunXml>());
             var batchRun = command as SqlRunXml;
             Assert.That(batchRun.Name, Is.EqualTo(@"build.sql"));
-            Assert.That(batchRun.InternalPath, Is.EqualTo(@"Batches\"));
+            Assert.That(batchRun.Path, Is.EqualTo(@"Batches\"));
             Assert.That(batchRun.ConnectionString, Is.EqualTo("Data source=(local);Initial Catalog=MyDB"));
         }
 
@@ -386,7 +386,7 @@ namespace NBi.Testing.Unit.Xml.Decoration
             Assert.That(command, Is.TypeOf<FileDeleteXml>());
             var delete = command as FileDeleteXml;
             Assert.That(delete.FileName, Is.EqualTo(@"toto.xls"));
-            Assert.That(delete.InternalPath, Is.EqualTo(@"Temp\"));
+            Assert.That(delete.Path, Is.EqualTo(@"Temp\"));
         }
 
         
@@ -404,7 +404,7 @@ namespace NBi.Testing.Unit.Xml.Decoration
             Assert.That(command, Is.TypeOf<FileCopyXml>());
             var copy = command as FileCopyXml;
             Assert.That(copy.FileName, Is.EqualTo(@"toto.xls"));
-            Assert.That(copy.InternalPath, Is.EqualTo(@"Temp\"));
+            Assert.That(copy.Path, Is.EqualTo(@"Temp\"));
             Assert.That(copy.SourceFullPath, Is.EqualTo(@"Backup\toto.xls"));
         }
 

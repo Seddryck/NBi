@@ -10,6 +10,7 @@ namespace NBi.Core.Decoration.Process
     {
         IScalarResolver<string> Name { get; }
         IScalarResolver<string> Path { get; }
+        string BasePath { get; }
         IScalarResolver<string> Argument { get; }
         IScalarResolver<int> TimeOut { get; set; }
     }

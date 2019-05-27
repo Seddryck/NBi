@@ -26,7 +26,7 @@ namespace NBi.Testing.Unit.NUnit.Builder.Helper
             var xml = new SetupXml()
             {
                 Commands = new List<DecorationCommandXml>()
-                    { new FileDeleteXml()  { FileName="foo.txt", InternalPath = @"C:\Temp\" } }
+                    { new FileDeleteXml()  { FileName="foo.txt", Path = @"C:\Temp\" } }
             };
 
             var helper = new SetupHelper(new ServiceLocator(), new Dictionary<string, ITestVariable>());
@@ -41,7 +41,7 @@ namespace NBi.Testing.Unit.NUnit.Builder.Helper
             {
                 Commands = new List<DecorationCommandXml>()
                 {
-                    new FileDeleteXml()  { FileName="foo.txt", InternalPath = @"C:\Temp\" },
+                    new FileDeleteXml()  { FileName="foo.txt", Path = @"C:\Temp\" },
                     new ExeKillXml()  { ProcessName="bar" },
                     new WaitXml()  { MilliSeconds = "2000" }
                 }
@@ -97,7 +97,7 @@ namespace NBi.Testing.Unit.NUnit.Builder.Helper
                         Parallel = isParallel,
                         Commands = new List<DecorationCommandXml>()
                         {
-                            new FileDeleteXml()  { FileName="foo.txt", InternalPath = @"C:\Temp\" },
+                            new FileDeleteXml()  { FileName="foo.txt", Path = @"C:\Temp\" },
                             new ExeKillXml()  { ProcessName = "bar.exe" }
                         }
                     }
@@ -131,7 +131,7 @@ namespace NBi.Testing.Unit.NUnit.Builder.Helper
                                 Parallel = true,
                                 Commands = new List<DecorationCommandXml>()
                                 {
-                                    new FileDeleteXml()  { FileName="foo.txt", InternalPath = @"C:\Temp\" },
+                                    new FileDeleteXml()  { FileName="foo.txt", Path = @"C:\Temp\" },
                                     new ExeKillXml()  { ProcessName = "foo.exe" }
                                 }
                             },
@@ -140,7 +140,7 @@ namespace NBi.Testing.Unit.NUnit.Builder.Helper
                                 Parallel = true,
                                 Commands = new List<DecorationCommandXml>()
                                 {
-                                    new FileDeleteXml()  { FileName="bar.txt", InternalPath = @"C:\Temp\" },
+                                    new FileDeleteXml()  { FileName="bar.txt", Path = @"C:\Temp\" },
                                     new ExeKillXml()  { ProcessName = "bar.exe" }
                                 }
                             }
@@ -172,7 +172,7 @@ namespace NBi.Testing.Unit.NUnit.Builder.Helper
             var xml = new SetupXml()
             {
                 Commands = new List<DecorationCommandXml>()
-                    { new FileDeleteXml()  { FileName="foo.txt", InternalPath = @"C:\Temp\" } }
+                    { new FileDeleteXml()  { FileName="foo.txt", Path = @"C:\Temp\" } }
             };
 
             var helper = new SetupHelper(new ServiceLocator(), new Dictionary<string, ITestVariable>());
@@ -188,7 +188,7 @@ namespace NBi.Testing.Unit.NUnit.Builder.Helper
             var xml = new SetupXml()
             {
                 Commands = new List<DecorationCommandXml>()
-                    { new FileDeleteXml()  { FileName="@myvar", InternalPath = @"C:\Temp\" } }
+                    { new FileDeleteXml()  { FileName="@myvar", Path = @"C:\Temp\" } }
             };
 
             var myVar = new GlobalVariable(new LiteralScalarResolver<object>("bar.txt"));
@@ -205,7 +205,7 @@ namespace NBi.Testing.Unit.NUnit.Builder.Helper
             var xml = new SetupXml()
             {
                 Commands = new List<DecorationCommandXml>()
-                    { new FileDeleteXml()  { FileName="~{@myvar}.csv", InternalPath = @"C:\Temp\" } }
+                    { new FileDeleteXml()  { FileName="~{@myvar}.csv", Path = @"C:\Temp\" } }
             };
 
             var myVar = new GlobalVariable(new LiteralScalarResolver<object>("bar"));

@@ -10,5 +10,6 @@ namespace NBi.Core.Decoration.IO
     {
         IScalarResolver<string> Name { get; }
         IScalarResolver<string> Path { get; }
+        string BasePath { get; }
     }
 }

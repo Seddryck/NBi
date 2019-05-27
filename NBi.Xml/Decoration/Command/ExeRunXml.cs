@@ -15,29 +15,13 @@ namespace NBi.Xml.Decoration.Command
         public string Name { get; set; }
 
         [XmlAttribute("path")]
-        public string InternalPath { get; set; }
+        public string Path { get; set; }
 
         [XmlAttribute("arguments")]
         public string Arguments { get; set; }
 
         [XmlIgnore]
         public string Argument { get { return Arguments; } }
-
-        [XmlIgnore]
-        public string FullPath
-        {
-            get
-            {
-                var fullPath = string.Empty;
-                if (Path.IsPathRooted(InternalPath) || String.IsNullOrEmpty(Settings.BasePath))
-                    fullPath = InternalPath + Name;
-                else
-                    fullPath = Settings.BasePath + InternalPath + Name;
-
-                return fullPath;
-
-            }
-        }
 
         [XmlAttribute("timeout-milliseconds")]
         [DefaultValue("0")]

@@ -10,6 +10,7 @@ namespace NBi.Core.Decoration.DataEngineering
     {
         IScalarResolver<string> Name { get; set; }
         IScalarResolver<string> Path { get; }
+        string BasePath { get; }
         IScalarResolver<string> Version { get; }
     }
 }

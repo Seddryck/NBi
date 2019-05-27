@@ -220,6 +220,7 @@
     <Compile Include="Injection\QueryModule.cs" />
     <Compile Include="Injection\ServiceLocator.cs" />
     <Compile Include="Calculation\IBasePredicateInfo.cs" />
+    <Compile Include="PathHelper.cs" />
     <Compile Include="Query\EngineFactory.cs" />
     <Compile Include="Configuration\Configuration.cs" />
     <Compile Include="CommandTimeoutException.cs" />

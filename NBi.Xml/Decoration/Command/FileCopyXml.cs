@@ -17,10 +17,10 @@ namespace NBi.Xml.Decoration.Command
             get
             {
                 var sourceFullPath = string.Empty;
-                if (Path.IsPathRooted(InternalSourcePath) || String.IsNullOrEmpty(Settings.BasePath))
+                if (System.IO.Path.IsPathRooted(InternalSourcePath) || string.IsNullOrEmpty(base.Settings.BasePath))
                     sourceFullPath = InternalSourcePath + FileName;
                 else
-                    sourceFullPath = Settings.BasePath + InternalSourcePath + FileName;
+                    sourceFullPath = base.Settings.BasePath + InternalSourcePath + FileName;
 
                 return sourceFullPath;
             }

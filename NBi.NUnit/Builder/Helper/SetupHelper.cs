@@ -61,7 +61,8 @@ namespace NBi.NUnit.Builder.Helper
             var args = new
             {
                 Name = helper.InstantiateResolver<string>(xml.Name),
-                Path = helper.InstantiateResolver<string>(xml.InternalPath),
+                Path = helper.InstantiateResolver<string>(xml.Path),
+                xml.Settings?.BasePath,
                 Version = helper.InstantiateResolver<string>(xml.Version),
                 xml.ConnectionString,
             };
@@ -119,7 +120,8 @@ namespace NBi.NUnit.Builder.Helper
             var args = new
             {
                 Name = helper.InstantiateResolver<string>(xml.FileName),
-                Path = helper.InstantiateResolver<string>(xml.InternalPath),
+                Path = helper.InstantiateResolver<string>(xml.Path),
+                xml.Settings?.BasePath
             };
             return args.ActLike<IDeleteCommandArgs>();
         }
@@ -132,7 +134,8 @@ namespace NBi.NUnit.Builder.Helper
                 Name = helper.InstantiateResolver<string>(xml.FileName),
                 Path = helper.InstantiateResolver<string>(xml.InternalSourcePath),
                 DestinationName = helper.InstantiateResolver<string>(xml.FileName),
-                DestinationPath = helper.InstantiateResolver<string>(xml.InternalPath),
+                DestinationPath = helper.InstantiateResolver<string>(xml.Path),
+                xml.Settings?.BasePath
             };
             return args.ActLike<ICopyCommandArgs>();
         }
@@ -153,7 +156,8 @@ namespace NBi.NUnit.Builder.Helper
             var args = new
             {
                 Name = helper.InstantiateResolver<string>(xml.Name),
-                Path = helper.InstantiateResolver<string>(xml.InternalPath),
+                Path = helper.InstantiateResolver<string>(xml.Path),
+                xml.Settings?.BasePath,
                 Argument = helper.InstantiateResolver<string>(xml.Argument),
                 TimeOut = helper.InstantiateResolver<int>(xml.TimeOut),
             };

@@ -30,6 +30,7 @@ namespace NBi.NUnit.Runtime
     [TestFixture]
     public class TestSuite
     {
+        private static ServiceLocator serviceLocator;
         public bool EnableAutoCategories { get; set; }
         public bool EnableGroupAsCategory { get; set; }
         public bool AllowDtdProcessing { get; set; }
@@ -108,9 +109,9 @@ namespace NBi.NUnit.Runtime
             else
             {
                 Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceInfo, $"Running test '{testName}' #{test.UniqueIdentifier}");
-                ValidateConditions(test.Condition);
-                ExecuteSetup(test.Setup);
                 var allVariables = Variables.Union(localVariables).ToDictionary(x => x.Key, x=>x.Value);
+                ValidateConditions(test.Condition, allVariables);
+                ExecuteSetup(test.Setup, allVariables);
                 foreach (var sut in test.Systems)
                 {
                     foreach (var ctr in test.Constraints)
@@ -123,20 +124,20 @@ namespace NBi.NUnit.Runtime
                         }
                         catch
                         {
-                            ExecuteCleanup(test.Cleanup);
+                            ExecuteCleanup(test.Cleanup, allVariables);
                             throw;
                         }
                     }
                 }
-                ExecuteCleanup(test.Cleanup);
+                ExecuteCleanup(test.Cleanup, allVariables);
             }
         }
 
-        private void ValidateConditions(ConditionXml condition)
+        private void ValidateConditions(ConditionXml condition, IDictionary<string, ITestVariable> allVariables)
         {
             foreach (var predicate in condition.Predicates)
             {
-                var helper = new ConditionHelper(serviceLocator, Variables);
+                var helper = new ConditionHelper(serviceLocator, allVariables);
                 var metadata = helper.Execute(predicate);
                 var impl = new DecorationFactory().Instantiate(metadata);
                 var isVerified = impl.Validate();
@@ -148,9 +149,9 @@ namespace NBi.NUnit.Runtime
             }
         }
 
-        private void ExecuteSetup(SetupXml setup)
+        private void ExecuteSetup(SetupXml setup, IDictionary<string, ITestVariable> allVariables)
         {
-            var setupHelper = new SetupHelper(serviceLocator, Variables);
+            var setupHelper = new SetupHelper(serviceLocator, allVariables);
             var commands = setupHelper.Execute(setup.Commands);
 
             try
@@ -197,9 +198,9 @@ namespace NBi.NUnit.Runtime
             Assert.Fail(message);
         }
 
-        private void ExecuteCleanup(CleanupXml cleanup)
+        private void ExecuteCleanup(CleanupXml cleanup, IDictionary<string, ITestVariable> allVariables)
         {
-            var cleanupHelper = new SetupHelper(serviceLocator, Variables);
+            var cleanupHelper = new SetupHelper(serviceLocator, allVariables);
             var commands = cleanupHelper.Execute(cleanup.Commands);
 
             try
@@ -223,25 +224,12 @@ namespace NBi.NUnit.Runtime
             Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceWarning, "Next cleanup functions are skipped.");
         }
 
-        //public virtual void ExecuteTest(string testSuiteXml)
-        //{
-        //    Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceInfo, testSuiteXml);
-
-        //    byte[] byteArray = Encoding.ASCII.GetBytes(testSuiteXml);
-        //    var stream = new MemoryStream(byteArray);
-        //    var sr = new StreamReader(stream);
-
-        //    TestSuiteManager.Read(sr);
-        //    foreach (var test in TestSuiteManager.TestSuite.Tests)
-        //        ExecuteTestCases(test);
-        //}
-
         /// <summary>
         /// Handles the standard assertion and if needed rethrow a new AssertionException with a modified stacktrace
         /// </summary>
         /// <param name="systemUnderTest"></param>
         /// <param name="constraint"></param>
-        protected internal void AssertTestCase(Object systemUnderTest, NUnitCtr.Constraint constraint, string stackTrace)
+        protected internal void AssertTestCase(object systemUnderTest, NUnitCtr.Constraint constraint, string stackTrace)
         {
             try
             {
@@ -435,7 +423,7 @@ namespace NBi.NUnit.Runtime
             OverridenVariables = config.Variables.Cast<VariableElement>().ToDictionary(x => x.Name, y => new CasterFactory().Instantiate(y.Type).Execute(y.Value));
         }
 
-        private static ServiceLocator serviceLocator;
+        
         public void Initialize()
         {
             Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceInfo, $"Initializing service locator ...");
@@ -458,22 +446,9 @@ namespace NBi.NUnit.Runtime
 
 
         protected internal string GetOwnFilename()
-        {
-            //get the full location of the assembly with DaoTests in it
-            var fullPath = System.Reflection.Assembly.GetAssembly(typeof(TestSuite)).Location;
-
-            //get the filename that's in
-            var fileName = Path.GetFileName(fullPath);
-
-            return fileName;
-        }
+            => Path.GetFileName(System.Reflection.Assembly.GetAssembly(typeof(TestSuite)).Location);
 
         protected internal string GetManifestName()
-        {
-            //get the full location of the assembly with DaoTests in it
-            var fullName = System.Reflection.Assembly.GetAssembly(typeof(TestSuite)).ManifestModule.Name;
-
-            return fullName;
-        }
+            => System.Reflection.Assembly.GetAssembly(typeof(TestSuite)).ManifestModule.Name;
     }
 }

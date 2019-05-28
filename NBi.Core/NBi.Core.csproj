@@ -208,6 +208,10 @@
     <Compile Include="Decoration\Grouping\IParallelCommandArgs.cs" />
     <Compile Include="Decoration\Grouping\ISequentialCommandArgs.cs" />
     <Compile Include="Decoration\IDecorationConditionArgs.cs" />
+    <Compile Include="Decoration\IO\Commands\CopyExtensionCommand.cs" />
+    <Compile Include="Decoration\IO\Commands\CopyPatternCommand.cs" />
+    <Compile Include="Decoration\IO\ICopyExtensionCommandArgs.cs" />
+    <Compile Include="Decoration\IO\ICopyPatternCommandArgs.cs" />
     <Compile Include="Decoration\Process\Commands\StopCommand.cs" />
     <Compile Include="Decoration\Process\Commands\StartCommand.cs" />
     <Compile Include="Decoration\Process\Conditions\RunningCondition.cs" />

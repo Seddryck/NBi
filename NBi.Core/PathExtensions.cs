@@ -16,5 +16,25 @@ namespace NBi.Core
             else
                 return Path.Combine(basePath, path, filename);
         }
+
+        public static string CombineOrRoot(string basePath, string path)
+        {
+            if (Path.IsPathRooted(path) || string.IsNullOrEmpty(basePath))
+                return AddBackslash(path);
+            else
+                return AddBackslash(Path.Combine(basePath, path));
+        }
+
+        public static string AddBackslash(string path)
+        {
+            if (string.IsNullOrEmpty(path))
+                throw new ArgumentException();
+
+            var lastChar = path.ToCharArray().Last();
+            if (lastChar == Path.DirectorySeparatorChar)
+                return path;
+            else
+                return $@"{path}\";
+        }
     }
 }

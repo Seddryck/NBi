@@ -726,6 +726,8 @@
         <xs:element name="connection-wait" type="connection-wait-type" minOccurs="0" maxOccurs="unbounded"/>
         <xs:element name="file-delete" type="file-delete-type" minOccurs="0" maxOccurs="unbounded"/>
         <xs:element name="file-copy" type="file-copy-type" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:element name="file-copy-extension" type="file-copy-extension-type" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:element name="file-copy-pattern" type="file-copy-pattern-type" minOccurs="0" maxOccurs="unbounded"/>
         <xs:element name="etl-run" type="etl-type" minOccurs="0" maxOccurs="unbounded"/>
         <xs:element name="tasks" type="tasks-type" minOccurs="0" maxOccurs="unbounded"/>
       </xs:choice>
@@ -745,6 +747,8 @@
         <xs:element name="connection-wait" type="connection-wait-type" minOccurs="0" maxOccurs="unbounded"/>
         <xs:element name="file-delete" type="file-delete-type" minOccurs="0" maxOccurs="unbounded"/>
         <xs:element name="file-copy" type="file-copy-type" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:element name="file-copy-extension" type="file-copy-extension-type" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:element name="file-copy-pattern" type="file-copy-pattern-type" minOccurs="0" maxOccurs="unbounded"/>
         <xs:element name="etl-run" type="etl-type" minOccurs="0" maxOccurs="unbounded"/>
       </xs:choice>
     </xs:sequence>
@@ -780,6 +784,16 @@
         <xs:attribute name="source-path" type="xs:string" use="required"/>
       </xs:extension>
     </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="file-copy-pattern-type" >
+    <xs:attribute name="source-path" type="xs:string" use="required"/>
+    <xs:attribute name="destination-path" type="xs:string" use="required"/>
+    <xs:attribute name="pattern" type="xs:string" use="required"/>
+  </xs:complexType>
+  <xs:complexType name="file-copy-extension-type" >
+    <xs:attribute name="source-path" type="xs:string" use="required"/>
+    <xs:attribute name="destination-path" type="xs:string" use="required"/>
+    <xs:attribute name="extension" type="xs:string" use="required"/>
   </xs:complexType>
   <xs:complexType name="exe-run-type" >
     <xs:attribute name="name" type="xs:string" use="required"/>

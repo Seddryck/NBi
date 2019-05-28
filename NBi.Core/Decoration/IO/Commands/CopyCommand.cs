@@ -16,7 +16,7 @@ namespace NBi.Core.Decoration.IO.Commands
 
         public void Execute()
         {
-            var sourceFullPath = PathExtensions.CombineOrRoot(args.BasePath, args.Path.Execute(), args.Name.Execute());
+            var sourceFullPath = PathExtensions.CombineOrRoot(args.BasePath, args.SourcePath.Execute(), args.SourceName.Execute());
             var destinationFullPath = PathExtensions.CombineOrRoot(args.BasePath, args.DestinationPath.Execute(), args.DestinationName.Execute());
             Execute(sourceFullPath, destinationFullPath);
         }

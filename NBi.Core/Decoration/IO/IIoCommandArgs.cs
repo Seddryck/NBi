@@ -8,8 +8,6 @@ namespace NBi.Core.Decoration.IO
 {
     public interface IIoCommandArgs : IDecorationCommandArgs
     {
-        IScalarResolver<string> Name { get; }
-        IScalarResolver<string> Path { get; }
         string BasePath { get; }
     }
 }

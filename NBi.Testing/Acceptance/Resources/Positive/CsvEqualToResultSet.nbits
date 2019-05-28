@@ -69,7 +69,7 @@
       <file-delete name="ResellerOrderCountByYearBefore2006.csv" path="~..\Csv\{@guid}\"/>
     </cleanup>
   </test>
-  <test name="'Reseller Order Count' by year before 2006 (csv) on a copy of the file" uid="0010">
+  <test name="'Reseller Order Count' by year before 2006 (csv) on a copy of the file" uid="0020">
     <instance-settling>
       <local-variable name="direction">
         <item>Left</item>
@@ -78,6 +78,88 @@
     </instance-settling>
     <setup>
       <file-copy name="ResellerOrderCountByYearBefore2006.csv" path="~..\Csv\{@guid}-{@direction}\" source-path="..\Csv\" />
+    </setup>
+    <system-under-test>
+      <resultSet file="~..\Csv\{@guid}-{@direction}\ResellerOrderCountByYearBefore2006.csv"/>
+    </system-under-test>
+    <assert>
+      <equalTo>
+        <column index="0" role="key" type="text"/>
+        <column index="1" role="value" type="numeric"/>
+        <resultSet>
+          <row>
+            <cell>CY 2005</cell>
+            <cell>366</cell>
+          </row>
+          <row>
+            <cell>CY 2006</cell>
+            <cell>1015</cell>
+          </row>
+          <row>
+            <cell>CY 2007</cell>
+            <cell>1521</cell>
+          </row>
+          <row>
+            <cell>CY 2008</cell>
+            <cell>894</cell>
+          </row>
+        </resultSet>
+      </equalTo>
+    </assert>
+    <cleanup>
+      <file-delete name="ResellerOrderCountByYearBefore2006.csv" path="~..\Csv\{@guid}-{@direction}\"/>
+    </cleanup>
+  </test>
+  <test name="'Reseller Order Count' by year before 2006 (csv) on a copy of the file based on a pattern" uid="0030">
+    <instance-settling>
+      <local-variable name="direction">
+        <item>Up</item>
+        <item>Down</item>
+      </local-variable>
+    </instance-settling>
+    <setup>
+      <file-copy-pattern pattern="ResellerOrder*.csv" destination-path="~..\Csv\{@guid}-{@direction}\" source-path="..\Csv\" />
+    </setup>
+    <system-under-test>
+      <resultSet file="~..\Csv\{@guid}-{@direction}\ResellerOrderCountByYearBefore2006.csv"/>
+    </system-under-test>
+    <assert>
+      <equalTo>
+        <column index="0" role="key" type="text"/>
+        <column index="1" role="value" type="numeric"/>
+        <resultSet>
+          <row>
+            <cell>CY 2005</cell>
+            <cell>366</cell>
+          </row>
+          <row>
+            <cell>CY 2006</cell>
+            <cell>1015</cell>
+          </row>
+          <row>
+            <cell>CY 2007</cell>
+            <cell>1521</cell>
+          </row>
+          <row>
+            <cell>CY 2008</cell>
+            <cell>894</cell>
+          </row>
+        </resultSet>
+      </equalTo>
+    </assert>
+    <cleanup>
+      <file-delete name="ResellerOrderCountByYearBefore2006.csv" path="~..\Csv\{@guid}-{@direction}\"/>
+    </cleanup>
+  </test>
+  <test name="'Reseller Order Count' by year before 2006 (csv) on a copy of the file based on an extension" uid="0030">
+    <instance-settling>
+      <local-variable name="direction">
+        <item>Front</item>
+        <item>Behind</item>
+      </local-variable>
+    </instance-settling>
+    <setup>
+      <file-copy-extension extension=".csv" destination-path="~..\Csv\{@guid}-{@direction}\" source-path="..\Csv\" />
     </setup>
     <system-under-test>
       <resultSet file="~..\Csv\{@guid}-{@direction}\ResellerOrderCountByYearBefore2006.csv"/>

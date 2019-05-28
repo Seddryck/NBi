@@ -37,8 +37,8 @@ namespace NBi.Testing.Integration.Core.Decoration.IO.Commands
 
             var copyArgs = Mock.Of<ICopyCommandArgs>
             (
-                c => c.Name == new LiteralScalarResolver<string>(Path.GetFileName(existingFile))
-                && c.Path == new LiteralScalarResolver<string>(Path.GetDirectoryName(existingFile))
+                c => c.SourceName == new LiteralScalarResolver<string>(Path.GetFileName(existingFile))
+                && c.SourcePath == new LiteralScalarResolver<string>(Path.GetDirectoryName(existingFile))
                 && c.DestinationName == new LiteralScalarResolver<string>(Path.GetFileName(targetFile))
                 && c.DestinationPath == new LiteralScalarResolver<string>(Path.GetDirectoryName(targetFile))
             );
@@ -59,8 +59,8 @@ namespace NBi.Testing.Integration.Core.Decoration.IO.Commands
 
             var copyArgs = Mock.Of<ICopyCommandArgs>
             (
-                c => c.Name == new LiteralScalarResolver<string>(Path.GetFileName(existingFile))
-                && c.Path == new LiteralScalarResolver<string>(Path.GetDirectoryName(existingFile))
+                c => c.SourceName == new LiteralScalarResolver<string>(Path.GetFileName(existingFile))
+                && c.SourcePath == new LiteralScalarResolver<string>(Path.GetDirectoryName(existingFile))
                 && c.DestinationName == new LiteralScalarResolver<string>(Path.GetFileName(targetFile))
                 && c.DestinationPath == new LiteralScalarResolver<string>(Path.GetDirectoryName(targetFile))
             );
@@ -80,8 +80,8 @@ namespace NBi.Testing.Integration.Core.Decoration.IO.Commands
 
             var copyArgs = Mock.Of<ICopyCommandArgs>
             (
-                c => c.Name == new LiteralScalarResolver<string>(Path.GetFileName(nonExistingFile))
-                && c.Path == new LiteralScalarResolver<string>(Path.GetDirectoryName(nonExistingFile))
+                c => c.SourceName == new LiteralScalarResolver<string>(Path.GetFileName(nonExistingFile))
+                && c.SourcePath == new LiteralScalarResolver<string>(Path.GetDirectoryName(nonExistingFile))
                 && c.DestinationName == new LiteralScalarResolver<string>(Path.GetFileName(targetFile))
                 && c.DestinationPath == new LiteralScalarResolver<string>(Path.GetDirectoryName(targetFile))
             );

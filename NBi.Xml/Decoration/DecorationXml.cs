@@ -20,6 +20,8 @@ namespace NBi.Xml.Decoration
         XmlElement(Type = typeof(ConnectionWaitXml), ElementName = "connection-wait"),
         XmlElement(Type = typeof(FileDeleteXml), ElementName = "file-delete"),
         XmlElement(Type = typeof(FileCopyXml), ElementName = "file-copy"),
+        XmlElement(Type = typeof(FileCopyPatternXml), ElementName = "file-copy-pattern"),
+        XmlElement(Type = typeof(FileCopyExtensionXml), ElementName = "file-copy-extension"),
         XmlElement(Type = typeof(EtlRunXml), ElementName = "etl-run"),
         XmlElement(Type = typeof(CommandGroupXml), ElementName = "tasks")
         ]

@@ -45,6 +45,8 @@ namespace NBi.NUnit.Builder.Helper
                 case TableResetXml reset: return BuildDataEngineeringTableReset(reset);
                 case FileDeleteXml fileDelete: return BuildIoDelete(fileDelete);
                 case FileCopyXml fileCopy: return BuildIoCopy(fileCopy);
+                case FileCopyPatternXml filePattern: return BuildIoCopyPattern(filePattern);
+                case FileCopyExtensionXml fileExtension: return BuildIoCopyExtension(fileExtension);
                 case ExeKillXml exeKill: return BuildProcessKill(exeKill);
                 case ExeRunXml exeRun: return BuildProcessRun(exeRun);
                 case ServiceStartXml serviceStart: return BuildProcessStart(serviceStart);
@@ -131,13 +133,39 @@ namespace NBi.NUnit.Builder.Helper
             var helper = new ScalarHelper(serviceLocator, variables);
             var args = new
             {
-                Name = helper.InstantiateResolver<string>(xml.FileName),
-                Path = helper.InstantiateResolver<string>(xml.InternalSourcePath),
+                SourceName = helper.InstantiateResolver<string>(xml.FileName),
+                SourcePath = helper.InstantiateResolver<string>(xml.SourcePath),
                 DestinationName = helper.InstantiateResolver<string>(xml.FileName),
-                DestinationPath = helper.InstantiateResolver<string>(xml.Path),
+                DestinationPath = helper.InstantiateResolver<string>(xml.DestinationPath),
                 xml.Settings?.BasePath
             };
             return args.ActLike<ICopyCommandArgs>();
+        }
+
+        private ICopyPatternCommandArgs BuildIoCopyPattern(FileCopyPatternXml xml)
+        {
+            var helper = new ScalarHelper(serviceLocator, variables);
+            var args = new
+            {
+                SourcePath = helper.InstantiateResolver<string>(xml.SourcePath),
+                DestinationPath = helper.InstantiateResolver<string>(xml.DestinationPath),
+                Pattern = helper.InstantiateResolver<string>(xml.Pattern),
+                xml.Settings?.BasePath
+            };
+            return args.ActLike<ICopyPatternCommandArgs>();
+        }
+
+        private ICopyExtensionCommandArgs BuildIoCopyExtension(FileCopyExtensionXml xml)
+        {
+            var helper = new ScalarHelper(serviceLocator, variables);
+            var args = new
+            {
+                SourcePath = helper.InstantiateResolver<string>(xml.SourcePath),
+                DestinationPath = helper.InstantiateResolver<string>(xml.DestinationPath),
+                Extension = helper.InstantiateResolver<string>(xml.Extension),
+                xml.Settings?.BasePath
+            };
+            return args.ActLike<ICopyExtensionCommandArgs>();
         }
 
         private IKillCommandArgs BuildProcessKill(ExeKillXml xml)

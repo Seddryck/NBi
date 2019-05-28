@@ -404,8 +404,8 @@ namespace NBi.Testing.Unit.Xml.Decoration
             Assert.That(command, Is.TypeOf<FileCopyXml>());
             var copy = command as FileCopyXml;
             Assert.That(copy.FileName, Is.EqualTo(@"toto.xls"));
-            Assert.That(copy.Path, Is.EqualTo(@"Temp\"));
-            Assert.That(copy.SourceFullPath, Is.EqualTo(@"Backup\toto.xls"));
+            Assert.That(copy.DestinationPath, Is.EqualTo(@"Temp\"));
+            Assert.That(copy.SourcePath, Is.EqualTo(@"Backup\"));
         }
 
 

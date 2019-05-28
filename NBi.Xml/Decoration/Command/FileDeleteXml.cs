@@ -6,8 +6,11 @@ using NBi.Core;
 
 namespace NBi.Xml.Decoration.Command
 {
-    public class FileDeleteXml : FileManipulationAbstractXml
+    public class FileDeleteXml : IOAbstractXml
     {
-        
+        [XmlAttribute("name")]
+        public string FileName { get; set; }
+        [XmlAttribute("path")]
+        public string Path { get; set; }
     }
 }

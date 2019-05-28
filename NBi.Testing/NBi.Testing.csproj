@@ -132,6 +132,8 @@
     <Compile Include="Integration\Core\Analysis\Request\DiscoveryRequestFactoryTest.cs" />
     <Compile Include="Integration\Core\Analysis\MembersAdomdEngineTest.cs" />
     <Compile Include="Integration\Core\CsvWriterTest.cs" />
+    <Compile Include="Integration\Core\Decoration\IO\Commands\CopyPatternCommandTest.cs" />
+    <Compile Include="Integration\Core\Decoration\IO\Commands\CopyExtensionCommandTest.cs" />
     <Compile Include="Integration\Core\Decoration\Process\Commands\WaitCommandTest.cs" />
     <Compile Include="Integration\Core\Decoration\Process\Commands\StopCommandTest.cs" />
     <Compile Include="Integration\Core\Query\Command\AdomdCommandFactoryTest.cs" />
@@ -311,6 +313,7 @@
     <Compile Include="Unit\Core\Scalar\Resolver\CSharpScalarResolverTest.cs" />
     <Compile Include="Unit\Core\Variable\VariableFactoryTest.cs" />
     <Compile Include="Unit\Core\Xml\XPathEngineTest.cs" />
+    <Compile Include="Integration\Core\DirectoryInfoExtensionsTest.cs" />
     <Compile Include="Unit\Framework\FailureMessage\Json\LookupReverseExistsViolationMessageJsonTest.cs" />
     <Compile Include="Unit\Framework\FailureMessage\Json\LookupExistsViolationMessageJsonTest.cs" />
     <Compile Include="Unit\Framework\FailureMessage\Json\LookupMatchesViolationMessageJsonTest.cs" />

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace NBi.Core
 {
-    static class DirectoryInfoExtentions
+    public static class DirectoryInfoExtentions
     {
         public static IEnumerable<FileInfo> GetFilesByExtensions(this DirectoryInfo dir, params string[] extensions)
         {

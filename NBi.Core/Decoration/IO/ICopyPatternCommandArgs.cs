@@ -6,11 +6,10 @@ using System.Text;
 
 namespace NBi.Core.Decoration.IO
 {
-    public interface ICopyCommandArgs : IIoCommandArgs
+    public interface ICopyPatternCommandArgs : IIoCommandArgs
     {
-        IScalarResolver<string> SourceName { get; }
-        IScalarResolver<string> SourcePath { get; }
-        IScalarResolver<string> DestinationName { get; }
+        IScalarResolver<string> Pattern { get; }
         IScalarResolver<string> DestinationPath { get; }
+        IScalarResolver<string> SourcePath { get; }
     }
 }

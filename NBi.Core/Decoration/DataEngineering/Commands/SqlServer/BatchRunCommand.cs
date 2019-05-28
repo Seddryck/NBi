@@ -18,7 +18,7 @@ namespace NBi.Core.Decoration.DataEngineering.Commands.SqlServer
 
         public BatchRunCommand(IBatchRunCommandArgs args) => this.args = args;
 
-        public void Execute() => Execute(new PathHelper().Combine(args.BasePath, args.Path.Execute(), args.Name.Execute()), args.Version.Execute(), args.ConnectionString);
+        public void Execute() => Execute(PathExtensions.CombineOrRoot(args.BasePath, args.Path.Execute(), args.Name.Execute()), args.Version.Execute(), args.ConnectionString);
 
         public void Execute(string fullPath, string version, string connectionString)
         { 

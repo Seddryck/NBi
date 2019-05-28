@@ -15,7 +15,7 @@ namespace NBi.Core.Decoration.IO.Commands
         public DeleteCommand(IDeleteCommandArgs args) => this.args = args;
 
         public void Execute()
-            => Execute(new PathHelper().Combine(args.BasePath, args.Path.Execute(), args.Name.Execute()));
+            => Execute(PathExtensions.CombineOrRoot(args.BasePath, args.Path.Execute(), args.Name.Execute()));
 
         internal void Execute(string fullPath)
         {

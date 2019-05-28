@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace NBi.Core
 {
-    public class PathHelper
+    static class PathExtensions
     {
-        public string Combine(string basePath, string path, string filename)
+        public static string CombineOrRoot(string basePath, string path, string filename)
         {
             if (Path.IsPathRooted(path) || string.IsNullOrEmpty(basePath))
                 return Path.Combine(path, filename);

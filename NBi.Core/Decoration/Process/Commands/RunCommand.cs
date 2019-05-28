@@ -14,7 +14,7 @@ namespace NBi.Core.Decoration.Process.Commands
         public RunCommand(IRunCommandArgs args) => this.args = args;
 
         public void Execute()
-            => Execute(new PathHelper().Combine(args.BasePath, args.Path.Execute(), args.Name.Execute()), args.Argument.Execute(), args.TimeOut.Execute());
+            => Execute(PathExtensions.CombineOrRoot(args.BasePath, args.Path.Execute(), args.Name.Execute()), args.Argument.Execute(), args.TimeOut.Execute());
 
         public void Execute(string fullPath, string argument, int timeOut)
         {

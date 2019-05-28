@@ -16,9 +16,8 @@ namespace NBi.Core.Decoration.IO.Commands
 
         public void Execute()
         {
-            var pathHelper = new PathHelper();
-            var sourceFullPath = pathHelper.Combine(args.BasePath, args.Path.Execute(), args.Name.Execute());
-            var destinationFullPath = pathHelper.Combine(args.BasePath, args.DestinationPath.Execute(), args.DestinationName.Execute());
+            var sourceFullPath = PathExtensions.CombineOrRoot(args.BasePath, args.Path.Execute(), args.Name.Execute());
+            var destinationFullPath = PathExtensions.CombineOrRoot(args.BasePath, args.DestinationPath.Execute(), args.DestinationName.Execute());
             Execute(sourceFullPath, destinationFullPath);
         }
 

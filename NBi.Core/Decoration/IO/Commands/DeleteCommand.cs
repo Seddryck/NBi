@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.IO;
 using NBi.Core.Decoration.IO;
+using System.Diagnostics;
 
 namespace NBi.Core.Decoration.IO.Commands
 {
@@ -18,10 +19,12 @@ namespace NBi.Core.Decoration.IO.Commands
 
         internal void Execute(string fullPath)
         {
+            Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceVerbose, $"deleting file '{fullPath}' ...");
             if (!File.Exists(fullPath))
                 return;
 
             File.Delete(fullPath);
+            Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceInfo, $"File deleted '{fullPath}'.");
         }
     }
 }

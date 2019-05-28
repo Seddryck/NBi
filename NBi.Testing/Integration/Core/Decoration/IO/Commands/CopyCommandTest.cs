@@ -23,6 +23,9 @@ namespace NBi.Testing.Integration.Core.Decoration.IO.Commands
 
             if (!Directory.Exists(@"Temp\Target"))
                 Directory.CreateDirectory(@"Temp\Target");
+
+            if (Directory.Exists(@"Temp\TargetNotExisting"))
+                Directory.Delete(@"Temp\TargetNotExisting", true);
         }
 
         [Test]
@@ -30,6 +33,28 @@ namespace NBi.Testing.Integration.Core.Decoration.IO.Commands
         {
             var existingFile = @"Temp\Text.txt";
             var targetFile = @"Temp\Target\TextCopy.txt";
+            File.WriteAllText(existingFile, "a little text");
+
+            var copyArgs = Mock.Of<ICopyCommandArgs>
+            (
+                c => c.Name == new LiteralScalarResolver<string>(Path.GetFileName(existingFile))
+                && c.Path == new LiteralScalarResolver<string>(Path.GetDirectoryName(existingFile))
+                && c.DestinationName == new LiteralScalarResolver<string>(Path.GetFileName(targetFile))
+                && c.DestinationPath == new LiteralScalarResolver<string>(Path.GetDirectoryName(targetFile))
+            );
+
+            var command = new CopyCommand(copyArgs);
+            command.Execute();
+
+            Assert.That(File.Exists(existingFile), Is.True);
+            Assert.That(File.Exists(targetFile), Is.True);
+        }
+
+        [Test]
+        public void Execute_ExistingFileInNotExistingDirectory_FileIsCopied()
+        {
+            var existingFile = @"Temp\Text.txt";
+            var targetFile = @"Temp\TargetNotExisting\TextCopy.txt";
             File.WriteAllText(existingFile, "a little text");
 
             var copyArgs = Mock.Of<ICopyCommandArgs>

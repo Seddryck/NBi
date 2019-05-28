@@ -192,16 +192,11 @@ namespace NBi.Xml.Settings
 
             var property = (PropertyInfo)member;
 
-            var attribute = property
-                .GetCustomAttribute(typeof(DefaultValueAttribute))
-                    as DefaultValueAttribute;
-
-            if (attribute != null)
+            switch(property.GetCustomAttribute(typeof(DefaultValueAttribute)))
             {
-                return (T)attribute.Value;
+                case DefaultValueAttribute attribute: return (T)attribute.Value;
+                default: throw new ArgumentException();
             }
-            else
-                throw new ArgumentException();
         }
     }
 }

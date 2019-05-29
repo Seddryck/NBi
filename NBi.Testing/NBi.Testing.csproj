@@ -132,6 +132,8 @@
     <Compile Include="Integration\Core\Analysis\Request\DiscoveryRequestFactoryTest.cs" />
     <Compile Include="Integration\Core\Analysis\MembersAdomdEngineTest.cs" />
     <Compile Include="Integration\Core\CsvWriterTest.cs" />
+    <Compile Include="Integration\Core\Decoration\IO\Commands\DeletePatternCommandTest.cs" />
+    <Compile Include="Integration\Core\Decoration\IO\Commands\DeleteExtensionCommandTest.cs" />
     <Compile Include="Integration\Core\Decoration\IO\Commands\CopyPatternCommandTest.cs" />
     <Compile Include="Integration\Core\Decoration\IO\Commands\CopyExtensionCommandTest.cs" />
     <Compile Include="Integration\Core\Decoration\Process\Commands\WaitCommandTest.cs" />

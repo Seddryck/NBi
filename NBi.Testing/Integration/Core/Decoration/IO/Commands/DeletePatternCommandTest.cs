@@ -13,10 +13,9 @@ using NBi.Core.Decoration.IO.Commands;
 
 namespace NBi.Testing.Integration.Core.Decoration.IO.Commands
 {
-    public class CopyPatternCommandTest
+    public class DeletePatternCommandTest
     {
         private string DirectoryName { get => $@"Temp\{GetType().Name}\"; }
-        private string CopyDirectoryName { get => $@"Temp\{GetType().Name}-copy\"; }
 
         [SetUp]
         public void Setup()
@@ -25,8 +24,6 @@ namespace NBi.Testing.Integration.Core.Decoration.IO.Commands
                 Directory.Delete(DirectoryName, true);
             Directory.CreateDirectory(DirectoryName);
 
-            if (Directory.Exists(CopyDirectoryName))
-                Directory.Delete(CopyDirectoryName, true);
         }
 
         [TearDown]
@@ -34,34 +31,30 @@ namespace NBi.Testing.Integration.Core.Decoration.IO.Commands
         {
             if (Directory.Exists(DirectoryName))
                 Directory.Delete(DirectoryName, true);
-
-            if (Directory.Exists(CopyDirectoryName))
-                Directory.Delete(CopyDirectoryName, true);
         }
 
         [Test]
-        [TestCase("*.*", 5)]
-        [TestCase("*.txt", 4)]
-        [TestCase("foo-*.txt", 3)]
-        [TestCase("foo-?.txt", 2)]
-        [TestCase("foo-0.txt", 1)]
+        [TestCase("*.*", 0)]
+        [TestCase("*.txt", 1)]
+        [TestCase("foo-*.txt", 2)]
+        [TestCase("foo-?.txt", 3)]
+        [TestCase("foo-0.txt", 4)]
         public void GetFiles_Pattern_CorrectCount(string pattern, int count)
         {
             var files = new[] { "bar-0.txt", "foo-0.txt", "foo-1.txt", "foo-01.txt", "foo-0.csv" };
             foreach (var file in files)
                 File.AppendAllText(Path.Combine(DirectoryName, file), ".");
 
-            var copyPatternArgs = Mock.Of<ICopyPatternCommandArgs>
+            var deletePatternArgs = Mock.Of<IDeletePatternCommandArgs>
             (
                 c => c.Pattern == new LiteralScalarResolver<string>(pattern)
-                && c.SourcePath == new LiteralScalarResolver<string>(DirectoryName)
-                && c.DestinationPath == new LiteralScalarResolver<string>(CopyDirectoryName)
+                && c.Path == new LiteralScalarResolver<string>(DirectoryName)
             );
 
-            var command = new CopyPatternCommand(copyPatternArgs);
+            var command = new DeletePatternCommand(deletePatternArgs);
             command.Execute();
 
-            var dir = new DirectoryInfo(CopyDirectoryName);
+            var dir = new DirectoryInfo(DirectoryName);
             Assert.That(dir.GetFiles().Count(), Is.EqualTo(count));
         }
     }

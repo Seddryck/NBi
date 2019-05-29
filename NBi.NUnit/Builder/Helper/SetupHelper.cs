@@ -44,6 +44,8 @@ namespace NBi.NUnit.Builder.Helper
                 case TableLoadXml load: return BuildDataEngineeringTableLoad(load);
                 case TableResetXml reset: return BuildDataEngineeringTableReset(reset);
                 case FileDeleteXml fileDelete: return BuildIoDelete(fileDelete);
+                case FileDeletePatternXml deletePattern: return BuildIoDeletePattern(deletePattern);
+                case FileDeleteExtensionXml deleteExtension: return BuildIoDeleteExtension(deleteExtension);
                 case FileCopyXml fileCopy: return BuildIoCopy(fileCopy);
                 case FileCopyPatternXml filePattern: return BuildIoCopyPattern(filePattern);
                 case FileCopyExtensionXml fileExtension: return BuildIoCopyExtension(fileExtension);
@@ -126,6 +128,29 @@ namespace NBi.NUnit.Builder.Helper
                 xml.Settings?.BasePath
             };
             return args.ActLike<IDeleteCommandArgs>();
+        }
+        private IDeletePatternCommandArgs BuildIoDeletePattern(FileDeletePatternXml xml)
+        {
+            var helper = new ScalarHelper(serviceLocator, variables);
+            var args = new
+            {
+                Path = helper.InstantiateResolver<string>(xml.Path),
+                Pattern = helper.InstantiateResolver<string>(xml.Pattern),
+                xml.Settings?.BasePath
+            };
+            return args.ActLike<IDeletePatternCommandArgs>();
+        }
+
+        private IDeleteExtensionCommandArgs BuildIoDeleteExtension(FileDeleteExtensionXml xml)
+        {
+            var helper = new ScalarHelper(serviceLocator, variables);
+            var args = new
+            {
+                Path = helper.InstantiateResolver<string>(xml.Path),
+                Extension = helper.InstantiateResolver<string>(xml.Extension),
+                xml.Settings?.BasePath
+            };
+            return args.ActLike<IDeleteExtensionCommandArgs>();
         }
 
         private ICopyCommandArgs BuildIoCopy(FileCopyXml xml)

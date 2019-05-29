@@ -14,6 +14,8 @@ namespace NBi.Core.Decoration.IO
             switch (args)
             {
                 case IDeleteCommandArgs deleteArgs: return new DeleteCommand(deleteArgs);
+                case IDeletePatternCommandArgs patternArgs: return new DeletePatternCommand(patternArgs);
+                case IDeleteExtensionCommandArgs extensionArgs: return new DeleteExtensionCommand(extensionArgs);
                 case ICopyCommandArgs copyArgs: return new CopyCommand(copyArgs);
                 case ICopyPatternCommandArgs patternArgs: return new CopyPatternCommand(patternArgs);
                 case ICopyExtensionCommandArgs extensionArgs: return new CopyExtensionCommand(extensionArgs);

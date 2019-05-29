@@ -111,7 +111,9 @@
     <Compile Include="Constraints\LinkedToXml.cs" />
     <Compile Include="Constraints\EvaluateRowsXml.cs" />
     <Compile Include="Decoration\Command\ConnectionWaitXml.cs" />
+    <Compile Include="Decoration\Command\FileDeleteExtensionXml.cs" />
     <Compile Include="Decoration\Command\FileCopyExtensionXml.cs" />
+    <Compile Include="Decoration\Command\FileDeletePatternXml.cs" />
     <Compile Include="Decoration\Command\FileCopyPatternXml.cs" />
     <Compile Include="Decoration\Command\WaitXml.cs" />
     <Compile Include="Decoration\Command\ExeKillXml.cs" />

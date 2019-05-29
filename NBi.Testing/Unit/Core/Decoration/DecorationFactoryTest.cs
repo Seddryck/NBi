@@ -60,6 +60,8 @@ namespace NBi.Testing.Unit.Core.Decoration.DataEngineering
                 case Type x when x == typeof(IEtlRunCommandArgs): return Mock.Of<IEtlRunCommandArgs>();
                 case Type x when x == typeof(IConnectionWaitCommandArgs): return Mock.Of<IConnectionWaitCommandArgs>();
                 case Type x when x == typeof(IDeleteCommandArgs): return Mock.Of<IDeleteCommandArgs>();
+                case Type x when x == typeof(IDeletePatternCommandArgs): return Mock.Of<IDeletePatternCommandArgs>();
+                case Type x when x == typeof(IDeleteExtensionCommandArgs): return Mock.Of<IDeleteExtensionCommandArgs>();
                 case Type x when x == typeof(ICopyCommandArgs): return Mock.Of<ICopyCommandArgs>();
                 case Type x when x == typeof(ICopyPatternCommandArgs): return Mock.Of<ICopyPatternCommandArgs>();
                 case Type x when x == typeof(ICopyExtensionCommandArgs): return Mock.Of<ICopyExtensionCommandArgs>();
@@ -81,6 +83,8 @@ namespace NBi.Testing.Unit.Core.Decoration.DataEngineering
         [TestCase(typeof(IEtlRunCommandArgs), typeof(EtlRunCommand))]
         [TestCase(typeof(IConnectionWaitCommandArgs), typeof(ConnectionWaitCommand))]
         [TestCase(typeof(IDeleteCommandArgs), typeof(DeleteCommand))]
+        [TestCase(typeof(IDeletePatternCommandArgs), typeof(DeletePatternCommand))]
+        [TestCase(typeof(IDeleteExtensionCommandArgs), typeof(DeleteExtensionCommand))]
         [TestCase(typeof(ICopyCommandArgs), typeof(CopyCommand))]
         [TestCase(typeof(ICopyPatternCommandArgs), typeof(CopyPatternCommand))]
         [TestCase(typeof(ICopyExtensionCommandArgs), typeof(CopyExtensionCommand))]

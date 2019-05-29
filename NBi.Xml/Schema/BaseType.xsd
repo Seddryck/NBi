@@ -725,6 +725,8 @@
         <xs:element name="wait" type="wait-type" minOccurs="0" maxOccurs="unbounded"/>
         <xs:element name="connection-wait" type="connection-wait-type" minOccurs="0" maxOccurs="unbounded"/>
         <xs:element name="file-delete" type="file-delete-type" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:element name="file-delete-pattern" type="file-delete-pattern-type" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:element name="file-delete-extension" type="file-delete-extension-type" minOccurs="0" maxOccurs="unbounded"/>
         <xs:element name="file-copy" type="file-copy-type" minOccurs="0" maxOccurs="unbounded"/>
         <xs:element name="file-copy-extension" type="file-copy-extension-type" minOccurs="0" maxOccurs="unbounded"/>
         <xs:element name="file-copy-pattern" type="file-copy-pattern-type" minOccurs="0" maxOccurs="unbounded"/>
@@ -746,6 +748,8 @@
         <xs:element name="wait" type="wait-type" minOccurs="0" maxOccurs="unbounded"/>
         <xs:element name="connection-wait" type="connection-wait-type" minOccurs="0" maxOccurs="unbounded"/>
         <xs:element name="file-delete" type="file-delete-type" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:element name="file-delete-pattern" type="file-delete-pattern-type" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:element name="file-delete-extension" type="file-delete-extension-type" minOccurs="0" maxOccurs="unbounded"/>
         <xs:element name="file-copy" type="file-copy-type" minOccurs="0" maxOccurs="unbounded"/>
         <xs:element name="file-copy-extension" type="file-copy-extension-type" minOccurs="0" maxOccurs="unbounded"/>
         <xs:element name="file-copy-pattern" type="file-copy-pattern-type" minOccurs="0" maxOccurs="unbounded"/>
@@ -777,6 +781,14 @@
   <xs:complexType name="file-delete-type">
     <xs:attribute name="path" type="xs:string" use="required"/>
     <xs:attribute name="name" type="xs:string" use="required"/>
+  </xs:complexType>
+  <xs:complexType name="file-delete-pattern-type">
+    <xs:attribute name="path" type="xs:string" use="required"/>
+    <xs:attribute name="pattern" type="xs:string" use="required"/>
+  </xs:complexType>
+  <xs:complexType name="file-delete-extension-type">
+    <xs:attribute name="path" type="xs:string" use="required"/>
+    <xs:attribute name="extension" type="xs:string" use="required"/>
   </xs:complexType>
   <xs:complexType name="file-copy-type" >
     <xs:complexContent>

@@ -13,10 +13,9 @@ using NBi.Core.Scalar.Resolver;
 
 namespace NBi.Testing.Integration.Core.Decoration.IO.Commands
 {
-    public class CopyExtensionCommandTest
+    public class DeleteExtensionCommandTest
     {
         private string DirectoryName { get => $@"Temp\{GetType().Name}\"; }
-        private string CopyDirectoryName { get => $@"Temp\{GetType().Name}-copy\"; }
 
         [SetUp]
         public void Setup()
@@ -24,9 +23,6 @@ namespace NBi.Testing.Integration.Core.Decoration.IO.Commands
             if (Directory.Exists(DirectoryName))
                 Directory.Delete(DirectoryName, true);
             Directory.CreateDirectory(DirectoryName);
-
-            if (Directory.Exists(CopyDirectoryName))
-                Directory.Delete(CopyDirectoryName, true);
         }
 
         [TearDown]
@@ -34,32 +30,28 @@ namespace NBi.Testing.Integration.Core.Decoration.IO.Commands
         {
             if (Directory.Exists(DirectoryName))
                 Directory.Delete(DirectoryName, true);
-
-            if (Directory.Exists(CopyDirectoryName))
-                Directory.Delete(CopyDirectoryName, true);
         }
 
         [Test]
-        [TestCase(".txt", 4)]
-        [TestCase(".csv", 1)]
-        [TestCase(".txt;.csv", 5)]
+        [TestCase(".txt", 2)]
+        [TestCase(".csv", 5)]
+        [TestCase(".txt;.csv", 1)]
         public void Execute_SomeFiles_CorrectCount(string ext, int count)
         {
             var files = new[] { "bar-0.txt", "foo-0.txt", "foo-1.txt", "foo-01.txt", "foo-0.csv", "foo-0.cmd" };
             foreach (var file in files)
                 File.AppendAllText(Path.Combine(DirectoryName, file), ".");
 
-            var copyExtensionArgs = Mock.Of<ICopyExtensionCommandArgs>
+            var deleteExtensionArgs = Mock.Of<IDeleteExtensionCommandArgs>
             (
                 c => c.Extension == new LiteralScalarResolver<string>(ext)
-                && c.SourcePath == new LiteralScalarResolver<string>(DirectoryName)
-                && c.DestinationPath == new LiteralScalarResolver<string>(CopyDirectoryName)
+                && c.Path == new LiteralScalarResolver<string>(DirectoryName)
             );
 
-            var command = new CopyExtensionCommand(copyExtensionArgs);
+            var command = new DeleteExtensionCommand(deleteExtensionArgs);
             command.Execute();
 
-            var dir = new DirectoryInfo(CopyDirectoryName);
+            var dir = new DirectoryInfo(DirectoryName);
             Assert.That(dir.GetFiles().Count(), Is.EqualTo(count));
         }
     }

@@ -1,5 +1,5 @@
 ﻿using NBi.Core;
-using NBi.Core.Assemblies;
+using NBi.Core.Assemblies.Decoration;
 using NBi.Core.Decoration;
 using NBi.Core.Decoration.Process;
 using NBi.Core.Injection;
@@ -38,10 +38,13 @@ namespace NBi.NUnit.Builder.Helper
 
         private IDecorationConditionArgs BuildCustomCondition(CustomConditionXml custom)
         {
-            var parameters = new Dictionary<string, object>();
-            custom.Parameters.ForEach(p => parameters.Add(p.Name, p.StringValue));
+            var helper = new ScalarHelper(serviceLocator, variables);
 
-            return new CustomConditionArgs(custom.AssemblyPath, custom.TypeName, parameters);
+            return new CustomConditionArgs(
+                helper.InstantiateResolver<string>(custom.AssemblyPath),
+                helper.InstantiateResolver<string>(custom.TypeName),
+                custom.Parameters.ToDictionary(x => x.Name, y => helper.InstantiateResolver<object>(y.StringValue) as IScalarResolver)
+            );
         }
 
         private IDecorationConditionArgs BuildServiceRunning(ServiceRunningXml serviceRunning)
@@ -68,15 +71,15 @@ namespace NBi.NUnit.Builder.Helper
 
         private class CustomConditionArgs : ICustomConditionArgs
         {
-            public string AssemblyPath { get; }
+            public IScalarResolver<string> AssemblyPath { get; }
 
-            public string TypeName { get; }
+            public IScalarResolver<string> TypeName { get; }
 
-            public IReadOnlyDictionary<string, object> Parameters { get; }
+            public IReadOnlyDictionary<string, IScalarResolver> Parameters { get; }
 
-            public CustomConditionArgs(string assemblyPath, string typeName, IDictionary<string, object> parameters)
+            public CustomConditionArgs(IScalarResolver<string> assemblyPath, IScalarResolver<string> typeName, IDictionary<string, IScalarResolver> parameters)
                 => (AssemblyPath, TypeName, Parameters)
-                = (assemblyPath, typeName, new ReadOnlyDictionary<string, object>(parameters));
+                = (assemblyPath, typeName, new ReadOnlyDictionary<string, IScalarResolver>(parameters));
         }
     }
 }

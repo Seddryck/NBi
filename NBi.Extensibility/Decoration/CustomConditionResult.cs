@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Extensibility.Condition
+namespace NBi.Extensibility.Decoration
 {
     public class CustomConditionResult
     {

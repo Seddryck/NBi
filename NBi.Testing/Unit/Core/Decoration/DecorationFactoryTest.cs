@@ -17,6 +17,7 @@ using NBi.Core.Decoration.Grouping.Commands;
 using NBi.Core.Decoration.Grouping;
 using NBi.Core.Decoration.Process.Conditions;
 using NBi.Core.Assemblies;
+using NBi.Core.Assemblies.Decoration;
 
 namespace NBi.Testing.Unit.Core.Decoration.DataEngineering
 {
@@ -72,6 +73,11 @@ namespace NBi.Testing.Unit.Core.Decoration.DataEngineering
                 case Type x when x == typeof(IWaitCommandArgs): return Mock.Of<IWaitCommandArgs>();
                 case Type x when x == typeof(IParallelCommandArgs): return Mock.Of<IParallelCommandArgs>();
                 case Type x when x == typeof(ISequentialCommandArgs): return Mock.Of<ISequentialCommandArgs>();
+                case Type x when x == typeof(ICustomCommandArgs): return Mock.Of<ICustomCommandArgs>
+                                        (
+                                            y => y.AssemblyPath == new LiteralScalarResolver<string>("NBi.Testing.dll")
+                                            && y.TypeName == new LiteralScalarResolver<string>("NBi.Testing.Acceptance.Resources.CustomCommand")
+                                        );
                 default: throw new ArgumentOutOfRangeException();
             }
         }
@@ -95,6 +101,7 @@ namespace NBi.Testing.Unit.Core.Decoration.DataEngineering
         [TestCase(typeof(IWaitCommandArgs), typeof(WaitCommand))]
         [TestCase(typeof(IParallelCommandArgs), typeof(ParallelCommand))]
         [TestCase(typeof(ISequentialCommandArgs), typeof(SequentialCommand))]
+        [TestCase(typeof(ICustomCommandArgs), typeof(CustomCommand))]
         public void Get_IDecorationCommandArgs_CorrectCommand(Type argsType, Type commandType)
         {
             var args = GetCommandArgsMock(argsType);
@@ -110,12 +117,18 @@ namespace NBi.Testing.Unit.Core.Decoration.DataEngineering
             switch (type)
             {
                 case Type x when x == typeof(IRunningConditionArgs): return Mock.Of<IRunningConditionArgs>();
+                case Type x when x == typeof(ICustomConditionArgs): return Mock.Of<ICustomConditionArgs>
+                        (
+                            y => y.AssemblyPath == new LiteralScalarResolver<string>("NBi.Testing.dll")
+                            && y.TypeName == new LiteralScalarResolver<string>("NBi.Testing.Acceptance.Resources.CustomConditionTrue")
+                        );
                 default: throw new ArgumentOutOfRangeException();
             }
         }
 
         [Test]
         [TestCase(typeof(IRunningConditionArgs), typeof(RunningCondition))]
+        [TestCase(typeof(ICustomConditionArgs), typeof(CustomCondition))]
         public void Get_IDecorationConditionArgs_CorrectCondition(Type argsType, Type conditionType)
         {
             var args = GetConditionArgsMock(argsType);

@@ -1,5 +1,6 @@
 ﻿using ImpromptuInterface;
 using NBi.Core;
+using NBi.Core.Assemblies.Decoration;
 using NBi.Core.Decoration;
 using NBi.Core.Decoration.DataEngineering;
 using NBi.Core.Decoration.Grouping;
@@ -54,6 +55,7 @@ namespace NBi.NUnit.Builder.Helper
                 case ServiceStartXml serviceStart: return BuildProcessStart(serviceStart);
                 case ServiceStopXml serviceStop: return BuildProcessStop(serviceStop);
                 case WaitXml wait: return BuildProcessWait(wait);
+                case CustomCommandXml custom: return BuildProcessCustom(custom);
                 case CommandGroupXml group: return BuildGroup(group.Commands, group.Parallel);
                 default: throw new ArgumentOutOfRangeException();
             }
@@ -247,6 +249,18 @@ namespace NBi.NUnit.Builder.Helper
                 MilliSeconds = helper.InstantiateResolver<int>(xml.MilliSeconds),
             };
             return args.ActLike<IWaitCommandArgs>();
+        }
+
+        private ICustomCommandArgs BuildProcessCustom(CustomCommandXml xml)
+        {
+            var helper = new ScalarHelper(serviceLocator, variables);
+            var args = new
+            {
+                AssemblyPath = helper.InstantiateResolver<string>(xml.AssemblyPath),
+                TypeName = helper.InstantiateResolver<string>(xml.TypeName),
+                Parameters = xml.Parameters.ToDictionary(x => x.Name, y => helper.InstantiateResolver<object>(y.StringValue)),
+            };
+            return args.ActLike<ICustomCommandArgs>();
         }
 
         private IGroupCommandArgs BuildGroup(IEnumerable<DecorationCommandXml> xmlCommands, bool isParallel)

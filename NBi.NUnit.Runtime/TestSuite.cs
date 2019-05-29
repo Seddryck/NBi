@@ -138,8 +138,8 @@ namespace NBi.NUnit.Runtime
             foreach (var predicate in condition.Predicates)
             {
                 var helper = new ConditionHelper(serviceLocator, allVariables);
-                var metadata = helper.Execute(predicate);
-                var impl = new DecorationFactory().Instantiate(metadata);
+                var args = helper.Execute(predicate);
+                var impl = new DecorationFactory().Instantiate(args);
                 var isVerified = impl.Validate();
                 if (!isVerified)
                 {

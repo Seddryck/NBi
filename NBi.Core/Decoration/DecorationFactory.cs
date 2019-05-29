@@ -6,6 +6,7 @@ using NBi.Core.Decoration.DataEngineering;
 using NBi.Core.Decoration.IO;
 using NBi.Core.Decoration.Process;
 using NBi.Core.Decoration.Grouping;
+using NBi.Core.Assemblies.Decoration;
 
 namespace NBi.Core.Decoration
 {
@@ -19,6 +20,7 @@ namespace NBi.Core.Decoration
                 case IDataEngineeringCommandArgs dataEngineeringArgs: return new DataEngineeringFactory().Instantiate(dataEngineeringArgs);
                 case IIoCommandArgs ioArgs: return new IOFactory().Instantiate(ioArgs);
                 case IProcessCommandArgs processArgs: return new ProcessCommandFactory().Instantiate(processArgs);
+                case ICustomCommandArgs customArgs: return new CustomCommandFactory().Instantiate(customArgs);
                 default: throw new ArgumentOutOfRangeException();
             }
         }

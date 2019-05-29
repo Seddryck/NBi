@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace NBi.Testing.Acceptance.Resources
 {
-    public class CustomConditionTrue : ICustomCondition
+    public class CustomCommand : ICustomCommand
     {
-        public CustomConditionResult Execute() => CustomConditionResult.SuccessfullCondition;
+        public void Execute() { }
     }
 }

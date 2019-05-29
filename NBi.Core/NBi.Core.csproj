@@ -100,9 +100,14 @@
     <Compile Include="Analysis\Request\MetadataLinkedToDiscoveryRequest.cs" />
     <Compile Include="Analysis\Request\FactoryValidations\TableNotNullIfColumn.cs" />
     <Compile Include="Analysis\Request\FactoryValidations\ValidationFilter.cs" />
-    <Compile Include="Assemblies\CustomCondition.cs" />
-    <Compile Include="Assemblies\CustomConditionFactory.cs" />
-    <Compile Include="Assemblies\ICustomConditionMetadata.cs" />
+    <Compile Include="Assemblies\Decoration\AbstractCustomFactory.cs" />
+    <Compile Include="Assemblies\Decoration\CustomCommand.cs" />
+    <Compile Include="Assemblies\Decoration\CustomCondition.cs" />
+    <Compile Include="Assemblies\Decoration\CustomCommandFactory.cs" />
+    <Compile Include="Assemblies\Decoration\CustomConditionFactory.cs" />
+    <Compile Include="Assemblies\Decoration\ICustomCommandArgs.cs" />
+    <Compile Include="Assemblies\Decoration\ICustomArgs.cs" />
+    <Compile Include="Assemblies\Decoration\ICustomConditionArgs.cs" />
     <Compile Include="AttributeExtensions.cs" />
     <Compile Include="Calculation\BaseRankingFilter.cs" />
     <Compile Include="Calculation\CombinationOperator.cs" />

@@ -16,41 +16,41 @@ using System.Threading.Tasks;
 
 namespace NBi.Testing.Unit.Core.Assemblies
 {
-    public class CustomConditionFactoryTest
+    public class CustomCommandFactoryTest
     {
         [Test]
         public void Instantiate_WithoutCtorParameter_Instantiated()
         {
-            var factory = new CustomConditionFactory();
+            var factory = new CustomCommandFactory();
             var instance = factory.Instantiate
             (
-                typeof(CustomConditionWithoutParameter),
+                typeof(CustomCommandWithoutParameter),
                 new ReadOnlyDictionary<string, object>(new Dictionary<string, object>())
             );
             Assert.That(instance, Is.Not.Null);
-            Assert.That(instance, Is.AssignableTo<ICustomCondition>());
+            Assert.That(instance, Is.AssignableTo<ICustomCommand>());
         }
 
         [Test]
         public void Instantiate_WithoutCtorOneParameter_Instantiated()
         {
-            var factory = new CustomConditionFactory();
+            var factory = new CustomCommandFactory();
             var instance = factory.Instantiate
             (
-                typeof(CustomConditionWithOneParameter),
+                typeof(CustomCommandWithOneParameter),
                 new ReadOnlyDictionary<string, object>(new Dictionary<string, object>() { { "name", "myName" } })
             );
             Assert.That(instance, Is.Not.Null);
-            Assert.That(instance, Is.AssignableTo<ICustomCondition>());
+            Assert.That(instance, Is.AssignableTo<ICustomCommand>());
         }
 
         [Test]
         public void Instantiate_WithoutCtorTwoParameters_Instantiated()
         {
-            var factory = new CustomConditionFactory();
+            var factory = new CustomCommandFactory();
             var instance = factory.Instantiate
             (
-                typeof(CustomConditionWithTwoParameters),
+                typeof(CustomCommandWithTwoParameters),
                 new ReadOnlyDictionary<string, object>(new Dictionary<string, object>()
                 {
                     { "name", "myName" },
@@ -58,16 +58,16 @@ namespace NBi.Testing.Unit.Core.Assemblies
                 })
             );
             Assert.That(instance, Is.Not.Null);
-            Assert.That(instance, Is.AssignableTo<ICustomCondition>());
+            Assert.That(instance, Is.AssignableTo<ICustomCommand>());
         }
 
         [Test]
         public void Instantiate_WithoutCtorTwoParametersReversed_Instantiated()
         {
-            var factory = new CustomConditionFactory();
+            var factory = new CustomCommandFactory();
             var instance = factory.Instantiate
             (
-                typeof(CustomConditionWithTwoParameters),
+                typeof(CustomCommandWithTwoParameters),
                 new ReadOnlyDictionary<string, object>(new Dictionary<string, object>()
                 {
                     { "count", "5" },
@@ -75,16 +75,16 @@ namespace NBi.Testing.Unit.Core.Assemblies
                 })
             );
             Assert.That(instance, Is.Not.Null);
-            Assert.That(instance, Is.AssignableTo<ICustomCondition>());
+            Assert.That(instance, Is.AssignableTo<ICustomCommand>());
         }
 
         [Test]
         public void Instantiate_WithoutCtorTwoParametersIncorrectCase_Instantiated()
         {
-            var factory = new CustomConditionFactory();
+            var factory = new CustomCommandFactory();
             var instance = factory.Instantiate
             (
-                typeof(CustomConditionWithTwoParameters),
+                typeof(CustomCommandWithTwoParameters),
                 new ReadOnlyDictionary<string, object>(new Dictionary<string, object>()
                 {
                     { "Count", "5" },
@@ -92,16 +92,16 @@ namespace NBi.Testing.Unit.Core.Assemblies
                 })
             );
             Assert.That(instance, Is.Not.Null);
-            Assert.That(instance, Is.AssignableTo<ICustomCondition>());
+            Assert.That(instance, Is.AssignableTo<ICustomCommand>());
         }
 
         [Test]
         public void Instantiate_MultipleConstructors_Instantiated()
         {
-            var factory = new CustomConditionFactory();
+            var factory = new CustomCommandFactory();
             var instance = factory.Instantiate
             (
-                typeof(CustomConditionWithMulipleCtors),
+                typeof(CustomCommandWithMulipleCtors),
                 new ReadOnlyDictionary<string, object>(new Dictionary<string, object>()
                 {
                     { "count", "5" },
@@ -109,54 +109,54 @@ namespace NBi.Testing.Unit.Core.Assemblies
                 })
             );
             Assert.That(instance, Is.Not.Null);
-            Assert.That(instance, Is.AssignableTo<ICustomCondition>());
+            Assert.That(instance, Is.AssignableTo<ICustomCommand>());
 
             instance = factory.Instantiate
             (
-                typeof(CustomConditionWithMulipleCtors),
+                typeof(CustomCommandWithMulipleCtors),
                 new ReadOnlyDictionary<string, object>(new Dictionary<string, object>()
                 {
                     { "name", "myName" },
                 })
             );
             Assert.That(instance, Is.Not.Null);
-            Assert.That(instance, Is.AssignableTo<ICustomCondition>());
+            Assert.That(instance, Is.AssignableTo<ICustomCommand>());
 
             instance = factory.Instantiate
             (
-                typeof(CustomConditionWithMulipleCtors),
+                typeof(CustomCommandWithMulipleCtors),
                 new ReadOnlyDictionary<string, object>(new Dictionary<string, object>()
                 { })
             );
             Assert.That(instance, Is.Not.Null);
-            Assert.That(instance, Is.AssignableTo<ICustomCondition>());
+            Assert.That(instance, Is.AssignableTo<ICustomCommand>());
         }
 
         [Test]
         public void GetType_ExistingTypeName_Instantiated()
         {
-            var factory = new CustomConditionFactory();
+            var factory = new CustomCommandFactory();
             var type = factory.GetType
             (
                 Assembly.GetExecutingAssembly()
-                , typeof(CustomConditionWithMulipleCtors).Name
+                , typeof(CustomCommandWithMulipleCtors).Name
             );
-            Assert.That(type, Is.EqualTo(typeof(CustomConditionWithMulipleCtors)));
+            Assert.That(type, Is.EqualTo(typeof(CustomCommandWithMulipleCtors)));
         }
 
         [Test]
         public void GetType_ExistingTypeFullName_Instantiated()
         {
-            var factory = new CustomConditionFactory();
+            var factory = new CustomCommandFactory();
             var type = factory.GetType
             (
                 Assembly.GetExecutingAssembly()
-                , typeof(CustomConditionWithMulipleCtors).FullName
+                , typeof(CustomCommandWithMulipleCtors).FullName
             );
-            Assert.That(type, Is.EqualTo(typeof(CustomConditionWithMulipleCtors)));
+            Assert.That(type, Is.EqualTo(typeof(CustomCommandWithMulipleCtors)));
         }
 
-        private class CustomConditionFactoryProxy : CustomConditionFactory
+        private class CustomCommandFactoryProxy : CustomCommandFactory
         {
             protected internal override Assembly GetAssembly(string path) => Assembly.GetExecutingAssembly();
         }
@@ -164,11 +164,11 @@ namespace NBi.Testing.Unit.Core.Assemblies
         [Test]
         public void Instantiate_NotExistingType_NotInstantiated()
         {
-            var factory = new CustomConditionFactoryProxy();
+            var factory = new CustomCommandFactoryProxy();
             void instantiate() => factory.Instantiate
             (
-                Mock.Of<ICustomConditionArgs>(x =>
-                    x.AssemblyPath == new LiteralScalarResolver<string>(".") &&
+                Mock.Of<ICustomCommandArgs>(x =>
+                    x.AssemblyPath==new LiteralScalarResolver<string>(".") &&
                     x.TypeName == new LiteralScalarResolver<string>("NotExistingType") &&
                     x.Parameters == null
                 )
@@ -179,10 +179,10 @@ namespace NBi.Testing.Unit.Core.Assemblies
         [Test]
         public void Instantiate_NotExistingNamespaceType_NotInstantiated()
         {
-            var factory = new CustomConditionFactoryProxy();
+            var factory = new CustomCommandFactoryProxy();
             void instantiate() => factory.Instantiate
             (
-                Mock.Of<ICustomConditionArgs>(x =>
+                Mock.Of<ICustomCommandArgs>(x =>
                     x.AssemblyPath == new LiteralScalarResolver<string>(".") &&
                     x.TypeName == new LiteralScalarResolver<string>("Namespace.NotExistingType") &&
                     x.Parameters == null
@@ -194,10 +194,10 @@ namespace NBi.Testing.Unit.Core.Assemblies
         [Test]
         public void Instantiate_NotImplementingInterface_NotInstantiated()
         {
-            var factory = new CustomConditionFactoryProxy();
+            var factory = new CustomCommandFactoryProxy();
             void instantiate() => factory.Instantiate
             (
-                Mock.Of<ICustomConditionArgs>(x =>
+                Mock.Of<ICustomCommandArgs>(x =>
                     x.AssemblyPath == new LiteralScalarResolver<string>(".") &&
                     x.TypeName == new LiteralScalarResolver<string>(this.GetType().Name) &&
                     x.Parameters == null
@@ -209,14 +209,14 @@ namespace NBi.Testing.Unit.Core.Assemblies
         [Test]
         public void Instantiate_ConstructorNotFound_NotInstantiated()
         {
-            var factory = new CustomConditionFactoryProxy();
+            var factory = new CustomCommandFactoryProxy();
             void instantiate() => factory.Instantiate
             (
-                Mock.Of<ICustomConditionArgs>(x =>
+                Mock.Of<ICustomCommandArgs>(x =>
                     x.AssemblyPath == new LiteralScalarResolver<string>(".") &&
-                    x.TypeName == new LiteralScalarResolver<string>(typeof(CustomConditionWithMulipleCtors).Name) &&
+                    x.TypeName == new LiteralScalarResolver<string>(typeof(CustomCommandWithMulipleCtors).Name) &&
                     x.Parameters == new ReadOnlyDictionary<string, IScalarResolver>(new Dictionary<string, IScalarResolver>() {
-                        { "NotExistingParameter", new LiteralScalarResolver<string>("null") }
+                        { "NotExistingParameter", new LiteralScalarResolver<string>("foo") }
                     })
                 )
             );

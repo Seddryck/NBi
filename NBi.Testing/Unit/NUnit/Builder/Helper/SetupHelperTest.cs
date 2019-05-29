@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using NBi.Core.Assemblies.Decoration;
 using NBi.Core.Decoration;
 using NBi.Core.Decoration.DataEngineering;
 using NBi.Core.Decoration.Grouping;
@@ -69,6 +70,7 @@ namespace NBi.Testing.Unit.NUnit.Builder.Helper
         [TestCase(typeof(ServiceStartXml), typeof(IStartCommandArgs))]
         [TestCase(typeof(ServiceStopXml), typeof(IStopCommandArgs))]
         [TestCase(typeof(WaitXml), typeof(IWaitCommandArgs))]
+        [TestCase(typeof(CustomCommandXml), typeof(ICustomCommandArgs))]
         public void Execute_DecorationCommand_CorrectlyTransformedToArgs(Type xmlType, Type argsType)
         {
             var xmlInstance = Activator.CreateInstance(xmlType);
@@ -168,6 +170,44 @@ namespace NBi.Testing.Unit.NUnit.Builder.Helper
                 Assert.That(subGroupCommandArgs.Commands.ElementAt(0), Is.AssignableTo<IDeleteCommandArgs>());
                 Assert.That(subGroupCommandArgs.Commands.ElementAt(1), Is.AssignableTo<IKillCommandArgs>());
             }
+        }
+
+
+        [Test]
+        public void Execute_CustomCommand_CorrectlyParsed()
+        {
+            var xml = new SetupXml()
+            {
+                Commands = new List<DecorationCommandXml>()
+                    { new CustomCommandXml()
+                        {
+                            AssemblyPath ="NBi.Testing"
+                            , TypeName = @"CustomCommand"
+                            , Parameters = new List<CustomCommandParameterXml>()
+                                {
+                                    new CustomCommandParameterXml() { Name="foo", StringValue="bar" },
+                                    new CustomCommandParameterXml() { Name="quark", StringValue="@myVar" },
+                                }
+                        }
+                    }
+            };
+            var myVar = new GlobalVariable(new LiteralScalarResolver<object>("bar-foo"));
+            var helper = new SetupHelper(new ServiceLocator(), new Dictionary<string, ITestVariable>() {{ "myVar", myVar } });
+
+            var customCommandArgs = helper.Execute(xml.Commands).ElementAt(0) as ICustomCommandArgs;
+            Assert.That(customCommandArgs.AssemblyPath, Is.TypeOf<LiteralScalarResolver<string>>());
+            Assert.That(customCommandArgs.AssemblyPath.Execute(), Is.EqualTo("NBi.Testing"));
+            Assert.That(customCommandArgs.TypeName, Is.TypeOf<LiteralScalarResolver<string>>());
+            Assert.That(customCommandArgs.TypeName.Execute(), Is.EqualTo("CustomCommand"));
+
+            Assert.That(customCommandArgs.Parameters, Has.Count.EqualTo(2));
+            Assert.That(customCommandArgs.Parameters["foo"], Is.TypeOf<LiteralScalarResolver<object>>());
+            var paramValue = customCommandArgs.Parameters["foo"] as LiteralScalarResolver<object>;
+            Assert.That(paramValue.Execute(), Is.EqualTo("bar"));
+
+            Assert.That(customCommandArgs.Parameters["quark"], Is.TypeOf<GlobalVariableScalarResolver<object>>());
+            var paramValue2 = customCommandArgs.Parameters["quark"] as GlobalVariableScalarResolver<object>;
+            Assert.That(paramValue2.Execute(), Is.EqualTo("bar-foo"));
         }
 
         [Test]

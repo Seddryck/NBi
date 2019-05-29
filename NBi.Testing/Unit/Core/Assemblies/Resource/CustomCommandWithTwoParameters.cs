@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace NBi.Testing.Unit.Core.Assemblies.Resource
 {
-    class CustomConditionWithoutParameter : ICustomCondition
+    class CustomCommandWithTwoParameters : ICustomCommand
     {
-        public CustomConditionWithoutParameter()
+        public CustomCommandWithTwoParameters(string name, int count)
         { }
 
-        public CustomConditionResult Execute() => CustomConditionResult.SuccessfullCondition;
+        public void Execute() { }
     }
 }

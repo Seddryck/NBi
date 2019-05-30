@@ -14,6 +14,10 @@ using System.Collections.Generic;
 using System.Xml.Serialization;
 using System.Text;
 using System.Diagnostics;
+using System;
+using NBi.Xml.SerializationOption;
+using NBi.Xml.Variables;
+using NBi.Core.Transformation;
 #endregion
 
 namespace NBi.Testing.Unit.Xml.Constraints
@@ -320,6 +324,24 @@ namespace NBi.Testing.Unit.Xml.Constraints
         }
 
         [Test]
+        public void Deserialize_SampleFile_ScriptWithinExpressions()
+        {
+            int testNr = 12;
+
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            TestSuiteXml ts = DeserializeSample();
+            var allRows = ts.Tests[testNr].Constraints[0] as AllRowsXml;
+            var expressions = allRows.Expressions;
+
+            Assert.That(allRows.Expressions, Is.AssignableTo<IEnumerable<ExpressionXml>>());
+            Assert.That(allRows.Expressions, Has.Count.EqualTo(1));
+            Assert.That(allRows.Expressions.ElementAt(0).Script, Is.Not.Null);
+            var script = allRows.Expressions.ElementAt(0).Script as ScriptXml;
+            Assert.That(script.Language, Is.EqualTo(LanguageType.Native));
+            Assert.That(script.Code, Is.StringContaining("DeptId | numeric-to-integer"));
+        }
+
+        [Test]
         public void Serialize_AllRowsXml_OnlyAliasNoVariable()
         {
             var allRowsXml = new AllRowsXml
@@ -477,5 +499,236 @@ namespace NBi.Testing.Unit.Xml.Constraints
             Assert.That(content.LastIndexOf("<expression"), Is.LessThan(content.IndexOf("<predicate")));
         }
 
+        [Test]
+        public void Serialize_UnspecifiedExpression_NoScript()
+        {
+            var allRowsXml = new AllRowsXml
+            {
+                Expressions = new List<ExpressionXml>()
+                {
+                    new ExpressionXml()
+                    {
+                        Value = "a + b - c",
+                        Type = ColumnType.Numeric,
+                        Name = "calculate"
+                    }
+                },
+
+                Predication = new PredicationXml()
+                {
+                    Operand = new ColumnNameIdentifier("calculate"),
+                    ColumnType = ColumnType.Numeric,
+                    Predicate = new EqualXml()
+                    {
+                        Value = "100"
+                    }
+                }
+            };
+
+            var serializer = new XmlSerializer(typeof(AllRowsXml));
+            var content = string.Empty;
+            using (var stream = new MemoryStream())
+            {
+                using (var writer = new StreamWriter(stream, Encoding.UTF8))
+                    serializer.Serialize(writer, allRowsXml);
+                content = Encoding.UTF8.GetString(stream.ToArray());
+            }
+
+            Debug.WriteLine(content);
+
+            Assert.That(content, Is.StringContaining("<expression"));
+            Assert.That(content, Is.StringContaining("a + b - c"));
+            Assert.That(content.IndexOf("a + b - c"), Is.EqualTo(content.LastIndexOf("a + b - c")));
+        }
+
+        [Test]
+        public void Serialize_NCalcExpression_NoScript()
+        {
+            var allRowsXml = new AllRowsXml
+            {
+                Expressions = new List<ExpressionXml>()
+                {
+                    new ExpressionXml()
+                    {
+                        Type = ColumnType.Numeric,
+                        Name = "calculate",
+                        Script = new ScriptXml() { Code = "a + b - c", Language = LanguageType.NCalc }
+                    }
+                },
+
+                Predication = new PredicationXml()
+                {
+                    Operand = new ColumnNameIdentifier("calculate"),
+                    ColumnType = ColumnType.Numeric,
+                    Predicate = new EqualXml()
+                    {
+                        Value = "100"
+                    }
+                }
+            };
+
+            var serializer = new XmlSerializer(typeof(AllRowsXml));
+            var content = string.Empty;
+            using (var stream = new MemoryStream())
+            {
+                using (var writer = new StreamWriter(stream, Encoding.UTF8))
+                    serializer.Serialize(writer, allRowsXml);
+                content = Encoding.UTF8.GetString(stream.ToArray());
+            }
+
+            Debug.WriteLine(content);
+
+            Assert.That(content, Is.StringContaining("<expression"));
+            Assert.That(content, Is.StringContaining("a + b - c"));
+            Assert.That(content.IndexOf("a + b - c"), Is.EqualTo(content.LastIndexOf("a + b - c")));
+        }
+
+        [Test]
+        public void Serialize_NativeExpression_ScriptIsAvailable()
+        {
+            var allRowsXml = new AllRowsXml
+            {
+                Expressions = new List<ExpressionXml>()
+                {
+                    new ExpressionXml()
+                    {
+                        Type = ColumnType.Numeric,
+                        Name = "calculate",
+                        Script = new ScriptXml() { Code = "a | numeric-to-integer", Language = LanguageType.Native }
+                    }
+                },
+
+                Predication = new PredicationXml()
+                {
+                    Operand = new ColumnNameIdentifier("calculate"),
+                    ColumnType = ColumnType.Numeric,
+                    Predicate = new EqualXml()
+                    {
+                        Value = "100"
+                    }
+                }
+            };
+
+            var serializer = new XmlSerializer(typeof(AllRowsXml));
+            var content = string.Empty;
+            using (var stream = new MemoryStream())
+            {
+                using (var writer = new StreamWriter(stream, Encoding.UTF8))
+                    serializer.Serialize(writer, allRowsXml);
+                content = Encoding.UTF8.GetString(stream.ToArray());
+            }
+
+            Debug.WriteLine(content);
+
+            Assert.That(content, Is.StringContaining("<expression"));
+            Assert.That(content, Is.StringContaining("<script"));
+            Assert.That(content, Is.StringContaining("native"));
+            Assert.That(content, Is.StringContaining("a | numeric-to-integer"));
+            Assert.That(content.IndexOf("a | numeric-to-integer"), Is.EqualTo(content.LastIndexOf("a | numeric-to-integer")));
+        }
+
+        [Test]
+        public void Serialize_MatchesRegex_WithCDATA()
+        {
+            var root = new PredicationXml()
+            {
+                Predicate = new MatchesRegexXml
+                {
+                    Value="<|>|&"
+                }
+            };
+
+            var overrides = new WriteOnlyAttributes();
+            overrides.Build();
+
+            var manager = new XmlManager();
+            var xml = manager.XmlSerializeFrom(root, overrides);
+            Console.WriteLine(xml);
+            Assert.That(xml, Is.StringContaining("<matches-regex>"));
+            Assert.That(xml, Is.Not.StringContaining("<ValueWrite>"));
+            Assert.That(xml, Is.StringContaining("<![CDATA[<|>|&]]>"));
+            Assert.That(xml, Is.Not.StringContaining("&lt;|&gt;|&amp;"));
+        }
+
+        [Test]
+        public void Deserialize_MatchesRegex_WithCDATA()
+        {
+            var xml = "<PredicationXml xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\"><matches-regex><![CDATA[<|>|&]]></matches-regex></PredicationXml>";
+            var manager = new XmlManager();
+            var overrides = new ReadOnlyAttributes();
+            overrides.Build();
+            var objectData = manager.XmlDeserializeTo<PredicationXml>(xml, overrides);
+            Assert.That(objectData, Is.TypeOf<PredicationXml>());
+            Assert.That(objectData, Is.Not.Null);
+            Assert.That(objectData.Predicate, Is.TypeOf<MatchesRegexXml>());
+            Assert.That(objectData.Predicate, Is.Not.Null);
+            Assert.That(objectData.Predicate.Value, Is.EqualTo("<|>|&"));
+        }
+
+        [Test]
+        public void Deserialize_MatchesRegex_WithoutCDATA()
+        {
+            var xml = "<PredicationXml xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\"><matches-regex>&lt;|&gt;|&amp;</matches-regex></PredicationXml>";
+            var manager = new XmlManager();
+            var overrides = new ReadOnlyAttributes();
+            overrides.Build();
+            var objectData = manager.XmlDeserializeTo<PredicationXml>(xml, overrides);
+            Assert.That(objectData, Is.TypeOf<PredicationXml>());
+            Assert.That(objectData, Is.Not.Null);
+            Assert.That(objectData.Predicate, Is.TypeOf<MatchesRegexXml>());
+            Assert.That(objectData.Predicate, Is.Not.Null);
+            Assert.That(objectData.Predicate.Value, Is.EqualTo("<|>|&"));
+        }
+
+        [Test]
+        public void Serialize_Equal_WithoutCDATAButWithZero()
+        {
+            var root = new PredicationXml()
+            {
+                Predicate = new EqualXml
+                {
+                    Value = "0"
+                }
+            };
+
+            var overrides = new WriteOnlyAttributes();
+            overrides.Build();
+
+            var manager = new XmlManager();
+            var xml = manager.XmlSerializeFrom(root, overrides);
+            Console.WriteLine(xml);
+            Assert.That(xml, Is.StringContaining("<equal>0</equal>"));
+            Assert.That(xml, Is.Not.StringContaining("<equal />"));
+        }
+
+        [Test]
+        public void Deserialize_Equal_WithCDATA()
+        {
+            var xml = "<PredicationXml xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\"><equal><![CDATA[<|>|&]]></equal></PredicationXml>";
+            var manager = new XmlManager();
+            var overrides = new ReadOnlyAttributes();
+            overrides.Build();
+            var objectData = manager.XmlDeserializeTo<PredicationXml>(xml, overrides);
+            Assert.That(objectData, Is.TypeOf<PredicationXml>());
+            Assert.That(objectData, Is.Not.Null);
+            Assert.That(objectData.Predicate, Is.TypeOf<EqualXml>());
+            Assert.That(objectData.Predicate, Is.Not.Null);
+            Assert.That(objectData.Predicate.Value, Is.EqualTo("<|>|&"));
+        }
+
+        [Test]
+        public void Deserialize_Equal_WithoutCDATA()
+        {
+            var xml = "<PredicationXml xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\"><equal>&lt;|&gt;|&amp;</equal></PredicationXml>";
+            var manager = new XmlManager();
+            var overrides = new ReadOnlyAttributes();
+            overrides.Build();
+            var objectData = manager.XmlDeserializeTo<PredicationXml>(xml, overrides);
+            Assert.That(objectData, Is.TypeOf<PredicationXml>());
+            Assert.That(objectData, Is.Not.Null);
+            Assert.That(objectData.Predicate, Is.TypeOf<EqualXml>());
+            Assert.That(objectData.Predicate, Is.Not.Null);
+            Assert.That(objectData.Predicate.Value, Is.EqualTo("<|>|&"));
+        }
     }
 }

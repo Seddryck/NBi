@@ -8,11 +8,11 @@ namespace NBi.GenbiL.Action.Case
 {
     public class GroupCaseAction : ICaseAction
     {
-        public List<string> columnNames { get; set; }
+        public List<string> ColumnNames { get; }
 
         public GroupCaseAction(IEnumerable<string> variableNames)
         {
-            this.columnNames = new List<string>(variableNames);
+            this.ColumnNames = new List<string>(variableNames);
         }
 
         public void Execute(GenerationState state)
@@ -20,8 +20,8 @@ namespace NBi.GenbiL.Action.Case
             var dataTable = state.TestCaseCollection.Scope.Content;
             dataTable.AcceptChanges();
 
-            foreach (var columnName in columnNames)
-                dataTable.Columns.Add("_" + columnName, typeof(List<string>));
+            foreach (var columnName in ColumnNames)
+                dataTable.Columns.Add($"_{columnName}", typeof(List<string>));
 
             
 
@@ -30,18 +30,18 @@ namespace NBi.GenbiL.Action.Case
             while(i < dataTable.Rows.Count)
             {
                 var isIdentical = true;
-                for (int j = 0; j < dataTable.Columns.Count - columnNames.Count; j++)
+                for (int j = 0; j < dataTable.Columns.Count - ColumnNames.Count; j++)
                 {
-                    if (!columnNames.Contains(dataTable.Columns[j].ColumnName) && !(dataTable.Rows[i][j] is IEnumerable<string>))
+                    if (!ColumnNames.Contains(dataTable.Columns[j].ColumnName) && !(dataTable.Rows[i][j] is IEnumerable<string>))
                         isIdentical &= dataTable.Rows[i][j].ToString() == dataTable.Rows[firstRow][j].ToString();
                 }
 
                 if (!isIdentical)
                     firstRow = i;
                 
-                foreach (var columnName in columnNames)
+                foreach (var columnName in ColumnNames)
                 {
-                    var columnListId =  dataTable.Columns["_" + columnName].Ordinal;
+                    var columnListId =  dataTable.Columns[$"_{columnName}"].Ordinal;
                     var columnId = dataTable.Columns[columnName].Ordinal;
 
                     if (dataTable.Rows[firstRow][columnListId] == DBNull.Value)
@@ -59,13 +59,22 @@ namespace NBi.GenbiL.Action.Case
                 i++;
             }
 
-            foreach (var columnName in columnNames)
+
+            foreach (var columnName in ColumnNames)
+                dataTable.Columns.Add($"_{columnName}_", typeof(string[]));
+
+            foreach (DataRow row in dataTable.Rows.Cast<DataRow>().Where(x => x.RowState!=DataRowState.Deleted))
+                foreach (var columnName in ColumnNames)
+                    row[$"_{columnName}_"] = (row[$"_{columnName}"] as List<string>).ToArray();
+
+            foreach (var columnName in ColumnNames)
             {
                 var columnId = dataTable.Columns[columnName].Ordinal;
 
-                dataTable.Columns["_" + columnName].SetOrdinal(columnId);
+                dataTable.Columns[$"_{columnName}_"].SetOrdinal(columnId);
                 dataTable.Columns.Remove(columnName);
-                dataTable.Columns["_" + columnName].ColumnName = columnName;
+                dataTable.Columns.Remove($"_{columnName}");
+                dataTable.Columns[$"_{columnName}_"].ColumnName = columnName;
             }
 
             dataTable.AcceptChanges();
@@ -76,10 +85,10 @@ namespace NBi.GenbiL.Action.Case
         {
             get
             {
-                if (columnNames.Count == 1)
-                    return string.Format("Grouping rows for content of column '{0}'", columnNames[0]);
+                if (ColumnNames.Count == 1)
+                    return string.Format("Grouping rows for content of column '{0}'", ColumnNames[0]);
                 else
-                    return string.Format("Grouping rows for content of columns '{0}'", String.Join("', '", columnNames));
+                    return string.Format("Grouping rows for content of columns '{0}'", String.Join("', '", ColumnNames));
             }
         }
     }

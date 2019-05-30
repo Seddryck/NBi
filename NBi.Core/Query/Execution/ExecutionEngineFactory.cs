@@ -36,7 +36,7 @@ namespace NBi.Core.Query.Execution
         public ExecutionEngineFactory(ClientProvider clientProvider, CommandProvider commandProvider, IExtensionsConfiguration config)
             : base(clientProvider, commandProvider)
         {
-            var extensions = config?.Extensions?.Where(x => typeof(IExecutionEngine).IsAssignableFrom(x)) ?? new Type[0];
+            var extensions = config?.Extensions?.Where(x => typeof(IExecutionEngine).IsAssignableFrom(x.Key))?.Select(x => x.Key) ?? new Type[0];
             RegisterEngines(classics.Union(extensions).ToArray());
         }
 

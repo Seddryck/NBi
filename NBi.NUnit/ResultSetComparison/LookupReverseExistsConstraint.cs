@@ -17,15 +17,12 @@ namespace NBi.NUnit.ResultSetComparison
 {
     public class LookupReverseExistsConstraint : LookupExistsConstraint
     {
-
         public LookupReverseExistsConstraint(IResultSetService reference)
             : base(reference)
         { }
 
         public new LookupReverseExistsConstraint Using(ColumnMappingCollection mappings)
-        {
-            return base.Using(mappings) as LookupReverseExistsConstraint;
-        }
+            => base.Using(mappings) as LookupReverseExistsConstraint;
 
         public override bool ProcessParallel(IResultSetService actual)
         {
@@ -42,12 +39,20 @@ namespace NBi.NUnit.ResultSetComparison
         protected override bool doMatch(ResultSet actual)
         {
             violations = Engine.Execute(rsCandidate, actual);
-            var output = violations.Count == 0;
+            var output = violations.Count() == 0;
 
             if (output && Configuration?.FailureReportProfile.Mode == FailureReportMode.Always)
                 Assert.Pass(Failure.RenderMessage());
 
             return output;
+        }
+
+        protected override ILookupViolationMessageFormatter BuildFailure()
+        {
+            var factory = new LookupReverseExistsViolationsMessageFormatterFactory();
+            var msg = factory.Instantiate(Configuration.FailureReportProfile);
+            msg.Generate(rsReference.Rows.Cast<DataRow>(), rsCandidate.Rows.Cast<DataRow>(), violations, mappings, null);
+            return msg;
         }
     }
 }

@@ -1,0 +1,25 @@
+﻿<test name="The measure '$column$' should be defined with the currency EUR">
+  <system-under-test>
+    <resultSet file="$column$.csv">
+      <alteration>
+        <filter>
+          <combination operator="or">
+            $array: { value |
+            <predicate name="Column" type="text">
+              <equal>$value$</equal>
+            </predicate>
+            }
+            $
+          </combination>
+        </filter>
+      </alteration>
+    </resultSet>
+  </system-under-test>
+  <assert>
+    <all-rows>
+      <predicate operand="Currency" type="text">
+        <equal>EUR</equal>
+      </predicate>
+    </all-rows>
+  </assert>
+</test>

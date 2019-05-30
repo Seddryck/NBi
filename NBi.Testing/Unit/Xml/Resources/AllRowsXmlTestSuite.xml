@@ -219,4 +219,26 @@
       </all-rows>
     </assert>
   </test>
+  <test name="With expression written with a native script" uid="0030">
+    <system-under-test>
+      <execution>
+        <query name="Select first departments">
+          select row_count as DeptId, [Name], [GroupName] from [HumanResources].[Department] order by Name
+        </query>
+      </execution>
+    </system-under-test>
+    <assert>
+      <all-rows>
+        <variable column-index="0">DeptId</variable>
+        <expression name="IntegerDepId">
+          <script language="native">
+            DeptId | numeric-to-integer
+          </script>
+        </expression>
+        <predicate name="IntegerDepId">
+          <more-than or-equal="true">10</more-than>
+        </predicate>
+      </all-rows>
+    </assert>
+  </test>
 </testSuite>

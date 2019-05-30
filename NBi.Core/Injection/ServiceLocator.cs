@@ -12,6 +12,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using NBi.Core.Scalar.Format;
+using NBi.Core.FlatFile;
 
 namespace NBi.Core.Injection
 {
@@ -48,6 +49,11 @@ namespace NBi.Core.Injection
         public virtual QueryResolverFactory GetQueryResolverFactory()
         {
             return kernel.Get<QueryResolverFactory>();
+        }
+
+        public virtual FlatFileReaderFactory GetFlatFileReaderFactory()
+        {
+            return kernel.Get<FlatFileReaderFactory>();
         }
 
         public virtual ScalarResolverFactory GetScalarResolverFactory()

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.Scalar.Caster
+namespace NBi.Core.Scalar.Casting
 {
     public class CasterFactory<T>
     {
@@ -13,6 +13,7 @@ namespace NBi.Core.Scalar.Caster
         {
             switch (typeof(T).Name)
             {
+                case "Object": return (ICaster<T>)new ImplicitCaster();
                 case "String": return (ICaster<T>)new TextCaster();
                 case "Decimal": return (ICaster<T>)new NumericCaster();
                 case "Boolean": return (ICaster<T>)new BooleanCaster();

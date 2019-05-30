@@ -20,6 +20,16 @@ namespace NBi.Framework.Sampling
             };
         }
 
+        public IDictionary<string, ISampler<T>> InstantiateLookup(IFailureReportProfile profile)
+        {
+            return new Dictionary<string, ISampler<T>>()
+            {
+                {"reference", SelectSampler(profile.ExpectedSet, profile.ThresholdSampleItem, profile.MaxSampleItem) },
+                {"candidate", SelectSampler(profile.ActualSet, profile.ThresholdSampleItem, profile.MaxSampleItem) },
+                {"analysis", SelectSampler(profile.AnalysisSet, profile.ThresholdSampleItem, profile.MaxSampleItem) },
+            };
+        }
+
         private ISampler<T> SelectSampler(FailureReportSetType type, int thresholdSampleItem, int maxSampleItem)
         {
             switch (type)

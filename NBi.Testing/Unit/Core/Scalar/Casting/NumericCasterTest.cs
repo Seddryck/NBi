@@ -2,7 +2,7 @@
 using System.Linq;
 using NBi.Core.Scalar.Comparer;
 using NUnit.Framework;
-using NBi.Core.Scalar.Caster;
+using NBi.Core.Scalar.Casting;
 using NBi.Core;
 
 namespace NBi.Testing.Unit.Core.Scalar.Caster

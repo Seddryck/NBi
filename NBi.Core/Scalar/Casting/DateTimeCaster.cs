@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.Scalar.Caster
+namespace NBi.Core.Scalar.Casting
 {
     class DateTimeCaster : ICaster<DateTime>
     {
@@ -35,7 +35,7 @@ namespace NBi.Core.Scalar.Caster
             if (value is string)
                 return StringParse((string)value);
 
-            return System.Convert.ToDateTime(value, DateTimeFormatInfo.InvariantInfo);
+            return Convert.ToDateTime(value, DateTimeFormatInfo.InvariantInfo);
         }
 
         object ICaster.Execute(object value) => Execute(value);

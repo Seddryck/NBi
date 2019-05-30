@@ -78,6 +78,38 @@ namespace NBi.Testing.Unit.Xml.Items
         }
 
         [Test]
+        public void Deserialize_QueryConnectionString_QueryXml()
+        {
+            int testNr = 0;
+
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            TestSuiteXml ts = DeserializeSample();
+
+            Assert.That(ts.Tests[testNr].Systems[0], Is.TypeOf<ExecutionXml>());
+            Assert.That(((ExecutionXml)ts.Tests[testNr].Systems[0]).BaseItem, Is.TypeOf<QueryXml>());
+            var query = (QueryXml)((ExecutionXml)ts.Tests[testNr].Systems[0]).BaseItem;
+
+            Assert.That(query.ConnectionString, Is.Not.Null);
+            Assert.That(query.ConnectionString, Is.EqualTo("myConnectionString"));
+        }
+
+        [Test]
+        public void Deserialize_QueryConnectionStringNewSyntax_QueryXml()
+        {
+            int testNr = 1;
+
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            TestSuiteXml ts = DeserializeSample();
+
+            Assert.That(ts.Tests[testNr].Systems[0], Is.TypeOf<ExecutionXml>());
+            Assert.That(((ExecutionXml)ts.Tests[testNr].Systems[0]).BaseItem, Is.TypeOf<QueryXml>());
+            var query = (QueryXml)((ExecutionXml)ts.Tests[testNr].Systems[0]).BaseItem;
+
+            Assert.That(query.ConnectionString, Is.Not.Null);
+            Assert.That(query.ConnectionString, Is.EqualTo("myConnectionString"));
+        }
+
+        [Test]
         public void Deserialize_QueryWithTwoParams_QueryXml()
         {
             int testNr = 1;
@@ -155,7 +187,7 @@ namespace NBi.Testing.Unit.Xml.Items
             var ctrXml = new EqualToXml();
             var queryXml = new QueryXml
             {
-                ConnectionString = "my connection-string",
+                ConnectionString = "my connection*string",
                 InlineQuery = "select * from table"
             };
             ctrXml.Query = queryXml;
@@ -174,7 +206,9 @@ namespace NBi.Testing.Unit.Xml.Items
 
             Assert.That(content, Is.StringContaining("<![CDATA["));
             Assert.That(content, Is.StringContaining("select * from table"));
-            Assert.That(content, Is.StringContaining("my connection-string"));
+            Assert.That(content, Is.StringContaining("connection-string="));
+            Assert.That(content, Is.Not.StringContaining("connectionString="));
+            Assert.That(content, Is.StringContaining("my connection*string"));
             Assert.That(content.Split(new[] { ' ' }), Has.Exactly(1).EqualTo("*"));
         }
 

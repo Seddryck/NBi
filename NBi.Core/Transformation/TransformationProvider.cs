@@ -40,12 +40,14 @@ namespace NBi.Core.Transformation
                 resultSet.Table.Columns.Add(newColumn);
 
                 var ordinal = (identifier as ColumnOrdinalIdentifier)?.Ordinal ?? resultSet.Table.Columns[(identifier as ColumnNameIdentifier).Name].Ordinal;
+                var originalName = resultSet.Table.Columns[ordinal].ColumnName;
 
                 foreach (DataRow row in resultSet.Table.Rows)
                     row[newColumn.Ordinal] = transformer.Execute(row[ordinal]);
 
                 resultSet.Table.Columns.RemoveAt(ordinal);
                 newColumn.SetOrdinal(ordinal);
+                newColumn.ColumnName = originalName;
 
                 Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceInfo, string.Format("Time needed to transform column {0}: {1}", identifier.Label, DateTime.Now.Subtract(tsStart).ToString(@"d\d\.hh\h\:mm\m\:ss\s\ \+fff\m\s")));
             }

@@ -13,7 +13,9 @@ namespace NBi.Xml.Constraints.Comparer
     public abstract class PredicateXml
     {
         [XmlText]
-        public string Value { get; set; }
+        public virtual string Value { get; set; }
+
+        public virtual bool ShouldSerializeValue() => true;
 
         [DefaultValue(false)]
         [XmlAttribute("not")]

@@ -20,7 +20,7 @@ namespace NBi.Xml.Items.Xml
 
         public string GetFile()
         {
-            return Settings.BasePath + File.Value;
+            return Settings.BasePath + File.Path;
         }
     }
 }

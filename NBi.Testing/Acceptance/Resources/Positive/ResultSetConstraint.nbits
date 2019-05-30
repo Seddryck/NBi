@@ -128,15 +128,15 @@
           <join>
             <mapping candidate="#2" reference="#0" type="text"/>
           </join>
-          <resultSet>
-            <query connectionString="@ref1">select 'CUST0001' union all select 'CUST0002' union all select 'CUST0003'</query>
-          </resultSet>
+          <result-set>
+            <query connection-string="@ref1">select 'CUST0001' union all select 'CUST0002' union all select 'CUST0003'</query>
+          </result-set>
         </lookup-exists>
       </assert>
     </test>
     <test name="lookup-exist" uid="00081">
       <system-under-test>
-        <resultSet file="..\Csv\Orders.csv"/>
+        <result-set file="..\Csv\Orders.csv"/>
       </system-under-test>
       <assert>
         <lookup-exists>
@@ -166,17 +166,50 @@
     </test>
     <test name="lookup-exist reversed" uid="00081">
       <system-under-test>
-        <resultSet>
+        <result-set>
           <query>select 'CUST0001' union all select 'CUST0002' union all select 'CUST0003' union all select 'NOT EXISTING'</query>
-        </resultSet>
+        </result-set>
       </system-under-test>
       <assert>
         <lookup-exists reverse="true">
           <join>
             <mapping candidate="#2" reference="#0" type="text"/>
           </join>
-          <resultSet file="..\Csv\Orders.csv"/>
+          <result-set file="..\Csv\Orders.csv"/>
         </lookup-exists>
+      </assert>
+    </test>
+    <test name="lookup-matches" uid="00091">
+      <system-under-test>
+        <result-set>
+          <query>
+            select 
+              NationalIdNumber,
+              h.[DepartmentID]as DepartmentID,
+              d.Name as DepartmentName
+            from 
+              [HumanResources].[Employee] e
+            inner join [HumanResources].[EmployeeDepartmentHistory] 
+              h on e.BusinessEntityId = h.BusinessEntityId
+            inner join [HumanResources].[Department] d on 
+              h.DepartmentId = d.DepartmentId
+          </query>
+        </result-set>
+      </system-under-test>
+      <assert>
+        <lookup-matches>
+          <join>
+            <mapping candidate="DepartmentID" reference="Id" type="numeric"/>
+          </join>
+          <inclusion>
+            <mapping candidate="DepartmentName" reference="Name" type="text"/>
+          </inclusion>
+          <result-set>
+            <query>
+              select [DepartmentID] as Id, [Name] from [HumanResources].[Department]
+            </query>
+          </result-set>
+        </lookup-matches>
       </assert>
     </test>
   </group>
@@ -214,9 +247,26 @@
         <unique-rows/>
       </assert>
     </test>
-    <test name="External result-set" uid="0103">
+    <test name="External result-set defined with variable formatting" uid="0103">
       <system-under-test>
         <resultSet file="~..\Csv\ResellerOrderCountByYearBefore{@year:yyyy}.csv"/>
+      </system-under-test>
+      <assert>
+        <unique-rows/>
+      </assert>
+    </test>
+    <test name="External result-set with if-missing" uid="0103">
+      <system-under-test>
+        <result-set>
+          <file>
+            <path>~..\Csv\ResellerOrderCountByYearBefore{@year:yy}.csv</path>
+            <if-missing>
+              <file>
+                <path>..\Csv\ResellerOrderCountByYearBefore2006.csv</path>
+              </file>
+            </if-missing>
+          </file>
+        </result-set>
       </system-under-test>
       <assert>
         <unique-rows/>
@@ -323,6 +373,53 @@
         </equalTo>
       </assert>
     </test>
+    <test name="Result-set is the cartesian product of two sequences" uid="0130">
+      <system-under-test>
+        <result-set>
+          <sequences-combination operation="cartesian-product">
+            <sequence type="text">
+              <item>be</item>
+              <item>fr</item>
+            </sequence>
+            <sequence type="dateTime">
+              <loop-sentinel seed="2015-01-01" terminal="2017-01-01" step="1 year"/>
+            </sequence>
+          </sequences-combination>
+        </result-set>
+      </system-under-test>
+      <assert>
+        <equal-to>
+          <column index="0" role="key" type="text"/>
+          <column index="1" role="key" type="dateTime"/>
+          <resultSet>
+            <row>
+              <cell>be</cell>
+              <cell>2015-01-01</cell>
+            </row>
+            <row>
+              <cell>fr</cell>
+              <cell>2015-01-01</cell>
+            </row>
+            <row>
+              <cell>be</cell>
+              <cell>2016-01-01</cell>
+            </row>
+            <row>
+              <cell>fr</cell>
+              <cell>2016-01-01</cell>
+            </row>
+            <row>
+              <cell>be</cell>
+              <cell>2017-01-01</cell>
+            </row>
+            <row>
+              <cell>fr</cell>
+              <cell>2017-01-01</cell>
+            </row>
+          </resultSet>
+        </equal-to>
+      </assert>
+    </test>
   </group>
   <group name="alterations">
     <test name="Filter with one predicate" uid="0201">
@@ -388,7 +485,36 @@
         </equalTo>
       </assert>
     </test>
-    <test name="Filter with one predicate and a reference variable" uid="0202">
+    <test name="Filter with one predicate (but in a combination)" uid="0203">
+      <system-under-test>
+        <resultSet file="..\Csv\ResellerOrderCountByYearBefore2006.csv">
+          <alteration>
+            <filter>
+              <combination operator="or">
+                <predicate name="#0" type="text">
+                  <less-than>CY 2007</less-than>
+                </predicate>
+              </combination>
+            </filter>
+          </alteration>
+        </resultSet>
+      </system-under-test>
+      <assert>
+        <equalTo>
+          <resultSet>
+            <row>
+              <cell>CY 2005</cell>
+              <cell>366</cell>
+            </row>
+            <row>
+              <cell>CY 2006</cell>
+              <cell>1015</cell>
+            </row>
+          </resultSet>
+        </equalTo>
+      </assert>
+    </test>
+    <test name="Filter with one predicate and a reference variable" uid="0204">
       <system-under-test>
         <resultSet file="..\Csv\ResellerOrderCountByYearBefore2006.csv">
           <alteration>
@@ -415,7 +541,6 @@
         </equalTo>
       </assert>
     </test>
-    
     <test name="Filter with one ranking top" uid="0211">
       <system-under-test>
         <resultSet file="..\Csv\ResellerOrderCountByYearBefore2006.csv">

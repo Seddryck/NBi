@@ -1,4 +1,5 @@
 ﻿using NBi.Core.Calculation;
+using NBi.Xml.SerializationOption;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -11,6 +12,12 @@ namespace NBi.Xml.Constraints.Comparer
 {
     public class MatchesRegexXml : CaseSensitiveTextPredicateXml
     {
+
+        [XmlIgnore]
+        public CData ValueWrite { get => Value; set => Value = value; }
+
+        public override bool ShouldSerializeValue() => false;
+
         internal override ComparerType ComparerType { get => ComparerType.MatchesRegex; }
     }
 }

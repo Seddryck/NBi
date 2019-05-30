@@ -6,7 +6,7 @@ using System.Diagnostics;
 using System.Linq;
 using NBi.Core.Scalar.Comparer;
 using System.Text;
-using NBi.Core.Scalar.Caster;
+using NBi.Core.Scalar.Casting;
 using NBi.Core.ResultSet.Analyzer;
 using System.Collections.ObjectModel;
 
@@ -19,13 +19,7 @@ namespace NBi.Core.ResultSet.Equivalence
         {
             get { return new ReadOnlyCollection<IRowsAnalyzer>(analyzers); }
         }
-
-
-        private readonly CellComparer cellComparer = new CellComparer();
-        protected CellComparer CellComparer
-        {
-            get { return cellComparer; }
-        }
+        protected CellComparer CellComparer { get; } = new CellComparer();
 
         public BaseEquivaler(IEnumerable<IRowsAnalyzer> analyzers)
         {

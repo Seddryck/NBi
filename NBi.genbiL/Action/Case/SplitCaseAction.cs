@@ -26,7 +26,7 @@ namespace NBi.GenbiL.Action.Case
                 if (!state.TestCaseCollection.Scope.Variables.Contains(columnName))
                     throw new ArgumentOutOfRangeException(String.Format("No column named '{0}' has been found.", columnName));
 
-                dataTable.Columns.Add("_" + columnName, typeof(List<string>));
+                dataTable.Columns.Add("_" + columnName, typeof(string[]));
 
 
                 var columnListId = dataTable.Columns["_" + columnName].Ordinal;
@@ -38,9 +38,7 @@ namespace NBi.GenbiL.Action.Case
                         throw new ArgumentOutOfRangeException(String.Format("The column named '{0}' was already an array.", columnName));
 
                     var array = dataTable.Rows[i][columnId].ToString().Split(new[] { Separator }, StringSplitOptions.None);
-                    var list = new List<string>();
-                    list.AddRange(array);
-                    dataTable.Rows[i][columnListId] = list;
+                    dataTable.Rows[i][columnListId] = array;
                 }
 
                 dataTable.Columns["_" + columnName].SetOrdinal(columnId);

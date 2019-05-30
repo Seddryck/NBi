@@ -37,5 +37,7 @@ namespace NBi.Core.Scalar.Resolver
             Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceVerbose, $"Literal evaluated to: {output}");
             return (T)output;
         }
+
+        object IScalarResolver.Execute() => Execute();
     }
 }

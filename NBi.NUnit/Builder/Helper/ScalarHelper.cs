@@ -12,6 +12,7 @@ using NBi.Core.Scalar.Resolver;
 using NBi.Core.Transformation;
 using NBi.Core.Variable;
 using NBi.Xml.Items.Calculation.Ranking;
+using NBi.Xml.Settings;
 using NBi.Xml.Systems;
 using System;
 using System.Collections.Generic;
@@ -21,27 +22,48 @@ using System.Threading.Tasks;
 
 namespace NBi.NUnit.Builder.Helper
 {
-    class ScalarHelper
+    public class ScalarHelper
     {
-        private readonly ServiceLocator serviceLocator;
-        private readonly IDictionary<string, ITestVariable> variables;
+        private ServiceLocator ServiceLocator { get; }
+        private IDictionary<string, ITestVariable> Variables { get; } = new Dictionary<string, ITestVariable>();
+        private SettingsXml Settings { get; set; }
 
         public ScalarHelper(ServiceLocator serviceLocator, IDictionary<string, ITestVariable> variables)
         {
-            this.serviceLocator = serviceLocator;
-            this.variables = variables;
+            ServiceLocator = serviceLocator;
+            Variables = variables;
         }
 
-        public IScalarResolver<decimal> InstantiateResolver(ScalarXml scalarXml)
+        public ScalarHelper(ServiceLocator serviceLocator, IDictionary<string, ITestVariable> variables, SettingsXml settings)
         {
-            var argsBuilder = new ScalarResolverArgsBuilder(serviceLocator);
+            ServiceLocator = serviceLocator;
+            Variables = variables;
+            Settings = settings;
+        }
+
+        public IScalarResolver<T> InstantiateResolver<T>(ScalarXml scalarXml)
+        {
+            var argsBuilder = new ScalarResolverArgsBuilder(ServiceLocator);
             argsBuilder.Setup(scalarXml.BaseItem);
             argsBuilder.Setup(scalarXml.Settings);
-            argsBuilder.Setup(variables);
+            argsBuilder.Setup(Variables);
             argsBuilder.Build();
 
-            var factory = serviceLocator.GetScalarResolverFactory();
-            var resolver = factory.Instantiate<decimal>(argsBuilder.GetArgs());
+            var factory = ServiceLocator.GetScalarResolverFactory();
+            var resolver = factory.Instantiate<T>(argsBuilder.GetArgs());
+            return resolver;
+        }
+
+        public IScalarResolver<T> InstantiateResolver<T>(string value)
+        {
+            var argsBuilder = new ScalarResolverArgsBuilder(ServiceLocator);
+
+            argsBuilder.Setup(Variables);
+            argsBuilder.Setup(value);
+            argsBuilder.Build();
+
+            var factory = ServiceLocator.GetScalarResolverFactory();
+            var resolver = factory.Instantiate<T>(argsBuilder.GetArgs());
             return resolver;
         }
     }

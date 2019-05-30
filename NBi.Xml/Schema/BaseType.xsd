@@ -18,6 +18,7 @@
   </xs:complexType>
   <xs:complexType name="csv-profile-type">
     <xs:attribute name="field-separator" type="xs:string"/>
+    <xs:attribute name="text-qualifier" type="xs:string"/>
     <xs:attribute name="record-separator" type="xs:string"/>
     <xs:attribute name="first-row-header" type="xs:boolean"/>
     <xs:attribute name="empty-cell" type="xs:string"/>
@@ -30,7 +31,10 @@
   </xs:complexType>
   <xs:complexType name ="default-type">
     <xs:sequence>
-      <xs:element type="connectionString-type" minOccurs="0" maxOccurs="1" name="connectionString"/>
+      <xs:choice minOccurs="0" maxOccurs="1">
+        <xs:element type="connectionString-type" minOccurs="0" maxOccurs="1" name="connectionString"/>
+        <xs:element type="connectionString-type" minOccurs="0" maxOccurs="1" name="connection-string"/>
+      </xs:choice>
       <xs:element type="parameter-type" minOccurs="0" maxOccurs="unbounded" name="parameter"/>
       <xs:element type="variable-type" minOccurs="0" maxOccurs="unbounded" name="variable"/>
       <xs:element type="report-base-type" minOccurs="0" maxOccurs="1" name="report"/>
@@ -50,7 +54,10 @@
   </xs:complexType>
   <xs:complexType name="reference-type">
     <xs:sequence>
-      <xs:element type="connectionString-type" minOccurs="0" maxOccurs="1" name="connectionString"/>
+      <xs:choice minOccurs="0" maxOccurs="1">
+        <xs:element type="connectionString-type" minOccurs="0" maxOccurs="1" name="connectionString"/>
+        <xs:element type="connectionString-type" minOccurs="0" maxOccurs="1" name="connection-string"/>
+      </xs:choice>
       <xs:element name="regex" minOccurs="0" maxOccurs="1"/>
       <xs:element name="numeric-format" type="numeric-format-type" minOccurs="0" maxOccurs="1"/>
       <xs:element name="currency-format" type="currency-format-type" minOccurs="0" maxOccurs="1"/>
@@ -63,6 +70,7 @@
     <xs:attribute name="source" type="xs:string"/>
     <xs:attribute name="path" type="xs:string"/>
     <xs:attribute name="connectionString" type="xs:string" use="optional"/>
+    <xs:attribute name="connection-string" type="xs:string" use="optional"/>
   </xs:complexType>
   <xs:complexType name="numeric-format-type">
     <xs:attribute name="ref" use="optional"/>
@@ -130,6 +138,7 @@
   <xs:complexType name="any-structure-type">
     <xs:attribute name="caption" type="xs:string" use="required" />
     <xs:attribute name="connectionString" type="xs:string" use="optional" />
+    <xs:attribute name="connection-string" type="xs:string" use="optional" />
   </xs:complexType>
   <xs:complexType name="perspective-type">
     <xs:complexContent>
@@ -239,6 +248,7 @@
   </xs:complexType>
   <xs:complexType name="any-structures-type">
     <xs:attribute name="connectionString" type="xs:string" use="optional" />
+    <xs:attribute name="connection-string" type="xs:string" use="optional" />
   </xs:complexType>
   <xs:complexType name="perspectives-type">
     <xs:complexContent>
@@ -420,7 +430,10 @@
   </xs:complexType>
   <xs:complexType name="projection-type">
     <xs:sequence>
-      <xs:element name="resultSet" minOccurs="1" maxOccurs="1" type="resultSet-type"/>
+      <xs:choice minOccurs="1" maxOccurs="1">
+        <xs:element name="resultSet" minOccurs="1" maxOccurs="1" type="result-set-type"/>
+        <xs:element name="result-set" minOccurs="1" maxOccurs="1" type="result-set-type"/>
+      </xs:choice>
     </xs:sequence>
     <xs:attribute name="type" use="required">
       <xs:simpleType>
@@ -507,7 +520,22 @@
   <xs:complexType name="condition-type">
     <xs:sequence minOccurs="1" maxOccurs="unbounded">
       <xs:element name="service-running" type="service-type" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="custom" type="custom-condition-type" minOccurs="0" maxOccurs="unbounded"/>
     </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="custom-condition-type">
+    <xs:sequence>
+      <xs:element name="parameter" type="custom-condition-parameter-type" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+    <xs:attribute name="assembly-path" type="xs:string" use="required"/>
+    <xs:attribute name="type" type="xs:string" use="required"/>
+  </xs:complexType>
+  <xs:complexType name="custom-condition-parameter-type">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute name="name" type="xs:string" use="required" />
+      </xs:extension>
+    </xs:simpleContent>
   </xs:complexType>
   <xs:complexType name="shared-dataset-light-type">
     <xs:attribute name="source" type="xs:string"/>
@@ -557,6 +585,7 @@
     <xs:attribute name="class" type="xs:string" use="required" />
     <xs:attribute name="method" type="xs:string" use="required" />
     <xs:attribute name="connectionString" type="xs:string" use="optional" />
+    <xs:attribute name="connection-string" type="xs:string" use="optional" />
     <xs:attribute name="roles" type="xs:string" use="optional" />
     <xs:attribute name="timeout-milliSeconds" type="xs:nonNegativeInteger" use="optional" />
   </xs:complexType>
@@ -568,6 +597,7 @@
     <xs:attribute name="name" type="xs:string" use="optional" />
     <xs:attribute name="file" type="xs:string" use="optional" />
     <xs:attribute name="connectionString" type="xs:string" use="optional" />
+    <xs:attribute name="connection-string" type="xs:string" use="optional" />
     <xs:attribute name="roles" type="xs:string" use="optional" />
     <xs:attribute name="timeout-milliSeconds" type="xs:nonNegativeInteger" use="optional" />
   </xs:complexType>
@@ -590,7 +620,8 @@
   <xs:complexType name="enhanced-transformation-type">
     <xs:simpleContent>
       <xs:extension base="transformation-type">
-        <xs:attribute name="column-index" type="xs:integer" use="required"/>
+        <xs:attribute name="column-index" type="xs:integer" use="optional"/>
+        <xs:attribute name="column" type="xs:string" use="optional"/>
       </xs:extension>
     </xs:simpleContent>
   </xs:complexType>
@@ -621,6 +652,7 @@
       <xs:enumeration value="empty-to-null"/>
       <xs:enumeration value="null-to-empty"/>
       <xs:enumeration value="null-to-value"/>
+      <xs:enumeration value="null-to-zero"/>
       <xs:enumeration value="value-to-value"/>
       <xs:enumeration value="any-to-any"/>
       <xs:enumeration value="text-to-trim"/>
@@ -629,12 +661,29 @@
       <xs:enumeration value="text-to-length"/>
       <xs:enumeration value="text-to-html"/>
       <xs:enumeration value="text-to-without-diacritics"/>
+      <xs:enumeration value="text-to-token-count"/>
+      <xs:enumeration value="text-to-without-whitespaces"/>
       <xs:enumeration value="html-to-text"/>
       <xs:enumeration value="date-to-age"/>
       <xs:enumeration value="utc-to-local("/>
       <xs:enumeration value="local-to-utc("/>
       <xs:enumeration value="dateTime-to-date"/>
-      <xs:enumeration value="null-to-date"/>
+      <xs:enumeration value="null-to-date("/>
+      <xs:enumeration value="dateTime-to-first-of-month"/>
+      <xs:enumeration value="dateTime-to-last-of-month"/>
+      <xs:enumeration value="dateTime-to-first-of-year"/>
+      <xs:enumeration value="dateTime-to-last-of-year"/>
+      <xs:enumeration value="dateTime-to-next-day"/>
+      <xs:enumeration value="dateTime-to-previous-day"/>
+      <xs:enumeration value="dateTime-to-next-month"/>
+      <xs:enumeration value="dateTime-to-previous-month"/>
+      <xs:enumeration value="dateTime-to-next-year"/>
+      <xs:enumeration value="dateTime-to-previous-year"/>
+      <xs:enumeration value="dateTime-to-set-time("/>
+      <xs:enumeration value="numeric-to-round("/>
+      <xs:enumeration value="numeric-to-floor"/>
+      <xs:enumeration value="numeric-to-ceiling"/>
+      <xs:enumeration value="numeric-to-integer"/>
     </xs:restriction>
   </xs:simpleType>
   <xs:simpleType name="not-native-transformation-type">
@@ -704,6 +753,7 @@
   </xs:complexType>
   <xs:complexType name="table-reset-type">
     <xs:attribute name="connectionString" type="xs:string" use="optional"/>
+    <xs:attribute name="connection-string" type="xs:string" use="optional"/>
     <xs:attribute name="name" type="xs:string" use="required"/>
   </xs:complexType>
   <xs:complexType name="table-load-type" >
@@ -715,6 +765,7 @@
   </xs:complexType>
   <xs:complexType name="sql-run-type" >
     <xs:attribute name="connectionString" type="xs:string" use="optional"/>
+    <xs:attribute name="connection-string" type="xs:string" use="optional"/>
     <xs:attribute name="path" type="xs:string" use="optional"/>
     <xs:attribute name="name" type="xs:string" use="required"/>
     <xs:attribute name="version" type="xs:string" use="optional"/>
@@ -745,6 +796,7 @@
   <xs:complexType name="connection-wait-type" >
     <xs:attribute name="timeout-milliseconds"  type="xs:positiveInteger" use="optional"/>
     <xs:attribute name="connectionString" type="xs:string" use="optional"/>
+    <xs:attribute name="connection-string" type="xs:string" use="optional"/>
   </xs:complexType>
   <xs:complexType name="settings-type">
     <xs:sequence>
@@ -763,6 +815,7 @@
   </xs:complexType>
   <xs:complexType name="test-type">
     <xs:sequence>
+      <xs:element name="instance-settling" type="instance-settling-type" minOccurs="0" maxOccurs="1"/>
       <xs:element name="ignore" minOccurs="0" maxOccurs="1">
         <xs:complexType>
           <xs:simpleContent>
@@ -817,8 +870,9 @@
                     </xs:choice>
                   </xs:complexType>
                 </xs:element>
-                <xs:element name="resultSet" type ="resultSet-type"/>
-                <xs:element name="scalar" type ="scalar-type"/>
+                <xs:element name="resultSet" type="result-set-type"/>
+                <xs:element name="result-set" type="result-set-type"/>
+                <xs:element name="scalar" type="scalar-type"/>
                 <xs:element name="members" type="members-type"/>
                 <xs:element name="structure">
                   <xs:complexType>
@@ -866,6 +920,7 @@
             <xs:complexType>
               <xs:choice>
                 <xs:element name="equalTo" type="result-set-comparison-type"/>
+                <xs:element name="equal-to" type="result-set-comparison-type"/>
                 <xs:element name="subset-of" type="result-set-comparison-type"/>
                 <xs:element name="superset-of" type="result-set-comparison-type"/>
                 <xs:element name="evaluate-rows">
@@ -884,27 +939,10 @@
                     </xs:sequence>
                   </xs:complexType>
                 </xs:element>
-                <xs:element name="syntacticallyCorrect">
-                </xs:element>
-                <xs:element name="fasterThan">
-                  <xs:complexType>
-                    <xs:attribute name="max-time-milliSeconds" use="required" >
-                      <xs:simpleType>
-                        <xs:restriction base="xs:positiveInteger">
-                          <xs:maxInclusive value="2147483647"/>
-                        </xs:restriction>
-                      </xs:simpleType>
-                    </xs:attribute>
-                    <xs:attribute name="timeout-milliSeconds" use="optional" >
-                      <xs:simpleType>
-                        <xs:restriction base="xs:positiveInteger">
-                          <xs:maxInclusive value="2147483647"/>
-                        </xs:restriction>
-                      </xs:simpleType>
-                    </xs:attribute>
-                    <xs:attribute name="clean-cache" type="xs:boolean" use="optional" />
-                  </xs:complexType>
-                </xs:element>
+                <xs:element name="syntacticallyCorrect"/>
+                <xs:element name="syntactically-correct"/>
+                <xs:element name="fasterThan" type="faster-than-type"/>
+                <xs:element name="faster-than" type="faster-than-type"/>
                 <xs:element name="count">
                   <xs:complexType>
                     <xs:simpleContent>
@@ -944,31 +982,8 @@
                     <xs:attribute name="not" type="xs:boolean" use="optional" />
                   </xs:complexType>
                 </xs:element>
-                <xs:element name="equivalentTo">
-                  <xs:complexType>
-                    <xs:choice>
-                      <xs:sequence>
-                        <xs:element name="item" minOccurs="0" maxOccurs="unbounded">
-                          <xs:complexType>
-                            <xs:simpleContent>
-                              <xs:extension base="xs:string"/>
-                            </xs:simpleContent>
-                          </xs:complexType>
-                        </xs:element>
-                        <xs:choice minOccurs="0">
-                          <xs:element name="predefined" type="predefined-type"/>
-                          <xs:element name="range-integer" type="range-integer-type"/>
-                          <xs:element name="range-date" type="range-date-type"/>
-                          <xs:element name="range-integer-pattern" type="range-integer-pattern-type"/>
-                        </xs:choice>
-                      </xs:sequence>
-                      <xs:element name="one-column-query" type ="query-type"/>
-                      <xs:element name="members" type="members-type"/>
-                    </xs:choice>
-                    <xs:attribute name="ignore-case" type="xs:boolean" use="optional" />
-                    <xs:attribute name="not" type="xs:boolean" use="optional" />
-                  </xs:complexType>
-                </xs:element>
+                <xs:element name="equivalentTo" type="equivalent-to-type"/>
+                <xs:element name="equivalent-to" type="equivalent-to-type"/>
                 <xs:element name="subsetOf" type="contained-in-type" />
                 <xs:element name="contained-in" type="contained-in-type" />
                 <xs:element name="exists">
@@ -1070,6 +1085,7 @@
                 <xs:element name="single-row" type="filter-base-type"/>
                 <xs:element name="unique-rows" type="unique-rows-type"/>
                 <xs:element name="lookup-exists" type="lookup-exists-type"/>
+                <xs:element name="lookup-matches" type="lookup-matches-type"/>
                 <xs:element name="score" type="score-type"/>
               </xs:choice>
             </xs:complexType>
@@ -1087,6 +1103,38 @@
     <xs:attribute name="ignore" type="xs:boolean" use="optional" />
     <xs:attribute name="description" type="xs:string" use="optional" />
   </xs:complexType>
+  <xs:complexType name="instance-settling-type">
+    <xs:sequence minOccurs="1" maxOccurs="1">
+      <xs:element name="local-variable" type="local-variable-type" minOccurs="1" maxOccurs="1"/>
+      <xs:element name="category" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="trait" type="trait-type" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="sequence-type">
+    <xs:choice minOccurs="1" maxOccurs="1">
+      <xs:element name="loop-sentinel" type="loop-sentinel-type"/>
+      <xs:element name="item" type="xs:string" minOccurs="1" maxOccurs="unbounded"/>
+    </xs:choice>
+    <xs:attribute name="name" type="xs:string"/>
+    <xs:attribute name="type" type="column-type-enum"/>
+  </xs:complexType>
+  <xs:complexType name="local-variable-type">
+    <xs:complexContent>
+      <xs:extension base="sequence-type"/>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="loop-sentinel-type">
+    <xs:attribute name="seed" type="xs:string"/>
+    <xs:attribute name="terminal" type="xs:string"/>
+    <xs:attribute name="step" type="xs:string"/>
+    <xs:attribute name="interval" type="interval-mode-enum" use="optional"/>
+  </xs:complexType>
+  <xs:simpleType name="interval-mode-enum">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="close"/>
+      <xs:enumeration value="half-open"/>
+    </xs:restriction>
+  </xs:simpleType>
   <xs:simpleType name="column-type-enum">
     <xs:restriction base="xs:string">
       <xs:enumeration value="numeric"/>
@@ -1121,12 +1169,11 @@
       </xs:extension>
     </xs:simpleContent>
   </xs:complexType>
-  <xs:complexType name="expression2-type">
-    <xs:simpleContent>
-      <xs:extension base="xs:string">
-        <xs:attribute name="name" type="xs:string" use="required"/>
-      </xs:extension>
-    </xs:simpleContent>
+  <xs:complexType name="expression2-type" mixed="true">
+    <xs:sequence>
+      <xs:element name="script" type="script-type" minOccurs="0" maxOccurs="1"/>
+    </xs:sequence>
+    <xs:attribute name="name" type="xs:string" use="required"/>
   </xs:complexType>
   <xs:complexType name="predicate-type">
     <xs:choice>
@@ -1164,7 +1211,7 @@
   </xs:complexType>
   <xs:complexType name="combination-predicate-type">
     <xs:sequence>
-      <xs:element name="predicate" type="predicate-type" minOccurs="2" maxOccurs="unbounded"/>
+      <xs:element name="predicate" type="predicate-type" minOccurs="1" maxOccurs="unbounded"/>
     </xs:sequence>
     <xs:attribute name="operator" use="required">
       <xs:simpleType>
@@ -1228,7 +1275,21 @@
   <xs:complexType name="lookup-exists-type">
     <xs:sequence minOccurs="0" maxOccurs="unbounded">
       <xs:element name="join" type="join-type" minOccurs="1" maxOccurs="1" />
-      <xs:element name="resultSet" type="resultSet-type" minOccurs="1" maxOccurs="1"/>
+      <xs:choice minOccurs="1" maxOccurs="1">
+        <xs:element name="resultSet" type="result-set-type" minOccurs="1" maxOccurs="1"/>
+        <xs:element name="result-set" type="result-set-type" minOccurs="1" maxOccurs="1"/>
+      </xs:choice>
+    </xs:sequence>
+    <xs:attribute name="reverse" type="xs:boolean"/>
+  </xs:complexType>
+  <xs:complexType name="lookup-matches-type">
+    <xs:sequence minOccurs="0" maxOccurs="unbounded">
+      <xs:element name="join" type="join-type" minOccurs="1" maxOccurs="1" />
+      <xs:element name="inclusion" type="join-type" minOccurs="1" maxOccurs="1" />
+      <xs:choice minOccurs="1" maxOccurs="1">
+        <xs:element name="resultSet" type="result-set-type" minOccurs="1" maxOccurs="1"/>
+        <xs:element name="result-set" type="result-set-type" minOccurs="1" maxOccurs="1"/>
+      </xs:choice>
     </xs:sequence>
     <xs:attribute name="reverse" type="xs:boolean"/>
   </xs:complexType>
@@ -1296,7 +1357,7 @@
     <xs:attribute name="ignore-case" type="xs:boolean" use="optional" />
     <xs:attribute name="not" type="xs:boolean" use="optional" />
   </xs:complexType>
-  <xs:complexType name="resultSet-type">
+  <xs:complexType name="result-set-type">
     <xs:sequence>
       <xs:choice>
         <xs:element name="row" minOccurs="0" maxOccurs="unbounded">
@@ -1315,10 +1376,39 @@
           </xs:complexType>
         </xs:element>
         <xs:element name="query" minOccurs="0" maxOccurs="1" type="query-enhanced-type"/>
+        <xs:element name="sequences-combination" minOccurs="0" maxOccurs="1" type="sequences-combination-type"/>
+        <xs:element name="file" minOccurs="0" maxOccurs="1" type="file-type"/>
       </xs:choice>
       <xs:element name="alteration" type="alteration-type" minOccurs="0" maxOccurs="1"/>
     </xs:sequence>
     <xs:attribute name="file" type="xs:string" use="optional" />
+  </xs:complexType>
+  <xs:complexType name="sequences-combination-type">
+    <xs:sequence>
+      <xs:element name="sequence" minOccurs="1" maxOccurs="unbounded" type="sequence-type"/>
+    </xs:sequence>
+    <xs:attribute name="operation">
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="cartesian-product"/>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:attribute>
+  </xs:complexType>
+  <xs:complexType name="file-type">
+    <xs:sequence>
+      <xs:element name="path" minOccurs="1" maxOccurs="1" type="xs:string"/>
+      <xs:element name="parser" minOccurs="0" maxOccurs="1" type="parser-type"/>
+      <xs:element name="if-missing" minOccurs="0" maxOccurs="1" type="if-missing-type"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="parser-type">
+    <xs:attribute name="name" use="required" type="xs:string"/>
+  </xs:complexType>
+  <xs:complexType name="if-missing-type">
+    <xs:sequence>
+      <xs:element name="file" minOccurs="1" maxOccurs="1" type="file-type"/>
+    </xs:sequence>
   </xs:complexType>
   <xs:complexType name="scalar-type">
     <xs:sequence>
@@ -1458,6 +1548,46 @@
     <xs:attribute name="keys-names" type="xs:string" use="optional" />
     <xs:attribute name="values-names" type="xs:string" use="optional" />
   </xs:complexType>
+  <xs:complexType name="equivalent-to-type">
+    <xs:choice>
+      <xs:sequence>
+        <xs:element name="item" minOccurs="0" maxOccurs="unbounded">
+          <xs:complexType>
+            <xs:simpleContent>
+              <xs:extension base="xs:string"/>
+            </xs:simpleContent>
+          </xs:complexType>
+        </xs:element>
+        <xs:choice minOccurs="0">
+          <xs:element name="predefined" type="predefined-type"/>
+          <xs:element name="range-integer" type="range-integer-type"/>
+          <xs:element name="range-date" type="range-date-type"/>
+          <xs:element name="range-integer-pattern" type="range-integer-pattern-type"/>
+        </xs:choice>
+      </xs:sequence>
+      <xs:element name="one-column-query" type ="query-type"/>
+      <xs:element name="members" type="members-type"/>
+    </xs:choice>
+    <xs:attribute name="ignore-case" type="xs:boolean" use="optional" />
+    <xs:attribute name="not" type="xs:boolean" use="optional" />
+  </xs:complexType>
+  <xs:complexType name="faster-than-type">
+    <xs:attribute name="max-time-milliSeconds" use="required" >
+      <xs:simpleType>
+        <xs:restriction base="xs:positiveInteger">
+          <xs:maxInclusive value="2147483647"/>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:attribute>
+    <xs:attribute name="timeout-milliSeconds" use="optional" >
+      <xs:simpleType>
+        <xs:restriction base="xs:positiveInteger">
+          <xs:maxInclusive value="2147483647"/>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:attribute>
+    <xs:attribute name="clean-cache" type="xs:boolean" use="optional" />
+  </xs:complexType>
   <xs:simpleType name="keys-set-type">
     <xs:restriction base="xs:string">
       <xs:enumeration value="first"/>
@@ -1493,6 +1623,7 @@
           <xs:simpleType>
             <xs:restriction base="xs:string">
               <xs:enumeration value="c-sharp"/>
+              <xs:enumeration value="native"/>
             </xs:restriction>
           </xs:simpleType>
         </xs:attribute>

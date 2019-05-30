@@ -66,7 +66,7 @@ namespace NBi.Testing.Unit.Xml.Constraints
             // Create an instance of the XmlSerializer specifying type and namespace.
             TestSuiteXml ts = DeserializeSample();
 
-            Assert.That(ts.Tests[testNr].Constraints[0], Is.TypeOf<EquivalentToXml>());
+            Assert.That(ts.Tests[testNr].Constraints[0], Is.AssignableTo<EquivalentToXml>());
             Assert.That(((EquivalentToXml)ts.Tests[testNr].Constraints[0]).Items, Is.Not.Null);
             Assert.That(((EquivalentToXml)ts.Tests[testNr].Constraints[0]).Items, Has.Count.EqualTo(2));
             Assert.That(((EquivalentToXml)ts.Tests[testNr].Constraints[0]).Items[0], Is.EqualTo("Hello"));
@@ -82,7 +82,7 @@ namespace NBi.Testing.Unit.Xml.Constraints
             // Create an instance of the XmlSerializer specifying type and namespace.
             TestSuiteXml ts = DeserializeSample();
 
-            Assert.That(ts.Tests[testNr].Constraints[0], Is.TypeOf<EquivalentToXml>());
+            Assert.That(ts.Tests[testNr].Constraints[0], Is.AssignableTo<EquivalentToXml>());
             Assert.That(((EquivalentToXml)ts.Tests[testNr].Constraints[0]).Query, Is.Not.Null);
             Assert.That(((EquivalentToXml)ts.Tests[testNr].Constraints[0]).Query.GetQuery(), Is.StringContaining("Hello").And.StringContaining("World"));
         }
@@ -95,7 +95,7 @@ namespace NBi.Testing.Unit.Xml.Constraints
             // Create an instance of the XmlSerializer specifying type and namespace.
             TestSuiteXml ts = DeserializeSample();
 
-            Assert.That(ts.Tests[testNr].Constraints[0], Is.TypeOf<EquivalentToXml>());
+            Assert.That(ts.Tests[testNr].Constraints[0], Is.AssignableTo<EquivalentToXml>());
             Assert.That(((EquivalentToXml)ts.Tests[testNr].Constraints[0]).PredefinedItems, Is.Not.Null);
             Assert.That(((EquivalentToXml)ts.Tests[testNr].Constraints[0]).PredefinedItems.Type, Is.EqualTo(PredefinedMembers.DaysOfWeek));
             Assert.That(((EquivalentToXml)ts.Tests[testNr].Constraints[0]).PredefinedItems.Language, Is.EqualTo("en"));
@@ -109,7 +109,7 @@ namespace NBi.Testing.Unit.Xml.Constraints
             // Create an instance of the XmlSerializer specifying type and namespace.
             TestSuiteXml ts = DeserializeSample();
 
-            Assert.That(ts.Tests[testNr].Constraints[0], Is.TypeOf<EquivalentToXml>());
+            Assert.That(ts.Tests[testNr].Constraints[0], Is.AssignableTo<EquivalentToXml>());
             Assert.That(((EquivalentToXml)ts.Tests[testNr].Constraints[0]).Range, Is.Not.Null);
             Assert.That(((EquivalentToXml)ts.Tests[testNr].Constraints[0]).Range, Is.InstanceOf<IIntegerRange>());
 
@@ -127,7 +127,7 @@ namespace NBi.Testing.Unit.Xml.Constraints
             // Create an instance of the XmlSerializer specifying type and namespace.
             TestSuiteXml ts = DeserializeSample();
 
-            Assert.That(ts.Tests[testNr].Constraints[0], Is.TypeOf<EquivalentToXml>());
+            Assert.That(ts.Tests[testNr].Constraints[0], Is.AssignableTo<EquivalentToXml>());
             Assert.That(((EquivalentToXml)ts.Tests[testNr].Constraints[0]).Range, Is.Not.Null);
             Assert.That(((EquivalentToXml)ts.Tests[testNr].Constraints[0]).Range, Is.InstanceOf<DateRangeXml>());
 
@@ -144,7 +144,7 @@ namespace NBi.Testing.Unit.Xml.Constraints
             // Create an instance of the XmlSerializer specifying type and namespace.
             TestSuiteXml ts = DeserializeSample();
 
-            Assert.That(ts.Tests[testNr].Constraints[0], Is.TypeOf<EquivalentToXml>());
+            Assert.That(ts.Tests[testNr].Constraints[0], Is.AssignableTo<EquivalentToXml>());
             Assert.That(((EquivalentToXml)ts.Tests[testNr].Constraints[0]).Range, Is.Not.Null);
             Assert.That(((EquivalentToXml)ts.Tests[testNr].Constraints[0]).Range, Is.InstanceOf<IIntegerRange>());
             Assert.That(((EquivalentToXml)ts.Tests[testNr].Constraints[0]).Range, Is.InstanceOf<IPatternDecorator>());

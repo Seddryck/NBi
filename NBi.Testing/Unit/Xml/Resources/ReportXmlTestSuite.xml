@@ -27,7 +27,7 @@
 						path="/AdventureWorks Sample Reports/"
 						name="Currency_List"
 						dataset="currency"
-						connectionString="Data Source=tadam;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly"
+						connection-string="Data Source=tadam;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly"
 				/>
 			</execution>
 		</system-under-test>

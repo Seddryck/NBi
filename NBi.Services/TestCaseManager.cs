@@ -4,6 +4,7 @@ using System.Data;
 using System.Linq;
 using System.Text.RegularExpressions;
 using NBi.Core;
+using NBi.Core.FlatFile;
 using NBi.Core.Query;
 using NBi.Core.Query.Execution;
 
@@ -23,7 +24,7 @@ namespace NBi.Service
         public void ReadFromCsv(string filename)
         {
             var csvReader = new CsvReader();
-            content = csvReader.Read(filename, true);
+            content = csvReader.ToDataTable(filename, true);
 
             variables.Clear();
             foreach (DataColumn col in Content.Columns)

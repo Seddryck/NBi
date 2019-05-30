@@ -15,6 +15,30 @@ namespace NBi.Testing.Unit.Core.Transformation
     public class TransformationProviderTest
     {
         [Test]
+        public void Transform_SimpleTranformation_CorrectHandlingOfColumnNames()
+        {
+            var resultSet = new NBi.Core.ResultSet.ResultSet();
+            resultSet.Load("aaaa;10");
+            resultSet.Columns[0].ColumnName = "MyCol0";
+            resultSet.Columns[1].ColumnName = "MyCol1";
+
+            var transformation = Mock.Of<ITransformationInfo>
+                (
+                    t => t.Language == LanguageType.CSharp
+                    && t.OriginalType == NBi.Core.ResultSet.ColumnType.Text
+                    && t.Code == "value.Substring(0,1)"
+                );
+
+            var provider = new TransformationProvider();
+            provider.Add(new ColumnOrdinalIdentifier(0), transformation);
+            provider.Transform(resultSet);
+
+            Assert.That(resultSet.Columns[0].ColumnName, Is.EqualTo("MyCol0"));
+            Assert.That(resultSet.Columns[1].ColumnName, Is.EqualTo("MyCol1"));
+            Assert.That(resultSet.Columns.Count, Is.EqualTo(2));
+        }
+
+        [Test]
         public void Transform_SimpleTranformation_Correct()
         {
             var resultSet = new NBi.Core.ResultSet.ResultSet();

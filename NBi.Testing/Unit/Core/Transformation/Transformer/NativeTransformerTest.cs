@@ -17,6 +17,7 @@ namespace NBi.Testing.Unit.Core.Transformation.Transformer
         [TestCase(" \t")]
         [TestCase(" ")]
         [TestCase("\r\n")]
+        [TestCase("\r\n \t \r  ")]
         public void Execute_BlankToEmpty_Empty(string value)
         {
             var code = "blank-to-empty";
@@ -282,6 +283,43 @@ namespace NBi.Testing.Unit.Core.Transformation.Transformer
         }
 
         [Test]
+        [TestCase("My taylor is rich", "Mytaylorisrich")]
+        [TestCase(" My Lord ! ", "MyLord!")]
+        [TestCase("My Lord !\r\nMy taylor is \t rich", "MyLord!Mytaylorisrich")]
+        [TestCase("(null)", "(null)")]
+        [TestCase(null, "(null)")]
+        [TestCase("(empty)", "(empty)")]
+        [TestCase("(blank)", "(empty)")]
+        public void Execute_Whitespace_Valid(object value, string expected)
+        {
+            var code = "text-to-without-whitespaces";
+            var provider = new NativeTransformer<string>();
+            provider.Initialize(code);
+
+            var result = provider.Execute(value);
+            Assert.That(result, Is.EqualTo(expected));
+        }
+
+        [Test]
+        [TestCase("My taylor is rich", 4)]
+        [TestCase(" My Lord ! ", 2)]
+        [TestCase("  My     Lord    !   ", 2)]
+        [TestCase("  My     Lord    !   C-L.", 3)]
+        [TestCase("(null)", 0)]
+        [TestCase(null, 0)]
+        [TestCase("(empty)", 0)]
+        [TestCase("(blank)", 0)]
+        public void Execute_TokenCount_Valid(object value, int expected)
+        {
+            var code = "text-to-token-count";
+            var provider = new NativeTransformer<string>();
+            provider.Initialize(code);
+
+            var result = provider.Execute(value);
+            Assert.That(result, Is.EqualTo(expected));
+        }
+
+        [Test]
         [TestCase("2018-02-01 00:00:00", "2018-02-01 01:00:00")]
         [TestCase("2018-08-01 00:00:00", "2018-08-01 02:00:00")]
         public void Execute_UtcToLocalWithStandardName_Valid(object value, DateTime expected)
@@ -364,11 +402,197 @@ namespace NBi.Testing.Unit.Core.Transformation.Transformer
         }
 
         [Test]
+        [TestCase("2018-02-01 00:00:00", "2018-02-01")]
+        [TestCase("2018-02-01 07:00:00", "2018-02-01")]
+        [TestCase("2018-02-12 07:00:00", "2018-02-01")]
+        [TestCase(null, null)]
+        [TestCase("(null)", null)]
+        public void Execute_DateTimeToFirstOfMonth_Valid(object value, DateTime expected)
+        {
+            var code = "dateTime-to-first-of-month";
+            var provider = new NativeTransformer<DateTime>();
+            provider.Initialize(code);
+
+            var result = provider.Execute(value);
+            if (expected == new DateTime(1, 1, 1))
+                Assert.That(result, Is.Null);
+            else
+                Assert.That(result, Is.EqualTo(expected));
+        }
+
+        [Test]
+        [TestCase("2018-02-01 00:00:00", "2018-01-01")]
+        [TestCase("2018-02-01 07:00:00", "2018-01-01")]
+        [TestCase("2018-02-12 07:00:00", "2018-01-01")]
+        [TestCase(null, null)]
+        [TestCase("(null)", null)]
+        public void Execute_DateTimeToFirstOfYear_Valid(object value, DateTime expected)
+        {
+            var code = "dateTime-to-first-of-year";
+            var provider = new NativeTransformer<DateTime>();
+            provider.Initialize(code);
+
+            var result = provider.Execute(value);
+            if (expected == new DateTime(1, 1, 1))
+                Assert.That(result, Is.Null);
+            else
+                Assert.That(result, Is.EqualTo(expected));
+        }
+
+        [Test]
+        [TestCase("2018-02-01 00:00:00", "2018-02-28")]
+        [TestCase("2018-02-01 07:00:00", "2018-02-28")]
+        [TestCase("2018-02-12 07:00:00", "2018-02-28")]
+        [TestCase("2020-02-12 07:00:00", "2020-02-29")]
+        [TestCase(null, null)]
+        [TestCase("(null)", null)]
+        public void Execute_DateTimeToLastOfMonth_Valid(object value, DateTime expected)
+        {
+            var code = "dateTime-to-last-of-month";
+            var provider = new NativeTransformer<DateTime>();
+            provider.Initialize(code);
+
+            var result = provider.Execute(value);
+            if (expected == new DateTime(1, 1, 1))
+                Assert.That(result, Is.Null);
+            else
+                Assert.That(result, Is.EqualTo(expected));
+        }
+
+        [Test]
+        [TestCase("2018-02-01 00:00:00", "2018-12-31")]
+        [TestCase("2018-02-01 07:00:00", "2018-12-31")]
+        [TestCase("2018-02-12 07:00:00", "2018-12-31")]
+        [TestCase(null, null)]
+        [TestCase("(null)", null)]
+        public void Execute_DateTimeToLastOfYear_Valid(object value, DateTime expected)
+        {
+            var code = "dateTime-to-last-of-year";
+            var provider = new NativeTransformer<DateTime>();
+            provider.Initialize(code);
+
+            var result = provider.Execute(value);
+            if (expected == new DateTime(1, 1, 1))
+                Assert.That(result, Is.Null);
+            else
+                Assert.That(result, Is.EqualTo(expected));
+        }
+
+        [Test]
         public void Execute_NotInitialized_InvalidOperation()
         {
             var provider = new NativeTransformer<string>();
 
             Assert.Throws<InvalidOperationException>(delegate { provider.Execute(200); });
+        }
+
+        [Test]
+        [TestCase(10, 10)]
+        [TestCase(10.566, 10.566)]
+        [TestCase(null, 0)]
+        [TestCase("", 0)]
+        [TestCase("(null)", 0)]
+        public void Execute_NullToZero_Valid(object value, decimal expected)
+        {
+            var code = "null-to-zero";
+            var provider = new NativeTransformer<decimal>();
+            provider.Initialize(code);
+
+            var result = provider.Execute(value);
+            Assert.That(result, Is.EqualTo(expected));
+        }
+
+        [Test]
+        [TestCase(10.1, 11)]
+        [TestCase(11, 11)]
+        [TestCase(10.5, 11)]
+        [TestCase(10.7, 11)]
+        [TestCase(null, null)]
+        [TestCase("", null)]
+        [TestCase("(null)", null)]
+        public void Execute_NumericToCeiling_Valid(object value, decimal expected)
+        {
+            var code = "numeric-to-ceiling";
+            var provider = new NativeTransformer<decimal>();
+            provider.Initialize(code);
+
+            var result = provider.Execute(value);
+            if (expected == 0)
+                Assert.That(result, Is.Null);
+            else
+                Assert.That(result, Is.EqualTo(expected));
+        }
+
+        [Test]
+        [TestCase(10.1, 10)]
+        [TestCase(11, 11)]
+        [TestCase(10.5, 10)]
+        [TestCase(10.7, 10)]
+        public void Execute_NumericToFloor_Valid(object value, decimal expected)
+        {
+            var code = "numeric-to-floor";
+            var provider = new NativeTransformer<decimal>();
+            provider.Initialize(code);
+
+            var result = provider.Execute(value);
+            Assert.That(result, Is.EqualTo(expected));
+        }
+
+        [Test]
+        [TestCase(10.1, 10)]
+        [TestCase(11, 11)]
+        [TestCase(10.5, 10)]
+        [TestCase(10.7, 11)]
+        public void Execute_NumericToInteger_Valid(object value, decimal expected)
+        {
+            var code = "numeric-to-integer";
+            var provider = new NativeTransformer<decimal>();
+            provider.Initialize(code);
+
+            var result = provider.Execute(value);
+            Assert.That(result, Is.EqualTo(expected));
+        }
+
+        [Test]
+        [TestCase(10.158, 10.16)]
+        [TestCase(11, 11)]
+        [TestCase(10.153, 10.15)]
+        public void Execute_NumericToRound_Valid(object value, decimal expected)
+        {
+            var code = "numeric-to-round(2)";
+            var provider = new NativeTransformer<decimal>();
+            provider.Initialize(code);
+
+            var result = provider.Execute(value);
+            Assert.That(result, Is.EqualTo(expected));
+        }
+
+        [Test]
+        [TestCase(10, 8, 12, 10)]
+        [TestCase(10, 12, 16, 12)]
+        [TestCase(10, 6, 9, 9)]
+        public void Execute_NumericToClip_Valid(object value, object min, object max, decimal expected)
+        {
+            var code = $"numeric-to-clip({min}, {max})";
+            var provider = new NativeTransformer<decimal>();
+            provider.Initialize(code);
+
+            var result = provider.Execute(value);
+            Assert.That(result, Is.EqualTo(expected));
+        }
+
+        [Test]
+        [TestCase("2019-03-11", "2019-03-11")]
+        [TestCase("2019-02-11", "2019-03-01")]
+        [TestCase("2019-04-11", "2019-03-31")]
+        public void Execute_DateTimeToClip_Valid(object value, DateTime expected)
+        {
+            var code = $"dateTime-to-clip(2019-03-01, 2019-03-31)";
+            var provider = new NativeTransformer<DateTime>();
+            provider.Initialize(code);
+
+            var result = provider.Execute(value);
+            Assert.That(result, Is.EqualTo(expected));
         }
     }
 }

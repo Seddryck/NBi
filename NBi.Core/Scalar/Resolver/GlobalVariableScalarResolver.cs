@@ -24,29 +24,68 @@ namespace NBi.Core.Scalar.Resolver
 
         public T Execute()
         {
-            if (!args.GlobalVariables.ContainsKey(args.VariableName))
+            CheckVariableExists(args.VariableName, args.GlobalVariables);
+            var evaluation = EvaluateVariable(args.GlobalVariables[args.VariableName]);
+            var typedEvaluation = StrongTypingVariable(evaluation);
+            DisplayVariable(args.VariableName, typedEvaluation);
+
+            return (T)typedEvaluation;
+        }
+
+        object IScalarResolver.Execute() => Execute();
+
+        private void DisplayVariable(string name, object value)
+        {
+            var invariantCulture = new CultureFactory().Invariant;
+            var msg = $@"Variable '{args.VariableName}' used with value: {
+                    (
+                        value == null ? "(null)" :
+                        value is string && string.IsNullOrEmpty(value.ToString()) ? "(empty)" :
+                        value
+                    )
+                }
+            ";
+            Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceInfo, msg.ToString(invariantCulture));
+        }
+
+        private static object StrongTypingVariable(object input)
+        {
+            IFormatProvider formatProvider =  typeof(T) == typeof(DateTime) 
+                ? (IFormatProvider) System.Globalization.DateTimeFormatInfo.InvariantInfo
+                : System.Globalization.NumberFormatInfo.InvariantInfo;
+
+            if (input != null && input.ToString().EndsWith("%"))
+                input = input.ToString().Substring(0, input.ToString().Length - 1);
+
+            var output = Convert.ChangeType(input, typeof(T), formatProvider);
+            return output;
+        }
+
+        private void CheckVariableExists(string name, IDictionary<string, ITestVariable> variables)
+        {
+            if (!variables.ContainsKey(name))
             {
-                var caseIssues = args.GlobalVariables.Keys.Where(k => String.Equals(k, args.VariableName, StringComparison.OrdinalIgnoreCase));
+                var caseIssues = variables.Keys.Where(k => String.Equals(k, name, StringComparison.OrdinalIgnoreCase));
 
                 if (caseIssues.Count() > 0)
-                    throw new NBiException($"The variable named '{args.VariableName}' is not defined. Pay attention, variables are case-sensitive. Did you mean '{string.Join("' or '", caseIssues)}'?");
+                    throw new NBiException($"The variable named '{name}' is not defined. Pay attention, variables are case-sensitive. Did you mean '{string.Join("' or '", caseIssues)}'?");
 
-                var arobaseIssues = args.GlobalVariables.Keys.Where(k => String.Equals(k.Replace("@", string.Empty), args.VariableName, StringComparison.OrdinalIgnoreCase));
+                var arobaseIssues = variables.Keys.Where(k => String.Equals(k.Replace("@", string.Empty), name, StringComparison.OrdinalIgnoreCase));
                 if (arobaseIssues.Count() > 0)
-                    throw new NBiException($"The variable named '{args.VariableName}' is not defined. Pay attention, variables shouldn't begin with an arobase (@). Consider to review the name of the following variable{(arobaseIssues.Count() == 1 ? string.Empty : "s")}: '{(string.Join("' and '", arobaseIssues))}' at the top of your test-suite.");
+                    throw new NBiException($"The variable named '{name}' is not defined. Pay attention, variables shouldn't begin with an arobase (@). Consider to review the name of the following variable{(arobaseIssues.Count() == 1 ? string.Empty : "s")}: '{(string.Join("' and '", arobaseIssues))}' at the top of your test-suite.");
 
                 var countMsg =
-                    args.GlobalVariables.Count() == 0 ? "No variables are" :
-                    args.GlobalVariables.Count() == 1 ? $"1 variable '{(args.GlobalVariables).Keys.ElementAt(0)}' is"
-                    : $"{args.GlobalVariables.Count()} other variables are";
+                    variables.Count() == 0 ? "No variables are" :
+                    variables.Count() == 1 ? $"1 variable '{(variables).Keys.ElementAt(0)}' is"
+                    : $"{variables.Count()} other variables are";
 
-                throw new NBiException($"The variable named '{args.VariableName}' is not defined. {countMsg} defined at the top of the test-suite.");
+                throw new NBiException($"The variable named '{name}' is not defined. {countMsg} defined at the top of the test-suite.");
 
             }
+        }
 
-
-            var variable = args.GlobalVariables[args.VariableName];
-
+        private object EvaluateVariable(ITestVariable variable)
+        {
             if (!variable.IsEvaluated())
             {
                 var stopWatch = new Stopwatch();
@@ -56,25 +95,7 @@ namespace NBi.Core.Scalar.Resolver
             }
 
             var output = variable.GetValue();
-
-            IFormatProvider formatProvider = System.Globalization.NumberFormatInfo.InvariantInfo;
-            if (typeof(T) == typeof(DateTime))
-                formatProvider = System.Globalization.DateTimeFormatInfo.InvariantInfo;
-            else if (output != null && output.ToString().EndsWith("%"))
-                output = output.ToString().Substring(0, output.ToString().Length - 1);
-
-            output = Convert.ChangeType(output, typeof(T), formatProvider);
-            var invariantCulture = new CultureFactory().Invariant;
-            var msg = $@"Variable '{args.VariableName}' evaluated to: {
-                    (
-                        output == null ? "(null)" :
-                        output is string && string.IsNullOrEmpty(output.ToString()) ? "(empty)" : output
-                    )
-                }
-            ";
-            Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceInfo, msg.ToString(invariantCulture));
-
-            return (T)output;
+            return output;
         }
     }
 }

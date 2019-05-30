@@ -9,31 +9,16 @@ namespace NBi.NUnit.Query
 {
     public class FasterThanConstraint : NBiConstraint
     {
-        protected IPerformanceEngine engine;
-        /// <summary>
-        /// Engine dedicated to ResultSet comparaison
-        /// </summary>
+        private PerformanceResult performanceResult;
+        private int maxTimeMilliSeconds;
+        private int timeOutMilliSeconds;
+        private bool cleanCache;
+        private IPerformanceEngine engine;
         protected internal IPerformanceEngine Engine
-        {
-            set
-            {
-                engine = value ?? throw new ArgumentNullException();
-            }
-        }
-        
-        /// <summary>
-        /// Store for the result of the engine's execution
-        /// </summary>
-        protected PerformanceResult performanceResult;
-
-        protected int maxTimeMilliSeconds;
-        protected int timeOutMilliSeconds;
-        protected bool cleanCache;
+        { set => engine = value ?? throw new ArgumentNullException(); }
 
         public FasterThanConstraint()
-        {
-
-        }
+        { }
 
         public FasterThanConstraint MaxTimeMilliSeconds(int value)
         {
@@ -54,11 +39,7 @@ namespace NBi.NUnit.Query
         }
 
         protected IPerformanceEngine GetEngine(IQuery actual)
-        {
-            if (engine == null)
-                engine = new PerformanceEngineFactory().Instantiate(actual);
-            return engine;
-        }
+         => engine ?? (engine = new PerformanceEngineFactory().Instantiate(actual));
 
         /// <summary>
         /// Handle a sql string or a sqlCommand and check it with the engine
@@ -78,11 +59,11 @@ namespace NBi.NUnit.Query
             var engine = GetEngine(actual);
             if (cleanCache)
                 engine.CleanCache();
-            performanceResult = engine.Execute(new TimeSpan(0,0,0,0,timeOutMilliSeconds));
-            return 
+            performanceResult = engine.Execute(new TimeSpan(0, 0, 0, 0, timeOutMilliSeconds));
+            return
                 (
                     performanceResult.TimeElapsed.TotalMilliseconds < maxTimeMilliSeconds
-                    && ! performanceResult.IsTimeOut
+                    && !performanceResult.IsTimeOut
                 );
         }
 
@@ -95,10 +76,10 @@ namespace NBi.NUnit.Query
             var sb = new System.Text.StringBuilder();
             sb.AppendLine("Execution of the query is slower than expected");
             sb.AppendFormat("Maximum expected was {0}ms", maxTimeMilliSeconds);
-            writer.WritePredicate(sb.ToString());           
+            writer.WritePredicate(sb.ToString());
         }
 
-        public override void  WriteActualValueTo(NUnitCtr.MessageWriter writer)
+        public override void WriteActualValueTo(NUnitCtr.MessageWriter writer)
         {
             if (performanceResult.IsTimeOut)
                 writer.WriteActualValue(string.Format("query interrupted after {0}ms (timeout)", performanceResult.TimeOut));

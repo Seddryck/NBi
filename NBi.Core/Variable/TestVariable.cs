@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace NBi.Core.Variable
 {
-    public class TestVariable : ITestVariable
+    public abstract class TestVariable : ITestVariable
     {
         private object value;
         private bool isEvaluated;
@@ -24,7 +24,7 @@ namespace NBi.Core.Variable
             this.resolver = resolver;
         }
 
-        public object GetValue()
+        public virtual object GetValue()
         {
             
             if (!IsEvaluated())
@@ -44,7 +44,7 @@ namespace NBi.Core.Variable
             return value;
         }
 
-        public bool IsEvaluated()
+        public virtual bool IsEvaluated()
         {
             return isEvaluated;
         }

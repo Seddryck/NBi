@@ -2,10 +2,15 @@
 <testSuite name="The Query TestSuite" xmlns="http://NBi/TestSuite">
 	<settings>
 		<default apply-to="system-under-test">
-			<connectionString>
+			<connection-string>
         My Connection String
-      </connectionString>
+      </connection-string>
 		</default>
+    <default apply-to="variable">
+      <connectionString>
+        My Other connection String
+      </connectionString>
+    </default>
 	</settings>
 	<test name="My first test case" uid="0001">
 		<system-under-test>

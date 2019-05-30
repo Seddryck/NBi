@@ -18,8 +18,16 @@ namespace NBi.Xml.Decoration.Command
         [DefaultValue(60000)]
         public int TimeOut { get; set; }
 
-        [XmlAttribute("connectionString")]
+        [XmlAttribute("connection-string")]
         public string SpecificConnectionString { get; set; }
+
+        [XmlIgnore]
+        [Obsolete("Replaced by connection-string")]
+        public string SpecificConnectionStringOld
+        {
+            get => SpecificConnectionString;
+            set { SpecificConnectionString = value; }
+        }
 
         [XmlIgnore]
         public string ConnectionString

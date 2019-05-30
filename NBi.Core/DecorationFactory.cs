@@ -7,66 +7,39 @@ using NBi.Core.Batch;
 using NBi.Core.FileManipulation;
 using NBi.Core.Process;
 using NBi.Core.Connection;
+using NBi.Core.Assemblies;
 
 namespace NBi.Core
 {
     public class DecorationFactory
     {
-        public IDecorationCommandImplementation Get(IDecorationCommand command)
+        public IDecorationCommandImplementation Instantiate(IDecorationCommand commandMetadata)
         {
-            if (command is IGroupCommand)
+            switch (commandMetadata)
             {
-                return new GroupCommandFactory().Get(command as IGroupCommand);
+                case IGroupCommand group: return new GroupCommandFactory().Get(group);
+                case IWindowsServiceCommand windowsService: return new WindowsServiceCommandFactory().Get(windowsService);
+                case IDataManipulationCommand dataManipulation: return new DataManipulationFactory().Get(dataManipulation);
+                case IBatchRunCommand batchRun: return new BatchRunnerFactory().Get(batchRun);
+                case IEtlRunCommand etlRun: return new EtlRunnerFactory().Get(etlRun);
+                case IFileManipulationCommand fileManipulation: return new FileManipulationFactory().Get(fileManipulation);
+                case IProcessCommand process: return new ProcessCommandFactory().Get(process);
+                case IConnectionWaitCommand connectionWait: return new ConnectionWaitFactory().Get(connectionWait);
+                default: throw new ArgumentOutOfRangeException();
             }
-            
-            if (command is IWindowsServiceCommand)
-            {
-                return new WindowsServiceCommandFactory().Get(command as IWindowsServiceCommand);
-            }
-
-            if (command is IDataManipulationCommand)
-            {
-                return new DataManipulationFactory().Get(command as IDataManipulationCommand);
-            }
-
-            if (command is IBatchRunCommand)
-            {
-                return new BatchRunnerFactory().Get(command as IBatchRunCommand);
-            }
-
-            if (command is IEtlRunCommand)
-            {
-                return new EtlRunnerFactory().Get(command as IEtlRunCommand);
-            }
-
-            if (command is IFileManipulationCommand)
-            {
-                return new FileManipulationFactory().Get(command as IFileManipulationCommand);
-            }
-            
-            if (command is IProcessCommand)
-            {
-                return new ProcessCommandFactory().Get(command as IProcessCommand);
-            }
-
-            if (command is IConnectionWaitCommand)
-            {
-                return new ConnectionWaitFactory().Get(command as IConnectionWaitCommand);
-            }
-
-
-            throw new ArgumentException();
         }
 
-        public IDecorationCheckImplementation Get(IDecorationCheck check)
+        public IDecorationCondition Instantiate(IDecorationConditionMetadata condition)
         {
-            if (check is IWindowsServiceCheck)
+            switch (condition)
             {
-                return new WindowsServiceCheckFactory().Get(check as IWindowsServiceCheck);
+                case IWindowsServiceConditionMetadata windowsServiceCheck:
+                    return new WindowsServiceConditionFactory().Instantiate(windowsServiceCheck);
+                case ICustomConditionMetadata customCondition:
+                    return new CustomConditionFactory().Instantiate(customCondition);
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
-
-            throw new ArgumentException();
         }
-
     }
 }

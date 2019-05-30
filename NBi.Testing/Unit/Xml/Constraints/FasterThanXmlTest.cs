@@ -11,8 +11,6 @@ namespace NBi.Testing.Unit.Xml.Constraints
     [TestFixture]
     public class FasterThanXmlTest
     {
-
-
         #region SetUp & TearDown
         //Called only at instance creation
         [TestFixtureSetUp]
@@ -63,7 +61,7 @@ namespace NBi.Testing.Unit.Xml.Constraints
             // Create an instance of the XmlSerializer specifying type and namespace.
             TestSuiteXml ts = DeserializeSample();
 
-            Assert.That(ts.Tests[testNr].Constraints[0], Is.TypeOf<FasterThanXml>());
+            Assert.That(ts.Tests[testNr].Constraints[0], Is.AssignableTo<FasterThanXml>());
             Assert.That(((FasterThanXml)ts.Tests[testNr].Constraints[0]).CleanCache, Is.True);
             Assert.That(((FasterThanXml)ts.Tests[testNr].Constraints[0]).MaxTimeMilliSeconds, Is.EqualTo(100));
         }
@@ -76,7 +74,7 @@ namespace NBi.Testing.Unit.Xml.Constraints
             // Create an instance of the XmlSerializer specifying type and namespace.
             TestSuiteXml ts = DeserializeSample();
 
-            Assert.That(ts.Tests[testNr].Constraints[0], Is.TypeOf<FasterThanXml>());
+            Assert.That(ts.Tests[testNr].Constraints[0], Is.AssignableTo<FasterThanXml>());
             Assert.That(((FasterThanXml)ts.Tests[testNr].Constraints[0]).MaxTimeMilliSeconds, Is.EqualTo(int.MaxValue));
         }
 
@@ -88,7 +86,7 @@ namespace NBi.Testing.Unit.Xml.Constraints
             // Create an instance of the XmlSerializer specifying type and namespace.
             TestSuiteXml ts = DeserializeSample();
 
-            Assert.That(ts.Tests[testNr].Constraints[0], Is.TypeOf<FasterThanXml>());
+            Assert.That(ts.Tests[testNr].Constraints[0], Is.AssignableTo<FasterThanXml>());
             Assert.That(((FasterThanXml)ts.Tests[testNr].Constraints[0]).CleanCache, Is.False);
         }
 
@@ -100,7 +98,7 @@ namespace NBi.Testing.Unit.Xml.Constraints
             // Create an instance of the XmlSerializer specifying type and namespace.
             TestSuiteXml ts = DeserializeSample();
 
-            Assert.That(ts.Tests[testNr].Constraints[0], Is.TypeOf<FasterThanXml>());
+            Assert.That(ts.Tests[testNr].Constraints[0], Is.AssignableTo<FasterThanXml>());
             Assert.That(((FasterThanXml)ts.Tests[testNr].Constraints[0]).TimeOutMilliSeconds, Is.EqualTo(0));
         }
 
@@ -112,7 +110,7 @@ namespace NBi.Testing.Unit.Xml.Constraints
             // Create an instance of the XmlSerializer specifying type and namespace.
             TestSuiteXml ts = DeserializeSample();
 
-            Assert.That(ts.Tests[testNr].Constraints[0], Is.TypeOf<FasterThanXml>());
+            Assert.That(ts.Tests[testNr].Constraints[0], Is.AssignableTo<FasterThanXml>());
             Assert.That(((FasterThanXml)ts.Tests[testNr].Constraints[0]).TimeOutMilliSeconds, Is.EqualTo(10000));
         }
 

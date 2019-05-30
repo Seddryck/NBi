@@ -1,5 +1,7 @@
 ﻿using NBi.Core.Evaluate;
 using NBi.Core.ResultSet;
+using NBi.Core.Transformation;
+using NBi.Xml.Variables;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -14,7 +16,24 @@ namespace NBi.Xml.Items.Calculation
     public class ExpressionXml: IColumnExpression
     {
         [XmlText()]
-        public string Value { get; set; }
+        public string Value
+        {
+            get => Script.Code;
+            set => Script.Code = value;
+        }
+
+        public bool ShouldSerializeValue() => Script.Language == LanguageType.NCalc;
+
+        [XmlElement("script")]
+        public ScriptXml Script { get; set; }
+
+        public bool ShouldSerializeScript() => Script.Language != LanguageType.NCalc;
+
+        [XmlIgnore()]
+        public LanguageType Language
+        {
+            get => ShouldSerializeValue() ? LanguageType.NCalc : Script.Language;
+        }
 
         [XmlAttribute("name")]
         public string Name { get; set; }
@@ -30,5 +49,10 @@ namespace NBi.Xml.Items.Calculation
         [XmlAttribute("tolerance")]
         [DefaultValue("")]
         public string Tolerance { get; set; }
+
+        public ExpressionXml()
+        {
+            Script = new ScriptXml() { Language = LanguageType.NCalc };
+        }
     }
 }

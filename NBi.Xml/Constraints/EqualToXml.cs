@@ -163,4 +163,6 @@ namespace NBi.Xml.Constraints
         }
               
     }
+
+    public class EqualToOldXml : EqualToXml { }
 }

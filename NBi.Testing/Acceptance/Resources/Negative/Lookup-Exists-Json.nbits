@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<testSuite name="Acceptance Testing: query equalTo query" xmlns="http://NBi/TestSuite">
+	<settings>
+		<default apply-to="system-under-test">
+			<connectionString>Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly</connectionString>
+		</default>
+		<default apply-to="assert">
+			<connectionString>Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly</connectionString>
+		</default>
+	</settings>
+  <test name="lookup-exists" uid="0001">
+    <description>Assert that each department referenced next to an employee effectively exists</description>
+    <system-under-test>
+      <result-set>
+        <query>
+          select
+          NationalIdNumber,
+          case when h.[DepartmentID] % 8 = 1 then h.[DepartmentID] + 100 else h.[DepartmentID] end as DepartmentID,
+          d.Name as DepartmentName
+          from
+          [HumanResources].[Employee] e
+          inner join [HumanResources].[EmployeeDepartmentHistory]
+          h on e.BusinessEntityId = h.BusinessEntityId
+          inner join [HumanResources].[Department] d on
+          h.DepartmentId = d.DepartmentId
+        </query>
+      </result-set>
+    </system-under-test>
+    <assert>
+      <lookup-exists>
+        <join>
+          <mapping candidate="DepartmentID" reference="Id" type="numeric"/>
+        </join>
+        <result-set>
+          <query>
+            select [DepartmentID] as Id, [Name] from [HumanResources].[Department]
+          </query>
+        </result-set>
+      </lookup-exists>
+    </assert>
+  </test>
+</testSuite>

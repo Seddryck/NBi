@@ -1,44 +1,51 @@
 ﻿using NBi.Core;
+using NBi.Core.FlatFile;
+using NBi.Extensibility.FlatFile;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Linq.Expressions;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 
 namespace NBi.Xml.Settings
 {
-    public class CsvProfileXml : CsvProfile
+    public class CsvProfileXml : IFlatFileProfile
     {
         public CsvProfileXml()
-            : base()
-        {
-            InternalFieldSeparator = ";";
-            InternalRecordSeparator = "CrLf";
-        }
+            : this(';', '\"', "CrLf")
+        { }
 
+        public CsvProfileXml(char fieldSeparator, char textQualifier, string recordSeparator)
+        {
+            FieldSeparator = fieldSeparator;
+            TextQualifier = textQualifier;
+            RecordSeparator = recordSeparator;
+        }
 
         [XmlAttribute("field-separator")]
         [DefaultValue(";")]
         public string InternalFieldSeparator { get; set; }
 
         [XmlIgnore]
-        public override char FieldSeparator
+        public char FieldSeparator
         {
-            get
-            {
-                var value = InternalFieldSeparator;
-                value = value.Replace("Tab", "\t");
-                if (value.Length > 1)
-                    throw new ArgumentOutOfRangeException();
-                return value[0];
-            }
-            set
-            {
-                var stringValue = value.ToString().Replace("\t", "Tab");
-                InternalFieldSeparator = stringValue;
-            }
+            get => (InternalFieldSeparator.Replace("Tab", "\t").Length <= 1 ? InternalFieldSeparator.Replace("Tab", "\t")[0] : throw new ArgumentOutOfRangeException());
+            set => InternalFieldSeparator = value.ToString().Replace("\t", "Tab");
+        }
+
+        [XmlAttribute("text-qualifier")]
+        [DefaultValue("Double-quote")]
+        public string InternalTextQualifier { get; set; }
+
+        [XmlIgnore]
+        public char TextQualifier
+        {
+            get => (InternalTextQualifier.Replace("Double-quote", "\"").Replace("Single-quote", "\'").Length <= 1 ? InternalTextQualifier.Replace("Double-quote", "\"").Replace("Single-quote", "\'")[0] : throw new ArgumentOutOfRangeException());
+            set => InternalTextQualifier = value.ToString().Replace("\"", "Double-quote").Replace("\'", "Single-quote");
         }
 
         [XmlAttribute("record-separator")]
@@ -46,21 +53,10 @@ namespace NBi.Xml.Settings
         public string InternalRecordSeparator { get; set; }
 
         [XmlIgnore]
-        public override string RecordSeparator 
+        public string RecordSeparator 
         {
-            get
-            {
-                var value = InternalRecordSeparator;
-                value = value.Replace("Cr", "\r");
-                value = value.Replace("Lf", "\n");
-                return value;
-            }
-            set
-            {
-                value = value.Replace("\r", "Cr");
-                value = value.Replace("\n", "Lf");
-                InternalRecordSeparator = value;
-            }
+            get => InternalRecordSeparator.Replace("Cr", "\r").Replace("Lf", "\n");
+            set => InternalRecordSeparator = value.Replace("\r", "Cr").Replace("\n", "Lf");
         }
 
         [XmlAttribute("first-row-header")]
@@ -68,16 +64,10 @@ namespace NBi.Xml.Settings
         public bool InternalFirstRowHeader { get; set; }
 
         [XmlIgnore]
-        public override bool FirstRowHeader
+        public bool FirstRowHeader
         {
-            get
-            {
-                return InternalFirstRowHeader;
-            }
-            set
-            {
-                InternalFirstRowHeader = value;
-            }
+            get => InternalFirstRowHeader;
+            set => InternalFirstRowHeader = value;
         }
 
         [XmlAttribute("empty-cell")]
@@ -85,18 +75,10 @@ namespace NBi.Xml.Settings
         public string InternalEmptyCell { get; set; }
 
         [XmlIgnore]
-        public override string EmptyCell
+        public string EmptyCell
         {
-            get
-            {
-                if (string.IsNullOrEmpty(InternalEmptyCell))
-                    return "(empty)";
-                return InternalEmptyCell;
-            }
-            set
-            {
-                InternalEmptyCell = value;
-            }
+            get => string.IsNullOrEmpty(InternalEmptyCell) ? "(empty)" : InternalEmptyCell;
+            set => InternalEmptyCell = value;
         }
 
         [XmlAttribute("missing-cell")]
@@ -104,25 +86,78 @@ namespace NBi.Xml.Settings
         public string InternalMissingCell { get; set; }
 
         [XmlIgnore]
-        public override string MissingCell
+        public string MissingCell
         {
-            get
-            {
-                if (string.IsNullOrEmpty(InternalMissingCell))
-                    return "(null)";
-                return InternalMissingCell;
-            }
-            set
-            {
-                InternalMissingCell = value;
-            }
+            get => string.IsNullOrEmpty(InternalMissingCell) ? "(null)" : InternalMissingCell;
+            set => InternalMissingCell = value;
         }
 
-        public CsvProfileXml(char fieldSeparator, string recordSeparator)
-            : base(fieldSeparator, recordSeparator)
-        {}
+        [XmlIgnore]
+        public IDictionary<string, object> Attributes
+        {
+            get => new Dictionary<string, object>()
+                {
+                    { GetXmlSerialization(x => x.InternalFieldSeparator), FieldSeparator },
+                    { GetXmlSerialization(x => x.InternalTextQualifier), TextQualifier },
+                    { GetXmlSerialization(x => x.InternalRecordSeparator), RecordSeparator },
+                    { GetXmlSerialization(x => x.InternalFirstRowHeader), FirstRowHeader },
+                    { GetXmlSerialization(x => x.InternalMissingCell), MissingCell },
+                    { GetXmlSerialization(x => x.InternalEmptyCell), EmptyCell },
+                };
+        }
 
-        
+        private static string GetXmlSerialization<T>(Expression<Func<CsvProfileXml, T>> propertySelector)
+        {
+            MemberExpression memberExpression = null;
 
+            switch (propertySelector.Body.NodeType)
+            {
+                case ExpressionType.MemberAccess:
+                    // This is the default case where the 
+                    // expression is simply member access.
+                    memberExpression
+                        = propertySelector.Body as MemberExpression;
+                    break;
+
+                case ExpressionType.Convert:
+                    // This case deals with conversions that 
+                    // may have occured due to typing.
+                    UnaryExpression unaryExpression
+                        = propertySelector.Body as UnaryExpression;
+
+                    if (unaryExpression != null)
+                    {
+                        memberExpression
+                            = unaryExpression.Operand as MemberExpression;
+                    }
+                    break;
+            }
+
+
+            var member = memberExpression.Member;
+
+            // Check for field and property types. 
+            // All other types are not supported by attribute model.
+            switch (member.MemberType)
+            {
+                case MemberTypes.Property:
+                    break;
+                default:
+                    throw new Exception("Member is not property");
+            }
+
+            var property = (PropertyInfo)member;
+
+            var attribute = property
+                .GetCustomAttribute(typeof(XmlAttributeAttribute))
+                    as XmlAttributeAttribute;
+
+            if (attribute != null)
+            {
+                return attribute.AttributeName;
+            }
+            else
+                throw new ArgumentException();
+        }
     }
 }

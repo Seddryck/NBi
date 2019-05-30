@@ -8,6 +8,8 @@ using NBi.Core.ResultSet;
 using NBi.Xml.Items.ResultSet;
 using System.IO;
 using NBi.Xml.Items.Alteration;
+using NBi.Xml.Items.ResultSet.Combination;
+using System;
 
 namespace NBi.Xml.Systems
 {
@@ -51,8 +53,27 @@ namespace NBi.Xml.Systems
             }
         }
 
-        [XmlAttribute("file")]
-        public virtual string File { get; set; }
+        [XmlAttribute("path")]
+        [Obsolete("Use File in place of FileAttribute")]
+        public virtual string FilePath
+        {
+            get => File.Path + (File.IsBasic() ? string.Empty : $"!{File.Parser.Name}");
+            set
+            {
+                var tokens = value.Split(new[] { '!' }, StringSplitOptions.RemoveEmptyEntries);
+                File.Path = tokens[0];
+                if (tokens.Count() > 1)
+                    File.Parser = new ParserXml() { Name = tokens[1] };
+                else
+                    File.Parser = null;
+            }
+        }
+
+        [XmlElement("file")]
+        public virtual FileXml File { get; set; } = new FileXml();
+
+        public bool ShouldSerializeFilePath() => File.IsBasic() && !File.IsEmpty();
+        public bool ShouldSerializeFile() => !File.IsBasic() || !File.IsEmpty();
 
         public override BaseItem BaseItem
         {
@@ -64,6 +85,12 @@ namespace NBi.Xml.Systems
 
         [XmlElement("query")]
         public virtual QueryXml Query { get; set; }
+
+        [XmlElement("sequences-combination")]
+        public virtual SequenceCombinationXml SequenceCombination { get; set; }
+
+        [XmlIgnore]
+        public bool SequenceCombinationSpecified { get => SequenceCombination != null; set { } }
 
         [XmlElement("alteration")]
         public virtual AlterationXml Alteration { get; set; }
@@ -78,4 +105,6 @@ namespace NBi.Xml.Systems
             _rows = new List<RowXml>();
         }
     }
+
+    public class ResultSetSystemOldXml : ResultSetSystemXml { }
 }

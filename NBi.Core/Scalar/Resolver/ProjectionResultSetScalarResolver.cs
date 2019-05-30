@@ -26,5 +26,7 @@ namespace NBi.Core.Scalar.Resolver
 
             return (T)Convert.ChangeType(projectionResult, typeof(T));
         }
+
+        object IScalarResolver.Execute() => Execute();
     }
 }

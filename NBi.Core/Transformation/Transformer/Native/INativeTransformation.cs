@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace NBi.Core.Transformation.Transformer.Native
 {
-    interface INativeTransformation
+    public interface INativeTransformation
     {
         object Evaluate(object value);
     }

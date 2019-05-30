@@ -15,7 +15,7 @@
 			</structure>
 		</system-under-test>
 		<assert>
-			<equivalentTo>
+			<equivalent-to>
 				<item>Base Rate</item>
 				<item>Department Name</item>
 				<item>Employee Department</item>
@@ -34,7 +34,7 @@
 				<item>Status</item>
 				<item>Title</item>
 				<item>Vacation Hours</item>
-			</equivalentTo>
+			</equivalent-to>
 		</assert>
 	</test>
 	<test name="The list of measures into the measure-group 'Exchange Rates' is equivalent to this list of measures" uid="0001">

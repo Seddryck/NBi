@@ -9,7 +9,7 @@ branches:
     source-branches: ['master', 'develop', 'feature', 'hotfix', 'support']
   release:
     regex: releases?[/-]
-    tag: RC
+    tag: rc
     source-branches: ['hotfix', 'develop', 'master', 'feature', 'support']
 ignore:
   sha: []

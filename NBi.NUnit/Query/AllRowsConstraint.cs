@@ -18,10 +18,8 @@ namespace NBi.NUnit.Query
         {
             filterFunction = filter.AntiApply;
         }
-        protected override bool doMatch(int actual)
-        {
-            return filterResultSet.Rows.Count == 0;
-        }
+        protected override bool doMatch(int actual) 
+            => filterResultSet.Rows.Count == 0;
 
         public override void WriteDescriptionTo(NUnitCtr.MessageWriter writer)
         {

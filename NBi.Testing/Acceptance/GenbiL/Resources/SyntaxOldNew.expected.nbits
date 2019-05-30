@@ -1,0 +1,73 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<testSuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://NBi/TestSuite">
+  <settings>
+    <default apply-to="system-under-test" />
+    <default apply-to="assert" />
+    <default apply-to="setup-cleanup" />
+    <default apply-to="everywhere" />
+  </settings>
+  <test name="distinct members for firstly">
+    <system-under-test>
+      <resultSet>
+        <query><![CDATA[select distinct * from firstly]]></query>
+      </resultSet>
+    </system-under-test>
+    <assert>
+      <equalTo>
+        <resultSet>
+          <row>
+            <cell>10</cell>
+          </row>
+        </resultSet>
+      </equalTo>
+    </assert>
+  </test>
+  <test name="distinct members for firstly">
+    <system-under-test>
+      <result-set>
+        <query><![CDATA[select distinct * from firstly]]></query>
+      </result-set>
+    </system-under-test>
+    <assert>
+      <equal-to>
+        <resultSet>
+          <row>
+            <cell>10</cell>
+          </row>
+        </resultSet>
+      </equal-to>
+    </assert>
+  </test>
+  <test name="distinct members for secondly">
+    <system-under-test>
+      <resultSet>
+        <query><![CDATA[select distinct * from secondly]]></query>
+      </resultSet>
+    </system-under-test>
+    <assert>
+      <equalTo>
+        <resultSet>
+          <row>
+            <cell>10</cell>
+          </row>
+        </resultSet>
+      </equalTo>
+    </assert>
+  </test>
+  <test name="distinct members for secondly">
+    <system-under-test>
+      <result-set>
+        <query><![CDATA[select distinct * from secondly]]></query>
+      </result-set>
+    </system-under-test>
+    <assert>
+      <equal-to>
+        <resultSet>
+          <row>
+            <cell>10</cell>
+          </row>
+        </resultSet>
+      </equal-to>
+    </assert>
+  </test>
+</testSuite>

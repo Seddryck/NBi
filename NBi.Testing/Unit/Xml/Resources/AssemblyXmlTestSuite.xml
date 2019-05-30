@@ -95,7 +95,7 @@
             path="NBi.Testing.dll" 
             class="NBi.Testing.Unit.Acceptance.Resource.AssemblyClass" 
             method="GetSelectStringWithDateTime"
-            connectionString="data source=foo;initial catalog=bar"
+            connection-string="data source=foo;initial catalog=bar"
             roles="admin"
             timeout-milliSeconds="10"
         />

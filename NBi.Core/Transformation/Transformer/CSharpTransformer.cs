@@ -1,5 +1,5 @@
 ﻿using Microsoft.CSharp;
-using NBi.Core.Scalar.Caster;
+using NBi.Core.Scalar.Casting;
 using System;
 using System.CodeDom.Compiler;
 using System.Collections.Generic;

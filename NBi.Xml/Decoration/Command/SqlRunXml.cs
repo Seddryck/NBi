@@ -37,8 +37,16 @@ namespace NBi.Xml.Decoration.Command
         [XmlAttribute("version")]
         public string Version { get; set; }
 
-        [XmlAttribute("connectionString")]
+        [XmlAttribute("connection-string")]
         public string SpecificConnectionString { get; set; }
+
+        [XmlIgnore]
+        [Obsolete("Replaced by connection-string")]
+        public string SpecificConnectionStringOld
+        {
+            get => SpecificConnectionString;
+            set { SpecificConnectionString = value; }
+        }
 
         [XmlIgnore]
         public string ConnectionString

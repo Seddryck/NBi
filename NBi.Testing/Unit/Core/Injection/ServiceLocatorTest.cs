@@ -257,7 +257,13 @@ namespace NBi.Testing.Unit.Core.Injection
             Assert.That(obj1.ExtensionCount, Is.EqualTo(0));
 
             var config = locator.GetConfiguration();
-            config.LoadExtensions(new List<Type>() { typeof(FakeSessionFactory), typeof(FakeCommandFactory), typeof(FakeExecutionEngine) });
+            var extensions = new Dictionary<Type, IDictionary<string, string>>
+            {
+                { typeof(FakeSessionFactory), new Dictionary<string, string>() },
+                { typeof(FakeCommandFactory), new Dictionary<string, string>() },
+                { typeof(FakeExecutionEngine), new Dictionary<string, string>() },
+            };
+            config.LoadExtensions(extensions);
 
             var obj2 = locator.GetExecutionEngineFactory();
             Assert.That(obj2.ExtensionCount, Is.EqualTo(1));

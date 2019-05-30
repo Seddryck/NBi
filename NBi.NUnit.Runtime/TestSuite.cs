@@ -21,7 +21,8 @@ using System.Collections.ObjectModel;
 using Ninject;
 using NBi.Core.Injection;
 using NBi.Core.Configuration.Extension;
-using NBi.Core.Scalar.Caster;
+using NBi.Core.Scalar.Casting;
+using NBi.Core.Variable.Instantiation;
 
 namespace NBi.NUnit.Runtime
 {
@@ -80,7 +81,7 @@ namespace NBi.NUnit.Runtime
         }
 
         [Test, TestCaseSource("GetTestCases")]
-        public virtual void ExecuteTestCases(TestXml test)
+        public virtual void ExecuteTestCases(TestXml test, string testName, IDictionary<string, ITestVariable> localVariables)
         {
             if (ConfigurationProvider != null)
             {
@@ -110,15 +111,16 @@ namespace NBi.NUnit.Runtime
             }
             else
             {
-                Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceInfo, $"Running test '{test.Name}' #{test.UniqueIdentifier}");
-                ExecuteChecks(test.Condition);
+                Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceInfo, $"Running test '{testName}' #{test.UniqueIdentifier}");
+                ValidateConditions(test.Condition);
                 ExecuteSetup(test.Setup);
-                foreach (var tc in test.Systems)
+                var allVariables = Variables.Union(localVariables).ToDictionary(x => x.Key, x=>x.Value);
+                foreach (var sut in test.Systems)
                 {
                     foreach (var ctr in test.Constraints)
                     {
-                        var factory = new TestCaseFactory(Configuration, Variables, serviceLocator);
-                        var testCase = factory.Instantiate(tc, ctr);
+                        var factory = new TestCaseFactory(Configuration, allVariables, serviceLocator);
+                        var testCase = factory.Instantiate(sut, ctr);
                         try
                         {
                             AssertTestCase(testCase.SystemUnderTest, testCase.Constraint, test.Content);
@@ -134,18 +136,19 @@ namespace NBi.NUnit.Runtime
             }
         }
 
-        private void ExecuteChecks(ConditionXml check)
+        private void ValidateConditions(ConditionXml condition)
         {
-            foreach (var predicate in check.Predicates)
+            foreach (var predicate in condition.Predicates)
             {
-                var impl = new DecorationFactory().Get(predicate);
+                var helper = new ConditionHelper();
+                var metadata = helper.Execute(predicate);
+                var impl = new DecorationFactory().Instantiate(metadata);
                 var isVerified = impl.Validate();
                 if (!isVerified)
                 {
                     Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceInfo, $"Test ignored. At least one condition was not validated: '{impl.Message}'");
                     Assert.Ignore($"This test has been ignored because following check wasn't successful: {impl.Message}");
                 }
-
             }
         }
 
@@ -165,7 +168,7 @@ namespace NBi.NUnit.Runtime
 
                     if (!skip)
                     {
-                        var impl = new DecorationFactory().Get(command);
+                        var impl = new DecorationFactory().Instantiate(command);
                         impl.Execute();
                         if (command is IGroupCommand)
                         {
@@ -201,7 +204,7 @@ namespace NBi.NUnit.Runtime
             {
                 foreach (var command in cleanup.Commands)
                 {
-                    var impl = new DecorationFactory().Get(command);
+                    var impl = new DecorationFactory().Instantiate(command);
                     impl.Execute();
                 }
             }
@@ -281,14 +284,14 @@ namespace NBi.NUnit.Runtime
         {
             var instances = new Dictionary<string, ITestVariable>();
             var resolverFactory = serviceLocator.GetScalarResolverFactory();
-            var factory = new TestVariableFactory();
 
             Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceInfo, $"{variables.Count()} variable{(variables.Count() > 1 ? "s" : string.Empty)} defined in the test-suite.");
+            var variableFactory = new VariableFactory();
             foreach (var variable in variables)
             {
                 if (overridenVariables.ContainsKey(variable.Name))
                 {
-                    var instance = new OverridenTestVariable(variable.Name, overridenVariables[variable.Name]);
+                    var instance = new OverridenVariable(variable.Name, overridenVariables[variable.Name]);
                     instances.Add(variable.Name, instance);
                 }
                 else
@@ -309,11 +312,9 @@ namespace NBi.NUnit.Runtime
                     var args = builder.GetArgs();
 
                     var resolver = resolverFactory.Instantiate<object>(args);
-
-                    var instance = factory.Instantiate(resolver);
-                    instances.Add(variable.Name, instance);
+                    instances.Add(variable.Name, variableFactory.Instantiate(VariableScope.Global, resolver));
                 }
-                
+
             }
 
             return instances;
@@ -335,29 +336,63 @@ namespace NBi.NUnit.Runtime
 
             foreach (var test in tests)
             {
-                TestCaseData testCaseDataNUnit = new TestCaseData(test);
-                testCaseDataNUnit.SetName(test.GetName());
-                testCaseDataNUnit.SetDescription(test.Description);
-                foreach (var category in test.Categories)
-                    testCaseDataNUnit.SetCategory(CategoryHelper.Format(category));
-                foreach (var property in test.Traits)
-                    testCaseDataNUnit.SetProperty(property.Name, property.Value);
+                // Build different instances for a test, if no instance-settling is defined then the default instance is created
+                var instanceArgsBuilder = new InstanceArgsBuilder(serviceLocator, Variables);
+                instanceArgsBuilder.Setup(test.InstanceSettling);
+                instanceArgsBuilder.Build();
 
-                //Assign auto-categories
-                if (EnableAutoCategories)
-                {
-                    foreach (var system in test.Systems)
-                        foreach (var category in system.GetAutoCategories())
-                            testCaseDataNUnit.SetCategory(CategoryHelper.Format(category));
-                }
-                //Assign auto-categories
-                if (EnableGroupAsCategory)
-                {
-                    foreach (var groupName in test.GroupNames)
-                        testCaseDataNUnit.SetCategory(CategoryHelper.Format(groupName));
-                }
+                var factory = new InstanceFactory();
+                var instances = factory.Instantiate(instanceArgsBuilder.GetArgs());
 
-                testCases.Add(testCaseDataNUnit);
+                // For each instance create a test-case
+                foreach (var instance in instances)
+                {
+                    var scalarHelper = new ScalarHelper(serviceLocator, instance.Variables);
+
+                    var testName = instance.IsDefault 
+                        ? $"{test.GetName()}" 
+                        : test.GetName().StartsWith("~")
+                            ? scalarHelper.InstantiateResolver<string>(test.GetName()).Execute()
+                            : $"{test.GetName()} ({instance.GetName()})";
+                    Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceVerbose, $"Loading test named: {testName}");
+                    var testCaseDataNUnit = new TestCaseData(test, testName, instance.Variables);
+                    testCaseDataNUnit.SetName(testName);
+
+                    testCaseDataNUnit.SetDescription(test.Description);
+                    foreach (var category in test.Categories)
+                        testCaseDataNUnit.SetCategory(CategoryHelper.Format(category));
+                    foreach (var property in test.Traits)
+                        testCaseDataNUnit.SetProperty(property.Name, property.Value);
+
+                    //Assign instance categories and traits
+                    foreach (var category in instance.Categories)
+                    {
+                        var evaluatedCategory = scalarHelper.InstantiateResolver<string>(category).Execute();
+                        testCaseDataNUnit.SetCategory(CategoryHelper.Format(evaluatedCategory));
+                    }
+
+                    foreach (var trait in instance.Traits)
+                    {
+                        var evaluatedTraitValue = scalarHelper.InstantiateResolver<string>(trait.Value).Execute();
+                        testCaseDataNUnit.SetProperty(trait.Key, evaluatedTraitValue);
+                    }
+
+                    //Assign auto-categories
+                    if (EnableAutoCategories)
+                    {
+                        foreach (var system in test.Systems)
+                            foreach (var category in system.GetAutoCategories())
+                                testCaseDataNUnit.SetCategory(CategoryHelper.Format(category));
+                    }
+                    //Assign auto-categories
+                    if (EnableGroupAsCategory)
+                    {
+                        foreach (var groupName in test.GroupNames)
+                            testCaseDataNUnit.SetCategory(CategoryHelper.Format(groupName));
+                    }
+
+                    testCases.Add(testCaseDataNUnit);
+                }
             }
             return testCases;
         }
@@ -381,13 +416,11 @@ namespace NBi.NUnit.Runtime
             AllowDtdProcessing = config.AllowDtdProcessing;
             SettingsFilename = config.SettingsFilename;
 
-            var notableTypes = new List<Type>();
+            var notableTypes = new Dictionary<Type, IDictionary<string, string>>();
             var analyzer = new ExtensionAnalyzer();
-            var filenames = new List<string>();
             foreach (ExtensionElement extension in config.Extensions)
-                filenames.Add(extension.Assembly);
-            foreach (var filename in filenames)
-                notableTypes.AddRange(analyzer.Execute(filename));
+                foreach (var type in analyzer.Execute(extension.Assembly))
+                    notableTypes.Add(type, extension.Parameters);
 
             if (serviceLocator == null)
                 Initialize();

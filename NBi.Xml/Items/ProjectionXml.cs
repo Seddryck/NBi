@@ -14,7 +14,15 @@ namespace NBi.Xml.Items
         [XmlAttribute("type")]
         public ProjectionType Type { get; set; }
 
-        [XmlElement("resultSet")]
+        [XmlElement("result-set")]
         public ResultSetSystemXml ResultSet { get; set; }
+
+        [Obsolete("Replaced by result-set")]
+        [XmlIgnore()]
+        public ResultSetSystemXml ResultSetOld
+        {
+            get => ResultSet;
+            set { ResultSet = value; }
+        }
     }
 }

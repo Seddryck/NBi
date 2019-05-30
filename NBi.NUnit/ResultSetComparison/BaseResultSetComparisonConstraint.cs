@@ -30,16 +30,8 @@ namespace NBi.NUnit.ResultSetComparison
 
         protected ResultResultSet result;
         private IDataRowsMessageFormatter failure;
-        protected IDataRowsMessageFormatter Failure
-        {
-            get
-            {
-                if (failure == null)
-                    failure = BuildFailure();
-                return failure;
-            }
-        }
-
+        protected IDataRowsMessageFormatter Failure { get => failure ?? (failure = BuildFailure()); }
+        
         protected virtual IDataRowsMessageFormatter BuildFailure()
         {
             var factory = new DataRowsMessageFormatterFactory();
@@ -51,19 +43,11 @@ namespace NBi.NUnit.ResultSetComparison
         /// <summary>
         /// Engine dedicated to ResultSet comparaison
         /// </summary>
-        protected IEquivaler _engine;
+        protected IEquivaler engine;
         protected internal virtual IEquivaler Engine
         {
-            get
-            {
-                if(_engine==null)
-                    _engine = new OrdinalEquivaler(AnalyzersFactory.EqualTo(), null);
-                return _engine;
-            }
-            set
-            {
-                _engine = value ?? throw new ArgumentNullException();
-            }
+            get => engine ?? (engine = new OrdinalEquivaler(AnalyzersFactory.EqualTo(), null));
+            set => engine = value ?? throw new ArgumentNullException();
         }
         
         public BaseResultSetComparisonConstraint(IResultSetService value)
@@ -116,8 +100,7 @@ namespace NBi.NUnit.ResultSetComparison
             actualResultSet = actual;
 
             //This is needed if we don't use //ism
-            if (expectedResultSet ==  null)
-                expectedResultSet = expect.Execute();
+            expectedResultSet = expectedResultSet ?? expect.Execute();
 
             result = Engine.Compare(actualResultSet, expectedResultSet);
             var output = result.Difference == ResultSetDifferenceType.None;
@@ -137,9 +120,7 @@ namespace NBi.NUnit.ResultSetComparison
         {
             ResultSet rsActual = null;
             if (parallelizeQueries)
-            {
                 rsActual = ProcessParallel(actual);
-            }
             else
                 rsActual = actual.Execute();
             

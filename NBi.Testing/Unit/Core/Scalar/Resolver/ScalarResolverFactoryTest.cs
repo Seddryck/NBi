@@ -3,6 +3,7 @@ using NBi.Core.Injection;
 using NBi.Core.Query.Resolver;
 using NBi.Core.ResultSet.Resolver;
 using NBi.Core.Scalar.Resolver;
+using NBi.Core.Transformation.Transformer.Native;
 using NBi.Core.Variable;
 using NUnit.Framework;
 using System;
@@ -81,6 +82,28 @@ namespace NBi.Testing.Unit.Core.Scalar.Resolver
             var resolver = factory.Instantiate<object>(args);
 
             Assert.That(resolver, Is.TypeOf<EnvironmentScalarResolver<object>>());
+        }
+
+        [Test]
+        public void Instantiate_FormatArgs_FormatResolver()
+        {
+            var args = new FormatScalarResolverArgs("myVar", new Dictionary<string, ITestVariable>());
+
+            var factory = new ScalarResolverFactory(null);
+            var resolver = factory.Instantiate<string>(args);
+
+            Assert.That(resolver, Is.TypeOf<FormatScalarResolver>());
+        }
+
+        [Test]
+        public void Instantiate_FunctionArgs_FunctionResolver()
+        {
+            var args = new FunctionScalarResolverArgs(new LiteralScalarResolver<string>("myVar"), new INativeTransformation[] { });
+
+            var factory = new ScalarResolverFactory(null);
+            var resolver = factory.Instantiate<object>(args);
+
+            Assert.That(resolver, Is.TypeOf<FunctionScalarResolver<object>>());
         }
     }
 }

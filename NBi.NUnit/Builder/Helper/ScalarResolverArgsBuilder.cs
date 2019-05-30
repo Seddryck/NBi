@@ -3,6 +3,8 @@ using NBi.Core.Query;
 using NBi.Core.Query.Resolver;
 using NBi.Core.Scalar.Resolver;
 using NBi.Core.Transformation;
+using NBi.Core.Transformation.Transformer;
+using NBi.Core.Transformation.Transformer.Native;
 using NBi.Core.Variable;
 using NBi.Xml.Items;
 using NBi.Xml.Items.ResultSet;
@@ -24,15 +26,12 @@ namespace NBi.NUnit.Builder.Helper
 
         private object obj = null;
         private SettingsXml settings = SettingsXml.Empty;
-        private IDictionary<string, ITestVariable> globalVariables = new Dictionary<string, ITestVariable>();
+        private IDictionary<string, ITestVariable> variables = new Dictionary<string, ITestVariable>();
         private IScalarResolverArgs args = null;
 
         private readonly ServiceLocator serviceLocator;
 
-        public ScalarResolverArgsBuilder(ServiceLocator serviceLocator)
-        {
-            this.serviceLocator = serviceLocator;
-        }
+        public ScalarResolverArgsBuilder(ServiceLocator serviceLocator) => this.serviceLocator = serviceLocator;
 
         public void Setup(object obj)
         {
@@ -40,75 +39,81 @@ namespace NBi.NUnit.Builder.Helper
             isSetup = true;
         }
 
-        public void Setup(SettingsXml settings)
-        {
-            this.settings = settings;
-        }
+        public void Setup(SettingsXml settings) => this.settings = settings;
 
-        public void Setup(IDictionary<string, ITestVariable> globalVariables)
-        {
-            this.globalVariables = globalVariables;
-        }
+        public void Setup(IDictionary<string, ITestVariable> variables) => this.variables = variables;
 
         public void Build()
         {
             if (!isSetup)
                 throw new InvalidOperationException();
 
-            if (obj is ScriptXml && (obj as ScriptXml).Language==LanguageType.CSharp)
+            switch (obj)
             {
-                args = new CSharpScalarResolverArgs((obj as ScriptXml).Code);
-            }
+                case ScriptXml obj when obj.Language == LanguageType.CSharp:
+                    args = new CSharpScalarResolverArgs(obj.Code);
+                    break;
+                case QueryXml obj:
+                    var queryBuilder = new QueryResolverArgsBuilder(serviceLocator);
+                    queryBuilder.Setup(obj);
+                    queryBuilder.Setup(settings);
+                    queryBuilder.Setup(variables);
+                    queryBuilder.Build();
+                    args = new QueryScalarResolverArgs(queryBuilder.GetArgs());
+                    break;
+                case ProjectionXml obj:
+                    var resultSetBuilder = new ResultSetResolverArgsBuilder(serviceLocator);
+                    resultSetBuilder.Setup(obj.ResultSet);
+                    resultSetBuilder.Setup(settings);
+                    resultSetBuilder.Setup(variables);
+                    resultSetBuilder.Build();
+                    args = new RowCountResultSetScalarResolverArgs(resultSetBuilder.GetArgs());
+                    break;
+                case EnvironmentXml obj:
+                    args = new EnvironmentScalarResolverArgs(obj.Name);
+                    break;
+                case string obj when !string.IsNullOrEmpty(obj):
+                    var tokens = obj.Trim().Split(new[] { "|" }, StringSplitOptions.RemoveEmptyEntries).Select(x => x.Trim());
+                    var variable = tokens.First().Trim();
+                    var prefix = tokens.First().Trim().ToCharArray()[0];
+                    var functions = tokens.Skip(1);
+                    var factory = serviceLocator.GetScalarResolverFactory();
+                    IScalarResolver resolver = null;
 
-            else if (obj is QueryXml)
-            {
-                var builder = new QueryResolverArgsBuilder(serviceLocator);
-                builder.Setup((QueryXml)obj);
-                builder.Setup(settings);
-                builder.Setup(globalVariables);
-                builder.Build();
-                args = new QueryScalarResolverArgs(builder.GetArgs());
-            }
+                    switch (prefix)
+                    {
+                        case '@':
+                            args = new GlobalVariableScalarResolverArgs(variable.Substring(1), variables);
+                            resolver = factory.Instantiate<object>(args);
+                            break;
+                        case '~':
+                            args = new FormatScalarResolverArgs(variable.Substring(1), variables);
+                            resolver = factory.Instantiate<string>(args);
+                            break;
+                        default:
+                            args = new LiteralScalarResolverArgs(variable);
+                            resolver = factory.Instantiate<object>(args);
+                            break;
+                    }
 
-            else if (obj is ProjectionXml)
-            {
-                var builder = new ResultSetResolverArgsBuilder(serviceLocator);
-                builder.Setup(((ProjectionXml)obj).ResultSet);
-                builder.Setup(settings);
-                builder.Setup(globalVariables);
-                builder.Build();
-                args = new RowCountResultSetScalarResolverArgs(builder.GetArgs());
-            }
+                    if (functions.Count() > 0)
+                    {
+                        var transformations = new List<INativeTransformation>();
+                        var nativeTransformationFactory = new NativeTransformationFactory();
+                        foreach (var function in functions)
+                            transformations.Add(nativeTransformationFactory.Instantiate(function));
 
-            else if (obj is EnvironmentXml)
-            {
-                args = new EnvironmentScalarResolverArgs((obj as EnvironmentXml).Name);
+                        args = new FunctionScalarResolverArgs(resolver, transformations);
+                    }
+                    break;
+                case null:
+                    throw new ArgumentException();
+                default:
+                    args = new LiteralScalarResolverArgs(obj);
+                    break;
             }
-
-            else if (obj is string && !string.IsNullOrEmpty((string)obj) && ((string)obj).Trim().StartsWith("@"))
-            {
-                var variableName = ((string)obj).Trim().Substring(1);
-                args = new GlobalVariableScalarResolverArgs(variableName, globalVariables);
-            }
-
-            else if (obj is string && !string.IsNullOrEmpty((string)obj) && ((string)obj).Trim().StartsWith("~"))
-            {
-                var formatText = ((string)obj).Trim().Substring(1);
-                args = new FormatScalarResolverArgs(formatText, globalVariables);
-            }
-
-            else if (obj is object && obj != null)
-            {
-                args = new LiteralScalarResolverArgs(obj);
-            }
-
-            if (args == null)
-                throw new ArgumentException();
         }
 
-        public IScalarResolverArgs GetArgs()
-        {
-            return args;
-        }
+        public IScalarResolverArgs GetArgs() => args;
     }
 }

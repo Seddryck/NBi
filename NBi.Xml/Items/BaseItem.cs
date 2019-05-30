@@ -21,8 +21,16 @@ namespace NBi.Xml.Items
             Settings = new SettingsXml();
         }
 
-        [XmlAttribute("connectionString")]
+        [XmlAttribute("connection-string")]
         public string ConnectionString { get; set; }
+
+        [XmlIgnore]
+        [Obsolete("Replaced by connection-string")]
+        public string ConnectionStringOld
+        {
+            get => ConnectionString;
+            set { ConnectionString = value; }
+        }
 
         [XmlAttribute("roles")]
         public string Roles { get; set; }

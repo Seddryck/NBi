@@ -27,6 +27,8 @@ Note that the conditions are executed *before* the list of commands registered i
 
 ## Available predicates
 
+All the xml attributes accept [literal values](../primitive-scalar/#literal), and [variables](../primitive-scalar/#reference-to-a-variable) including [formatting](../primitive-scalar/#formatting) and [inline transformations](../primitive-scalar/#inline-transformations).
+
 ### Windows Service
 
 The following predicate is defined:
@@ -39,34 +41,5 @@ If the service is not in the expected state, NBi will wait maximum the time set 
 <condition>
 	<service-running name="MyService"/>
 	<service-running name="MyService2" timeout-milliseconds="1000"/>
-</condition>
-{% endhighlight %}
-
-## Custom conditions
-
-It's possible to develop your own conditions in C#. To achieve this, you'll need to create a C# library project and compile it as a library. One of the class of your project should implement the interface *ICustomCondition* from the namespace *NBi.Extensibility.Condition* and available in the nuget package *NBi.Extensibility*.
-
-This interface declares one method *Execute()* returning the result of the condition. The property *IsValid* is a boolean describing if the condition is successful (*true*) or not (*false*). The message is a *string* that will be displayed to explain that the condition is not met.
-
-The following custom condition, returns true if the day of month is even, else returns false:
-
-{% highlight csharp %}
-public class CustomConditionBasedOnDay : ICustomCondition
-{
-    public CustomConditionResult Execute() 
-        => new CustomConditionResult(Date.Now.Day % 2 == 0, "Oh man, retry tomorrow!");
-}
-{% endhighlight %}
-
-Once the custom condition is coded and built, you need to deploy the dll somewhere that your test-suite will be able to reach. In your est-suite your must reference the assembly by the mean of the xml attribute *assembly-path* and then specify the type implementing the *ICustomCondition* interface. Several types implementing this interface can sharethe same dll. 
-
-A set of parameters can also be defined. They will used during the construction of the object and the name of the parameters must match with the name of the constructor's attribute.
-
-{% highlight xml %}
-<condition>
-  <custom assembly-path="myAssembly.dll" type="myType">
-    <parameter name="firstParam">2012-10-10</parameter>
-    <parameter name="secondParam">102</parameter>
-  </custom>
 </condition>
 {% endhighlight %}

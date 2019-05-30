@@ -7,7 +7,7 @@ permalink: /docs/setup-process/
 ---
 This subset of commands let you start or kill a process (executable or a batch file) on the server running the test-suite (not on a remote server). The test will continue when the exe has returned.
 
-All the attributes, enlisted here under, accept [literal values](../primitive-scalar/#literal), and [variables](../primitive-scalar/#reference-to-a-variable) including [formatting](../primitive-scalar/#formatting).
+All the attributes, enlisted here under, accept [literal values](../primitive-scalar/#literal), and [variables](../primitive-scalar/#reference-to-a-variable) including [formatting](../primitive-scalar/#formatting) and [inline transformations](../primitive-scalar/#inline-transformations).
 
 ## Wait
 
@@ -70,15 +70,17 @@ These commands will be executed on the server running the test-suite (not on a r
 * *service-start*: this command starts a windows service.
 * *service-stop*: this command stops a windows service.
 
-For both commands, the xml attribute *name* specify the name of the windows service to start or stop. 
+For both commands, the xml attribute *name* specifies the name of the windows service to start or stop.
 
 {% highlight xml %}
 <setup>
 	<service-start name="MyService"/>
 </setup>
+{% endhighlight %}
 
 The attribute *timeout-milliseconds* is setting a maximum time to elapse before the command has successfuly completed. If the timeout is reached, the command will return a failure and the test will not be executed. This attribute is optional but a **default value of 5 seconds** is applied in case this attribute is not specified.
 
+{% highlight xml %}
 <cleanup>
 	<service-stop name="MyService" timeout-milliseconds="15000"/>
 </cleanup>

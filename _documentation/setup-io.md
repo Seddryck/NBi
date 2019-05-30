@@ -7,7 +7,7 @@ permalink: /docs/setup-io/
 ---
 During the setup and cleanup stages, NBi offers the possibility to copy or remove files. This kind of manipulation could be useful before the run of an ETL.
 
-All the attributes, enlisted here under, accept [literal values](../primitive-scalar/#literal), and [variables](../primitive-scalar/#reference-to-a-variable) including [formatting](../primitive-scalar/#formatting).
+All the attributes, enlisted here under, accept [literal values](../primitive-scalar/#literal), and [variables](../primitive-scalar/#reference-to-a-variable) including [formatting](../primitive-scalar/#formatting) and [inline transformations](../primitive-scalar/#inline-transformations).
 
 ## Basic copy and delete
 

@@ -53,4 +53,4 @@ A set of parameters can also be defined. They will used during the construction 
 </condition>
 {% endhighlight %}
 
-All the attributes and the parameters' value, enlisted above, accept [literal values](../primitive-scalar/#literal), and [variables](../primitive-scalar/#reference-to-a-variable) including [formatting](../primitive-scalar/#formatting) at the exception of the parameter's name which must be a [literal value](../primitive-scalar/#literal).
+All the attributes and the parameters' value, enlisted above, accept [literal values](../primitive-scalar/#literal), and [variables](../primitive-scalar/#reference-to-a-variable) including [formatting](../primitive-scalar/#formatting) and [inline transformations](../primitive-scalar/#inline-transformations). at the exception of the parameter's name which must be a [literal value](../primitive-scalar/#literal).

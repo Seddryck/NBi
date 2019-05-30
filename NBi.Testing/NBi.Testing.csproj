@@ -122,6 +122,8 @@
     <Compile Include="Acceptance\GenbiL\CaseCrossTest.cs" />
     <Compile Include="Acceptance\GenbiL\GenbiLTest.cs" />
     <Compile Include="Acceptance\Resources\AssemblyClass.cs" />
+    <Compile Include="Acceptance\Resources\CustomCommand.cs" />
+    <Compile Include="Acceptance\Resources\CustomConditionFalse.cs" />
     <Compile Include="Acceptance\Resources\CustomConditionTrue.cs" />
     <Compile Include="Acceptance\Resources\TsvReader.cs" />
     <Compile Include="Acceptance\RuntimeOverrider.cs" />
@@ -132,6 +134,12 @@
     <Compile Include="Integration\Core\Analysis\Request\DiscoveryRequestFactoryTest.cs" />
     <Compile Include="Integration\Core\Analysis\MembersAdomdEngineTest.cs" />
     <Compile Include="Integration\Core\CsvWriterTest.cs" />
+    <Compile Include="Integration\Core\Decoration\IO\Commands\DeletePatternCommandTest.cs" />
+    <Compile Include="Integration\Core\Decoration\IO\Commands\DeleteExtensionCommandTest.cs" />
+    <Compile Include="Integration\Core\Decoration\IO\Commands\CopyPatternCommandTest.cs" />
+    <Compile Include="Integration\Core\Decoration\IO\Commands\CopyExtensionCommandTest.cs" />
+    <Compile Include="Integration\Core\Decoration\Process\Commands\WaitCommandTest.cs" />
+    <Compile Include="Integration\Core\Decoration\Process\Commands\StopCommandTest.cs" />
     <Compile Include="Integration\Core\Query\Command\AdomdCommandFactoryTest.cs" />
     <Compile Include="Integration\Core\Query\Execution\AdomdExecutionEngineTest.cs" />
     <Compile Include="Integration\Core\Query\Execution\OdbcExecutionEngineTest.cs" />
@@ -148,22 +156,22 @@
     <Compile Include="Integration\Core\Query\Validation\OdbcValidationEngineTest.cs" />
     <Compile Include="Integration\Core\Query\Validation\OleDbValidationEngineTest.cs" />
     <Compile Include="Integration\Core\Query\Validation\SqlValidationEngineTest.cs" />
-    <Compile Include="Integration\Core\DataManipulation\SqlServer\BulkLoadCommandTest.cs" />
-    <Compile Include="Integration\Core\DataManipulation\SqlServer\TruncateCommandTest.cs" />
+    <Compile Include="Integration\Core\Decoration\DataEngineering\Commands\SqlServer\BulkLoadCommandTest.cs" />
+    <Compile Include="Integration\Core\Decoration\DataEngineering\Commands\SqlServer\TruncateCommandTest.cs" />
     <Compile Include="Integration\Core\DataType\Relational\RelationalDataTypeDiscoveryFactoryTest.cs" />
     <Compile Include="Integration\Core\OfficeDataConnectionFileParserTest.cs" />
     <Compile Include="Integration\GenbiL\Action\ActionTest.cs" />
-    <Compile Include="Integration\Core\FileManipulation\CopyCommandTest.cs" />
-    <Compile Include="Integration\Core\Process\ProcessRunCommandTest.cs" />
-    <Compile Include="Integration\Core\FileManipulation\DeleteCommandTest.cs" />
+    <Compile Include="Integration\Core\Decoration\IO\Commands\CopyCommandTest.cs" />
+    <Compile Include="Integration\Core\Decoration\Process\Commands\RunCommandTest.cs" />
+    <Compile Include="Integration\Core\Decoration\IO\Commands\DeleteCommandTest.cs" />
     <Compile Include="Integration\Core\Query\Command\SqlCommandFactoryTest.cs" />
     <Compile Include="Integration\Core\Structure\Relational\RelationalStructureDiscoveryFactoryTest.cs" />
     <Compile Include="Integration\Core\Structure\Olap\OlapStructureDiscoveryFactoryTest.cs" />
     <Compile Include="Integration\Core\Structure\StructureDiscoveryFactoryProviderTest.cs" />
     <Compile Include="Integration\Core\Structure\Tabular\TabularStructureDiscoveryFactoryTest.cs" />
-    <Compile Include="Integration\Core\WindowsService\WindowsServiceCheckTest.cs" />
+    <Compile Include="Integration\Core\Decoration\Process\Conditions\RunningConditionTest.cs" />
     <Compile Include="Integration\Core\Report\DatabaseReportingParserTest.cs" />
-    <Compile Include="Integration\Core\WindowsService\WindowsServiceCommandTest.cs" />
+    <Compile Include="Integration\Core\Decoration\Process\Commands\StartCommandTest.cs" />
     <Compile Include="Integration\GenbiL\TestSuiteGeneratorTest.cs" />
     <Compile Include="Integration\NUnit\Members\EquivalentToConstraintTest.cs" />
     <Compile Include="Integration\NUnit\Query\EqualToConstraintTest.cs" />
@@ -175,8 +183,13 @@
     <Compile Include="Integration\NUnit\Structure\ExistsConstraintTest.cs" />
     <Compile Include="StringExtensions.cs" />
     <Compile Include="Unit\Core\Analysis\Metadata\Adomd\MeasureGroupLinkedToDiscoveryCommandTest.cs" />
+    <Compile Include="Unit\Core\Assemblies\CustomCommandFactoryTest.cs" />
     <Compile Include="Unit\Core\Assemblies\CustomConditionFactoryTest.cs" />
+    <Compile Include="Unit\Core\Assemblies\Resource\CustomCommandWithMulipleCtors.cs" />
     <Compile Include="Unit\Core\Assemblies\Resource\CustomConditionWithMulipleCtors.cs" />
+    <Compile Include="Unit\Core\Assemblies\Resource\CustomCommandWithOneParameter.cs" />
+    <Compile Include="Unit\Core\Assemblies\Resource\CustomCommandWithoutParameter.cs" />
+    <Compile Include="Unit\Core\Assemblies\Resource\CustomCommandWithTwoParameters.cs" />
     <Compile Include="Unit\Core\Assemblies\Resource\CustomConditionWithTwoParameters.cs" />
     <Compile Include="Unit\Core\Assemblies\Resource\CustomConditionWithOneParameter.cs" />
     <Compile Include="Unit\Core\Assemblies\Resource\CustomConditionWithoutParameter.cs" />
@@ -198,13 +211,12 @@
     <Compile Include="Unit\Core\Assemblies\Resource\Enumeration.cs" />
     <Compile Include="Unit\Core\Assemblies\Resource\Klass.cs" />
     <Compile Include="Unit\Core\Assemblies\TypeConverterTest.cs" />
-    <Compile Include="Unit\Core\Connection\ConnectionWaitFactoryTest.cs" />
+    <Compile Include="Unit\Core\Decoration\DecorationFactoryTest.cs" />
     <Compile Include="Unit\Core\FlatFile\CsvWriterTest.cs" />
     <Compile Include="Unit\Core\DataType\DataTypeInfoFactoryTest.cs" />
     <Compile Include="Unit\Core\FlatFile\FlatFileReaderfactoryTest.cs" />
-    <Compile Include="Unit\Core\GroupCommandFactoryTest.cs" />
+    <Compile Include="Unit\Core\Decoration\Grouping\GroupCommandFactoryTest.cs" />
     <Compile Include="Unit\Core\Evaluate\RowValidatorTest.cs" />
-    <Compile Include="Unit\Core\DataManipulation\DataManipulationFactoryTest.cs" />
     <Compile Include="Unit\Core\Evaluate\ExpressionComparableTest.cs" />
     <Compile Include="Unit\Core\Format\RegexBuilderTest.cs" />
     <Compile Include="Unit\Core\Injection\ServiceLocatorTest.cs" />
@@ -310,6 +322,7 @@
     <Compile Include="Unit\Core\Scalar\Resolver\CSharpScalarResolverTest.cs" />
     <Compile Include="Unit\Core\Variable\VariableFactoryTest.cs" />
     <Compile Include="Unit\Core\Xml\XPathEngineTest.cs" />
+    <Compile Include="Integration\Core\DirectoryInfoExtensionsTest.cs" />
     <Compile Include="Unit\Framework\FailureMessage\Json\LookupReverseExistsViolationMessageJsonTest.cs" />
     <Compile Include="Unit\Framework\FailureMessage\Json\LookupExistsViolationMessageJsonTest.cs" />
     <Compile Include="Unit\Framework\FailureMessage\Json\LookupMatchesViolationMessageJsonTest.cs" />
@@ -359,6 +372,7 @@
     <Compile Include="Unit\GenbiL\Parser\GrammarParserTest.cs" />
     <Compile Include="Unit\GenbiL\Parser\VariableParserTest.cs" />
     <Compile Include="Unit\NUnit\Builder\Helper\ScalarResolverArgsBuilderTest.cs" />
+    <Compile Include="Unit\NUnit\Builder\Helper\SetupHelperTest.cs" />
     <Compile Include="Unit\NUnit\Builder\ResultSetAllRowsBuilderTest.cs" />
     <Compile Include="Unit\NUnit\Builder\ScalarScoreBuilderTest.cs" />
     <Compile Include="Unit\NUnit\Builder\ResultSetSomeRowsBuilderTest.cs" />
@@ -415,6 +429,7 @@
     <Compile Include="Unit\NUnit\Query\SyntacticallyCorrectConstraintTest.cs" />
     <Compile Include="Unit\NUnit\ResultSetComparison\EqualToConstraintTest.cs" />
     <Compile Include="Properties\ProjectAssemblyInfo.cs" />
+    <Compile Include="Unit\PathExtensionsTest.cs" />
     <Compile Include="Unit\Service\RunnerConfig\GallioRunnerConfigBuilderTest.cs" />
     <Compile Include="Unit\Service\RunnerConfig\NUnitRunnerConfigBuilderTest.cs" />
     <Compile Include="Unit\Service\RunnerConfig\RunnerConfigManagerTest.cs" />
@@ -792,7 +807,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <EmbeddedResource Include="Integration\NUnit\Resources\NonEmptyAmountByYear.csv" />
-    <EmbeddedResource Include="Integration\Core\DataManipulation\Load.csv" />
+    <EmbeddedResource Include="Integration\Core\Decoration\DataEngineering\Load.csv" />
     <EmbeddedResource Include="Integration\Core\Resources\MyBatch.cmd" />
     <EmbeddedResource Include="Integration\Core\Resources\MyInvalidBatch.cmd" />
     <EmbeddedResource Include="Integration\GenbiL\Resources\Simple.genbil" />

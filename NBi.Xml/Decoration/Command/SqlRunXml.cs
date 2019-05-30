@@ -5,34 +5,18 @@ using System.Xml.Serialization;
 using NBi.Core.Etl;
 using NBi.Xml.Items;
 using System.IO;
-using NBi.Core.Batch;
 using NBi.Xml.Settings;
 using System.ComponentModel;
 
 namespace NBi.Xml.Decoration.Command
 {
-    public class SqlRunXml : DecorationCommandXml, IBatchRunCommand
+    public class SqlRunXml : DecorationCommandXml
     {
         [XmlAttribute("name")]
         public string Name { get; set; }
 
         [XmlAttribute("path")]
-        public string InternalPath { get; set; }
-
-        [XmlIgnore]
-        public virtual string FullPath
-        {
-            get
-            {
-                var fullPath = string.Empty;
-                if (!Path.IsPathRooted(InternalPath) || string.IsNullOrEmpty(Settings.BasePath))
-                    fullPath = InternalPath + Name;
-                else
-                    fullPath = Settings.BasePath + InternalPath + Name;
-
-                return fullPath;
-            }
-        }
+        public string Path { get; set; }
 
         [XmlAttribute("version")]
         public string Version { get; set; }

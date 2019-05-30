@@ -46,8 +46,12 @@
     <Compile Include="..\AssemblyInfo.cs">
       <Link>Properties\AssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="Condition\CustomConditionResult.cs" />
-    <Compile Include="Condition\ICustomCondition.cs" />
+    <Compile Include="Decoration\CustomConditionResult.cs" />
+    <Compile Include="Decoration\ICustomCommand.cs" />
+    <Compile Include="Decoration\ICustomCondition.cs" />
+    <Compile Include="DataEngineering\IEtl.cs" />
+    <Compile Include="DataEngineering\IEtlRunCommand.cs" />
+    <Compile Include="DataEngineering\IBatchRunCommand.cs" />
     <Compile Include="FlatFile\IFlatFileProfile.cs" />
     <Compile Include="FlatFile\IFlatFileReader.cs" />
     <Compile Include="ITemplateEngine.cs" />

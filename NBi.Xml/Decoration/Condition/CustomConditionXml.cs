@@ -4,7 +4,6 @@ using System.ComponentModel;
 using System.Linq;
 using System.Xml.Serialization;
 using NBi.Core.Assemblies;
-using NBi.Core.WindowsService;
 
 namespace NBi.Xml.Decoration.Condition
 {

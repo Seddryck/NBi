@@ -537,6 +537,20 @@
       </xs:extension>
     </xs:simpleContent>
   </xs:complexType>
+  <xs:complexType name="custom-command-type">
+    <xs:sequence>
+      <xs:element name="parameter" type="custom-command-parameter-type" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+    <xs:attribute name="assembly-path" type="xs:string" use="required"/>
+    <xs:attribute name="type" type="xs:string" use="required"/>
+  </xs:complexType>
+  <xs:complexType name="custom-command-parameter-type">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute name="name" type="xs:string" use="required" />
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
   <xs:complexType name="shared-dataset-light-type">
     <xs:attribute name="source" type="xs:string"/>
     <xs:attribute name="path" type="xs:string"/>
@@ -725,8 +739,13 @@
         <xs:element name="wait" type="wait-type" minOccurs="0" maxOccurs="unbounded"/>
         <xs:element name="connection-wait" type="connection-wait-type" minOccurs="0" maxOccurs="unbounded"/>
         <xs:element name="file-delete" type="file-delete-type" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:element name="file-delete-pattern" type="file-delete-pattern-type" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:element name="file-delete-extension" type="file-delete-extension-type" minOccurs="0" maxOccurs="unbounded"/>
         <xs:element name="file-copy" type="file-copy-type" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:element name="file-copy-extension" type="file-copy-extension-type" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:element name="file-copy-pattern" type="file-copy-pattern-type" minOccurs="0" maxOccurs="unbounded"/>
         <xs:element name="etl-run" type="etl-type" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:element name="custom" type="custom-command-type" minOccurs="0" maxOccurs="unbounded"/>
         <xs:element name="tasks" type="tasks-type" minOccurs="0" maxOccurs="unbounded"/>
       </xs:choice>
     </xs:sequence>
@@ -744,7 +763,12 @@
         <xs:element name="wait" type="wait-type" minOccurs="0" maxOccurs="unbounded"/>
         <xs:element name="connection-wait" type="connection-wait-type" minOccurs="0" maxOccurs="unbounded"/>
         <xs:element name="file-delete" type="file-delete-type" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:element name="file-delete-pattern" type="file-delete-pattern-type" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:element name="file-delete-extension" type="file-delete-extension-type" minOccurs="0" maxOccurs="unbounded"/>
         <xs:element name="file-copy" type="file-copy-type" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:element name="file-copy-extension" type="file-copy-extension-type" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:element name="file-copy-pattern" type="file-copy-pattern-type" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:element name="custom" type="custom-command-type" minOccurs="0" maxOccurs="unbounded"/>
         <xs:element name="etl-run" type="etl-type" minOccurs="0" maxOccurs="unbounded"/>
       </xs:choice>
     </xs:sequence>
@@ -774,12 +798,30 @@
     <xs:attribute name="path" type="xs:string" use="required"/>
     <xs:attribute name="name" type="xs:string" use="required"/>
   </xs:complexType>
+  <xs:complexType name="file-delete-pattern-type">
+    <xs:attribute name="path" type="xs:string" use="required"/>
+    <xs:attribute name="pattern" type="xs:string" use="required"/>
+  </xs:complexType>
+  <xs:complexType name="file-delete-extension-type">
+    <xs:attribute name="path" type="xs:string" use="required"/>
+    <xs:attribute name="extension" type="xs:string" use="required"/>
+  </xs:complexType>
   <xs:complexType name="file-copy-type" >
     <xs:complexContent>
       <xs:extension base="file-delete-type">
         <xs:attribute name="source-path" type="xs:string" use="required"/>
       </xs:extension>
     </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="file-copy-pattern-type" >
+    <xs:attribute name="source-path" type="xs:string" use="required"/>
+    <xs:attribute name="destination-path" type="xs:string" use="required"/>
+    <xs:attribute name="pattern" type="xs:string" use="required"/>
+  </xs:complexType>
+  <xs:complexType name="file-copy-extension-type" >
+    <xs:attribute name="source-path" type="xs:string" use="required"/>
+    <xs:attribute name="destination-path" type="xs:string" use="required"/>
+    <xs:attribute name="extension" type="xs:string" use="required"/>
   </xs:complexType>
   <xs:complexType name="exe-run-type" >
     <xs:attribute name="name" type="xs:string" use="required"/>

@@ -60,8 +60,7 @@ namespace NBi.Testing.Unit.Core.Assemblies
             //Build the SUT
             var am = new AssemblyManager();
             var klass = new NBi.Testing.Unit.Core.Assemblies.Resource.Klass();
-            var paramDico = new Dictionary<string, object>();
-            paramDico.Add("paramString", "MyString");
+            var paramDico = new Dictionary<string, object>() { { "paramString", "MyString" } };
 
             //Call the method to test
             var actual = am.Execute(klass, "ExecutePublicString", paramDico);
@@ -75,9 +74,8 @@ namespace NBi.Testing.Unit.Core.Assemblies
         {
             //Build the SUT
             var am = new AssemblyManager();
-            var klass = new NBi.Testing.Unit.Core.Assemblies.Resource.Klass();
-            var paramDico = new Dictionary<string, object>();
-            paramDico.Add("paramString", "MyString");
+            var klass = new Resource.Klass();
+            var paramDico = new Dictionary<string, object>() { { "paramString", "MyString" } };
 
             //Call the method to test
             var actual = am.Execute(klass, "ExecutePrivateString", paramDico);
@@ -93,12 +91,13 @@ namespace NBi.Testing.Unit.Core.Assemblies
             //Build the SUT
             var am = new AssemblyManager();
             var klass = new NBi.Testing.Unit.Core.Assemblies.Resource.Klass();
-            var paramDico = new Dictionary<string, object>();
-            
-            //Reverse param order to ensure they are correctly re-ordered!
-            paramDico.Add("paramEnum", "Beta");
-            paramDico.Add("paramDateTime", "2012-05-07");
-            
+            var paramDico = new Dictionary<string, object>()
+            { 
+                //Reverse param order to ensure they are correctly re-ordered!
+                { "paramEnum", "Beta" },
+                { "paramDateTime", "2012-05-07" }
+            };
+
             //Call the method to test
             var actual = am.Execute(klass, "ExecuteDoubleParam", paramDico);
 
@@ -124,10 +123,7 @@ namespace NBi.Testing.Unit.Core.Assemblies
         {
             //Build the SUT
             var am = new AssemblyManager();
-            var paramDico = new Dictionary<string, object>();
-
-            //Reverse param order to ensure they are correctly re-ordered!
-            paramDico.Add("paramString", "MyString");
+            var paramDico = new Dictionary<string, object>() { { "paramString", "MyString" } };
             
             //Call the method to test
             var actual = am.ExecuteStatic(typeof(NBi.Testing.Unit.Core.Assemblies.Resource.StaticKlass), "ExecuteStaticString", paramDico);

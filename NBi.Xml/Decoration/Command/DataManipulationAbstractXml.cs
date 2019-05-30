@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Linq;
 using System.Xml.Serialization;
-using NBi.Core.DataManipulation;
 using NBi.Xml.Settings;
 
 namespace NBi.Xml.Decoration.Command
 {
-    public class DataManipulationAbstractXml : DecorationCommandXml, IDataManipulationCommand
+    public class DataManipulationAbstractXml : DecorationCommandXml
     {
         [XmlAttribute("connection-string")]
         public string SpecificConnectionString { get; set; }

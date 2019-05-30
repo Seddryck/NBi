@@ -1,7 +1,7 @@
 ---
 layout: documentation
 title: Connect to other databases
-prev_section: setup-condition
+prev_section: setup-custom
 next_section: extension-installation
 permalink: /docs/extension-support/
 ---

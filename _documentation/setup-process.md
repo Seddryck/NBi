@@ -7,7 +7,7 @@ permalink: /docs/setup-process/
 ---
 This subset of commands let you start or kill a process (executable or a batch file) on the server running the test-suite (not on a remote server). The test will continue when the exe has returned.
 
-All the attributes, enlisted here under, accept [literal values](../primitive-scalar/literal), [variables](../primitive-scalar/reference-to-a-a-variable) or [formatting](../primitive-scalar/formatting).
+All the attributes, enlisted here under, accept [literal values](../primitive-scalar/#literal), and [variables](../primitive-scalar/#reference-to-a-variable) including [formatting](../primitive-scalar/#formatting).
 
 ## Wait
 

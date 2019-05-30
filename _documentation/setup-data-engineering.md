@@ -8,7 +8,7 @@ permalink: /docs/setup-data-engineering/
 
 These commands, from the data engineering family group, cover the need to setup (or cleanup) the content of some tables of a relational database before (or after) executing a tests. To use them you're required to proceed to the installation of an [extension](../extension-support/) specific to the RDBMS targetted by the tests.
 
-Except the attribute *connection-string* all the attributes accept [literal values](../primitive-scalar/literal), [variables](../primitive-scalar/reference-to-a-a-variable) or [formatting](../primitive-scalar/formatting).
+Except the attribute *connection-string* all the attributes accept [literal values](../primitive-scalar/#literal), and [variables](../primitive-scalar/#reference-to-a-variable) including [formatting](../primitive-scalar/#formatting).
 
 ## Bulk loading or truncating a table
 

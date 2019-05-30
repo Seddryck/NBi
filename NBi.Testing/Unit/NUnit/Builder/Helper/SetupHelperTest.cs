@@ -259,5 +259,25 @@ namespace NBi.Testing.Unit.NUnit.Builder.Helper
             Assert.That(deleteCommandArgs.Name, Is.TypeOf<FormatScalarResolver>());
             Assert.That(deleteCommandArgs.Name.Execute(), Is.EqualTo("bar.csv"));
         }
+
+        [Test]
+        public void Execute_InlineTransformationArgument_CorrectlyParsed()
+        {
+            var xml = new SetupXml()
+            {
+                Commands = new List<DecorationCommandXml>()
+                    { new FileDeleteXml()  { FileName="@myvar | text-to-upper", Path = @"C:\Temp\" } }
+            };
+
+            var myVar = new GlobalVariable(new CSharpScalarResolver<object>(
+                        new CSharpScalarResolverArgs("\"foo.txt\"")
+                    ));
+            var helper = new SetupHelper(new ServiceLocator(), new Dictionary<string, ITestVariable>() { { "myvar", myVar } });
+
+            var deleteCommandArgs = helper.Execute(xml.Commands).ElementAt(0) as IDeleteCommandArgs;
+            Assert.That(deleteCommandArgs.Name, Is.AssignableTo<IScalarResolver>());
+            Assert.That(deleteCommandArgs.Name.Execute(), Is.EqualTo("FOO.TXT"));
+            Assert.That(deleteCommandArgs.Name.Execute(), Is.Not.EqualTo("foo.txt"));
+        }
     }
 }

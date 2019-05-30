@@ -2,7 +2,7 @@
 layout: documentation
 title: Setup and cleanup
 prev_section: members-patterns
-next_section: setup-data-manipulations-on-tables
+next_section: setup-data-engineering
 permalink: /docs/setup-cleanup/
 ---
 With the help of the two xml elements named *setup* and *cleanup*, you're able to define commands that will respectively be executed before or after the test's execution. This is really useful to load predefined data in some tables or clean some tables before you effectively run your test. But setup and cleanup can also be used to start some processes, apply T-SQL scripts ...
@@ -26,11 +26,11 @@ The xml element *setup* must be located before the xml element *system-under-tes
 </test>
 {% endhighlight %}
 
-## Tasks (parallelism vs sequential)
+## Commands (parallelism vs sequential)
 
-Some commands could be executed in parallel. It's usually the case when you're loading independent tables or starting independent services. At the opposite, some commands should be executed sequentially: clean a table then after load the table with new data (and not the opposite).
+Some commands could be executed in parallel. It's usually the case when you're loading independent tables or starting independent services. At the opposite, some commands should be executed sequentially: clean a table then after load the table with the new data (and not the opposite).
 
-Parallelism is usually a good way to improve performance when loading or truncating tables.
+Parallelism is usually a good way to improve performances when loading or truncating tables.
 
 To group a set of commands, you must surround them by the xml element *tasks*. By default all commands grouped in an element *tasks* are executed in parallel. If you want to use them sequentially you must specify the xml attribute *parallel* with the value *false*.
 
@@ -53,6 +53,7 @@ In the sample bellow the two tables will be loaded sequentially.
 {% endhighlight %}
 
 ## Inheritance
+
 It could be really boring to write (or copy/paste) the same setup commands for a bunch of tests. To avoid this, NBi has a feature named *inheritance of setup/cleanup*. If some tests share the same setup/cleanup commands, you can move the commands at the *group* level. The commands defined at the *group* level will be executed for each test defined in the *group*.
 
 In the sample bellow, the two tests will be preceded by a reset (truncate) of the tables *Users* and *KeyDates*.
@@ -125,18 +126,7 @@ In the sample bellow, the first set of tasks will be executed once (before the e
 </setup>
 {% endhighlight %}
 
-**Note:** for the moment the attribute *run-once* is not designed to be compatible with cleanup decorations. If you use it, the cleanup function will be executed (once) after the first test (and not the last) ... probably not what you're looking for.
-
-## Available commands
-
-The following kind of by commands are available:
-
-* [Data Manipulation on Tables](../setup-data-manipulations-on-tables)
-* [File manipulations](../setup-file-manipulations)
-* [Windows Service](../setup-windows-services)
-* [Etl](../setup-etl)
-* [Exe or batch](../setup-exe-or-batch)
-* [SQL batch](../setup-sql-batch)
+**Important note:** for the moment the attribute *run-once* is not designed to be compatible with cleanup decorations. If you use it, the cleanup function will be executed (once) after the first test (and not the last) ... probably not what you're looking for.
 
 ## Failures
 

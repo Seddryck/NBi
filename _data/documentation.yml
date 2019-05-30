@@ -94,14 +94,11 @@
 - title: Setup and Cleanup
   docs:
   - setup-cleanup
-  - setup-data-manipulations-on-tables
-  - setup-sql-batch
-  - setup-exe-or-batch
-  - setup-windows-services
-  - setup-etl
-  - setup-file-manipulations
-  - setup-wait
+  - setup-data-engineering
+  - setup-io
+  - setup-process
   - setup-condition
+  - setup-custom
 
 - title: Extensions
   docs:

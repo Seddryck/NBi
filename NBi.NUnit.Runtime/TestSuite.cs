@@ -328,6 +328,7 @@ namespace NBi.NUnit.Runtime
             {
                 // Build different instances for a test, if no instance-settling is defined then the default instance is created
                 var instanceArgsBuilder = new InstanceArgsBuilder(serviceLocator, Variables);
+                instanceArgsBuilder.Setup(TestSuiteManager.TestSuite.Settings);
                 instanceArgsBuilder.Setup(test.InstanceSettling);
                 instanceArgsBuilder.Build();
 

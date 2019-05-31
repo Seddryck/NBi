@@ -59,6 +59,8 @@ namespace NBi.NUnit.Builder.Helper
 
                 if (variable.SentinelLoop != null)
                     argsBuilder.Setup(variable.SentinelLoop);
+                else if (variable.FileLoop != null)
+                    argsBuilder.Setup(variable.FileLoop);
                 else if (variable.Items != null)
                     argsBuilder.Setup(variable.Items);
                 else

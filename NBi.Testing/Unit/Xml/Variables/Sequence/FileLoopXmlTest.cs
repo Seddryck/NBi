@@ -14,16 +14,16 @@ using System.Reflection;
 using NBi.Core.ResultSet;
 using NBi.Xml.Variables.Sequence;
 
-namespace NBi.Testing.Unit.Xml.Variables.Sequences
+namespace NBi.Testing.Unit.Xml.Variables.Sequence
 {
-    public class SentinelLoopXmlTest
+    public class FileLoopXmlTest
     {
         protected TestSuiteXml DeserializeSample()
         {
             var manager = new XmlManager();
 
             using (Stream stream = Assembly.GetExecutingAssembly()
-                                           .GetManifestResourceStream("NBi.Testing.Unit.Xml.Resources.SentinelLoopXmlTestSuite.xml"))
+                                           .GetManifestResourceStream("NBi.Testing.Unit.Xml.Resources.FileLoopXmlTestSuite.xml"))
                 using (StreamReader reader = new StreamReader(stream))
                     manager.Read(reader);
 
@@ -31,14 +31,14 @@ namespace NBi.Testing.Unit.Xml.Variables.Sequences
         }
 
         [Test]
-        public void Deserialize_SampleFile_VariableHasSentinelLoop()
+        public void Deserialize_SampleFile_VariableHasFileLoop()
         {
             TestSuiteXml ts = DeserializeSample();
             var variable = ts.Tests[0].InstanceSettling.Variable as InstanceVariableXml;
 
             // Check the properties of the object.
-            Assert.That(variable.SentinelLoop, Is.Not.Null);
-            Assert.That(variable.SentinelLoop, Is.TypeOf<SentinelLoopXml>());
+            Assert.That(variable.FileLoop, Is.Not.Null);
+            Assert.That(variable.FileLoop, Is.TypeOf<FileLoopXml>());
         }
 
         [Test]
@@ -48,21 +48,19 @@ namespace NBi.Testing.Unit.Xml.Variables.Sequences
             var variable = ts.Tests[0].InstanceSettling.Variable as InstanceVariableXml;
 
             // Check the properties of the object.
-            Assert.That(variable.SentinelLoop.Seed, Is.EqualTo("2016-01-01"));
-            Assert.That(variable.SentinelLoop.Terminal, Is.EqualTo("2016-12-01"));
-            Assert.That(variable.SentinelLoop.Step, Is.EqualTo("1 month"));
+            Assert.That(variable.FileLoop.Path, Is.EqualTo(@"C:\Temp\"));
+            Assert.That(variable.FileLoop.Pattern, Is.EqualTo("foo-*.txt"));
         }
 
         [Test]
-        public void Serialize_Variable_SentinelLoopCorrectlySerialized()
+        public void Serialize_Variable_FileLoopCorrectlySerialized()
         {
             var instanceVariable = new InstanceVariableXml()
             {
-                SentinelLoop = new SentinelLoopXml()
+                FileLoop = new FileLoopXml()
                 {
-                    Seed = "1",
-                    Terminal= "10",
-                    Step = "2",
+                    Path = @"C:\Temp\",
+                    Pattern = "foo-*.txt",
                 }
             };
 
@@ -76,10 +74,9 @@ namespace NBi.Testing.Unit.Xml.Variables.Sequences
 
             Debug.WriteLine(content);
 
-            Assert.That(content, Is.StringContaining("<loop-sentinel"));
-            Assert.That(content, Is.StringContaining("seed=\"1\""));
-            Assert.That(content, Is.StringContaining("terminal=\"10\""));
-            Assert.That(content, Is.StringContaining("step=\"2\""));
+            Assert.That(content, Is.StringContaining("<loop-file"));
+            Assert.That(content, Is.StringContaining("path=\"C:\\Temp\\\""));
+            Assert.That(content, Is.StringContaining("pattern=\"foo-*.txt\""));
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using NBi.Core;
 using NBi.Core.Injection;
+using NBi.Core.IO.Filtering;
 using NBi.Core.Query;
 using NBi.Core.Query.Resolver;
 using NBi.Core.ResultSet;
@@ -84,6 +85,11 @@ namespace NBi.NUnit.Builder.Helper
                         throw new ArgumentOutOfRangeException();
                 }
             }
+            else if (obj is FileLoopXml)
+            {
+                var loop = obj as FileLoopXml;
+                args = BuildFileLoopResolverArgs(loop.Path, loop.Pattern);
+            }
             else if (obj is List<string>)
             {
                 var helper = new ScalarHelper(serviceLocator, globalVariables);
@@ -112,6 +118,20 @@ namespace NBi.NUnit.Builder.Helper
 
             return args;
         }
+        private ISequenceResolverArgs BuildFileLoopResolverArgs(string path, string pattern)
+        {
+            var helper = new ScalarHelper(serviceLocator, globalVariables);
 
+            var args = new FileLoopSequenceResolverArgs()
+            {
+                BasePath = settings.BasePath,
+                Path = helper.InstantiateResolver<string>(path).Execute()
+            };
+
+            if (!string.IsNullOrEmpty(pattern))
+                args.Filters.Add(new PatternRootFilter(helper.InstantiateResolver<string>(pattern).Execute()));
+
+            return args;
+        }
     }
 }

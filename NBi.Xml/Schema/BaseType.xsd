@@ -1155,6 +1155,7 @@
   <xs:complexType name="sequence-type">
     <xs:choice minOccurs="1" maxOccurs="1">
       <xs:element name="loop-sentinel" type="loop-sentinel-type"/>
+      <xs:element name="loop-file" type="loop-file-type"/>
       <xs:element name="item" type="xs:string" minOccurs="1" maxOccurs="unbounded"/>
     </xs:choice>
     <xs:attribute name="name" type="xs:string"/>
@@ -1177,6 +1178,10 @@
       <xs:enumeration value="half-open"/>
     </xs:restriction>
   </xs:simpleType>
+  <xs:complexType name="loop-file-type">
+    <xs:attribute name="path" type="xs:string" use="required"/>
+    <xs:attribute name="pattern" type="xs:string" use="optional"/>
+  </xs:complexType>
   <xs:simpleType name="column-type-enum">
     <xs:restriction base="xs:string">
       <xs:enumeration value="numeric"/>

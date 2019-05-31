@@ -281,6 +281,7 @@
     <Compile Include="Variables\ScriptXml.cs" />
     <Compile Include="Variables\GlobalVariableXml.cs" />
     <Compile Include="Variables\GlobalVariablesStandaloneXml.cs" />
+    <Compile Include="Variables\Sequence\FileLoopXml.cs" />
     <Compile Include="Variables\Sequence\SentinelLoopXml.cs" />
     <Compile Include="Variables\Sequence\SequenceXml.cs" />
     <Compile Include="XmlBeautifier.cs" />

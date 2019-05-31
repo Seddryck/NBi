@@ -22,6 +22,9 @@ namespace NBi.Xml.Variables.Sequence
         [XmlElement("item")]
         public List<string> Items { get; set; } = new List<string>();
 
+        [XmlElement("loop-file")]
+        public FileLoopXml FileLoop { get; set; }
+
         [XmlIgnore]
         public bool ItemsSpecified { get => Items.Count > 0; set { } }
     }

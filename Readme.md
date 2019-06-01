@@ -13,10 +13,10 @@ The main goal of this framework is to let users create tests with a declarative 
 
 **Latest RC and beta:** [![Pre-release](https://img.shields.io/github/tag-pre/seddryck/nbi.svg?color=%23ee41f4&label=Pre-release)](https://github.com/Seddryck/NBi/releases/)
 [![nuget](https://img.shields.io/nuget/vpre/NBi.Framework.svg?color=%23427682&label=Beta)](https://www.nuget.org/packages/NBi.Framework/)
-[![Build Status](https://seddryck.visualstudio.com/NBi/_apis/build/status/NBi-CI?branchName=develop)](https://seddryck.visualstudio.com/NBi/_build/latest?definitionId=1&branchName=develop)
 
 **Dev. activity:** [![GitHub last commit](https://img.shields.io/github/last-commit/Seddryck/nbi.svg)](https://github.com/Seddryck/NBi/releases/latest)
-![Still maintained](https://img.shields.io/maintenance/yes/2019.svg)
+[![Still maintained](https://img.shields.io/maintenance/yes/2019.svg)]
+[![Build Status](https://seddryck.visualstudio.com/NBi/_apis/build/status/NBi-CI?branchName=develop)](https://seddryck.visualstudio.com/NBi/_apis/build/status/NBi-CI?branchName=develop)
 
 **Continuous integration builds:** [![Build status](https://ci.appveyor.com/api/projects/status/t5m0hr57vnsdv0v7?svg=true)](https://ci.appveyor.com/project/Seddryck/nbi)
 [![Tests](https://img.shields.io/appveyor/tests/seddryck/nbi.svg)](https://ci.appveyor.com/project/Seddryck/nbi/build/tests)
@@ -41,7 +41,7 @@ The list of bugs and feature's requests is hosted on [GitHub](https://github.com
 ## Continuous Integration and Testing ##
 A continuous integration service is available on [AppVeyor](https://ci.appveyor.com/project/Seddryck/nbi) and another on [Azure DevOps](https://seddryck.visualstudio.com/NBi/_build)
 
-NBi has around 2600 automated tests, asserting most of the features supported by NBi during the build processes. These tests are organized in three folders:
+NBi has around 2750 automated tests, asserting most of the features supported by NBi during the build processes. These tests are organized in three folders:
 
 - Acceptance: The tests are effectively written in nbits file and played end-to-end by the framework itself. They don't use any fake, mock or stub and are connected to real databases and cubes and perform queries on them.
 - Integration: These tests are used to assert interactions with external resources such as databases or cubes. They make usage of stubs to define parameters impacting the code to use.

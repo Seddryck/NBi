@@ -703,6 +703,11 @@
       <xs:enumeration value="path-to-extension"/>
       <xs:enumeration value="path-to-root"/>
       <xs:enumeration value="path-to-directory"/>
+      <xs:enumeration value="file-to-size"/>
+      <xs:enumeration value="file-to-creation-dateTime"/>
+      <xs:enumeration value="file-to-creation-dateTime-utc"/>
+      <xs:enumeration value="file-to-update-dateTime"/>
+      <xs:enumeration value="file-to-update-dateTime-utc"/>
     </xs:restriction>
   </xs:simpleType>
   <xs:simpleType name="not-native-transformation-type">

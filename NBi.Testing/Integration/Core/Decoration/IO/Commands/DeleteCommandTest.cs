@@ -14,11 +14,13 @@ namespace NBi.Testing.Integration.Core.Decoration.IO.Commands
 {
     public class DeleteCommandTest
     {
+        private string DirectoryName { get => $@"Temp\{GetType().Name}\"; }
+
         [SetUp]
         public void CreateDirectory()
         {
-            if (!Directory.Exists("Temp"))
-                Directory.CreateDirectory("Temp");
+            if (!Directory.Exists(DirectoryName))
+                Directory.CreateDirectory(DirectoryName);
         }
 
         [Test]

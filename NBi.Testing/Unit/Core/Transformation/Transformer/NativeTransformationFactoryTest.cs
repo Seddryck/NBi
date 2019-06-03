@@ -144,6 +144,11 @@ namespace NBi.Testing.Unit.Core.Transformation.Transformer
         [TestCase("path-to-extension")]
         [TestCase("path-to-root")]
         [TestCase("path-to-directory")]
+        [TestCase("file-to-size")]
+        [TestCase("file-to-creation-dateTime")]
+        [TestCase("file-to-creation-dateTime-utc")]
+        [TestCase("file-to-update-dateTime")]
+        [TestCase("file-to-update-dateTime-utc")]
         public void Instantiate_ExistingNativeTransformation_CorrectlyBuilt(string value)
         {
             var factory = new NativeTransformationFactory();

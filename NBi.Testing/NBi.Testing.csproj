@@ -167,6 +167,7 @@
     <Compile Include="Integration\Core\Query\Resolver\AssemblyQueryResolverTest.cs" />
     <Compile Include="Integration\Core\Query\Resolver\ExternalFileQueryResolverTest.cs" />
     <Compile Include="Integration\Core\Sequence\Resolver\FileSequenceResolverTest.cs" />
+    <Compile Include="Integration\Core\Transformation\Transformer\Native\FileTest.cs" />
     <Compile Include="Integration\NUnit\Runtime\Embed\EngineTest.cs" />
     <Compile Include="Integration\Core\Query\Validation\OdbcValidationEngineTest.cs" />
     <Compile Include="Integration\Core\Query\Validation\OleDbValidationEngineTest.cs" />

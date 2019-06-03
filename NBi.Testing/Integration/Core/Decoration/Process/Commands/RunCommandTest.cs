@@ -69,7 +69,7 @@ namespace NBi.Testing.Integration.Core.Decoration.Process.Commands
             );
 
             var command = new RunCommand(runArgs);
-            Assert.Throws<InvalidProgramException>(() => command.Execute());
+            Assert.Throws<NBi.Core.NBiException>(() => command.Execute());
         }
 
         [Test]

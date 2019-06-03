@@ -18,6 +18,7 @@ namespace NBi.Testing.Unit.Core.Transformation.Transformer.Native
         [TestCase(@"C:\Dir\Child\", "")]
         [TestCase(@"C:\Dir\ChildFile", "ChildFile")]
         [TestCase(@"C:\Dir\Child\file.txt", "file.txt")]
+        [TestCase(@"Dir\file.txt", "file.txt")]
         public void Execute_PathToFilename_Valid(string value, string expected)
         {
             var function = new PathToFilename();
@@ -31,6 +32,7 @@ namespace NBi.Testing.Unit.Core.Transformation.Transformer.Native
         [TestCase(@"C:\Dir\Child\", "")]
         [TestCase(@"C:\Dir\ChildFile", "ChildFile")]
         [TestCase(@"C:\Dir\Child\file.txt", "file")]
+        [TestCase(@"Dir\file.txt", "file")]
         public void Execute_PathToFilenameWithoutExtension_Valid(string value, string expected)
         {
             var function = new PathToFilenameWithoutExtension();
@@ -44,6 +46,7 @@ namespace NBi.Testing.Unit.Core.Transformation.Transformer.Native
         [TestCase(@"C:\Dir\Child\", "")]
         [TestCase(@"C:\Dir\ChildFile", "")]
         [TestCase(@"C:\Dir\Child\file.txt", ".txt")]
+        [TestCase(@"Dir\file.txt", @".txt")]
         public void Execute_PathToExtension_Valid(string value, string expected)
         {
             var function = new PathToExtension();
@@ -57,6 +60,7 @@ namespace NBi.Testing.Unit.Core.Transformation.Transformer.Native
         [TestCase(@"C:\Dir\Child\")]
         [TestCase(@"C:\Dir\ChildFile")]
         [TestCase(@"C:\Dir\Child\file.txt")]
+        [TestCase(@"Dir\file.txt", @"")]
         public void Execute_PathToRoot_Valid(string value)
         {
             var function = new PathToRoot();
@@ -70,6 +74,7 @@ namespace NBi.Testing.Unit.Core.Transformation.Transformer.Native
         [TestCase(@"C:\Dir\Child\", @"C:\Dir\Child\")]
         [TestCase(@"C:\Dir\ChildFile", @"C:\Dir\")]
         [TestCase(@"C:\Dir\Child\file.txt", @"C:\Dir\Child\")]
+        [TestCase(@"Dir\file.txt", @"Dir\")]
         public void Execute_PathToDirectory_Valid(string value, string expected)
         {
             var function = new PathToDirectory();

@@ -698,6 +698,11 @@
       <xs:enumeration value="numeric-to-floor"/>
       <xs:enumeration value="numeric-to-ceiling"/>
       <xs:enumeration value="numeric-to-integer"/>
+      <xs:enumeration value="path-to-filename"/>
+      <xs:enumeration value="path-to-filename-without-extension"/>
+      <xs:enumeration value="path-to-extension"/>
+      <xs:enumeration value="path-to-root"/>
+      <xs:enumeration value="path-to-directory"/>
     </xs:restriction>
   </xs:simpleType>
   <xs:simpleType name="not-native-transformation-type">

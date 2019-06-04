@@ -55,17 +55,17 @@ namespace NBi.Testing.Unit.Core.Transformation.Transformer.Native
         }
 
         [Test]
-        [TestCase(@"C:\")]
-        [TestCase(@"C:\Dir\")]
-        [TestCase(@"C:\Dir\Child\")]
-        [TestCase(@"C:\Dir\ChildFile")]
-        [TestCase(@"C:\Dir\Child\file.txt")]
+        [TestCase(@"C:\", @"C:\")]
+        [TestCase(@"C:\Dir\", @"C:\")]
+        [TestCase(@"C:\Dir\Child\", @"C:\")]
+        [TestCase(@"C:\Dir\ChildFile", @"C:\")]
+        [TestCase(@"C:\Dir\Child\file.txt", @"C:\")]
         [TestCase(@"Dir\file.txt", @"")]
-        public void Execute_PathToRoot_Valid(string value)
+        public void Execute_PathToRoot_Valid(string value, string expected)
         {
             var function = new PathToRoot();
             var result = function.Evaluate(value);
-            Assert.That(result, Is.EqualTo(@"C:\"));
+            Assert.That(result, Is.EqualTo(expected));
         }
 
         [Test]

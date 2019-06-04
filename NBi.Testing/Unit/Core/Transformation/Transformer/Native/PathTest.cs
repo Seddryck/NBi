@@ -21,7 +21,7 @@ namespace NBi.Testing.Unit.Core.Transformation.Transformer.Native
         [TestCase(@"Dir\file.txt", "file.txt")]
         public void Execute_PathToFilename_Valid(string value, string expected)
         {
-            var function = new PathToFilename();
+            var function = new PathToFilename(string.Empty);
             var result = function.Evaluate(value);
             Assert.That(result, Is.EqualTo(expected));
         }
@@ -35,7 +35,7 @@ namespace NBi.Testing.Unit.Core.Transformation.Transformer.Native
         [TestCase(@"Dir\file.txt", "file")]
         public void Execute_PathToFilenameWithoutExtension_Valid(string value, string expected)
         {
-            var function = new PathToFilenameWithoutExtension();
+            var function = new PathToFilenameWithoutExtension(string.Empty);
             var result = function.Evaluate(value);
             Assert.That(result, Is.EqualTo(expected));
         }
@@ -49,7 +49,7 @@ namespace NBi.Testing.Unit.Core.Transformation.Transformer.Native
         [TestCase(@"Dir\file.txt", @".txt")]
         public void Execute_PathToExtension_Valid(string value, string expected)
         {
-            var function = new PathToExtension();
+            var function = new PathToExtension(string.Empty);
             var result = function.Evaluate(value);
             Assert.That(result, Is.EqualTo(expected));
         }
@@ -63,7 +63,7 @@ namespace NBi.Testing.Unit.Core.Transformation.Transformer.Native
         [TestCase(@"Dir\file.txt", @"")]
         public void Execute_PathToRoot_Valid(string value, string expected)
         {
-            var function = new PathToRoot();
+            var function = new PathToRoot(string.Empty);
             var result = function.Evaluate(value);
             Assert.That(result, Is.EqualTo(expected));
         }
@@ -77,7 +77,7 @@ namespace NBi.Testing.Unit.Core.Transformation.Transformer.Native
         [TestCase(@"Dir\file.txt", @"Dir\")]
         public void Execute_PathToDirectory_Valid(string value, string expected)
         {
-            var function = new PathToDirectory();
+            var function = new PathToDirectory(string.Empty);
             var result = function.Evaluate(value);
             Assert.That(result, Is.EqualTo(expected));
         }

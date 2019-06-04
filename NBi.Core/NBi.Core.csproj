@@ -708,6 +708,7 @@
     <Compile Include="Transformation\Transformer\NativeTransformer.cs" />
     <Compile Include="Transformation\Transformer\Native\DateTime\DateTimeTransformations.cs" />
     <Compile Include="Transformation\Transformer\Native\IO\FileTransformation.cs" />
+    <Compile Include="Transformation\Transformer\Native\IO\IBasePathTransformation.cs" />
     <Compile Include="Transformation\Transformer\Native\IO\PathTransformation.cs" />
     <Compile Include="Transformation\Transformer\Native\Numeric\NumericTransformations.cs" />
     <Compile Include="Transformation\Transformer\Native\Text\TextTransformations.cs" />

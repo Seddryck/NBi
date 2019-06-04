@@ -7,8 +7,10 @@ using System.IO;
 
 namespace NBi.Core.Transformation.Transformer.Native.IO
 {
-    abstract class AbstractPathTransformation : AbstractTextTransformation
+    abstract class AbstractPathTransformation : AbstractTextTransformation, IBasePathTransformation
     {
+        protected string BasePath { get; }
+        public AbstractPathTransformation(string basePath) => BasePath = basePath;
         protected override object EvaluateNull() => "(empty)";
         protected override object EvaluateEmpty() => "(empty)";
         protected override object EvaluateBlank() => "(empty)";
@@ -17,27 +19,39 @@ namespace NBi.Core.Transformation.Transformer.Native.IO
 
     class PathToFilename : AbstractPathTransformation
     {
+        public PathToFilename(string basePath) : base(basePath) { }
         protected override object EvaluateString(string value) => Path.GetFileName(value);
     }
 
     class PathToFilenameWithoutExtension : AbstractPathTransformation
     {
+        public PathToFilenameWithoutExtension(string basePath) : base(basePath) { }
         protected override object EvaluateString(string value) => Path.GetFileNameWithoutExtension(value);
     }
 
     class PathToExtension : AbstractPathTransformation
     {
+        public PathToExtension(string basePath) : base(basePath) { }
         protected override object EvaluateString(string value) => Path.GetExtension(value);
     }
 
     class PathToRoot : AbstractPathTransformation
     {
-        protected override object EvaluateString(string value) => Path.GetPathRoot(value);
+        public PathToRoot(string basePath) : base(basePath) { }
+        protected override object EvaluateString(string value) 
+            => Path.GetPathRoot(PathExtensions.CombineOrRoot(BasePath, value));
     }
 
     class PathToDirectory : AbstractPathTransformation
     {
+        public PathToDirectory(string basePath) : base(basePath) { }
         protected override object EvaluateString(string value)
-            => Path.GetDirectoryName(value)==null ? Path.GetPathRoot(value) : Path.GetDirectoryName(value) + Path.DirectorySeparatorChar;
+        {
+            var fullPath = (Path.IsPathRooted(value) || string.IsNullOrEmpty(BasePath))
+                ? value
+                : Path.Combine(BasePath, value);
+            return Path.GetDirectoryName(fullPath) == null ? Path.GetPathRoot(fullPath) : Path.GetDirectoryName(fullPath) + Path.DirectorySeparatorChar;
+        }
+            
     }
 }

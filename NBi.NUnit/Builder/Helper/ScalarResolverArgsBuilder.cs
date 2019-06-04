@@ -102,7 +102,7 @@ namespace NBi.NUnit.Builder.Helper
                     if (functions.Count() > 0)
                     {
                         var transformations = new List<INativeTransformation>();
-                        var nativeTransformationFactory = new NativeTransformationFactory();
+                        var nativeTransformationFactory = new NativeTransformationFactory(settings.BasePath);
                         foreach (var function in functions)
                             transformations.Add(nativeTransformationFactory.Instantiate(function));
 

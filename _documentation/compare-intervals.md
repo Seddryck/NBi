@@ -13,8 +13,8 @@ An interval is a range of possible values for a *cell*. If you know that the val
 
 {% highlight xml %}
 <row>
-	<cell>CY 2006</cell>
-	<cell>[100;500]</cell>
+  <cell>CY 2006</cell>
+  <cell>[100;500]</cell>
 </row>
 {% endhighlight %}
 
@@ -22,8 +22,8 @@ You can use open or closed left and right bounds to specify if the bounds are co
 
 {% highlight xml %}
 <row>
-	<cell>CY 2006</cell>
-	<cell>]100;500]</cell>
+  <cell>CY 2006</cell>
+  <cell>]100;500]</cell>
 </row>
 {% endhighlight %}
 
@@ -35,13 +35,12 @@ Following intervals are valid:
 
 {% highlight xml %}
 <row>
-	<cell>CY 2006</cell>
-	<cell>[1000000;+INF]</cell>
+  <cell>CY 2006</cell>
+  <cell>[1000000;+INF]</cell>
 </row>
-
 <row>
-	<cell>CY 2006</cell>
-	<cell>[-INF;-200]</cell>
+  <cell>CY 2006</cell>
+  <cell>[-INF;-200]</cell>
 </row>
 {% endhighlight %}
 
@@ -61,16 +60,16 @@ For readability of your test it's sometimes useful to use a more readable syntax
 In an embedded result-set or an external CSV file, you can freely mix the previous notations.
 {% highlight xml %}
 <row>
-	<cell>CY 2006</cell>
-	<cell>(positive)</cell>
+  <cell>CY 2006</cell>
+  <cell>(positive)</cell>
 </row>
 <row>
-	<cell>CY 2007</cell>
-	<cell>(0+)</cell>
+  <cell>CY 2007</cell>
+  <cell>(0+)</cell>
 </row>
 <row>
-	<cell>CY 2008</cell>
-	<cell>[0;+INF]</cell>
+  <cell>CY 2008</cell>
+  <cell>[0;+INF]</cell>
 </row>
 {% endhighlight %}
 
@@ -87,12 +86,12 @@ The two notations bellow are identical to represent all values greater than 500.
 
 {% highlight xml %}
 <row>
-	<cell>CY 2006</cell>
-	<cell>]500;+INF]</cell>
+  <cell>CY 2006</cell>
+  <cell>]500;+INF]</cell>
 </row>
 <row>
-	<cell>CY 2006</cell>
-	<cell>(>500)</cell>
+  <cell>CY 2006</cell>
+  <cell>(>500)</cell>
 </row>
 {% endhighlight %}
 

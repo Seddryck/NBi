@@ -80,7 +80,7 @@ You can also use the long version to reference an external flat file:
 {% highlight xml %}
 <result-set>
   <file>
-    <path>File_{@myDate:yyyy}_{@myDate:MM}.csv"</path>
+    <path>File_{@myDate:yyyy}_{@myDate:MM}.csv</path>
   </file>
 </result-set>
 {% endhighlight %}
@@ -92,10 +92,10 @@ If the mentionned file is not available, by default, the test will throw an erro
 {% highlight xml %}
 <result-set>
   <file>
-    <path>File_{@myDate:yyyy}_{@myDate:MM}.csv"</path>
+    <path>File_{@myDate:yyyy}_{@myDate:MM}.csv</path>
     <if-missing behaviour="redirect">
       <file>
-        <path>AnotherFile_{@myDate:yyyy}_{@myDate:MM}.csv"</path>
+        <path>AnotherFile_{@myDate:yyyy}_{@myDate:MM}.csv</path>
       </file>
     </if-missing>
   </file>
@@ -109,7 +109,7 @@ If you need, you can also define a custom parser. More information are available
 {% highlight xml %}
 <result-set>
   <file>
-    <path>File_{@myDate:yyyy}_{@myDate:MM}.csv"</path>
+    <path>File_{@myDate:yyyy}_{@myDate:MM}.csv</path>
     <parser name="opendata"/>
   </file>
 </result-set>

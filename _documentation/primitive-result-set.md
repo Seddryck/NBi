@@ -30,7 +30,7 @@ The most straightforward is to define rows and cells inline. This is relatively 
 
 #### Null and empty values
 
-To define a cell wih a value equal to *null*, you'll have to use the notation with brackets or the auto-closing xml element.
+To define a cell with a value equal to *null*, you'll have to use the notation with brackets or the auto-closing xml element.
 
 The following row contains two cells with a *null* value:
 {% highlight xml %}
@@ -40,7 +40,7 @@ The following row contains two cells with a *null* value:
 </row>
 {% endhighlight %}
 
-To define a cell wih a value equal to *empty*, you'll have to use the notation with brackets or an empty xml element.
+To define a cell with a value equal to *empty*, you'll have to use the notation with brackets or an empty xml element.
 
 The following row contains two cells with an *empty* value:
 {% highlight xml %}
@@ -58,7 +58,7 @@ You can also refer to an external flat file. By default, flat files are consider
 <result-set file="myFile.csv"/>
 {% endhighlight %}
 
-the filename can be dynamically evaluated based on a variable (formatting). To enable this feature, you must precede the filename by a tilt ```~``` and mix static part of the filename with dynamic part. The dynamic part must be contained between curly barces ```{}``` and is starting by the variable's name to consider.
+the filename can be dynamically evaluated based on a variable (formatting). To enable this feature, you must precede the filename by a tilt ```~``` and mix static part of the filename with dynamic part. The dynamic part must be contained between curly braces ```{}``` and is starting by the variable's name to consider.
 
 {% highlight xml %}
 <result-set file="File_{@myVar}.csv"/>
@@ -87,13 +87,13 @@ You can also use the long version to reference an external flat file:
 
 #### if-missing directive
 
-If the mentionned file is not available, by default, the test will throw an error stating that a dependency has not been found. It's possible to override this behaviour and specify that when the file is missing, you should take a look to another location. This is a recurrent statement, so it's possible to define a thrid place to use when the two first are not available and so on.
+If the mentioned file is not available, by default, the test will throw an error stating that a dependency has not been found. It's possible to override this behaviour and specify that you should take a look to another location in case of a missing file. This is a recursive statement, so it's possible to define a third or fourth location to use when the two first are not available and so on.
 
 {% highlight xml %}
 <result-set>
   <file>
     <path>File_{@myDate:yyyy}_{@myDate:MM}.csv</path>
-    <if-missing behaviour="redirect">
+    <if-missing>
       <file>
         <path>AnotherFile_{@myDate:yyyy}_{@myDate:MM}.csv</path>
       </file>

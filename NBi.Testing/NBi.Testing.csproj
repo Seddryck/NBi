@@ -167,6 +167,7 @@
     <Compile Include="Integration\Core\Query\Resolver\AssemblyQueryResolverTest.cs" />
     <Compile Include="Integration\Core\Query\Resolver\ExternalFileQueryResolverTest.cs" />
     <Compile Include="Integration\Core\Sequence\Resolver\FileSequenceResolverTest.cs" />
+    <Compile Include="Integration\Core\Transformation\Transformer\Native\FileTest.cs" />
     <Compile Include="Integration\NUnit\Runtime\Embed\EngineTest.cs" />
     <Compile Include="Integration\Core\Query\Validation\OdbcValidationEngineTest.cs" />
     <Compile Include="Integration\Core\Query\Validation\OleDbValidationEngineTest.cs" />
@@ -329,6 +330,7 @@
     <Compile Include="Unit\Core\Structure\StructureDiscoveryFactoryProviderTest.cs" />
     <Compile Include="Unit\Core\Transformation\Transformer\FormatTransformerTest.cs" />
     <Compile Include="Unit\Core\Transformation\Transformer\NativeTransformationFactoryTest.cs" />
+    <Compile Include="Unit\Core\Transformation\Transformer\Native\PathTest.cs" />
     <Compile Include="Unit\Core\Transformation\Transformer\Native\DateToPointInTimeTest.cs" />
     <Compile Include="Unit\Core\Transformation\Transformer\NativeTransformerTest.cs" />
     <Compile Include="Unit\Core\Transformation\Transformer\NCalcTransformerTest.cs" />

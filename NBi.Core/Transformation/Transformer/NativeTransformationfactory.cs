@@ -1,4 +1,5 @@
 ﻿using NBi.Core.Transformation.Transformer.Native;
+using NBi.Core.Transformation.Transformer.Native.IO;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -10,6 +11,9 @@ namespace NBi.Core.Transformation.Transformer
 {
     public class NativeTransformationFactory
     {
+        protected string BasePath { get; }
+        public NativeTransformationFactory() : this(string.Empty) { }
+        public NativeTransformationFactory(string basePath) => BasePath = basePath;
         public INativeTransformation Instantiate(string code)
         {
             var textInfo = CultureInfo.InvariantCulture.TextInfo;
@@ -17,24 +21,27 @@ namespace NBi.Core.Transformation.Transformer
             var parameters = code.Replace("(", ",")
                 .Replace(")", ",").Trim()
                 .Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
-                .ToList().Skip(1).Select(x => x.Trim()).ToArray();
+                .ToList().Skip(1).Select(x => x.Trim()).ToList();
 
             var classToken = code.Contains("(") ? code.Substring(0, code.IndexOf('(')).Replace(" ", "") : code;
             var className = textInfo.ToTitleCase(classToken.Trim().Replace("-", " ")).Replace(" ", "").Replace("Datetime", "DateTime");
 
-            var clazz = AppDomain.CurrentDomain.GetAssemblies()
+            var type = AppDomain.CurrentDomain.GetAssemblies()
                        .SelectMany(t => t.GetTypes())
                        .Where(
                                 t => t.IsClass
                                 && t.IsAbstract == false
                                 && t.Name == className
-                                && t.GetInterface("INativeTransformation") != null)
+                                && t.GetInterface(typeof(INativeTransformation).Name) != null)
                        .SingleOrDefault();
 
-            if (clazz == null)
+            if (type == null)
                 throw new NotImplementedTransformationException(className);
 
-            return (INativeTransformation)Activator.CreateInstance(clazz, parameters);
+            if (typeof(IBasePathTransformation).IsAssignableFrom(type))
+                parameters.Insert(0, BasePath);
+
+            return (INativeTransformation)Activator.CreateInstance(type, parameters.ToArray());
         }
     }
 }

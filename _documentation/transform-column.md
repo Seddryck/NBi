@@ -190,8 +190,8 @@ For these transformations, the input must corresponds to an existing file. If it
 * ```file-to-size```: Gets the size, in bytes, of the file.
 * ```file-to-creation-dateTime```: Gets the creation time of the file.
 * ```file-to-creation-dateTime-utc```: Gets the creation time, in coordinated universal time (UTC), of the file.
-* ```file-to-update-dateTime```: Gets the time that the current file was last accessed.
-* ```file-to-update-dateTime-utc```: Gets the time, in coordinated universal time (UTC), that the current file was last accessed.
+* ```file-to-update-dateTime```: Gets the time that the current file was last written to.
+* ```file-to-update-dateTime-utc```: Gets the time, in coordinated universal time (UTC), that the current file was last written to.
 
 {% highlight xml %}
 <assert>

@@ -161,6 +161,8 @@ Currently, you cannot assemble native transformations, it means that you're limi
 * ```dateTime-to-next-year```: returns a dateTime corresponding to one year after the given date.
 * ```dateTime-to-previous-year```: returns a dateTime corresponding to one year before the given date.
 
+#### Parameterized transformations
+
 The following transformations except parameters to operate. You must replace the information beween parenthesis with a string matching your expectation.
 
 The parameter is a valid TimeZone. User must specify the identification of a time zone (Romance Standard Time ...) or the name of one of the city listed in the display (Brussels, Paris ...).
@@ -172,6 +174,24 @@ The parameter is a valid TimeZone. User must specify the identification of a tim
 * ```numeric-to-clip(numeric, numeric)```: Clip a value such as if smaller than the first argument then it will return the first argument or if larger than the second argument then will return the second argument. If the original value is between the first and second argument then the original value is returned.
 * ```dateTime-to-clip(dateTime, dateTime)```: Clip a value such as if smaller than the first argument then it will return the first argument or if larger than the second argument then will return the second argument. If the original value is between the first and second argument then the original value is returned.
 * ```dateTime-to-set-time(timeSpan)```: Set the hours, minutes, second of a dateTime to the specified value without changing the date part. The timespan should be defined with the format *hh:mm:ss* such as ```07:00:00```.
+
+#### Path and file transformations
+
+The following transformations will consider the location of the test-suite as the base path when facing a relative path.
+
+* ```path-to-filename```:  returns the file name and extension of the specified path string. The characters after the last directory separator character in path. If the last character of path is a directory or volume separator character, this method returns ```empty```.
+* ```path-to-filename-without-extension```: Returns the file name of the specified path string without the extension. The text returned by ```path-to-filename```, minus the last period (.) and all characters following it.
+* ```path-to-extension```: Returns the extension (including the period ".") of the specified path string. The extension of the specified path (including the period ".") or ```(empty)```.
+* ```path-to-root```: Gets the root directory information of the specified path including a directory separator character at the end.
+* ```path-to-directory```: returns the directory information for the specified path string. 
+
+For these transformations, the input must corresponds to an existing file. If it's not the case an exception will be generated and the test will fail.
+
+* ```file-to-size```: Gets the size, in bytes, of the file.
+* ```file-to-creation-dateTime```: Gets the creation time of the file.
+* ```file-to-creation-dateTime-utc```: Gets the creation time, in coordinated universal time (UTC), of the file.
+* ```file-to-update-dateTime```: Gets the time that the current file was last accessed.
+* ```file-to-update-dateTime-utc```: Gets the time, in coordinated universal time (UTC), that the current file was last accessed.
 
 {% highlight xml %}
 <assert>

@@ -5,6 +5,7 @@ using NBi.Xml.Items;
 using NBi.Xml.Items.Alteration.Conversion;
 using NBi.Xml.Items.Alteration.Transform;
 using NBi.Xml.Items.ResultSet;
+using NBi.Xml.Items.Sequence.Transformation;
 using NBi.Xml.SerializationOption;
 using NBi.Xml.Systems;
 using NUnit.Framework;
@@ -54,7 +55,7 @@ namespace NBi.Testing.Unit.Xml.Systems
         [Test]
         public void Deserialize_SampleFileWithParser_CsvFile()
         {
-            int testNr = 9;
+            int testNr = 10;
 
             // Create an instance of the XmlSerializer specifying type and namespace.
             TestSuiteXml ts = DeserializeSample();
@@ -70,7 +71,7 @@ namespace NBi.Testing.Unit.Xml.Systems
         [Test]
         public void Deserialize_SampleFileWithParserInline_CsvFile()
         {
-            int testNr = 10;
+            int testNr = 11;
 
             // Create an instance of the XmlSerializer specifying type and namespace.
             TestSuiteXml ts = DeserializeSample();
@@ -241,6 +242,31 @@ namespace NBi.Testing.Unit.Xml.Systems
         }
 
         [Test]
+        public void Deserialize_SampleFile_AlterationProjection()
+        {
+            int testNr = 9;
+
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            var ts = DeserializeSample();
+
+            // Check the properties of the object.
+            Assert.That(ts.Tests[testNr].Systems[0], Is.AssignableTo<ResultSetSystemXml>());
+            var rs = ts.Tests[testNr].Systems[0] as ResultSetSystemXml;
+
+            Assert.That(rs.Alteration, Is.Not.Null);
+            Assert.That(rs.Alteration.Projections, Is.Not.Null);
+            Assert.That(rs.Alteration.Projections, Has.Count.EqualTo(1));
+
+            Assert.That(rs.Alteration.Projections[0], Is.Not.Null);
+            Assert.That(rs.Alteration.Projections[0], Is.TypeOf<ProjectionXml>());
+
+            Assert.That(rs.Alteration.Projections[0].Aggregation, Is.Not.Null);
+            Assert.That(rs.Alteration.Projections[0].Aggregation, Is.TypeOf<SumXml>());
+
+            Assert.That(rs.Alteration.Projections[0].Aggregation.ColumnType, Is.EqualTo(ColumnType.Numeric));
+        }
+
+        [Test]
         public void Serialize_FileAndParser_Correct()
         {
             var root = new ResultSetSystemXml()
@@ -300,6 +326,27 @@ namespace NBi.Testing.Unit.Xml.Systems
             Assert.That(xml, Is.StringContaining("<path>myFile.csv</path>"));
             Assert.That(xml, Is.Not.StringContaining("<parser"));
             Assert.That(xml, Is.StringContaining("</file>"));
+        }
+
+        [Test]
+        [TestCase(typeof(SumXml), "sum")]
+        [TestCase(typeof(MeanXml), "mean")]
+        [TestCase(typeof(MaxXml), "max")]
+        [TestCase(typeof(MinXml), "min")]
+        public void Serialize_Sum_Correct(Type aggregationType, string serialization)
+        {
+            var root = new ProjectionXml()
+            {
+                Aggregation = (AggregationXml)Activator.CreateInstance(aggregationType)
+            };
+            root.Aggregation.ColumnType = ColumnType.DateTime;
+            root.Aggregation.Identifier = new ColumnOrdinalIdentifier(2);
+
+            var manager = new XmlManager();
+            var xml = manager.XmlSerializeFrom(root);
+            Console.WriteLine(xml);
+            Assert.That(xml, Is.StringContaining($"<{serialization}"));
+            Assert.That(xml, Is.StringContaining("dateTime"));
         }
 
     }

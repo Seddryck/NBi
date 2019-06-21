@@ -51,6 +51,9 @@
     <Reference Include="Antlr4.StringTemplate, Version=4.0.6.9004, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Antlr4.StringTemplate.4.0.6.9004\lib\net35\Antlr4.StringTemplate.dll</HintPath>
     </Reference>
+    <Reference Include="Deedle, Version=2.0.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Deedle.2.0.4\lib\net45\Deedle.dll</HintPath>
+    </Reference>
     <Reference Include="FuzzyString, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\FuzzyString.1.0.0\lib\FuzzyString.dll</HintPath>
     </Reference>
@@ -645,6 +648,24 @@
     <Compile Include="Sequence\Resolver\ListSequenceResolver.cs" />
     <Compile Include="Sequence\Resolver\ListSequenceResolverArgs.cs" />
     <Compile Include="Sequence\Resolver\SequenceResolverFactory.cs" />
+    <Compile Include="Sequence\Transformation\Aggregation\Aggregation.cs" />
+    <Compile Include="Sequence\Transformation\Aggregation\AggregationFactory.cs" />
+    <Compile Include="Sequence\Transformation\Aggregation\AggregationFunctionType.cs" />
+    <Compile Include="Sequence\Transformation\Aggregation\IAggregationStrategy.cs" />
+    <Compile Include="Sequence\Transformation\Aggregation\Function\BaseAggregation.cs" />
+    <Compile Include="Sequence\Transformation\Aggregation\IAggregationFunction.cs" />
+    <Compile Include="Sequence\Transformation\Aggregation\Function\Max.cs" />
+    <Compile Include="Sequence\Transformation\Aggregation\Function\Min.cs" />
+    <Compile Include="Sequence\Transformation\Aggregation\Function\Sum.cs" />
+    <Compile Include="Sequence\Transformation\Aggregation\Function\Mean.cs" />
+    <Compile Include="Sequence\Transformation\ISequenceTransformation.cs" />
+    <Compile Include="Sequence\Transformation\Aggregation\Strategy\FailureEmptySeriesStrategy.cs" />
+    <Compile Include="Sequence\Transformation\Aggregation\Strategy\IEmptySeriesStrategy.cs" />
+    <Compile Include="Sequence\Transformation\Aggregation\Strategy\ReplaceByDefaultStrategy.cs" />
+    <Compile Include="Sequence\Transformation\Aggregation\Strategy\DropStrategy.cs" />
+    <Compile Include="Sequence\Transformation\Aggregation\Strategy\FailureMissingValueStrategy.cs" />
+    <Compile Include="Sequence\Transformation\Aggregation\Strategy\IMissingValueStrategy.cs" />
+    <Compile Include="Sequence\Transformation\Aggregation\Strategy\ReturnDefaultStrategy.cs" />
     <Compile Include="StringComparerHelper.cs" />
     <Compile Include="StringExtensions.cs" />
     <Compile Include="StringTemplateEngine.cs" />

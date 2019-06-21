@@ -162,13 +162,15 @@
     <Compile Include="Items\Filters\IOwnerFilter.cs" />
     <Compile Include="Items\IfMissingXml.cs" />
     <Compile Include="Items\ParserXml.cs" />
-    <Compile Include="Items\ProjectionXml.cs" />
+    <Compile Include="Items\ProjectionOldXml.cs" />
     <Compile Include="Items\QueryScalarXml.cs" />
     <Compile Include="Items\ResultSet\Combination\SequenceCombinationXml.cs" />
     <Compile Include="Items\ResultSet\Lookup\ColumnUsingXml.cs" />
     <Compile Include="Items\ResultSet\Lookup\ColumnMappingXml.cs" />
     <Compile Include="Items\ResultSet\Lookup\InclusionXml.cs" />
     <Compile Include="Items\ResultSet\Lookup\JoinXml.cs" />
+    <Compile Include="Items\Sequence\Transformation\AggregationXml.cs" />
+    <Compile Include="Items\Sequence\Transformation\ProjectionXml.cs" />
     <Compile Include="Items\SharedDatasetXml.cs" />
     <Compile Include="Items\Alteration\Transformation\TransformXml.cs" />
     <Compile Include="Items\UrlXml.cs" />

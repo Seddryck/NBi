@@ -2,6 +2,7 @@
 using NBi.Xml.Items.Alteration.Transform;
 using NBi.Xml.Items.Calculation;
 using NBi.Xml.Items.ResultSet;
+using NBi.Xml.Items.Sequence.Transformation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,6 +20,8 @@ namespace NBi.Xml.Items.Alteration
         public List<ConvertXml> Conversions { get; set; }
         [XmlElement("transform")]
         public List<TransformXml> Transformations { get; set; }
+        [XmlElement("project")]
+        public List<ProjectionXml> Projections { get; set; }
 
 
         public AlterationXml()
@@ -26,6 +29,7 @@ namespace NBi.Xml.Items.Alteration
             Filters = new List<FilterXml>();
             Conversions = new List<ConvertXml>();
             Transformations = new List<TransformXml>();
+            Projections = new List<ProjectionXml>();
         }
     }
 }

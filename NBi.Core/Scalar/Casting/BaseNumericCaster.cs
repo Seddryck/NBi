@@ -9,6 +9,22 @@ namespace NBi.Core.Scalar.Casting
 {
     class BaseNumericCaster
     {
+        public virtual bool IsStrictlyValid(object value)
+        {
+            return value != null && (value is sbyte
+                    || value is byte
+                    || value is ushort
+                    || value is short
+                    || value is uint
+                    || value is int
+                    || value is ulong
+                    || value is long
+                    || value is float
+                    || value is double
+                    || value is decimal)
+                    && IsParsableNumeric(value);
+        }
+
         public virtual bool IsValid(object value)
         {
             if (value is sbyte

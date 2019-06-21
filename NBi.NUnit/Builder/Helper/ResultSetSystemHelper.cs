@@ -1,22 +1,16 @@
 ﻿using NBi.Core.Calculation;
-using NBi.Core.Calculation.Grouping;
-using NBi.Core.Calculation.Ranking;
 using NBi.Core.Evaluate;
 using NBi.Core.Injection;
 using NBi.Core.ResultSet;
 using NBi.Core.ResultSet.Alteration;
 using NBi.Core.ResultSet.Conversion;
+using NBi.Core.ResultSet.Projecting;
 using NBi.Core.ResultSet.Resolver;
 using NBi.Core.Scalar.Conversion;
 using NBi.Core.Transformation;
 using NBi.Core.Variable;
-using NBi.Xml.Items.Calculation.Ranking;
 using NBi.Xml.Systems;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NBi.NUnit.Builder.Helper
 {
@@ -43,7 +37,6 @@ namespace NBi.NUnit.Builder.Helper
             var resolver = factory.Instantiate(argsBuilder.GetArgs());
             return resolver;
         }
-
 
         public IEnumerable<Alter> InstantiateAlterations(ResultSetSystemXml resultSetXml)
         {
@@ -89,9 +82,9 @@ namespace NBi.NUnit.Builder.Helper
 
             if (resultSetXml.Alteration.Conversions != null)
             {
+                var factory = new ConverterFactory();
                 foreach (var conversionXml in resultSetXml.Alteration.Conversions)
                 {
-                    var factory = new ConverterFactory();
                     var converter = factory.Instantiate(conversionXml.Converter.From, conversionXml.Converter.To, conversionXml.Converter.DefaultValue, conversionXml.Converter.Culture);
                     var engine = new ConverterEngine(conversionXml.Column, converter);
                     yield return engine.Execute;
@@ -104,6 +97,19 @@ namespace NBi.NUnit.Builder.Helper
 
                 var provider = new TransformationProvider();
                 foreach (var transformationXml in resultSetXml.Alteration.Transformations)
+                    provider.Add(transformationXml.Identifier, transformationXml);
+                yield return provider.Transform;
+            }
+
+            if (resultSetXml.Alteration.Projections != null)
+            {
+                var identifierFactory = new ColumnIdentifierFactory();
+
+                var factory = new ProjectionFactory();
+                foreach (var projectionXml in resultSetXml.Alteration.Projections)
+                {
+
+                }
                     provider.Add(transformationXml.Identifier, transformationXml);
                 yield return provider.Transform;
             }

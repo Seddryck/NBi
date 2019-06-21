@@ -9,7 +9,7 @@ using System.Xml.Serialization;
 
 namespace NBi.Xml.Items
 {
-    public class ProjectionXml
+    public class ProjectionOldXml
     {
         [XmlAttribute("type")]
         public ProjectionType Type { get; set; }

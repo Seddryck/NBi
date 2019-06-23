@@ -15,7 +15,7 @@ namespace NBi.Core.ResultSet.Analyzer
 
             switch (kind)
             {
-                case EquivalenceKind.EquivalentTo:
+                case EquivalenceKind.IntersectionOf:
                     break;
                 case EquivalenceKind.SubsetOf:
                     list.Add(new UnexpectedRowsAnalyzer());

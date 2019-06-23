@@ -58,7 +58,7 @@
         <resultSet file="..\Csv\ResellerOrderCountByYearBefore2006.csv"/>
       </system-under-test>
       <assert>
-        <equivalent-of>
+        <intersection-of>
           <resultSet>
             <row>
               <cell>CY 2008</cell>
@@ -69,7 +69,7 @@
               <cell>1800</cell>
             </row>
           </resultSet>
-        </equivalent-of>
+        </intersection-of>
       </assert>
     </test>
     <test name="all are less than 10000" uid="0020">

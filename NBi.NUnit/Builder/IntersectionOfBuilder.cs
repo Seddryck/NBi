@@ -15,23 +15,23 @@ using NBi.Xml.Settings;
 
 namespace NBi.NUnit.Builder
 {
-    class ResultSetEquivalentToBuilder : ResultSetEqualToBuilder
+    class IntersectionOfBuilder : ResultSetEqualToBuilder
     {
-        protected override EquivalenceKind EquivalenceKind  { get => EquivalenceKind.EquivalentTo; }
+        protected override EquivalenceKind EquivalenceKind  { get => EquivalenceKind.IntersectionOf; }
 
-        public ResultSetEquivalentToBuilder()
+        public IntersectionOfBuilder()
         { }
 
         protected override void SpecificSetup(AbstractSystemUnderTestXml sutXml, AbstractConstraintXml ctrXml)
         {
-            if (!(ctrXml is ResultSetEquivalentToXml))
+            if (!(ctrXml is IntersectionOfXml))
                 throw new ArgumentException("Constraint must be a 'ResultSetEquivalentToXml'");
 
-            ConstraintXml = (ResultSetEquivalentToXml)ctrXml;
+            ConstraintXml = (IntersectionOfXml)ctrXml;
         }
 
         protected override BaseResultSetComparisonConstraint InstantiateConstraint(IResultSetService service)
-            => new EquivalentToConstraint(service);
+            => new IntersectionOfConstraint(service);
 
     }
 }

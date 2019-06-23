@@ -8,15 +8,15 @@ using NBi.Xml.Systems;
 
 namespace NBi.Xml.Constraints
 {
-    public class ResultSetEquivalentToXml : EqualToXml
+    public class IntersectionOfXml : EqualToXml
     {
-        internal ResultSetEquivalentToXml()
+        internal IntersectionOfXml()
             : base() { }
 
-        internal ResultSetEquivalentToXml(SettingsXml settings)
+        internal IntersectionOfXml(SettingsXml settings)
             : base(settings) { }
 
-        internal ResultSetEquivalentToXml(bool parallelizeQueries)
+        internal IntersectionOfXml(bool parallelizeQueries)
             : base(parallelizeQueries) { }
     }
 }

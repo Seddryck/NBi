@@ -8,9 +8,9 @@ using NBi.Core.ResultSet;
 
 namespace NBi.NUnit.ResultSetComparison
 {
-    public class EquivalentToConstraint : BaseResultSetComparisonConstraint
+    public class IntersectionOfConstraint : BaseResultSetComparisonConstraint
     {
-        public EquivalentToConstraint(IResultSetService service)
+        public IntersectionOfConstraint(IResultSetService service)
             : base(service)
         { }
     }

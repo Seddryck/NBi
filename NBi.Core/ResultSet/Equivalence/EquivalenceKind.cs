@@ -9,7 +9,7 @@ namespace NBi.Core.ResultSet.Equivalence
     [Flags]
     public enum EquivalenceKind
     {
-        EquivalentTo = 0,
+        IntersectionOf = 0,
         SubsetOf = 1,
         SupersetOf = 2,
         EqualTo = 3

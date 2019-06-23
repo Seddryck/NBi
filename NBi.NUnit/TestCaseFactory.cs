@@ -58,7 +58,7 @@ namespace NBi.NUnit
             Register(typeof(ResultSetSystemXml), typeof(EqualToXml), new ResultSetEqualToBuilder());
             Register(typeof(ResultSetSystemXml), typeof(SupersetOfXml), new ResultSetSupersetOfBuilder());
             Register(typeof(ResultSetSystemXml), typeof(SubsetOfXml), new ResultSetSubsetOfBuilder());
-            Register(typeof(ResultSetSystemXml), typeof(ResultSetEquivalentToXml), new ResultSetEquivalentToBuilder());
+            Register(typeof(ResultSetSystemXml), typeof(IntersectionOfXml), new IntersectionOfBuilder());
             Register(typeof(ResultSetSystemXml), typeof(RowCountXml), new ResultSetRowCountBuilder());
             Register(typeof(ResultSetSystemXml), typeof(AllRowsXml), new ResultSetAllRowsBuilder());
             Register(typeof(ResultSetSystemXml), typeof(NoRowsXml), new ResultSetNoRowsBuilder());

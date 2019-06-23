@@ -120,10 +120,6 @@
     <Compile Include="Calculation\Grouping\IByColumnGrouping.cs" />
     <Compile Include="Calculation\Grouping\NameByColumnGrouping.cs" />
     <Compile Include="Calculation\Grouping\OrdinalByColumnGrouping.cs" />
-    <Compile Include="Calculation\ICultureSensitivePredicateInfo.cs" />
-    <Compile Include="Calculation\ISecondOperandPredicateInfo.cs" />
-    <Compile Include="Calculation\IReferencePredicateInfo.cs" />
-    <Compile Include="Calculation\IPredicateInfo.cs" />
     <Compile Include="Calculation\Combination\BaseCombinationPredicateFilter.cs" />
     <Compile Include="Calculation\Combination\OrCombinationPredicateFilter.cs" />
     <Compile Include="Calculation\BasePredicateFilter.cs" />
@@ -233,7 +229,6 @@
     <Compile Include="Injection\ConfigurationModule.cs" />
     <Compile Include="Injection\QueryModule.cs" />
     <Compile Include="Injection\ServiceLocator.cs" />
-    <Compile Include="Calculation\IBasePredicateInfo.cs" />
     <Compile Include="IResolver.cs" />
     <Compile Include="IO\FileLister.cs" />
     <Compile Include="PathExtensions.cs" />

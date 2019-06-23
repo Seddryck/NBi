@@ -10,7 +10,7 @@ using System.Xml.Serialization;
 
 namespace NBi.Xml.Constraints.Comparer
 {
-    public abstract class PredicateXml : IPredicateInfo
+    public abstract class PredicateXml
     {
         [DefaultValue(false)]
         [XmlAttribute("not")]

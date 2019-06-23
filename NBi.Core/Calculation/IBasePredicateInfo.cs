@@ -10,8 +10,6 @@ namespace NBi.Core.Calculation
 {
     public interface IBasePredicateInfo
     {
-        ColumnType ColumnType { get; set; }
-        ComparerType ComparerType { get; }
         bool Not { get; set; }
     }
 }

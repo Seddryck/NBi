@@ -15,6 +15,6 @@ namespace NBi.Xml.Constraints.Comparer
         [DefaultValue(false)]
         public bool OrNull { get; set; }
 
-        internal override ComparerType ComparerType { get => OrNull ? ComparerType.NullOrEmpty : ComparerType.Empty; }
+        public override ComparerType ComparerType { get => OrNull ? ComparerType.NullOrEmpty : ComparerType.Empty; }
     }
 }

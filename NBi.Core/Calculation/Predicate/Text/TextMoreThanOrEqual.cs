@@ -21,7 +21,7 @@ namespace NBi.Core.Calculation.Predicate.Text
 
         public override string ToString()
         {
-            return $"is alphabetically after '{Reference}' or equal to it";
+            return $"is alphabetically after '{Reference.Execute()}' or equal to it";
         }
     }
 }

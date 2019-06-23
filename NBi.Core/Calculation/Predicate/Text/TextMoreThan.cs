@@ -20,7 +20,7 @@ namespace NBi.Core.Calculation.Predicate.Text
         }
         public override string ToString()
         {
-            return $"is alphabetically after '{Reference}'";
+            return $"is alphabetically after '{Reference.Execute()}'";
         }
     }
 }

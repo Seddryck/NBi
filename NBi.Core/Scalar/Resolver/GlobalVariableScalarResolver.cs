@@ -32,7 +32,7 @@ namespace NBi.Core.Scalar.Resolver
             return (T)typedEvaluation;
         }
 
-        object IScalarResolver.Execute() => Execute();
+        object IResolver.Execute() => Execute();
 
         private void DisplayVariable(string name, object value)
         {
@@ -87,15 +87,9 @@ namespace NBi.Core.Scalar.Resolver
         private object EvaluateVariable(ITestVariable variable)
         {
             if (!variable.IsEvaluated())
-            {
-                var stopWatch = new Stopwatch();
-                stopWatch.Start();
-                variable.GetValue();
-                Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceInfo, $"Time needed for evaluation of variable '{args.VariableName}': {stopWatch.Elapsed.ToString(@"d\d\.hh\h\:mm\m\:ss\s\ \+fff\m\s")}");
-            }
+                variable.Evaluate();
 
-            var output = variable.GetValue();
-            return output;
+            return variable.GetValue();
         }
     }
 }

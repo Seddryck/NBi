@@ -22,7 +22,7 @@ namespace NBi.Testing.Unit.Core.Calculation
         [TestCase(ComparerType.MatchesDateTime, "2016-12-25 08:40:12")]
         public void Compare_Text_Success(ComparerType comparerType, object x)
         {
-            var predicate = new Mock<IPredicateInfo>();
+            var predicate = new Mock<PredicateArgs>();
             predicate.SetupGet(p => p.ColumnType).Returns(ColumnType.Text);
             predicate.SetupGet(p => p.ComparerType).Returns(comparerType);
             predicate.As<ICultureSensitivePredicateInfo>().SetupGet(p => p.Culture).Returns(string.Empty);
@@ -45,7 +45,7 @@ namespace NBi.Testing.Unit.Core.Calculation
         [TestCase(ComparerType.MatchesDateTime, "25/12/2015 08:40PM")]
         public void Compare_Text_Failure(ComparerType comparerType, object x)
         {
-            var predicate = new Mock<IPredicateInfo>();
+            var predicate = new Mock<PredicateArgs>();
             predicate.SetupGet(p => p.ColumnType).Returns(ColumnType.Text);
             predicate.SetupGet(p => p.ComparerType).Returns(comparerType);
             predicate.As<ICultureSensitivePredicateInfo>().SetupGet(p => p.Culture).Returns(string.Empty);
@@ -68,10 +68,10 @@ namespace NBi.Testing.Unit.Core.Calculation
         [TestCase(ComparerType.MatchesNumeric, "1000.21", "en-us")]
         public void Compare_Text_Success(ComparerType comparerType, object x, string culture)
         {
-            var predicate = new Mock<IPredicateInfo>();
+            var predicate = new Mock<CultureSensitivePredicateArgs>();
             predicate.SetupGet(p => p.ColumnType).Returns(ColumnType.Text);
             predicate.SetupGet(p => p.ComparerType).Returns(comparerType);
-            predicate.As<ICultureSensitivePredicateInfo>().SetupGet(p => p.Culture).Returns(culture);
+            predicate.SetupGet(p => p.Culture).Returns(culture);
 
             var factory = new PredicateFactory();
             var comparer = factory.Instantiate(predicate.Object);
@@ -88,10 +88,10 @@ namespace NBi.Testing.Unit.Core.Calculation
         [TestCase(ComparerType.MatchesDateTime, "25/12/2015 08:40:16", "en-us")]
         public void Compare_Text_Failure(ComparerType comparerType, object x, string culture)
         {
-            var predicate = new Mock<IPredicateInfo>();
+            var predicate = new Mock<CultureSensitivePredicateArgs>();
             predicate.SetupGet(p => p.ColumnType).Returns(ColumnType.Text);
             predicate.SetupGet(p => p.ComparerType).Returns(comparerType);
-            predicate.As<ICultureSensitivePredicateInfo>().SetupGet(p => p.Culture).Returns(culture);
+            predicate.SetupGet(p => p.Culture).Returns(culture);
 
             var factory = new PredicateFactory();
             var comparer = factory.Instantiate(predicate.Object);

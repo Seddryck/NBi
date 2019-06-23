@@ -16,6 +16,7 @@ namespace NBi.Core.Variable
             Name = name;
             Value = value;
         }
+        public void Evaluate() => throw new InvalidOperationException();
 
         public object GetValue() => Value;
 

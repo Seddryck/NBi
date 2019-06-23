@@ -20,7 +20,17 @@ namespace NBi.Core.Sequence.Resolver
             this.args = args;
         }
 
+        public ListSequenceResolver(IEnumerable<T> values)
+        {
+            var resolvers = new List<IScalarResolver<T>>();
+            foreach (var value in values)
+                resolvers.Add(new LiteralScalarResolver<T>(value));
+
+            args = new ListSequenceResolverArgs(resolvers);
+        }
+
         IList ISequenceResolver.Execute() => this.Execute();
+        object IResolver.Execute() => this.Execute();
 
         public List<T> Execute()
         {

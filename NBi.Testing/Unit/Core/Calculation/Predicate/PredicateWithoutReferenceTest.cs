@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Testing.Unit.Core.Calculation
+namespace NBi.Testing.Unit.Core.Calculation.Predicate
 {
     public class PredicateWithoutReferenceTest
     {
@@ -32,7 +32,7 @@ namespace NBi.Testing.Unit.Core.Calculation
         [TestCase(ComparerType.UpperCase, "ABD1235")]
         public void Apply_Text_Success(ComparerType comparerType, object x)
         {
-            var info = Mock.Of<IPredicateInfo>(
+            var info = Mock.Of<PredicateArgs>(
                     i => i.ColumnType== ColumnType.Text
                     && i.ComparerType == comparerType
                 );
@@ -61,7 +61,7 @@ namespace NBi.Testing.Unit.Core.Calculation
         [TestCase(ComparerType.UpperCase, "ABD1235")]
         public void Execute_NotText_Failure(ComparerType comparerType, object x)
         {
-            var info = Mock.Of<IPredicateInfo>(
+            var info = Mock.Of<PredicateArgs>(
                     i => i.ColumnType == ColumnType.Text
                     && i.Not == true
                     && i.ComparerType == comparerType
@@ -77,7 +77,7 @@ namespace NBi.Testing.Unit.Core.Calculation
         [TestCase(ComparerType.UpperCase, "Abc1235")]
         public void Apply_Text_Failure(ComparerType comparerType, object x)
         {
-            var info = Mock.Of<IPredicateInfo>(
+            var info = Mock.Of<PredicateArgs>(
                     i => i.ColumnType == ColumnType.Text
                     && i.ComparerType == comparerType
                 );
@@ -94,7 +94,7 @@ namespace NBi.Testing.Unit.Core.Calculation
         [TestCase(ComparerType.Integer, 1.0001, false)]
         public void Compare_Numeric_Result(ComparerType comparerType, object x, bool result)
         {
-            var info = Mock.Of<IPredicateInfo>(
+            var info = Mock.Of<PredicateArgs>(
                     i => i.ColumnType == ColumnType.Numeric
                     && i.ComparerType == comparerType
                 );
@@ -107,7 +107,7 @@ namespace NBi.Testing.Unit.Core.Calculation
         [Test]
         public void Apply_NullDateTime_Success()
         {
-            var info = Mock.Of<IPredicateInfo>(
+            var info = Mock.Of<PredicateArgs>(
                     i => i.ColumnType == ColumnType.DateTime
                     && i.ComparerType == ComparerType.Null
                 );
@@ -120,7 +120,7 @@ namespace NBi.Testing.Unit.Core.Calculation
         [Test]
         public void Compare_NotNullDateTime_Failure()
         {
-            var info = Mock.Of<IPredicateInfo>(
+            var info = Mock.Of<PredicateArgs>(
                     i => i.ColumnType == ColumnType.DateTime
                     && i.ComparerType == ComparerType.Null
                 );
@@ -139,7 +139,7 @@ namespace NBi.Testing.Unit.Core.Calculation
         [TestCase(ComparerType.OnTheMinute, 3, 10, 11, false)]
         public void Compare_DateTime_Result(ComparerType comparerType, int hours, int minutes, int seconds, bool result)
         {
-            var info = Mock.Of<IPredicateInfo>(
+            var info = Mock.Of<PredicateArgs>(
                     i => i.ColumnType == ColumnType.DateTime
                     && i.ComparerType == comparerType
                 );
@@ -159,7 +159,7 @@ namespace NBi.Testing.Unit.Core.Calculation
         [TestCase(ComparerType.False, true, false)]
         public void Compare_Boolean_Success(ComparerType comparerType, object x, bool result)
         {
-            var info = Mock.Of<IPredicateInfo>(
+            var info = Mock.Of<PredicateArgs>(
                     i => i.ColumnType == ColumnType.Boolean
                     && i.ComparerType == comparerType
                 );

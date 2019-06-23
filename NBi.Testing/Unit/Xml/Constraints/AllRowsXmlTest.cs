@@ -95,7 +95,7 @@ namespace NBi.Testing.Unit.Xml.Constraints
 
             Assert.That(comparison.Predicate, Is.TypeOf<MoreThanXml>());
             var moreThan = comparison.Predicate as MoreThanXml;
-            Assert.That(moreThan.Value, Is.EqualTo("10"));
+            Assert.That(moreThan.Reference, Is.EqualTo("10"));
             Assert.That(moreThan.Not, Is.False);
         }
 
@@ -274,7 +274,7 @@ namespace NBi.Testing.Unit.Xml.Constraints
 
             Assert.That(predicate.Predicate, Is.TypeOf<WithinRangeXml>());
             var cpr = predicate.Predicate as WithinRangeXml;
-            Assert.That(cpr.Value, Is.EqualTo("[10;30]"));
+            Assert.That(cpr.Reference, Is.EqualTo("[10;30]"));
             Assert.That(cpr.Not, Is.False);
         }
 
@@ -290,7 +290,7 @@ namespace NBi.Testing.Unit.Xml.Constraints
 
             Assert.That(predicate.Predicate, Is.AssignableTo<AnyOfXml>());
             var cpr = predicate.Predicate as AnyOfXml;
-            Assert.That(cpr.Values, Has.Count.EqualTo(3));
+            Assert.That(cpr.References, Has.Count.EqualTo(3));
         }
 
 
@@ -306,7 +306,7 @@ namespace NBi.Testing.Unit.Xml.Constraints
 
             Assert.That(predicate.Predicate, Is.AssignableTo<AnyOfXml>());
             var cpr = predicate.Predicate as AnyOfXml;
-            Assert.That(cpr.Values, Has.Count.EqualTo(3));
+            Assert.That(cpr.References, Has.Count.EqualTo(3));
         }
 
         [Test]
@@ -379,7 +379,7 @@ namespace NBi.Testing.Unit.Xml.Constraints
                 {
                     Predicate = new AnyOfXml()
                     {
-                        Values = new List<string>() { "first", "second" }
+                        References = new List<string>() { "first", "second" }
                     }
                 }
             };
@@ -474,10 +474,7 @@ namespace NBi.Testing.Unit.Xml.Constraints
                 {
                     Operand = new ColumnNameIdentifier("calculate"),
                     ColumnType = ColumnType.Numeric,
-                    Predicate = new EqualXml()
-                    {
-                        Value = "100"
-                    }
+                    Predicate = new EqualXml() { Reference = "100" }
                 }
             };
 
@@ -518,10 +515,7 @@ namespace NBi.Testing.Unit.Xml.Constraints
                 {
                     Operand = new ColumnNameIdentifier("calculate"),
                     ColumnType = ColumnType.Numeric,
-                    Predicate = new EqualXml()
-                    {
-                        Value = "100"
-                    }
+                    Predicate = new EqualXml() { Reference = "100" }
                 }
             };
 
@@ -560,10 +554,7 @@ namespace NBi.Testing.Unit.Xml.Constraints
                 {
                     Operand = new ColumnNameIdentifier("calculate"),
                     ColumnType = ColumnType.Numeric,
-                    Predicate = new EqualXml()
-                    {
-                        Value = "100"
-                    }
+                    Predicate = new EqualXml() { Reference = "100" }
                 }
             };
 
@@ -602,10 +593,7 @@ namespace NBi.Testing.Unit.Xml.Constraints
                 {
                     Operand = new ColumnNameIdentifier("calculate"),
                     ColumnType = ColumnType.Numeric,
-                    Predicate = new EqualXml()
-                    {
-                        Value = "100"
-                    }
+                    Predicate = new EqualXml() { Reference = "100" }
                 }
             };
 
@@ -632,10 +620,7 @@ namespace NBi.Testing.Unit.Xml.Constraints
         {
             var root = new PredicationXml()
             {
-                Predicate = new MatchesRegexXml
-                {
-                    Value="<|>|&"
-                }
+                Predicate = new MatchesRegexXml { Reference = "<|>|&" }
             };
 
             var overrides = new WriteOnlyAttributes();
@@ -661,8 +646,9 @@ namespace NBi.Testing.Unit.Xml.Constraints
             Assert.That(objectData, Is.TypeOf<PredicationXml>());
             Assert.That(objectData, Is.Not.Null);
             Assert.That(objectData.Predicate, Is.TypeOf<MatchesRegexXml>());
-            Assert.That(objectData.Predicate, Is.Not.Null);
-            Assert.That(objectData.Predicate.Value, Is.EqualTo("<|>|&"));
+            var predicate = objectData.Predicate as MatchesRegexXml;
+            Assert.That(predicate, Is.Not.Null);
+            Assert.That(predicate.Reference, Is.EqualTo("<|>|&"));
         }
 
         [Test]
@@ -676,8 +662,9 @@ namespace NBi.Testing.Unit.Xml.Constraints
             Assert.That(objectData, Is.TypeOf<PredicationXml>());
             Assert.That(objectData, Is.Not.Null);
             Assert.That(objectData.Predicate, Is.TypeOf<MatchesRegexXml>());
-            Assert.That(objectData.Predicate, Is.Not.Null);
-            Assert.That(objectData.Predicate.Value, Is.EqualTo("<|>|&"));
+            var predicate = objectData.Predicate as MatchesRegexXml;
+            Assert.That(predicate, Is.Not.Null);
+            Assert.That(predicate.Reference, Is.EqualTo("<|>|&"));
         }
 
         [Test]
@@ -685,10 +672,7 @@ namespace NBi.Testing.Unit.Xml.Constraints
         {
             var root = new PredicationXml()
             {
-                Predicate = new EqualXml
-                {
-                    Value = "0"
-                }
+                Predicate = new EqualXml() { Reference = "0" }
             };
 
             var overrides = new WriteOnlyAttributes();
@@ -712,8 +696,9 @@ namespace NBi.Testing.Unit.Xml.Constraints
             Assert.That(objectData, Is.TypeOf<PredicationXml>());
             Assert.That(objectData, Is.Not.Null);
             Assert.That(objectData.Predicate, Is.TypeOf<EqualXml>());
-            Assert.That(objectData.Predicate, Is.Not.Null);
-            Assert.That(objectData.Predicate.Value, Is.EqualTo("<|>|&"));
+            var predicate = objectData.Predicate as EqualXml;
+            Assert.That(predicate, Is.Not.Null);
+            Assert.That(predicate.Reference, Is.EqualTo("<|>|&"));
         }
 
         [Test]
@@ -727,8 +712,9 @@ namespace NBi.Testing.Unit.Xml.Constraints
             Assert.That(objectData, Is.TypeOf<PredicationXml>());
             Assert.That(objectData, Is.Not.Null);
             Assert.That(objectData.Predicate, Is.TypeOf<EqualXml>());
-            Assert.That(objectData.Predicate, Is.Not.Null);
-            Assert.That(objectData.Predicate.Value, Is.EqualTo("<|>|&"));
+            var predicate = objectData.Predicate as EqualXml;
+            Assert.That(predicate, Is.Not.Null);
+            Assert.That(predicate.Reference, Is.EqualTo("<|>|&"));
         }
     }
 }

@@ -19,7 +19,7 @@ namespace NBi.Core.Calculation.Predicate.Numeric
         }
         public override string ToString()
         {
-            return $"is more than {Reference}";
+            return $"is more than {Reference.Execute()}";
         }
     }
 }

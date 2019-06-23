@@ -30,14 +30,28 @@ namespace NBi.Core.Scalar.Resolver
 
             var converter = TypeDescriptor.GetConverter(typeof(T));
 
-            var output = converter.CanConvertFrom(args.Object.GetType()) ?
-                converter.ConvertFrom(null, System.Globalization.CultureInfo.InvariantCulture, args.Object)
-                : Convert.ChangeType(args.Object, typeof(T));
+            var output = ConvertValue(args.Object);
 
             Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceVerbose, $"Literal evaluated to: {output}");
-            return (T)output;
+            return output;
         }
 
-        object IScalarResolver.Execute() => Execute();
+        private T ConvertValue(object value)
+        {
+            var converter = TypeDescriptor.GetConverter(typeof(T));
+
+            if (converter.CanConvertFrom(args.Object.GetType()))
+                try
+                { return (T)converter.ConvertFrom(null, System.Globalization.CultureInfo.InvariantCulture, value); }
+                catch (Exception)
+                { throw new ArgumentException($"Cannot convert the value '{value}' to a '{typeof(T).Name}'"); }
+            else
+                try
+                { return (T)Convert.ChangeType(args.Object, typeof(T)); }
+                catch (Exception)
+                { throw new ArgumentException($"Cannot convert the value '{value}' to a '{typeof(T).Name}'"); }
+        }
+
+        object IResolver.Execute() => Execute();
     }
 }

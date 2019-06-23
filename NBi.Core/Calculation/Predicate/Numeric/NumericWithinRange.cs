@@ -29,6 +29,6 @@ namespace NBi.Core.Calculation.Predicate.Numeric
             return interval.Contains(numX);
         }
 
-        public override string ToString() => $"is within the interval {Reference}";
+        public override string ToString() => $"is within the interval {Reference.Execute()}";
     }
 }

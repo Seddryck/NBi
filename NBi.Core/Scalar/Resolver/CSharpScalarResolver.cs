@@ -78,6 +78,6 @@ namespace NBi.Core.Scalar.Resolver
             return function.GetMethod("Function");
         }
 
-        object IScalarResolver.Execute() => Execute();
+        object IResolver.Execute() => Execute();
     }
 }

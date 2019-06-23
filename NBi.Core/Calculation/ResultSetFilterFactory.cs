@@ -23,31 +23,31 @@ namespace NBi.Core.Calculation
             this.variables = variables;
         }
 
-        public IResultSetFilter Instantiate(IEnumerable<IColumnAlias> aliases, IEnumerable<IColumnExpression> expressions, IPredicateInfo predicateInfo)
+        public IResultSetFilter Instantiate(IEnumerable<IColumnAlias> aliases, IEnumerable<IColumnExpression> expressions, PredicationArgs predicationArgs)
         {
-            if (predicateInfo.Operand == null)
-                throw new ArgumentException("You must specify an operand for a predicate. The operand is the column or alias or expression on which the predicate will be evaluated.");
+            if (predicationArgs.Identifier == null)
+                throw new ArgumentException("You must specify an operand for a predication. The operand is the column or alias or expression on which the predicate will be evaluated.");
 
             var factory = new PredicateFactory();
-            var predicate = factory.Instantiate(predicateInfo, variables);
+            var predicate = factory.Instantiate(predicationArgs.Predicate);
 
-            var pf = new SinglePredicateFilter(aliases, expressions, predicateInfo.Operand, predicate.Execute, predicate.ToString);
+            var pf = new SinglePredicateFilter(aliases, expressions, predicationArgs.Identifier, predicate.Execute, predicate.ToString);
 
             return pf;
         }
 
-        public IResultSetFilter Instantiate(IEnumerable<IColumnAlias> aliases, IEnumerable<IColumnExpression> expressions, CombinationOperator combinationOperator, IEnumerable<IPredicateInfo> predicateInfos)
+        public IResultSetFilter Instantiate(IEnumerable<IColumnAlias> aliases, IEnumerable<IColumnExpression> expressions, CombinationOperator combinationOperator, IEnumerable<PredicationArgs> predicationArgs)
         {
             var predications = new List<Predication>();
 
             var factory = new PredicateFactory();
-            foreach (var predicateInfo in predicateInfos)
+            foreach (var predicationArg in predicationArgs)
             {
-                if (predicateInfo.Operand == null)
+                if (predicationArg.Identifier == null)
                     throw new ArgumentException("You must specify an operand for a predicate. The operand is the column or alias or expression on which the predicate will be evaluated.");
 
-                var predicate = factory.Instantiate(predicateInfo, variables);
-                predications.Add(new Predication(predicate, predicateInfo.Operand));
+                var predicate = factory.Instantiate(predicationArg.Predicate);
+                predications.Add(new Predication(predicate, predicationArg.Identifier));
             }
 
             switch (combinationOperator)

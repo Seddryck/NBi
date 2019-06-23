@@ -1,4 +1,5 @@
 ﻿using NBi.Core.Scalar.Resolver;
+using NBi.Core.Sequence.Resolver;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -11,9 +12,9 @@ namespace NBi.Core.Calculation.Predicate.Text
 {
     class TextAnyOf : AbstractTextPredicate
     {
-        protected IEnumerable<string> References { get => Reference as IEnumerable<string>; }
+        protected IEnumerable<string> References { get => (IEnumerable<string>)Reference.Execute(); }
 
-        public TextAnyOf(bool not, IScalarResolver reference, StringComparison stringComparison)
+        public TextAnyOf(bool not, ISequenceResolver reference, StringComparison stringComparison)
             : base(not, reference, stringComparison)
         { }
 
@@ -25,6 +26,6 @@ namespace NBi.Core.Calculation.Predicate.Text
         }
 
         public override string ToString() 
-            => $"is within the list of {References.Count()} values ('{(String.Join("', '", References.Take(Math.Min(3, References.Count()))))}'{(References.Count()>3 ? ", ..." : string.Empty)})";
+            => $"is within the list of {References.Count()} values ('{(string.Join("', '", References.Take(Math.Min(3, References.Count()))))}'{(References.Count()>3 ? ", ..." : string.Empty)})";
     }
 }

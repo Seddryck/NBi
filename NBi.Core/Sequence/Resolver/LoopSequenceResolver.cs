@@ -18,6 +18,7 @@ namespace NBi.Core.Sequence.Resolver
         }
 
         IList ISequenceResolver.Execute() => this.Execute();
+        object IResolver.Execute() => this.Execute();
 
         public List<T> Execute()
         {

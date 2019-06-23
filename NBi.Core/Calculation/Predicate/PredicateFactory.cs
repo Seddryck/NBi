@@ -4,6 +4,7 @@ using NBi.Core.Calculation.Predicate.Numeric;
 using NBi.Core.Calculation.Predicate.Text;
 using NBi.Core.ResultSet;
 using NBi.Core.Scalar.Resolver;
+using NBi.Core.Sequence.Resolver;
 using NBi.Core.Variable;
 using System;
 using System.Collections.Generic;
@@ -15,60 +16,60 @@ namespace NBi.Core.Calculation.Predicate
 {
     class PredicateFactory
     {
-        public IPredicate Instantiate(ComparerType comparerType, ColumnType columnType, bool not, IScalarResolver reference, string culture, StringComparison stringComparison, object secondOperand)
+        private IPredicate Instantiate(ComparerType comparerType, ColumnType columnType, bool not, IResolver reference, string culture, StringComparison stringComparison, object secondOperand)
         {
             switch (columnType)
             {
                 case ColumnType.Text:
                     switch (comparerType)
                     {
-                        case ComparerType.LessThan: return new TextLessThan(not, reference);
-                        case ComparerType.LessThanOrEqual: return new TextLessThanOrEqual(not, reference);
-                        case ComparerType.Equal: return new TextEqual(not, reference);
-                        case ComparerType.MoreThanOrEqual: return new TextMoreThanOrEqual(not, reference);
-                        case ComparerType.MoreThan: return new TextMoreThan(not, reference);
+                        case ComparerType.LessThan: return new TextLessThan(not, (IScalarResolver)reference);
+                        case ComparerType.LessThanOrEqual: return new TextLessThanOrEqual(not, (IScalarResolver)reference);
+                        case ComparerType.Equal: return new TextEqual(not, (IScalarResolver)reference);
+                        case ComparerType.MoreThanOrEqual: return new TextMoreThanOrEqual(not, (IScalarResolver)reference);
+                        case ComparerType.MoreThan: return new TextMoreThan(not, (IScalarResolver)reference);
                         case ComparerType.Null: return new TextNull(not);
                         case ComparerType.Empty: return new TextEmpty(not);
                         case ComparerType.NullOrEmpty: return new TextNullOrEmpty(not);
                         case ComparerType.LowerCase: return new TextLowerCase(not);
                         case ComparerType.UpperCase: return new TextUpperCase(not);
-                        case ComparerType.StartsWith: return new TextStartsWith(not, reference, stringComparison);
-                        case ComparerType.EndsWith: return new TextEndsWith(not, reference, stringComparison);
-                        case ComparerType.Contains: return new TextContains(not, reference, stringComparison);
-                        case ComparerType.MatchesRegex: return new TextMatchesRegex(not, reference, stringComparison);
+                        case ComparerType.StartsWith: return new TextStartsWith(not, (IScalarResolver)reference, stringComparison);
+                        case ComparerType.EndsWith: return new TextEndsWith(not, (IScalarResolver)reference, stringComparison);
+                        case ComparerType.Contains: return new TextContains(not, (IScalarResolver)reference, stringComparison);
+                        case ComparerType.MatchesRegex: return new TextMatchesRegex(not, (IScalarResolver)reference, stringComparison);
                         case ComparerType.MatchesNumeric: return new TextMatchesNumeric(not, culture);
                         case ComparerType.MatchesDate: return new TextMatchesDate(not, culture);
                         case ComparerType.MatchesTime: return new TextMatchesTime(not, culture);
                         case ComparerType.MatchesDateTime: return new TextMatchesDateTime(not, culture);
-                        case ComparerType.AnyOf: return new TextAnyOf(not, reference, stringComparison);
+                        case ComparerType.AnyOf: return new TextAnyOf(not, (ISequenceResolver)reference, stringComparison);
                         default:
                             throw new ArgumentOutOfRangeException($"Text columns don't support  the '{comparerType.ToString().ToDashedCase()}' comparer.");
                     }
                 case ColumnType.Numeric:
                     switch (comparerType)
                     {
-                        case ComparerType.LessThan: return new NumericLessThan(not, reference);
-                        case ComparerType.LessThanOrEqual: return new NumericLessThanOrEqual(not, reference);
-                        case ComparerType.Equal: return new NumericEqual(not, reference);
-                        case ComparerType.MoreThanOrEqual: return new NumericMoreThanOrEqual(not, reference);
-                        case ComparerType.MoreThan: return new NumericMoreThan(not, reference);
+                        case ComparerType.LessThan: return new NumericLessThan(not, (IScalarResolver)reference);
+                        case ComparerType.LessThanOrEqual: return new NumericLessThanOrEqual(not, (IScalarResolver)reference);
+                        case ComparerType.Equal: return new NumericEqual(not, (IScalarResolver)reference);
+                        case ComparerType.MoreThanOrEqual: return new NumericMoreThanOrEqual(not, (IScalarResolver)reference);
+                        case ComparerType.MoreThan: return new NumericMoreThan(not, (IScalarResolver)reference);
                         case ComparerType.Null: return new NumericNull(not);
-                        case ComparerType.WithinRange: return new NumericWithinRange(not, reference);
+                        case ComparerType.WithinRange: return new NumericWithinRange(not, (IScalarResolver)reference);
                         case ComparerType.Integer: return new NumericInteger(not);
-                        case ComparerType.Modulo: return new NumericModulo(not, secondOperand, reference);
+                        case ComparerType.Modulo: return new NumericModulo(not, secondOperand, (IScalarResolver)reference);
                         default:
                             throw new ArgumentOutOfRangeException($"Numeric columns don't support the '{comparerType.ToString().ToDashedCase()}' comparer.");
                     }
                 case ColumnType.DateTime:
                     switch (comparerType)
                     {
-                        case ComparerType.LessThan: return new DateTimeLessThan(not, reference);
-                        case ComparerType.LessThanOrEqual: return new DateTimeLessThanOrEqual(not, reference);
-                        case ComparerType.Equal: return new DateTimeEqual(not, reference);
-                        case ComparerType.MoreThanOrEqual: return new DateTimeMoreThanOrEqual(not, reference);
-                        case ComparerType.MoreThan: return new DateTimeMoreThan(not, reference);
+                        case ComparerType.LessThan: return new DateTimeLessThan(not, (IScalarResolver)reference);
+                        case ComparerType.LessThanOrEqual: return new DateTimeLessThanOrEqual(not, (IScalarResolver)reference);
+                        case ComparerType.Equal: return new DateTimeEqual(not, (IScalarResolver)reference);
+                        case ComparerType.MoreThanOrEqual: return new DateTimeMoreThanOrEqual(not, (IScalarResolver)reference);
+                        case ComparerType.MoreThan: return new DateTimeMoreThan(not, (IScalarResolver)reference);
                         case ComparerType.Null: return new DateTimeNull(not);
-                        case ComparerType.WithinRange: return new DateTimeWithinRange(not, reference);
+                        case ComparerType.WithinRange: return new DateTimeWithinRange(not, (IScalarResolver)reference);
                         case ComparerType.OnTheDay: return new DateTimeOnTheDay(not);
                         case ComparerType.OnTheHour: return new DateTimeOnTheHour(not);
                         case ComparerType.OnTheMinute: return new DateTimeOnTheMinute(not);
@@ -78,7 +79,7 @@ namespace NBi.Core.Calculation.Predicate
                 case ColumnType.Boolean:
                     switch (comparerType)
                     {
-                        case ComparerType.Equal: return new BooleanEqual(not, reference);
+                        case ComparerType.Equal: return new BooleanEqual(not, (IScalarResolver)reference);
                         case ComparerType.Null: return new BooleanNull(not);
                         case ComparerType.True: return new BooleanTrue(not);
                         case ComparerType.False: return new BooleanFalse(not);
@@ -92,39 +93,12 @@ namespace NBi.Core.Calculation.Predicate
             throw new ArgumentOutOfRangeException();
         }
 
-        public IPredicate Instantiate(IPredicateInfo info)
-            => Instantiate(info.ComparerType, info.ColumnType, info.Not
-                , info is IReferencePredicateInfo ? (info as IReferencePredicateInfo).Reference : null
-                , info is ICultureSensitivePredicateInfo ? (info as ICultureSensitivePredicateInfo).Culture : null
-                , info is ICaseSensitivePredicateInfo ? (info as ICaseSensitivePredicateInfo).StringComparison : StringComparison.InvariantCulture
-                , info is ISecondOperandPredicateInfo ? (info as ISecondOperandPredicateInfo).SecondOperand : null
+        public IPredicate Instantiate(PredicateArgs args)
+            => Instantiate(args.ComparerType, args.ColumnType, args.Not
+                , (args as ReferencePredicateArgs)?.Reference
+                , (args as CultureSensitivePredicateArgs)?.Culture
+                , (args as CaseSensitivePredicateArgs)?.StringComparison ?? StringComparison.InvariantCulture
+                , (args as SecondOperandPredicateArgs)?.SecondOperand
                 );
-
-        public IPredicate Instantiate(IPredicateInfo info, IDictionary<string, ITestVariable> variables)
-        {
-            IScalarResolver reference = null;
-            if (info is IReferencePredicateInfo)
-            {
-                reference = (info as IReferencePredicateInfo).Reference;
-                //if ((info as IReferencePredicateInfo).Reference is GlobalVariableScalarResolver)
-                //    if (((info as IReferencePredicateInfo).Reference as string).StartsWith("@"))
-                //    {
-                //        if (variables == null)
-                //            throw new ArgumentException("The dictionary of variables can't be null", nameof(variables));
-
-                //        var key = ((info as IReferencePredicateInfo).Reference as string).Substring(1);
-                //        if (!variables.ContainsKey(key))
-                //            throw new NBiException($"The predicate uses the variable '{key}' as a reference but this variable is not defined.");
-                //        reference = variables[key];
-                //    }
-            }
-
-            return Instantiate(info.ComparerType, info.ColumnType, info.Not
-                , reference
-                , (info as ICultureSensitivePredicateInfo)?.Culture
-                , (info as ICaseSensitivePredicateInfo)?.StringComparison ?? StringComparison.InvariantCulture
-                , (info as ISecondOperandPredicateInfo)?.SecondOperand
-                );
-        }
     }
 }

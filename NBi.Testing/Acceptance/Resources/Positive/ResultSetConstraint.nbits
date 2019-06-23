@@ -26,7 +26,7 @@
     </variable>
   </variables>
   <group name="asserts">
-    <!--<test name="Csv equal to embedded result-set" uid="0001">
+    <test name="Csv equal to embedded result-set" uid="0001">
       <system-under-test>
         <resultSet file="..\Csv\ResellerOrderCountByYearBefore2006.csv"/>
       </system-under-test>
@@ -178,7 +178,7 @@
           <result-set file="..\Csv\Orders.csv"/>
         </lookup-exists>
       </assert>
-    </test>-->
+    </test>
     <test name="lookup-matches" uid="00091">
       <system-under-test>
         <result-set>
@@ -246,7 +246,7 @@
       </assert>
     </test>
   </group>
-  <!--<group name="system-under-tests">
+  <group name="system-under-tests">
     <test name="Embedded result-set" uid="0101">
       <system-under-test>
         <resultSet>
@@ -574,6 +574,33 @@
         </equalTo>
       </assert>
     </test>
+    <test name="Filter with one predicate having the reference defined as a native transformation applied to a variable" uid="0205">
+      <system-under-test>
+        <resultSet file="..\Csv\ResellerOrderCountByYearBefore2006.csv">
+          <alteration>
+            <filter>
+              <predicate name="#0" type="text">
+                <less-than>@CY2007 | text-to-upper</less-than>
+              </predicate>
+            </filter>
+          </alteration>
+        </resultSet>
+      </system-under-test>
+      <assert>
+        <equalTo>
+          <resultSet>
+            <row>
+              <cell>CY 2005</cell>
+              <cell>366</cell>
+            </row>
+            <row>
+              <cell>CY 2006</cell>
+              <cell>1015</cell>
+            </row>
+          </resultSet>
+        </equalTo>
+      </assert>
+    </test>
     <test name="Filter with one ranking top" uid="0211">
       <system-under-test>
         <resultSet file="..\Csv\ResellerOrderCountByYearBefore2006.csv">
@@ -801,5 +828,5 @@
         </equalTo>
       </assert>
     </test>
-  </group>-->
+  </group>
 </testSuite>

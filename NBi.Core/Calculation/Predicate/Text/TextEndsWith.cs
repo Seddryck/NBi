@@ -22,7 +22,7 @@ namespace NBi.Core.Calculation.Predicate.Text
 
         public override string ToString()
         {
-            return $"ends with '{Reference}'";
+            return $"ends with '{Reference.Execute()}'";
         }
     }
 }

@@ -64,7 +64,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
 
             var ctrXml = new RowCountXml(SettingsXml.Empty)
             {
-                MoreThan = new MoreThanXml() { Value = "100"} 
+                MoreThan = new MoreThanXml() { Reference = "100"} 
             };
 
             var builder = new ResultSetRowCountBuilder();
@@ -89,10 +89,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
 
             var ctrXml = new RowCountXml(SettingsXml.Empty)
             {
-                Equal = new EqualXml
-                {
-                    Value = "50"
-                },
+                Equal = new EqualXml { Reference = "50" },
                 Filter = new FilterXml()
             };
             ctrXml.Filter.InternalAliases.Add(new AliasXml());
@@ -120,7 +117,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
 
             var ctrXml = new RowCountXml(SettingsXml.Empty)
             {
-                Equal = new EqualXml() { Value = "50.4%" },
+                Equal = new EqualXml() { Reference = "50.4%" },
                 Filter = new FilterXml()
                 {
                     InternalAliases = new List<AliasXml>() { new AliasXml()},
@@ -150,7 +147,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
 
             var ctrXml = new RowCountXml(SettingsXml.Empty)
             {
-                MoreThan = new MoreThanXml() { Value = "10" }
+                MoreThan = new MoreThanXml() { Reference = "10" }
             };
 
             var builder = new ResultSetRowCountBuilder();
@@ -172,7 +169,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
 
             var ctrXml = new RowCountXml(SettingsXml.Empty)
             {
-                MoreThan = new MoreThanXml() { Value = "10" }
+                MoreThan = new MoreThanXml() { Reference = "10" }
             };
 
             var builder = new ResultSetRowCountBuilder();

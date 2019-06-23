@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace NBi.Core.Sequence.Resolver
 {
-    public interface ISequenceResolver
+    public interface ISequenceResolver : IResolver
     {
-        IList Execute();
+        new IList Execute();
     }
 
     public interface ISequenceResolver<T> : ISequenceResolver

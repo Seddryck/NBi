@@ -10,19 +10,19 @@ namespace NBi.NUnit
 {
     public class DifferedConstraint
     {
-        private Type constraintType;
-        private readonly IScalarResolver<decimal> resolver;
+        private Type ConstraintType { get; }
+        private IScalarResolver<decimal> Resolver { get; }
 
         public DifferedConstraint(Type constraintType, IScalarResolver<decimal> resolver)
         {
-            this.constraintType = constraintType;
-            this.resolver = resolver;
+            ConstraintType = constraintType;
+            Resolver = resolver;
         }
 
         public NUnitCtr.Constraint Resolve()
         {
-            var expected = resolver.Execute();
-            var ctr = Activator.CreateInstance(constraintType, expected);
+            var expected = Resolver.Execute();
+            var ctr = Activator.CreateInstance(ConstraintType, expected);
             return (NUnitCtr.Constraint)ctr;
         }
         

@@ -12,6 +12,7 @@ using NBi.Core.ResultSet;
 using NBi.Core.ResultSet.Resolver;
 using NBi.Core.Transformation;
 using NBi.Core.Scalar.Resolver;
+using NBi.Core.Calculation.Predicate;
 
 namespace NBi.Testing.Unit.Core.Calculation
 {
@@ -34,13 +35,16 @@ namespace NBi.Testing.Unit.Core.Calculation
 
             var aliases = new[] { Mock.Of<IColumnAlias>(v => v.Column == 0 && v.Name == "a") };
 
-            var predicate = new Mock<IPredicateInfo>();
+            var predicate = new Mock<PredicateArgs>();
             predicate.SetupGet(p => p.ColumnType).Returns(ColumnType.Text);
             predicate.SetupGet(p => p.ComparerType).Returns(ComparerType.NullOrEmpty);
-            predicate.SetupGet(p => p.Operand).Returns(new ColumnNameIdentifier("a"));
+
+            var predication = new Mock<PredicationArgs>();
+            predication.SetupGet(p => p.Identifier).Returns(new ColumnNameIdentifier("a"));
+            predication.SetupGet(p => p.Predicate).Returns(predicate.Object);
 
             var factory = new ResultSetFilterFactory(null);
-            var filter = factory.Instantiate(aliases, new IColumnExpression[0], predicate.Object);
+            var filter = factory.Instantiate(aliases, new IColumnExpression[0], predication.Object);
             var result = filter.Apply(rs);
 
             Assert.That(result.Rows, Has.Count.EqualTo(2));
@@ -59,13 +63,15 @@ namespace NBi.Testing.Unit.Core.Calculation
                     }));
             var rs = service.Execute();
 
-            var predicate = new Mock<IPredicateInfo>();
+            var predicate = new Mock<PredicateArgs>();
             predicate.SetupGet(p => p.ColumnType).Returns(ColumnType.Text);
             predicate.SetupGet(p => p.ComparerType).Returns(ComparerType.NullOrEmpty);
-            predicate.SetupGet(p => p.Operand).Returns(new ColumnOrdinalIdentifier(0));
+            var predication = new Mock<PredicationArgs>();
+            predication.SetupGet(p => p.Identifier).Returns(new ColumnOrdinalIdentifier(0));
+            predication.SetupGet(p => p.Predicate).Returns(predicate.Object);
 
             var factory = new ResultSetFilterFactory(null);
-            var filter = factory.Instantiate(new IColumnAlias[0], new IColumnExpression[0], predicate.Object);
+            var filter = factory.Instantiate(new IColumnAlias[0], new IColumnExpression[0], predication.Object);
             var result = filter.Apply(rs);
 
             Assert.That(result.Rows, Has.Count.EqualTo(2));
@@ -86,13 +92,15 @@ namespace NBi.Testing.Unit.Core.Calculation
             var rs = service.Execute();
             rs.Table.Columns[0].ColumnName = "first";
 
-            var predicate = new Mock<IPredicateInfo>();
+            var predicate = new Mock<PredicateArgs>();
             predicate.SetupGet(p => p.ColumnType).Returns(ColumnType.Text);
             predicate.SetupGet(p => p.ComparerType).Returns(ComparerType.NullOrEmpty);
-            predicate.SetupGet(p => p.Operand).Returns(new ColumnNameIdentifier("first"));
+            var predication = new Mock<PredicationArgs>();
+            predication.SetupGet(p => p.Identifier).Returns(new ColumnNameIdentifier("first"));
+            predication.SetupGet(p => p.Predicate).Returns(predicate.Object);
 
             var factory = new ResultSetFilterFactory(null);
-            var filter = factory.Instantiate(new IColumnAlias[0], new IColumnExpression[0], predicate.Object);
+            var filter = factory.Instantiate(new IColumnAlias[0], new IColumnExpression[0], predication.Object);
             var result = filter.Apply(rs);
 
             Assert.That(result.Rows, Has.Count.EqualTo(2));
@@ -112,13 +120,16 @@ namespace NBi.Testing.Unit.Core.Calculation
             var rs = service.Execute();
             rs.Table.Columns[0].ColumnName = "first";
 
-            var predicate = new Mock<IPredicateInfo>();
+            var predicate = new Mock<PredicateArgs>();
             predicate.SetupGet(p => p.ColumnType).Returns(ColumnType.Text);
             predicate.SetupGet(p => p.ComparerType).Returns(ComparerType.NullOrEmpty);
-            predicate.SetupGet(p => p.Operand).Returns(new ColumnNameIdentifier("FirST"));
+
+            var predication = new Mock<PredicationArgs>();
+            predication.SetupGet(p => p.Identifier).Returns(new ColumnNameIdentifier("FirSt"));
+            predication.SetupGet(p => p.Predicate).Returns(predicate.Object);
 
             var factory = new ResultSetFilterFactory(null);
-            var filter = factory.Instantiate(new IColumnAlias[0], new IColumnExpression[0], predicate.Object);
+            var filter = factory.Instantiate(new IColumnAlias[0], new IColumnExpression[0], predication.Object);
             var result = filter.Apply(rs);
 
             Assert.That(result.Rows, Has.Count.EqualTo(2));
@@ -141,13 +152,17 @@ namespace NBi.Testing.Unit.Core.Calculation
             rs.Table.Columns[1].ColumnName = "second";
             rs.Table.Columns[2].ColumnName = "third";
 
-            var predicate = new Mock<IPredicateInfo>();
+            var predicate = new Mock<ReferencePredicateArgs>();
             predicate.SetupGet(p => p.ColumnType).Returns(ColumnType.Text);
             predicate.SetupGet(p => p.ComparerType).Returns(ComparerType.NullOrEmpty);
-            predicate.SetupGet(p => p.Operand).Returns(new ColumnNameIdentifier("Unexisting"));
+            predicate.SetupGet(p => p.Reference).Returns(new LiteralScalarResolver<decimal>(200));
+
+            var predication = new Mock<PredicationArgs>();
+            predication.SetupGet(p => p.Identifier).Returns(new ColumnNameIdentifier("Unexisting"));
+            predication.SetupGet(p => p.Predicate).Returns(predicate.Object);
 
             var factory = new ResultSetFilterFactory(null);
-            var filter = factory.Instantiate(new IColumnAlias[0], new IColumnExpression[0], predicate.Object);
+            var filter = factory.Instantiate(new IColumnAlias[0], new IColumnExpression[0], predication.Object);
             var ex = Assert.Throws<ArgumentException>(() => filter.Apply(rs));
             Assert.That(ex.Message, Is.StringContaining("first"));
             Assert.That(ex.Message, Is.StringContaining("second"));
@@ -180,14 +195,17 @@ namespace NBi.Testing.Unit.Core.Calculation
                 Mock.Of<IColumnExpression>(e => e.Value == "[b]*[c]" && e.Name == "e" && e.Language == LanguageType.NCalc)
             };
 
-            var predicate = new Mock<IPredicateInfo>();
+            var predicate = new Mock<ReferencePredicateArgs>();
             predicate.SetupGet(p => p.ColumnType).Returns(ColumnType.Numeric);
             predicate.SetupGet(p => p.ComparerType).Returns(ComparerType.MoreThanOrEqual);
-            predicate.SetupGet(p => p.Operand).Returns(new ColumnNameIdentifier("d"));
-            predicate.As<IReferencePredicateInfo>().SetupGet(p => p.Reference).Returns(new LiteralScalarResolver<decimal>(200));
+            predicate.SetupGet(p => p.Reference).Returns(new LiteralScalarResolver<decimal>(200));
+
+            var predication = new Mock<PredicationArgs>();
+            predication.SetupGet(p => p.Identifier).Returns(new ColumnNameIdentifier("d"));
+            predication.SetupGet(p => p.Predicate).Returns(predicate.Object);
 
             var factory = new ResultSetFilterFactory(null);
-            var filter = factory.Instantiate(aliases, expressions, predicate.Object);
+            var filter = factory.Instantiate(aliases, expressions, predication.Object);
             var result = filter.Apply(rs);
 
             Assert.That(result.Rows, Has.Count.EqualTo(2));
@@ -218,14 +236,17 @@ namespace NBi.Testing.Unit.Core.Calculation
                 Mock.Of<IColumnExpression>(e => e.Value == "[#1]*[c1]" && e.Name == "e" && e.Language == LanguageType.NCalc)
             };
 
-            var predicate = new Mock<IPredicateInfo>();
+            var predicate = new Mock<ReferencePredicateArgs>();
             predicate.SetupGet(p => p.ColumnType).Returns(ColumnType.Numeric);
             predicate.SetupGet(p => p.ComparerType).Returns(ComparerType.MoreThanOrEqual);
-            predicate.SetupGet(p => p.Operand).Returns(new ColumnNameIdentifier("d"));
-            predicate.As<IReferencePredicateInfo>().SetupGet(p => p.Reference).Returns(new LiteralScalarResolver<decimal>(200));
+            predicate.SetupGet(p => p.Reference).Returns(new LiteralScalarResolver<decimal>(200));
+
+            var predication = new Mock<PredicationArgs>();
+            predication.SetupGet(p => p.Identifier).Returns(new ColumnNameIdentifier("d"));
+            predication.SetupGet(p => p.Predicate).Returns(predicate.Object);
 
             var factory = new ResultSetFilterFactory(null);
-            var filter = factory.Instantiate(aliases, expressions, predicate.Object);
+            var filter = factory.Instantiate(aliases, expressions, predication.Object);
             var result = filter.Apply(rs);
 
             Assert.That(result.Rows, Has.Count.EqualTo(2));
@@ -259,14 +280,18 @@ namespace NBi.Testing.Unit.Core.Calculation
                     && e.Type==ColumnType.DateTime),
             };
 
-            var predicate = new Mock<IPredicateInfo>();
+            var predicate = new Mock<ReferencePredicateArgs>();
             predicate.SetupGet(p => p.ColumnType).Returns(ColumnType.DateTime);
             predicate.SetupGet(p => p.ComparerType).Returns(ComparerType.MoreThanOrEqual);
-            predicate.SetupGet(p => p.Operand).Returns(new ColumnNameIdentifier("d"));
-            predicate.As<IReferencePredicateInfo>().SetupGet(p => p.Reference).Returns(new LiteralScalarResolver<DateTime>(new DateTime(2019, 10, 2)));
+            predicate.SetupGet(p => p.Reference).Returns(new LiteralScalarResolver<DateTime>(new DateTime(2019, 10, 2)));
+
+            var predication = new Mock<PredicationArgs>();
+            predication.SetupGet(p => p.Identifier).Returns(new ColumnNameIdentifier("d"));
+            predication.SetupGet(p => p.Predicate).Returns(predicate.Object);
+
 
             var factory = new ResultSetFilterFactory(null);
-            var filter = factory.Instantiate(aliases, expressions, predicate.Object);
+            var filter = factory.Instantiate(aliases, expressions, predication.Object);
             var result = filter.Apply(rs);
 
             Assert.That(result.Rows, Has.Count.EqualTo(2));

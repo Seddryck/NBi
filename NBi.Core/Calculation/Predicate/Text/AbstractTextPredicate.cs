@@ -11,7 +11,7 @@ namespace NBi.Core.Calculation.Predicate
     {
         public StringComparison StringComparison { get; private set; }
 
-        public AbstractTextPredicate(bool not, IScalarResolver reference, StringComparison stringComparison) 
+        public AbstractTextPredicate(bool not, IResolver reference, StringComparison stringComparison) 
             : base(not, reference)
         {
             this.StringComparison = stringComparison;

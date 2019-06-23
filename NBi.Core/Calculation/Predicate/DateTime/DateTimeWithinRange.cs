@@ -29,7 +29,7 @@ namespace NBi.Core.Calculation.Predicate.DateTime
 
         public override string ToString()
         {
-            return $"is within the interval {Reference}";
+            return $"is within the interval {Reference.Execute()}";
         }
     }
 }

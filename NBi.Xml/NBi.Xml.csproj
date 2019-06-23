@@ -61,13 +61,17 @@
     </Compile>
     <Compile Include="Constraints\AbstractConstraintForCollectionXml.cs" />
     <Compile Include="Constraints\AbstractConstraintXml.cs" />
+    <Compile Include="Constraints\Comparer\IPredicateXml.cs" />
+    <Compile Include="Constraints\Comparer\SequenceReferencePredicateXml.cs" />
+    <Compile Include="Constraints\Comparer\ScalarReferencePredicateXml.cs" />
+    <Compile Include="Constraints\Comparer\ReferencePredicateXml.cs" />
     <Compile Include="Constraints\LookupMatchesXml.cs" />
     <Compile Include="Constraints\ScoreXml.cs" />
-    <Compile Include="Constraints\Comparer\CultureSensitiveTextPredicateXml.cs" />
-    <Compile Include="Constraints\Comparer\CaseSensitiveTextPredicateXml.cs" />
+    <Compile Include="Constraints\Comparer\ICultureSensitiveTextPredicateXml.cs" />
+    <Compile Include="Constraints\Comparer\ICaseSensitiveTextPredicateXml.cs" />
     <Compile Include="Constraints\Comparer\IntegerXml.cs" />
     <Compile Include="Constraints\Comparer\FalseXml.cs" />
-    <Compile Include="Constraints\Comparer\ITwoOperandsXml.cs" />
+    <Compile Include="Constraints\Comparer\SecondOperandPredicateXml.cs" />
     <Compile Include="Constraints\Comparer\MatchesTimeXml.cs" />
     <Compile Include="Constraints\Comparer\MatchesNumericXml.cs" />
     <Compile Include="Constraints\Comparer\MatchesDateXml.cs" />

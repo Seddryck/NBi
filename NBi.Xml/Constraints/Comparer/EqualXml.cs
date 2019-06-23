@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace NBi.Xml.Constraints.Comparer
 {
-    public class EqualXml : PredicateXml
+    public class EqualXml : ScalarReferencePredicateXml
     {
-        internal override ComparerType ComparerType { get => ComparerType.Equal; }
+        public override ComparerType ComparerType { get => ComparerType.Equal; }
     }
 }

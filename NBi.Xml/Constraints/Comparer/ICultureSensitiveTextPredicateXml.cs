@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NBi.Core.Calculation;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -8,10 +9,8 @@ using System.Xml.Serialization;
 
 namespace NBi.Xml.Constraints.Comparer
 {
-    public abstract class CaseSensitiveTextPredicateXml : PredicateXml
+    public interface ICultureSensitiveTextPredicateXml : IPredicateXml
     {
-        [XmlAttribute("ignore-case")]
-        [DefaultValue(false)]
-        public bool IgnoreCase { get; set; }
+        string Culture { get; set; }
     }
 }

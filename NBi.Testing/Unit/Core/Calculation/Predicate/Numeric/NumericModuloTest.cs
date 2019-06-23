@@ -10,21 +10,21 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Testing.Unit.Core.Calculation
+namespace NBi.Testing.Unit.Core.Calculation.Predicate.Numeric
 {
-    public class PredicateTwoOperandsTest
+    public class NumericModuloTest
     {
         [Test]
         [TestCase(ComparerType.Modulo, 10, 5, 0)]
         [TestCase(ComparerType.Modulo, 10, 4, 2)]
         public void Compare_Numeric_Success(ComparerType comparerType, object x, object sop, object reference)
         {
-            var predicate = new Mock<IPredicateInfo>();
+            var predicate = new Mock<SecondOperandPredicateArgs>();
             predicate.SetupGet(p => p.ColumnType).Returns(ColumnType.Numeric);
             predicate.SetupGet(p => p.ComparerType).Returns(comparerType);
             var resolver = new LiteralScalarResolver<decimal>(reference);
-            predicate.As<IReferencePredicateInfo>().SetupGet(p => p.Reference).Returns(resolver);
-            predicate.As<ISecondOperandPredicateInfo>().SetupGet(p => p.SecondOperand).Returns(sop);
+            predicate.SetupGet(p => p.Reference).Returns(resolver);
+            predicate.SetupGet(p => p.SecondOperand).Returns(sop);
 
             var factory = new PredicateFactory();
             var comparer = factory.Instantiate(predicate.Object);
@@ -36,12 +36,12 @@ namespace NBi.Testing.Unit.Core.Calculation
         [TestCase(ComparerType.Modulo, 10, 5, 1)]
         public void Compare_Numeric_Failure(ComparerType comparerType, object x, object sop, object reference)
         {
-            var predicate = new Mock<IPredicateInfo>();
+            var predicate = new Mock<SecondOperandPredicateArgs>();
             predicate.SetupGet(p => p.ColumnType).Returns(ColumnType.Numeric);
             predicate.SetupGet(p => p.ComparerType).Returns(comparerType);
             var resolver = new LiteralScalarResolver<decimal>(reference);
-            predicate.As<IReferencePredicateInfo>().SetupGet(p => p.Reference).Returns(resolver);
-            predicate.As<ISecondOperandPredicateInfo>().SetupGet(p => p.SecondOperand).Returns(sop);
+            predicate.SetupGet(p => p.Reference).Returns(resolver);
+            predicate.SetupGet(p => p.SecondOperand).Returns(sop);
 
             var factory = new PredicateFactory();
             var comparer = factory.Instantiate(predicate.Object);

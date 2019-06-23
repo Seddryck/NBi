@@ -9,7 +9,5 @@ using System.Threading.Tasks;
 namespace NBi.Core.Calculation
 {
     public interface IPredicateInfo : IBasePredicateInfo
-    {
-        IColumnIdentifier Operand { get; set; }
-    }
+    { }
 }

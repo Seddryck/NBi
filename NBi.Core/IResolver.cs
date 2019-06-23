@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.Calculation.Predicate
+namespace NBi.Core
 {
-    public interface ITwoOperandsXml
+    public interface IResolver
     {
-        string SecondOperand { get; set; }
+        object Execute();
     }
 }

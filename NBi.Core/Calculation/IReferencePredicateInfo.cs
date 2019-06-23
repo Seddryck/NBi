@@ -12,6 +12,6 @@ namespace NBi.Core.Calculation
 {
     public interface IReferencePredicateInfo
     {
-        IScalarResolver Reference { get; }
+        string Reference { get; }
     }
 }

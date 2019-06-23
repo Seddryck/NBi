@@ -85,7 +85,7 @@ namespace NBi.Testing.Unit.Xml.Constraints
             Assert.That(comparison.Predicate, Is.TypeOf<MoreThanXml>());
             Assert.That(comparison.Predicate.Not, Is.EqualTo(false));
             var moreThan = comparison.Predicate as MoreThanXml;
-            Assert.That(moreThan.Value, Is.EqualTo("10"));
+            Assert.That(moreThan.Reference, Is.EqualTo("10"));
         }
 
     }

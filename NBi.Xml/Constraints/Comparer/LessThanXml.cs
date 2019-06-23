@@ -10,7 +10,7 @@ using System.Xml.Serialization;
 namespace NBi.Xml.Constraints.Comparer
 {
     public class LessThanXml : MoreLessThanPredicateXml
-    {
-        internal override ComparerType ComparerType { get => OrEqual ? ComparerType.LessThanOrEqual : ComparerType.LessThan; }
+    { 
+        public override ComparerType ComparerType { get => OrEqual ? ComparerType.LessThanOrEqual : ComparerType.LessThan; }
     }
 }

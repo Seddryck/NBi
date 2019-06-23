@@ -20,7 +20,7 @@ namespace NBi.Core.Calculation.Predicate.Numeric
 
         public override string ToString()
         {
-            return $"is less, or equal, than {Reference}";
+            return $"is less, or equal, than {Reference.Execute()}";
         }
     }
 }

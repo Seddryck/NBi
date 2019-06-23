@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using NUnit.Framework;
 using NBi.Core.ResultSet.Resolver;
 using NBi.Core.Scalar.Resolver;
+using NBi.Core.Calculation.Predicate;
 
 namespace NBi.Testing.Unit.NUnit.ResultSetComparison
 {
@@ -46,18 +47,21 @@ namespace NBi.Testing.Unit.NUnit.ResultSetComparison
             var service = serviceMock.Object;
 
             var alias = Mock.Of<IColumnAlias>(v => v.Column == 2 && v.Name == "Value");
-            var predicate = new Mock<IPredicateInfo>();
+            var predicate = new Mock<ReferencePredicateArgs>();
             predicate.SetupGet(p => p.ColumnType).Returns(ColumnType.Numeric);
             predicate.SetupGet(p => p.ComparerType).Returns(ComparerType.Equal);
-            predicate.SetupGet(p => p.Operand).Returns(new ColumnNameIdentifier("Value"));
-            predicate.As<IReferencePredicateInfo>().SetupGet(p => p.Reference).Returns(new LiteralScalarResolver<decimal>(1));
+            predicate.SetupGet(p => p.Reference).Returns(new LiteralScalarResolver<decimal>(1));
+
+            var predication = new Mock<PredicationArgs>();
+            predication.SetupGet(p => p.Identifier).Returns(new ColumnNameIdentifier("Value"));
+            predication.SetupGet(p => p.Predicate).Returns(predicate.Object);
 
             var factory = new ResultSetFilterFactory(null);
             var filter = factory.Instantiate
                 (
                     new List<IColumnAlias>() { alias }
                     , new List<IColumnExpression>() { }
-                    , predicate.Object
+                    , predication.Object
                 );
 
             var someRowCtr = new SomeRowsConstraint(filter);
@@ -75,18 +79,21 @@ namespace NBi.Testing.Unit.NUnit.ResultSetComparison
             var rs = new ResultSet();
             rs.Load(new[] { new object[] {"a", -1}, new object[] { "b", -2 }, new object[] { "c", -3 } });
 
-            var predicate = new Mock<IPredicateInfo>();
+            var predicate = new Mock<ReferencePredicateArgs>();
             predicate.SetupGet(p => p.ColumnType).Returns(ColumnType.Numeric);
             predicate.SetupGet(p => p.ComparerType).Returns(ComparerType.LessThan);
-            predicate.SetupGet(p => p.Operand).Returns(new ColumnOrdinalIdentifier(1));
-            predicate.As<IReferencePredicateInfo>().SetupGet(p => p.Reference).Returns(new LiteralScalarResolver<decimal>(0));
+            predicate.SetupGet(p => p.Reference).Returns(new LiteralScalarResolver<decimal>(0));
+
+            var predication = new Mock<PredicationArgs>();
+            predication.SetupGet(p => p.Identifier).Returns(new ColumnOrdinalIdentifier(1));
+            predication.SetupGet(p => p.Predicate).Returns(predicate.Object);
 
             var factory = new ResultSetFilterFactory(null);
             var filter = factory.Instantiate
                 (
                     new List<IColumnAlias>()
                     , new List<IColumnExpression>()
-                    , predicate.Object
+                    , predication.Object
                 );
 
             var someRowCtr = new SomeRowsConstraint(filter);
@@ -99,18 +106,21 @@ namespace NBi.Testing.Unit.NUnit.ResultSetComparison
             var rs = new ResultSet();
             rs.Load(new[] { new object[] { "a", 1 }, new object[] { "b", 2 }, new object[] { "c", 3 } });
 
-            var predicate = new Mock<IPredicateInfo>();
+            var predicate = new Mock<ReferencePredicateArgs>();
             predicate.SetupGet(p => p.ColumnType).Returns(ColumnType.Numeric);
             predicate.SetupGet(p => p.ComparerType).Returns(ComparerType.LessThan);
-            predicate.SetupGet(p => p.Operand).Returns(new ColumnOrdinalIdentifier(1));
-            predicate.As<IReferencePredicateInfo>().SetupGet(p => p.Reference).Returns(new LiteralScalarResolver<decimal>(0));
+            predicate.SetupGet(p => p.Reference).Returns(new LiteralScalarResolver<decimal>(0));
+
+            var predication = new Mock<PredicationArgs>();
+            predication.SetupGet(p => p.Identifier).Returns(new ColumnOrdinalIdentifier(1));
+            predication.SetupGet(p => p.Predicate).Returns(predicate.Object);
 
             var factory = new ResultSetFilterFactory(null);
             var filter = factory.Instantiate
                 (
                     new List<IColumnAlias>()
                     , new List<IColumnExpression>()
-                    , predicate.Object
+                    , predication.Object
                 );
 
             var someRowCtr = new SomeRowsConstraint(filter);
@@ -123,18 +133,21 @@ namespace NBi.Testing.Unit.NUnit.ResultSetComparison
             var rs = new ResultSet();
             rs.Load(new[] { new object[] { "a", -1 }, new object[] { "b", -2 }, new object[] { "c", 3 } });
 
-            var predicate = new Mock<IPredicateInfo>();
+            var predicate = new Mock<ReferencePredicateArgs>();
             predicate.SetupGet(p => p.ColumnType).Returns(ColumnType.Numeric);
             predicate.SetupGet(p => p.ComparerType).Returns(ComparerType.LessThan);
-            predicate.SetupGet(p => p.Operand).Returns(new ColumnOrdinalIdentifier(1));
-            predicate.As<IReferencePredicateInfo>().SetupGet(p => p.Reference).Returns(new LiteralScalarResolver<decimal>(0));
+            predicate.SetupGet(p => p.Reference).Returns(new LiteralScalarResolver<decimal>(0));
+
+            var predication = new Mock<PredicationArgs>();
+            predication.SetupGet(p => p.Identifier).Returns(new ColumnOrdinalIdentifier(1));
+            predication.SetupGet(p => p.Predicate).Returns(predicate.Object);
 
             var factory = new ResultSetFilterFactory(null);
             var filter = factory.Instantiate
                 (
                     new List<IColumnAlias>()
                     , new List<IColumnExpression>()
-                    , predicate.Object
+                    , predication.Object
                 );
 
             var someRowCtr = new SomeRowsConstraint(filter);
@@ -147,18 +160,21 @@ namespace NBi.Testing.Unit.NUnit.ResultSetComparison
             var rs = new ResultSet();
             rs.Load(new[] { new object[] { "a", -1 }, new object[] { "b", 2 }, new object[] { "c", 3 } });
 
-            var predicate = new Mock<IPredicateInfo>();
+            var predicate = new Mock<ReferencePredicateArgs>();
             predicate.SetupGet(p => p.ColumnType).Returns(ColumnType.Numeric);
             predicate.SetupGet(p => p.ComparerType).Returns(ComparerType.LessThan);
-            predicate.SetupGet(p => p.Operand).Returns(new ColumnOrdinalIdentifier(1));
-            predicate.As<IReferencePredicateInfo>().SetupGet(p => p.Reference).Returns(new LiteralScalarResolver<decimal>(0));
+            predicate.SetupGet(p => p.Reference).Returns(new LiteralScalarResolver<decimal>(0));
+
+            var predication = new Mock<PredicationArgs>();
+            predication.SetupGet(p => p.Identifier).Returns(new ColumnOrdinalIdentifier(1));
+            predication.SetupGet(p => p.Predicate).Returns(predicate.Object);
 
             var factory = new ResultSetFilterFactory(null);
             var filter = factory.Instantiate
                 (
                     new List<IColumnAlias>()
                     , new List<IColumnExpression>()
-                    , predicate.Object
+                    , predication.Object
                 );
 
             var someRowCtr = new SomeRowsConstraint(filter);

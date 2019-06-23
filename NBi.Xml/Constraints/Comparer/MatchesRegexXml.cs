@@ -10,14 +10,17 @@ using System.Xml.Serialization;
 
 namespace NBi.Xml.Constraints.Comparer
 {
-    public class MatchesRegexXml : CaseSensitiveTextPredicateXml
+    public class MatchesRegexXml : ScalarReferencePredicateXml, ICaseSensitiveTextPredicateXml
     {
+        [XmlAttribute("ignore-case")]
+        [DefaultValue(false)]
+        public bool IgnoreCase { get; set; }
 
         [XmlIgnore]
-        public CData ValueWrite { get => Value; set => Value = value; }
+        public CData ValueWrite { get => Reference; set => Reference = value; }
 
-        public override bool ShouldSerializeValue() => false;
+        public override bool ShouldSerializeReference() => false;
 
-        internal override ComparerType ComparerType { get => ComparerType.MatchesRegex; }
+        public override ComparerType ComparerType { get => ComparerType.MatchesRegex; }
     }
 }

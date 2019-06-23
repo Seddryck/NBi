@@ -19,6 +19,6 @@ namespace NBi.Core.Calculation.Predicate.Numeric
             var comparer = new NumericComparer();
             return comparer.Compare(x, reference).AreEqual;
         }
-        public override string ToString() => $"is equal to {Reference}";
+        public override string ToString() => $"is equal to {Reference.Execute()}";
     }
 }

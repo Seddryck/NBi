@@ -1,5 +1,6 @@
 ﻿using NBi.Core.Calculation;
 using NBi.Core.Calculation.Grouping;
+using NBi.Core.Calculation.Predicate;
 using NBi.Core.Calculation.Ranking;
 using NBi.Core.Evaluate;
 using NBi.Core.Injection;
@@ -62,20 +63,35 @@ namespace NBi.NUnit.Builder.Helper
                             expressions.Add(filterXml.Expression);
                         
                         if (filterXml.Predication != null)
+                        {
+                            var helper = new PredicateArgsBuilder(serviceLocator, variables);
+                            var args = helper.Execute(filterXml.Predication.ColumnType, filterXml.Predication.Predicate);
+
                             yield return factory.Instantiate
                                         (
                                             filterXml.Aliases
                                             , expressions
-                                            , filterXml.Predication
+                                            , new PredicationArgs(filterXml.Predication.Operand, args)
                                         ).Apply;
+                        }
                         if (filterXml.Combination != null)
+                        {
+                            var helper = new PredicateArgsBuilder(serviceLocator, variables);
+                            var predicationArgs = new List<PredicationArgs>();
+                            foreach (var predication in filterXml.Combination.Predications)
+                            {
+                                var args = helper.Execute(predication.ColumnType, predication.Predicate);
+                                predicationArgs.Add(new PredicationArgs(predication.Operand, args));
+                            }
+
                             yield return factory.Instantiate
                                         (
                                             filterXml.Aliases
                                             , expressions
                                             , filterXml.Combination.Operator
-                                            , filterXml.Combination.Predicates
+                                            , predicationArgs
                                         ).Apply;
+                        }
                     }
                     else
                     {

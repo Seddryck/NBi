@@ -46,6 +46,6 @@ namespace NBi.Core.Scalar.Resolver
             return (T)Convert.ChangeType(value, typeof(T));
         }
 
-        object IScalarResolver.Execute() => Execute();
+        object IResolver.Execute() => Execute();
     }
 }

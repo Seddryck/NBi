@@ -21,7 +21,7 @@ namespace NBi.Core.Calculation.Predicate.Text
 
         public override string ToString()
         {
-            return $"contains the text '{Reference}'";
+            return $"contains the text '{Reference.Execute()}'";
         }
     }
 }

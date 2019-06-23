@@ -13,8 +13,8 @@ using System.Xml.Serialization;
 
 namespace NBi.Xml.Items.Calculation
 {
-    public class PredicationXml : IPredicateInfo, ISecondOperandPredicateInfo, ICultureSensitivePredicateInfo, ICaseSensitivePredicateInfo 
-    {
+    public class PredicationXml
+    { 
         public PredicationXml()
         {
             ColumnType = ColumnType.Numeric;
@@ -27,13 +27,6 @@ namespace NBi.Xml.Items.Calculation
         {
             get => throw new InvalidOperationException();
             set => Operand = new ColumnIdentifierFactory().Instantiate($"#{value}");
-        }
-
-        [XmlIgnore]
-        public bool Not
-        {
-            get => Predicate.Not; 
-            set => Predicate.Not = value;
         }
 
         [XmlAttribute("operand")]
@@ -78,46 +71,5 @@ namespace NBi.Xml.Items.Calculation
         [XmlElement(Type = typeof(TrueXml), ElementName = "true")]
         [XmlElement(Type = typeof(FalseXml), ElementName = "false")]
         public PredicateXml Predicate { get; set; }
-
-        private object reference;
-        [XmlIgnore]
-        public object Reference
-        {
-            get { return reference ?? Predicate.Value ?? Predicate.Values as object; }
-            set { reference = value; }
-        }
-
-        [XmlIgnore]
-        public object SecondOperand
-        {
-            get { return (Predicate as ITwoOperandsXml)?.SecondOperand; }
-        }
-
-        [XmlIgnore]
-        public StringComparison StringComparison
-        {
-            get
-            {
-                if (Predicate is CaseSensitiveTextPredicateXml)
-                    return ((CaseSensitiveTextPredicateXml)Predicate).IgnoreCase ? StringComparison.InvariantCultureIgnoreCase : StringComparison.InvariantCulture;
-                else
-                    return StringComparison.InvariantCulture;
-            }
-        }
-
-        [XmlIgnore]
-        public string Culture
-        {
-            get
-            {
-                if (Predicate is CultureSensitiveTextPredicateXml)
-                    return ((CultureSensitiveTextPredicateXml)Predicate).Culture;
-                else
-                    return CultureInfo.InvariantCulture.Name;
-            }
-        }
-
-        [XmlIgnore]
-        public ComparerType ComparerType { get => Predicate.ComparerType; }
     }
 }

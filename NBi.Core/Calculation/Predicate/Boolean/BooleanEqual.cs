@@ -20,6 +20,6 @@ namespace NBi.Core.Calculation.Predicate.Boolean
             return cpr.Compare(x, reference).AreEqual;
         }
 
-        public override string ToString() => $"is equal to {Reference}";
+        public override string ToString() => $"is equal to {Reference.Execute()}";
     }
 }

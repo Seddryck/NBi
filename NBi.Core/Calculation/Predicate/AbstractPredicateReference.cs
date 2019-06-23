@@ -10,21 +10,15 @@ namespace NBi.Core.Calculation.Predicate
 {
     abstract class AbstractPredicateReference : AbstractPredicate
     {
-        public IScalarResolver Reference { get; set; }
+        public IResolver Reference { get; set; }
 
-        public AbstractPredicateReference(bool not, IScalarResolver reference)
+        public AbstractPredicateReference(bool not, IResolver reference)
             : base(not)
         {
             Reference = reference;
         }
 
-        protected override bool Apply(object x)
-        {
-            //if (Reference is ITestVariable)
-            //    return ApplyWithReference((Reference as ITestVariable).GetValue(), x);
-            //else
-                return ApplyWithReference(Reference.Execute(), x);
-        }
+        protected override bool Apply(object x) => ApplyWithReference(Reference.Execute(), x);
 
         protected abstract bool ApplyWithReference(object reference, object x);
     }

@@ -189,9 +189,9 @@
     <Compile Include="Unit\Core\Calculation\Ranking\BottomRankingTest.cs" />
     <Compile Include="Unit\Core\Calculation\Ranking\TopRankingTest.cs" />
     <Compile Include="Unit\Core\Calculation\SinglePredicateFilterTest.cs" />
-    <Compile Include="Unit\Core\Calculation\PredicateTwoOperandsTest.cs" />
-    <Compile Include="Unit\Core\Calculation\PredicateWithoutReferenceTest.cs" />
-    <Compile Include="Unit\Core\Calculation\PredicateReferenceTest.cs" />
+    <Compile Include="Unit\Core\Calculation\Predicate\Numeric\NumericModuloTest.cs" />
+    <Compile Include="Unit\Core\Calculation\Predicate\PredicateWithoutReferenceTest.cs" />
+    <Compile Include="Unit\Core\Calculation\Predicate\PredicateReferenceTest.cs" />
     <Compile Include="Unit\Core\ConnectionExceptionTest.cs" />
     <Compile Include="Unit\Core\Assemblies\AssemblyManagerTest.cs" />
     <Compile Include="Unit\Core\Assemblies\Resource\StaticKlass.cs" />

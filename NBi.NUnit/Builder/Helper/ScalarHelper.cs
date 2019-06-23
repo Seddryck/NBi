@@ -66,5 +66,25 @@ namespace NBi.NUnit.Builder.Helper
             var resolver = factory.Instantiate<T>(argsBuilder.GetArgs());
             return resolver;
         }
+
+        public IScalarResolver InstantiateResolver(ColumnType columnType, string value)
+        {
+            var argsBuilder = new ScalarResolverArgsBuilder(ServiceLocator);
+
+            argsBuilder.Setup(Variables);
+            argsBuilder.Setup(value);
+            argsBuilder.Build();
+            var args = argsBuilder.GetArgs();
+
+            var factory = ServiceLocator.GetScalarResolverFactory();
+            switch (columnType)
+            {
+                case ColumnType.Text: return factory.Instantiate<string>(args);
+                case ColumnType.Numeric: return factory.Instantiate<decimal>(args);
+                case ColumnType.DateTime: return factory.Instantiate<DateTime>(args);
+                case ColumnType.Boolean: return factory.Instantiate<bool>(args);
+                default: throw new ArgumentOutOfRangeException();
+            }
+        }
     }
 }

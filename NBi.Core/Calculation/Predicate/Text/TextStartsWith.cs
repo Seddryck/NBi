@@ -20,7 +20,7 @@ namespace NBi.Core.Calculation.Predicate.Text
         }
         public override string ToString()
         {
-            return $"starts with '{Reference}'";
+            return $"starts with '{Reference.Execute()}'";
         }
     }
 }

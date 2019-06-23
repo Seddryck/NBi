@@ -21,7 +21,7 @@ namespace NBi.Core.Calculation.Predicate.Text
 
         public override string ToString()
         {
-            return $"is alphabetically before '{Reference}'";
+            return $"is alphabetically before '{Reference.Execute()}'";
         }
     }
 }

@@ -20,7 +20,7 @@ namespace NBi.Core.Calculation.Predicate.DateTime
 
         public override string ToString()
         {
-            return $"is more than {Reference}";
+            return $"is after than {Reference.Execute()}";
         }
     }
 }

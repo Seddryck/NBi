@@ -36,7 +36,7 @@ namespace NBi.NUnit.Builder.Helper
                 case SecondOperandPredicateXml x: return BuildSecondOperandPredicateArgs(columnType, x);
                 case ICaseSensitiveTextPredicateXml x: return BuildCaseSensitivePredicateArgs(columnType, x);
                 case ICultureSensitiveTextPredicateXml x: return BuildCultureSensitivePredicateArgs(columnType, x);
-                case ScalarReferencePredicateXml x: return BuildReferencePredicateArgs(columnType, x);
+                case ReferencePredicateXml x: return BuildReferencePredicateArgs(columnType, x);
                 case PredicateXml x: return BuildPredicateArgs(columnType, x);
             }
             throw new NotImplementedException();
@@ -79,13 +79,15 @@ namespace NBi.NUnit.Builder.Helper
                 : BuildScalarReference(columnType, xml as ScalarReferencePredicateXml)
             };
 
-        private ReferencePredicateArgs BuildReferencePredicateArgs(ColumnType columnType, ScalarReferencePredicateXml xml)
+        private ReferencePredicateArgs BuildReferencePredicateArgs(ColumnType columnType, ReferencePredicateXml xml)
             => new CaseSensitivePredicateArgs()
             {
                 ColumnType = columnType,
                 ComparerType = xml.ComparerType,
                 Not = xml.Not,
-                Reference = BuildScalarReference(columnType, xml)
+                Reference = xml is SequenceReferencePredicateXml
+                ? BuildSequenceReference(columnType, xml as SequenceReferencePredicateXml)
+                : BuildScalarReference(xml is WithinRangeXml ? ColumnType.Text : columnType, xml as ScalarReferencePredicateXml)
             };
 
         private PredicateArgs BuildPredicateArgs(ColumnType columnType, PredicateXml xml)

@@ -121,6 +121,7 @@ namespace NBi.Xml
         XmlArrayItem(Type = typeof(EqualToXml), ElementName = "equal-to"),
         XmlArrayItem(Type = typeof(SupersetOfXml), ElementName = "superset-of"),
         XmlArrayItem(Type = typeof(SubsetOfXml), ElementName = "subset-of"),
+         XmlArrayItem(Type = typeof(IntersectionOfXml), ElementName = "intersection-of"),
         XmlArrayItem(Type = typeof(CountXml), ElementName = "count"),
         XmlArrayItem(Type = typeof(ContainXml), ElementName = "contain"),
         XmlArrayItem(Type = typeof(ExistsXml), ElementName = "exists"),

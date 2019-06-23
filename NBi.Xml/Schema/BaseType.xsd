@@ -975,6 +975,7 @@
                 <xs:element name="equal-to" type="result-set-comparison-type"/>
                 <xs:element name="subset-of" type="result-set-comparison-type"/>
                 <xs:element name="superset-of" type="result-set-comparison-type"/>
+                <xs:element name="intersection-of" type="result-set-comparison-type"/>
                 <xs:element name="evaluate-rows">
                   <xs:complexType>
                     <xs:sequence>

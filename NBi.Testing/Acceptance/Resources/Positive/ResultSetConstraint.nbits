@@ -53,7 +53,26 @@
         </equalTo>
       </assert>
     </test>
-    <test name="all are less than 10000" uid="0002">
+    <test name="Csv equivalent to embedded result-set" uid="0002">
+      <system-under-test>
+        <resultSet file="..\Csv\ResellerOrderCountByYearBefore2006.csv"/>
+      </system-under-test>
+      <assert>
+        <intersection-of>
+          <resultSet>
+            <row>
+              <cell>CY 2008</cell>
+              <cell>894</cell>
+            </row>
+            <row>
+              <cell>CY 2009</cell>
+              <cell>1800</cell>
+            </row>
+          </resultSet>
+        </intersection-of>
+      </assert>
+    </test>
+    <test name="all are less than 10000" uid="0020">
       <system-under-test>
         <resultSet file="..\Csv\ResellerOrderCountByYearBefore2006.csv"/>
       </system-under-test>
@@ -65,7 +84,7 @@
         </all-rows>
       </assert>
     </test>
-    <test name="none are more than 10000" uid="0003">
+    <test name="none are more than 10000" uid="0030">
       <system-under-test>
         <resultSet file="..\Csv\ResellerOrderCountByYearBefore2006.csv"/>
       </system-under-test>
@@ -77,7 +96,7 @@
         </no-rows>
       </assert>
     </test>
-    <test name="some are less than 1000" uid="0004">
+    <test name="some are less than 1000" uid="0040">
       <system-under-test>
         <resultSet file="..\Csv\ResellerOrderCountByYearBefore2006.csv"/>
       </system-under-test>
@@ -89,7 +108,7 @@
         </some-rows>
       </assert>
     </test>
-    <test name="single is more than 1500" uid="0005">
+    <test name="single is more than 1500" uid="0050">
       <system-under-test>
         <resultSet file="..\Csv\ResellerOrderCountByYearBefore2006.csv"/>
       </system-under-test>
@@ -101,7 +120,7 @@
         </single-row>
       </assert>
     </test>
-    <test name="'rows are unique" uid="0006">
+    <test name="'rows are unique" uid="0060">
       <system-under-test>
         <resultSet file="..\Csv\ResellerOrderCountByYearBefore2006.csv"/>
       </system-under-test>

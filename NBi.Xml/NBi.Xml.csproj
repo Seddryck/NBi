@@ -93,6 +93,7 @@
     <Compile Include="Constraints\LookupExistsXml.cs" />
     <Compile Include="Constraints\SingleRowXml.cs" />
     <Compile Include="Constraints\SomeRowsXml.cs" />
+    <Compile Include="Constraints\IntersectionOfXml.cs" />
     <Compile Include="Constraints\UniqueRowsXml.cs" />
     <Compile Include="Constraints\SubsetOfXml.cs" />
     <Compile Include="Constraints\SupersetOfXml.cs" />

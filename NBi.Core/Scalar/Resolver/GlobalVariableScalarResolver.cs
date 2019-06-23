@@ -11,6 +11,7 @@ namespace NBi.Core.Scalar.Resolver
     class GlobalVariableScalarResolver<T> : IScalarResolver<T>
     {
         private readonly GlobalVariableScalarResolverArgs args;
+        private static readonly object locker = new object();
 
         public GlobalVariableScalarResolver(GlobalVariableScalarResolverArgs args)
         {
@@ -50,8 +51,8 @@ namespace NBi.Core.Scalar.Resolver
 
         private static object StrongTypingVariable(object input)
         {
-            IFormatProvider formatProvider =  typeof(T) == typeof(DateTime) 
-                ? (IFormatProvider) System.Globalization.DateTimeFormatInfo.InvariantInfo
+            IFormatProvider formatProvider = typeof(T) == typeof(DateTime)
+                ? (IFormatProvider)System.Globalization.DateTimeFormatInfo.InvariantInfo
                 : System.Globalization.NumberFormatInfo.InvariantInfo;
 
             if (input != null && input.ToString().EndsWith("%"))
@@ -86,9 +87,11 @@ namespace NBi.Core.Scalar.Resolver
 
         private object EvaluateVariable(ITestVariable variable)
         {
-            if (!variable.IsEvaluated())
+            lock (locker)
+            {
+                if (!variable.IsEvaluated())
                 variable.Evaluate();
-
+                }
             return variable.GetValue();
         }
     }

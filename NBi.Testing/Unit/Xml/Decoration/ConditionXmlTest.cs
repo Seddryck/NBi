@@ -64,13 +64,13 @@ namespace NBi.Testing.Unit.Xml.Decoration
             // Check the properties of the object.
             Assert.That(ts.Tests[testNr].Condition.Predicates[0], Is.TypeOf<ServiceRunningXml>());
             var check = ts.Tests[testNr].Condition.Predicates[0] as ServiceRunningXml;
-            Assert.That(check.TimeOut, Is.EqualTo(5000)); //Default value
+            Assert.That(check.TimeOut, Is.EqualTo("5000")); //Default value
             Assert.That(check.ServiceName, Is.EqualTo("MyService")); 
 
             // Check the properties of the object.
             Assert.That(ts.Tests[testNr].Condition.Predicates[1], Is.TypeOf<ServiceRunningXml>());
             var check2 = ts.Tests[testNr].Condition.Predicates[1] as ServiceRunningXml;
-            Assert.That(check2.TimeOut, Is.EqualTo(1000)); //Value Specified
+            Assert.That(check2.TimeOut, Is.EqualTo("1000")); //Value Specified
             Assert.That(check2.ServiceName, Is.EqualTo("MyService2")); 
         }
 

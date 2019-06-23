@@ -72,6 +72,9 @@ namespace NBi.NUnit.Builder.Helper
                 case EnvironmentXml obj:
                     args = new EnvironmentScalarResolverArgs(obj.Name);
                     break;
+                case string obj when string.IsNullOrEmpty(obj):
+                    args = new LiteralScalarResolverArgs(string.Empty);
+                    break;
                 case string obj when !string.IsNullOrEmpty(obj):
                     var tokens = obj.Trim().Split(new[] { "|" }, StringSplitOptions.RemoveEmptyEntries).Select(x => x.Trim());
                     var variable = tokens.First().Trim();
@@ -99,7 +102,7 @@ namespace NBi.NUnit.Builder.Helper
                     if (functions.Count() > 0)
                     {
                         var transformations = new List<INativeTransformation>();
-                        var nativeTransformationFactory = new NativeTransformationFactory();
+                        var nativeTransformationFactory = new NativeTransformationFactory(settings.BasePath);
                         foreach (var function in functions)
                             transformations.Add(nativeTransformationFactory.Instantiate(function));
 
@@ -107,7 +110,8 @@ namespace NBi.NUnit.Builder.Helper
                     }
                     break;
                 case null:
-                    throw new ArgumentException();
+                    args = new LiteralScalarResolverArgs(string.Empty);
+                    break;
                 default:
                     args = new LiteralScalarResolverArgs(obj);
                     break;

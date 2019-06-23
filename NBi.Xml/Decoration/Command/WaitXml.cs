@@ -6,13 +6,12 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 using System.IO;
-using NBi.Core.Process;
 
 namespace NBi.Xml.Decoration.Command
 {
-    public class WaitXml : DecorationCommandXml, IWaitCommand
+    public class WaitXml : DecorationCommandXml
     {
         [XmlAttribute("milliseconds")]
-        public int MilliSeconds { get; set; }
+        public string MilliSeconds { get; set; }
     }
 }

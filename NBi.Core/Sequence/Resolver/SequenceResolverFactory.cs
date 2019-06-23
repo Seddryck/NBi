@@ -18,18 +18,20 @@ namespace NBi.Core.Sequence.Resolver
             this.serviceLocator = serviceLocator;
         }
 
-        public ISequenceResolver<T> Instantiate<T>(ISequenceResolverArgs args)
+        internal ISequenceResolver<T> Instantiate<T>(ISequenceResolverArgs args)
         {
-            if (args is ListSequenceResolverArgs)
-                return new ListSequenceResolver<T>((ListSequenceResolverArgs)args);
-            if (args is ILoopSequenceResolverArgs)
+            switch (args)
             {
-                var strategy = MapStrategy<T>(args as ILoopSequenceResolverArgs);
-                return new LoopSequenceResolver<T>(strategy);
+                case ListSequenceResolverArgs listArgs: return new ListSequenceResolver<T>(listArgs);
+                case FileLoopSequenceResolverArgs fileArgs: return (ISequenceResolver<T>)new FileLoopSequenceResolver(fileArgs);
+                case ILoopSequenceResolverArgs loopArgs:
+                    {
+                        var strategy = MapStrategy<T>(args as ILoopSequenceResolverArgs);
+                        return new LoopSequenceResolver<T>(strategy);
+                    }
+                default:
+                    throw new ArgumentOutOfRangeException($"Type '{args.GetType().Name}' is not expected when building a Scalar");
             }
-            return new ListSequenceResolver<T>((ListSequenceResolverArgs)args);
-
-            throw new ArgumentOutOfRangeException($"Type '{args.GetType().Name}' is not expected when building a Scalar");
         }
 
         public ISequenceResolver Instantiate(ColumnType type, ISequenceResolverArgs args)

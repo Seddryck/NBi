@@ -2,22 +2,21 @@
 using System.ComponentModel;
 using System.Linq;
 using System.Xml.Serialization;
-using NBi.Core.WindowsService;
 
 namespace NBi.Xml.Decoration.Condition
 {
-    public class ServiceRunningXml : DecorationConditionXml, IWindowsServiceRunningMetadata
+    public class ServiceRunningXml : DecorationConditionXml
     {
         [XmlAttribute("name")]
         public string ServiceName { get; set; }
 
         [XmlAttribute("timeout-milliseconds")]
-        [DefaultValue(5000)]
-        public int TimeOut { get; set; }
+        [DefaultValue("5000")]
+        public string TimeOut { get; set; }
 
         public ServiceRunningXml()
         {
-            TimeOut = 5000;
+            TimeOut = "5000";
         }
     }
 }

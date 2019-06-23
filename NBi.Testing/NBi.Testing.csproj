@@ -62,8 +62,14 @@
     <Reference Include="Microsoft.AnalysisServices.SPClient.Interfaces, Version=15.15.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AnalysisServices.AdomdClient.retail.amd64.15.15.0\lib\net45\Microsoft.AnalysisServices.SPClient.Interfaces.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.QualityTools.Testing.Fakes, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
     <Reference Include="Moq, Version=4.10.0.0, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
       <HintPath>..\packages\Moq.4.10.1\lib\net45\Moq.dll</HintPath>
+    </Reference>
+    <Reference Include="mscorlib.4.0.0.0.Fakes">
+      <HintPath>FakesAssemblies\mscorlib.4.0.0.0.Fakes.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
@@ -84,6 +90,9 @@
       <HintPath>..\packages\Sprache.2.2.0\lib\net45\Sprache.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.4.0.0.0.Fakes">
+      <HintPath>FakesAssemblies\System.4.0.0.0.Fakes.dll</HintPath>
+    </Reference>
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.4.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
@@ -122,6 +131,8 @@
     <Compile Include="Acceptance\GenbiL\CaseCrossTest.cs" />
     <Compile Include="Acceptance\GenbiL\GenbiLTest.cs" />
     <Compile Include="Acceptance\Resources\AssemblyClass.cs" />
+    <Compile Include="Acceptance\Resources\CustomCommand.cs" />
+    <Compile Include="Acceptance\Resources\CustomConditionFalse.cs" />
     <Compile Include="Acceptance\Resources\CustomConditionTrue.cs" />
     <Compile Include="Acceptance\Resources\TsvReader.cs" />
     <Compile Include="Acceptance\RuntimeOverrider.cs" />
@@ -132,6 +143,17 @@
     <Compile Include="Integration\Core\Analysis\Request\DiscoveryRequestFactoryTest.cs" />
     <Compile Include="Integration\Core\Analysis\MembersAdomdEngineTest.cs" />
     <Compile Include="Integration\Core\CsvWriterTest.cs" />
+    <Compile Include="Integration\Core\Decoration\IO\Commands\DeletePatternCommandTest.cs" />
+    <Compile Include="Integration\Core\Decoration\IO\Commands\DeleteExtensionCommandTest.cs" />
+    <Compile Include="Integration\Core\Decoration\IO\Commands\CopyPatternCommandTest.cs" />
+    <Compile Include="Integration\Core\Decoration\IO\Commands\CopyExtensionCommandTest.cs" />
+    <Compile Include="Integration\Core\Decoration\Process\Commands\WaitCommandTest.cs" />
+    <Compile Include="Integration\Core\Decoration\Process\Commands\StopCommandTest.cs" />
+    <Compile Include="Integration\Core\IO\Filtering\SizeFilterTest.cs" />
+    <Compile Include="Integration\Core\IO\Filtering\UpdateDateTimeFilterTest.cs" />
+    <Compile Include="Integration\Core\IO\Filtering\CreationDateTimeFilterTest.cs" />
+    <Compile Include="Integration\Core\IO\Filtering\NullRootFilterTest.cs" />
+    <Compile Include="Integration\Core\IO\FileListerTest.cs" />
     <Compile Include="Integration\Core\Query\Command\AdomdCommandFactoryTest.cs" />
     <Compile Include="Integration\Core\Query\Execution\AdomdExecutionEngineTest.cs" />
     <Compile Include="Integration\Core\Query\Execution\OdbcExecutionEngineTest.cs" />
@@ -144,26 +166,28 @@
     <Compile Include="Integration\Core\Query\Performance\SqlPerformanceEngineTest.cs" />
     <Compile Include="Integration\Core\Query\Resolver\AssemblyQueryResolverTest.cs" />
     <Compile Include="Integration\Core\Query\Resolver\ExternalFileQueryResolverTest.cs" />
+    <Compile Include="Integration\Core\Sequence\Resolver\FileSequenceResolverTest.cs" />
+    <Compile Include="Integration\Core\Transformation\Transformer\Native\FileTest.cs" />
     <Compile Include="Integration\NUnit\Runtime\Embed\EngineTest.cs" />
     <Compile Include="Integration\Core\Query\Validation\OdbcValidationEngineTest.cs" />
     <Compile Include="Integration\Core\Query\Validation\OleDbValidationEngineTest.cs" />
     <Compile Include="Integration\Core\Query\Validation\SqlValidationEngineTest.cs" />
-    <Compile Include="Integration\Core\DataManipulation\SqlServer\BulkLoadCommandTest.cs" />
-    <Compile Include="Integration\Core\DataManipulation\SqlServer\TruncateCommandTest.cs" />
+    <Compile Include="Integration\Core\Decoration\DataEngineering\Commands\SqlServer\BulkLoadCommandTest.cs" />
+    <Compile Include="Integration\Core\Decoration\DataEngineering\Commands\SqlServer\TruncateCommandTest.cs" />
     <Compile Include="Integration\Core\DataType\Relational\RelationalDataTypeDiscoveryFactoryTest.cs" />
     <Compile Include="Integration\Core\OfficeDataConnectionFileParserTest.cs" />
     <Compile Include="Integration\GenbiL\Action\ActionTest.cs" />
-    <Compile Include="Integration\Core\FileManipulation\CopyCommandTest.cs" />
-    <Compile Include="Integration\Core\Process\ProcessRunCommandTest.cs" />
-    <Compile Include="Integration\Core\FileManipulation\DeleteCommandTest.cs" />
+    <Compile Include="Integration\Core\Decoration\IO\Commands\CopyCommandTest.cs" />
+    <Compile Include="Integration\Core\Decoration\Process\Commands\RunCommandTest.cs" />
+    <Compile Include="Integration\Core\Decoration\IO\Commands\DeleteCommandTest.cs" />
     <Compile Include="Integration\Core\Query\Command\SqlCommandFactoryTest.cs" />
     <Compile Include="Integration\Core\Structure\Relational\RelationalStructureDiscoveryFactoryTest.cs" />
     <Compile Include="Integration\Core\Structure\Olap\OlapStructureDiscoveryFactoryTest.cs" />
     <Compile Include="Integration\Core\Structure\StructureDiscoveryFactoryProviderTest.cs" />
     <Compile Include="Integration\Core\Structure\Tabular\TabularStructureDiscoveryFactoryTest.cs" />
-    <Compile Include="Integration\Core\WindowsService\WindowsServiceCheckTest.cs" />
+    <Compile Include="Integration\Core\Decoration\Process\Conditions\RunningConditionTest.cs" />
     <Compile Include="Integration\Core\Report\DatabaseReportingParserTest.cs" />
-    <Compile Include="Integration\Core\WindowsService\WindowsServiceCommandTest.cs" />
+    <Compile Include="Integration\Core\Decoration\Process\Commands\StartCommandTest.cs" />
     <Compile Include="Integration\GenbiL\TestSuiteGeneratorTest.cs" />
     <Compile Include="Integration\NUnit\Members\EquivalentToConstraintTest.cs" />
     <Compile Include="Integration\NUnit\Query\EqualToConstraintTest.cs" />
@@ -175,8 +199,13 @@
     <Compile Include="Integration\NUnit\Structure\ExistsConstraintTest.cs" />
     <Compile Include="StringExtensions.cs" />
     <Compile Include="Unit\Core\Analysis\Metadata\Adomd\MeasureGroupLinkedToDiscoveryCommandTest.cs" />
+    <Compile Include="Unit\Core\Assemblies\CustomCommandFactoryTest.cs" />
     <Compile Include="Unit\Core\Assemblies\CustomConditionFactoryTest.cs" />
+    <Compile Include="Unit\Core\Assemblies\Resource\CustomCommandWithMulipleCtors.cs" />
     <Compile Include="Unit\Core\Assemblies\Resource\CustomConditionWithMulipleCtors.cs" />
+    <Compile Include="Unit\Core\Assemblies\Resource\CustomCommandWithOneParameter.cs" />
+    <Compile Include="Unit\Core\Assemblies\Resource\CustomCommandWithoutParameter.cs" />
+    <Compile Include="Unit\Core\Assemblies\Resource\CustomCommandWithTwoParameters.cs" />
     <Compile Include="Unit\Core\Assemblies\Resource\CustomConditionWithTwoParameters.cs" />
     <Compile Include="Unit\Core\Assemblies\Resource\CustomConditionWithOneParameter.cs" />
     <Compile Include="Unit\Core\Assemblies\Resource\CustomConditionWithoutParameter.cs" />
@@ -198,16 +227,16 @@
     <Compile Include="Unit\Core\Assemblies\Resource\Enumeration.cs" />
     <Compile Include="Unit\Core\Assemblies\Resource\Klass.cs" />
     <Compile Include="Unit\Core\Assemblies\TypeConverterTest.cs" />
-    <Compile Include="Unit\Core\Connection\ConnectionWaitFactoryTest.cs" />
+    <Compile Include="Unit\Core\Decoration\DecorationFactoryTest.cs" />
     <Compile Include="Unit\Core\FlatFile\CsvWriterTest.cs" />
     <Compile Include="Unit\Core\DataType\DataTypeInfoFactoryTest.cs" />
     <Compile Include="Unit\Core\FlatFile\FlatFileReaderfactoryTest.cs" />
-    <Compile Include="Unit\Core\GroupCommandFactoryTest.cs" />
+    <Compile Include="Unit\Core\Decoration\Grouping\GroupCommandFactoryTest.cs" />
     <Compile Include="Unit\Core\Evaluate\RowValidatorTest.cs" />
-    <Compile Include="Unit\Core\DataManipulation\DataManipulationFactoryTest.cs" />
     <Compile Include="Unit\Core\Evaluate\ExpressionComparableTest.cs" />
     <Compile Include="Unit\Core\Format\RegexBuilderTest.cs" />
     <Compile Include="Unit\Core\Injection\ServiceLocatorTest.cs" />
+    <Compile Include="Integration\Core\IO\Filtering\PatternRootFilterTest.cs" />
     <Compile Include="Unit\Core\ListComparerTest.cs" />
     <Compile Include="Unit\Core\ListComparisonFormatterTest.cs" />
     <Compile Include="Unit\Core\Members\RangeMembersFactoryTest.cs" />
@@ -301,6 +330,7 @@
     <Compile Include="Unit\Core\Structure\StructureDiscoveryFactoryProviderTest.cs" />
     <Compile Include="Unit\Core\Transformation\Transformer\FormatTransformerTest.cs" />
     <Compile Include="Unit\Core\Transformation\Transformer\NativeTransformationFactoryTest.cs" />
+    <Compile Include="Unit\Core\Transformation\Transformer\Native\PathTest.cs" />
     <Compile Include="Unit\Core\Transformation\Transformer\Native\DateToPointInTimeTest.cs" />
     <Compile Include="Unit\Core\Transformation\Transformer\NativeTransformerTest.cs" />
     <Compile Include="Unit\Core\Transformation\Transformer\NCalcTransformerTest.cs" />
@@ -310,6 +340,7 @@
     <Compile Include="Unit\Core\Scalar\Resolver\CSharpScalarResolverTest.cs" />
     <Compile Include="Unit\Core\Variable\VariableFactoryTest.cs" />
     <Compile Include="Unit\Core\Xml\XPathEngineTest.cs" />
+    <Compile Include="Integration\Core\DirectoryInfoExtensionsTest.cs" />
     <Compile Include="Unit\Framework\FailureMessage\Json\LookupReverseExistsViolationMessageJsonTest.cs" />
     <Compile Include="Unit\Framework\FailureMessage\Json\LookupExistsViolationMessageJsonTest.cs" />
     <Compile Include="Unit\Framework\FailureMessage\Json\LookupMatchesViolationMessageJsonTest.cs" />
@@ -359,6 +390,7 @@
     <Compile Include="Unit\GenbiL\Parser\GrammarParserTest.cs" />
     <Compile Include="Unit\GenbiL\Parser\VariableParserTest.cs" />
     <Compile Include="Unit\NUnit\Builder\Helper\ScalarResolverArgsBuilderTest.cs" />
+    <Compile Include="Unit\NUnit\Builder\Helper\SetupHelperTest.cs" />
     <Compile Include="Unit\NUnit\Builder\ResultSetAllRowsBuilderTest.cs" />
     <Compile Include="Unit\NUnit\Builder\ScalarScoreBuilderTest.cs" />
     <Compile Include="Unit\NUnit\Builder\ResultSetSomeRowsBuilderTest.cs" />
@@ -415,6 +447,7 @@
     <Compile Include="Unit\NUnit\Query\SyntacticallyCorrectConstraintTest.cs" />
     <Compile Include="Unit\NUnit\ResultSetComparison\EqualToConstraintTest.cs" />
     <Compile Include="Properties\ProjectAssemblyInfo.cs" />
+    <Compile Include="Unit\PathExtensionsTest.cs" />
     <Compile Include="Unit\Service\RunnerConfig\GallioRunnerConfigBuilderTest.cs" />
     <Compile Include="Unit\Service\RunnerConfig\NUnitRunnerConfigBuilderTest.cs" />
     <Compile Include="Unit\Service\RunnerConfig\RunnerConfigManagerTest.cs" />
@@ -485,7 +518,8 @@
     <Compile Include="Unit\Xml\InstanceSettlingXmlTest.cs" />
     <Compile Include="Unit\Xml\Variables\GlobalVariableXmlTest.cs" />
     <Compile Include="Unit\Xml\Variables\LocalVariableXmlTest.cs" />
-    <Compile Include="Unit\Xml\Variables\Sequences\SentinelLoopXmlTest.cs" />
+    <Compile Include="Unit\Xml\Variables\Sequence\FileLoopXmlTest.cs" />
+    <Compile Include="Unit\Xml\Variables\Sequence\SentinelLoopXmlTest.cs" />
     <Compile Include="Unit\Xml\XmlManagerWithExternalSettingsTest.cs" />
     <Compile Include="Unit\Xml\XmlManagerWithDtdTest.cs" />
     <Compile Include="Unit\Xml\XmlManagerTest.cs" />
@@ -696,6 +730,9 @@
     <EmbeddedResource Include="Acceptance\Resources\Negative\Lookup-ReverseExists-Json.nbits.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
+    <EmbeddedResource Include="Acceptance\Resources\Positive\create-file.cmd">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
     <None Include="Acceptance\Resources\Positive\OrderCountByYear.xlsx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -792,7 +829,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <EmbeddedResource Include="Integration\NUnit\Resources\NonEmptyAmountByYear.csv" />
-    <EmbeddedResource Include="Integration\Core\DataManipulation\Load.csv" />
+    <EmbeddedResource Include="Integration\Core\Decoration\DataEngineering\Load.csv" />
     <EmbeddedResource Include="Integration\Core\Resources\MyBatch.cmd" />
     <EmbeddedResource Include="Integration\Core\Resources\MyInvalidBatch.cmd" />
     <EmbeddedResource Include="Integration\GenbiL\Resources\Simple.genbil" />
@@ -1011,15 +1048,16 @@
     <EmbeddedResource Include="Unit\Xml\Resources\SettingsXmlWithDefaultEverywhere.xml" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Unit\Xml\Resources\FileLoopXmlTestSuite.xml" />
     <EmbeddedResource Include="Unit\Xml\Resources\SequenceCombinationXmlTestSuite.xml" />
     <EmbeddedResource Include="Unit\Xml\Resources\LookupMatchesXmlTestSuite.xml" />
     <EmbeddedResource Include="Unit\Xml\Resources\SentinelLoopXmlTestSuite.xml" />
     <EmbeddedResource Include="Unit\Xml\Resources\LocalVariableXmlTestSuite.xml" />
     <EmbeddedResource Include="Unit\Xml\Resources\InstanceSettlingXmlTestSuite.xml" />
     <EmbeddedResource Include="Acceptance\Resources\Negative\Scoring-Json-0001.txt" />
-    <None Include="Acceptance\Resources\Positive\MultipleInstance.nbits">
+    <EmbeddedResource Include="Acceptance\Resources\Positive\MultipleInstance.nbits">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
+    </EmbeddedResource>
     <EmbeddedResource Include="Acceptance\Resources\Negative\Lookup-Matches-Json-0001.txt" />
     <EmbeddedResource Include="Acceptance\Resources\Negative\Lookup-ReverseExists-Json-0001.txt" />
     <EmbeddedResource Include="Acceptance\Resources\Negative\Lookup-Exists-Json-0001.txt" />

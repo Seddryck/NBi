@@ -1,4 +1,4 @@
-﻿using NBi.Extensibility.Condition;
+﻿using NBi.Extensibility.Decoration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +9,6 @@ namespace NBi.Testing.Acceptance.Resources
 {
     public class CustomConditionTrue : ICustomCondition
     {
-        public CustomConditionResult Execute() => new CustomConditionResult(false, "Not possible");//CustomConditionResult.SuccessfullCondition;
+        public CustomConditionResult Execute() => CustomConditionResult.SuccessfullCondition;
     }
 }

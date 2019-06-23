@@ -1,6 +1,10 @@
 ﻿using NBi.Core;
-using NBi.Core.Assemblies;
-using NBi.Core.WindowsService;
+using NBi.Core.Assemblies.Decoration;
+using NBi.Core.Decoration;
+using NBi.Core.Decoration.Process;
+using NBi.Core.Injection;
+using NBi.Core.Scalar.Resolver;
+using NBi.Core.Variable;
 using NBi.Xml.Decoration.Condition;
 using System;
 using System.Collections.Generic;
@@ -13,38 +17,69 @@ namespace NBi.NUnit.Builder.Helper
 {
     public class ConditionHelper
     {
-        public IDecorationConditionMetadata Execute(object condition)
+        private readonly ServiceLocator serviceLocator;
+        private readonly IDictionary<string, ITestVariable> variables;
+
+        public ConditionHelper(ServiceLocator serviceLocator, IDictionary<string, ITestVariable> variables)
+        {
+            this.serviceLocator = serviceLocator;
+            this.variables = variables;
+        }
+
+        public IDecorationConditionArgs Execute(object condition)
         {
             switch (condition)
             {
                 case CustomConditionXml custom: return BuildCustomCondition(custom);
                 case ServiceRunningXml serviceRunning: return BuildServiceRunning(serviceRunning);
-                default:throw new ArgumentOutOfRangeException();
+                default: throw new ArgumentOutOfRangeException();
             }
         }
 
-        private IDecorationConditionMetadata BuildCustomCondition(CustomConditionXml custom)
+        private IDecorationConditionArgs BuildCustomCondition(CustomConditionXml custom)
         {
-            var parameters = new Dictionary<string, object>();
-            custom.Parameters.ForEach(p => parameters.Add(p.Name, p.StringValue));
+            var helper = new ScalarHelper(serviceLocator, variables);
 
-            return new CustomConditionMetadata(custom.AssemblyPath, custom.TypeName, parameters);
+            return new CustomConditionArgs(
+                helper.InstantiateResolver<string>(custom.AssemblyPath),
+                helper.InstantiateResolver<string>(custom.TypeName),
+                custom.Parameters.ToDictionary(x => x.Name, y => helper.InstantiateResolver<object>(y.StringValue) as IScalarResolver)
+            );
         }
 
-        private IDecorationConditionMetadata BuildServiceRunning(ServiceRunningXml serviceRunning)
-            => new WindowsServiceRunningMetadata(serviceRunning.ServiceName, serviceRunning.TimeOut);
-
-        private class CustomConditionMetadata : ICustomConditionMetadata
+        private IDecorationConditionArgs BuildServiceRunning(ServiceRunningXml serviceRunning)
         {
-            public string AssemblyPath { get; }
+            var scalarHelper = new ScalarHelper(serviceLocator, variables);
+            return new RunningArgs(
+                scalarHelper.InstantiateResolver<string>(serviceRunning.ServiceName)
+                , scalarHelper.InstantiateResolver<int>(serviceRunning.TimeOut)
+            );
+        }
 
-            public string TypeName { get; }
+        private class RunningArgs : IRunningConditionArgs
+        {
+            public RunningArgs(IScalarResolver<string> serviceName, IScalarResolver<int> timeOut)
+            {
+                ServiceName = serviceName;
+                TimeOut = timeOut;
+            }
 
-            public IReadOnlyDictionary<string, object> Parameters { get; }
+            public IScalarResolver<string> ServiceName { get; }
 
-            public CustomConditionMetadata(string assemblyPath, string typeName, IDictionary<string, object> parameters)
+            public IScalarResolver<int> TimeOut { get; }
+        }
+
+        private class CustomConditionArgs : ICustomConditionArgs
+        {
+            public IScalarResolver<string> AssemblyPath { get; }
+
+            public IScalarResolver<string> TypeName { get; }
+
+            public IReadOnlyDictionary<string, IScalarResolver> Parameters { get; }
+
+            public CustomConditionArgs(IScalarResolver<string> assemblyPath, IScalarResolver<string> typeName, IDictionary<string, IScalarResolver> parameters)
                 => (AssemblyPath, TypeName, Parameters)
-                = (assemblyPath, typeName, new ReadOnlyDictionary<string, object>(parameters));
+                = (assemblyPath, typeName, new ReadOnlyDictionary<string, IScalarResolver>(parameters));
         }
     }
 }

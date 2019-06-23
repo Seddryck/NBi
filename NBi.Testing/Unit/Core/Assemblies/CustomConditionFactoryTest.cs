@@ -1,7 +1,9 @@
 ﻿using Moq;
 using NBi.Core;
 using NBi.Core.Assemblies;
-using NBi.Extensibility.Condition;
+using NBi.Core.Assemblies.Decoration;
+using NBi.Core.Scalar.Resolver;
+using NBi.Extensibility.Decoration;
 using NBi.Testing.Unit.Core.Assemblies.Resource;
 using NUnit.Framework;
 using System;
@@ -165,9 +167,9 @@ namespace NBi.Testing.Unit.Core.Assemblies
             var factory = new CustomConditionFactoryProxy();
             void instantiate() => factory.Instantiate
             (
-                Mock.Of<ICustomConditionMetadata>(x =>
-                    x.AssemblyPath=="." &&
-                    x.TypeName == "NotExistingType" &&
+                Mock.Of<ICustomConditionArgs>(x =>
+                    x.AssemblyPath == new LiteralScalarResolver<string>(".") &&
+                    x.TypeName == new LiteralScalarResolver<string>("NotExistingType") &&
                     x.Parameters == null
                 )
             );
@@ -180,9 +182,9 @@ namespace NBi.Testing.Unit.Core.Assemblies
             var factory = new CustomConditionFactoryProxy();
             void instantiate() => factory.Instantiate
             (
-                Mock.Of<ICustomConditionMetadata>(x =>
-                    x.AssemblyPath == "." &&
-                    x.TypeName == "Namespace.NotExistingType" &&
+                Mock.Of<ICustomConditionArgs>(x =>
+                    x.AssemblyPath == new LiteralScalarResolver<string>(".") &&
+                    x.TypeName == new LiteralScalarResolver<string>("Namespace.NotExistingType") &&
                     x.Parameters == null
                 )
             );
@@ -195,9 +197,9 @@ namespace NBi.Testing.Unit.Core.Assemblies
             var factory = new CustomConditionFactoryProxy();
             void instantiate() => factory.Instantiate
             (
-                Mock.Of<ICustomConditionMetadata>(x =>
-                    x.AssemblyPath == "." &&
-                    x.TypeName == this.GetType().Name &&
+                Mock.Of<ICustomConditionArgs>(x =>
+                    x.AssemblyPath == new LiteralScalarResolver<string>(".") &&
+                    x.TypeName == new LiteralScalarResolver<string>(this.GetType().Name) &&
                     x.Parameters == null
                 )
             );
@@ -210,11 +212,11 @@ namespace NBi.Testing.Unit.Core.Assemblies
             var factory = new CustomConditionFactoryProxy();
             void instantiate() => factory.Instantiate
             (
-                Mock.Of<ICustomConditionMetadata>(x =>
-                    x.AssemblyPath == "." &&
-                    x.TypeName == typeof(CustomConditionWithMulipleCtors).Name &&
-                    x.Parameters == new ReadOnlyDictionary<string, object>(new Dictionary<string, object>() {
-                        { "NotExistingParameter", null }
+                Mock.Of<ICustomConditionArgs>(x =>
+                    x.AssemblyPath == new LiteralScalarResolver<string>(".") &&
+                    x.TypeName == new LiteralScalarResolver<string>(typeof(CustomConditionWithMulipleCtors).Name) &&
+                    x.Parameters == new ReadOnlyDictionary<string, IScalarResolver>(new Dictionary<string, IScalarResolver>() {
+                        { "NotExistingParameter", new LiteralScalarResolver<string>("null") }
                     })
                 )
             );

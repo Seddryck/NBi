@@ -11,7 +11,7 @@ using NBi.Xml.Constraints;
 
 namespace NBi.Xml.Decoration.Command
 {
-    public class EtlRunXml : DecorationCommandXml, IEtlRunCommand, IReferenceFriendly
+    public class EtlRunXml : DecorationCommandXml, IReferenceFriendly
     {
         protected const int DEFAULT_TIMEOUT = 30;
         protected const string DEFAULT_VERSION = "SqlServer2014";

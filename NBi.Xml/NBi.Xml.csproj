@@ -115,12 +115,18 @@
     <Compile Include="Constraints\LinkedToXml.cs" />
     <Compile Include="Constraints\EvaluateRowsXml.cs" />
     <Compile Include="Decoration\Command\ConnectionWaitXml.cs" />
+    <Compile Include="Decoration\Command\CustomCommandParameterXml.cs" />
+    <Compile Include="Decoration\Command\CustomCommandXml.cs" />
+    <Compile Include="Decoration\Command\FileDeleteExtensionXml.cs" />
+    <Compile Include="Decoration\Command\FileCopyExtensionXml.cs" />
+    <Compile Include="Decoration\Command\FileDeletePatternXml.cs" />
+    <Compile Include="Decoration\Command\FileCopyPatternXml.cs" />
     <Compile Include="Decoration\Command\WaitXml.cs" />
     <Compile Include="Decoration\Command\ExeKillXml.cs" />
     <Compile Include="Decoration\Command\SqlRunXml.cs" />
     <Compile Include="Decoration\Command\FileCopyXml.cs" />
     <Compile Include="Decoration\Command\ExeRunXml.cs" />
-    <Compile Include="Decoration\Command\FileManipulationAbstractXml.cs" />
+    <Compile Include="Decoration\Command\IOAbstractXml.cs" />
     <Compile Include="Decoration\Command\FileDeleteXml.cs" />
     <Compile Include="Decoration\ConditionXml.cs" />
     <Compile Include="Decoration\Condition\CustomConditionParameterXml.cs" />
@@ -279,6 +285,7 @@
     <Compile Include="Variables\ScriptXml.cs" />
     <Compile Include="Variables\GlobalVariableXml.cs" />
     <Compile Include="Variables\GlobalVariablesStandaloneXml.cs" />
+    <Compile Include="Variables\Sequence\FileLoopXml.cs" />
     <Compile Include="Variables\Sequence\SentinelLoopXml.cs" />
     <Compile Include="Variables\Sequence\SequenceXml.cs" />
     <Compile Include="XmlBeautifier.cs" />

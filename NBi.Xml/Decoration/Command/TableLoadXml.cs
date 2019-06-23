@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Linq;
 using System.Xml.Serialization;
-using NBi.Core.DataManipulation;
 using System.IO;
 using NBi.Core;
 
 namespace NBi.Xml.Decoration.Command
 {
-    public class TableLoadXml : DataManipulationAbstractXml, ILoadCommand
+    public class TableLoadXml : DataManipulationAbstractXml
     {
         [XmlAttribute("name")]
         public string TableName { get; set; }

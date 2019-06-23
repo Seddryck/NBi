@@ -167,6 +167,28 @@
       </no-rows>
     </assert>
   </test>
+  <test name="Instances variables are consummed in the setup/cleanup" uid="0020">
+    <instance-settling>
+      <local-variable name="firstDayOfMonth" type="dateTime">
+        <item>2016-01-01</item>
+        <item>2016-02-01</item>
+      </local-variable>
+    </instance-settling>
+    <setup>
+      <file-delete-pattern path="temp files\" pattern="data-*.txt"/>
+      <exe-run path="." name="create-file.cmd" arguments="~&quot;Acceptance\Resources\Positive\temp files&quot; &quot;data-{@firstDayOfMonth:yyMM}.txt&quot; {@firstDayOfMonth:yyyy-MM-dd}" timeout-milliseconds="1000"/>
+    </setup>
+    <system-under-test>
+      <resultSet file="~temp files\data-{@firstDayOfMonth:yyMM}.txt"/>
+    </system-under-test>
+    <assert>
+      <all-rows>
+        <predicate name="#0" type="dateTime">
+          <within-range>[2016-01-01;2016-02-01]</within-range>
+        </predicate>
+      </all-rows>
+    </assert>
+  </test>
   <!--<test name="Instances are defined through multiple variables" uid="0010">
     <instances>
       <combination>
@@ -193,4 +215,21 @@
       </none-rows>
     </assert>
   </test>-->
+  <test name="Instances are defined through a single variable based on a list of files" uid="0050">
+    <instance-settling>
+      <local-variable name="file" type="text">
+        <loop-file path="..\csv\" pattern="MyData*.csv"/>
+      </local-variable>
+    </instance-settling>
+    <system-under-test>
+      <resultSet file="~..\csv\{@file}"/>
+    </system-under-test>
+    <assert>
+      <no-rows>
+        <predicate name="#0">
+          <null/>
+        </predicate>
+      </no-rows>
+    </assert>
+  </test>
 </testSuite>

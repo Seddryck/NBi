@@ -15,6 +15,8 @@ namespace NBi.Core.ResultSet.Analyzer
 
             switch (kind)
             {
+                case EquivalenceKind.EquivalentTo:
+                    break;
                 case EquivalenceKind.SubsetOf:
                     list.Add(new UnexpectedRowsAnalyzer());
                     break;
@@ -28,7 +30,6 @@ namespace NBi.Core.ResultSet.Analyzer
                 default:
                     throw new ArgumentOutOfRangeException();
             }
-
             return list;
         }
 

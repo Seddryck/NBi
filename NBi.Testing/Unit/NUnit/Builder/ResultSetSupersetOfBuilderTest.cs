@@ -60,7 +60,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
             var sutXml = sutXmlStubFactory.Object;
             sutXml.Item = itemXmlStubFactory.Object;
 
-            var ctrXml = new SupersetOfXml(SettingsXml.Empty) { ResultSet = new ResultSetXml() };
+            var ctrXml = new SupersetOfXml(SettingsXml.Empty) { ResultSetOld = new ResultSetXml() };
 
             var builder = new ResultSetSupersetOfBuilder();
             builder.Setup(sutXml, ctrXml, null, null, new ServiceLocator());
@@ -133,7 +133,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
 
             var ctrXmlStubFactory = new Mock<SupersetOfXml>();
             ctrXmlStubFactory.SetupGet(i => i.Settings).Returns(SettingsXml.Empty);
-            ctrXmlStubFactory.SetupGet(i => i.ResultSet).Returns(new ResultSetXml());
+            ctrXmlStubFactory.SetupGet(i => i.ResultSetOld).Returns(new ResultSetXml());
             var ctrXml = ctrXmlStubFactory.Object;
 
             var builder = new ResultSetSupersetOfBuilder();

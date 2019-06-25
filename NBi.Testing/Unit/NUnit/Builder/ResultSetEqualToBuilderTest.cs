@@ -61,7 +61,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
             var sutXml = sutXmlStubFactory.Object;
             sutXml.Item = itemXmlStubFactory.Object;
 
-            var ctrXml = new EqualToXml(SettingsXml.Empty) { ResultSet = new ResultSetXml() };
+            var ctrXml = new EqualToXml(SettingsXml.Empty) { ResultSetOld = new ResultSetXml() };
 
             var builder = new ResultSetEqualToBuilder();
             builder.Setup(sutXml, ctrXml, null, null, new ServiceLocator());
@@ -133,7 +133,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
             var sutXml = sutXmlStubFactory.Object;
             sutXml.Item = itemXmlStubFactory.Object;
 
-            var ctrXml = new EqualToXml(true) { ResultSet = new ResultSetXml() };
+            var ctrXml = new EqualToXml(true) { ResultSetOld = new ResultSetXml() };
 
             var builder = new ResultSetEqualToBuilder();
             builder.Setup(sutXml, ctrXml, null, null, new ServiceLocator());

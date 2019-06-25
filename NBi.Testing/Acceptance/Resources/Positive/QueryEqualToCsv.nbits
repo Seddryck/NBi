@@ -23,7 +23,7 @@
 			</equalTo>
 		</assert>
 	</test>
-  <test name="'Reseller Order Count' by year before 2006 (csv)" uid="0001">
+  <test name="'Reseller Order Count' by year before 2006 (csv)" uid="0002">
 		<system-under-test>
 			<execution>
 				<query name="SQL Query" connectionString="Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly">
@@ -43,6 +43,34 @@
 			</equalTo>
 		</assert>
 	</test>
+  <test name="Query equal " uid="0003">
+    <system-under-test>
+      <execution>
+        <query name="SQL Query" connectionString="Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly">
+          SELECT
+          'A', 105
+        </query>
+      </execution>
+    </system-under-test>
+    <assert>
+      <equal-to>
+        <column index="0" role="key" type="text"/>
+        <column index="1" role="value" type="numeric"/>
+        <result-set>
+          <file>
+            <path>..\Csv\NullValues.csv</path>
+          </file>
+          <alteration>
+            <filter>
+              <predicate operand="#0" type="text">
+                <less-than>B</less-than>
+              </predicate>
+            </filter>
+          </alteration>
+        </result-set>
+      </equal-to>
+    </assert>
+  </test>
 	<test name="Ignore column is effectively ignored" uid="0001">
 		<system-under-test>
 			<execution>

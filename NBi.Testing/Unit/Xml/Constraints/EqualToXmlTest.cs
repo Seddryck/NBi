@@ -14,6 +14,8 @@ using System.Xml.Serialization;
 using System.Text;
 using System.Diagnostics;
 using System.Collections.Generic;
+using NBi.Xml.Systems;
+using NBi.Core.Calculation;
 #endregion
 
 namespace NBi.Testing.Unit.Xml.Constraints
@@ -72,9 +74,9 @@ namespace NBi.Testing.Unit.Xml.Constraints
             TestSuiteXml ts = DeserializeSample();
 
             Assert.That(ts.Tests[testNr].Constraints[0], Is.AssignableTo<EqualToXml>());
-            Assert.That(((EqualToXml)ts.Tests[testNr].Constraints[0]).ResultSet, Is.Not.Null);
-            Assert.That(((EqualToXml)ts.Tests[testNr].Constraints[0]).ResultSet.Rows, Has.Count.EqualTo(2));
-            Assert.That(((EqualToXml)ts.Tests[testNr].Constraints[0]).ResultSet.Rows[0].Cells, Has.Count.EqualTo(3));
+            Assert.That(((EqualToXml)ts.Tests[testNr].Constraints[0]).ResultSetOld, Is.Not.Null);
+            Assert.That(((EqualToXml)ts.Tests[testNr].Constraints[0]).ResultSetOld.Rows, Has.Count.EqualTo(2));
+            Assert.That(((EqualToXml)ts.Tests[testNr].Constraints[0]).ResultSetOld.Rows[0].Cells, Has.Count.EqualTo(3));
         }
 
         [Test]
@@ -86,8 +88,8 @@ namespace NBi.Testing.Unit.Xml.Constraints
             TestSuiteXml ts = DeserializeSample();
 
             Assert.That(ts.Tests[testNr].Constraints[0], Is.AssignableTo<EqualToXml>());
-            Assert.That(((EqualToXml)ts.Tests[testNr].Constraints[0]).ResultSet, Is.Not.Null);
-            Assert.That(((EqualToXml)ts.Tests[testNr].Constraints[0]).ResultSet.File, Is.Not.Null.And.Not.Empty);
+            Assert.That(((EqualToXml)ts.Tests[testNr].Constraints[0]).ResultSetOld, Is.Not.Null);
+            Assert.That(((EqualToXml)ts.Tests[testNr].Constraints[0]).ResultSetOld.File, Is.Not.Null.And.Not.Empty);
         }
 
         [Test]
@@ -271,6 +273,24 @@ namespace NBi.Testing.Unit.Xml.Constraints
             var ctr = ts.Tests[testNr].Constraints[0] as EqualToXml;
 
             Assert.That(ctr.Behavior, Is.EqualTo(EqualToXml.ComparisonBehavior.SingleRow));
+        }
+
+        [Test]
+        public void DeserializeEqualToQuery_FullFeatured_Correct()
+        {
+            int testNr = 12;
+
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            TestSuiteXml ts = DeserializeSample();
+
+            Assert.That(ts.Tests[testNr].Constraints[0], Is.AssignableTo<EqualToXml>());
+            var ctr = ts.Tests[testNr].Constraints[0] as EqualToXml;
+            Assert.That(ctr.ResultSet, Is.TypeOf<ResultSetSystemXml>());
+            var rs = ctr.ResultSet as ResultSetSystemXml;
+            Assert.That(rs.File.Path, Is.EqualTo(@"C:\bar.txt"));
+            Assert.That(rs.File.IfMissing.File.Path, Is.EqualTo(@"C:\foo.txt"));
+            Assert.That(rs.Alteration.Filters, Has.Count.EqualTo(1));
+            Assert.That(rs.Alteration.Filters[0].Predication.Predicate.ComparerType, Is.EqualTo(ComparerType.MoreThan));
         }
 
         [Test]

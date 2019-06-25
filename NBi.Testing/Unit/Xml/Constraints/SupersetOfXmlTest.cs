@@ -69,9 +69,9 @@ namespace NBi.Testing.Unit.Xml.Constraints
             TestSuiteXml ts = DeserializeSample();
 
             Assert.That(ts.Tests[testNr].Constraints[0], Is.TypeOf<SupersetOfXml>());
-            Assert.That(((SupersetOfXml)ts.Tests[testNr].Constraints[0]).ResultSet, Is.Not.Null);
-            Assert.That(((SupersetOfXml)ts.Tests[testNr].Constraints[0]).ResultSet.Rows, Has.Count.EqualTo(2));
-            Assert.That(((SupersetOfXml)ts.Tests[testNr].Constraints[0]).ResultSet.Rows[0].Cells, Has.Count.EqualTo(3));
+            Assert.That(((SupersetOfXml)ts.Tests[testNr].Constraints[0]).ResultSetOld, Is.Not.Null);
+            Assert.That(((SupersetOfXml)ts.Tests[testNr].Constraints[0]).ResultSetOld.Rows, Has.Count.EqualTo(2));
+            Assert.That(((SupersetOfXml)ts.Tests[testNr].Constraints[0]).ResultSetOld.Rows[0].Cells, Has.Count.EqualTo(3));
         }
 
         [Test]
@@ -83,8 +83,8 @@ namespace NBi.Testing.Unit.Xml.Constraints
             TestSuiteXml ts = DeserializeSample();
 
             Assert.That(ts.Tests[testNr].Constraints[0], Is.TypeOf<SupersetOfXml>());
-            Assert.That(((SupersetOfXml)ts.Tests[testNr].Constraints[0]).ResultSet, Is.Not.Null);
-            Assert.That(((SupersetOfXml)ts.Tests[testNr].Constraints[0]).ResultSet.File, Is.Not.Null.And.Not.Empty);
+            Assert.That(((SupersetOfXml)ts.Tests[testNr].Constraints[0]).ResultSetOld, Is.Not.Null);
+            Assert.That(((SupersetOfXml)ts.Tests[testNr].Constraints[0]).ResultSetOld.File, Is.Not.Null.And.Not.Empty);
         }
 
         [Test]

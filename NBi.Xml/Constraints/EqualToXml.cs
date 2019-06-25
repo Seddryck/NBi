@@ -12,6 +12,7 @@ using NBi.Xml.Settings;
 using NBi.Xml.Items.Xml;
 using NBi.Core.ResultSet.Equivalence;
 using NBi.Core.Query.Client;
+using NBi.Xml.Systems;
 
 namespace NBi.Xml.Constraints
 {
@@ -57,7 +58,10 @@ namespace NBi.Xml.Constraints
         }
 
         [XmlElement("resultSet")]
-        public virtual ResultSetXml ResultSet { get; set; }
+        public virtual ResultSetXml ResultSetOld { get; set; }
+
+        [XmlElement("result-set")]
+        public virtual ResultSetSystemXml ResultSet { get; set; }
 
         [XmlElement(Type = typeof(QueryXml), ElementName = "query"),
         ]
@@ -72,8 +76,8 @@ namespace NBi.Xml.Constraints
             {
                 if (Query != null)
                     return Query;
-                if (ResultSet != null)
-                    return ResultSet;
+                if (ResultSetOld != null)
+                    return ResultSetOld;
                 if (XmlSource != null)
                     return XmlSource;
 

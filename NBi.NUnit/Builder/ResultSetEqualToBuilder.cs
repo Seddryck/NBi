@@ -59,8 +59,10 @@ namespace NBi.NUnit.Builder
 
             if (ConstraintXml.GetCommand() != null)
                 ctr = InstantiateConstraint(((QueryXml)(ConstraintXml.BaseItem)), ConstraintXml.Settings, transformationProvider);
+            else if (ConstraintXml.ResultSetOld != null)
+                ctr = InstantiateConstraint(ConstraintXml.ResultSetOld, ConstraintXml.Settings, transformationProvider);
             else if (ConstraintXml.ResultSet != null)
-                ctr = InstantiateConstraint(ConstraintXml.ResultSet, ConstraintXml.Settings, transformationProvider);
+                ctr = InstantiateConstraint(ConstraintXml.ResultSet, ConstraintXml.Settings);
             else if (ConstraintXml.XmlSource != null)
                 ctr = InstantiateConstraint(ConstraintXml.XmlSource, ConstraintXml.Settings, transformationProvider);
 
@@ -100,6 +102,18 @@ namespace NBi.NUnit.Builder
                 ctr = ctr.Sequential();
 
             return ctr;
+        }
+
+        protected virtual BaseResultSetComparisonConstraint InstantiateConstraint(ResultSetSystemXml xml, SettingsXml settings)
+        {
+            xml.Settings = settings;
+            var helper = new ResultSetSystemHelper(ServiceLocator, Variables);
+            var builder = new ResultSetServiceBuilder();
+            builder.Setup(Helper.InstantiateResolver(xml));
+            builder.Setup(Helper.InstantiateAlterations(xml));
+            var service = builder.GetService();
+
+            return InstantiateConstraint(service);
         }
 
         protected virtual BaseResultSetComparisonConstraint InstantiateConstraint(object obj, SettingsXml settings, TransformationProvider transformation)

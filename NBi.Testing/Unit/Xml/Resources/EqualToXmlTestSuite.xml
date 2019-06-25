@@ -189,7 +189,21 @@
       </equalTo>
     </assert>
   </test>
-  <test name="equalTo Transformation">
+  <test name="equalTo single-row">
+    <system-under-test>
+      <execution>
+        <query>
+          select top 1 [EventID], [Cost], [Period], [QuarterHour], [Instant] from Event
+        </query>
+      </execution>
+    </system-under-test>
+    <assert>
+      <equalTo behavior="single-row" values-default-type="dateTime">
+        <resultSet file="Query.csv"/>
+      </equalTo>
+    </assert>
+  </test>
+  <test name="equal-to full featured result-set">
     <system-under-test>
       <execution>
         <query>
@@ -198,9 +212,25 @@
       </execution>
     </system-under-test>
     <assert>
-      <equalTo behavior="single-row" values-default-type="dateTime">
-        <resultSet file="Query.csv"/>
-      </equalTo>
+      <equal-to values-default-type="dateTime">
+        <result-set>
+          <file>
+            <path>C:\bar.txt</path>
+            <if-missing>
+              <file>
+                <path>C:\foo.txt</path>
+              </file>
+            </if-missing>
+          </file>
+          <alteration>
+            <filter>
+              <predicate operand="#3">
+                <more-than>@myVar</more-than>
+              </predicate>
+            </filter>
+          </alteration>
+        </result-set>
+      </equal-to>
     </assert>
   </test>
 </testSuite>

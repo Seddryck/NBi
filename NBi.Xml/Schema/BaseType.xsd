@@ -1589,6 +1589,7 @@
             <xs:attribute name="file" type="xs:string" use="optional" />
           </xs:complexType>
         </xs:element>
+        <xs:element name="result-set" minOccurs="0" maxOccurs="1" type="result-set-type"/>
         <xs:element name="query" type="query-type" minOccurs="0" maxOccurs="1"/>
         <xs:element name="xml-source" type="xml-source-type" minOccurs="0" maxOccurs="1"/>
       </xs:choice>

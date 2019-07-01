@@ -88,9 +88,6 @@ namespace NBi.Testing.Unit.NUnit.Builder.Helper
             builder.Build();
             var args = builder.GetArgs();
             Assert.That(args, Is.TypeOf<FormatScalarResolverArgs>());
-
-            var typedArgs = args as FormatScalarResolverArgs;
-            Assert.That(typedArgs.Text, Is.TypeOf<FormatScalarResolver>());
         }
 
         [Test]

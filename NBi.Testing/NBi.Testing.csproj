@@ -314,6 +314,7 @@
     <Compile Include="Unit\Core\Scalar\Resolver\LiteralScalarResolverTest.cs" />
     <Compile Include="Unit\Core\Scalar\Resolver\ProjectionResultSetScalarResolverTest.cs" />
     <Compile Include="Integration\Core\Scalar\Resolver\QueryScalarResolverTest.cs" />
+    <Compile Include="Unit\Core\Scalar\Resolver\ScalarResolverArgsFactoryTest.cs" />
     <Compile Include="Unit\Core\Scalar\Resolver\ScalarResolverFactoryTest.cs" />
     <Compile Include="Unit\Core\Scalar\ScalarComparerTest.cs" />
     <Compile Include="Unit\Core\Sequence\Resolver\LoopSequenceResolverTest.cs" />

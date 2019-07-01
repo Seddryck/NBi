@@ -81,6 +81,19 @@ namespace NBi.Testing.Unit.NUnit.Builder.Helper
         }
 
         [Test]
+        public void Build_FormatIncludingFunctions_FunctionScalarResolverArgs()
+        {
+            var builder = new ScalarResolverArgsBuilder(new ServiceLocator());
+            builder.Setup("~First day of 2018 is a { @myVar | dateTime-to-previous-month : dddd }");
+            builder.Build();
+            var args = builder.GetArgs();
+            Assert.That(args, Is.TypeOf<FormatScalarResolverArgs>());
+
+            var typedArgs = args as FormatScalarResolverArgs;
+            Assert.That(typedArgs.Text, Is.TypeOf<FormatScalarResolver>());
+        }
+
+        [Test]
         public void Build_Format_FormatResolverArgs()
         {
             var builder = new ScalarResolverArgsBuilder(new ServiceLocator());

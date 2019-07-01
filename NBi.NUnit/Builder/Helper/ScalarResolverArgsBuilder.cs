@@ -72,48 +72,9 @@ namespace NBi.NUnit.Builder.Helper
                 case EnvironmentXml obj:
                     args = new EnvironmentScalarResolverArgs(obj.Name);
                     break;
-                case string obj when string.IsNullOrEmpty(obj):
-                    args = new LiteralScalarResolverArgs(string.Empty);
-                    break;
-                case string obj when !string.IsNullOrEmpty(obj):
-                    var tokens = obj.Trim().Split(new[] { "|" }, StringSplitOptions.RemoveEmptyEntries).Select(x => x.Trim());
-                    var variable = tokens.First().Trim();
-                    var prefix = tokens.First().Trim().ToCharArray()[0];
-                    var functions = tokens.Skip(1);
-                    var factory = serviceLocator.GetScalarResolverFactory();
-                    IScalarResolver resolver = null;
-
-                    switch (prefix)
-                    {
-                        case '@':
-                            args = new GlobalVariableScalarResolverArgs(variable.Substring(1), variables);
-                            resolver = factory.Instantiate<object>(args);
-                            break;
-                        case '~':
-                            args = new FormatScalarResolverArgs(variable.Substring(1), variables);
-                            resolver = factory.Instantiate<string>(args);
-                            break;
-                        default:
-                            args = new LiteralScalarResolverArgs(variable);
-                            resolver = factory.Instantiate<object>(args);
-                            break;
-                    }
-
-                    if (functions.Count() > 0)
-                    {
-                        var transformations = new List<INativeTransformation>();
-                        var nativeTransformationFactory = new NativeTransformationFactory(settings.BasePath);
-                        foreach (var function in functions)
-                            transformations.Add(nativeTransformationFactory.Instantiate(function));
-
-                        args = new FunctionScalarResolverArgs(resolver, transformations);
-                    }
-                    break;
-                case null:
-                    args = new LiteralScalarResolverArgs(string.Empty);
-                    break;
                 default:
-                    args = new LiteralScalarResolverArgs(obj);
+                    var factory = new ScalarResolverArgsFactory(serviceLocator, variables, settings.BasePath);
+                    args = factory.Instantiate(obj as string);
                     break;
             }
         }

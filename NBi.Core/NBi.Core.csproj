@@ -585,6 +585,7 @@
     <Compile Include="Scalar\Resolver\FormatScalarResolver.cs" />
     <Compile Include="Scalar\Resolver\FunctionScalarResolver.cs" />
     <Compile Include="Scalar\Resolver\FunctionScalarResolverArgs.cs" />
+    <Compile Include="Scalar\Resolver\ScalarResolverArgsFactory.cs" />
     <Compile Include="Scalar\ThreeStateBoolean.cs" />
     <Compile Include="ResultSet\Uniqueness\ResultOccurenceUniqueRows.cs" />
     <Compile Include="Scalar\Conversion\BaseConverter.cs" />

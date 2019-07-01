@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NBi.Core.Scalar.Resolver;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,14 +10,14 @@ namespace NBi.Core.ResultSet.Alteration.Renaming
     class NewNameRenamingEngine : IRenamingEngine
     {
         private IColumnIdentifier OriginalIdentification { get; }
-        private ColumnNameIdentifier NewIdentification { get; }
+        private IScalarResolver<string> NewIdentification { get; }
 
-        public NewNameRenamingEngine(IColumnIdentifier originalIdentification, IColumnIdentifier newIdentification)
-            => (OriginalIdentification, NewIdentification) = (originalIdentification, newIdentification as ColumnNameIdentifier);
+        public NewNameRenamingEngine(IColumnIdentifier originalIdentification, IScalarResolver<string> newIdentification)
+            => (OriginalIdentification, NewIdentification) = (originalIdentification, newIdentification);
 
         public ResultSet Execute(ResultSet rs)
         {
-            OriginalIdentification.GetColumn(rs.Table).ColumnName = NewIdentification.Name;
+            OriginalIdentification.GetColumn(rs.Table).ColumnName = NewIdentification.Execute();
             return rs;
         }
     }

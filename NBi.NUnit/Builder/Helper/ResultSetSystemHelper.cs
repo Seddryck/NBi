@@ -129,8 +129,11 @@ namespace NBi.NUnit.Builder.Helper
             {
                 foreach (var renameXml in resultSetXml.Alteration.Renamings)
                 {
+                    var helper = new ScalarHelper(serviceLocator, variables);
+                    var newName = helper.InstantiateResolver<string>(renameXml.NewName);
+
                     var factory = new RenamingFactory();
-                    var renamer = factory.Instantiate(new NewNameRenamingArgs(renameXml.Identifier, renameXml.NewName));
+                    var renamer = factory.Instantiate(new NewNameRenamingArgs(renameXml.Identifier, newName));
                     yield return renamer.Execute;
                 }
             }

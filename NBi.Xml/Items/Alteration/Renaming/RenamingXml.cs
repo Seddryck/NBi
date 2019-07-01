@@ -20,12 +20,6 @@ namespace NBi.Xml.Items.Alteration.Renaming
         }
 
         [XmlAttribute("new-name")]
-        public string NewNameSerializer { get; set; }
-        [XmlIgnore]
-        public IColumnIdentifier NewName
-        {
-            get => new ColumnIdentifierFactory().Instantiate(NewNameSerializer);
-            set => NewNameSerializer = value.Label;
-        }
+        public string NewName { get; set; }
     }
 }

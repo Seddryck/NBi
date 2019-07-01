@@ -1,6 +1,7 @@
 ﻿using NBi.Core.ResultSet;
 using NBi.Core.ResultSet.Alteration.Renaming;
 using NBi.Core.ResultSet.Resolver;
+using NBi.Core.Scalar.Resolver;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
@@ -18,7 +19,7 @@ namespace NBi.Testing.Unit.Core.ResultSet.Alteration.Renaming
             var factory = new RenamingFactory();
             var renamer = factory.Instantiate(new NewNameRenamingArgs(
                 new ColumnOrdinalIdentifier(1),
-                new ColumnNameIdentifier("myNewName")
+                new LiteralScalarResolver<string>("myNewName")
                 ));
             Assert.That(renamer, Is.Not.Null);
             Assert.That(renamer, Is.TypeOf<NewNameRenamingEngine>());

@@ -1,4 +1,5 @@
 ﻿using NBi.Core.ResultSet;
+using NBi.Core.Scalar.Resolver;
 using NBi.Core.Transformation;
 using NBi.Xml;
 using NBi.Xml.Items;
@@ -259,7 +260,7 @@ namespace NBi.Testing.Unit.Xml.Systems
             Assert.That(rs.Alteration.Renamings, Has.Count.EqualTo(1));
 
             Assert.That(rs.Alteration.Renamings[0].Identifier.Label, Is.EqualTo("#3"));
-            Assert.That(rs.Alteration.Renamings[0].NewName.Label, Is.EqualTo("[myNewName]"));
+            Assert.That(rs.Alteration.Renamings[0].NewName, Is.EqualTo("myNewName"));
         }
 
         [Test]
@@ -333,7 +334,7 @@ namespace NBi.Testing.Unit.Xml.Systems
                 Alteration = new AlterationXml()
                 {
                     Renamings = new List<RenamingXml>() { new RenamingXml()
-                    { Identifier= new ColumnOrdinalIdentifier(5), NewName = new ColumnNameIdentifier("myNewName") } }
+                    { Identifier= new ColumnOrdinalIdentifier(5), NewName = "myNewName" } }
                 }
             };
 
@@ -342,7 +343,7 @@ namespace NBi.Testing.Unit.Xml.Systems
             Console.WriteLine(xml);
             Assert.That(xml, Is.StringContaining("<rename"));
             Assert.That(xml, Is.StringContaining("#5"));
-            Assert.That(xml, Is.StringContaining("[myNewName]"));
+            Assert.That(xml, Is.StringContaining("myNewName"));
         }
 
     }

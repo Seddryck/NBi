@@ -255,6 +255,8 @@
     <Compile Include="Unit\Core\Query\Execution\ExecutionEngineFactoryTest.cs" />
     <Compile Include="Unit\Core\Query\QueryParameterTest.cs" />
     <Compile Include="Unit\Core\Report\FileReportingParserTest.cs" />
+    <Compile Include="Unit\Core\ResultSet\Alteration\Renaming\NewNameRenamingEngineTest.cs" />
+    <Compile Include="Unit\Core\ResultSet\Alteration\Renaming\RenamingFactoryTest.cs" />
     <Compile Include="Unit\Core\ResultSet\ColumnIdentifierFactory.cs" />
     <Compile Include="Unit\Core\ResultSet\Combination\CartesianProductSequenceCombinationTest.cs" />
     <Compile Include="Unit\Core\ResultSet\Lookup\ColumnMappingCollectionTest.cs" />

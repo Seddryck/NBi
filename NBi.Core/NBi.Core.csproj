@@ -406,6 +406,11 @@
     <Compile Include="Report\ReportDataSetRequest.cs" />
     <Compile Include="Report\ReportingCommand.cs" />
     <Compile Include="ResultSet\Alteration\Alter.cs" />
+    <Compile Include="ResultSet\Alteration\Renaming\IRenamingArgs.cs" />
+    <Compile Include="ResultSet\Alteration\Renaming\IRenamingEngine.cs" />
+    <Compile Include="ResultSet\Alteration\Renaming\NewNameRenamingArgs.cs" />
+    <Compile Include="ResultSet\Alteration\Renaming\NewNameRenamingEngine.cs" />
+    <Compile Include="ResultSet\Alteration\Renaming\RenamingFactory.cs" />
     <Compile Include="ResultSet\Analyzer\AnalyzersFactory.cs" />
     <Compile Include="ResultSet\Analyzer\BaseRowsAnalyzer.cs" />
     <Compile Include="ResultSet\Analyzer\IRowsAnalyzer.cs" />

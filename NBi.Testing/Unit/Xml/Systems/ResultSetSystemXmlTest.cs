@@ -2,7 +2,9 @@
 using NBi.Core.Transformation;
 using NBi.Xml;
 using NBi.Xml.Items;
+using NBi.Xml.Items.Alteration;
 using NBi.Xml.Items.Alteration.Conversion;
+using NBi.Xml.Items.Alteration.Renaming;
 using NBi.Xml.Items.Alteration.Transform;
 using NBi.Xml.Items.ResultSet;
 using NBi.Xml.SerializationOption;
@@ -54,7 +56,7 @@ namespace NBi.Testing.Unit.Xml.Systems
         [Test]
         public void Deserialize_SampleFileWithParser_CsvFile()
         {
-            int testNr = 9;
+            int testNr = 10;
 
             // Create an instance of the XmlSerializer specifying type and namespace.
             TestSuiteXml ts = DeserializeSample();
@@ -70,7 +72,7 @@ namespace NBi.Testing.Unit.Xml.Systems
         [Test]
         public void Deserialize_SampleFileWithParserInline_CsvFile()
         {
-            int testNr = 10;
+            int testNr = 11;
 
             // Create an instance of the XmlSerializer specifying type and namespace.
             TestSuiteXml ts = DeserializeSample();
@@ -241,6 +243,26 @@ namespace NBi.Testing.Unit.Xml.Systems
         }
 
         [Test]
+        public void Deserialize_SampleFile_AlterationRename()
+        {
+            int testNr = 9;
+
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            TestSuiteXml ts = DeserializeSample();
+
+            // Check the properties of the object.
+            Assert.That(ts.Tests[testNr].Systems[0], Is.AssignableTo<ResultSetSystemXml>());
+            var rs = ts.Tests[testNr].Systems[0] as ResultSetSystemXml;
+
+            Assert.That(rs.Alteration, Is.Not.Null);
+            Assert.That(rs.Alteration.Renamings, Is.Not.Null);
+            Assert.That(rs.Alteration.Renamings, Has.Count.EqualTo(1));
+
+            Assert.That(rs.Alteration.Renamings[0].Identifier.Label, Is.EqualTo("#3"));
+            Assert.That(rs.Alteration.Renamings[0].NewName.Label, Is.EqualTo("[myNewName]"));
+        }
+
+        [Test]
         public void Serialize_FileAndParser_Correct()
         {
             var root = new ResultSetSystemXml()
@@ -300,6 +322,27 @@ namespace NBi.Testing.Unit.Xml.Systems
             Assert.That(xml, Is.StringContaining("<path>myFile.csv</path>"));
             Assert.That(xml, Is.Not.StringContaining("<parser"));
             Assert.That(xml, Is.StringContaining("</file>"));
+        }
+
+        [Test]
+        public void Serialize_Renaming_Correct()
+        {
+            var root = new ResultSetSystemXml()
+            {
+                File = new FileXml() { Path=@"C:\Temp\foo.txt" },
+                Alteration = new AlterationXml()
+                {
+                    Renamings = new List<RenamingXml>() { new RenamingXml()
+                    { Identifier= new ColumnOrdinalIdentifier(5), NewName = new ColumnNameIdentifier("myNewName") } }
+                }
+            };
+
+            var manager = new XmlManager();
+            var xml = manager.XmlSerializeFrom(root);
+            Console.WriteLine(xml);
+            Assert.That(xml, Is.StringContaining("<rename"));
+            Assert.That(xml, Is.StringContaining("#5"));
+            Assert.That(xml, Is.StringContaining("[myNewName]"));
         }
 
     }

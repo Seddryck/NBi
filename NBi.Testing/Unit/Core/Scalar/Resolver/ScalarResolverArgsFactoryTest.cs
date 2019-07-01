@@ -59,5 +59,13 @@ namespace NBi.Testing.Unit.Core.Scalar.Resolver
             Assert.That(typedArgs.Transformations.Count, Is.EqualTo(1));
             Assert.That(typedArgs.Transformations.ElementAt(0), Is.TypeOf<TextToLength>());
         }
+
+        [Test]
+        public void Instantiate_NativeTransformationInsideFormat_FunctionResolverArgs()
+        {
+            var factory = new ScalarResolverArgsFactory(new ServiceLocator(), null, string.Empty);
+            var args = factory.Instantiate("~{@myVar | dateTime-to-previous-month : dddd} ");
+            Assert.That(args, Is.TypeOf<FormatScalarResolverArgs>());
+        }
     }
 }

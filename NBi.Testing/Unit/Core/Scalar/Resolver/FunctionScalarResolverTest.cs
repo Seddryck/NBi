@@ -1,5 +1,7 @@
-﻿using NBi.Core.Scalar.Resolver;
+﻿using NBi.Core.Injection;
+using NBi.Core.Scalar.Resolver;
 using NBi.Core.Transformation.Transformer.Native;
+using NBi.Core.Variable;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
@@ -29,6 +31,22 @@ namespace NBi.Testing.Unit.Core.Scalar.Resolver
             );
             var resolver = new FunctionScalarResolver<int>(args);
             Assert.That(resolver.Execute(), Is.EqualTo(4));
+        }
+
+        [Test]
+        public void Execute_FunctionPrecededByFormat_CorrectValue()
+        {
+            var variables = new Dictionary<string, ITestVariable>()
+            {
+                { "myVar" , new GlobalVariable(new CSharpScalarResolver<object>( new CSharpScalarResolverArgs("10*10"))) },
+            };
+
+            var args = new FunctionScalarResolverArgs(
+                new FormatScalarResolver(new FormatScalarResolverArgs(" V={@myVar:##.00}  ", variables), new ServiceLocator())
+                , new INativeTransformation[] { new TextToTrim(), new TextToLength() }
+            );
+            var resolver = new FunctionScalarResolver<int>(args);
+            Assert.That(resolver.Execute(), Is.EqualTo(8));
         }
     }
 }

@@ -15,7 +15,7 @@ namespace NBi.Core.Scalar.Format
         private readonly ServiceLocator serviceLocator;
         private readonly IDictionary<string, ITestVariable> globalVariables;
 
-        private const string SCALAR_PATTERN = @"{(@\w+)[}:]";
+        private const string SCALAR_PATTERN = @"{(@([\w\s\|\(\),-])+)[}:]";
 
         public InvariantFormatter(ServiceLocator serviceLocator, IDictionary<string, ITestVariable> globalVariables)
         {
@@ -45,10 +45,8 @@ namespace NBi.Core.Scalar.Format
 
         protected IScalarResolverArgs BuildArgs(string text)
         {
-            if (text.StartsWith("@"))
-                return new GlobalVariableScalarResolverArgs(text.Substring(1), globalVariables);
-            else
-                throw new ArgumentException($"A fomatter cannot handle any other scalar than variables at this moment. The value '{text}' is not recognized as a variable didn't you forget the arobas (@)?");
+            var factory = new ScalarResolverArgsFactory(serviceLocator, globalVariables, string.Empty);
+            return factory.Instantiate(text);
         }
 
         public string Execute(string text)

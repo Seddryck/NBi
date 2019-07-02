@@ -6,6 +6,7 @@ using NBi.Core.Evaluate;
 using NBi.Core.Injection;
 using NBi.Core.ResultSet;
 using NBi.Core.ResultSet.Alteration;
+using NBi.Core.ResultSet.Alteration.Renaming;
 using NBi.Core.ResultSet.Conversion;
 using NBi.Core.ResultSet.Resolver;
 using NBi.Core.Scalar.Conversion;
@@ -122,6 +123,19 @@ namespace NBi.NUnit.Builder.Helper
                 foreach (var transformationXml in resultSetXml.Alteration.Transformations)
                     provider.Add(transformationXml.Identifier, transformationXml);
                 yield return provider.Transform;
+            }
+
+            if (resultSetXml.Alteration.Renamings != null)
+            {
+                foreach (var renameXml in resultSetXml.Alteration.Renamings)
+                {
+                    var helper = new ScalarHelper(serviceLocator, variables);
+                    var newName = helper.InstantiateResolver<string>(renameXml.NewName);
+
+                    var factory = new RenamingFactory();
+                    var renamer = factory.Instantiate(new NewNameRenamingArgs(renameXml.Identifier, newName));
+                    yield return renamer.Execute;
+                }
             }
         }
     }

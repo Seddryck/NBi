@@ -1,4 +1,5 @@
 ﻿using NBi.Xml.Items.Alteration.Conversion;
+using NBi.Xml.Items.Alteration.Renaming;
 using NBi.Xml.Items.Alteration.Transform;
 using NBi.Xml.Items.Calculation;
 using NBi.Xml.Items.ResultSet;
@@ -13,6 +14,8 @@ namespace NBi.Xml.Items.Alteration
 {
     public class AlterationXml
     {
+        [XmlElement("rename")]
+        public List<RenamingXml> Renamings { get; set; }
         [XmlElement("filter")]
         public List<FilterXml> Filters { get; set; }
         [XmlElement("convert")]

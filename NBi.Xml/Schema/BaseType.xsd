@@ -1497,10 +1497,15 @@
   </xs:complexType>
   <xs:complexType name="alteration-type">
     <xs:sequence>
+      <xs:element name="rename" type="rename-type" minOccurs="0" maxOccurs="unbounded"/>
       <xs:element name="filter" type="filter-type" minOccurs="0" maxOccurs="unbounded"/>
       <xs:element name="convert" type="convert-type" minOccurs="0" maxOccurs="unbounded"/>
       <xs:element name="transform" type="enhanced-transformation-type" minOccurs="0" maxOccurs="unbounded"/>
     </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="rename-type">
+    <xs:attribute name="identifier" type="xs:string" use="required"/>
+    <xs:attribute name="new-name" type="xs:string" use="required"/>
   </xs:complexType>
   <xs:complexType name="convert-type">
     <xs:choice>

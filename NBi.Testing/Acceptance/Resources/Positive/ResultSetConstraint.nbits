@@ -202,16 +202,16 @@
       <system-under-test>
         <result-set>
           <query>
-            select 
-              NationalIdNumber,
-              h.[DepartmentID]as DepartmentID,
-              d.Name as DepartmentName
-            from 
-              [HumanResources].[Employee] e
-            inner join [HumanResources].[EmployeeDepartmentHistory] 
-              h on e.BusinessEntityId = h.BusinessEntityId
-            inner join [HumanResources].[Department] d on 
-              h.DepartmentId = d.DepartmentId
+            select
+            NationalIdNumber,
+            h.[DepartmentID]as DepartmentID,
+            d.Name as DepartmentName
+            from
+            [HumanResources].[Employee] e
+            inner join [HumanResources].[EmployeeDepartmentHistory]
+            h on e.BusinessEntityId = h.BusinessEntityId
+            inner join [HumanResources].[Department] d on
+            h.DepartmentId = d.DepartmentId
           </query>
         </result-set>
       </system-under-test>
@@ -845,6 +845,34 @@
             </row>
           </resultSet>
         </equalTo>
+      </assert>
+    </test>
+    <test name="Renamings" uid="0241">
+      <system-under-test>
+        <result-set>
+          <query>
+            select 'a' as f0, null as f1, 'FOO' as f2 union all select 'B', 'qwarks', 'bar'
+          </query>
+          <alteration>
+            <rename identifier="[f0]" new-name="keyField"/>
+            <rename identifier="[f2]" new-name="@CY2007"/>
+          </alteration>
+        </result-set>
+      </system-under-test>
+      <assert>
+        <equal-to>
+          <column name="keyField" role="key" type="text"/>
+          <column name="CY 2007" role="value" type="text"/>
+          <result-set>
+            <query connection-string="@ref1">
+              select 'a' as f0, 'FOO' as f1, null as f2 union all select 'B', 'bar', null
+            </query>
+            <alteration>
+              <rename identifier="[f0]" new-name="keyField"/>
+              <rename identifier="[f1]" new-name="@CY2007"/>
+            </alteration>
+          </result-set>
+        </equal-to>
       </assert>
     </test>
   </group>

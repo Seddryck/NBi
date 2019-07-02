@@ -69,7 +69,7 @@ A *text* scalar can be dynamically evaluated based on one or several variables a
 
 Using the previous notation, if the value of *myDate* is *25th October 2018* then the filename *File_2018.csv* will be considered for loading the result-set.
 
-In case the variable is a numeric or dateTime, it can be useful to format it. This formatting must be specified after a column (```:```).
+A number of types support format strings, including *numeric* type (both [standard](https://docs.microsoft.com/en-us/dotnet/standard/base-types/standard-numeric-format-strings?view=netframework-4.8) and [custom](https://docs.microsoft.com/en-us/dotnet/standard/base-types/custom-numeric-format-strings?view=netframework-4.8) format strings), but also dateTime (both [standard](https://docs.microsoft.com/en-us/dotnet/standard/base-types/standard-date-and-time-format-strings?view=netframework-4.8) and [custom](https://docs.microsoft.com/en-us/dotnet/standard/base-types/custom-date-and-time-format-strings?view=netframework-4.8) format strings). This formatting must be specified after a column (```:```).
 
 {% highlight xml %}
 <parameter name="myParam">~File_{@myDate:yyyy}_{@myDate:MM}.csv</parameter>
@@ -77,4 +77,16 @@ In case the variable is a numeric or dateTime, it can be useful to format it. Th
 
 Using the previous notation, if the value of *myDate* is *25th October 2018* then the filename *File_2018_10.csv* will be considered for loading the result-set.
 
-The formatting syntax is the one supported by .Net and explained in MSDN for the [numerics](https://docs.microsoft.com/en-us/dotnet/standard/base-types/custom-numeric-format-strings) and [dateTimes](https://docs.microsoft.com/en-us/dotnet/standard/base-types/custom-date-and-time-format-strings)
+#### Formatting and inline transformations
+
+It's possible to combine formatting and inline transformations. The following example will calculate the previous month and this value will be used during the formatting. Supposing the value of *myDate* is *25th October 2018* then the filename *File_201809.csv* will be considered for loading the following result-set.
+
+{% highlight xml %}
+<parameter name="myParam">~File_{@myDate | dateTime-to-previous-month:yyyyMM}.csv</parameter>
+{% endhighlight %}
+
+It's also possible to apply an inline transformation to the result of a formatting operation. The following example will calculate the length of the formatted rendering of the variable *myNumeric*. Based on a value of *100.2*, the rendering will be *100.20* and its length will be *6*.
+
+{% highlight xml %}
+<parameter name="myParam">~{@myNumeric:##.00} | text-to-length</parameter>
+{% endhighlight %}

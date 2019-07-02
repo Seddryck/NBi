@@ -7,6 +7,24 @@ permalink: /docs/resultset-alterations/
 ---
 Using the [new syntax](../syntax-2-0/), it's possible to define alterations on a result-set. It gives you the possibility to alter the result-set without modifying the query retrieving it. It's especially useful when the alteration is complex to write in the query language or when it's not possible to modify the query (stored procedure, assembly, report-dataset ...). The two alterations supported by NBi are the filters and the converts.
 
+## Renamings
+
+This alteration is useful when you want to rename a column. This kind of alteration is usually not needed except or can be handled by the query but when dealing with flat files, it could save you! To identify the original column to be renamed, you can use a column identifier of type ordinal such as *#3* or of type name such as *[myColumn]*. The new name of this column is a [scalar](../primitive-scalar/), it means that you can use a literal value but also variables, native transformations or formatting.
+
+In the following example, the first column is renamed *keyField* and the column named *f1* is renamed based on the content of the variable *newName* upper-cased.
+
+{% highlight xml %}
+<result-set>
+  <query>
+    select 'a' as f0, 'FOO' as f1, null as f2 union all select 'B', 'bar', 'quark'
+  </query>
+  <alteration>
+    <rename identifier="#0" new-name="keyField"/>
+    <rename identifier="[f1]" new-name="@newName | text-to-upper"/>
+  </alteration>
+</result-set>
+{% endhighlight %}
+
 ## Filters
 
 See [filters for row-count](../resultset-rows-count-advanced/#filter)

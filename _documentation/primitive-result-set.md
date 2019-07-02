@@ -199,6 +199,7 @@ More info about [shared-dataset](../docs/shared-dataset)
 
 You can also define an alteration to the result-set. For the moment, three kinds of alterations are supported by NBi:
 
+* [rename](../resultset-alterations/#renaming)
 * [filter](../resultset-rows-count-advanced/#filter).
 * [convert](../resultset-alterations/#converts)
 * [transform](../transform-column/)

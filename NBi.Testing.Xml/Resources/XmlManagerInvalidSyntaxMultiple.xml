@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<testSuite name="XmlManagerInvalidSyntaxMultiple" xmlns="http://NBi/TestSuite">
+	<test name="My first test case" uid="0001">
+    <system-under-test>
+      <execution>
+        <sql>select * from my table</sql>
+      </execution>
+    </system-under-test>
+    <assert>
+      <row-count>
+        <less-than name="after">alpha</less-than>
+      </row-count>
+    </assert>
+	</test>
+</testSuite>

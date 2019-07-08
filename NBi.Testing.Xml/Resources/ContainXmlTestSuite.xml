@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<testSuite name="The TestSuite" xmlns="http://NBi/TestSuite">
+	<test name="hierarchy  member with caption xyz (implicitely ignoring case)">
+		<system-under-test>
+			<members>
+				<hierarchy dimension="dimension" caption="hierarchy" perspective="Perspective" connectionString="ConnectionString"/>
+			</members>
+		</system-under-test>
+		<assert>
+			<contain
+				caption="xyz"
+			/>
+		</assert>
+	</test>
+	<test name="hierarchy  member with caption xyz (explicitely not ignoring case)">
+		<system-under-test>
+			<members>
+				<hierarchy dimension="dimension" caption="hierarchy" perspective="Perspective" connectionString="ConnectionString"/>
+			</members>
+		</system-under-test>
+		<assert>
+			<contain
+				caption="xYz"
+				ignore-case="true"
+			/>
+		</assert>
+	</test>
+	<test name="dimension 'alpha'  exactly (not more, not less) hierarchies with caption xyz and abc (explicitely not ignoring case)">
+		<system-under-test>
+			<structure>
+				<dimension caption="alpha" perspective="Perspective" connectionString="ConnectionString"/>
+			</structure>
+		</system-under-test>
+		<assert>
+			<contain>
+				<item>xyz</item>
+				<item>abc</item>
+			</contain>
+		</assert>
+	</test>
+</testSuite>

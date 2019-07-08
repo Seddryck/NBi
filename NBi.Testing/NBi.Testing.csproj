@@ -458,74 +458,7 @@
     <Compile Include="Unit\Service\TestCaseCollectionManagerTest.cs" />
     <Compile Include="Unit\Service\TestCaseManagerTest.cs" />
     <Compile Include="Unit\StringHelperTest.cs" />
-    <Compile Include="Unit\Xml\Constraints\LookupMatchesXmlTest.cs" />
-    <Compile Include="Unit\Xml\Constraints\ScoreXmlTest.cs" />
-    <Compile Include="Unit\Xml\Constraints\LookupExistsXmlTest.cs" />
-    <Compile Include="Unit\Xml\Constraints\UniqueRowsXmlTest.cs" />
-    <Compile Include="Unit\Xml\Constraints\SupersetOfXmlTest.cs" />
-    <Compile Include="Unit\Xml\Constraints\NoRowsXmlTest.cs" />
-    <Compile Include="Unit\Xml\Constraints\IsXmlTest.cs" />
-    <Compile Include="Unit\Xml\Constraints\AllRowsXmlTest.cs" />
-    <Compile Include="Unit\Xml\Constraints\RowCountXmlTest.cs" />
-    <Compile Include="Unit\Xml\Constraints\SucessfulXmlTest.cs" />
-    <Compile Include="Unit\Xml\Constraints\EvaluateRowsXmlTest.cs" />
-    <Compile Include="Unit\Xml\Constraints\MatchPatternXmlTest.cs" />
-    <Compile Include="Unit\Xml\Constraints\EquivalentToXmlTest.cs" />
-    <Compile Include="Unit\Xml\Constraints\ContainedInXmlTest.cs" />
-    <Compile Include="Unit\Xml\Constraints\LinkedToXmlTest.cs" />
-    <Compile Include="Unit\Xml\Constraints\FasterThanXmlTest.cs" />
-    <Compile Include="Unit\Xml\Constraints\ExistsXmlTest.cs" />
-    <Compile Include="Unit\Xml\Decoration\ConditionXmlTest.cs" />
-    <Compile Include="Unit\Xml\Decoration\DecorationXmlTest.cs" />
-    <Compile Include="Unit\Xml\Items\Calculation\RankingXmlTest.cs" />
-    <Compile Include="Unit\Xml\Items\Calculation\PredicateXmlTest.cs" />
-    <Compile Include="Unit\Xml\Items\FileXmlTest.cs" />
-    <Compile Include="Unit\Xml\Items\ResultSet\SequenceCombinationXmlTest.cs" />
-    <Compile Include="Unit\Xml\Items\ResultSet\TransformXmlTest.cs" />
-    <Compile Include="Unit\Xml\Items\SharedDatasetXmlTest.cs" />
-    <Compile Include="Unit\Xml\Items\RoutineParameterXmlTest.cs" />
-    <Compile Include="Unit\Xml\Items\RoutineXmlTest.cs" />
-    <Compile Include="Unit\Xml\Items\SetXmlTest.cs" />
-    <Compile Include="Unit\Xml\Items\TablesXmlTest.cs" />
-    <Compile Include="Unit\Xml\Settings\CsvProfileXmlTest.cs" />
-    <Compile Include="Unit\Xml\Systems\DataTypeXmlTest.cs" />
-    <Compile Include="Unit\Xml\Items\XmlSourceTest.cs" />
-    <Compile Include="Unit\Xml\Systems\ResultSetSystemXmlTest.cs" />
-    <Compile Include="Unit\Xml\TraitXmlTest.cs" />
-    <Compile Include="Unit\Xml\DescriptionXmlTest.cs" />
-    <Compile Include="Unit\Xml\GroupXmlTest.cs" />
-    <Compile Include="Unit\Xml\Items\BaseItemTest.cs" />
-    <Compile Include="Unit\Xml\Items\ColumnXmlTest.cs" />
-    <Compile Include="Unit\Xml\Items\EtlXmlTest.cs" />
-    <Compile Include="Unit\Xml\Items\ReportXmlTest.cs" />
-    <Compile Include="Unit\Xml\Items\FormatXmlTest.cs" />
-    <Compile Include="Unit\Xml\Items\PerspectiveXmlTest.cs" />
-    <Compile Include="Unit\Xml\Items\QueryXmlTest.cs" />
-    <Compile Include="Unit\Xml\Items\TableXmlTest.cs" />
-    <Compile Include="Unit\Xml\Items\HierarchiesXmlTest.cs" />
-    <Compile Include="Unit\Xml\Items\HierarchyXmlTest.cs" />
-    <Compile Include="Unit\Xml\Items\AssemblyXmlTest.cs" />
-    <Compile Include="Unit\Xml\Items\MeasureXmlTest.cs" />
-    <Compile Include="Unit\Xml\Constraints\OrderedXmlTest.cs" />
-    <Compile Include="Unit\Xml\IgnoreXmlTest.cs" />
-    <Compile Include="Unit\Xml\Constraints\ContainXmlTest.cs" />
-    <Compile Include="Unit\Xml\Constraints\CountXmlTest.cs" />
-    <Compile Include="Unit\Xml\Systems\MembersXmlTest.cs" />
-    <Compile Include="Unit\Xml\Systems\StructureXmlTest.cs" />
-    <Compile Include="Unit\Xml\Settings\SettingsXmlTest.cs" />
-    <Compile Include="Unit\Xml\Constraints\EqualToXmlTest.cs" />
-    <Compile Include="Unit\Xml\TestXmlTest.cs" />
     <Compile Include="Unit\NUnit\TestCaseFactoryTest.cs" />
-    <Compile Include="Unit\Xml\Systems\ExecutionXmlTest.cs" />
-    <Compile Include="Unit\Xml\TestSuiteWithVariablesTest.cs" />
-    <Compile Include="Unit\Xml\InstanceSettlingXmlTest.cs" />
-    <Compile Include="Unit\Xml\Variables\GlobalVariableXmlTest.cs" />
-    <Compile Include="Unit\Xml\Variables\LocalVariableXmlTest.cs" />
-    <Compile Include="Unit\Xml\Variables\Sequence\FileLoopXmlTest.cs" />
-    <Compile Include="Unit\Xml\Variables\Sequence\SentinelLoopXmlTest.cs" />
-    <Compile Include="Unit\Xml\XmlManagerWithExternalSettingsTest.cs" />
-    <Compile Include="Unit\Xml\XmlManagerWithDtdTest.cs" />
-    <Compile Include="Unit\Xml\XmlManagerTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Integration\Core\Analysis\Query\" />
@@ -864,46 +797,7 @@
     </MyOptionalItems>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Unit\Xml\Resources\TableXmlTestSuite.xml" />
-    <EmbeddedResource Include="Unit\Xml\Resources\ColumnXmlTestSuite.xml" />
-    <EmbeddedResource Include="Unit\Xml\Resources\HierarchiesXmlTestSuite.xml" />
     <EmbeddedResource Include="Unit\Core\ResultSet\Resources\ResultDataSet.xml" />
-    <EmbeddedResource Include="Unit\Xml\Resources\LinkedToXmlTestSuite.xml" />
-    <EmbeddedResource Include="Unit\Xml\Resources\HierarchyXmlTestSuite.xml" />
-    <EmbeddedResource Include="Unit\Xml\Resources\AssemblyXmlTestSuite.xml" />
-    <EmbeddedResource Include="Unit\Xml\Resources\DescriptionXmlTestSuite.xml" />
-    <EmbeddedResource Include="Unit\Xml\Resources\TestXmlTestSuite.xml" />
-    <EmbeddedResource Include="Unit\Xml\Resources\SettingsXmlWithDefaultAssert.xml" />
-    <EmbeddedResource Include="Unit\Xml\Resources\ExistsXmlTestSuite.xml" />
-    <EmbeddedResource Include="Unit\Xml\Resources\QueryFileEuro.mdx" />
-    <EmbeddedResource Include="Unit\Xml\Resources\MeasureXmlTestSuite.xml" />
-    <EmbeddedResource Include="Unit\Xml\Resources\IgnoreXmlTestSuite.xml" />
-    <EmbeddedResource Include="Unit\Xml\Resources\OrderedXmlTestSuite.xml" />
-    <EmbeddedResource Include="Unit\Xml\Resources\ContainXmlTestSuite.xml" />
-    <EmbeddedResource Include="Unit\Xml\Resources\CountXmlTestSuite.xml" />
-    <EmbeddedResource Include="Unit\Xml\Resources\MembersXmlTestSuite.xml" />
-    <EmbeddedResource Include="Unit\Xml\Resources\StructureXmlTestSuite.xml" />
-    <EmbeddedResource Include="Unit\Xml\Resources\SettingsXmlWithReference.xml" />
-    <EmbeddedResource Include="Unit\Xml\Resources\SettingsXmlWithoutDefault.xml" />
-    <EmbeddedResource Include="Unit\Xml\Resources\SettingsXmlWithDefault.xml" />
-    <EmbeddedResource Include="Unit\Xml\Resources\EqualToXmlTestSuite.xml" />
-    <EmbeddedResource Include="Unit\Xml\Resources\XmlManagerInvalidSyntax.xml" />
-    <EmbeddedResource Include="Unit\Xml\Resources\SelectAllProducts.sql" />
-    <EmbeddedResource Include="Unit\Xml\Resources\QueryFile.sql" />
-    <EmbeddedResource Include="Unit\Xml\Resources\XmlManagerSample.xml" />
-    <EmbeddedResource Include="Unit\Xml\Resources\FasterThanXmlTestSuite.xml" />
-    <EmbeddedResource Include="Unit\Xml\Resources\ContainedInXmlTestSuite.xml" />
-    <EmbeddedResource Include="Unit\Xml\Resources\GroupXmlTestSuite.xml">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Unit\Xml\Resources\SettingsXmlWithoutParallelQueries.xml" />
-    <EmbeddedResource Include="Unit\Xml\Resources\SettingsXmlWithParallelQueriesSetTrue.xml" />
-    <EmbeddedResource Include="Unit\Xml\Resources\SettingsXmlWithParallelQueriesSetFalse.xml" />
-    <EmbeddedResource Include="Unit\Xml\Resources\EquivalentToXmlTestSuite.xml" />
-    <EmbeddedResource Include="Unit\Xml\Resources\QueryXmlTestSuite.xml" />
-    <EmbeddedResource Include="Unit\Xml\Resources\SettingsXmlWithParameters.xml" />
-    <EmbeddedResource Include="Unit\Xml\Resources\MatchPatternXmlTestSuite.xml" />
-    <EmbeddedResource Include="Unit\Xml\Resources\SettingsXmlWithVariables.xml" />
     <!--Acceptance Ressources-->
     <EmbeddedResource Include="Acceptance\Resources\Positive\QueryEqualToResultSet.nbits">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -1006,32 +900,8 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Unit\Xml\Resources\FormatXmlTestSuite.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Unit\Xml\Resources\MatchPatternXmlWithReferenceTestSuite.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Unit\Xml\Resources\ReportXmlTestSuite.xml">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Unit\Xml\Resources\EvaluateRowsXmlTestSuite.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Unit\Xml\Resources\DecorationXmlTestSuite.xml">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="Acceptance\Resources\Positive\EvaluateRows.nbits">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Unit\Xml\Resources\ConditionXmlTestSuite.xml">
-      <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
@@ -1040,23 +910,6 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Unit\Xml\Resources\EtlXmlTestSuite.xml">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Unit\Xml\Resources\SuccessfulXmlTestSuite.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Unit\Xml\Resources\SettingsXmlWithDefaultEverywhere.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Unit\Xml\Resources\FileLoopXmlTestSuite.xml" />
-    <EmbeddedResource Include="Unit\Xml\Resources\SequenceCombinationXmlTestSuite.xml" />
-    <EmbeddedResource Include="Unit\Xml\Resources\LookupMatchesXmlTestSuite.xml" />
-    <EmbeddedResource Include="Unit\Xml\Resources\SentinelLoopXmlTestSuite.xml" />
-    <EmbeddedResource Include="Unit\Xml\Resources\LocalVariableXmlTestSuite.xml" />
-    <EmbeddedResource Include="Unit\Xml\Resources\InstanceSettlingXmlTestSuite.xml" />
     <EmbeddedResource Include="Acceptance\Resources\Negative\Scoring-Json-0001.txt" />
     <EmbeddedResource Include="Acceptance\Resources\Positive\MultipleInstance.nbits">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -1073,19 +926,6 @@
     <Content Include="Integration\Core\Resources\query.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <EmbeddedResource Include="Unit\Xml\Resources\ScoreXmlTestSuite.xml" />
-    <EmbeddedResource Include="Unit\Xml\Resources\LookupExistsXmlTestSuite.xml">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Unit\Xml\Resources\RankingXmlTestSuite.xml" />
-    <EmbeddedResource Include="Unit\Xml\Resources\PredicateXmlTestSuite.xml" />
-    <EmbeddedResource Include="Unit\Xml\Resources\ResultSetSystemXmlTestSuite.xml" />
-    <EmbeddedResource Include="Unit\Xml\Resources\TestSuiteWithVariablesTestSuite.xml" />
-    <EmbeddedResource Include="Unit\Xml\Resources\UniqueRowsXmlTestSuite.xml" />
-    <EmbeddedResource Include="Unit\Xml\Resources\TransformXmlTestSuite.xml">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Unit\Xml\Resources\SupersetOfXmlTestSuite.xml" />
     <EmbeddedResource Include="Acceptance\Resources\Csv\SampleData.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
@@ -1093,49 +933,19 @@
     <Content Include="Acceptance\Resources\PowerBiDesktop\Source.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <EmbeddedResource Include="Unit\Xml\Resources\CsvProfileXmlTestSuite2.xml" />
-    <EmbeddedResource Include="Unit\Xml\Resources\EtlXmlWithDefaultSsisDBTestSuite.xml">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Unit\Xml\Resources\EtlXmlWithDefaultTestSuite.xml">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Unit\Xml\Resources\EtlXmlWithReferenceTestSuite.xml">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Unit\Xml\Resources\SharedDatasetXmlTestSuite.xml">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
     <EmbeddedResource Include="Integration\Core\Resources\Sample.odc" />
-    <EmbeddedResource Include="Unit\Xml\Resources\PerspectiveXmlTestSuite.xml" />
-    <EmbeddedResource Include="Unit\Xml\Resources\NoRowsXmlTestSuite.xml" />
-    <EmbeddedResource Include="Unit\Xml\Resources\AllRowsXmlTestSuite.xml" />
     <EmbeddedResource Include="Acceptance\Resources\Negative\Config-Light-0001.txt" />
     <EmbeddedResource Include="Acceptance\Resources\Negative\Config-Full-0001.txt" />
-    <EmbeddedResource Include="Unit\Xml\Resources\IsXmlTestSuite.xml" />
-    <EmbeddedResource Include="Unit\Xml\Resources\DataTypeXmlTestSuite.xml" />
     <EmbeddedResource Include="Acceptance\Resources\PurchaseOrders.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="Unit\Xml\Resources\XmlSourceTestSuite.xml" />
     <EmbeddedResource Include="Unit\Core\Resources\PurchaseOrders.xml" />
-    <EmbeddedResource Include="Unit\Xml\Resources\XmlManagerInvalidFormat.xml" />
-    <EmbeddedResource Include="Unit\Xml\Resources\TablesXmlTestSuite.xml" />
-    <EmbeddedResource Include="Unit\Xml\Resources\SetXmlTestSuite.xml" />
-    <EmbeddedResource Include="Unit\Xml\Resources\XmlManagerInvalidSyntaxMultiple.xml" />
-    <EmbeddedResource Include="Unit\Xml\Resources\RowCountXmlTestSuite.xml" />
     <None Include="Acceptance\GenbiL\Resources\dimension.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <EmbeddedResource Include="Unit\Xml\Resources\TraitXmlTestSuite.xml" />
-    <EmbeddedResource Include="Unit\Xml\Resources\CsvProfileXmlTestSuite.xml" />
     <EmbeddedResource Include="Acceptance\Resources\Negative\ItemsMessage-0002.txt" />
     <EmbeddedResource Include="Acceptance\Resources\Negative\ItemsMessage-0001.txt" />
     <EmbeddedResource Include="Acceptance\Resources\Negative\DataRowsMessage-0001.txt" />
-    <EmbeddedResource Include="Unit\Xml\Resources\SettingsExternal.xml" />
-    <EmbeddedResource Include="Unit\Xml\Resources\TestSuiteForExternalSettings.xml" />
-    <EmbeddedResource Include="Unit\Xml\Resources\TestSuiteWithIncludeTestSuite.xml" />
-    <EmbeddedResource Include="Unit\Xml\Resources\TestSuiteIncludedTestSuite.xml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />

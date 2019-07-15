@@ -264,13 +264,15 @@
     <EmbeddedResource Include="ResultSet\Resources\ResultDataSet.xml" />
   </ItemGroup>
   <ItemGroup>
+    <MyOptionalItems Include="ConnectionString.user.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </MyOptionalItems>
+  </ItemGroup>
+  <ItemGroup>
     <EmbeddedResource Include="ConnectionString.azuredevops.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="ConnectionString.config">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="ConnectionString.user.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <None Include="packages.config" />

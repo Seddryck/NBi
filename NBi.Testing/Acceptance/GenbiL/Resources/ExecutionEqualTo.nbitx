@@ -1,0 +1,23 @@
+﻿<test name="TC02 test">
+  <description>TC02 test.</description>
+  <category>TC02</category>
+  <system-under-test>
+    <execution>
+      <query connectionString="@tst" timeout-milliSeconds="10000">
+        <![CDATA[
+      SELECT 1
+      ]]>
+      </query>
+    </execution>
+  </system-under-test>
+  <assert>
+    <equal-to>
+      <column index="0" role="key" type="numeric" />
+      <query connectionString="@tst" timeout-milliSeconds="10000">
+        <![CDATA[
+      SELECT 1
+      ]]>
+      </query>
+    </equal-to>
+  </assert>
+</test>

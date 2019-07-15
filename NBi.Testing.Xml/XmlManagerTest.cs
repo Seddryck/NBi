@@ -41,6 +41,7 @@ namespace NBi.Testing.Xml.Unit
         }
 
         [Test]
+        [Parallelizable(ParallelScope.None)]
         public void Load_InvalidFile_ThrowException()
         {
             var filename = FileOnDisk.CreatePhysicalFile("TestSuiteInvalidSyntax.xml", $"{GetType().Assembly.GetName().Name}.Resources.XmlManagerInvalidSyntax.xml");
@@ -61,6 +62,7 @@ namespace NBi.Testing.Xml.Unit
         }
 
         [Test]
+        [Parallelizable(ParallelScope.None)]
         public void Load_InvalidMultipleFile_ThrowException()
         {
             var filename = FileOnDisk.CreatePhysicalFile("TestSuiteInvalidSyntaxMultiple.xml", $"{GetType().Assembly.GetName().Name}.Resources.XmlManagerInvalidSyntaxMultiple.xml");

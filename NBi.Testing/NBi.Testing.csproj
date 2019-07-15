@@ -119,6 +119,7 @@
     <Compile Include="Acceptance\GenbiL\ConcatenateSplitGroupTest.cs" />
     <Compile Include="Acceptance\GenbiL\DictionaryTest.cs" />
     <Compile Include="Acceptance\GenbiL\ConsumablesTest.cs" />
+    <Compile Include="Acceptance\GenbiL\ExecutionEqualTo.cs" />
     <Compile Include="Acceptance\GenbiL\SplitDistinctTest.cs" />
     <Compile Include="Acceptance\GenbiL\SyntaxOldNewTest.cs" />
     <Compile Include="Acceptance\GenbiL\MultipleTemplatesTest.cs" />
@@ -578,6 +579,19 @@
     <EmbeddedResource Include="Acceptance\GenbiL\Resources\SplitDistinct.nbitt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
+    <None Include="Acceptance\GenbiL\Resources\ExecutionEqualTo.nbitx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Acceptance\GenbiL\Resources\ExecutionEqualTo.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Acceptance\GenbiL\Resources\ExecutionEqualTo.genbil">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Acceptance\GenbiL\Resources\ExecutionEqualTo.nbitt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="Acceptance\GenbiL\Resources\SyntaxOldNew.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

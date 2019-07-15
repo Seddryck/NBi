@@ -40,6 +40,7 @@ namespace NBi.Testing.Xml.Unit
         }
 
         [Test]
+        [Parallelizable(ParallelScope.None)]
         public void Load_ValidFileImplicitLanguage_LanguageSetToCSharp()
         {
             var filename = FileOnDisk.CreatePhysicalFile("TestContentIsCorrect.xml", $"{GetType().Assembly.GetName().Name}.Resources.TestSuiteWithVariablesTestSuite.xml");

@@ -7,6 +7,7 @@ using System.IO;
 namespace NBi.Testing.Xml.Unit
 {
     [TestFixture]
+    [Parallelizable(ParallelScope.None)]
     public class XmlManagerWithDtdTest
     {
         private string filename { get; set; }

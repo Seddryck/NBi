@@ -7,6 +7,7 @@ using NBi.Xml;
 using System.IO;
 using System.Xml.Serialization;
 using System.Text;
+using NBi.Xml.SerializationOption;
 
 namespace NBi.Service
 {
@@ -238,11 +239,8 @@ namespace NBi.Service
             using (StreamReader reader = new StreamReader(stream, Encoding.UTF8, true))
             {
                 var str = reader.ReadToEnd();
-
-                TestStandaloneXml test = null;
-                test = XmlDeserializeFromString<TestStandaloneXml>(str);
-
-                test.Content = XmlSerializeFrom<TestStandaloneXml>(test);
+                var test = XmlDeserializeFromString<TestStandaloneXml>(str);
+                test.Content = XmlSerializeFrom(test);
                 Tests.Add(test);
             }            
         }

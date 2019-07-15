@@ -5,6 +5,7 @@ using NUnit.Framework;
 namespace NBi.Testing.Xml.Unit
 {
     [TestFixture]
+    [Parallelizable(ParallelScope.None)]
     public class XmlManagerWithExternalSettingsTest
     {
         private string testSuite { get; set; }

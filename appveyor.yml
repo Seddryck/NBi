@@ -18,9 +18,10 @@ after_build:
     .\.packages\package-NBi.ps1 $nuget_version
 test_script:
 - cmd: >-
+    nunit3-console NBi.Testing.Xml\bin\debug\NBi.Testing.Xml.dll --where "cat!=Acceptance and cat!=Olap and cat!=Etl and cat!=WindowsService and cat!=ReportServerDB and cat!=LocalSQL" --result=myresults.xml;format=AppVeyor
+    
     nunit-console-x86 NBi.Testing\bin\debug\NBi.Testing.dll /exclude:Acceptance,Olap,Etl,WindowsService,ReportServerDB,LocalSQL
     
-    nunit3-console NBi.Testing.Xml\bin\debug\NBi.Testing.Xml.dll --where "cat!=Acceptance and cat!=Olap and cat!=Etl and cat!=WindowsService and cat!=ReportServerDB and cat!=LocalSQL" --result=myresults.xml;format=AppVeyor
 artifacts:
 - path: NBi.NUnit.Runtime\bin\Debug
   name: Framework

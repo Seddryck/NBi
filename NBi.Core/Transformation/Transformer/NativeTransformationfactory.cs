@@ -26,8 +26,7 @@ namespace NBi.Core.Transformation.Transformer
             var classToken = code.Contains("(") ? code.Substring(0, code.IndexOf('(')).Replace(" ", "") : code;
             var className = textInfo.ToTitleCase(classToken.Trim().Replace("-", " ")).Replace(" ", "").Replace("Datetime", "DateTime");
 
-            var type = AppDomain.CurrentDomain.GetAssemblies()
-                       .SelectMany(t => t.GetTypes())
+            var type = typeof(INativeTransformation).Assembly.GetTypes()
                        .Where(
                                 t => t.IsClass
                                 && t.IsAbstract == false

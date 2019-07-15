@@ -315,7 +315,6 @@ namespace NBi.Testing.Xml.Unit.Constraints
             // Create an instance of the XmlSerializer specifying type and namespace.
             TestSuiteXml ts = DeserializeSample();
             var allRows = ts.Tests[testNr].Constraints[0] as AllRowsXml;
-            var expressions = allRows.Expressions;
 
             Assert.That(allRows.Expressions, Is.AssignableTo<IEnumerable<ExpressionXml>>());
             Assert.That(allRows.Expressions, Has.Count.EqualTo(2));
@@ -329,7 +328,6 @@ namespace NBi.Testing.Xml.Unit.Constraints
             // Create an instance of the XmlSerializer specifying type and namespace.
             TestSuiteXml ts = DeserializeSample();
             var allRows = ts.Tests[testNr].Constraints[0] as AllRowsXml;
-            var expressions = allRows.Expressions;
 
             Assert.That(allRows.Expressions, Is.AssignableTo<IEnumerable<ExpressionXml>>());
             Assert.That(allRows.Expressions, Has.Count.EqualTo(1));

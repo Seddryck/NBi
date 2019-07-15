@@ -66,7 +66,7 @@ steps:
 - task: VSTest@2
   displayName: 'VsTest - testAssemblies'
   inputs:
-    testAssemblyVer2: 'NBi.Testing\bin\debug\NBi.Testing*.dll'
+    testAssemblyVer2: 'NBi.Testing*\bin\debug\NBi.Testing*.dll'
     testFiltercriteria: 'TestCategory!=Olap & TestCategory!=Etl & TestCategory!=WindowsService & TestCategory!=ReportServerDB & TestCategory!=LocalSQL'
     vsTestVersion: 15.0
     codeCoverageEnabled: false
@@ -104,15 +104,11 @@ steps:
     CleanTargetFolder: true
   condition: succeededOrFailed()
 
-
-
 - task: PublishBuildArtifacts@1
   displayName: 'Publish Artifact: drop'
   inputs:
     PathtoPublish: '$(build.artifactstagingdirectory)'
   condition: succeededOrFailed()
-
-
 
 - task: NuGetCommand@2
   displayName: 'NuGet push'

@@ -17,7 +17,7 @@ after_build:
 
     .\.packages\package-NBi.ps1 $nuget_version
 test_script:
-- cmd: nunit-console-x86 NBi.Testing\bin\debug\NBi.Testing.dll /exclude:Acceptance,Olap,Etl,WindowsService,ReportServerDB,LocalSQL
+- cmd: nunit-console-x86 NBi.Testing\bin\debug\NBi.Testing.dll NBi.Testing.Xml\bin\debug\NBi.Testing.Xml.dll /exclude:Acceptance,Olap,Etl,WindowsService,ReportServerDB,LocalSQL
 artifacts:
 - path: NBi.NUnit.Runtime\bin\Debug
   name: Framework

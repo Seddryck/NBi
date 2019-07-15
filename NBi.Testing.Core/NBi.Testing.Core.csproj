@@ -118,6 +118,7 @@
     <Compile Include="Members\PredefinedMembersFactoryTest.cs" />
     <Compile Include="Members\RangeMembersFactoryTest.cs" />
     <Compile Include="OfficeDataConnectionFileParserTest.cs" />
+    <Compile Include="PathExtensionsTest.cs" />
     <Compile Include="Properties\ProjectAssemblyInfo.cs" />
     <Compile Include="Query\Client\AdomdClientFactoryTest.cs" />
     <Compile Include="Query\Client\ClientProviderTest.cs" />
@@ -206,6 +207,7 @@
     <Compile Include="Sequence\Resolver\Loop\SentinelDateTimeLoopStrategyTest.cs" />
     <Compile Include="Sequence\Resolver\Loop\SentinelNumericLoopStrategyTest.cs" />
     <Compile Include="Sequence\Resolver\SequenceResolverFactoryTest.cs" />
+    <Compile Include="StringHelperTest.cs" />
     <Compile Include="Structure\Olap\Builders\DimensionDiscoveryCommandBuilderTest.cs" />
     <Compile Include="Structure\Olap\Builders\HierarchyDiscoveryCommandBuilderTest.cs" />
     <Compile Include="Structure\Olap\Builders\MeasureDiscoveryCommandBuilderTest.cs" />

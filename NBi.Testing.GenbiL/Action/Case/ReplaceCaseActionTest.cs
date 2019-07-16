@@ -8,6 +8,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using NBi.GenbiL.Stateful;
 
 namespace NBi.Testing.GenbiL.Action.Case
 {
@@ -16,7 +17,7 @@ namespace NBi.Testing.GenbiL.Action.Case
         [Test]
         public void Display_LikeOneValue_CorrectString()
         {
-            var action = new ReplaceCaseAction("myColumn", "new value", Operator.Like, new[] { "first value" }, false);
+            var action = new ReplaceCaseAction("myColumn", "new value", OperatorType.Like, new[] { "first value" }, false);
             Assert.That(action.Display, Is.EqualTo("Replacing content of column 'myColumn' with value 'new value' when values like 'first value'"));
         }
 
@@ -72,7 +73,7 @@ namespace NBi.Testing.GenbiL.Action.Case
             state.TestCaseCollection.Scope.Content.Rows.Add(secondRow);
 
 
-            var action = new ReplaceCaseAction("secondColumn", "new cell", Operator.Like, new[] {"%1"}, false);
+            var action = new ReplaceCaseAction("secondColumn", "new cell", OperatorType.Like, new[] {"%1"}, false);
             action.Execute(state);
             Assert.That(state.TestCaseCollection.Scope.Content.Columns, Has.Count.EqualTo(3));
             Assert.That(state.TestCaseCollection.Scope.Content.Rows, Has.Count.EqualTo(2));
@@ -107,7 +108,7 @@ namespace NBi.Testing.GenbiL.Action.Case
             state.TestCaseCollection.Scope.Content.Rows.Add(thirdRow);
 
 
-            var action = new ReplaceCaseAction("secondColumn", "new cell", Operator.Equal, new[] { "secondCell1", "(none)" }, false);
+            var action = new ReplaceCaseAction("secondColumn", "new cell", OperatorType.Equal, new[] { "secondCell1", "(none)" }, false);
             action.Execute(state);
             Assert.That(state.TestCaseCollection.Scope.Content.Columns, Has.Count.EqualTo(3));
             Assert.That(state.TestCaseCollection.Scope.Content.Rows, Has.Count.EqualTo(3));

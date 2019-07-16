@@ -1,4 +1,5 @@
-﻿using NBi.Xml;
+﻿using NBi.GenbiL.Stateful;
+using NBi.Xml;
 using NBi.Xml.SerializationOption;
 using NBi.Xml.Settings;
 using System;

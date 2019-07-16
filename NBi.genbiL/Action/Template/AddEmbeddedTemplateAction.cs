@@ -21,7 +21,7 @@ namespace NBi.GenbiL.Action.Template
 
         public void Execute(GenerationState state)
         {
-            var assembly = Assembly.GetAssembly(typeof(TestSuiteManager));
+            var assembly = Assembly.GetAssembly(typeof(ResourcesFolder));
 
             if (assembly == null)
                 throw new InvalidOperationException("Can't find the dll containing the embedded templates.");

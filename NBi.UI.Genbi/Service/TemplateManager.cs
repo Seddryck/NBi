@@ -5,11 +5,11 @@ using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
 
-namespace NBi.GenbiL.Stateful
+namespace NBi.UI.Genbi.Service
 {
     public class TemplateManager
     {
-        private const string TEMPLATE_DIRECTORY = "NBi.GenbiL.Stateful.Templates.";
+        private const string GetTemplateFolder = "NBi.GenbiL.Stateful.Templates.";
         private const string TEMPLATE_DEFAULT = "ExistsDimension";
         public string Code { get; set; }
 
@@ -29,8 +29,8 @@ namespace NBi.GenbiL.Stateful
         public string[] GetEmbeddedLabels()
         {
             var resources = Assembly.GetExecutingAssembly().GetManifestResourceNames();
-            IEnumerable<string> labels = resources.Where(t => t.StartsWith(TEMPLATE_DIRECTORY) && t.EndsWith(".txt")).ToList();
-            labels = labels.Select(t => t.Replace(TEMPLATE_DIRECTORY, ""));
+            IEnumerable<string> labels = resources.Where(t => t.StartsWith(GetTemplateFolder) && t.EndsWith(".txt")).ToList();
+            labels = labels.Select(t => t.Replace(GetTemplateFolder, ""));
             labels = labels.Select(t => t.Substring(0, t.Length - 4));
             labels = labels.Select(t => SplitCamelCase(t));
             return labels.ToArray();
@@ -58,7 +58,7 @@ namespace NBi.GenbiL.Stateful
         public string GetEmbeddedTemplate(string resourceName)
         {
             var value = string.Empty;           //Template
-            using (var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream($"{TEMPLATE_DIRECTORY}{resourceName}.txt"))
+            using (var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream($"{GetTemplateFolder}{resourceName}.txt"))
             {
                 if (stream == null)
                     throw new ArgumentOutOfRangeException($"{resourceName}");

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NBi.GenbiL.Stateful;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -10,8 +11,8 @@ namespace NBi.GenbiL.Action.Case
     class TrimCaseAction : ICaseAction
     {
         public IEnumerable<string> ColumnNames { get; private set; }
-        public Directions Direction { get; private set; }
-        public TrimCaseAction(IEnumerable<string> columnNames, Directions direction)
+        public DirectionType Direction { get; private set; }
+        public TrimCaseAction(IEnumerable<string> columnNames, DirectionType direction)
         {
             ColumnNames = columnNames;
             Direction = direction;
@@ -42,11 +43,11 @@ namespace NBi.GenbiL.Action.Case
         {
             switch (Direction)
             {
-                case Directions.Both:
+                case DirectionType.Both:
                     return value.Trim();
-                case Directions.Left:
+                case DirectionType.Left:
                     return value.TrimStart();
-                case Directions.Right:
+                case DirectionType.Right:
                     return value.TrimEnd();
                 default:
                     throw new ArgumentOutOfRangeException();

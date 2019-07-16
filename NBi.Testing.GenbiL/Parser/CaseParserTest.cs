@@ -164,7 +164,7 @@ namespace NBi.Testing.GenbiL.Parser
             Assert.That(((FilterCaseAction)result).Values, Has.Member("hidden-perspective"));
             Assert.That(((FilterCaseAction)result).Values.Count(), Is.EqualTo(1));
             Assert.That(((FilterCaseAction)result).Negation, Is.EqualTo(false));
-            Assert.That(((FilterCaseAction)result).Operator, Is.EqualTo(Operator.Equal));
+            Assert.That(((FilterCaseAction)result).Operator, Is.EqualTo(OperatorType.Equal));
             Assert.That(((FilterCaseAction)result).Column, Is.EqualTo("perspective"));
         }
 
@@ -179,7 +179,7 @@ namespace NBi.Testing.GenbiL.Parser
             Assert.That(((FilterCaseAction)result).Values, Has.Member(""));
             Assert.That(((FilterCaseAction)result).Values.Count(), Is.EqualTo(1));
             Assert.That(((FilterCaseAction)result).Negation, Is.EqualTo(false));
-            Assert.That(((FilterCaseAction)result).Operator, Is.EqualTo(Operator.Equal));
+            Assert.That(((FilterCaseAction)result).Operator, Is.EqualTo(OperatorType.Equal));
             Assert.That(((FilterCaseAction)result).Column, Is.EqualTo("perspective"));
         }
 
@@ -196,7 +196,7 @@ namespace NBi.Testing.GenbiL.Parser
             Assert.That(((FilterCaseAction)result).Values, Has.Member("(none)"));
             Assert.That(((FilterCaseAction)result).Values.Count(), Is.EqualTo(3));
             Assert.That(((FilterCaseAction)result).Negation, Is.EqualTo(false));
-            Assert.That(((FilterCaseAction)result).Operator, Is.EqualTo(Operator.Equal));
+            Assert.That(((FilterCaseAction)result).Operator, Is.EqualTo(OperatorType.Equal));
             Assert.That(((FilterCaseAction)result).Column, Is.EqualTo("perspective"));
         }
 
@@ -210,7 +210,7 @@ namespace NBi.Testing.GenbiL.Parser
             Assert.That(result, Is.InstanceOf<FilterCaseAction>());
             Assert.That(((FilterCaseAction)result).Values, Has.Member("show-perspective"));
             Assert.That(((FilterCaseAction)result).Negation, Is.EqualTo(true));
-            Assert.That(((FilterCaseAction)result).Operator, Is.EqualTo(Operator.Equal));
+            Assert.That(((FilterCaseAction)result).Operator, Is.EqualTo(OperatorType.Equal));
             Assert.That(((FilterCaseAction)result).Column, Is.EqualTo("perspective"));
         }
 
@@ -224,7 +224,7 @@ namespace NBi.Testing.GenbiL.Parser
             Assert.That(result, Is.InstanceOf<FilterCaseAction>());
             Assert.That(((FilterCaseAction)result).Values, Has.Member("start%"));
             Assert.That(((FilterCaseAction)result).Negation, Is.EqualTo(false));
-            Assert.That(((FilterCaseAction)result).Operator, Is.EqualTo(Operator.Like));
+            Assert.That(((FilterCaseAction)result).Operator, Is.EqualTo(OperatorType.Like));
             Assert.That(((FilterCaseAction)result).Column, Is.EqualTo("perspective"));
         }
 
@@ -238,7 +238,7 @@ namespace NBi.Testing.GenbiL.Parser
             Assert.That(result, Is.InstanceOf<FilterCaseAction>());
             Assert.That(((FilterCaseAction)result).Values, Has.Member("%end"));
             Assert.That(((FilterCaseAction)result).Negation, Is.EqualTo(true));
-            Assert.That(((FilterCaseAction)result).Operator, Is.EqualTo(Operator.Like));
+            Assert.That(((FilterCaseAction)result).Operator, Is.EqualTo(OperatorType.Like));
             Assert.That(((FilterCaseAction)result).Column, Is.EqualTo("perspective"));
         }
 
@@ -253,7 +253,7 @@ namespace NBi.Testing.GenbiL.Parser
             Assert.That(((FilterCaseAction)result).Values, Has.Member("%end"));
             Assert.That(((FilterCaseAction)result).Values, Has.Member("start%"));
             Assert.That(((FilterCaseAction)result).Negation, Is.EqualTo(true));
-            Assert.That(((FilterCaseAction)result).Operator, Is.EqualTo(Operator.Like));
+            Assert.That(((FilterCaseAction)result).Operator, Is.EqualTo(OperatorType.Like));
             Assert.That(((FilterCaseAction)result).Column, Is.EqualTo("perspective"));
         }
 
@@ -449,7 +449,7 @@ namespace NBi.Testing.GenbiL.Parser
             Assert.That(result, Is.InstanceOf<ReplaceCaseAction>());
             Assert.That(((ReplaceCaseAction)result).Column, Is.EqualTo("alpha"));
             Assert.That(((ReplaceCaseAction)result).NewValue, Is.EqualTo("my new value"));
-            Assert.That(((ReplaceCaseAction)result).Operator, Is.EqualTo(Operator.Equal));
+            Assert.That(((ReplaceCaseAction)result).Operator, Is.EqualTo(OperatorType.Equal));
             Assert.That(((ReplaceCaseAction)result).Negation, Is.True);
             Assert.That(((ReplaceCaseAction)result).Values, Has.Member("foo"));
             Assert.That(((ReplaceCaseAction)result).Values, Has.Member("bar"));
@@ -466,7 +466,7 @@ namespace NBi.Testing.GenbiL.Parser
             Assert.That(result, Is.InstanceOf<ReplaceCaseAction>());
             Assert.That(((ReplaceCaseAction)result).Column, Is.EqualTo("alpha"));
             Assert.That(((ReplaceCaseAction)result).NewValue, Is.EqualTo("(none)"));
-            Assert.That(((ReplaceCaseAction)result).Operator, Is.EqualTo(Operator.Equal));
+            Assert.That(((ReplaceCaseAction)result).Operator, Is.EqualTo(OperatorType.Equal));
             Assert.That(((ReplaceCaseAction)result).Negation, Is.True);
             Assert.That(((ReplaceCaseAction)result).Values, Has.Member("foo"));
             Assert.That(((ReplaceCaseAction)result).Values, Has.Member("bar"));
@@ -597,7 +597,7 @@ namespace NBi.Testing.GenbiL.Parser
             Assert.That(result, Is.InstanceOf<TrimCaseAction>());
             Assert.That(((TrimCaseAction)result).ColumnNames.Count(), Is.EqualTo(1));
             Assert.That(((TrimCaseAction)result).ColumnNames, Has.Member("foo"));
-            Assert.That(((TrimCaseAction)result).Direction, Is.EqualTo(Directions.Left));
+            Assert.That(((TrimCaseAction)result).Direction, Is.EqualTo(DirectionType.Left));
         }
 
         [Test]
@@ -611,7 +611,7 @@ namespace NBi.Testing.GenbiL.Parser
             Assert.That(((TrimCaseAction)result).ColumnNames.Count(), Is.EqualTo(2));
             Assert.That(((TrimCaseAction)result).ColumnNames, Has.Member("foo"));
             Assert.That(((TrimCaseAction)result).ColumnNames, Has.Member("bar"));
-            Assert.That(((TrimCaseAction)result).Direction, Is.EqualTo(Directions.Right));
+            Assert.That(((TrimCaseAction)result).Direction, Is.EqualTo(DirectionType.Right));
         }
 
         [Test]
@@ -623,7 +623,7 @@ namespace NBi.Testing.GenbiL.Parser
             Assert.That(result, Is.Not.Null);
             Assert.That(result, Is.InstanceOf<TrimCaseAction>());
             Assert.That(((TrimCaseAction)result).ColumnNames.Count(), Is.EqualTo(0));
-            Assert.That(((TrimCaseAction)result).Direction, Is.EqualTo(Directions.Both));
+            Assert.That(((TrimCaseAction)result).Direction, Is.EqualTo(DirectionType.Both));
         }
     }
 }

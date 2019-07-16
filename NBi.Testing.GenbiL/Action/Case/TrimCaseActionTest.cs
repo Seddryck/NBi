@@ -1,6 +1,8 @@
 ﻿using NBi.GenbiL;
+using NBi.GenbiL.Action;
 using NBi.GenbiL.Action.Case;
 using NBi.GenbiL.Parser.Valuable;
+using NBi.GenbiL.Stateful;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
@@ -41,7 +43,7 @@ namespace NBi.Testing.GenbiL.Action.Case
         {
             var state = BuildInitialState();
 
-            var action = new TrimCaseAction(new string[] { "firstColumn" }, Directions.Left);
+            var action = new TrimCaseAction(new string[] { "firstColumn" }, DirectionType.Left);
             action.Execute(state);
             Assert.That(state.TestCaseCollection.Scope.Content.Rows[0]["firstColumn"], Is.EqualTo("Cell "));
             Assert.That(state.TestCaseCollection.Scope.Content.Rows[1]["firstColumn"], Is.EqualTo("Cell"));
@@ -52,7 +54,7 @@ namespace NBi.Testing.GenbiL.Action.Case
         {
             var state = BuildInitialState();
 
-            var action = new TrimCaseAction(new string[] { "firstColumn" }, Directions.Right);
+            var action = new TrimCaseAction(new string[] { "firstColumn" }, DirectionType.Right);
             action.Execute(state);
             Assert.That(state.TestCaseCollection.Scope.Content.Rows[0]["firstColumn"], Is.EqualTo("Cell"));
             Assert.That(state.TestCaseCollection.Scope.Content.Rows[1]["firstColumn"], Is.EqualTo("Cell"));
@@ -63,7 +65,7 @@ namespace NBi.Testing.GenbiL.Action.Case
         {
             var state = BuildInitialState();
 
-            var action = new TrimCaseAction(new string[] { "secondColumn" }, Directions.Both);
+            var action = new TrimCaseAction(new string[] { "secondColumn" }, DirectionType.Both);
             action.Execute(state);
             Assert.That(state.TestCaseCollection.Scope.Content.Rows[0]["secondColumn"], Is.EqualTo("secondCell1"));
             Assert.That(state.TestCaseCollection.Scope.Content.Rows[1]["secondColumn"], Is.EqualTo("(none)"));
@@ -75,7 +77,7 @@ namespace NBi.Testing.GenbiL.Action.Case
         {
             var state = BuildInitialState();
 
-            var action = new TrimCaseAction(new string[] {}, Directions.Both);
+            var action = new TrimCaseAction(new string[] {}, DirectionType.Both);
             action.Execute(state);
             Assert.That(state.TestCaseCollection.Scope.Content.Rows[0]["firstColumn"], Is.EqualTo("Cell"));
             Assert.That(state.TestCaseCollection.Scope.Content.Rows[0]["secondColumn"], Is.EqualTo("secondCell1"));

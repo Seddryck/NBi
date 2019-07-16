@@ -26,7 +26,7 @@ namespace NBi.Testing.Unit.Service
             manager.Content.AcceptChanges();
 
             //Setup filter
-            manager.Filter("columnName", Operator.Equal, false, "matching");
+            manager.Filter("columnName", OperatorType.Equal, false, "matching");
 
             Assert.That(manager.Content.Rows, Has.Count.EqualTo(1));
             Assert.That(manager.Content.Rows[0][0], Is.EqualTo("matching"));
@@ -48,7 +48,7 @@ namespace NBi.Testing.Unit.Service
             manager.Content.AcceptChanges();
 
             //Setup filter
-            manager.Filter("columnName", Operator.Equal, true, "matching");
+            manager.Filter("columnName", OperatorType.Equal, true, "matching");
 
             Assert.That(manager.Content.Rows, Has.Count.EqualTo(1));
             Assert.That(manager.Content.Rows[0][0], Is.Not.EqualTo("matching"));
@@ -70,7 +70,7 @@ namespace NBi.Testing.Unit.Service
             manager.Content.AcceptChanges();
 
             //Setup filter
-            manager.Filter("columnName", Operator.Like, false, "match%");
+            manager.Filter("columnName", OperatorType.Like, false, "match%");
 
             Assert.That(manager.Content.Rows, Has.Count.EqualTo(1));
             Assert.That(manager.Content.Rows[0][0], Is.EqualTo("matching"));
@@ -92,7 +92,7 @@ namespace NBi.Testing.Unit.Service
             manager.Content.AcceptChanges();
 
             //Setup filter
-            manager.Filter("columnName", Operator.Like, false, "%ing");
+            manager.Filter("columnName", OperatorType.Like, false, "%ing");
 
             Assert.That(manager.Content.Rows, Has.Count.EqualTo(1));
             Assert.That(manager.Content.Rows[0][0], Is.EqualTo("matching"));
@@ -114,7 +114,7 @@ namespace NBi.Testing.Unit.Service
             manager.Content.AcceptChanges();
 
             //Setup filter
-            manager.Filter("columnName", Operator.Like, false, "%atch%");
+            manager.Filter("columnName", OperatorType.Like, false, "%atch%");
 
             Assert.That(manager.Content.Rows, Has.Count.EqualTo(1));
             Assert.That(manager.Content.Rows[0][0], Is.EqualTo("matching"));
@@ -136,7 +136,7 @@ namespace NBi.Testing.Unit.Service
             manager.Content.AcceptChanges();
 
             //Setup filter
-            manager.Filter("columnName", Operator.Like, false, "%matching%");
+            manager.Filter("columnName", OperatorType.Like, false, "%matching%");
 
             Assert.That(manager.Content.Rows, Has.Count.EqualTo(1));
             Assert.That(manager.Content.Rows[0][0], Is.EqualTo("matching"));
@@ -158,7 +158,7 @@ namespace NBi.Testing.Unit.Service
             manager.Content.AcceptChanges();
 
             //Setup filter
-            manager.Filter("columnName", Operator.Like, false, "ma%h%ng%");
+            manager.Filter("columnName", OperatorType.Like, false, "ma%h%ng%");
 
             Assert.That(manager.Content.Rows, Has.Count.EqualTo(1));
             Assert.That(manager.Content.Rows[0][0], Is.EqualTo("matching"));
@@ -180,7 +180,7 @@ namespace NBi.Testing.Unit.Service
             manager.Content.AcceptChanges();
 
             //Setup filter
-            manager.Filter("columnName", Operator.Equal, false, "matching");
+            manager.Filter("columnName", OperatorType.Equal, false, "matching");
 
             Assert.That(manager.Content.Rows, Has.Count.EqualTo(0));
         }
@@ -245,7 +245,7 @@ namespace NBi.Testing.Unit.Service
             manager.Content.AcceptChanges();
 
             //Setup filter
-            manager.Filter("columnName", Operator.Equal, false, new [] {"matching 1", "matching 2"});
+            manager.Filter("columnName", OperatorType.Equal, false, new [] {"matching 1", "matching 2"});
 
             Assert.That(manager.Content.Rows, Has.Count.EqualTo(2));
             Assert.That(manager.Content.Rows[0][0], Is.EqualTo("matching 1"));
@@ -271,7 +271,7 @@ namespace NBi.Testing.Unit.Service
             manager.Content.AcceptChanges();
 
             //Setup filter
-            manager.Filter("columnName", Operator.Equal, true, new[] { "matching 1", "matching 2" });
+            manager.Filter("columnName", OperatorType.Equal, true, new[] { "matching 1", "matching 2" });
 
             Assert.That(manager.Content.Rows, Has.Count.EqualTo(1));
             Assert.That(manager.Content.Rows[0][0], Is.EqualTo("xyz"));
@@ -295,7 +295,7 @@ namespace NBi.Testing.Unit.Service
             manager.Content.AcceptChanges();
 
             //Setup filter
-            manager.Filter("columnName", Operator.Like, false, new[] { "%1", "%2" });
+            manager.Filter("columnName", OperatorType.Like, false, new[] { "%1", "%2" });
 
             Assert.That(manager.Content.Rows, Has.Count.EqualTo(2));
             Assert.That(manager.Content.Rows[0][0], Is.EqualTo("matching 1"));

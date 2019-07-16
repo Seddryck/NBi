@@ -90,7 +90,7 @@
     <Compile Include="Action\Case\ICaseAction.cs" />
     <Compile Include="Action\EmptyAction.cs" />
     <Compile Include="Action\IAction.cs" />
-    <Compile Include="Action\Operator.cs" />
+    <Compile Include="Action\OperatorType.cs" />
     <Compile Include="Action\Setting\IncludeSettingAction.cs" />
     <Compile Include="Action\Setting\ISettingAction.cs" />
     <Compile Include="Action\Setting\ParameterActionFactory.cs" />
@@ -115,7 +115,7 @@
     <Compile Include="Action\Variable\IVariableAction.cs" />
     <Compile Include="Parser\Action.cs" />
     <Compile Include="Parser\Consumable.cs" />
-    <Compile Include="Directions.cs" />
+    <Compile Include="Action\DirectionType.cs" />
     <Compile Include="Parser\Valuable\Column.cs" />
     <Compile Include="Parser\Comment.cs" />
     <Compile Include="Parser\Valuable\IValuable.cs" />
@@ -126,7 +126,7 @@
     <Compile Include="Action\Setting\ReferenceAction.cs" />
     <Compile Include="Action\Suite\GenerateSuiteAction.cs" />
     <Compile Include="Action\Template\LoadEmbeddedTemplateAction.cs" />
-    <Compile Include="GenerationState.cs" />
+    <Compile Include="Stateful\GenerationState.cs" />
     <Compile Include="Action\Case\LoadCaseFromFileAction.cs" />
     <Compile Include="Action\LoadType.cs" />
     <Compile Include="Parser\Case.cs" />
@@ -139,7 +139,6 @@
     <Compile Include="Properties\ProjectAssemblyInfo.cs" />
     <Compile Include="Stateful\Setting.cs" />
     <Compile Include="Stateful\SettingsManager.cs" />
-    <Compile Include="Stateful\TemplateManager.cs" />
     <Compile Include="Stateful\Test.cs" />
     <Compile Include="Stateful\TestCaseCollectionManager.cs" />
     <Compile Include="Stateful\TestCaseManager.cs" />

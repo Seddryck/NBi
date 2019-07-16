@@ -1,6 +1,7 @@
 ﻿using NBi.Core.Transformation;
 using NBi.GenbiL;
 using NBi.GenbiL.Action.Variable;
+using NBi.GenbiL.Stateful;
 using NBi.Xml.Variables;
 using NUnit.Framework;
 using System;

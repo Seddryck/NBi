@@ -5,7 +5,7 @@ using System.Text;
 
 namespace NBi.GenbiL.Action
 {
-    public enum Operator
+    public enum OperatorType
     {
         Equal = 1,
         Like = 2

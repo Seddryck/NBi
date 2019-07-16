@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Collections.Generic;
+using NBi.GenbiL.Stateful;
 
 namespace NBi.GenbiL.Action.Case
 {
@@ -10,7 +11,7 @@ namespace NBi.GenbiL.Action.Case
         public string NewValue { get; set; }
         public IEnumerable<string> Values { get; set; }
         public bool Negation { get; set; }
-        public Operator Operator { get; set; }
+        public OperatorType Operator { get; set; }
 
         public ReplaceCaseAction(string column, string newValue)
         {
@@ -18,7 +19,7 @@ namespace NBi.GenbiL.Action.Case
             NewValue = newValue;
         }
 
-        public ReplaceCaseAction(string column, string newValue, Operator @operator, IEnumerable<string> values, bool negation)
+        public ReplaceCaseAction(string column, string newValue, OperatorType @operator, IEnumerable<string> values, bool negation)
             : this(column, newValue)
         {
             Values = values;
@@ -53,13 +54,13 @@ namespace NBi.GenbiL.Action.Case
                 return display;
             }
         }
-        private string GetOperatorText(Operator @operator)
+        private string GetOperatorText(OperatorType @operator)
         {
             switch (@operator)
             {
-                case Operator.Equal:
+                case OperatorType.Equal:
                     return "equal to";
-                case Operator.Like:
+                case OperatorType.Like:
                     return "like";
                 default:
                     break;

@@ -10,9 +10,9 @@ namespace NBi.GenbiL.Action.Case
         public IEnumerable<string> Values { get; set; }
         public string Column { get; set; }
         public bool Negation { get; set; }
-        public Operator Operator { get; set; }
+        public OperatorType Operator { get; set; }
 
-        public FilterCaseAction(string column, Operator @operator, IEnumerable<string> values, bool negation)
+        public FilterCaseAction(string column, OperatorType @operator, IEnumerable<string> values, bool negation)
         {
             Values = values;
             Operator = @operator;
@@ -37,13 +37,13 @@ namespace NBi.GenbiL.Action.Case
             }
         }
 
-        private string GetOperatorText(Operator @operator)
+        private string GetOperatorText(OperatorType @operator)
         {
             switch (@operator)
             {
-                case Operator.Equal:
+                case OperatorType.Equal:
                     return "equal to";
-                case Operator.Like:
+                case OperatorType.Like:
                     return "like";
                 default:
                     break;

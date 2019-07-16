@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.GenbiL
+namespace NBi.GenbiL.Action
 {
     [Flags]
-    public enum Directions
+    public enum DirectionType
     {
         Left = 1,
         Right = 2,

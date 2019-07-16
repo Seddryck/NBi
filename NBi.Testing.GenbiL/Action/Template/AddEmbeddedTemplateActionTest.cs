@@ -1,5 +1,6 @@
 ﻿using NBi.GenbiL;
 using NBi.GenbiL.Action.Template;
+using NBi.GenbiL.Stateful;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;

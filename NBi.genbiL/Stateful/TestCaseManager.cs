@@ -104,7 +104,7 @@ private DataTable content;
             content.Columns[oldPosition].SetOrdinal(newPosition);
         }
 
-        public void Filter(string variableName, Operator @operator, bool negation, string text)
+        public void Filter(string variableName, OperatorType @operator, bool negation, string text)
         {
             if (!variables.Contains(variableName))
                 throw new ArgumentOutOfRangeException("variableName");
@@ -128,7 +128,7 @@ private DataTable content;
             Content.AcceptChanges();
         }
 
-        public void Filter(string variableName, Operator @operator, bool negation, IEnumerable<string> values)
+        public void Filter(string variableName, OperatorType @operator, bool negation, IEnumerable<string> values)
         {
             if (!variables.Contains(variableName))
                 throw new ArgumentOutOfRangeException("variableName");
@@ -152,14 +152,14 @@ private DataTable content;
             Content.AcceptChanges();
         }
 
-        private void AssignCompare(Operator @operator)
+        private void AssignCompare(OperatorType @operator)
         {
             switch (@operator)
             {
-                case Operator.Equal:
+                case OperatorType.Equal:
                     compare = (a, b) => a == b;
                     break;
-                case Operator.Like:
+                case OperatorType.Like:
                     compare = Like;
                     break;
                 default:
@@ -167,14 +167,14 @@ private DataTable content;
             }
         }
 
-        private void AssignCompareMultiple(Operator @operator)
+        private void AssignCompareMultiple(OperatorType @operator)
         {
             switch (@operator)
             {
-                case Operator.Equal:
+                case OperatorType.Equal:
                     compareMultiple = Equal;
                     break;
-                case Operator.Like:
+                case OperatorType.Like:
                     compareMultiple = Like;
                     break;
                 default:
@@ -250,7 +250,7 @@ private DataTable content;
             Content.AcceptChanges();
         }
 
-        public void Replace(string columnName, string newValue, Operator @operator, bool negation, IEnumerable<string> values)
+        public void Replace(string columnName, string newValue, OperatorType @operator, bool negation, IEnumerable<string> values)
         {
             if (!variables.Contains(columnName))
                 throw new ArgumentException(string.Format("No column named '{0}' has been found.", columnName));

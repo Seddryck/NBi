@@ -6,6 +6,7 @@ using System.Windows.Forms;
 using NBi.GenbiL.Stateful;
 using NBi.UI.Genbi.Command;
 using NBi.UI.Genbi.Presenter;
+using NBi.UI.Genbi.Service;
 using NBi.UI.Genbi.Stateful;
 
 namespace NBi.UI.Genbi.View.TestSuiteGenerator

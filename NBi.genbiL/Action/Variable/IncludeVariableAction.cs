@@ -1,4 +1,5 @@
 ﻿using NBi.Core.Variable;
+using NBi.GenbiL.Stateful;
 using NBi.Xml;
 using NBi.Xml.Settings;
 using NBi.Xml.Variables;

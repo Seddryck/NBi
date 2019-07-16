@@ -242,7 +242,7 @@ namespace NBi.UI.Genbi.Presenter
             OnPropertyChanged("Variables");
         }
 
-        internal void Filter(int selectedIndex, Operator @operator, bool negation, string text)
+        internal void Filter(int selectedIndex, OperatorType @operator, bool negation, string text)
         {
             testCaseCollectionManager.Scope.Filter(Variables[VariableSelectedIndex], @operator, negation, text);
             Reload();

@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Testing.Unit.Service
+namespace NBi.Testing.GenbiL.Stateful
 {
     public class TestCaseCollectionManagerTest
     {
@@ -33,7 +33,7 @@ namespace NBi.Testing.Unit.Service
             var manager = new TestCaseCollectionManager();
             var tc = manager.Item("alpha");
             Assert.That(tc, Is.Not.Null);
-            Assert.That(tc, Is.TypeOf<TestCaseManager>());
+            Assert.That(tc, Is.TypeOf<TestCases>());
         }
 
         [Test]
@@ -42,7 +42,7 @@ namespace NBi.Testing.Unit.Service
             var manager = new TestCaseCollectionManager();
             var tc = manager.Item(string.Empty);
             Assert.That(tc, Is.Not.Null);
-            Assert.That(tc, Is.TypeOf<TestCaseManager>());
+            Assert.That(tc, Is.TypeOf<TestCases>());
         }
 
         [Test]
@@ -81,7 +81,7 @@ namespace NBi.Testing.Unit.Service
             var tc1 = manager.Item("alpha");
             var tc2 = manager.Item("beta");
 
-            var focus = manager.Scope;
+            var focus = manager.CurrentScope;
 
             Assert.That(focus, Is.EqualTo(tc1));
         }
@@ -94,7 +94,7 @@ namespace NBi.Testing.Unit.Service
             var tc2 = manager.Item("beta");
 
             manager.SetFocus("beta");
-            var focus = manager.Scope;
+            var focus = manager.CurrentScope;
 
             Assert.That(focus, Is.EqualTo(tc2));
         }

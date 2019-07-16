@@ -8,7 +8,7 @@ using System.Text;
 
 namespace NBi.GenbiL.Action.Case
 {
-    public class SubstituteCaseAction : ICaseAction
+    public class SubstituteCaseAction : ISingleCaseAction
     {
         public string ColumnName { get; private set; }
         public IValuable OldText { get; private set; }
@@ -20,14 +20,16 @@ namespace NBi.GenbiL.Action.Case
             NewText = newText;
         }
 
-        public void Execute(GenerationState state)
+        public void Execute(GenerationState state) => Execute(state.TestCaseCollection.CurrentScope);
+
+        public void Execute(TestCases testCases)
         {
-            if (!state.TestCaseCollection.Scope.Variables.Contains(ColumnName))
+            if (!testCases.Variables.Contains(ColumnName))
                 throw new ArgumentOutOfRangeException(String.Format("No column named '{0}' has been found.",ColumnName));
 
-            var index = state.TestCaseCollection.Scope.Variables.ToList().FindIndex(v => v == ColumnName);
+            var index = testCases.Variables.ToList().FindIndex(v => v == ColumnName);
 
-            foreach (DataRow row in state.TestCaseCollection.Scope.Content.Rows)
+            foreach (DataRow row in testCases.Content.Rows)
             {
                 if ((string)row[ColumnName] != "(none)")
                 {

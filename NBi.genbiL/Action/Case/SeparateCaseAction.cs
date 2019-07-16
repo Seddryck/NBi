@@ -8,7 +8,7 @@ using System.Text;
 
 namespace NBi.GenbiL.Action.Case
 {
-    public class SeparateCaseAction : ICaseAction
+    public class SeparateCaseAction : ISingleCaseAction
     {
         public string ColumnName { get; private set; }
         public IEnumerable<string> NewColumns { get; private set; }
@@ -20,24 +20,25 @@ namespace NBi.GenbiL.Action.Case
             Separator = separator;
         }
 
-        public void Execute(GenerationState state)
-        {
-            if (!state.TestCaseCollection.Scope.Variables.Contains(ColumnName))
-                throw new ArgumentOutOfRangeException(String.Format("No column named '{0}' has been found.",ColumnName));
+        public void Execute(GenerationState state) => Execute(state.TestCaseCollection.CurrentScope);
 
-            var index = state.TestCaseCollection.Scope.Variables.ToList().FindIndex(v => v == ColumnName);
+        public void Execute(TestCases testCases)
+        {
+            if (!testCases.Variables.Contains(ColumnName))
+                throw new ArgumentOutOfRangeException($"No column named '{ColumnName}' has been found.");
+
+            var index = testCases.Variables.ToList().FindIndex(v => v == ColumnName);
 
             foreach (var newColumnName in NewColumns)
             {
-                if (state.TestCaseCollection.Scope.Variables.Contains(newColumnName))
-                    throw new ArgumentException(String.Format("Column '{0}' already existing.", newColumnName));
+                if (testCases.Variables.Contains(newColumnName))
+                    throw new ArgumentException($"Column '{newColumnName}' already existing.");
 
-                state.TestCaseCollection.Scope.Variables.Add(newColumnName);
                 var newColumn = new DataColumn(newColumnName);
-                state.TestCaseCollection.Scope.Content.Columns.Add(newColumn);
+                testCases.Content.Columns.Add(newColumn);
             }
 
-            foreach (DataRow row in state.TestCaseCollection.Scope.Content.Rows)
+            foreach (DataRow row in testCases.Content.Rows)
             {
                 if ((string)row[ColumnName] != "(none)")
                 {

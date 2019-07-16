@@ -97,7 +97,6 @@
     <Compile Include="Parser\VariableParserTest.cs" />
     <Compile Include="Properties\ProjectAssemblyInfo.cs" />
     <Compile Include="Stateful\TestCaseCollectionManagerTest.cs" />
-    <Compile Include="Stateful\TestCaseManagerTest.cs" />
     <Compile Include="Templating\StringTemplateEngineTest.cs" />
   </ItemGroup>
   <ItemGroup>

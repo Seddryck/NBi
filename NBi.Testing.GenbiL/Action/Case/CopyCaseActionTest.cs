@@ -19,9 +19,6 @@ namespace NBi.Testing.GenbiL.Action.Case
             master.Content.Columns.Add("keyColumn1");
             master.Content.Columns.Add("keyColumn2");
             master.Content.Columns.Add("thirdColumn");
-            master.Variables.Add("keyColumn1");
-            master.Variables.Add("keyColumn2");
-            master.Variables.Add("thirdColumn");
             var firstAlphaRow = master.Content.NewRow();
             firstAlphaRow[0] = "key1";
             firstAlphaRow[1] = "keyA";

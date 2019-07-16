@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace NBi.GenbiL.Action.Case
 {
-    public class AddCaseAction : ICaseAction
+    public class AddCaseAction : ISingleCaseAction
     {
         
         public string VariableName { get; private set; }
@@ -24,23 +24,19 @@ namespace NBi.GenbiL.Action.Case
             DefaultValue = defaultValue;
         }
 
-        public void Execute(GenerationState state)
-        {
-            if (state.TestCaseCollection.Scope.Variables.Contains(VariableName))
-                throw new ArgumentException(String.Format("Variable '{0}' already existing.", VariableName));
+        public void Execute(GenerationState state) => Execute(state.TestCaseCollection.CurrentScope);
 
-            state.TestCaseCollection.Scope.Variables.Add(VariableName);
-            var newColumn = new DataColumn(VariableName);
-            newColumn.DefaultValue = DefaultValue;
-            state.TestCaseCollection.Scope.Content.Columns.Add(newColumn);
+        public void Execute(TestCases testCases)
+        {
+            if (testCases.Variables.Contains(VariableName))
+                throw new ArgumentException($"Variable '{VariableName}' already existing.");
+
+            var newColumn = new DataColumn(VariableName) { DefaultValue = DefaultValue };
+            testCases.Content.Columns.Add(newColumn);
         }
 
-        public string Display
-        {
-            get
-            {
-                return string.Format("Adding column '{0}'", VariableName);
-            }
-        }
+        
+
+        public string Display => $"Adding column '{VariableName}'";
     }
 }

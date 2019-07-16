@@ -6,7 +6,7 @@ using System.Text;
 
 namespace NBi.GenbiL.Action.Case
 {
-    public class RenameCaseAction : ICaseAction
+    public class RenameCaseAction : ISingleCaseAction
     {
         public string OldVariableName { get; set; }
         public string NewVariableName { get; set; }
@@ -16,11 +16,12 @@ namespace NBi.GenbiL.Action.Case
             NewVariableName = newVariableName;
         }
 
-        public void Execute(GenerationState state)
+        public void Execute(GenerationState state) => Execute(state.TestCaseCollection.CurrentScope);
+
+        public void Execute(TestCases testCases)
         {
-            var index = state.TestCaseCollection.Scope.Variables.ToList().FindIndex(v => v == OldVariableName);
-            state.TestCaseCollection.Scope.Variables[index] = NewVariableName;
-            state.TestCaseCollection.Scope.Content.Columns[index].ColumnName = NewVariableName;
+            var index = testCases.Variables.ToList().FindIndex(v => v == OldVariableName);
+            testCases.Content.Columns[index].ColumnName = NewVariableName;
         }
 
         public string Display

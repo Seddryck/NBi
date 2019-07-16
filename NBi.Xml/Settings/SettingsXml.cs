@@ -166,10 +166,8 @@ namespace NBi.Xml.Settings
                 case ExpressionType.Convert:
                     // This case deals with conversions that 
                     // may have occured due to typing.
-                    UnaryExpression unaryExpression
-                        = propertySelector.Body as UnaryExpression;
 
-                    if (unaryExpression != null)
+                    if (propertySelector.Body is UnaryExpression unaryExpression)
                     {
                         memberExpression
                             = unaryExpression.Operand as MemberExpression;

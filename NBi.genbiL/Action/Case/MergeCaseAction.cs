@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace NBi.GenbiL.Action.Case
 {
-    public class MergeCaseAction : ICaseAction
+    public class MergeCaseAction : IMultiCaseAction
     {
         
         public string MergedScope { get; private set; }
@@ -23,8 +23,8 @@ namespace NBi.GenbiL.Action.Case
                 throw new ArgumentException(String.Format("Scope '{0}' doesn't exist.", MergedScope));
 
             var dr = state.TestCaseCollection.Item(MergedScope).Content.CreateDataReader();
-            state.TestCaseCollection.Scope.Content.Load(dr, LoadOption.PreserveChanges);
-            state.TestCaseCollection.Scope.Content.AcceptChanges();
+            state.TestCaseCollection.CurrentScope.Content.Load(dr, LoadOption.PreserveChanges);
+            state.TestCaseCollection.CurrentScope.Content.AcceptChanges();
         }
 
         public string Display

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace NBi.GenbiL.Action.Case
 {
-    class CopyCaseAction : ICaseAction
+    class CopyCaseAction : IMultiCaseAction
     {
         public string From { get; set; }
         public string To { get; set; }
@@ -32,10 +32,6 @@ namespace NBi.GenbiL.Action.Case
             state.TestCaseCollection.Item(To).Content.Clear();
             state.TestCaseCollection.Item(To).Content.Load(dataReader, LoadOption.PreserveChanges);
             state.TestCaseCollection.Item(To).Content.AcceptChanges();
-
-            state.TestCaseCollection.Item(To).Variables.Clear();
-            foreach (DataColumn col in state.TestCaseCollection.Item(To).Content.Columns)
-                state.TestCaseCollection.Item(To).Variables.Add(col.ColumnName);
         }
 
         public virtual string Display

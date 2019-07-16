@@ -26,7 +26,16 @@ namespace NBi.GenbiL.Action.Setting
             using (var stream = new FileStream(Filename, FileMode.Open, FileAccess.Read))
             {
                 var settings = Include(stream);
-                state.Settings.SetSettingsXml(settings);
+
+                state.Settings.Defaults.Clear();
+                foreach (var defaultSetting in settings.Defaults)
+                    state.Settings.Defaults.Add(defaultSetting);
+
+                state.Settings.References.Clear();
+                foreach (var refSetting in settings.References)
+                    state.Settings.References.Add(refSetting);
+
+                state.Settings.ParallelizeQueries = settings.ParallelizeQueries;
             }
         }
 

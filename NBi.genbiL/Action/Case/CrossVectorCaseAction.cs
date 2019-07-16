@@ -35,7 +35,7 @@ namespace NBi.GenbiL.Action.Case
             Cross(
                 state.TestCaseCollection.Item(FirstSet).Content,
                 vector,
-                state.TestCaseCollection.Scope,
+                state.TestCaseCollection.CurrentScope,
                 MatchingRow);
         }
 

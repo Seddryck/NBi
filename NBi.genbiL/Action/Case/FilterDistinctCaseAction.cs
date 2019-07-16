@@ -7,17 +7,19 @@ using System.Text;
 
 namespace NBi.GenbiL.Action.Case
 {
-    public class FilterDistinctCaseAction: ICaseAction
+    public class FilterDistinctCaseAction: ISingleCaseAction
     {
 
         public FilterDistinctCaseAction()
         { }
 
-        public void Execute(GenerationState state)
+        public void Execute(GenerationState state) => Execute(state.TestCaseCollection.CurrentScope);
+
+        public void Execute(TestCases testCases)
         {
             DataTableReader dataReader = null;
 
-            var content = state.TestCaseCollection.Scope.Content;
+            var content = testCases.Content;
             var distinctRows = content.AsEnumerable().Distinct(DataRowComparer.Default);
 
             if (distinctRows.Count() > 0)

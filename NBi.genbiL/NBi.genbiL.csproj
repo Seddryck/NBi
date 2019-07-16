@@ -59,9 +59,11 @@
       <Link>Properties\AssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="Action\AxisType.cs" />
+    <Compile Include="Action\Case\AbstractCompareCaseAction.cs" />
     <Compile Include="Action\Case\CrossJoinCaseAction.cs" />
     <Compile Include="Action\Case\CrossFullCaseAction.cs" />
     <Compile Include="Action\Case\DuplicateCaseAction.cs" />
+    <Compile Include="Action\Case\ICaseAction.cs" />
     <Compile Include="Action\Case\LoadCaseFromDatatableAction.cs" />
     <Compile Include="Action\Case\ReduceCaseAction.cs" />
     <Compile Include="Action\Case\GroupCaseAction.cs" />
@@ -87,9 +89,10 @@
     <Compile Include="Action\Case\RemoveCaseAction.cs" />
     <Compile Include="Action\Case\TrimCaseAction.cs" />
     <Compile Include="Action\DefaultType.cs" />
-    <Compile Include="Action\Case\ICaseAction.cs" />
+    <Compile Include="Action\Case\ISingleCaseAction.cs" />
     <Compile Include="Action\EmptyAction.cs" />
     <Compile Include="Action\IAction.cs" />
+    <Compile Include="Action\Case\IMultiCaseAction.cs" />
     <Compile Include="Action\OperatorType.cs" />
     <Compile Include="Action\Setting\IncludeSettingAction.cs" />
     <Compile Include="Action\Setting\ISettingAction.cs" />
@@ -138,10 +141,9 @@
     <Compile Include="Parser\Variable.cs" />
     <Compile Include="Properties\ProjectAssemblyInfo.cs" />
     <Compile Include="Stateful\Setting.cs" />
-    <Compile Include="Stateful\SettingsManager.cs" />
     <Compile Include="Stateful\Test.cs" />
     <Compile Include="Stateful\TestCaseCollectionManager.cs" />
-    <Compile Include="Stateful\TestCaseManager.cs" />
+    <Compile Include="Stateful\TestCases.cs" />
     <Compile Include="Stateful\TestListManager.cs" />
     <Compile Include="Stateful\TestSuiteManager.cs" />
     <Compile Include="Templating\ExpectedVariableNotFoundException.cs" />

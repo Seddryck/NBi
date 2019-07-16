@@ -20,9 +20,6 @@ namespace NBi.Testing.GenbiL.Action.Case
             alphaCase.Content.Columns.Add("firstColumn");
             alphaCase.Content.Columns.Add("secondColumn");
             alphaCase.Content.Columns.Add("thirdColumn");
-            alphaCase.Variables.Add("firstColumn");
-            alphaCase.Variables.Add("secondColumn");
-            alphaCase.Variables.Add("thirdColumn");
             var firstAlphaRow = alphaCase.Content.NewRow();
             firstAlphaRow[0] = "firstAlphaCell1";
             firstAlphaRow[1] = "secondAlphaCell1";
@@ -37,8 +34,6 @@ namespace NBi.Testing.GenbiL.Action.Case
             var betaCase = state.TestCaseCollection.Item("beta");
             betaCase.Content.Columns.Add("fourthColumn");
             betaCase.Content.Columns.Add("fifthColumn");
-            betaCase.Variables.Add("fourthColumn");
-            betaCase.Variables.Add("fifthColumn");
             var firstBetaRow = betaCase.Content.NewRow();
             firstBetaRow[0] = "firstBetaCell1";
             firstBetaRow[1] = "secondBetaCell1";

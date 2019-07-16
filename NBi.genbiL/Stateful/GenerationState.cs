@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using NBi.GenbiL.Action.Consumable;
+using NBi.Xml.Settings;
 using NBi.Xml.Variables;
 
 namespace NBi.GenbiL.Stateful
@@ -10,7 +11,7 @@ namespace NBi.GenbiL.Stateful
     {
         public TestCaseCollectionManager TestCaseCollection { get; private set; }
         public ICollection<string> Templates { get; private set; }
-        public SettingsManager Settings { get; private set; }
+        public SettingsXml Settings { get; private set; }
         public TestListManager List { get; private set; }
         public TestSuiteManager Suite { get; private set; }
         public IDictionary<string, object> Consumables { get; private set; }
@@ -20,7 +21,7 @@ namespace NBi.GenbiL.Stateful
         {
             TestCaseCollection = new TestCaseCollectionManager();
             Templates = new List<string>();
-            Settings = new SettingsManager();
+            Settings = new SettingsXml();
             List = new TestListManager();
             Suite = new TestSuiteManager();
             Consumables = new Dictionary<string, object>();

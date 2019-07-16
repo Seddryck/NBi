@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NBi.GenbiL.Templating.Resources;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -9,7 +10,7 @@ namespace NBi.UI.Genbi.Service
 {
     public class TemplateManager
     {
-        private const string GetTemplateFolder = "NBi.GenbiL.Stateful.Templates.";
+        private string GetTemplateFolder() => typeof(ResourcesFolder).Namespace;
         private const string TEMPLATE_DEFAULT = "ExistsDimension";
         public string Code { get; set; }
 
@@ -28,14 +29,13 @@ namespace NBi.UI.Genbi.Service
 
         public string[] GetEmbeddedLabels()
         {
-            var resources = Assembly.GetExecutingAssembly().GetManifestResourceNames();
-            IEnumerable<string> labels = resources.Where(t => t.StartsWith(GetTemplateFolder) && t.EndsWith(".txt")).ToList();
-            labels = labels.Select(t => t.Replace(GetTemplateFolder, ""));
+            var resources = typeof(ResourcesFolder).Assembly.GetManifestResourceNames();
+            IEnumerable<string> labels = resources.Where(t => t.StartsWith(GetTemplateFolder()) && t.EndsWith(".txt")).ToList();
+            labels = labels.Select(t => t.Replace($"{GetTemplateFolder()}.", ""));
             labels = labels.Select(t => t.Substring(0, t.Length - 4));
             labels = labels.Select(t => SplitCamelCase(t));
             return labels.ToArray();
         }
-
 
         private static string SplitCamelCase(string str)
         {
@@ -58,7 +58,7 @@ namespace NBi.UI.Genbi.Service
         public string GetEmbeddedTemplate(string resourceName)
         {
             var value = string.Empty;           //Template
-            using (var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream($"{GetTemplateFolder}{resourceName}.txt"))
+            using (var stream = typeof(ResourcesFolder).Assembly.GetManifestResourceStream($"{GetTemplateFolder()}.{resourceName}.txt"))
             {
                 if (stream == null)
                     throw new ArgumentOutOfRangeException($"{resourceName}");

@@ -6,5 +6,5 @@ using System.Threading.Tasks;
 
 namespace NBi.GenbiL.Templating.Resources
 {
-    class ResourcesFolder { }
+    public class ResourcesFolder { }
 }

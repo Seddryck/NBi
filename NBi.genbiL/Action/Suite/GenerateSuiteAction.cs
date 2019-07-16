@@ -17,12 +17,11 @@ namespace NBi.GenbiL.Action.Suite
         {
             state.List.Build(
                     state.Templates, 
-                    state.TestCaseCollection.Scope.Variables.ToArray(), 
-                    state.TestCaseCollection.Scope.Content, 
+                    state.TestCaseCollection.CurrentScope.Variables.ToArray(), 
+                    state.TestCaseCollection.CurrentScope.Content, 
                     Grouping,
                     state.Consumables
             );
-            state.Suite.DefineSettings(state.Settings.GetSettings());
             state.Suite.DefineTests(state.List.GetTests());
         }
 

@@ -18,22 +18,19 @@ namespace NBi.Testing.GenbiL.Action.Case
         protected GenerationState BuildInitialState()
         {
             var state = new GenerationState();
-            state.TestCaseCollection.Scope.Content.Columns.Add("firstColumn");
-            state.TestCaseCollection.Scope.Content.Columns.Add("secondColumn");
-            state.TestCaseCollection.Scope.Content.Columns.Add("thirdColumn");
-            state.TestCaseCollection.Scope.Variables.Add("firstColumn");
-            state.TestCaseCollection.Scope.Variables.Add("secondColumn");
-            state.TestCaseCollection.Scope.Variables.Add("thirdColumn");
-            var firstRow = state.TestCaseCollection.Scope.Content.NewRow();
+            state.TestCaseCollection.CurrentScope.Content.Columns.Add("firstColumn");
+            state.TestCaseCollection.CurrentScope.Content.Columns.Add("secondColumn");
+            state.TestCaseCollection.CurrentScope.Content.Columns.Add("thirdColumn");
+            var firstRow = state.TestCaseCollection.CurrentScope.Content.NewRow();
             firstRow[0] = "Cell ";
             firstRow[1] = " secondCell1 ";
             firstRow[2] = " Text";
-            state.TestCaseCollection.Scope.Content.Rows.Add(firstRow);
-            var secondRow = state.TestCaseCollection.Scope.Content.NewRow();
+            state.TestCaseCollection.CurrentScope.Content.Rows.Add(firstRow);
+            var secondRow = state.TestCaseCollection.CurrentScope.Content.NewRow();
             secondRow[0] = "Cell";
             secondRow[1] = "(none)";
             secondRow[2] = "";
-            state.TestCaseCollection.Scope.Content.Rows.Add(secondRow);
+            state.TestCaseCollection.CurrentScope.Content.Rows.Add(secondRow);
 
             return state;
         }
@@ -45,8 +42,8 @@ namespace NBi.Testing.GenbiL.Action.Case
 
             var action = new TrimCaseAction(new string[] { "firstColumn" }, DirectionType.Left);
             action.Execute(state);
-            Assert.That(state.TestCaseCollection.Scope.Content.Rows[0]["firstColumn"], Is.EqualTo("Cell "));
-            Assert.That(state.TestCaseCollection.Scope.Content.Rows[1]["firstColumn"], Is.EqualTo("Cell"));
+            Assert.That(state.TestCaseCollection.CurrentScope.Content.Rows[0]["firstColumn"], Is.EqualTo("Cell "));
+            Assert.That(state.TestCaseCollection.CurrentScope.Content.Rows[1]["firstColumn"], Is.EqualTo("Cell"));
         }
 
         [Test]
@@ -56,8 +53,8 @@ namespace NBi.Testing.GenbiL.Action.Case
 
             var action = new TrimCaseAction(new string[] { "firstColumn" }, DirectionType.Right);
             action.Execute(state);
-            Assert.That(state.TestCaseCollection.Scope.Content.Rows[0]["firstColumn"], Is.EqualTo("Cell"));
-            Assert.That(state.TestCaseCollection.Scope.Content.Rows[1]["firstColumn"], Is.EqualTo("Cell"));
+            Assert.That(state.TestCaseCollection.CurrentScope.Content.Rows[0]["firstColumn"], Is.EqualTo("Cell"));
+            Assert.That(state.TestCaseCollection.CurrentScope.Content.Rows[1]["firstColumn"], Is.EqualTo("Cell"));
         }
 
         [Test]
@@ -67,8 +64,8 @@ namespace NBi.Testing.GenbiL.Action.Case
 
             var action = new TrimCaseAction(new string[] { "secondColumn" }, DirectionType.Both);
             action.Execute(state);
-            Assert.That(state.TestCaseCollection.Scope.Content.Rows[0]["secondColumn"], Is.EqualTo("secondCell1"));
-            Assert.That(state.TestCaseCollection.Scope.Content.Rows[1]["secondColumn"], Is.EqualTo("(none)"));
+            Assert.That(state.TestCaseCollection.CurrentScope.Content.Rows[0]["secondColumn"], Is.EqualTo("secondCell1"));
+            Assert.That(state.TestCaseCollection.CurrentScope.Content.Rows[1]["secondColumn"], Is.EqualTo("(none)"));
         }
 
 
@@ -79,13 +76,13 @@ namespace NBi.Testing.GenbiL.Action.Case
 
             var action = new TrimCaseAction(new string[] {}, DirectionType.Both);
             action.Execute(state);
-            Assert.That(state.TestCaseCollection.Scope.Content.Rows[0]["firstColumn"], Is.EqualTo("Cell"));
-            Assert.That(state.TestCaseCollection.Scope.Content.Rows[0]["secondColumn"], Is.EqualTo("secondCell1"));
-            Assert.That(state.TestCaseCollection.Scope.Content.Rows[0]["thirdColumn"], Is.EqualTo("Text"));
+            Assert.That(state.TestCaseCollection.CurrentScope.Content.Rows[0]["firstColumn"], Is.EqualTo("Cell"));
+            Assert.That(state.TestCaseCollection.CurrentScope.Content.Rows[0]["secondColumn"], Is.EqualTo("secondCell1"));
+            Assert.That(state.TestCaseCollection.CurrentScope.Content.Rows[0]["thirdColumn"], Is.EqualTo("Text"));
 
-            Assert.That(state.TestCaseCollection.Scope.Content.Rows[1]["firstColumn"], Is.EqualTo("Cell"));
-            Assert.That(state.TestCaseCollection.Scope.Content.Rows[1]["secondColumn"], Is.EqualTo("(none)"));
-            Assert.That(state.TestCaseCollection.Scope.Content.Rows[1]["thirdColumn"], Is.EqualTo(""));
+            Assert.That(state.TestCaseCollection.CurrentScope.Content.Rows[1]["firstColumn"], Is.EqualTo("Cell"));
+            Assert.That(state.TestCaseCollection.CurrentScope.Content.Rows[1]["secondColumn"], Is.EqualTo("(none)"));
+            Assert.That(state.TestCaseCollection.CurrentScope.Content.Rows[1]["thirdColumn"], Is.EqualTo(""));
         }
 
 

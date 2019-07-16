@@ -17,23 +17,19 @@ namespace NBi.Testing.GenbiL.Action.Case
         public void Execute_FirstColumn_ColumnRemoved()
         {
             var state = new GenerationState();
-            state.TestCaseCollection.Scope.Content.Columns.Add("firstColumn");
-            state.TestCaseCollection.Scope.Content.Columns.Add("secondColumn");
-            state.TestCaseCollection.Scope.Content.Columns.Add("thirdColumn");
-            var firstRow = state.TestCaseCollection.Scope.Content.NewRow();
-            state.TestCaseCollection.Scope.Variables.Add("firstColumn");
-            state.TestCaseCollection.Scope.Variables.Add("secondColumn");
-            state.TestCaseCollection.Scope.Variables.Add("thirdColumn");
+            state.TestCaseCollection.CurrentScope.Content.Columns.Add("firstColumn");
+            state.TestCaseCollection.CurrentScope.Content.Columns.Add("secondColumn");
+            state.TestCaseCollection.CurrentScope.Content.Columns.Add("thirdColumn");
 
-            var action = new RemoveCaseAction("firstColumn");
+            var action = new RemoveCaseAction(new[] { "firstColumn" });
             action.Execute(state);
-            Assert.That(state.TestCaseCollection.Scope.Content.Columns, Has.Count.EqualTo(2));
+            Assert.That(state.TestCaseCollection.CurrentScope.Content.Columns, Has.Count.EqualTo(2));
         }
 
         [Test]
         public void Display_FirstColumn_CorrectMessage()
         {
-            var action = new RemoveCaseAction("firstColumn");
+            var action = new RemoveCaseAction(new[] { "firstColumn" });
             Assert.That(action.Display, Is.EqualTo("Removing column 'firstColumn'"));
         }
 
@@ -41,30 +37,22 @@ namespace NBi.Testing.GenbiL.Action.Case
         public void Execute_FirstAndThirdColumns_ColumnsRemoved()
         {
             var state = new GenerationState();
-            state.TestCaseCollection.Scope.Content.Columns.Add("firstColumn");
-            state.TestCaseCollection.Scope.Content.Columns.Add("secondColumn");
-            state.TestCaseCollection.Scope.Content.Columns.Add("thirdColumn");
-            var firstRow = state.TestCaseCollection.Scope.Content.NewRow();
-            state.TestCaseCollection.Scope.Variables.Add("firstColumn");
-            state.TestCaseCollection.Scope.Variables.Add("secondColumn");
-            state.TestCaseCollection.Scope.Variables.Add("thirdColumn");
+            state.TestCaseCollection.CurrentScope.Content.Columns.Add("firstColumn");
+            state.TestCaseCollection.CurrentScope.Content.Columns.Add("secondColumn");
+            state.TestCaseCollection.CurrentScope.Content.Columns.Add("thirdColumn");
 
             var action = new RemoveCaseAction(new List<string>() { "firstColumn", "thirdColumn" });
             action.Execute(state);
-            Assert.That(state.TestCaseCollection.Scope.Content.Columns, Has.Count.EqualTo(1));
+            Assert.That(state.TestCaseCollection.CurrentScope.Content.Columns, Has.Count.EqualTo(1));
         }
 
         [Test]
         public void Display_FirstAndThirdColumns_ColumnsRemoved()
         {
             var state = new GenerationState();
-            state.TestCaseCollection.Scope.Content.Columns.Add("firstColumn");
-            state.TestCaseCollection.Scope.Content.Columns.Add("secondColumn");
-            state.TestCaseCollection.Scope.Content.Columns.Add("thirdColumn");
-            var firstRow = state.TestCaseCollection.Scope.Content.NewRow();
-            state.TestCaseCollection.Scope.Variables.Add("firstColumn");
-            state.TestCaseCollection.Scope.Variables.Add("secondColumn");
-            state.TestCaseCollection.Scope.Variables.Add("thirdColumn");
+            state.TestCaseCollection.CurrentScope.Content.Columns.Add("firstColumn");
+            state.TestCaseCollection.CurrentScope.Content.Columns.Add("secondColumn");
+            state.TestCaseCollection.CurrentScope.Content.Columns.Add("thirdColumn");
 
             var action = new RemoveCaseAction(new List<string>() { "firstColumn", "thirdColumn" });
             Assert.That(action.Display, Is.EqualTo("Removing columns 'firstColumn', 'thirdColumn'"));

@@ -543,8 +543,8 @@ namespace NBi.Testing.GenbiL.Parser
 
             Assert.That(result, Is.Not.Null);
             Assert.That(result, Is.InstanceOf<ReduceCaseAction>());
-            Assert.That(((ReduceCaseAction)result).columnNames, Has.Member("foo"));
-            Assert.That(((ReduceCaseAction)result).columnNames, Has.Member("bar"));
+            Assert.That(((ReduceCaseAction)result).ColumnNames, Has.Member("foo"));
+            Assert.That(((ReduceCaseAction)result).ColumnNames, Has.Member("bar"));
         }
 
         [Test]

@@ -20,9 +20,6 @@ namespace NBi.Testing.GenbiL.Action.Case
             alphaCase.Content.Columns.Add("keyColumn");
             alphaCase.Content.Columns.Add("secondColumn");
             alphaCase.Content.Columns.Add("thirdColumn");
-            alphaCase.Variables.Add("keyColumn");
-            alphaCase.Variables.Add("secondColumn");
-            alphaCase.Variables.Add("thirdColumn");
             var firstAlphaRow = alphaCase.Content.NewRow();
             firstAlphaRow[0] = "key1";
             firstAlphaRow[1] = "secondAlphaCell1";
@@ -37,8 +34,6 @@ namespace NBi.Testing.GenbiL.Action.Case
             var betaCase = state.TestCaseCollection.Item("beta");
             betaCase.Content.Columns.Add("keyColumn");
             betaCase.Content.Columns.Add("fifthColumn");
-            betaCase.Variables.Add("keyColumn");
-            betaCase.Variables.Add("fifthColumn");
             var firstBetaRow = betaCase.Content.NewRow();
             firstBetaRow[0] = "key1";
             firstBetaRow[1] = "secondBetaCell1";
@@ -67,9 +62,6 @@ namespace NBi.Testing.GenbiL.Action.Case
             alphaCase.Content.Columns.Add("keyColumn1");
             alphaCase.Content.Columns.Add("keyColumn2");
             alphaCase.Content.Columns.Add("thirdColumn");
-            alphaCase.Variables.Add("keyColumn1");
-            alphaCase.Variables.Add("keyColumn2");
-            alphaCase.Variables.Add("thirdColumn");
             var firstAlphaRow = alphaCase.Content.NewRow();
             firstAlphaRow[0] = "key1";
             firstAlphaRow[1] = "keyA";
@@ -84,8 +76,6 @@ namespace NBi.Testing.GenbiL.Action.Case
             var betaCase = state.TestCaseCollection.Item("beta");
             betaCase.Content.Columns.Add("keyColumn1");
             betaCase.Content.Columns.Add("keyColumn2");
-            betaCase.Variables.Add("keyColumn1");
-            betaCase.Variables.Add("keyColumn2");
             var firstBetaRow = betaCase.Content.NewRow();
             firstBetaRow[0] = "key1";
             firstBetaRow[1] = "keyA";
@@ -115,9 +105,6 @@ namespace NBi.Testing.GenbiL.Action.Case
             alphaCase.Content.Columns.Add("keyColumn1");
             alphaCase.Content.Columns.Add("keyColumn2");
             alphaCase.Content.Columns.Add("thirdColumn");
-            alphaCase.Variables.Add("keyColumn1");
-            alphaCase.Variables.Add("keyColumn2");
-            alphaCase.Variables.Add("thirdColumn");
             var firstAlphaRow = alphaCase.Content.NewRow();
             firstAlphaRow[0] = "key1";
             firstAlphaRow[1] = "keyA";
@@ -132,8 +119,6 @@ namespace NBi.Testing.GenbiL.Action.Case
             var betaCase = state.TestCaseCollection.Item("beta");
             betaCase.Content.Columns.Add("keyColumn1");
             betaCase.Content.Columns.Add("keyColumn2");
-            betaCase.Variables.Add("keyColumn1");
-            betaCase.Variables.Add("keyColumn2");
             var firstBetaRow = betaCase.Content.NewRow();
             firstBetaRow[0] = "key1";
             firstBetaRow[1] = "keyA";

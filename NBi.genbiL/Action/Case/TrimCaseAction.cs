@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace NBi.GenbiL.Action.Case
 {
-    class TrimCaseAction : ICaseAction
+    class TrimCaseAction : ISingleCaseAction
     {
         public IEnumerable<string> ColumnNames { get; private set; }
         public DirectionType Direction { get; private set; }
@@ -18,20 +18,22 @@ namespace NBi.GenbiL.Action.Case
             Direction = direction;
         }
 
-        public void Execute(GenerationState state)
+        public void Execute(GenerationState state) => Execute(state.TestCaseCollection.CurrentScope);
+
+        public void Execute(TestCases testCases)
         {
             var columnNames = ColumnNames;
             if (columnNames == null || columnNames.Count() == 0)
-                columnNames = state.TestCaseCollection.Scope.Variables;
+                columnNames = testCases.Variables;
 
             foreach (var columnName in columnNames)
             {
-                if (!state.TestCaseCollection.Scope.Variables.Contains(columnName))
+                if (!testCases.Variables.Contains(columnName))
                     throw new ArgumentOutOfRangeException($"No column named '{columnName}' has been found.");
 
-                var index = state.TestCaseCollection.Scope.Variables.ToList().FindIndex(v => v == columnName);
+                var index = testCases.Variables.ToList().FindIndex(v => v == columnName);
 
-                foreach (DataRow row in state.TestCaseCollection.Scope.Content.Rows)
+                foreach (DataRow row in testCases.Content.Rows)
                 {
                     if ((string)row[columnName] != "(none)")
                         row[columnName] = Trim((string)row[columnName]);

@@ -179,13 +179,7 @@ namespace NBi.GenbiL.Stateful
 
         }
 
-        public IEnumerable<char> GetCategoryForbiddenChars()
-        {
-            return new List<char>()
-            {
-                '+', '-'
-            };
-        }
+        public IEnumerable<char> GetCategoryForbiddenChars() => new List<char>() { '+', '-' };
 
         public IEnumerable<string> GetExistingCategories()
         {

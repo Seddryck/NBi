@@ -4,7 +4,7 @@ using NBi.GenbiL.Stateful;
 
 namespace NBi.GenbiL.Action.Case
 {
-    public class ScopeCaseAction : ICaseAction
+    public class ScopeCaseAction : IMultiCaseAction
     {
         public string Name { get; set; }
         
@@ -17,12 +17,6 @@ namespace NBi.GenbiL.Action.Case
             state.TestCaseCollection.SetFocus(Name);
         }
 
-        public virtual string Display
-        {
-            get
-            {
-                return string.Format("Focussing on test cases set named '{0}'", Name);
-            }
-        }
+        public virtual string Display => $"Focussing on test cases set named '{Name}'";
     }
 }

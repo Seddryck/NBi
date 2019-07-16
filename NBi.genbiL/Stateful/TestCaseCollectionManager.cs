@@ -9,7 +9,7 @@ namespace NBi.GenbiL.Stateful
 {
     public class TestCaseCollectionManager 
     {
-        private Dictionary<string, TestCaseManager> dico;
+        private readonly Dictionary<string, TestCases> dico;
         private string scope;
         private const string NO_NAME = "_noname";
         public string CurrentScopeName
@@ -22,17 +22,17 @@ namespace NBi.GenbiL.Stateful
 
         public TestCaseCollectionManager()
         {
-            dico = new Dictionary<string, TestCaseManager>();
+            dico = new Dictionary<string, TestCases>();
             connectionStrings = new Dictionary<string, string>();
         }
 
-        public TestCaseManager Item(string name)
+        public TestCases Item(string name)
         {
             if (string.IsNullOrEmpty(name))
                 name = NO_NAME;
 
             if (!dico.Keys.Contains(name))
-                dico.Add(name, new TestCaseManager());
+                dico.Add(name, new TestCases());
 
             if (dico.Count == 1)
                 scope = name;
@@ -65,18 +65,12 @@ namespace NBi.GenbiL.Stateful
             }
         }
 
-        public TestCaseManager Scope
-        {
-            get
-            {
-                return Item(scope);
-            }
-        }
+        public TestCases CurrentScope => Item(scope);
 
         public void SetFocus(string name)
         {
             if (!dico.Keys.Contains(name))
-                dico.Add(name, new TestCaseManager());
+                dico.Add(name, new TestCases());
             
             scope = name;
         }

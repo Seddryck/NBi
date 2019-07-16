@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace NBi.GenbiL.Action.Case
 {
-    abstract class CrossCaseAction : ICaseAction
+    abstract class CrossCaseAction : IMultiCaseAction
     {
         public string FirstSet { get; private set; }
         public string SecondSet { get; private set; }
@@ -32,13 +32,13 @@ namespace NBi.GenbiL.Action.Case
             Cross(
                 state.TestCaseCollection.Item(FirstSet).Content,
                 state.TestCaseCollection.Item(SecondSet).Content,
-                state.TestCaseCollection.Scope,
+                state.TestCaseCollection.CurrentScope,
                 MatchingRow);
         }
 
         public abstract bool MatchingRow(DataRow first, DataRow second);
 
-        protected void Cross(DataTable first, DataTable second, TestCaseManager scope, Func<DataRow, DataRow, bool> matchingRow)
+        protected void Cross(DataTable first, DataTable second, TestCases destination, Func<DataRow, DataRow, bool> matchingRow)
         {
             var table = BuildStructure(first, second);
 
@@ -59,12 +59,9 @@ namespace NBi.GenbiL.Action.Case
             }
 
             var dataReader = table.CreateDataReader();
-            scope.Content.Clear();
-            scope.Content.Load(dataReader, LoadOption.PreserveChanges);
-            scope.Content.AcceptChanges();
-            scope.Variables.Clear();
-            foreach (DataColumn column in scope.Content.Columns)
-                scope.Variables.Add(column.ColumnName);
+            destination.Content.Clear();
+            destination.Content.Load(dataReader, LoadOption.PreserveChanges);
+            destination.Content.AcceptChanges();
         }
 
         private DataTable BuildStructure(DataTable firstSet, DataTable secondSet)

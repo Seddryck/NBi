@@ -23,22 +23,15 @@ namespace NBi.GenbiL.Action.Setting
             if (Variable.ToLower() != "ConnectionString".ToLower())
                 throw new ArgumentException("Currently you must define the variable as ConnectionString. Other options are not supported!");
             
-            if (state.Settings.Exists(Name))
-                state.Settings.SetValue(Name, Value);
-            else
-                state.Settings.Add(Name, Value);
+            var newReference = state.Settings.References.SingleOrDefault(d => d.Name == Name);
+            if (newReference == null)
+            {
+                newReference = new ReferenceXml() { Name = Name };
+                state.Settings.References.Add(newReference);
+            }
+            newReference.ConnectionString = new ConnectionStringXml() { Inline = Value };
         }
 
-        public string Display
-        {
-            get
-            {
-                return string.Format("Create reference named '{0}' with value for {1} and defining it to '{2}'"
-                    , Name
-                    , Variable
-                    , Value
-                    );
-            }
-        }
+        public string Display => $"Create reference named 'Name' with value for {Variable} and defining it to '{Value}'";
     }
 }

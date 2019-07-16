@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Windows.Forms;
-using NBi.Service.Dto;
+using NBi.GenbiL.Stateful;
 
 namespace NBi.UI.Genbi.View.TestSuiteGenerator
 {

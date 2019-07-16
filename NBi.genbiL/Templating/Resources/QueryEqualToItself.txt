@@ -1,0 +1,25 @@
+﻿<test name="Compare '$measure$' exposed by '$hierarchy$'">
+	<description>Check if the same query executed on two instances of the cube have the same result. Specifically, for measure '$measure$' by dimension/hierarchy '$dimension$/$hierarchy$' through perspective '$perspective$'</description>
+	<edition author="$username$" created="$now$"/>
+	<category>$measure$</category>
+	<category>$dimension$</category>
+	<category>$hierarchy$</category>
+	<system-under-test>
+		<execution>	
+			<query>
+				<![CDATA[
+				select [Measures].[$measure$] on 0, [$dimension$].[$hierarchy$].Children on 1 from [$perspective$]
+				]]>
+			</query>
+		</execution>	
+	</system-under-test>
+	<assert>
+		<equalTo>
+			<query>
+				<![CDATA[
+				select [Measures].[$measure$] on 0, [$dimension$].[$hierarchy$].Children on 1 from [$perspective$]
+				]]>
+			</query>
+		</equalTo>
+	</assert>
+</test>

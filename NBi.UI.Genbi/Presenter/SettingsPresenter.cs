@@ -1,11 +1,9 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Linq;
-using NBi.Service;
-using NBi.Service.Dto;
+using NBi.GenbiL.Stateful;
 using NBi.UI.Genbi.Command;
 using NBi.UI.Genbi.Command.Settings;
-using NBi.UI.Genbi.Interface;
 using NBi.UI.Genbi.View.TestSuiteGenerator;
 
 namespace NBi.UI.Genbi.Presenter
@@ -126,12 +124,7 @@ namespace NBi.UI.Genbi.Presenter
 
         public event EventHandler<EventArgs> ListUpdated;  
  
-        public void OnListUpdated(EventArgs e)
-        {
-            EventHandler<EventArgs> handler = ListUpdated;
-            if (handler != null)
-                handler(this, e);
-        }
+        public void OnListUpdated(EventArgs e) => ListUpdated?.Invoke(this, e);
 
 
         internal void Refresh()

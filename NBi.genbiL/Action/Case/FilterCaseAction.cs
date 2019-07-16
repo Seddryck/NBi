@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Linq;
-using NBi.Service;
+using NBi.GenbiL.Stateful;
 using System.Collections.Generic;
 
 namespace NBi.GenbiL.Action.Case

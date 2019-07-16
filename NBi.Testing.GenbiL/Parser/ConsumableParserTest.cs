@@ -2,7 +2,6 @@
 using System.Linq;
 using NBi.GenbiL.Action.Consumable;
 using NBi.GenbiL.Parser;
-using NBi.Service;
 using NUnit.Framework;
 using Sprache;
 

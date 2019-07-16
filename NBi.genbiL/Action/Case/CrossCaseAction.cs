@@ -1,4 +1,4 @@
-﻿using NBi.Service;
+﻿using NBi.GenbiL.Stateful;
 using System;
 using System.Collections.Generic;
 using System.Data;

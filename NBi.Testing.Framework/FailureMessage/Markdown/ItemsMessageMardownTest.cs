@@ -49,9 +49,7 @@ namespace NBi.Testing.Framework.FailureMessage.Markdown
 
         public void RenderExpected_OneRow_ReturnCorrectNumberOfRowsOnTopWithoutPlurial()
         {
-            var list = new List<string>();
-            list.Add("Item 01");
-
+            var list = new List<string>() { "Item 01" };
 
             var factory = new SamplersFactory<string>();
             var samplers = factory.Instantiate(FailureReportProfile.Default);

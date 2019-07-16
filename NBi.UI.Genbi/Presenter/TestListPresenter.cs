@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Linq;
-using NBi.Service;
-using NBi.Service.Dto;
+using NBi.GenbiL.Stateful;
 using NBi.UI.Genbi.Command;
 using NBi.UI.Genbi.Command.Test;
 using NBi.UI.Genbi.Command.TestsXml;
 using NBi.UI.Genbi.Stateful;
 using NBi.UI.Genbi.View.TestSuiteGenerator;
+using NBi.GenbiL.Templating;
 
 namespace NBi.UI.Genbi.Presenter
 {

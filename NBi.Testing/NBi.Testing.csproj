@@ -254,19 +254,15 @@
     <Compile Include="Unit\NUnit\Query\SyntacticallyCorrectConstraintTest.cs" />
     <Compile Include="Unit\NUnit\ResultSetComparison\EqualToConstraintTest.cs" />
     <Compile Include="Properties\ProjectAssemblyInfo.cs" />
-    <Compile Include="Unit\Service\RunnerConfig\GallioRunnerConfigBuilderTest.cs" />
-    <Compile Include="Unit\Service\RunnerConfig\NUnitRunnerConfigBuilderTest.cs" />
-    <Compile Include="Unit\Service\RunnerConfig\RunnerConfigManagerTest.cs" />
-    <Compile Include="Unit\Service\StringTemplateEngineTest.cs" />
-    <Compile Include="Unit\Service\TestCaseCollectionManagerTest.cs" />
-    <Compile Include="Unit\Service\TestCaseManagerTest.cs" />
+    <Compile Include="Unit\UI\RunnerConfig\GallioRunnerConfigBuilderTest.cs" />
+    <Compile Include="Unit\UI\RunnerConfig\NUnitRunnerConfigBuilderTest.cs" />
+    <Compile Include="Unit\UI\RunnerConfig\RunnerConfigManagerTest.cs" />
     <Compile Include="Unit\NUnit\TestCaseFactoryTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Integration\Core\Analysis\Query\" />
     <Folder Include="Integration\Core\Etl\" />
     <Folder Include="Integration\Core\ResultSet\" />
-    <Folder Include="Integration\NUnit\Builder\" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Acceptance\Resources\Csv\ResellerOrderCountByYearBefore2006.csv">
@@ -587,8 +583,6 @@
     <None Include="Integration\GenbiL\Resources\action.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <EmbeddedResource Include="Unit\Service\Resources\OrderedLight.nbitt" />
-    <EmbeddedResource Include="Unit\Service\Resources\OrderedFull.nbitt" />
     <None Include="Integration\NUnit\Runtime\Embed\Resources\SmallTestSuite.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>
@@ -691,9 +685,9 @@
       <Project>{66314704-aa76-4153-80d8-ca2c5ff06976}</Project>
       <Name>NBi.NUnit</Name>
     </ProjectReference>
-    <ProjectReference Include="..\NBi.Services\NBi.Service.csproj">
-      <Project>{a9c7e50a-1d3d-4c6d-9c56-8ea8925fe2d6}</Project>
-      <Name>NBi.Service</Name>
+    <ProjectReference Include="..\NBi.UI.Genbi\NBi.UI.Genbi.csproj">
+      <Project>{28b43c12-c599-49cd-b712-92b5590a6f20}</Project>
+      <Name>NBi.UI.Genbi</Name>
     </ProjectReference>
     <ProjectReference Include="..\NBi.Xml\NBi.Xml.csproj">
       <Project>{3a9822b3-cce4-441b-9c3e-d52817a994ca}</Project>

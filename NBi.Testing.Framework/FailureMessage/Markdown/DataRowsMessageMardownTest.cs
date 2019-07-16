@@ -21,7 +21,6 @@ namespace NBi.Testing.Framework.FailureMessage.Markdown
         #region Helpers
         private IEnumerable<DataRow> GetDataRows(int count)
         {
-            var dataSet = new DataSet();
             var dataTable = new DataTable() { TableName = "MyTable" };
             dataTable.Columns.Add(new DataColumn("Id"));
             dataTable.Columns.Add(new DataColumn("Numeric value"));
@@ -36,7 +35,6 @@ namespace NBi.Testing.Framework.FailureMessage.Markdown
         [Test]
         public void RenderExpected_MoreThanMaxRowsCount_ReturnCorrectNumberOfRowsOnTop()
         {
-            var dataSet = new DataSet();
             var dataTable = new DataTable() { TableName = "MyTable" };
             dataTable.Columns.Add(new DataColumn("Id"));
             dataTable.Columns.Add(new DataColumn("Numeric value"));
@@ -56,7 +54,6 @@ namespace NBi.Testing.Framework.FailureMessage.Markdown
         [Test]
         public void RenderExpected_OneRow_ReturnCorrectNumberOfRowsOnTopWithoutPlurial()
         {
-            var dataSet = new DataSet();
             var dataTable = new DataTable() { TableName = "MyTable" };
             dataTable.Columns.Add(new DataColumn("Id"));
             dataTable.Columns.Add(new DataColumn("Numeric value"));
@@ -235,7 +232,6 @@ namespace NBi.Testing.Framework.FailureMessage.Markdown
         [Test]
         public void RenderExpected_MoreThanMaxRowsCount_ReturnCorrectCountOfSkippedRow()
         {
-            var dataSet = new DataSet();
             var dataTable = new DataTable() { TableName = "MyTable" };
             dataTable.Columns.Add(new DataColumn("Id"));
             dataTable.Columns.Add(new DataColumn("Numeric value"));
@@ -259,7 +255,6 @@ namespace NBi.Testing.Framework.FailureMessage.Markdown
         [TestCase(12)]
         public void RenderExpected_LessThanMaxRowsCount_DoesntDisplaySkippedRow(int rowCount)
         {
-            var dataSet = new DataSet();
             var dataTable = new DataTable() { TableName = "MyTable" };
             dataTable.Columns.Add(new DataColumn("Id"));
             dataTable.Columns.Add(new DataColumn("Numeric value"));

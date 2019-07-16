@@ -4,10 +4,11 @@ using System.ComponentModel;
 using System.Data;
 using System.Linq;
 using NBi.GenbiL.Action.Case;
-using NBi.Service;
+using NBi.GenbiL.Stateful;
 using NBi.UI.Genbi.Command;
 using NBi.UI.Genbi.Command.TestCases;
 using NBi.UI.Genbi.View.TestSuiteGenerator;
+using NBi.GenbiL.Action;
 
 namespace NBi.UI.Genbi.Presenter
 {

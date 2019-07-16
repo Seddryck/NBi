@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using NBi.Service;
+using NBi.GenbiL.Stateful;
 using NBi.GenbiL.Action.Consumable;
 using NBi.Core.Variable;
 using NBi.Xml.Variables;

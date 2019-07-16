@@ -17,16 +17,16 @@ namespace NBi.Testing.GenbiL.Action.Variable
     {
         public class IncludeVariableActionTestable : IncludeVariableAction
         {
-            private Stream stream;
+            private Stream Stream { get; }
             public IncludeVariableActionTestable(Stream stream)
                 : base("memoryStream.io")
             {
-                this.stream = stream;
+                Stream = stream;
             }
 
             protected override IEnumerable<GlobalVariableXml> ReadXml(string filename)
             {
-                return ReadXml(stream);
+                return ReadXml(Stream);
             }
         }
 

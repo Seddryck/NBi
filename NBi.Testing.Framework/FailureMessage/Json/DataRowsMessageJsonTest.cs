@@ -21,7 +21,6 @@ namespace NBi.Testing.Framework.FailureMessage.Json
         #region Helpers
         private IEnumerable<DataRow> GetDataRows(int count)
         {
-            var dataSet = new DataSet();
             var dataTable = new DataTable() { TableName = "MyTable" };
             dataTable.Columns.Add(new DataColumn("Id"));
             dataTable.Columns.Add(new DataColumn("Numeric value"));
@@ -36,7 +35,6 @@ namespace NBi.Testing.Framework.FailureMessage.Json
         [Test]
         public void RenderExpected_MoreThanMaxRowsCount_ReturnCorrectNumberOfRowsOnTop()
         {
-            var dataSet = new DataSet();
             var dataTable = new DataTable() { TableName = "MyTable" };
             dataTable.Columns.Add(new DataColumn("Id"));
             dataTable.Columns.Add(new DataColumn("Numeric value"));

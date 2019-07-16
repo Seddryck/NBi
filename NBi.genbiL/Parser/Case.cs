@@ -2,7 +2,7 @@
 using System.Linq;
 using NBi.GenbiL.Action;
 using NBi.GenbiL.Action.Case;
-using NBi.Service;
+using NBi.GenbiL.Stateful;
 using Sprache;
 
 namespace NBi.GenbiL.Parser

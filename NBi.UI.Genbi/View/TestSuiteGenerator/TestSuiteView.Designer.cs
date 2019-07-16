@@ -299,7 +299,7 @@
             this.generateToolStripMenuItem1.Name = "generateToolStripMenuItem1";
             this.generateToolStripMenuItem1.Size = new System.Drawing.Size(121, 22);
             this.generateToolStripMenuItem1.Text = "Generate";
-            this.generateToolStripMenuItem1.Click += new System.EventHandler(this.generateToolStripMenuItem1_Click);
+            this.generateToolStripMenuItem1.Click += new System.EventHandler(this.GenerateToolStripMenuItem1_Click);
             // 
             // helpToolStripMenuItem
             // 

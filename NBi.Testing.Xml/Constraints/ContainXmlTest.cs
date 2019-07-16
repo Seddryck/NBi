@@ -5,7 +5,6 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Xml.Serialization;
-using NBi.Service;
 using NBi.Xml;
 using NBi.Xml.Constraints;
 using NUnit.Framework;
@@ -97,19 +96,6 @@ namespace NBi.Testing.Xml.Unit.Constraints
             Assert.That(content, Does.Not.Contain("caption"));
             Assert.That(content, Does.Contain("<item>"));
             Assert.That(content, Does.Contain("myMember"));
-        }
-
-        [Test]
-        public void ReSerialize_ContainWithCaption_ContainItems()
-        {
-            var template = "<test><system-under-test><members><level/></members></system-under-test><assert><contain caption=\"$member$\"/></assert></test>";
-            var engine = new StringTemplateEngine(template, new string[] { "member" });
-            var list = new List<List<List<object>>>() { new List<List<object>>() { new List<object>() { "myMember" } } };
-            var tests = engine.Build(list, null);
-            var content = tests.ElementAt(0).Content;
-            Assert.That(content, Does.Contain("<item>"));
-            Assert.That(content, Does.Contain("myMember"));
-            Assert.That(content, Does.Not.Contain("caption"));
         }
     }
 }

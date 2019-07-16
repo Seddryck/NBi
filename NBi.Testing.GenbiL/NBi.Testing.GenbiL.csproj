@@ -96,6 +96,9 @@
     <Compile Include="Parser\TemplateParserTest.cs" />
     <Compile Include="Parser\VariableParserTest.cs" />
     <Compile Include="Properties\ProjectAssemblyInfo.cs" />
+    <Compile Include="Stateful\TestCaseCollectionManagerTest.cs" />
+    <Compile Include="Stateful\TestCaseManagerTest.cs" />
+    <Compile Include="Templating\StringTemplateEngineTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NBi.Core\NBi.Core.csproj">
@@ -106,10 +109,6 @@
       <Project>{dfb8aa0e-a144-49e3-976b-ad03bf2a55e7}</Project>
       <Name>NBi.GenbiL</Name>
     </ProjectReference>
-    <ProjectReference Include="..\NBi.Services\NBi.Service.csproj">
-      <Project>{a9c7e50a-1d3d-4c6d-9c56-8ea8925fe2d6}</Project>
-      <Name>NBi.Service</Name>
-    </ProjectReference>
     <ProjectReference Include="..\NBi.Xml\NBi.Xml.csproj">
       <Project>{3a9822b3-cce4-441b-9c3e-d52817a994ca}</Project>
       <Name>NBi.Xml</Name>
@@ -117,6 +116,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <EmbeddedResource Include="Templating\Resources\OrderedFull.nbitt" />
+    <EmbeddedResource Include="Templating\Resources\OrderedLight.nbitt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

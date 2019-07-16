@@ -3,13 +3,14 @@ using System.Linq;
 using NBi.GenbiL.Action.Case;
 using System.IO;
 using System.Reflection;
-using NBi.Service;
+using NBi.GenbiL.Stateful;
+using NBi.GenbiL.Templating.Resources;
 
 namespace NBi.GenbiL.Action.Template
 {
     public class AddEmbeddedTemplateAction : ITemplateAction
     {
-        private const string TEMPLATE_DIRECTORY = "NBi.Service.Templates.";
+        private string GetTemplatesPath() => $"{typeof(ResourcesFolder).Namespace}";
 
         public string Filename { get; set; }
         public AddEmbeddedTemplateAction(string filename)
@@ -28,10 +29,10 @@ namespace NBi.GenbiL.Action.Template
             if (Filename.StartsWith("SubsetOf"))
                 Filename = Filename.Replace("SubsetOf", "ContainedIn");
 
-            using (var stream = assembly.GetManifestResourceStream($"{TEMPLATE_DIRECTORY}{Filename}.txt"))
+            using (var stream = assembly.GetManifestResourceStream($"{GetTemplatesPath()}.{Filename}.txt"))
             {
                 if (stream == null)
-                    throw new ArgumentOutOfRangeException($"{TEMPLATE_DIRECTORY}{Filename}.txt");
+                    throw new ArgumentOutOfRangeException($"{GetTemplatesPath()}.{Filename}.txt");
                 using (var reader = new StreamReader(stream))
                     state.Templates.Add(reader.ReadToEnd());
             }

@@ -258,6 +258,7 @@
     <Compile Include="Unit\UI\RunnerConfig\NUnitRunnerConfigBuilderTest.cs" />
     <Compile Include="Unit\UI\RunnerConfig\RunnerConfigManagerTest.cs" />
     <Compile Include="Unit\NUnit\TestCaseFactoryTest.cs" />
+    <Compile Include="Unit\UI\Service\TestCaseCollectionManagerTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Integration\Core\Analysis\Query\" />

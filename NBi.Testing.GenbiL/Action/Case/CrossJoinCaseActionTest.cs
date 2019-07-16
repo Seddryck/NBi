@@ -16,7 +16,7 @@ namespace NBi.Testing.GenbiL.Action.Case
         public void Cross_ThreeTimesTwoWithOneCommonColumnName_SixRowsFourColumns()
         {
             var state = new GenerationState();
-            var alphaCase = state.TestCaseCollection.Item("alpha");
+            var alphaCase = new CaseSet();
             alphaCase.Content.Columns.Add("keyColumn");
             alphaCase.Content.Columns.Add("secondColumn");
             alphaCase.Content.Columns.Add("thirdColumn");
@@ -30,8 +30,9 @@ namespace NBi.Testing.GenbiL.Action.Case
             secondAlphaRow[1] = "secondAlphaCell2";
             secondAlphaRow[2] = "thirdAlphaCell2";
             alphaCase.Content.Rows.Add(secondAlphaRow);
+            state.CaseCollection.Add("alpha", alphaCase);
 
-            var betaCase = state.TestCaseCollection.Item("beta");
+            var betaCase = new CaseSet();
             betaCase.Content.Columns.Add("keyColumn");
             betaCase.Content.Columns.Add("fifthColumn");
             var firstBetaRow = betaCase.Content.NewRow();
@@ -46,6 +47,8 @@ namespace NBi.Testing.GenbiL.Action.Case
             thirdBetaRow[0] = "key2";
             thirdBetaRow[1] = "secondBetaCell3";
             betaCase.Content.Rows.Add(thirdBetaRow);
+            state.CaseCollection.Add("beta", betaCase);
+            state.CaseCollection.CurrentScopeName = "alpha";
 
             var action = new CrossJoinCaseAction("alpha", "beta", new[] { "keyColumn" });
             action.Execute(state);
@@ -58,7 +61,7 @@ namespace NBi.Testing.GenbiL.Action.Case
         public void Cross_ThreeTimesTwoWithTwoCommonColumnNames_ThreeRowsThreeColumns()
         {
             var state = new GenerationState();
-            var alphaCase = state.TestCaseCollection.Item("alpha");
+            var alphaCase = new CaseSet();
             alphaCase.Content.Columns.Add("keyColumn1");
             alphaCase.Content.Columns.Add("keyColumn2");
             alphaCase.Content.Columns.Add("thirdColumn");
@@ -72,8 +75,9 @@ namespace NBi.Testing.GenbiL.Action.Case
             secondAlphaRow[1] = "keyB";
             secondAlphaRow[2] = "thirdAlphaCell2";
             alphaCase.Content.Rows.Add(secondAlphaRow);
+            state.CaseCollection.Add("alpha", alphaCase);
 
-            var betaCase = state.TestCaseCollection.Item("beta");
+            var betaCase = new CaseSet();
             betaCase.Content.Columns.Add("keyColumn1");
             betaCase.Content.Columns.Add("keyColumn2");
             var firstBetaRow = betaCase.Content.NewRow();
@@ -88,6 +92,8 @@ namespace NBi.Testing.GenbiL.Action.Case
             thirdBetaRow[0] = "key2";
             thirdBetaRow[1] = "keyB";
             betaCase.Content.Rows.Add(thirdBetaRow);
+            state.CaseCollection.Add("beta", betaCase);
+            state.CaseCollection.CurrentScopeName = "alpha";
 
             var action = new CrossJoinCaseAction("alpha", "beta", new[] { "keyColumn1", "keyColumn2" });
             action.Execute(state);
@@ -101,7 +107,7 @@ namespace NBi.Testing.GenbiL.Action.Case
         public void Cross_MissingMatch_LessRows()
         {
             var state = new GenerationState();
-            var alphaCase = state.TestCaseCollection.Item("alpha");
+            var alphaCase = new CaseSet();
             alphaCase.Content.Columns.Add("keyColumn1");
             alphaCase.Content.Columns.Add("keyColumn2");
             alphaCase.Content.Columns.Add("thirdColumn");
@@ -115,8 +121,9 @@ namespace NBi.Testing.GenbiL.Action.Case
             secondAlphaRow[1] = "keyB";
             secondAlphaRow[2] = "thirdAlphaCell2";
             alphaCase.Content.Rows.Add(secondAlphaRow);
+            state.CaseCollection.Add("alpha", alphaCase);
 
-            var betaCase = state.TestCaseCollection.Item("beta");
+            var betaCase = new CaseSet();
             betaCase.Content.Columns.Add("keyColumn1");
             betaCase.Content.Columns.Add("keyColumn2");
             var firstBetaRow = betaCase.Content.NewRow();
@@ -131,6 +138,8 @@ namespace NBi.Testing.GenbiL.Action.Case
             thirdBetaRow[0] = "key2";
             thirdBetaRow[1] = "keyB";
             betaCase.Content.Rows.Add(thirdBetaRow);
+            state.CaseCollection.Add("beta", betaCase);
+            state.CaseCollection.CurrentScopeName = "beta";
 
             var action = new CrossJoinCaseAction("alpha", "beta", new[] { "keyColumn1", "keyColumn2" });
             action.Execute(state);

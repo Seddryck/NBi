@@ -16,12 +16,12 @@ namespace NBi.Testing.GenbiL.Action.Suite
         protected GenerationState BuildInitialState(object obj)
         {
             var state = new GenerationState();
-            state.TestCaseCollection.CurrentScope.Content.Columns.Add("one");
-            state.TestCaseCollection.CurrentScope.Content.Columns.Add("two", typeof(object));
-            var firstRow = state.TestCaseCollection.CurrentScope.Content.NewRow();
+            state.CaseCollection.CurrentScope.Content.Columns.Add("one");
+            state.CaseCollection.CurrentScope.Content.Columns.Add("two", typeof(object));
+            var firstRow = state.CaseCollection.CurrentScope.Content.NewRow();
             firstRow[0] = "a";
             firstRow[1] = obj;
-            state.TestCaseCollection.CurrentScope.Content.Rows.Add(firstRow);
+            state.CaseCollection.CurrentScope.Content.Rows.Add(firstRow);
             state.Templates.Add("<test name='$one$ + $two$'/>");
             return state;
         }
@@ -66,7 +66,7 @@ namespace NBi.Testing.GenbiL.Action.Suite
         public void Execute_EmptyDataTable_Rendered()
         {
             var state = BuildInitialState("b");
-            state.TestCaseCollection.CurrentScope.Content.Rows.Clear();
+            state.CaseCollection.CurrentScope.Content.Rows.Clear();
             var action = new GenerateSuiteAction(false);
             action.Execute(state);
 

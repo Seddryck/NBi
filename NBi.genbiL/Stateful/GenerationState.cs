@@ -9,17 +9,17 @@ namespace NBi.GenbiL.Stateful
 {
     public class GenerationState
     {
-        public TestCaseCollectionManager TestCaseCollection { get; private set; }
-        public ICollection<string> Templates { get; private set; }
-        public SettingsXml Settings { get; private set; }
-        public TestListManager List { get; private set; }
-        public TestSuiteManager Suite { get; private set; }
-        public IDictionary<string, object> Consumables { get; private set; }
-        public IDictionary<string, GlobalVariableXml> Variables { get; private set; }
+        public CaseCollection CaseCollection { get; }
+        public ICollection<string> Templates { get; }
+        public SettingsXml Settings { get; }
+        public TestListManager List { get; }
+        public TestSuiteManager Suite { get; }
+        public IDictionary<string, object> Consumables { get; }
+        public IDictionary<string, GlobalVariableXml> Variables { get; }
 
         public GenerationState()
         {
-            TestCaseCollection = new TestCaseCollectionManager();
+            CaseCollection = new CaseCollection();
             Templates = new List<string>();
             Settings = new SettingsXml();
             List = new TestListManager();

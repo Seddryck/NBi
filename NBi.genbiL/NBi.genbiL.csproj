@@ -129,6 +129,7 @@
     <Compile Include="Action\Setting\ReferenceAction.cs" />
     <Compile Include="Action\Suite\GenerateSuiteAction.cs" />
     <Compile Include="Action\Template\LoadEmbeddedTemplateAction.cs" />
+    <Compile Include="Stateful\CaseCollection.cs" />
     <Compile Include="Stateful\GenerationState.cs" />
     <Compile Include="Action\Case\LoadCaseFromFileAction.cs" />
     <Compile Include="Action\LoadType.cs" />
@@ -142,8 +143,7 @@
     <Compile Include="Properties\ProjectAssemblyInfo.cs" />
     <Compile Include="Stateful\Setting.cs" />
     <Compile Include="Stateful\Test.cs" />
-    <Compile Include="Stateful\TestCaseCollectionManager.cs" />
-    <Compile Include="Stateful\TestCases.cs" />
+    <Compile Include="Stateful\CaseSet.cs" />
     <Compile Include="Stateful\TestListManager.cs" />
     <Compile Include="Stateful\TestSuiteManager.cs" />
     <Compile Include="Templating\ExpectedVariableNotFoundException.cs" />

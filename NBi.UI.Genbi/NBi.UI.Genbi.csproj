@@ -155,6 +155,7 @@
     <Compile Include="RunnerConfig\RunnerConfigManager.cs" />
     <Compile Include="Service\SettingsManager.cs" />
     <Compile Include="Service\TemplateManager.cs" />
+    <Compile Include="Service\TestCaseCollectionManager.cs" />
     <Compile Include="Stateful\LargeBindingList.cs" />
     <Compile Include="Stateful\TestListGenerationResult.cs" />
     <Compile Include="Presenter\TestListPresenter.cs" />

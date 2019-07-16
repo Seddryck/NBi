@@ -23,22 +23,22 @@ namespace NBi.GenbiL.Action.Case
 
         public virtual void Execute(GenerationState state)
         {
-            if (!state.TestCaseCollection.ItemExists(FirstSet))
+            if (!state.CaseCollection.ContainsKey(FirstSet))
                 throw new ArgumentException($"The test case set named '{FirstSet}' doesn't exist.", nameof(FirstSet));
 
-            if (!state.TestCaseCollection.ItemExists(SecondSet))
+            if (!state.CaseCollection.ContainsKey(SecondSet))
                 throw new ArgumentException($"The test case set named '{SecondSet}' doesn't exist.", nameof(SecondSet));
 
             Cross(
-                state.TestCaseCollection.Item(FirstSet).Content,
-                state.TestCaseCollection.Item(SecondSet).Content,
-                state.TestCaseCollection.CurrentScope,
+                state.CaseCollection[FirstSet].Content,
+                state.CaseCollection[SecondSet].Content,
+                state.CaseCollection.CurrentScope,
                 MatchingRow);
         }
 
         public abstract bool MatchingRow(DataRow first, DataRow second);
 
-        protected void Cross(DataTable first, DataTable second, TestCases destination, Func<DataRow, DataRow, bool> matchingRow)
+        protected void Cross(DataTable first, DataTable second, CaseSet destination, Func<DataRow, DataRow, bool> matchingRow)
         {
             var table = BuildStructure(first, second);
 

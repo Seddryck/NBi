@@ -28,7 +28,7 @@ namespace NBi.GenbiL.Action.Case
             Negation = negation;
         }
 
-        public override void Execute(TestCases testCases)
+        public override void Execute(CaseSet testCases)
         {
             if (Values==null || Values.Count()==0)
                 Replace(testCases, Column, NewValue);
@@ -36,7 +36,7 @@ namespace NBi.GenbiL.Action.Case
                 Replace(testCases, Column, NewValue, Operator, Negation, Values);
         }
 
-        public void Replace(TestCases testCases, string columnName, string newValue)
+        public void Replace(CaseSet testCases, string columnName, string newValue)
         {
             if (!testCases.Variables.Contains(columnName))
                 throw new ArgumentException($"No column named '{columnName}' has been found.");
@@ -49,7 +49,7 @@ namespace NBi.GenbiL.Action.Case
             testCases.Content.AcceptChanges();
         }
 
-        public void Replace(TestCases testCases, string columnName, string newValue, OperatorType @operator, bool negation, IEnumerable<string> values)
+        public void Replace(CaseSet testCases, string columnName, string newValue, OperatorType @operator, bool negation, IEnumerable<string> values)
         {
             if (!testCases.Variables.Contains(columnName))
                 throw new ArgumentException($"No column named '{columnName}' has been found.");

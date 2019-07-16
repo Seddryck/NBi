@@ -19,9 +19,9 @@ namespace NBi.GenbiL.Action.Case
             ConnectionString = connectionString;
         }
 
-        public void Execute(GenerationState state) => Execute(state.TestCaseCollection.CurrentScope);
+        public void Execute(GenerationState state) => Execute(state.CaseCollection.CurrentScope);
 
-        public virtual void Execute(TestCases testCases)
+        public virtual void Execute(CaseSet testCases)
         {
             var queryEngineFactory = new ExecutionEngineFactory();
             var queryEngine = queryEngineFactory.Instantiate(new Query(Query, ConnectionString));

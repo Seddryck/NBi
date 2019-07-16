@@ -18,9 +18,9 @@ namespace NBi.GenbiL.Action.Case
             Direction = direction;
         }
 
-        public void Execute(GenerationState state) => Execute(state.TestCaseCollection.CurrentScope);
+        public void Execute(GenerationState state) => Execute(state.CaseCollection.CurrentScope);
 
-        public void Execute(TestCases testCases)
+        public void Execute(CaseSet testCases)
         {
             var columnNames = ColumnNames;
             if (columnNames == null || columnNames.Count() == 0)

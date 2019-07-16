@@ -20,7 +20,7 @@ namespace NBi.GenbiL.Action.Case
 
         public override void Execute(GenerationState state)
         {
-            if (!state.TestCaseCollection.ItemExists(FirstSet))
+            if (!state.CaseCollection.ContainsKey(FirstSet))
                 throw new ArgumentException($"The set of test-cases named '{FirstSet}' doesn't exist.", nameof(FirstSet));
 
             var vector = new DataTable();
@@ -33,19 +33,15 @@ namespace NBi.GenbiL.Action.Case
             }
 
             Cross(
-                state.TestCaseCollection.Item(FirstSet).Content,
+                state.CaseCollection[FirstSet].Content,
                 vector,
-                state.TestCaseCollection.CurrentScope,
+                state.CaseCollection.CurrentScope,
                 MatchingRow);
         }
 
         public override bool MatchingRow(DataRow first, DataRow second) => true;
 
         public override string Display
-        {
-            get => $"Crossing set of test-cases '{FirstSet}' with vector '{SecondSet}' defined as '{String.Join("', '", Values)}'";
-        }
-
-        
+            => $"Crossing set of test-cases '{FirstSet}' with vector '{SecondSet}' defined as '{string.Join("', '", Values)}'";
     }
 }

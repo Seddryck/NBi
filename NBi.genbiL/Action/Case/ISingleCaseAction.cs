@@ -8,6 +8,6 @@ namespace NBi.GenbiL.Action.Case
 {
     public interface ISingleCaseAction : ICaseAction
     {
-        void Execute(TestCases testCases);
+        void Execute(CaseSet testCases);
     }
 }

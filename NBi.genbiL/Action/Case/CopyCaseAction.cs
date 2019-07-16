@@ -21,20 +21,20 @@ namespace NBi.GenbiL.Action.Case
 
         public void Execute(GenerationState state)
         {
-            if (!state.TestCaseCollection.ItemExists(From))
+            if (!state.CaseCollection.ContainsKey(From))
                 throw new ArgumentException($"The set of test-cases named '{From}' doesn't exist.", nameof(From));
 
-            if (state.TestCaseCollection.ItemExists(To))
+            if (state.CaseCollection.ContainsKey(To))
                 throw new ArgumentException($"The set of test-cases named '{To}' already exists. The copy command cannot be performed on an existing test cases set", nameof(To));
 
-            var dataReader = state.TestCaseCollection.Item(From).Content.CreateDataReader();
+            var dataReader = state.CaseCollection[From].Content.CreateDataReader();
 
-            state.TestCaseCollection.Item(To).Content.Clear();
-            state.TestCaseCollection.Item(To).Content.Load(dataReader, LoadOption.PreserveChanges);
-            state.TestCaseCollection.Item(To).Content.AcceptChanges();
+            state.CaseCollection.Add(To, new CaseSet());
+            state.CaseCollection[To].Content.Clear();
+            state.CaseCollection[To].Content.Load(dataReader, LoadOption.PreserveChanges);
+            state.CaseCollection[To].Content.AcceptChanges();
         }
 
-        public virtual string Display
-            { get => "Copying set of test-cases '{From}' to '{To}'"; }
+        public virtual string Display => $"Copying set of test-cases '{From}' to '{To}'";
     }
 }

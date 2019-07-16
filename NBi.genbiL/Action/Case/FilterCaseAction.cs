@@ -22,7 +22,7 @@ namespace NBi.GenbiL.Action.Case
             Negation = negation;
         }
 
-        public override void Execute(TestCases testCases)
+        public override void Execute(CaseSet testCases)
         {
             if (!testCases.Variables.Contains(Column))
                 throw new ArgumentOutOfRangeException(nameof(Column));

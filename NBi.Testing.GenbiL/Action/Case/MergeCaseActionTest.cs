@@ -17,45 +17,51 @@ namespace NBi.Testing.GenbiL.Action.Case
         public void Execute_TwoScopesWithIdenticalColumns_CurrentScopeHasMoreRows()
         {
             var state = new GenerationState();
-            state.TestCaseCollection.Item("firstScope").Content.Columns.Add("firstColumn");
-            var newRow = state.TestCaseCollection.CurrentScope.Content.NewRow();
+            state.CaseCollection.Add("firstScope", new CaseSet());
+            state.CaseCollection["firstScope"].Content.Columns.Add("firstColumn");
+            state.CaseCollection.CurrentScopeName = "firstScope";
+            var newRow = state.CaseCollection.CurrentScope.Content.NewRow();
             newRow[0] = "firstCell-firstScope";
-            state.TestCaseCollection.CurrentScope.Content.Rows.Add(newRow);
+            state.CaseCollection.CurrentScope.Content.Rows.Add(newRow);
 
-            state.TestCaseCollection.Item("secondScope").Content.Columns.Add("firstColumn");
-            var newRowBis = state.TestCaseCollection.Item("secondScope").Content.NewRow();
+            state.CaseCollection.Add("secondScope", new CaseSet());
+            state.CaseCollection["secondScope"].Content.Columns.Add("firstColumn");
+            var newRowBis = state.CaseCollection["secondScope"].Content.NewRow();
             newRowBis[0] = "firstCell-secondScope";
-            state.TestCaseCollection.Item("secondScope").Content.Rows.Add(newRowBis);
+            state.CaseCollection["secondScope"].Content.Rows.Add(newRowBis);
 
             var action = new MergeCaseAction("secondScope");
             action.Execute(state);
-            Assert.That(state.TestCaseCollection.CurrentScope.Content.Columns, Has.Count.EqualTo(1));
-            Assert.That(state.TestCaseCollection.CurrentScope.Content.Rows, Has.Count.EqualTo(2));
+            Assert.That(state.CaseCollection.CurrentScope.Content.Columns, Has.Count.EqualTo(1));
+            Assert.That(state.CaseCollection.CurrentScope.Content.Rows, Has.Count.EqualTo(2));
         }
 
         [Test]
         public void Execute_TwoScopesWithDifferentColumns_CurrentScopeHasMoreRowsAndNewColumn()
         {
             var state = new GenerationState();
-            state.TestCaseCollection.Item("firstScope").Content.Columns.Add("firstColumn");
-            var newRow = state.TestCaseCollection.CurrentScope.Content.NewRow();
+            state.CaseCollection.Add("firstScope", new CaseSet());
+            state.CaseCollection["firstScope"].Content.Columns.Add("firstColumn");
+            state.CaseCollection.CurrentScopeName = "firstScope";
+            var newRow = state.CaseCollection.CurrentScope.Content.NewRow();
             newRow[0] = "firstCell-firstScope";
-            state.TestCaseCollection.CurrentScope.Content.Rows.Add(newRow);
+            state.CaseCollection.CurrentScope.Content.Rows.Add(newRow);
 
-            state.TestCaseCollection.Item("secondScope").Content.Columns.Add("secondColumn");
-            var newRowBis = state.TestCaseCollection.Item("secondScope").Content.NewRow();
+            state.CaseCollection.Add("secondScope", new CaseSet());
+            state.CaseCollection["secondScope"].Content.Columns.Add("secondColumn");
+            var newRowBis = state.CaseCollection["secondScope"].Content.NewRow();
             newRowBis[0] = "firstCell-secondScope";
-            state.TestCaseCollection.Item("secondScope").Content.Rows.Add(newRowBis);
+            state.CaseCollection["secondScope"].Content.Rows.Add(newRowBis);
 
             var action = new MergeCaseAction("secondScope");
             action.Execute(state);
-            Assert.That(state.TestCaseCollection.CurrentScope.Content.Columns, Has.Count.EqualTo(2));
-            Assert.That(state.TestCaseCollection.CurrentScope.Content.Rows, Has.Count.EqualTo(2));
+            Assert.That(state.CaseCollection.CurrentScope.Content.Columns, Has.Count.EqualTo(2));
+            Assert.That(state.CaseCollection.CurrentScope.Content.Rows, Has.Count.EqualTo(2));
 
-            Assert.That(state.TestCaseCollection.CurrentScope.Content.Rows[0].ItemArray[0], Is.EqualTo("firstCell-firstScope"));
-            Assert.That(state.TestCaseCollection.CurrentScope.Content.Rows[0].IsNull(1), Is.True);
-            Assert.That(state.TestCaseCollection.CurrentScope.Content.Rows[1].ItemArray[1], Is.EqualTo("firstCell-secondScope"));
-            Assert.That(state.TestCaseCollection.CurrentScope.Content.Rows[1].IsNull(0), Is.True);
+            Assert.That(state.CaseCollection.CurrentScope.Content.Rows[0].ItemArray[0], Is.EqualTo("firstCell-firstScope"));
+            Assert.That(state.CaseCollection.CurrentScope.Content.Rows[0].IsNull(1), Is.True);
+            Assert.That(state.CaseCollection.CurrentScope.Content.Rows[1].ItemArray[1], Is.EqualTo("firstCell-secondScope"));
+            Assert.That(state.CaseCollection.CurrentScope.Content.Rows[1].IsNull(0), Is.True);
         }
 
     }

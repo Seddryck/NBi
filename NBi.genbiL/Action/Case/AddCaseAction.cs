@@ -24,9 +24,9 @@ namespace NBi.GenbiL.Action.Case
             DefaultValue = defaultValue;
         }
 
-        public void Execute(GenerationState state) => Execute(state.TestCaseCollection.CurrentScope);
+        public void Execute(GenerationState state) => Execute(state.CaseCollection.CurrentScope);
 
-        public void Execute(TestCases testCases)
+        public void Execute(CaseSet testCases)
         {
             if (testCases.Variables.Contains(VariableName))
                 throw new ArgumentException($"Variable '{VariableName}' already existing.");

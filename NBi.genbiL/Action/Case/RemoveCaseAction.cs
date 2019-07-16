@@ -22,8 +22,8 @@ namespace NBi.GenbiL.Action.Case
             this.VariableNames = new List<string>(variableNames);
         }
 
-        public void Execute(GenerationState state) => Execute(state.TestCaseCollection.CurrentScope);
-        public void Execute(TestCases testCases)
+        public void Execute(GenerationState state) => Execute(state.CaseCollection.CurrentScope);
+        public void Execute(CaseSet testCases)
         {
             foreach (var variableName in VariableNames)
                 testCases.Content.Columns.Remove(variableName);

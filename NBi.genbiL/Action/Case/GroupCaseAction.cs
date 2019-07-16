@@ -16,9 +16,9 @@ namespace NBi.GenbiL.Action.Case
             this.ColumnNames = new List<string>(variableNames);
         }
 
-        public void Execute(GenerationState state) => Execute(state.TestCaseCollection.CurrentScope);
+        public void Execute(GenerationState state) => Execute(state.CaseCollection.CurrentScope);
 
-        public void Execute(TestCases testCases)
+        public void Execute(CaseSet testCases)
         {
             var dataTable = testCases.Content;
             dataTable.AcceptChanges();

@@ -14,7 +14,9 @@ namespace NBi.GenbiL.Action.Case
         }
         public void Execute(GenerationState state)
         {
-            state.TestCaseCollection.SetFocus(Name);
+            if (!state.CaseCollection.ContainsKey(Name))
+                state.CaseCollection.Add(Name, new CaseSet());
+            state.CaseCollection.CurrentScopeName = Name;
         }
 
         public virtual string Display => $"Focussing on test cases set named '{Name}'";

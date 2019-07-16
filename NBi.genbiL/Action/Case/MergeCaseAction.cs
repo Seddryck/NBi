@@ -12,27 +12,18 @@ namespace NBi.GenbiL.Action.Case
     {
         
         public string MergedScope { get; private set; }
-        public MergeCaseAction(string mergedScope)
-        {
-            MergedScope = mergedScope;
-        }
+        public MergeCaseAction(string mergedScope) => MergedScope = mergedScope;
 
         public void Execute(GenerationState state)
         {
-            if (!state.TestCaseCollection.ItemExists(MergedScope))
-                throw new ArgumentException(String.Format("Scope '{0}' doesn't exist.", MergedScope));
+            if (!state.CaseCollection.ContainsKey(MergedScope))
+                throw new ArgumentException($"Scope '{MergedScope}' doesn't exist.");
 
-            var dr = state.TestCaseCollection.Item(MergedScope).Content.CreateDataReader();
-            state.TestCaseCollection.CurrentScope.Content.Load(dr, LoadOption.PreserveChanges);
-            state.TestCaseCollection.CurrentScope.Content.AcceptChanges();
+            var dr = state.CaseCollection[MergedScope].Content.CreateDataReader();
+            state.CaseCollection.CurrentScope.Content.Load(dr, LoadOption.PreserveChanges);
+            state.CaseCollection.CurrentScope.Content.AcceptChanges();
         }
 
-        public string Display
-        {
-            get
-            {
-                return string.Format("Merging with '{0}'", MergedScope);
-            }
-        }
+        public string Display => $"Merging with '{MergedScope}'";
     }
 }

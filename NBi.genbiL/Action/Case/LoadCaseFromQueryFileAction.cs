@@ -16,7 +16,7 @@ namespace NBi.GenbiL.Action.Case
             ConnectionString = connectionString;
         }
 
-        public override void Execute(TestCases testCases)
+        public override void Execute(CaseSet testCases)
         {
             Query = System.IO.File.ReadAllText(Filename);
             base.Execute(testCases);

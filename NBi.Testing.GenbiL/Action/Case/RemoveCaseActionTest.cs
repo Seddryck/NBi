@@ -17,13 +17,13 @@ namespace NBi.Testing.GenbiL.Action.Case
         public void Execute_FirstColumn_ColumnRemoved()
         {
             var state = new GenerationState();
-            state.TestCaseCollection.CurrentScope.Content.Columns.Add("firstColumn");
-            state.TestCaseCollection.CurrentScope.Content.Columns.Add("secondColumn");
-            state.TestCaseCollection.CurrentScope.Content.Columns.Add("thirdColumn");
+            state.CaseCollection.CurrentScope.Content.Columns.Add("firstColumn");
+            state.CaseCollection.CurrentScope.Content.Columns.Add("secondColumn");
+            state.CaseCollection.CurrentScope.Content.Columns.Add("thirdColumn");
 
             var action = new RemoveCaseAction(new[] { "firstColumn" });
             action.Execute(state);
-            Assert.That(state.TestCaseCollection.CurrentScope.Content.Columns, Has.Count.EqualTo(2));
+            Assert.That(state.CaseCollection.CurrentScope.Content.Columns, Has.Count.EqualTo(2));
         }
 
         [Test]
@@ -37,22 +37,22 @@ namespace NBi.Testing.GenbiL.Action.Case
         public void Execute_FirstAndThirdColumns_ColumnsRemoved()
         {
             var state = new GenerationState();
-            state.TestCaseCollection.CurrentScope.Content.Columns.Add("firstColumn");
-            state.TestCaseCollection.CurrentScope.Content.Columns.Add("secondColumn");
-            state.TestCaseCollection.CurrentScope.Content.Columns.Add("thirdColumn");
+            state.CaseCollection.CurrentScope.Content.Columns.Add("firstColumn");
+            state.CaseCollection.CurrentScope.Content.Columns.Add("secondColumn");
+            state.CaseCollection.CurrentScope.Content.Columns.Add("thirdColumn");
 
             var action = new RemoveCaseAction(new List<string>() { "firstColumn", "thirdColumn" });
             action.Execute(state);
-            Assert.That(state.TestCaseCollection.CurrentScope.Content.Columns, Has.Count.EqualTo(1));
+            Assert.That(state.CaseCollection.CurrentScope.Content.Columns, Has.Count.EqualTo(1));
         }
 
         [Test]
         public void Display_FirstAndThirdColumns_ColumnsRemoved()
         {
             var state = new GenerationState();
-            state.TestCaseCollection.CurrentScope.Content.Columns.Add("firstColumn");
-            state.TestCaseCollection.CurrentScope.Content.Columns.Add("secondColumn");
-            state.TestCaseCollection.CurrentScope.Content.Columns.Add("thirdColumn");
+            state.CaseCollection.CurrentScope.Content.Columns.Add("firstColumn");
+            state.CaseCollection.CurrentScope.Content.Columns.Add("secondColumn");
+            state.CaseCollection.CurrentScope.Content.Columns.Add("thirdColumn");
 
             var action = new RemoveCaseAction(new List<string>() { "firstColumn", "thirdColumn" });
             Assert.That(action.Display, Is.EqualTo("Removing columns 'firstColumn', 'thirdColumn'"));

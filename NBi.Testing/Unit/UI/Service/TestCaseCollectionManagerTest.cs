@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Testing.GenbiL.Stateful
+namespace NBi.Testing.Unit.UI.Service
 {
     public class TestCaseCollectionManagerTest
     {
@@ -33,7 +33,7 @@ namespace NBi.Testing.GenbiL.Stateful
             var manager = new TestCaseCollectionManager();
             var tc = manager.Item("alpha");
             Assert.That(tc, Is.Not.Null);
-            Assert.That(tc, Is.TypeOf<TestCases>());
+            Assert.That(tc, Is.TypeOf<CaseSet>());
         }
 
         [Test]
@@ -42,7 +42,7 @@ namespace NBi.Testing.GenbiL.Stateful
             var manager = new TestCaseCollectionManager();
             var tc = manager.Item(string.Empty);
             Assert.That(tc, Is.Not.Null);
-            Assert.That(tc, Is.TypeOf<TestCases>());
+            Assert.That(tc, Is.TypeOf<CaseSet>());
         }
 
         [Test]
@@ -79,7 +79,7 @@ namespace NBi.Testing.GenbiL.Stateful
         {
             var manager = new TestCaseCollectionManager();
             var tc1 = manager.Item("alpha");
-            var tc2 = manager.Item("beta");
+            manager.Item("beta");
 
             var focus = manager.CurrentScope;
 
@@ -90,7 +90,7 @@ namespace NBi.Testing.GenbiL.Stateful
         public void Focus_TwoElementsCreatedSetFocusCalledForSecond_SecondElement()
         {
             var manager = new TestCaseCollectionManager();
-            var tc1 = manager.Item("alpha");
+            manager.Item("alpha");
             var tc2 = manager.Item("beta");
 
             manager.SetFocus("beta");

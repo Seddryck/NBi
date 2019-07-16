@@ -15,7 +15,7 @@ namespace NBi.Testing.GenbiL.Action.Case
         private GenerationState BuildOriginalState()
         {
             var state = new GenerationState();
-            var master = state.TestCaseCollection.Item("master");
+            var master = new CaseSet(); 
             master.Content.Columns.Add("keyColumn1");
             master.Content.Columns.Add("keyColumn2");
             master.Content.Columns.Add("thirdColumn");
@@ -29,7 +29,7 @@ namespace NBi.Testing.GenbiL.Action.Case
             secondAlphaRow[1] = "keyB";
             secondAlphaRow[2] = "thirdAlphaCell2";
             master.Content.Rows.Add(secondAlphaRow);
-
+            state.CaseCollection.Add("master", master);
             return state;
         }
 
@@ -37,13 +37,13 @@ namespace NBi.Testing.GenbiL.Action.Case
         public void Copy_SimpleMaster_CopyIsEffectivelyDone()
         {
             var state = BuildOriginalState();
-            var master = state.TestCaseCollection.Item("master");
+            var master = state.CaseCollection["master"];
 
             var action = new CopyCaseAction("master", "copied");
             action.Execute(state);
 
-            Assert.That(state.TestCaseCollection.ItemExists("copied"));
-            var copied = state.TestCaseCollection.Item("copied");
+            Assert.That(state.CaseCollection.ContainsKey("copied"));
+            var copied = state.CaseCollection["copied"];
 
             for (int i = 0; i < master.Content.Rows.Count; i++)
                 Assert.That(copied.Content.Rows[i].ItemArray, Is.EqualTo(master.Content.Rows[i].ItemArray));
@@ -56,14 +56,12 @@ namespace NBi.Testing.GenbiL.Action.Case
         public void Copy_SimpleMaster_CopyIsNotReferenceCopy()
         {
             var state = BuildOriginalState();
-            var master = state.TestCaseCollection.Item("master");
-
             var action = new CopyCaseAction("master", "copied");
             action.Execute(state);
-            var copied = state.TestCaseCollection.Item("copied");
-            master.Content.Clear();
+            var copied = state.CaseCollection["copied"];
+            state.CaseCollection["master"].Content.Clear();
 
-            Assert.That(master.Content.Rows, Has.Count.EqualTo(0));
+            Assert.That(state.CaseCollection["master"].Content.Rows, Has.Count.EqualTo(0));
             Assert.That(copied.Content.Rows, Has.Count.GreaterThan(0));
         }
 
@@ -71,9 +69,7 @@ namespace NBi.Testing.GenbiL.Action.Case
         public void Copy_SimpleMasterWithCopiedAlreadyLoaded_CopyIsNotAllowed()
         {
             var state = BuildOriginalState();
-            var master = state.TestCaseCollection.Item("master");
-
-            var copied = state.TestCaseCollection.Item("copied");
+            state.CaseCollection.Add("copied", new CaseSet());
 
             var action = new CopyCaseAction("master", "copied");
 

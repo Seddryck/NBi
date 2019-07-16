@@ -17,8 +17,8 @@ namespace NBi.GenbiL.Action.Suite
         {
             state.List.Build(
                     state.Templates, 
-                    state.TestCaseCollection.CurrentScope.Variables.ToArray(), 
-                    state.TestCaseCollection.CurrentScope.Content, 
+                    state.CaseCollection.CurrentScope.Variables.ToArray(), 
+                    state.CaseCollection.CurrentScope.Content, 
                     Grouping,
                     state.Consumables
             );

@@ -83,6 +83,8 @@
     <Compile Include="Action\Case\TrimCaseActionTest.cs" />
     <Compile Include="Action\Consumable\AutoConsumableActionTest.cs" />
     <Compile Include="Action\Consumable\SetConsumableActionTest.cs" />
+    <Compile Include="Action\Setting\ReferenceActionTest.cs" />
+    <Compile Include="Action\Setting\DefaultActionTest.cs" />
     <Compile Include="Action\Suite\GenerateSuiteActionTest.cs" />
     <Compile Include="Action\Template\AddEmbeddedTemplateActionTest.cs" />
     <Compile Include="Action\Variable\IncludeVariableActionTest.cs" />

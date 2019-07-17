@@ -17,6 +17,7 @@ namespace NBi.GenbiL.Action.Suite
         
         public void Execute(GenerationState state)
         {
+            state.Suite.DefineSettings(state.Settings);
             state.Suite.DefineVariables(state.Variables);
             state.Suite.DefineTests(state.List.GetTests());
             state.Suite.SaveAs(Filename);

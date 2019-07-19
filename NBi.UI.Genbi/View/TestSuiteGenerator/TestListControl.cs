@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Windows.Forms;
 using NBi.GenbiL.Stateful;
+using NBi.IO.Genbi.Dto;
 using NBi.UI.Genbi.Presenter;
 
 namespace NBi.UI.Genbi.View.TestSuiteGenerator

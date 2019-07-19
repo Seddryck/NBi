@@ -2,8 +2,10 @@
 using System.ComponentModel;
 using System.Linq;
 using NBi.GenbiL.Stateful;
+using NBi.IO.Genbi.Dto;
 using NBi.UI.Genbi.Command;
 using NBi.UI.Genbi.Command.TestSuite;
+using NBi.UI.Genbi.Service;
 
 namespace NBi.UI.Genbi.Presenter
 {

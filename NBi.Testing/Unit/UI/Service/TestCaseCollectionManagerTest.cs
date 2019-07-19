@@ -1,4 +1,5 @@
 ﻿using NBi.GenbiL.Stateful;
+using NBi.UI.Genbi.Service;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;

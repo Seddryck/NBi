@@ -4,6 +4,7 @@ using System.Data;
 using System.Linq;
 using System.Windows.Forms;
 using NBi.GenbiL.Stateful;
+using NBi.IO.Genbi.Dto;
 using NBi.UI.Genbi.Interface.TestSuiteGenerator.Events;
 
 namespace NBi.UI.Genbi.Interface.TestSuiteGenerator

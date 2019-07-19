@@ -90,6 +90,7 @@
     <Compile Include="Action\Case\TrimCaseAction.cs" />
     <Compile Include="Action\DefaultType.cs" />
     <Compile Include="Action\Case\ISingleCaseAction.cs" />
+    <Compile Include="Action\Serializer.cs" />
     <Compile Include="Action\EmptyAction.cs" />
     <Compile Include="Action\IAction.cs" />
     <Compile Include="Action\Case\IMultiCaseAction.cs" />
@@ -142,10 +143,13 @@
     <Compile Include="Parser\Variable.cs" />
     <Compile Include="Properties\ProjectAssemblyInfo.cs" />
     <Compile Include="Stateful\Setting.cs" />
-    <Compile Include="Stateful\Test.cs" />
     <Compile Include="Stateful\CaseSet.cs" />
-    <Compile Include="Stateful\TestListManager.cs" />
-    <Compile Include="Stateful\TestSuiteManager.cs" />
+    <Compile Include="Stateful\Tree\BranchNode.cs" />
+    <Compile Include="Stateful\Tree\GroupNode.cs" />
+    <Compile Include="Stateful\Tree\LeafNode.cs" />
+    <Compile Include="Stateful\Tree\RootNode.cs" />
+    <Compile Include="Stateful\Tree\TestNode.cs" />
+    <Compile Include="Stateful\Tree\TreeNode.cs" />
     <Compile Include="Templating\ExpectedVariableNotFoundException.cs" />
     <Compile Include="Templating\HomeMadeEngine.cs" />
     <Compile Include="Templating\ProgressEventArgs.cs" />

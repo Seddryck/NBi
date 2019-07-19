@@ -10,6 +10,8 @@ using NBi.UI.Genbi.Command.TestsXml;
 using NBi.UI.Genbi.Stateful;
 using NBi.UI.Genbi.View.TestSuiteGenerator;
 using NBi.GenbiL.Templating;
+using NBi.UI.Genbi.Service;
+using NBi.IO.Genbi.Dto;
 
 namespace NBi.UI.Genbi.Presenter
 {

@@ -5,8 +5,9 @@ using NBi.Xml;
 using NBi.Xml.Settings;
 using NBi.Xml.Variables;
 using NBi.GenbiL.Stateful;
+using NBi.IO.Genbi.Dto;
 
-namespace NBi.GenbiL.Stateful
+namespace NBi.UI.Genbi.Service
 {
     public class TestSuiteManager
     {

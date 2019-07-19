@@ -124,6 +124,7 @@
     <Compile Include="Dto\DocumentBase.cs" />
     <Compile Include="Dto\Schema.cs" />
     <Compile Include="Dto\Style.cs" />
+    <Compile Include="Dto\Test.cs" />
     <Compile Include="IBootstrapper.cs" />
     <Compile Include="Interface\IMacroView.cs" />
     <Compile Include="Interface\ITemplateView.cs" />
@@ -156,6 +157,8 @@
     <Compile Include="Service\SettingsManager.cs" />
     <Compile Include="Service\TemplateManager.cs" />
     <Compile Include="Service\TestCaseCollectionManager.cs" />
+    <Compile Include="Service\TestListManager.cs" />
+    <Compile Include="Service\TestSuiteManager.cs" />
     <Compile Include="Stateful\LargeBindingList.cs" />
     <Compile Include="Stateful\TestListGenerationResult.cs" />
     <Compile Include="Presenter\TestListPresenter.cs" />

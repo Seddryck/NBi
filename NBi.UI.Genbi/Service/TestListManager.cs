@@ -7,19 +7,21 @@ using System.IO;
 using System.Xml.Serialization;
 using System.Text;
 using NBi.GenbiL.Templating;
+using NBi.GenbiL.Stateful;
+using NBi.IO.Genbi.Dto;
 
-namespace NBi.GenbiL.Stateful
+namespace NBi.UI.Genbi.Service
 {
     public class TestListManager
     {
-        private IList<TestXml> lastGeneration;
+        private IList<TestStandaloneXml> lastGeneration;
 
         internal IList<TestXml> Tests { get; set; }
 
         public TestListManager()
         {
             Tests = new List<TestXml>();
-            lastGeneration = new List<TestXml>();
+            lastGeneration = new List<TestStandaloneXml>();
         }
 
 

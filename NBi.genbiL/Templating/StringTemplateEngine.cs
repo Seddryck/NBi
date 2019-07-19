@@ -27,10 +27,10 @@ namespace NBi.GenbiL.Templating
             cacheDeserializer = new Dictionary<Type, XmlSerializer>();
         }
 
-        public IEnumerable<TestXml> Build(List<List<List<object>>> table, IDictionary<string, object> globalVariables)
+        public IEnumerable<TestStandaloneXml> Build(List<List<List<object>>> table, IDictionary<string, object> globalVariables)
         {
             InitializeTemplate(globalVariables);
-            var tests = new List<TestXml>();
+            var tests = new List<TestStandaloneXml>();
 
             //For each row, we need to fill the variables and render the template. 
             int count = 0;

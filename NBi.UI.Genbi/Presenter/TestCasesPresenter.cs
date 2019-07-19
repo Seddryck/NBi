@@ -9,6 +9,7 @@ using NBi.UI.Genbi.Command;
 using NBi.UI.Genbi.Command.TestCases;
 using NBi.UI.Genbi.View.TestSuiteGenerator;
 using NBi.GenbiL.Action;
+using NBi.UI.Genbi.Service;
 
 namespace NBi.UI.Genbi.Presenter
 {

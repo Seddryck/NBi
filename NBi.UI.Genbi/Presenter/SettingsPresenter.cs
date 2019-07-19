@@ -4,6 +4,7 @@ using System.Linq;
 using NBi.GenbiL.Stateful;
 using NBi.UI.Genbi.Command;
 using NBi.UI.Genbi.Command.Settings;
+using NBi.UI.Genbi.Service;
 using NBi.UI.Genbi.View.TestSuiteGenerator;
 
 namespace NBi.UI.Genbi.Presenter

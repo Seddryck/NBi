@@ -33,8 +33,8 @@ namespace NBi.Testing.GenbiL.Action.Suite
             var action = new GenerateSuiteAction(false);
             action.Execute(state);
 
-            Assert.That(state.List.Tests, Has.Count.EqualTo(1));
-            var test = state.List.Tests[0];
+            Assert.That(state.Suite.Children, Has.Count.EqualTo(1));
+            var test = state.Suite.Children[0];
             Assert.That(test.Name, Is.EqualTo("a + b"));
         }
 
@@ -45,8 +45,8 @@ namespace NBi.Testing.GenbiL.Action.Suite
             var action = new GenerateSuiteAction(false);
             action.Execute(state);
 
-            Assert.That(state.List.Tests, Has.Count.EqualTo(1));
-            var test = state.List.Tests[0];
+            Assert.That(state.Suite.Children, Has.Count.EqualTo(1));
+            var test = state.Suite.Children[0];
             Assert.That(test.Name, Is.EqualTo("a + foo"));
         }
 
@@ -57,8 +57,8 @@ namespace NBi.Testing.GenbiL.Action.Suite
             var action = new GenerateSuiteAction(false);
             action.Execute(state);
 
-            Assert.That(state.List.Tests, Has.Count.EqualTo(1));
-            var test = state.List.Tests[0];
+            Assert.That(state.Suite.Children, Has.Count.EqualTo(1));
+            var test = state.Suite.Children[0];
             Assert.That(test.Name, Is.EqualTo("a + bc"));
         }
 
@@ -70,7 +70,7 @@ namespace NBi.Testing.GenbiL.Action.Suite
             var action = new GenerateSuiteAction(false);
             action.Execute(state);
 
-            Assert.That(state.List.Tests, Has.Count.EqualTo(0));
+            Assert.That(state.Suite.Children, Has.Count.EqualTo(0));
         }
     }
 }

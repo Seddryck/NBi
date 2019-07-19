@@ -5,6 +5,7 @@ using System.Data;
 using System.Linq;
 using NBi.GenbiL.Stateful;
 using NBi.GenbiL;
+using NBi.IO.Genbi.Dto;
 
 namespace NBi.UI.Genbi.Stateful
 {

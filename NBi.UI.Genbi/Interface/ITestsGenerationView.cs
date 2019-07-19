@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Linq;
 using NBi.GenbiL.Stateful;
+using NBi.IO.Genbi.Dto;
 
 namespace NBi.UI.Genbi.Interface
 {

@@ -1,4 +1,6 @@
 ﻿using NBi.GenbiL.Stateful;
+using NBi.GenbiL.Stateful.Tree;
+using NBi.Xml;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,20 +19,18 @@ namespace NBi.GenbiL.Action.Suite
         
         public void Execute(GenerationState state)
         {
-            state.Suite.DefineSettings(state.Settings);
-            state.Suite.DefineVariables(state.Variables);
-            state.Suite.DefineTests(state.List.GetTests());
-            state.Suite.SaveAs(Filename);
+            var suiteXml = new TestSuiteXml()
+            {
+                Settings = state.Settings,
+                Variables = state.Variables.ToList(),
+            };
+            foreach (var testNode in state.Suite.Children.Cast<TestNode>())
+                suiteXml.Tests.Add(new TestXml(testNode.Content));
+
+            var manager = new XmlManager();
+            manager.Persist(Filename, suiteXml);
         }
 
-        public string Display
-        {
-            get
-            {
-                return string.Format("Saving TestSuite to '{0}'"
-                    , Filename
-                    );
-            }
-        }
+        public string Display => $"Saving TestSuite to '{Filename}'";
     }
 }

@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+using NBi.GenbiL.Stateful;
 using NBi.Xml.Settings;
 
-namespace NBi.GenbiL.Stateful
+namespace NBi.UI.Genbi.Service
 {
     public class SettingsManager
     {

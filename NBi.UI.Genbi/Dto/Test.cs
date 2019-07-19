@@ -2,7 +2,7 @@
 using System.Linq;
 using NBi.Xml;
 
-namespace NBi.GenbiL.Stateful
+namespace NBi.IO.Genbi.Dto
 {
     public class Test
     {

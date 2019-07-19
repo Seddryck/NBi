@@ -17,27 +17,5 @@ namespace NBi.GenbiL.Stateful
             this.Add(NO_NAME, new CaseSet());
             CurrentScopeName = NO_NAME;
         }
-
-        //public CaseCollection Item(string name)
-        //{
-        //    if (string.IsNullOrEmpty(name))
-        //        name = NO_NAME;
-
-        //    if (!dico.Keys.Contains(name))
-        //        dico.Add(name, new CaseCollection());
-
-        //    if (dico.Count == 1)
-        //        scope = name;
-
-        //    return dico[name];
-        //}
-
-        //public bool ItemExists(string name)
-        //{
-        //    if (string.IsNullOrEmpty(name))
-        //        name = NO_NAME;
-
-        //    return dico.Keys.Contains(name);
-        //}
     }
 }

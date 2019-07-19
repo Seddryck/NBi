@@ -9,7 +9,7 @@ namespace NBi.GenbiL.Stateful.Tree
 {
     public class BranchNode : TreeNode, IEnumerable<TreeNode>
     {
-        private protected readonly List<TreeNode> ChildrenList = new List<TreeNode>();
+        protected readonly List<TreeNode> ChildrenList = new List<TreeNode>();
         public IReadOnlyList<TreeNode> Children => ChildrenList;
 
         public string FullPath => Parent == Root ? Name : $@"{Parent.FullPath}\{Name}";

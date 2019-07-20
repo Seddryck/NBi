@@ -15,6 +15,16 @@ namespace NBi.GenbiL.Parser
                 select new GenerateSuiteAction(grouping)
         );
 
+        readonly static Parser<ISuiteAction> GenerateGroupByParser =
+        (
+                from generate in Keyword.Generate
+                from groupby in Parse.IgnoreCase("group by")
+                from groupPattern in Grammar.QuotedTextual.Token()
+                select new GenerateGroupBySuiteAction(groupPattern)
+        );
+
+        
+
         readonly static Parser<ISuiteAction> SaveParser =
         (
                 from save in Keyword.Save
@@ -41,8 +51,8 @@ namespace NBi.GenbiL.Parser
 
         public readonly static Parser<IAction> Parser =
         (
-                from load in Keyword.Suite
-                from text in GenerateParser.Or(SaveParser).Or(IncludeParser).Or(AddRangeParser)
+                from suite in Keyword.Suite
+                from text in GenerateParser.Or(GenerateGroupByParser).Or(SaveParser).Or(IncludeParser).Or(AddRangeParser)
                 select text
         );
     }

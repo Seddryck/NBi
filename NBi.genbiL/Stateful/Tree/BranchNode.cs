@@ -31,5 +31,14 @@ namespace NBi.GenbiL.Stateful.Tree
 
         public void AddChildren(IEnumerable<TreeNode> items)
             => items.ToList().ForEach(x => AddChild(x));
+
+        public BranchNode FindChildBranch(string path)
+        {
+            var node = this;
+            var subPathes = path.Split(new[] { '|' });
+            foreach (var subPath in subPathes)
+                node = node.Children.First(x => x is BranchNode && x.Name == subPath) as BranchNode;
+            return node;
+        }
     }
 }

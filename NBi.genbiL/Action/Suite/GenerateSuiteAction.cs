@@ -18,7 +18,7 @@ namespace NBi.GenbiL.Action.Suite
             Grouping = grouping;
         }
 
-        public void Execute(GenerationState state)
+        public virtual void Execute(GenerationState state)
         {
             var lastGeneration = Build(
                     state.Templates, 
@@ -81,7 +81,7 @@ namespace NBi.GenbiL.Action.Suite
             var generator = new StringTemplateEngine(template, variables);
             var cases = GetCases(dataTable, useGrouping);
             generator.Progressed += new EventHandler<ProgressEventArgs>(this.OnTestGenerated);
-            var lastGeneration = generator.Build(cases, globalVariables).ToList();
+            var lastGeneration = generator.Build<TestStandaloneXml>(cases, globalVariables).ToList();
             generator.Progressed -= new EventHandler<ProgressEventArgs>(this.OnTestGenerated);
             return lastGeneration;
         }
@@ -101,10 +101,10 @@ namespace NBi.GenbiL.Action.Suite
                 {
                     foreach (var template in templates)
                     {
-                        var generator = new StringTemplateEngine(template, variables);
-                        generator.Progressed += new EventHandler<ProgressEventArgs>(this.OnTestGenerated);
-                        lastGeneration.AddRange(generator.Build(new List<List<List<object>>>() { indiv }, globalVariables).ToList());
-                        generator.Progressed -= new EventHandler<ProgressEventArgs>(this.OnTestGenerated);
+                        var engine = new StringTemplateEngine(template, variables);
+                        //engine.Progressed += new EventHandler<ProgressEventArgs>(this.OnTestGenerated);
+                        lastGeneration.AddRange(engine.Build<TestStandaloneXml>(new List<List<List<object>>>() { indiv }, globalVariables).ToList());
+                        //engine.Progressed -= new EventHandler<ProgressEventArgs>(this.OnTestGenerated);
                     }
                 }
                 return lastGeneration;

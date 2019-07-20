@@ -10,6 +10,7 @@ using System.IO;
 using System.Threading;
 using System.Globalization;
 using NBi.GenbiL.Templating;
+using NBi.Xml;
 
 namespace NBi.Testing.GenbiL.Templating
 {
@@ -52,7 +53,7 @@ namespace NBi.Testing.GenbiL.Templating
                 BuildCase(new string[] { "myPerspective", "myDimension", "myHierarchy", "numerical" })
             };
             var engine = new StringTemplateEngine(template, variables);
-            var testSuite = engine.Build(data, null);
+            var testSuite = engine.Build<TestStandaloneXml>(data, null);
             var test = testSuite.ElementAt(0);
 
             //Test the object
@@ -84,7 +85,7 @@ namespace NBi.Testing.GenbiL.Templating
                 BuildCase(new string[] { "myPerspective", "myDimension", "myHierarchy", "numerical" })
             };
             var engine = new StringTemplateEngine(template, variables);
-            var testSuite = engine.Build(data, null);
+            var testSuite = engine.Build<TestStandaloneXml>(data, null);
             var test = testSuite.ElementAt(0);
 
             //Test the content serialized
@@ -105,7 +106,7 @@ namespace NBi.Testing.GenbiL.Templating
             };
 
             var engine = new StringTemplateEngine(template, variables);
-            var testSuite = engine.Build(data, null);
+            var testSuite = engine.Build<TestStandaloneXml>(data, null);
             var test = testSuite.ElementAt(0);
 
             //Test the object
@@ -138,7 +139,7 @@ namespace NBi.Testing.GenbiL.Templating
             values.Add(secondCell);
 
             engine.InitializeTemplate(null);
-            var result = engine.BuildTestString(values);
+            var result = engine.RenderTemplate(values);
 
             Assert.That(result, Is.EqualTo("<dimension caption='myDim' perspective='myPersp'/>"));
 
@@ -157,7 +158,7 @@ namespace NBi.Testing.GenbiL.Templating
             values.Add(secondCell);
 
             engine.InitializeTemplate(null);
-            var result = engine.BuildTestString(values);
+            var result = engine.RenderTemplate(values);
 
             Assert.That(result, Is.EqualTo("myDim ... <subsetOf>\r\n\t<item>item A</item>\r\n\t<item>item B</item>\r\n</subsetOf>"));
         }
@@ -175,7 +176,7 @@ namespace NBi.Testing.GenbiL.Templating
             values.Add(secondCell);
 
             engine.InitializeTemplate(null);
-            var result = engine.BuildTestString(values);
+            var result = engine.RenderTemplate(values);
 
             Assert.That(result, Is.EqualTo("myDim ... "));
         }
@@ -193,7 +194,7 @@ namespace NBi.Testing.GenbiL.Templating
             values.Add(secondCell);
 
             engine.InitializeTemplate(null);
-            var result = engine.BuildTestString(values);
+            var result = engine.RenderTemplate(values);
 
             Assert.That(result, Is.EqualTo("myDim -><- ... "));
         }
@@ -211,7 +212,7 @@ namespace NBi.Testing.GenbiL.Templating
             values.Add(secondCell);
 
             engine.InitializeTemplate(null);
-            var result = engine.BuildTestString(values);
+            var result = engine.RenderTemplate(values);
 
             Assert.That(result, Is.EqualTo("myDim ... <ignore>reason to ignore</ignore>"));
         }
@@ -232,7 +233,7 @@ namespace NBi.Testing.GenbiL.Templating
             values.Add(secondCell);
 
             engine.InitializeTemplate(null);
-            var result = engine.BuildTestString(values);
+            var result = engine.RenderTemplate(values);
 
             Assert.That(result, Is.EqualTo("<element attribute=\"&lt;value&amp;\" other-attribute=\"<value&\">"));
         }

@@ -24,12 +24,26 @@ namespace NBi.GenbiL.Action.Suite
                 Settings = state.Settings,
                 Variables = state.Variables.ToList(),
             };
-            foreach (var testNode in state.Suite.Children.Cast<TestNode>())
-                suiteXml.Tests.Add(new TestXml(testNode.Content));
+
+            AppendNodes(suiteXml.Tests, suiteXml.Groups, state.Suite.Children);
 
             var manager = new XmlManager();
             manager.Persist(Filename, suiteXml);
         }
+
+        private void AppendNodes(IList<TestXml> tests, IList<GroupXml> groups, IEnumerable<TreeNode> nodes)
+        {
+            foreach (var node in nodes.Where(x => x is GroupNode))
+            {
+                var newGroup = new GroupXml() { Name = node.Name };
+                groups.Add(newGroup);
+                AppendNodes(newGroup.Tests, newGroup.Groups, (node as GroupNode).Children);
+            }
+
+            foreach (var node in nodes.Where(x => x is TestNode))
+                tests.Add(new TestXml((node as TestNode).Content));
+        }
+
 
         public string Display => $"Saving TestSuite to '{Filename}'";
     }

@@ -30,7 +30,7 @@ namespace NBi.Xml
             }
         }
 
-        internal class InstanceUnique : InstanceSettlingXml
+        public class InstanceUnique : InstanceSettlingXml
         { }
     }
 }

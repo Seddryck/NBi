@@ -30,7 +30,7 @@ namespace NBi.UI.Genbi.Service
             var generator = new StringTemplateEngine(template, variables);
             var cases = GetCases(dataTable, useGrouping);
             generator.Progressed += new EventHandler<ProgressEventArgs>(this.OnTestGenerated);
-            lastGeneration = generator.Build(cases, globalVariables).ToList();
+            lastGeneration = generator.BuildTests(cases, globalVariables).ToList();
             generator.Progressed -= new EventHandler<ProgressEventArgs>(this.OnTestGenerated);
             Tests = Tests.Concat(lastGeneration).ToList();
         }
@@ -52,7 +52,7 @@ namespace NBi.UI.Genbi.Service
                     {
                         var generator = new StringTemplateEngine(template, variables);
                         generator.Progressed += new EventHandler<ProgressEventArgs>(this.OnTestGenerated);
-                        lastGeneration = generator.Build(new List<List<List<object>>>() { indiv }, globalVariables).ToList();
+                        lastGeneration = generator.BuildTests(new List<List<List<object>>>() { indiv }, globalVariables).ToList();
                         generator.Progressed -= new EventHandler<ProgressEventArgs>(this.OnTestGenerated);
                         Tests = Tests.Concat(lastGeneration).ToList();
                     }

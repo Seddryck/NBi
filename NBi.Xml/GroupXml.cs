@@ -79,5 +79,18 @@ namespace NBi.Xml
             return allTests;
         }
 
+        [XmlIgnore]
+        public bool SetupSpecified
+        {
+            get => (Setup?.Commands?.Count ?? 0) != 0;
+            set { return; }
+        }
+
+        [XmlIgnore]
+        public bool CleanupSpecified
+        {
+            get => (Cleanup?.Commands?.Count ?? 0) != 0;
+            set { return; }
+        }
     }
 }

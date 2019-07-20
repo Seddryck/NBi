@@ -27,53 +27,55 @@ namespace NBi.GenbiL.Templating
             cacheDeserializer = new Dictionary<Type, XmlSerializer>();
         }
 
-        public IEnumerable<TestStandaloneXml> Build(List<List<List<object>>> table, IDictionary<string, object> globalVariables)
+        public IEnumerable<TestStandaloneXml> BuildTests(List<List<List<object>>> table, IDictionary<string, object> consumables)
+            => Build<TestStandaloneXml>(table, consumables);
+
+        protected internal IEnumerable<T> Build<T>(List<List<List<object>>> table, IDictionary<string, object> consumables)
         {
-            InitializeTemplate(globalVariables);
-            var tests = new List<TestStandaloneXml>();
+            InitializeTemplate(consumables);
 
             //For each row, we need to fill the variables and render the template. 
             int count = 0;
             foreach (var row in table)
             {
                 count++;
-                var str = BuildTestString(row);
-
-                TestStandaloneXml test = null;
-                try
-                {
-                    test = XmlDeserializeFromString<TestStandaloneXml>(str);
-                }
-                catch (InvalidOperationException ex)
-                {
-                    throw new TemplateExecutionException(ex.Message);
-                }
+                var str = RenderTemplate(row);
 
                 //Cleanup the variables in the template for next iteration.
                 foreach (var variable in Variables)
                     Template.Remove(variable);
 
-                test.Content = XmlSerializeFrom<TestStandaloneXml>(test);
-                tests.Add(test);
+                var obj = (typeof(T) == typeof(string)) ? (T)Convert.ChangeType(str, typeof(T)) : Deserialize<T>(str);
+                if (obj is TestStandaloneXml)
+                    (obj as TestStandaloneXml).Content = XmlSerializeFrom(obj as TestStandaloneXml);
                 InvokeProgress(new ProgressEventArgs(count, table.Count()));
+                yield return obj;
             }
-
-            return tests;
         }
 
-        internal void InitializeTemplate(IDictionary<string, object> globalVariables)
+        protected virtual T Deserialize<T>(string value)
+        {
+            T obj;
+            try
+            { obj = XmlDeserializeFromString<T>(value); }
+            catch (InvalidOperationException ex)
+            { throw new TemplateExecutionException(ex.Message); }
+            return obj;
+        }
+
+        internal void InitializeTemplate(IDictionary<string, object> consumables)
         {
             var group = new TemplateGroup('$', '$');
             group.RegisterRenderer(typeof(string), new StringRenderer());
             Template = new Template(group, TemplateXml);
 
             //Add all the global variables (not defined in a scope)
-            if (globalVariables != null)
-                foreach (var variable in globalVariables)
+            if (consumables != null)
+                foreach (var variable in consumables)
                     Template.Add(variable.Key, variable.Value);
         }
 
-        internal string BuildTestString(List<List<object>> values)
+        internal string RenderTemplate(List<List<object>> values)
         {
             for (int i = 0; i < Variables.Count(); i++)
             {
@@ -89,16 +91,12 @@ namespace NBi.GenbiL.Templating
         }
 
         protected internal T XmlDeserializeFromString<T>(string objectData)
-        {
-            return (T)XmlDeserializeFromString(objectData, typeof(T));
-        }
+            => (T)XmlDeserializeFromString(objectData, typeof(T));
 
         protected internal string XmlSerializeFrom<T>(T objectData)
-        {
-            return SerializeFrom(objectData, typeof(T));
-        }
+            => SerializeFrom(objectData, typeof(T));
 
-        
+
         protected object XmlDeserializeFromString(string objectData, Type type)
         {
             if (!cacheDeserializer.ContainsKey(type))
@@ -131,26 +129,20 @@ namespace NBi.GenbiL.Templating
             }
 
             var serializer = cacheSerializer[type];
-            
+
             var result = string.Empty;
             using (var writer = new StringWriter())
             {
                 // Use the Serialize method to store the object's state.
                 try
-                {
-                    serializer.Serialize(writer, objectData);
-                }
+                { serializer.Serialize(writer, objectData); }
                 catch (Exception e)
-                {
-
-                    throw e;
-                }
+                { throw e; }
 
                 result = writer.ToString();
             }
             return result;
         }
-
 
         public event EventHandler<ProgressEventArgs> Progressed;
         public void InvokeProgress(ProgressEventArgs e)

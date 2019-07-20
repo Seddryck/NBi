@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<testSuite name="The TestSuite" xmlns="http://NBi/TestSuite">
+	<test name="Dimension linked to a measure-group">
+		<system-under-test>
+			<structure>
+				<dimension caption="dimension" perspective="Perspective" connectionString="ConnectionString"/>
+			</structure>
+		</system-under-test>
+		<assert>
+			<linkedTo>
+				<measure-group caption="measure-group"/>
+			</linkedTo>
+		</assert>
+	</test>
+	<test name="Measure-Group Linked to a dimension">
+		<system-under-test>
+			<structure>
+				<measure-group caption="dimension" perspective="Perspective" connectionString="ConnectionString"/>
+			</structure>
+		</system-under-test>
+		<assert>
+			<linkedTo>
+				<dimension caption="dimension"/>
+			</linkedTo>
+		</assert>
+	</test>
+	
+</testSuite>

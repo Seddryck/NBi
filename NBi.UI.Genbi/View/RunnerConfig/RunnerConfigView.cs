@@ -3,6 +3,7 @@ using System.Linq;
 using System.Windows.Forms;
 using NBi.UI.Genbi.Command;
 using NBi.UI.Genbi.Presenter;
+using NBi.UI.Genbi.RunnerConfig;
 using NBi.UI.Genbi.Stateful;
 
 namespace NBi.UI.Genbi.View.RunnerConfig
@@ -13,7 +14,7 @@ namespace NBi.UI.Genbi.View.RunnerConfig
 
         public RunnerConfigView()
         {
-            RunnerConfigPresenter = new RunnerConfigPresenter(new Service.RunnerConfig.RunnerConfigManager());
+            RunnerConfigPresenter = new RunnerConfigPresenter(new RunnerConfigManager());
             
             InitializeComponent();
             DeclareBindings();

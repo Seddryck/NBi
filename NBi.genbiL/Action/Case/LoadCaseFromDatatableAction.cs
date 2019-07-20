@@ -1,30 +1,26 @@
 using System;
 using System.Linq;
-using NBi.Service;
+using NBi.GenbiL.Stateful;
 using System.Data;
 
 namespace NBi.GenbiL.Action.Case
 {
-    public class LoadCaseFromDatatableAction : ICaseAction
+    public class LoadCaseFromDatatableAction : ISingleCaseAction
     {
-        public DataTable Datatable { get; set; }
+        public DataTable DataTable { get; set; }
         public LoadCaseFromDatatableAction(DataTable datatable)
         {
-            Datatable = datatable;
+            DataTable = datatable;
         }
 
-        public virtual void Execute(GenerationState state)
+        public void Execute(GenerationState state) => Execute(state.CaseCollection.CurrentScope);
+
+        public void Execute(CaseSet testCases)
         {
-            state.TestCaseCollection.Scope.ReadFromDataTable(Datatable);
-            state.TestCaseCollection.Scope.Content.AcceptChanges();
+            testCases.Content = DataTable.Copy();
+            testCases.Content.AcceptChanges();
         }
 
-        public string Display
-        {
-            get
-            {
-                return "Loading TestCases from datatable. ";
-            }
-        }
+        public string Display => "Loading TestCases from datatable.";
     }
 }

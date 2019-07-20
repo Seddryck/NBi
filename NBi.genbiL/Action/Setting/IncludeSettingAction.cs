@@ -1,4 +1,5 @@
-﻿using NBi.Xml;
+﻿using NBi.GenbiL.Stateful;
+using NBi.Xml;
 using NBi.Xml.SerializationOption;
 using NBi.Xml.Settings;
 using System;
@@ -11,21 +12,28 @@ using System.Xml.Serialization;
 
 namespace NBi.GenbiL.Action.Setting
 {
-    public class IncludeSettingAction : ISettingAction
+    public class IncludeSettingAction : Serializer, ISettingAction
     {
         public string Filename { get; set; }
 
-        public IncludeSettingAction(string filename)
-        {
-            Filename = filename;
-        }
+        public IncludeSettingAction(string filename) => Filename = filename;
 
         public void Execute(GenerationState state)
         {
             using (var stream = new FileStream(Filename, FileMode.Open, FileAccess.Read))
             {
                 var settings = Include(stream);
-                state.Settings.SetSettingsXml(settings);
+
+                state.Settings.Defaults.Clear();
+                foreach (var defaultSetting in settings.Defaults)
+                    state.Settings.Defaults.Add(defaultSetting);
+
+                state.Settings.References.Clear();
+                foreach (var refSetting in settings.References)
+                    state.Settings.References.Add(refSetting);
+
+                state.Settings.ParallelizeQueries = settings.ParallelizeQueries;
+                state.Settings.CsvProfile = settings.CsvProfile;
             }
         }
 
@@ -46,35 +54,6 @@ namespace NBi.GenbiL.Action.Setting
             }
         }
 
-        protected internal T XmlDeserializeFromString<T>(string objectData)
-        {
-            return (T)XmlDeserializeFromString(objectData, typeof(T));
-        }
-
-        protected object XmlDeserializeFromString(string objectData, Type type)
-        {
-            var overrides = new ReadOnlyAttributes();
-            overrides.Build();
-
-            var serializer = new XmlSerializer(type, overrides);
-            object result;
-
-            using (TextReader reader = new StringReader(objectData))
-            {
-                result = serializer.Deserialize(reader);
-            }
-
-            return result;
-        }
-
-        public string Display
-        {
-            get
-            {
-                return string.Format("Include settings from '{0}'"
-                    , Filename
-                    );
-            }
-        }
+        public string Display => $"Include settings from '{Filename}'";
     }
 }

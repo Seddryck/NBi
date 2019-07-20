@@ -1,49 +1,34 @@
-﻿using System;
+﻿using NBi.GenbiL.Stateful;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
 namespace NBi.GenbiL.Action.Case
 {
-    public class RemoveCaseAction : ICaseAction
+    public class RemoveCaseAction : ISingleCaseAction
     {
-        private List<string> variableNames { get; set; }
+        private List<string> VariableNames { get; set; }
         public IReadOnlyList<string> Variables
         {
             get
             {
-                return variableNames.AsReadOnly();
+                return VariableNames.AsReadOnly();
             }
-        }
-
-        public RemoveCaseAction(string variableName)
-        {
-            variableNames = new List<string>() {variableName};
         }
 
         public RemoveCaseAction(IEnumerable<string> variableNames)
         {
-            this.variableNames = new List<string>(variableNames);
+            this.VariableNames = new List<string>(variableNames);
         }
 
-        public void Execute(GenerationState state)
+        public void Execute(GenerationState state) => Execute(state.CaseCollection.CurrentScope);
+        public void Execute(CaseSet testCases)
         {
-            foreach (var variableName in variableNames)
-            {
-                state.TestCaseCollection.Scope.Variables.Remove(variableName);
-                state.TestCaseCollection.Scope.Content.Columns.Remove(variableName);
-            }
+            foreach (var variableName in VariableNames)
+                testCases.Content.Columns.Remove(variableName);
         }
 
-        public string Display
-        {
-            get
-            {
-                if (variableNames.Count()==1)
-                    return string.Format("Removing column '{0}'", variableNames.ElementAt(0));
-                else
-                    return string.Format("Removing columns '{0}'", String.Join("', '",variableNames.ToArray()));
-            }
-        }
+        public string Display => $"Removing column{(VariableNames.Count() <= 1 ? "" : "s")} '{(VariableNames.Count()==1 ? VariableNames.ElementAt(0) : string.Join("', '",VariableNames.ToArray()))}'";
     }
 }

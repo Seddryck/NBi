@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Linq;
-using NBi.Service;
+using NBi.Core.FlatFile;
+using NBi.GenbiL.Stateful;
 
 namespace NBi.GenbiL.Action.Case
 {
-    public class LoadCaseFromFileAction : ICaseAction
+    public class LoadCaseFromFileAction : ISingleCaseAction
     {
         public string Filename { get; set; }
         public LoadCaseFromFileAction(string filename)
@@ -12,21 +13,15 @@ namespace NBi.GenbiL.Action.Case
             Filename = filename;
         }
 
-        public virtual void Execute(GenerationState state)
+        public void Execute(GenerationState state) => Execute(state.CaseCollection.CurrentScope);
+
+        public void Execute(CaseSet testCases)
         {
-            state.TestCaseCollection.Scope.ReadFromCsv(Filename);
-            state.TestCaseCollection.Scope.Content.AcceptChanges();
+            var csvReader = new CsvReader();
+            testCases.Content = csvReader.ToDataTable(Filename, true);
+            testCases.Content.AcceptChanges();
         }
 
-        public string Display
-        {
-            get
-            {
-                return string.Format("Loading TestCases from CSV file '{0}'"
-                    , Filename);
-            }
-        }
-       
-
+        public string Display => $"Loading TestCases from CSV file '{Filename}'";
     }
 }

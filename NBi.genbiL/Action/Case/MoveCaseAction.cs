@@ -1,11 +1,12 @@
-﻿using System;
+﻿using NBi.GenbiL.Stateful;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
 namespace NBi.GenbiL.Action.Case
 {
-    public class MoveCaseAction : ICaseAction
+    public class MoveCaseAction : ISingleCaseAction
     {
         public string VariableName { get; set; }
 
@@ -22,30 +23,26 @@ namespace NBi.GenbiL.Action.Case
             Ordinal = ordinal;
         }
 
+        public void Execute(GenerationState state) => Execute(state.CaseCollection.CurrentScope);
 
-        public void Execute(GenerationState state)
+        public void Execute(CaseSet testCases)
         {
-            var currentPosition = state.TestCaseCollection.Scope.Variables.IndexOf(VariableName);
+            var currentPosition = testCases.Variables.ToList().IndexOf(VariableName);
 
-            if (Ordinal != int.MinValue && Ordinal != int.MaxValue)
-                state.TestCaseCollection.Scope.MoveVariable(VariableName, currentPosition + Ordinal);
+            //Calculate new position
+            var newPosition = (Ordinal != int.MinValue && Ordinal != int.MaxValue)
+                 ? currentPosition + Ordinal
+                 : (Ordinal == int.MinValue)
+                    ? 0 : testCases.Variables.Count() - 1;
 
-            if (Ordinal == int.MinValue)
-                state.TestCaseCollection.Scope.MoveVariable(VariableName, 0);
+            if (!testCases.Variables.Contains(VariableName))
+                throw new ArgumentOutOfRangeException("variableName");
 
-            if (Ordinal == int.MaxValue)
-                state.TestCaseCollection.Scope.MoveVariable(VariableName, state.TestCaseCollection.Scope.Variables.Count-1);
+            testCases.Content.Columns[currentPosition].SetOrdinal(newPosition);
+            testCases.Content.AcceptChanges();
         }
 
         public string Display
-        {
-            get
-            {
-                if (Ordinal != int.MinValue && Ordinal != int.MaxValue)
-                    return string.Format("Moving column '{0}' to the {1}", VariableName, Ordinal == 1 ? "right" : "left");
-                else
-                    return string.Format("Moving column '{0}' to the extreme {1}", VariableName, Ordinal > 1 ? "right" : "left");
-            }
-        }
+            => $"Moving column '{VariableName}' to the{(Ordinal != int.MinValue && Ordinal != int.MaxValue ? "" : " extreme")} {(Ordinal > 1 ? "right" : "left")}";
     }
 }

@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<testSuite name="The TestSuite" xmlns="http://NBi/TestSuite">
+	<test name="With table attribute">
+		<system-under-test>
+			<structure>
+				<column caption="column" table="table" perspective="perspective" connectionString="connectionString"/>
+			</structure>
+		</system-under-test>
+		<assert>
+			<exists/>
+		</assert>
+	</test>
+</testSuite>

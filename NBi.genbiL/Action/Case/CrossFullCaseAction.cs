@@ -15,9 +15,6 @@ namespace NBi.GenbiL.Action.Case
         
         public override bool MatchingRow(DataRow first, DataRow second) => true;
 
-        public override string Display
-        {
-            get => $"Fully crossing the set of test-cases '{FirstSet}' with '{SecondSet}'";
-        }
+        public override string Display => $"Fully crossing the set of test-cases '{FirstSet}' with '{SecondSet}'";
     }
 }

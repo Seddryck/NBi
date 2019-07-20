@@ -2,6 +2,8 @@
 using System.ComponentModel;
 using System.Data;
 using System.Linq;
+using NBi.GenbiL.Stateful;
+using NBi.IO.Genbi.Dto;
 
 namespace NBi.UI.Genbi.Interface
 {
@@ -12,10 +14,8 @@ namespace NBi.UI.Genbi.Interface
         BindingList<string> Variables { get; set; }
         bool UseGrouping { get; set; }
 
-        BindingList<Service.Dto.Test> Tests { get; set; }
+        BindingList<Test> Tests { get; set; }
 
         //int ProgressValue { set; }
-
-        
     }
 }

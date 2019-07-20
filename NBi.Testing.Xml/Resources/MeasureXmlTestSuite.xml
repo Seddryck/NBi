@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<testSuite name="The TestSuite" xmlns="http://NBi/TestSuite">
+	<test name="With measure-group attribute">
+		<system-under-test>
+			<structure>
+				<measure caption="measure" measure-group="measure-group" perspective="Perspective" connectionString="ConnectionString"/>
+			</structure>
+		</system-under-test>
+		<assert>
+			<exists/>
+		</assert>
+	</test>
+	<test name="Without measure-group attribute">
+		<system-under-test>
+			<structure>
+				<measure caption="measure" perspective="Perspective" connectionString="ConnectionString"/>
+			</structure>
+		</system-under-test>
+		<assert>
+			<exists/>
+		</assert>
+	</test>
+	<test name="With display-folder attribute">
+		<system-under-test>
+			<structure>
+				<measure caption="measure" display-folder="display-folder" perspective="Perspective" connectionString="ConnectionString"/>
+			</structure>
+		</system-under-test>
+		<assert>
+			<exists/>
+		</assert>
+	</test>
+	<test name="Without display-folder attribute" >
+		<system-under-test>
+			<structure>
+				<measure caption="measure" perspective="Perspective" connectionString="ConnectionString"/>
+			</structure>
+		</system-under-test>
+		<assert>
+			<exists/>
+		</assert>
+	</test>
+	<test name="Without display-folder root attribute">
+		<system-under-test>
+			<structure>
+				<measure caption="measure" display-folder="" perspective="Perspective" connectionString="ConnectionString"/>
+			</structure>
+		</system-under-test>
+		<assert>
+			<exists/>
+		</assert>
+	</test>
+</testSuite>

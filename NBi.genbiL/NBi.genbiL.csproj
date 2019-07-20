@@ -34,6 +34,12 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Antlr4.StringTemplate, Version=4.0.6.9004, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Antlr4.StringTemplate.4.0.6.9004\lib\net35\Antlr4.StringTemplate.dll</HintPath>
+    </Reference>
+    <Reference Include="PocketCsvReader, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\PocketCsvReader.1.0.0\lib\net461\PocketCsvReader.dll</HintPath>
+    </Reference>
     <Reference Include="Sprache, Version=2.2.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Sprache.2.2.0\lib\net45\Sprache.dll</HintPath>
     </Reference>
@@ -53,9 +59,11 @@
       <Link>Properties\AssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="Action\AxisType.cs" />
+    <Compile Include="Action\Case\AbstractCompareCaseAction.cs" />
     <Compile Include="Action\Case\CrossJoinCaseAction.cs" />
     <Compile Include="Action\Case\CrossFullCaseAction.cs" />
     <Compile Include="Action\Case\DuplicateCaseAction.cs" />
+    <Compile Include="Action\Case\ICaseAction.cs" />
     <Compile Include="Action\Case\LoadCaseFromDatatableAction.cs" />
     <Compile Include="Action\Case\ReduceCaseAction.cs" />
     <Compile Include="Action\Case\GroupCaseAction.cs" />
@@ -81,9 +89,12 @@
     <Compile Include="Action\Case\RemoveCaseAction.cs" />
     <Compile Include="Action\Case\TrimCaseAction.cs" />
     <Compile Include="Action\DefaultType.cs" />
-    <Compile Include="Action\Case\ICaseAction.cs" />
+    <Compile Include="Action\Case\ISingleCaseAction.cs" />
+    <Compile Include="Action\Serializer.cs" />
     <Compile Include="Action\EmptyAction.cs" />
     <Compile Include="Action\IAction.cs" />
+    <Compile Include="Action\Case\IMultiCaseAction.cs" />
+    <Compile Include="Action\OperatorType.cs" />
     <Compile Include="Action\Setting\IncludeSettingAction.cs" />
     <Compile Include="Action\Setting\ISettingAction.cs" />
     <Compile Include="Action\Setting\ParameterActionFactory.cs" />
@@ -108,7 +119,7 @@
     <Compile Include="Action\Variable\IVariableAction.cs" />
     <Compile Include="Parser\Action.cs" />
     <Compile Include="Parser\Consumable.cs" />
-    <Compile Include="Directions.cs" />
+    <Compile Include="Action\DirectionType.cs" />
     <Compile Include="Parser\Valuable\Column.cs" />
     <Compile Include="Parser\Comment.cs" />
     <Compile Include="Parser\Valuable\IValuable.cs" />
@@ -119,7 +130,8 @@
     <Compile Include="Action\Setting\ReferenceAction.cs" />
     <Compile Include="Action\Suite\GenerateSuiteAction.cs" />
     <Compile Include="Action\Template\LoadEmbeddedTemplateAction.cs" />
-    <Compile Include="GenerationState.cs" />
+    <Compile Include="Stateful\CaseCollection.cs" />
+    <Compile Include="Stateful\GenerationState.cs" />
     <Compile Include="Action\Case\LoadCaseFromFileAction.cs" />
     <Compile Include="Action\LoadType.cs" />
     <Compile Include="Parser\Case.cs" />
@@ -130,6 +142,20 @@
     <Compile Include="Parser\Valuable\Value.cs" />
     <Compile Include="Parser\Variable.cs" />
     <Compile Include="Properties\ProjectAssemblyInfo.cs" />
+    <Compile Include="Stateful\Setting.cs" />
+    <Compile Include="Stateful\CaseSet.cs" />
+    <Compile Include="Stateful\Tree\BranchNode.cs" />
+    <Compile Include="Stateful\Tree\GroupNode.cs" />
+    <Compile Include="Stateful\Tree\LeafNode.cs" />
+    <Compile Include="Stateful\Tree\RootNode.cs" />
+    <Compile Include="Stateful\Tree\TestNode.cs" />
+    <Compile Include="Stateful\Tree\TreeNode.cs" />
+    <Compile Include="Templating\ExpectedVariableNotFoundException.cs" />
+    <Compile Include="Templating\HomeMadeEngine.cs" />
+    <Compile Include="Templating\ProgressEventArgs.cs" />
+    <Compile Include="Templating\Resources\ResourcesFolder.cs" />
+    <Compile Include="Templating\StringTemplateEngine.cs" />
+    <Compile Include="Templating\TemplateExecutionException.cs" />
     <Compile Include="TestSuiteGenerator.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -137,9 +163,9 @@
       <Project>{3f730647-fe31-4907-8a6e-a0c4a0c970ea}</Project>
       <Name>NBi.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\NBi.Services\NBi.Service.csproj">
-      <Project>{a9c7e50a-1d3d-4c6d-9c56-8ea8925fe2d6}</Project>
-      <Name>NBi.Service</Name>
+    <ProjectReference Include="..\NBi.Extensibility\NBi.Extensibility.csproj">
+      <Project>{a06cba63-d848-4dbc-abfc-63172613999d}</Project>
+      <Name>NBi.Extensibility</Name>
     </ProjectReference>
     <ProjectReference Include="..\NBi.Xml\NBi.Xml.csproj">
       <Project>{3a9822b3-cce4-441b-9c3e-d52817a994ca}</Project>
@@ -148,6 +174,51 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Templating\Resources\ContainedInDimensions.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Templating\Resources\ContainedInHierarchies.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Templating\Resources\ContainedInLevels.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Templating\Resources\ContainedInMeasureGroup.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Templating\Resources\ContainedInMeasures.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Templating\Resources\ContainedInPerspectives.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Templating\Resources\ExistsDimension.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Templating\Resources\ExistsHierarchy.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Templating\Resources\ExistsLevel.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Templating\Resources\ExistsMeasure.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Templating\Resources\ExistsMeasureGroup.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Templating\Resources\ExistsPerspective.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Templating\Resources\LinkedToDimension.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Templating\Resources\LinkedToMeasureGroup.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Templating\Resources\QueryEqualToItself.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

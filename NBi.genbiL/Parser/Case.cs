@@ -2,7 +2,7 @@
 using System.Linq;
 using NBi.GenbiL.Action;
 using NBi.GenbiL.Action.Case;
-using NBi.Service;
+using NBi.GenbiL.Stateful;
 using Sprache;
 
 namespace NBi.GenbiL.Parser
@@ -100,7 +100,7 @@ namespace NBi.GenbiL.Parser
                 from variableName in Grammar.QuotedTextual
                 from valuesKeyword in Keyword.Values
                 from negation in Keyword.Not.Optional()
-                from @operator in Parse.IgnoreCase("Equal").Return(Operator.Equal).Or(Parse.IgnoreCase("Like").Return(Operator.Like)).Token()
+                from @operator in Parse.IgnoreCase("Equal").Return(OperatorType.Equal).Or(Parse.IgnoreCase("Like").Return(OperatorType.Like)).Token()
                 from text in Grammar.ExtendedQuotedRecordSequence
                 select new FilterCaseAction(variableName, @operator, text, negation.IsDefined)
         );
@@ -238,7 +238,7 @@ namespace NBi.GenbiL.Parser
                 from whenKeyword in Keyword.When
                 from valuesKeyword2 in Keyword.Values
                 from negation in Keyword.Not.Optional()
-                from @operator in Parse.IgnoreCase("Equal").Return(Operator.Equal).Or(Parse.IgnoreCase("Like").Return(Operator.Like)).Token()
+                from @operator in Parse.IgnoreCase("Equal").Return(OperatorType.Equal).Or(Parse.IgnoreCase("Like").Return(OperatorType.Like)).Token()
                 from text in Grammar.ExtendedQuotedRecordSequence
                 select new ReplaceCaseAction(variableName, newValue, @operator, text, negation.IsDefined)
         );
@@ -297,12 +297,12 @@ namespace NBi.GenbiL.Parser
         readonly static Parser<ICaseAction> caseTrimParser =
         (
                 from substitute in Keyword.Trim
-                from direction in Parse.IgnoreCase("Left").Return(Directions.Left)
-                                                .Or(Parse.IgnoreCase("Right").Return(Directions.Right))
+                from direction in Parse.IgnoreCase("Left").Return(DirectionType.Left)
+                                                .Or(Parse.IgnoreCase("Right").Return(DirectionType.Right))
                                                 .Optional()
                 from axisType in Keyword.Columns.Or(Keyword.Column)
                 from columnNames in Grammar.QuotedRecordSequence.Or(Keyword.All.Return(new string[] { }))
-                select new TrimCaseAction(columnNames, direction.GetOrElse(Directions.Both))
+                select new TrimCaseAction(columnNames, direction.GetOrElse(DirectionType.Both))
         );
 
         public readonly static Parser<IAction> Parser =

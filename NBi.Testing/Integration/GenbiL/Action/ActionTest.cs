@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 using NBi.GenbiL.Action;
+using NBi.GenbiL.Stateful;
 
 namespace NBi.Testing.Integration.GenbiL.Action
 {

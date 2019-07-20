@@ -1,0 +1,12 @@
+﻿<test name="A perspective named '$perspective$' exists.">
+	<description>Assert that the perspective '$perspective$' exists and is visible for end-users</description>
+	<edition author="$username$" created="$now$"/>
+	<system-under-test>
+		<structure>	
+			<perspective caption="$perspective$"/>
+		</structure>
+	</system-under-test>
+	<assert>
+		<exists/>
+	</assert>
+</test>

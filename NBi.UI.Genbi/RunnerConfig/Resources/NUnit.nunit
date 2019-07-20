@@ -1,0 +1,6 @@
+﻿<NUnitProject>
+  <Settings activeconfig="Default" processModel="Default" domainUsage="Default" />
+  <Config name="Default" binpathtype="Auto" appbase="$RootRelative$" configfile="$TestSuitFilename$.config">
+    <assembly path="$FrameworkRelative$NBi.NUnit.Runtime.dll" />
+  </Config>
+</NUnitProject>

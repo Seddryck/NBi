@@ -1,10 +1,10 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Linq;
-using NBi.Service;
+using NBi.GenbiL.Stateful;
 using NBi.UI.Genbi.Command;
 using NBi.UI.Genbi.Command.Template;
-using NBi.UI.Genbi.Interface;
+using NBi.UI.Genbi.Service;
 using NBi.UI.Genbi.View.TestSuiteGenerator;
 
 namespace NBi.UI.Genbi.Presenter
@@ -98,12 +98,6 @@ namespace NBi.UI.Genbi.Presenter
 
         public event EventHandler<EventArgs> TemplateChanged;
 
-        protected void OnTemplateChanged(EventArgs e)
-        {
-            EventHandler<EventArgs> handler = TemplateChanged;
-            if (handler != null)
-                handler(this, e);
-        }
-        
+        protected void OnTemplateChanged(EventArgs e) => TemplateChanged?.Invoke(this, e);
     }
 }

@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Linq;
-using NBi.Service;
+using NBi.Core.Query;
+using NBi.Core.Query.Execution;
+using NBi.GenbiL.Stateful;
 
 namespace NBi.GenbiL.Action.Case
 {
-    public class LoadCaseFromQueryFileAction : ICaseAction
+    public class LoadCaseFromQueryFileAction : LoadCaseFromQueryAction
     {
         public string Filename { get; set; }
-        public string ConnectionString { get; set; }
 
         public LoadCaseFromQueryFileAction(string filename, string connectionString)
         {
@@ -15,20 +16,13 @@ namespace NBi.GenbiL.Action.Case
             ConnectionString = connectionString;
         }
 
-        public virtual void Execute(GenerationState state)
+        public override void Execute(CaseSet testCases)
         {
-            state.TestCaseCollection.Scope.ReadFromQueryFile(Filename, ConnectionString);
+            Query = System.IO.File.ReadAllText(Filename);
+            base.Execute(testCases);
         }
 
-        public string Display
-        {
-            get
-            {
-                return string.Format("Loading TestCases from query written in '{0}'"
-                    , Filename);
-            }
-        }
-       
+        public new string Display => $"Loading TestCases from query written in '{Filename}'";
 
     }
 }

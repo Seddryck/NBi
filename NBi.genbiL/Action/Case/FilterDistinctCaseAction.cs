@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NBi.GenbiL.Stateful;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -6,17 +7,19 @@ using System.Text;
 
 namespace NBi.GenbiL.Action.Case
 {
-    public class FilterDistinctCaseAction: ICaseAction
+    public class FilterDistinctCaseAction: ISingleCaseAction
     {
 
         public FilterDistinctCaseAction()
         { }
 
-        public void Execute(GenerationState state)
+        public void Execute(GenerationState state) => Execute(state.CaseCollection.CurrentScope);
+
+        public void Execute(CaseSet testCases)
         {
             DataTableReader dataReader = null;
 
-            var content = state.TestCaseCollection.Scope.Content;
+            var content = testCases.Content;
             var distinctRows = content.AsEnumerable().Distinct(DataRowComparer.Default);
 
             if (distinctRows.Count() > 0)

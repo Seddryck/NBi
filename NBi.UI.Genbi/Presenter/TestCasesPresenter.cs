@@ -4,10 +4,12 @@ using System.ComponentModel;
 using System.Data;
 using System.Linq;
 using NBi.GenbiL.Action.Case;
-using NBi.Service;
+using NBi.GenbiL.Stateful;
 using NBi.UI.Genbi.Command;
 using NBi.UI.Genbi.Command.TestCases;
 using NBi.UI.Genbi.View.TestSuiteGenerator;
+using NBi.GenbiL.Action;
+using NBi.UI.Genbi.Service;
 
 namespace NBi.UI.Genbi.Presenter
 {
@@ -148,20 +150,28 @@ namespace NBi.UI.Genbi.Presenter
 
         internal void LoadCsv(string fullPath)
         {
-            testCaseCollectionManager.Scope.ReadFromCsv(fullPath);
+            var action = new LoadCaseFromFileAction(fullPath);
+            action.Execute(testCaseCollectionManager.CurrentScope);
             Reload();
             OnPropertyChanged("Variables");
         }
 
         internal void LoadQuery(string fullPath)
         {
-            Query = testCaseCollectionManager.Scope.GetQueryFileContent(fullPath);
+            Query = System.IO.File.ReadAllText(fullPath);
             OnPropertyChanged("Query");
+        }
+
+        internal void RunQuery()
+        {
+            var action = new LoadCaseFromQueryAction(Query, ConnectionStringSelectedValue);
+            action.Execute(testCaseCollectionManager.CurrentScope);
+            Reload();
         }
 
         private void Reload()
         {
-            var dtReader = new DataTableReader(testCaseCollectionManager.Scope.Content);
+            var dtReader = new DataTableReader(testCaseCollectionManager.CurrentScope.Content);
 
             //Reset the state of the DataTable
             //Remove the Sort Order or you'll be in troubles when loading the datatable
@@ -176,7 +186,7 @@ namespace NBi.UI.Genbi.Presenter
 
             //Take care of variables
             Variables.Clear();
-            foreach (var v in testCaseCollectionManager.Scope.Variables)
+            foreach (var v in testCaseCollectionManager.CurrentScope.Variables)
                 Variables.Add(v);
 
             if (VariableSelectedIndex < 0 && Variables.Count > 0)
@@ -196,16 +206,43 @@ namespace NBi.UI.Genbi.Presenter
 
         internal void Rename(int index, string newName)
         {
-            testCaseCollectionManager.Scope.RenameVariable(index, newName);
+            var action = new RenameCaseAction(Variables.ElementAt(index), newName);
+            action.Execute(testCaseCollectionManager.CurrentScope);
             Reload();
             OnPropertyChanged("Variables");
         }
 
         internal void Remove(int index)
         {
-            Variables.RemoveAt(index);
+            var action = new RemoveCaseAction(new[] { Variables.ElementAt(index) });
+            action.Execute(testCaseCollectionManager.CurrentScope);
+            Reload();
             OnPropertyChanged("Variables");
-            TestCases.Columns.RemoveAt(index);
+        }
+
+
+        internal void Move(int selectedIndex, int newPosition)
+        {
+            var action = new MoveCaseAction(Variables[VariableSelectedIndex], newPosition);
+            action.Execute(testCaseCollectionManager.CurrentScope);
+            Reload();
+            VariableSelectedIndex = newPosition;
+            OnPropertyChanged("Variables");
+        }
+
+        internal void Filter(int selectedIndex, OperatorType @operator, bool negation, string text)
+        {
+            var action = new FilterCaseAction(Variables[VariableSelectedIndex], @operator, new[] { text }, negation);
+            action.Execute(testCaseCollectionManager.CurrentScope);
+            Reload();
+            OnPropertyChanged("TestCases");
+        }
+        internal void FilterDistinct()
+        {
+            var action = new FilterDistinctCaseAction();
+            action.Execute(testCaseCollectionManager.CurrentScope);
+            Reload();
+            OnPropertyChanged("TestCases");
         }
 
         internal bool IsRenamable()
@@ -233,27 +270,6 @@ namespace NBi.UI.Genbi.Presenter
             return VariableSelectedIndex == Variables.Count - 1;
         }
 
-        internal void Move(int selectedIndex, int newPosition)
-        {
-            testCaseCollectionManager.Scope.MoveVariable(Variables[VariableSelectedIndex], newPosition);
-            Reload();
-            VariableSelectedIndex = newPosition;
-            OnPropertyChanged("Variables");
-        }
-
-        internal void Filter(int selectedIndex, Operator @operator, bool negation, string text)
-        {
-            testCaseCollectionManager.Scope.Filter(Variables[VariableSelectedIndex], @operator, negation, text);
-            Reload();
-            OnPropertyChanged("TestCases");
-        }
-        internal void FilterDistinct()
-        {
-            var action = new FilterDistinctCaseAction();
-            //TODO: action.Execute(state);
-            Reload();
-            OnPropertyChanged("TestCases");
-        }
         internal void AddConnectionString(string name, string value)
         {
             testCaseCollectionManager.AddConnectionStrings(name, value);
@@ -271,14 +287,5 @@ namespace NBi.UI.Genbi.Presenter
             testCaseCollectionManager.EditConnectionStrings(ConnectionStringSelectedName, newValue);
             OnPropertyChanged("ConnectionStringNames");
         }
-
-        internal void RunQuery()
-        {
-            testCaseCollectionManager.Scope.ReadFromQuery(Query, ConnectionStringSelectedValue);
-            Reload();
-        }
-
-
-
     }
 }

@@ -56,7 +56,7 @@ namespace NBi.Testing.GenbiL.Parser
         }
 
         [Test]
-        public void SentenceParser_SuiteSaveasString_ValidSaveSuiteAction()
+        public void SentenceParser_SuiteSaveAsString_ValidSaveSuiteAction()
         {
             var input = "suite save as 'filename.nbits';";
             var result = Suite.Parser.Parse(input);
@@ -75,6 +75,19 @@ namespace NBi.Testing.GenbiL.Parser
             Assert.That(result, Is.Not.Null);
             Assert.That(result, Is.InstanceOf<IncludeSuiteAction>());
             Assert.That(((IncludeSuiteAction)result).Filename, Is.EqualTo("filename.nbitx"));
+            Assert.That(((IncludeSuiteAction)result).GroupPath, Is.EqualTo("."));
+        }
+
+        [Test]
+        public void SentenceParser_SuiteIncludeIntoGroupString_ValidIncludeSuiteAction()
+        {
+            var input = "suite include file 'filename.nbitx' into group 'group|subgroup';";
+            var result = Suite.Parser.Parse(input);
+
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.InstanceOf<IncludeSuiteAction>());
+            Assert.That(((IncludeSuiteAction)result).Filename, Is.EqualTo("filename.nbitx"));
+            Assert.That(((IncludeSuiteAction)result).GroupPath, Is.EqualTo("group|subgroup"));
         }
 
         [Test]
@@ -89,6 +102,18 @@ namespace NBi.Testing.GenbiL.Parser
         }
 
         [Test]
+        public void SentenceParser_SuiteAddToGroupString_ValidIncludeSuiteAction()
+        {
+            var input = "suite add file 'filename.nbitx' to group 'group|subgroup';";
+            var result = Suite.Parser.Parse(input);
+
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.InstanceOf<IncludeSuiteAction>());
+            Assert.That(((IncludeSuiteAction)result).Filename, Is.EqualTo("filename.nbitx"));
+            Assert.That(((IncludeSuiteAction)result).GroupPath, Is.EqualTo("group|subgroup"));
+        }
+
+        [Test]
         public void SentenceParser_SuiteAddRangeFileString_ValidAddRangeSuiteAction()
         {
             var input = "suite addrange file 'filename.nbits';";
@@ -97,6 +122,18 @@ namespace NBi.Testing.GenbiL.Parser
             Assert.That(result, Is.Not.Null);
             Assert.That(result, Is.InstanceOf<AddRangeSuiteAction>());
             Assert.That(((AddRangeSuiteAction)result).Filename, Is.EqualTo("filename.nbits"));
+        }
+
+        [Test]
+        public void SentenceParser_SuiteAddRangeFileToGroupString_ValidAddRangeSuiteAction()
+        {
+            var input = "suite addrange file 'filename.nbits' to group 'group|subgroup';";
+            var result = Suite.Parser.Parse(input);
+
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.InstanceOf<AddRangeSuiteAction>());
+            Assert.That(((AddRangeSuiteAction)result).Filename, Is.EqualTo("filename.nbits"));
+            Assert.That(((AddRangeSuiteAction)result).GroupPath, Is.EqualTo("group|subgroup"));
         }
     }
 }

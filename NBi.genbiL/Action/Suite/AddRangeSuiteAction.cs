@@ -9,22 +9,19 @@ using System.Text;
 
 namespace NBi.GenbiL.Action.Suite
 {
-    public class AddRangeSuiteAction : Serializer, ISuiteAction
+    public class AddRangeSuiteAction : IncludeSuiteAction
     {
-        public string Filename { get; set; }
+        public AddRangeSuiteAction(string filename, string groupPath)
+        : base(filename, groupPath) { }
 
-        public AddRangeSuiteAction(string filename)
-        {
-            Filename = filename;
-        }
-        
-        public void Execute(GenerationState state)
+        public override void Execute(GenerationState state)
         {
             using (var stream = new FileStream(Filename, FileMode.Open, FileAccess.Read))
             {
                 var testSuite = AddRange(stream);
+                var parentNode = GetParentNode(state.Suite);
                 foreach (var testXml in testSuite.GetAllTests())
-                    state.Suite.AddChild(new TestNode(new TestStandaloneXml(testXml)));
+                    parentNode.AddChild(new TestNode(new TestStandaloneXml(testXml)));
             }
         }
 
@@ -37,14 +34,6 @@ namespace NBi.GenbiL.Action.Suite
             }
         }
 
-        public string Display
-        {
-            get
-            {
-                return string.Format("Include test from '{0}'"
-                    , Filename
-                    );
-            }
-        }
+        public override string Display { get => $"Add a range of tests from '{Filename}'";}
     }
 }

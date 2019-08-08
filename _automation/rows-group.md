@@ -29,7 +29,7 @@ The first three rows having the same value for columns **First** and **Second**,
 | A | B | {C, D, E}
 | A | F | {G, H}
 
-Groups let the user create tests with several values for one variable. More info available [here](../automation/generate-tests/#use-grouping-option).
+Groups let the user create tests with several values for one variable. More info available [here](../generate-tests/#use-grouping-option).
 
 It's possible to stipulate more than one column by separating each column by a comma.
 {% highlight xml%}

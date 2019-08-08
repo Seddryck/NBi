@@ -11,21 +11,22 @@ namespace NBi.GenbiL.Action.Suite
 {
     public class IncludeSuiteAction : Serializer, ISuiteAction
     {
-        public string Filename { get; set; }
+        public string Filename { get; private set; }
+        public string GroupPath { get; private set; }
 
-        public IncludeSuiteAction(string filename)
-        {
-            Filename = filename;
-        }
+        public IncludeSuiteAction(string filename, string groupPath)
+            => (Filename, GroupPath) = (filename, string.IsNullOrEmpty(groupPath) ? RootNode.Path : groupPath);
         
-        public void Execute(GenerationState state)
+        public virtual void Execute(GenerationState state)
         {
             using (var stream = new FileStream(Filename, FileMode.Open, FileAccess.Read))
             {
                 var testXml = Include(stream);
-                state.Suite.AddChild(new TestNode(testXml));
+                GetParentNode(state.Suite).AddChild(new TestNode(testXml));
             }
         }
+
+        protected BranchNode GetParentNode(RootNode root) => root.GetChildBranch(GroupPath);
 
         protected internal TestStandaloneXml Include(Stream stream)
         {
@@ -38,6 +39,6 @@ namespace NBi.GenbiL.Action.Suite
             }
         }
 
-        public string Display => $"Include test from '{Filename}'";
+        public virtual string Display => $"Include test from '{Filename}'";
     }
 }

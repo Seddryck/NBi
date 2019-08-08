@@ -280,30 +280,14 @@ namespace NBi.Xml
         [XmlIgnore]
         public bool SetupSpecified
         {
-            get
-            {
-                return !(
-                            Setup == null
-                            || (
-                                    (Setup.Commands == null || Setup.Commands.Count == 0)
-                               )
-                         );
-            }
+            get => (Setup?.Commands?.Count ?? 0) != 0;
             set { return; }
         }
 
         [XmlIgnore]
         public bool CleanupSpecified
         {
-            get
-            {
-                return !(
-                            Cleanup == null
-                            || (
-                                    (Cleanup.Commands == null || Cleanup.Commands.Count == 0)
-                               )
-                         );
-            }
+            get => (Cleanup?.Commands?.Count ?? 0) != 0;
             set { return; }
         }
 

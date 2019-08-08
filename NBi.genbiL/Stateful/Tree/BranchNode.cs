@@ -37,7 +37,27 @@ namespace NBi.GenbiL.Stateful.Tree
             var node = this;
             var subPathes = path.Split(new[] { '|' });
             foreach (var subPath in subPathes)
-                node = node.Children.First(x => x is BranchNode && x.Name == subPath) as BranchNode;
+                node = node?.Children.FirstOrDefault(x => x is BranchNode && x.Name == subPath) as BranchNode;
+            return node;
+        }
+
+        public BranchNode GetChildBranch(string path)
+        {
+            var node = this;
+            if (path == RootNode.Path)
+                return Root;
+
+            var subPathes = path.Split(new[] { '|' });
+            foreach (var subPath in subPathes)
+            { 
+                var child = node.Children.FirstOrDefault(x => x is BranchNode && x.Name == subPath) as BranchNode;
+                if (child==null)
+                {
+                    child = new GroupNode(subPath);
+                    node.AddChild(child);
+                }
+                node = child;
+            }
             return node;
         }
     }

@@ -38,7 +38,16 @@ namespace NBi.GenbiL.Parser
                 from include in (Keyword.Add).Or(Keyword.Include)
                 from file in Keyword.File
                 from filename in Grammar.QuotedTextual.Token()
-                select new IncludeSuiteAction(filename)
+                from groupName in GroupNameParser.Optional()
+                select new IncludeSuiteAction(filename, groupName.GetOrElse("."))
+        );
+
+        readonly static Parser<string> GroupNameParser =
+        (
+            from @into in (Keyword.Into).Or(Keyword.To)
+            from @group in Keyword.Group
+            from groupName in Grammar.QuotedTextual.Token()
+            select groupName
         );
 
         readonly static Parser<ISuiteAction> AddRangeParser =
@@ -46,7 +55,8 @@ namespace NBi.GenbiL.Parser
                 from addrange in Keyword.AddRange
                 from file in Keyword.File
                 from filename in Grammar.QuotedTextual.Token()
-                select new AddRangeSuiteAction(filename)
+                from groupName in GroupNameParser.Optional()
+                select new AddRangeSuiteAction(filename, groupName.GetOrElse("."))
         );
 
         public readonly static Parser<IAction> Parser =

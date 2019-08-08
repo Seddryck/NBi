@@ -15,5 +15,7 @@ namespace NBi.GenbiL.Stateful.Tree
             Root = this;
             Level = 0;
         }
+
+        public static string Path { get => "."; }
     }
 }

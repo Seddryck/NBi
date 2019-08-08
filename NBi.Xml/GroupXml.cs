@@ -50,12 +50,7 @@ namespace NBi.Xml
         }
 
         public override string ToString()
-        {
-            if (string.IsNullOrEmpty(Name))
-                return base.ToString();
-            else
-                return Name.ToString();
-        }
+            => string.IsNullOrEmpty(Name) ? base.ToString() : Name.ToString();
 
         internal IEnumerable<TestXml> GetAllTests()
         {

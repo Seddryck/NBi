@@ -13,7 +13,7 @@ suite generate;
 
 To redirect the generated tests to different groups, you'll have to supply an additional parameter that is the name of the group. You'll need to use the variant ```suite generate group by 'group-name'``` to achieve this.
 
-If you want to have several levels in your groups, you need to use the pipe (```|```) to specify the full path of your group. The group *sub-group* contained in the group *primary-group* will be noted *primary-group|sub-group*. This group's name can also be dynamic and use columns from the test-cases to be generated. To achieve this, specify the group's name attribute as a template.
+If you want to have several levels in your groups, you need to use the pipe (|) to specify the full path of your group. The group *sub-group* contained in the group *primary-group* will be noted *primary-group|sub-group*. This group's name can also be dynamic and use columns from the test-cases to be generated. To achieve this, specify the group's name attribute as a template.
 
 {% highlight xml%}
 suite generate group by '$dimension$|$hierarchy$';

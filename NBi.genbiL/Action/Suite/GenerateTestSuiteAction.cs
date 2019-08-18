@@ -26,8 +26,10 @@ namespace NBi.GenbiL.Action.Suite
                     Grouping,
                     state.Consumables
             );
-            lastGeneration.ToList().ForEach(x => state.Suite.AddChild(new TestNode(x)));
+            lastGeneration.ToList().ForEach(x => state.Suite.AddChild(BuildNode(x)));
         }
+        protected override TreeNode BuildNode(TestStandaloneXml content)
+            => new TestNode(content);
 
         public override string Display { get => $"Generating Tests {(Grouping ? "with" : "without")} grouping option"; }
     }

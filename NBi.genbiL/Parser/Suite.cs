@@ -33,6 +33,15 @@ namespace NBi.GenbiL.Parser
                 select new GenerateSetupGroupBySuiteAction(groupPattern)
         );
 
+        readonly static Parser<ISuiteAction> GenerateCleanupGroupByParser =
+        (
+                from generate in Keyword.Generate
+                from setup in (Parse.IgnoreCase("cleanups").Or(Parse.IgnoreCase("cleanup"))).Token()
+                from groupby in Parse.IgnoreCase("group by")
+                from groupPattern in Grammar.QuotedTextual.Token()
+                select new GenerateCleanupGroupBySuiteAction(groupPattern)
+        );
+
         readonly static Parser<ISuiteAction> SaveParser =
         (
                 from save in Keyword.Save
@@ -70,7 +79,7 @@ namespace NBi.GenbiL.Parser
         public readonly static Parser<IAction> Parser =
         (
                 from suite in Keyword.Suite
-                from text in GenerateSetupGroupByParser.Or(GenerateTestGroupByParser).Or(GenerateParser).Or(SaveParser).Or(IncludeParser).Or(AddRangeParser)
+                from text in GenerateSetupGroupByParser.Or(GenerateCleanupGroupByParser).Or(GenerateTestGroupByParser).Or(GenerateParser).Or(SaveParser).Or(IncludeParser).Or(AddRangeParser)
                 select text
         );
     }

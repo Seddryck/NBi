@@ -10,8 +10,6 @@ namespace NBi.Xml.Decoration
         public SetupXml() { }
 
         public SetupXml(SetupStandaloneXml standalone)
-        {
-            Commands = standalone.Commands;
-        }
+            => Commands = standalone.Commands;
     }
 }

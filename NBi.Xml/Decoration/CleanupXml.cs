@@ -7,5 +7,9 @@ namespace NBi.Xml.Decoration
 {
     public class CleanupXml : DecorationXml
     {
+        public CleanupXml() { }
+
+        public CleanupXml(CleanupStandaloneXml standalone)
+            => Commands = standalone.Commands;
     }
 }

@@ -18,7 +18,6 @@ namespace NBi.GenbiL.Action.Suite
         protected GenerateSuiteAction(bool grouping, string groupByPattern)
             => (Grouping, GroupByPattern) = (grouping, groupByPattern);
 
-        public abstract void Execute(GenerationState state);
         public abstract string Display { get; }
 
         protected List<List<List<object>>> GetCases(DataTable dataTable, bool useGrouping)
@@ -64,6 +63,35 @@ namespace NBi.GenbiL.Action.Suite
 
             return variableTests;
         }
+
+        public virtual void Execute(GenerationState state)
+        {
+            var lastGeneration = Build(
+                    state.Templates,
+                    state.CaseCollection.CurrentScope.Variables.ToArray(),
+                    state.CaseCollection.CurrentScope.Content,
+                    Grouping,
+                    state.Consumables
+            );
+
+            var patternArray = new List<string>();
+            for (int i = 0; i < state.Templates.Count(); i++)
+                patternArray.Add(GroupByPattern);
+
+            var groupNames = RenderGroupNames(
+                    patternArray,
+                    state.CaseCollection.CurrentScope.Variables.ToArray(),
+                    state.CaseCollection.CurrentScope.Content,
+                    state.Consumables
+            );
+
+            GenerateBranches(state.Suite, groupNames.Distinct().Select(x => x.Split('|')));
+            var locatedItems = lastGeneration.ToList().Zip(groupNames, (Item, Location) => new { Item, Location });
+
+            locatedItems.ToList().ForEach(x => state.Suite.FindChildBranch(x.Location).AddChild(BuildNode(x.Item)));
+        }
+
+        protected abstract TreeNode BuildNode(T content);
 
         protected IEnumerable<T> Build(string template, string[] variables, DataTable dataTable, bool useGrouping, IDictionary<string, object> globalVariables)
         {

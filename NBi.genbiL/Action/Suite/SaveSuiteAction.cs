@@ -43,6 +43,10 @@ namespace NBi.GenbiL.Action.Suite
                 if (setupNode != null)
                     newGroup.Setup = new SetupXml((setupNode as SetupNode).Content);
 
+                var cleanupNode = (node).Children.FirstOrDefault(x => x is CleanupNode);
+                if (cleanupNode != null)
+                    newGroup.Cleanup = new CleanupXml((cleanupNode as CleanupNode).Content);
+
                 AppendNodes(newGroup.Groups, newGroup.Tests, node.Children);
             }
 

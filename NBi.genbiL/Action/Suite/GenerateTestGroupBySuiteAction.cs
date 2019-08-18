@@ -16,32 +16,8 @@ namespace NBi.GenbiL.Action.Suite
         public GenerateTestGroupBySuiteAction(string groupByPattern)
             : base(false, groupByPattern) { }
 
-        public override void Execute(GenerationState state)
-        {
-            var lastGeneration = Build(
-                    state.Templates,
-                    state.CaseCollection.CurrentScope.Variables.ToArray(),
-                    state.CaseCollection.CurrentScope.Content,
-                    Grouping,
-                    state.Consumables
-            );
-
-            var patternArray = new List<string>();
-            for (int i = 0; i < state.Templates.Count(); i++)
-                patternArray.Add(GroupByPattern);
-
-            var groupNames = RenderGroupNames(
-                    patternArray,
-                    state.CaseCollection.CurrentScope.Variables.ToArray(),
-                    state.CaseCollection.CurrentScope.Content,
-                    state.Consumables
-            );
-
-            GenerateBranches(state.Suite, groupNames.Distinct().Select(x => x.Split('|')));
-            var locatedTests = lastGeneration.ToList().Zip(groupNames, (Test, Location) => new { Test, Location });
-
-            locatedTests.ToList().ForEach(x => state.Suite.FindChildBranch(x.Location).AddChild(new TestNode(x.Test)));
-        }
+        protected override TreeNode BuildNode(TestStandaloneXml content)
+            => new TestNode(content);
 
         public override string Display { get => $"Generating tests in groups '{GroupByPattern}'"; }
     }

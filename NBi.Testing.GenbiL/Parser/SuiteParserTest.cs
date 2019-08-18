@@ -69,6 +69,18 @@ namespace NBi.Testing.GenbiL.Parser
         }
 
         [Test]
+        public void SentenceParser_SuiteGenerateCleanupTestsGroupBy_ValidGenerateGroupBySuiteAction()
+        {
+            var input = "suite generate cleanups group by '$group$|$subgroup$';";
+            var result = Suite.Parser.Parse(input);
+
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.InstanceOf<GenerateCleanupGroupBySuiteAction>());
+            Assert.That(((GenerateCleanupGroupBySuiteAction)result).Grouping, Is.False);
+            Assert.That(((GenerateCleanupGroupBySuiteAction)result).GroupByPattern, Is.EqualTo("$group$|$subgroup$"));
+        }
+
+        [Test]
         public void SentenceParser_SuiteSaveString_ValidSaveSuiteAction()
         {
             var input = "suite save 'filename.nbits';";

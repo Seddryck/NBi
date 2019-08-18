@@ -17,4 +17,7 @@ namespace NBi.Xml.Decoration
 
     [XmlRoot(ElementName = "setup", Namespace = "")]
     public class SetupStandaloneXml : DecorationStandaloneXml { }
+
+    [XmlRoot(ElementName = "cleanup", Namespace = "")]
+    public class CleanupStandaloneXml : DecorationStandaloneXml { }
 }

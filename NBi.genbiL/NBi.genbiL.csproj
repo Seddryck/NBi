@@ -100,6 +100,7 @@
     <Compile Include="Action\Setting\ParameterActionFactory.cs" />
     <Compile Include="Action\Setting\ParallelizeQueriesAction.cs" />
     <Compile Include="Action\Suite\AddRangeSuiteAction.cs" />
+    <Compile Include="Action\Suite\GenerateCleanupGroupBySuiteAction.cs" />
     <Compile Include="Action\Suite\GenerateSetupGroupBySuiteAction.cs" />
     <Compile Include="Action\Suite\GenerateSuiteAction.cs" />
     <Compile Include="Action\Suite\GenerateTestGroupBySuiteAction.cs" />
@@ -151,6 +152,7 @@
     <Compile Include="Stateful\Tree\GroupNode.cs" />
     <Compile Include="Stateful\Tree\LeafNode.cs" />
     <Compile Include="Stateful\Tree\RootNode.cs" />
+    <Compile Include="Stateful\Tree\CleanupNode.cs" />
     <Compile Include="Stateful\Tree\SetupNode.cs" />
     <Compile Include="Stateful\Tree\TestNode.cs" />
     <Compile Include="Stateful\Tree\TreeNode.cs" />

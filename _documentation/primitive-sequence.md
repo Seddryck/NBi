@@ -48,6 +48,14 @@ It's possible to define a sentinel loop where the terminal value shouldn't be in
 
 Expl:
 
-* A sequence, with the interval set to half-open, having for seed the value 1, for step the value 1 and for terminal the value 5 will have 4 elements having for values 1,2,3 and 4.
-* A sequence, with the interval set to half-open, having for seed the value 1 for step the value 2, and for terminal the value 5 will have 2 elements having for values 1 and 3.
-* A sequence, with the interval set to half-open, having for seed the value 1 for step the value 3, and for terminal the value 5 will have 2 elements having for values 1 and 4.
+* A sequence, with the interval set to half-open, having a seed of 1 and a step of 1 and a terminal of 5 will have 4 elements having for values 1,2,3 and 4.
+* A sequence, with the interval set to half-open, having a seed of 1 and a step of 2 and a terminal of 5 will have 2 elements having for values 1 and 3.
+* A sequence, with the interval set to half-open, having a seed of 1 and a step of 3 and a terminal of 5 will have 2 elements having for values 1 and 4.
+
+### File loops
+
+It's possible to define a file loop to get the name of all the files within a directory and for which the filename matches a given pattern. The elements are composed of the filename and the extension.
+
+{% highlight xml %}
+<loop-file path="..\csv\" pattern="MyData*.csv"/>
+{% endhighlight %}

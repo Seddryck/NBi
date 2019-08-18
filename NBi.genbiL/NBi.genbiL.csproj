@@ -100,7 +100,9 @@
     <Compile Include="Action\Setting\ParameterActionFactory.cs" />
     <Compile Include="Action\Setting\ParallelizeQueriesAction.cs" />
     <Compile Include="Action\Suite\AddRangeSuiteAction.cs" />
-    <Compile Include="Action\Suite\GenerateGroupBySuiteAction.cs" />
+    <Compile Include="Action\Suite\GenerateSetupGroupBySuiteAction.cs" />
+    <Compile Include="Action\Suite\GenerateSuiteAction.cs" />
+    <Compile Include="Action\Suite\GenerateTestGroupBySuiteAction.cs" />
     <Compile Include="Action\Suite\IncludeSuiteAction.cs" />
     <Compile Include="Action\Suite\SaveSuiteAction.cs" />
     <Compile Include="Action\Suite\ISuiteAction.cs" />
@@ -129,7 +131,7 @@
     <Compile Include="Action\Setting\DefaultAction.cs" />
     <Compile Include="Parser\Suite.cs" />
     <Compile Include="Action\Setting\ReferenceAction.cs" />
-    <Compile Include="Action\Suite\GenerateSuiteAction.cs" />
+    <Compile Include="Action\Suite\GenerateTestSuiteAction.cs" />
     <Compile Include="Action\Template\LoadEmbeddedTemplateAction.cs" />
     <Compile Include="Stateful\CaseCollection.cs" />
     <Compile Include="Stateful\GenerationState.cs" />

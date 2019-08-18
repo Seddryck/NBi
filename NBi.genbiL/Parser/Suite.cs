@@ -12,18 +12,26 @@ namespace NBi.GenbiL.Parser
         (
                 from generate in Keyword.Generate
                 from grouping in Parse.IgnoreCase("grouping").Token().Return(true).XOr(Parse.Return(false))
-                select new GenerateSuiteAction(grouping)
+                select new GenerateTestSuiteAction(grouping)
         );
 
-        readonly static Parser<ISuiteAction> GenerateGroupByParser =
+        readonly static Parser<ISuiteAction> GenerateTestGroupByParser =
         (
                 from generate in Keyword.Generate
+                from test in (Parse.IgnoreCase("tests").Or(Parse.IgnoreCase("test"))).Optional()
                 from groupby in Parse.IgnoreCase("group by")
                 from groupPattern in Grammar.QuotedTextual.Token()
-                select new GenerateGroupBySuiteAction(groupPattern)
+                select new GenerateTestGroupBySuiteAction(groupPattern)
         );
 
-        
+        //readonly static Parser<ISuiteAction> GenerateSetupGroupByParser =
+        //(
+        //        from generate in Keyword.Generate
+        //        from test in (Parse.IgnoreCase("setups").Or(Parse.IgnoreCase("setup"))).Optional()
+        //        from groupby in Parse.IgnoreCase("group by")
+        //        from groupPattern in Grammar.QuotedTextual.Token()
+        //        select new GenerateSetupGroupBySuiteAction(groupPattern)
+        //);
 
         readonly static Parser<ISuiteAction> SaveParser =
         (
@@ -62,7 +70,8 @@ namespace NBi.GenbiL.Parser
         public readonly static Parser<IAction> Parser =
         (
                 from suite in Keyword.Suite
-                from text in GenerateParser.Or(GenerateGroupByParser).Or(SaveParser).Or(IncludeParser).Or(AddRangeParser)
+                    //from text in GenerateParser.Or(GenerateTestGroupByParser).Or(GenerateSetupGroupByParser).Or(SaveParser).Or(IncludeParser).Or(AddRangeParser)
+                from text in GenerateParser.Or(GenerateTestGroupByParser).Or(SaveParser).Or(IncludeParser).Or(AddRangeParser)
                 select text
         );
     }

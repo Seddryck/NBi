@@ -36,7 +36,7 @@ namespace NBi.Testing.GenbiL.Parser
             Assert.That(result, Has.Some.Matches(Is.InstanceOf<LoadFileTemplateAction>()));
             Assert.That(result, Has.Some.Matches(Is.InstanceOf<ReferenceAction>()));
             Assert.That(result, Has.Some.Matches(Is.InstanceOf<DefaultAction>()));
-            Assert.That(result, Has.Some.Matches(Is.InstanceOf<GenerateSuiteAction>()));
+            Assert.That(result, Has.Some.Matches(Is.InstanceOf<GenerateTestSuiteAction>()));
             Assert.That(result, Has.Some.Matches(Is.InstanceOf<EmptyAction>()));
             Assert.That(result, Has.Some.Matches(Is.InstanceOf<SaveSuiteAction>()));
         }
@@ -56,7 +56,7 @@ namespace NBi.Testing.GenbiL.Parser
 
             Assert.That(result, Is.Not.Null);
             Assert.That(result, Has.Some.Matches(Is.InstanceOf<LoadCaseFromFileAction>()));
-            Assert.That(result, Has.Some.Matches(Is.InstanceOf<GenerateSuiteAction>()));
+            Assert.That(result, Has.Some.Matches(Is.InstanceOf<GenerateTestSuiteAction>()));
             Assert.That(result, Has.Some.Matches(Is.InstanceOf<EmptyAction>()));
         }
 
@@ -75,7 +75,7 @@ namespace NBi.Testing.GenbiL.Parser
 
             Assert.That(result, Is.Not.Null);
             Assert.That(result, Has.Some.Matches(Is.InstanceOf<LoadCaseFromFileAction>()));
-            Assert.That(result, Has.Some.Matches(Is.InstanceOf<GenerateSuiteAction>()));
+            Assert.That(result, Has.Some.Matches(Is.InstanceOf<GenerateTestSuiteAction>()));
             Assert.That(result, Has.Some.Matches(Is.InstanceOf<EmptyAction>()));
             Assert.That(result, Has.Count.EqualTo(4));
         }

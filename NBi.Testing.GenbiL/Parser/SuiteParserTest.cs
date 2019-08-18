@@ -17,8 +17,8 @@ namespace NBi.Testing.GenbiL.Parser
             var result = Suite.Parser.Parse(input);
 
             Assert.That(result, Is.Not.Null);
-            Assert.That(result, Is.InstanceOf<GenerateSuiteAction>());
-            Assert.That(((GenerateSuiteAction)result).Grouping, Is.False);
+            Assert.That(result, Is.InstanceOf<GenerateTestSuiteAction>());
+            Assert.That(((GenerateTestSuiteAction)result).Grouping, Is.False);
         }
 
         [Test]
@@ -28,8 +28,8 @@ namespace NBi.Testing.GenbiL.Parser
             var result = Suite.Parser.Parse(input);
 
             Assert.That(result, Is.Not.Null);
-            Assert.That(result, Is.InstanceOf<GenerateSuiteAction>());
-            Assert.That(((GenerateSuiteAction)result).Grouping, Is.True);
+            Assert.That(result, Is.InstanceOf<GenerateTestSuiteAction>());
+            Assert.That(((GenerateTestSuiteAction)result).Grouping, Is.True);
         }
 
         [Test]
@@ -39,9 +39,9 @@ namespace NBi.Testing.GenbiL.Parser
             var result = Suite.Parser.Parse(input);
 
             Assert.That(result, Is.Not.Null);
-            Assert.That(result, Is.InstanceOf<GenerateGroupBySuiteAction>());
-            Assert.That(((GenerateGroupBySuiteAction)result).Grouping, Is.False);
-            Assert.That(((GenerateGroupBySuiteAction)result).GroupByPattern, Is.EqualTo("$group$|$subgroup$"));
+            Assert.That(result, Is.InstanceOf<GenerateTestGroupBySuiteAction>());
+            Assert.That(((GenerateTestGroupBySuiteAction)result).Grouping, Is.False);
+            Assert.That(((GenerateTestGroupBySuiteAction)result).GroupByPattern, Is.EqualTo("$group$|$subgroup$"));
         }
 
         [Test]

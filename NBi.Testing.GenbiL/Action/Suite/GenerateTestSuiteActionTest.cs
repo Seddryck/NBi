@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 namespace NBi.Testing.GenbiL.Action.Suite
 {
     
-    public class GenerateSuiteActionTest
+    public class GenerateTestSuiteActionTest
     {
         protected GenerationState BuildInitialState(object obj)
         {
@@ -30,7 +30,7 @@ namespace NBi.Testing.GenbiL.Action.Suite
         public void Execute_SimpleDataTable_Rendered()
         {
             var state = BuildInitialState("b");
-            var action = new GenerateSuiteAction(false);
+            var action = new GenerateTestSuiteAction(false);
             action.Execute(state);
 
             Assert.That(state.Suite.Children, Has.Count.EqualTo(1));
@@ -42,7 +42,7 @@ namespace NBi.Testing.GenbiL.Action.Suite
         public void Execute_SimpleDataTable2_Rendered()
         {
             var state = BuildInitialState("foo");
-            var action = new GenerateSuiteAction(false);
+            var action = new GenerateTestSuiteAction(false);
             action.Execute(state);
 
             Assert.That(state.Suite.Children, Has.Count.EqualTo(1));
@@ -54,7 +54,7 @@ namespace NBi.Testing.GenbiL.Action.Suite
         public void Execute_ComplexDataTable_Rendered()
         {
             var state = BuildInitialState(new [] {"b", "c"});
-            var action = new GenerateSuiteAction(false);
+            var action = new GenerateTestSuiteAction(false);
             action.Execute(state);
 
             Assert.That(state.Suite.Children, Has.Count.EqualTo(1));
@@ -67,7 +67,7 @@ namespace NBi.Testing.GenbiL.Action.Suite
         {
             var state = BuildInitialState("b");
             state.CaseCollection.CurrentScope.Content.Rows.Clear();
-            var action = new GenerateSuiteAction(false);
+            var action = new GenerateTestSuiteAction(false);
             action.Execute(state);
 
             Assert.That(state.Suite.Children, Has.Count.EqualTo(0));

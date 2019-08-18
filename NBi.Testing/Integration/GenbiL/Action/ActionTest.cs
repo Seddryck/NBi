@@ -64,7 +64,7 @@ namespace NBi.Testing.Integration.GenbiL.Action
             var loadTemplate = new LoadEmbeddedTemplateAction("ExistsDimension");
             loadTemplate.Execute(state);
 
-            var generateSuite = new GenerateSuiteAction(false);
+            var generateSuite = new GenerateTestSuiteAction(false);
             generateSuite.Execute(state);
 
             var saveSuite = new SaveSuiteAction(TargetFilename);
@@ -82,7 +82,7 @@ namespace NBi.Testing.Integration.GenbiL.Action
             {
                 new LoadCaseFromFileAction(CsvFilename)
                 , new LoadEmbeddedTemplateAction("ExistsDimension")
-                , new GenerateSuiteAction(false)
+                , new GenerateTestSuiteAction(false)
                 , new SaveSuiteAction(TargetFilename)
             };
 

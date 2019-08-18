@@ -85,8 +85,8 @@
     <Compile Include="Action\Consumable\SetConsumableActionTest.cs" />
     <Compile Include="Action\Setting\ReferenceActionTest.cs" />
     <Compile Include="Action\Setting\DefaultActionTest.cs" />
-    <Compile Include="Action\Suite\GenerateGroupBySuiteActionTest.cs" />
-    <Compile Include="Action\Suite\GenerateSuiteActionTest.cs" />
+    <Compile Include="Action\Suite\GenerateTestGroupBySuiteActionTest.cs" />
+    <Compile Include="Action\Suite\GenerateTestSuiteActionTest.cs" />
     <Compile Include="Action\Template\AddEmbeddedTemplateActionTest.cs" />
     <Compile Include="Action\Variable\IncludeVariableActionTest.cs" />
     <Compile Include="Parser\CaseParserTest.cs" />

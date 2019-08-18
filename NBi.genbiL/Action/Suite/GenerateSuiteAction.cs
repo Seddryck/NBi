@@ -1,36 +1,25 @@
 ﻿using NBi.GenbiL.Stateful;
 using NBi.GenbiL.Stateful.Tree;
 using NBi.GenbiL.Templating;
-using NBi.Xml;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace NBi.GenbiL.Action.Suite
 {
-    public class GenerateSuiteAction : ISuiteAction
+    public abstract class GenerateSuiteAction<T> : ISuiteAction
     {
-        public bool Grouping { get; set; }
+        public bool Grouping { get; }
+        public string GroupByPattern { get; }
 
-        public GenerateSuiteAction(bool grouping)
-        {
-            Grouping = grouping;
-        }
+        protected GenerateSuiteAction(bool grouping, string groupByPattern)
+            => (Grouping, GroupByPattern) = (grouping, groupByPattern);
 
-        public virtual void Execute(GenerationState state)
-        {
-            var lastGeneration = Build(
-                    state.Templates, 
-                    state.CaseCollection.CurrentScope.Variables.ToArray(), 
-                    state.CaseCollection.CurrentScope.Content, 
-                    Grouping,
-                    state.Consumables
-            );
-            lastGeneration.ToList().ForEach(x => state.Suite.AddChild(new TestNode(x)));
-        }
-
-        public string Display => $"Generating Tests {(Grouping ? "with" : "without")} grouping option";
+        public abstract void Execute(GenerationState state);
+        public abstract string Display { get; }
 
         protected List<List<List<object>>> GetCases(DataTable dataTable, bool useGrouping)
         {
@@ -76,17 +65,17 @@ namespace NBi.GenbiL.Action.Suite
             return variableTests;
         }
 
-        private IEnumerable<TestStandaloneXml> Build(string template, string[] variables, DataTable dataTable, bool useGrouping, IDictionary<string, object> globalVariables)
+        protected IEnumerable<T> Build(string template, string[] variables, DataTable dataTable, bool useGrouping, IDictionary<string, object> globalVariables)
         {
             var generator = new StringTemplateEngine(template, variables);
             var cases = GetCases(dataTable, useGrouping);
             generator.Progressed += new EventHandler<ProgressEventArgs>(this.OnTestGenerated);
-            var lastGeneration = generator.Build<TestStandaloneXml>(cases, globalVariables).ToList();
+            var lastGeneration = generator.Build<T>(cases, globalVariables).ToList();
             generator.Progressed -= new EventHandler<ProgressEventArgs>(this.OnTestGenerated);
             return lastGeneration;
         }
 
-        protected IEnumerable<TestStandaloneXml> Build(IEnumerable<string> templates, string[] variables, DataTable dataTable, bool useGrouping, IDictionary<string, object> globalVariables)
+        protected IEnumerable<T> Build(IEnumerable<string> templates, string[] variables, DataTable dataTable, bool useGrouping, IDictionary<string, object> globalVariables)
         {
             if (templates.Count() == 0)
                 throw new ArgumentException("No template was specified. You must at least define a template before generating a test suite.");
@@ -95,21 +84,54 @@ namespace NBi.GenbiL.Action.Suite
                 return Build(templates.ElementAt(0), variables, dataTable, useGrouping, globalVariables);
             else
             {
-                var lastGeneration = new List<TestStandaloneXml>();
+                var lastGeneration = new List<T>();
                 var cases = GetCases(dataTable, useGrouping);
                 foreach (var indiv in cases)
                 {
                     foreach (var template in templates)
                     {
                         var engine = new StringTemplateEngine(template, variables);
-                        //engine.Progressed += new EventHandler<ProgressEventArgs>(this.OnTestGenerated);
-                        lastGeneration.AddRange(engine.Build<TestStandaloneXml>(new List<List<List<object>>>() { indiv }, globalVariables).ToList());
-                        //engine.Progressed -= new EventHandler<ProgressEventArgs>(this.OnTestGenerated);
+                        engine.Progressed += new EventHandler<ProgressEventArgs>(this.OnTestGenerated);
+                        lastGeneration.AddRange(engine.Build<T>(new List<List<List<object>>>() { indiv }, globalVariables).ToList());
+                        engine.Progressed -= new EventHandler<ProgressEventArgs>(this.OnTestGenerated);
                     }
                 }
                 return lastGeneration;
             }
         }
+
+        protected void GenerateBranches(RootNode rootNode, IEnumerable<string[]> groupNames)
+        {
+            foreach (var groupName in groupNames)
+            {
+                BranchNode parentNode = rootNode;
+                foreach (var nodeName in groupName)
+                {
+                    var groupNode = (parentNode.Children.FirstOrDefault(x => x.Name == nodeName) as GroupNode) ?? new GroupNode(nodeName);
+                    if (!parentNode.Children.Any(x => x == groupNode))
+                        parentNode.AddChild(groupNode);
+                    parentNode = groupNode;
+                }
+            }
+        }
+
+        protected IEnumerable<string> RenderGroupNames(IEnumerable<string> templates, string[] variables, DataTable dataTable, IDictionary<string, object> globalVariables)
+        {
+            var cases = GetCases(dataTable, false);
+            var names = new List<string>();
+            foreach (var template in templates)
+            {
+                var engine = new StringTemplateEngine(template, variables);
+                foreach (var indiv in cases)
+                {
+                    var newNames = engine.Build<string>(new List<List<List<object>>>() { indiv }, globalVariables).ToList();
+                    names.AddRange(newNames);
+                }
+
+            }
+            return names;
+        }
+
 
         public void OnTestGenerated(object sender, ProgressEventArgs e) => InvokeProgress(e);
         public event EventHandler<ProgressEventArgs> Progressed;

@@ -385,9 +385,9 @@
     <EmbeddedResource Include="Acceptance\GenbiL\Resources\GroupBy.genbil">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="Acceptance\GenbiL\Resources\GroupBy.nbitt">
+    <None Include="Acceptance\GenbiL\Resources\GroupBy.expected.nbits">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
+    </None>
     <None Include="Acceptance\GenbiL\Resources\SyntaxOldNew.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

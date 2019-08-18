@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace NBi.Testing.GenbiL.Action.Suite
 {
-    public class GenerateGroupBySuiteActionTest
+    public class GenerateTestGroupBySuiteActionTest
     {
         protected GenerationState BuildInitialState()
         {
@@ -32,7 +32,7 @@ namespace NBi.Testing.GenbiL.Action.Suite
         public void Execute_SimpleDataTable_ParentGroupGenerated()
         {
             var state = BuildInitialState();
-            var action = new GenerateGroupBySuiteAction(@"$group$|$subgroup$");
+            var action = new GenerateTestGroupBySuiteAction(@"$group$|$subgroup$");
             action.Execute(state);
 
             Assert.That(state.Suite.Children, Has.Count.EqualTo(1));
@@ -46,7 +46,7 @@ namespace NBi.Testing.GenbiL.Action.Suite
         public void Execute_SimpleDataTable_SubGroupsGenerated()
         {
             var state = BuildInitialState();
-            var action = new GenerateGroupBySuiteAction(@"$group$|$subgroup$");
+            var action = new GenerateTestGroupBySuiteAction(@"$group$|$subgroup$");
             action.Execute(state);
 
             Assert.That(state.Suite.Children, Has.Count.EqualTo(1));
@@ -61,7 +61,7 @@ namespace NBi.Testing.GenbiL.Action.Suite
         public void Execute_SimpleDataTable_TestsGenerated()
         {
             var state = BuildInitialState();
-            var action = new GenerateGroupBySuiteAction(@"$group$|$subgroup$");
+            var action = new GenerateTestGroupBySuiteAction(@"$group$|$subgroup$");
             action.Execute(state);
 
             Assert.That(state.Suite.Children, Has.Count.EqualTo(1));

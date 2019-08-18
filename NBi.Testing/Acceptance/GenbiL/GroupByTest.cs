@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using NBi.GenbiL;
 using NUnit.Framework;
 
@@ -12,6 +13,7 @@ namespace NBi.Testing.Acceptance.GenbiL
         private const string TEST_SUITE_NAME="groupby";
         private string DefinitionFilename { get => $"Acceptance\\GenbiL\\Resources\\{TEST_SUITE_NAME}.genbil"; }
         private string TargetFilename { get => $"Acceptance\\GenbiL\\Resources\\{TEST_SUITE_NAME}.nbits"; }
+        private string ExpectedFilename { get => $"Acceptance\\GenbiL\\Resources\\{TEST_SUITE_NAME}.expected.nbits"; }
 
         #region SetUp & TearDown
         //Called only at instance creation
@@ -53,6 +55,19 @@ namespace NBi.Testing.Acceptance.GenbiL
             generator.Execute();
 
             Assert.That(File.Exists(TargetFilename));
+        }
+
+        [Test]
+        public void Execute_Group_ExpectedContent()
+        {
+            var generator = new TestSuiteGenerator();
+            generator.Load(DefinitionFilename);
+            generator.Execute();
+
+            var expected = File.ReadAllText(ExpectedFilename);
+            var actual = File.ReadAllText(TargetFilename);
+            actual = Regex.Replace(actual, @"(\s*)<edition(.*)/>", "", RegexOptions.Multiline);
+            Assert.That(actual, Is.EqualTo(expected));
         }
     }
 }

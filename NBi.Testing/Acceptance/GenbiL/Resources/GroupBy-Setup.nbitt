@@ -1,0 +1,3 @@
+﻿<setup>
+  <service-start name="msolap"/>
+</setup>

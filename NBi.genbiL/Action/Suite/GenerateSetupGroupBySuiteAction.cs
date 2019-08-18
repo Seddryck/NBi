@@ -1,6 +1,7 @@
 ﻿using NBi.GenbiL.Stateful;
 using NBi.GenbiL.Stateful.Tree;
 using NBi.GenbiL.Templating;
+using NBi.Xml.Decoration;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -10,10 +11,12 @@ using System.Threading.Tasks;
 
 namespace NBi.GenbiL.Action.Suite
 {
-    class GenerateGroupBySuiteAction : GenerateTestSuiteAction
+    class GenerateSetupGroupBySuiteAction : GenerateSuiteAction<SetupStandaloneXml>
     {
-        public GenerateGroupBySuiteAction(string groupByPattern)
-            : base(groupByPattern) { }
+        public GenerateSetupGroupBySuiteAction(string groupByPattern)
+            : base(false, groupByPattern) { }
+
+        public override string Display { get => $"Generating setups in groups '{GroupByPattern}'"; }
 
         public override void Execute(GenerationState state)
         {
@@ -37,9 +40,11 @@ namespace NBi.GenbiL.Action.Suite
             );
 
             GenerateBranches(state.Suite, groupNames.Distinct().Select(x => x.Split('|')));
-            var locatedTests = lastGeneration.ToList().Zip(groupNames, (Test, Location) => new { Test, Location });
+            var locatedSetups = lastGeneration.ToList().Zip(groupNames, (Setup, Location) => new { Setup, Location });
 
-            locatedTests.ToList().ForEach(x => state.Suite.FindChildBranch(x.Location).AddChild(new TestNode(x.Test)));
+            locatedSetups.ToList().ForEach(x => state.Suite.FindChildBranch(x.Location).AddChild(new SetupNode(x.Setup)));
         }
+
+
     }
 }

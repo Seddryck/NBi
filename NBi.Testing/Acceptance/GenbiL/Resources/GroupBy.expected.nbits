@@ -3,6 +3,9 @@
   <settings />
   <group name="Replacement policies">
     <group name="Policy">
+      <setup>
+        <service-start name="msolap" />
+      </setup>
       <test name="A dimension named 'Policy' exists in perspective 'Replacement policies'.">
         <description>Assert that the dimension named 'Policy' exists through the perspective 'Replacement policies' and is visible for end-users</description>
         <system-under-test>
@@ -51,6 +54,9 @@
       </group>
     </group>
     <group name="Agent">
+      <setup>
+        <service-start name="msolap" />
+      </setup>
       <test name="A dimension named 'Agent' exists in perspective 'Replacement policies'.">
         <description>Assert that the dimension named 'Agent' exists through the perspective 'Replacement policies' and is visible for end-users</description>
         <system-under-test>

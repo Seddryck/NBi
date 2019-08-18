@@ -151,6 +151,7 @@
     <Compile Include="Stateful\Tree\GroupNode.cs" />
     <Compile Include="Stateful\Tree\LeafNode.cs" />
     <Compile Include="Stateful\Tree\RootNode.cs" />
+    <Compile Include="Stateful\Tree\SetupNode.cs" />
     <Compile Include="Stateful\Tree\TestNode.cs" />
     <Compile Include="Stateful\Tree\TreeNode.cs" />
     <Compile Include="Templating\ExpectedVariableNotFoundException.cs" />

@@ -1,6 +1,7 @@
 ﻿using NBi.GenbiL.Stateful;
 using NBi.GenbiL.Stateful.Tree;
 using NBi.Xml;
+using NBi.Xml.Decoration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,23 +26,28 @@ namespace NBi.GenbiL.Action.Suite
                 Variables = state.Variables.ToList(),
             };
 
-            AppendNodes(suiteXml.Tests, suiteXml.Groups, state.Suite.Children);
+            AppendNodes(suiteXml.Groups, suiteXml.Tests, state.Suite.Children);
 
             var manager = new XmlManager();
             manager.Persist(Filename, suiteXml);
         }
 
-        private void AppendNodes(IList<TestXml> tests, IList<GroupXml> groups, IEnumerable<TreeNode> nodes)
+        private void AppendNodes(IList<GroupXml> groups, IList<TestXml> tests, IEnumerable<TreeNode> nodes)
         {
-            foreach (var node in nodes.Where(x => x is GroupNode))
+            foreach (var node in nodes.Where(x => x is GroupNode).Cast<GroupNode>())
             {
                 var newGroup = new GroupXml() { Name = node.Name };
                 groups.Add(newGroup);
-                AppendNodes(newGroup.Tests, newGroup.Groups, (node as GroupNode).Children);
+
+                var setupNode = (node).Children.FirstOrDefault(x => x is SetupNode);
+                if (setupNode != null)
+                    newGroup.Setup = new SetupXml((setupNode as SetupNode).Content);
+
+                AppendNodes(newGroup.Groups, newGroup.Tests, node.Children);
             }
 
-            foreach (var node in nodes.Where(x => x is TestNode))
-                tests.Add(new TestXml((node as TestNode).Content));
+            foreach (var node in nodes.Where(x => x is TestNode).Cast<TestNode>())
+                tests.Add(new TestXml(node.Content));
         }
 
 

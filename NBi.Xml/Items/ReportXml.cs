@@ -25,13 +25,7 @@ namespace NBi.Xml.Items
         [XmlAttribute("dataset")]
         public string Dataset { get; set; }
 
-        [XmlElement("parameter")]
-        public new List<QueryParameterXml> Parameters { get; set; }
-
-        public ReportXml()
-        {
-            Parameters = new List<QueryParameterXml>();
-        }
+        public ReportXml() : base() { }
 
         private ReportingCommand command;
         

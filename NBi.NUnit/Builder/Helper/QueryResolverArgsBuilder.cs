@@ -141,9 +141,9 @@ namespace NBi.NUnit.Builder.Helper
 
                 switch (executableXml)
                 {
-                    case AssemblyXml xml: Build(xml, connectionString, parameters, templateVariables, new TimeSpan(0, 0, timeout)); break;
-                    case ReportXml xml: Build(xml, connectionString, parameters, templateVariables, new TimeSpan(0, 0, timeout)); break;
-                    case SharedDatasetXml xml: Build(xml, connectionString, parameters, templateVariables, new TimeSpan(0, 0, timeout)); break;
+                    case AssemblyXml xml: args = Build(xml, connectionString, parameters, templateVariables, new TimeSpan(0, 0, timeout)); break;
+                    case ReportXml xml: args = Build(xml, connectionString, parameters, templateVariables, new TimeSpan(0, 0, timeout)); break;
+                    case SharedDatasetXml xml: args = Build(xml, connectionString, parameters, templateVariables, new TimeSpan(0, 0, timeout)); break;
                 }
             }
         }

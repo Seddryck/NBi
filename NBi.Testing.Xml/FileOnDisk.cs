@@ -5,6 +5,8 @@ namespace NBi.Testing.Xml
 {
     public class FileOnDisk
     {
+        private static readonly object locker = new object();
+
         /// <summary>
         /// Copies the contents of input to output. Doesn't close either stream.
         /// </summary>
@@ -28,7 +30,7 @@ namespace NBi.Testing.Xml
             //if filename starts by a directory separator remove it
             if (filename.StartsWith(Path.DirectorySeparatorChar.ToString()))
                 filename = filename.Substring(1);
-            
+
             //Build the fullpath for the file to read
             var fullpath = GetDirectoryPath() + filename;
 
@@ -36,21 +38,24 @@ namespace NBi.Testing.Xml
             if (!Directory.Exists(Path.GetDirectoryName(fullpath)))
                 Directory.CreateDirectory(Path.GetDirectoryName(fullpath));
 
-            //delete it if already existing
-            if (File.Exists(fullpath))
-                File.Delete(fullpath);
-
-            // A Stream is needed to read the XLS document.
-            using (Stream stream = Assembly.GetExecutingAssembly()
-                                           .GetManifestResourceStream(resource))
+            lock (locker)
             {
-                if (stream == null)
-                    throw new FileNotFoundException(resource);
+                //delete it if already existing
+                if (File.Exists(fullpath))
+                    File.Delete(fullpath);
 
-                //Open another stream to persist the file on disk
-                using (Stream file = File.OpenWrite(fullpath))
+                // A Stream is needed to read the XLS document.
+                using (Stream stream = Assembly.GetExecutingAssembly()
+                                               .GetManifestResourceStream(resource))
                 {
-                    CopyStream(stream, file);
+                    if (stream == null)
+                        throw new FileNotFoundException(resource);
+
+                    //Open another stream to persist the file on disk
+                    using (Stream file = File.OpenWrite(fullpath))
+                    {
+                        CopyStream(stream, file);
+                    }
                 }
             }
             return fullpath;
@@ -63,7 +68,7 @@ namespace NBi.Testing.Xml
         public static string GetDirectoryPath()
         {
             //Build the fullpath for the file to read
-            return Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + @"\" ;
+            return Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + @"\";
         }
     }
 }

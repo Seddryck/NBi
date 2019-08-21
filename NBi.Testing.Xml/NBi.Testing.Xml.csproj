@@ -80,7 +80,6 @@
     <Compile Include="IgnoreXmlTest.cs" />
     <Compile Include="InstanceSettlingXmlTest.cs" />
     <Compile Include="Items\AssemblyXmlTest.cs" />
-    <Compile Include="Items\BaseItemTest.cs" />
     <Compile Include="Items\Calculation\PredicateXmlTest.cs" />
     <Compile Include="Items\Calculation\RankingXmlTest.cs" />
     <Compile Include="Items\ColumnXmlTest.cs" />

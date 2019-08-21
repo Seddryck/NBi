@@ -26,22 +26,26 @@ namespace NBi.NUnit.Builder.Helper
 
         private object obj = null;
         private SettingsXml settings = SettingsXml.Empty;
+        private SettingsXml.DefaultScope scope = SettingsXml.DefaultScope.Everywhere;
         private IDictionary<string, ITestVariable> variables = new Dictionary<string, ITestVariable>();
         private IScalarResolverArgs args = null;
 
         private readonly ServiceLocator serviceLocator;
 
-        public ScalarResolverArgsBuilder(ServiceLocator serviceLocator) => this.serviceLocator = serviceLocator;
+        public ScalarResolverArgsBuilder(ServiceLocator serviceLocator) 
+            => this.serviceLocator = serviceLocator;
 
-        public void Setup(object obj)
+        public void Setup(object obj, IDictionary<string, ITestVariable> variables)
+            => Setup(obj, null, SettingsXml.DefaultScope.Everywhere, variables);
+
+        public void Setup(object obj, SettingsXml settings, SettingsXml.DefaultScope scope,IDictionary<string, ITestVariable> variables)
         {
             this.obj = obj;
+            this.settings = settings ?? SettingsXml.Empty;
+            this.scope = scope;
+            this.variables = variables ?? new Dictionary<string, ITestVariable>();
             isSetup = true;
         }
-
-        public void Setup(SettingsXml settings) => this.settings = settings;
-
-        public void Setup(IDictionary<string, ITestVariable> variables) => this.variables = variables;
 
         public void Build()
         {
@@ -55,17 +59,13 @@ namespace NBi.NUnit.Builder.Helper
                     break;
                 case QueryXml obj:
                     var queryBuilder = new QueryResolverArgsBuilder(serviceLocator);
-                    queryBuilder.Setup(obj);
-                    queryBuilder.Setup(settings);
-                    queryBuilder.Setup(variables);
+                    queryBuilder.Setup(obj, settings, scope, variables);
                     queryBuilder.Build();
                     args = new QueryScalarResolverArgs(queryBuilder.GetArgs());
                     break;
                 case ProjectionXml obj:
                     var resultSetBuilder = new ResultSetResolverArgsBuilder(serviceLocator);
-                    resultSetBuilder.Setup(obj.ResultSet);
-                    resultSetBuilder.Setup(settings);
-                    resultSetBuilder.Setup(variables);
+                    resultSetBuilder.Setup(obj.ResultSet, settings, scope, variables);
                     resultSetBuilder.Build();
                     args = new RowCountResultSetScalarResolverArgs(resultSetBuilder.GetArgs());
                     break;

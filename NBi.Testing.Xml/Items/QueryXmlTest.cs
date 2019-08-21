@@ -73,7 +73,7 @@ namespace NBi.Testing.Xml.Unit.Items
             var query = (QueryXml)((ExecutionXml)ts.Tests[testNr].Systems[0]).BaseItem;
 
             Assert.That(query, Is.Not.Null);
-            Assert.That(query.GetQuery(), Does.Contain("select top 1 myColumn from myTable"));
+            Assert.That(query.InlineQuery, Does.Contain("select top 1 myColumn from myTable"));
             Assert.That(query.Parameters, Has.Count.EqualTo(0));
         }
 
@@ -119,7 +119,7 @@ namespace NBi.Testing.Xml.Unit.Items
 
             var query = (QueryXml)((ExecutionXml)ts.Tests[testNr].Systems[0]).BaseItem;
 
-            Assert.That(query.GetQuery(), Does.Contain("select myColumn from myTable where myFirstField=@FirstField and 1=@NonEmpty"));
+            Assert.That(query.InlineQuery, Does.Contain("select myColumn from myTable where myFirstField=@FirstField and 1=@NonEmpty"));
 
             Assert.That(query.Parameters, Is.Not.Null);
             Assert.That(query.Parameters, Is.Not.Empty);

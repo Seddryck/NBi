@@ -38,7 +38,7 @@ namespace NBi.Core.Scalar.Resolver
         private void DisplayVariable(string name, object value)
         {
             var invariantCulture = new CultureFactory().Invariant;
-            var msg = $@"Variable '{args.VariableName}' used with value: {
+            var msg = $@"Variable '{name}' used with value: {
                     (
                         value == null ? "(null)" :
                         value is string && string.IsNullOrEmpty(value.ToString()) ? "(empty)" :
@@ -91,7 +91,7 @@ namespace NBi.Core.Scalar.Resolver
             {
                 if (!variable.IsEvaluated())
                 variable.Evaluate();
-                }
+            }
             return variable.GetValue();
         }
     }

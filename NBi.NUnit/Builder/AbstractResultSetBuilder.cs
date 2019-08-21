@@ -33,7 +33,7 @@ namespace NBi.NUnit.Builder
         public override void Setup(AbstractSystemUnderTestXml sutXml, AbstractConstraintXml ctrXml, IConfiguration config, IDictionary<string, ITestVariable> variables, ServiceLocator serviceLocator)
         {
             base.Setup(sutXml, ctrXml, config, variables, serviceLocator);
-            Helper = new ResultSetSystemHelper(ServiceLocator, Variables);
+            Helper = new ResultSetSystemHelper(ServiceLocator, Xml.Settings.SettingsXml.DefaultScope.SystemUnderTest, Variables);
         }
 
         protected override void BaseSetup(AbstractSystemUnderTestXml sutXml, AbstractConstraintXml ctrXml)
@@ -54,38 +54,12 @@ namespace NBi.NUnit.Builder
 
         protected virtual IResultSetService InstantiateSystemUnderTest(ExecutionXml executionXml)
         {
-            var commandFactory = new CommandProvider();
+            var queryArgsBuilder = new QueryResolverArgsBuilder(ServiceLocator);
+            queryArgsBuilder.Setup(executionXml.Item, executionXml.Settings, Variables);
+            queryArgsBuilder.Build();
 
-            var argsBuilder = new QueryResolverArgsBuilder(ServiceLocator);
-
-            var connectionString = executionXml.Item.GetConnectionString();
-            var statement = (executionXml.Item as QueryableXml).GetQuery();
-
-            IEnumerable<IQueryParameter> parameters = null;
-            IEnumerable<IQueryTemplateVariable> templateVariables = null;
-            int timeout = 0;
-            var commandType = CommandType.Text;
-
-            if (executionXml.BaseItem is QueryXml)
-            {
-                parameters = argsBuilder.BuildParameters(((QueryXml)executionXml.BaseItem).GetParameters());
-                templateVariables = ((QueryXml)executionXml.BaseItem).GetTemplateVariables();
-                timeout = ((QueryXml)executionXml.BaseItem).Timeout;
-            }
-            if (executionXml.BaseItem is ReportXml)
-            {
-                parameters = argsBuilder.BuildParameters(((ReportXml)executionXml.BaseItem).GetParameters());
-            }
-
-            if (executionXml.BaseItem is ReportXml)
-            {
-                commandType = ((ReportXml)executionXml.BaseItem).GetCommandType();
-            }
-
-            var queryArgs = new QueryResolverArgs(statement, connectionString, parameters, templateVariables, new TimeSpan(0, 0, timeout), commandType);
-            var args = new QueryResultSetResolverArgs(queryArgs);
             var factory = ServiceLocator.GetResultSetResolverFactory();
-            var resolver = factory.Instantiate(args);
+            var resolver = factory.Instantiate(new QueryResultSetResolverArgs(queryArgsBuilder.GetArgs()));
 
             var builder = new ResultSetServiceBuilder();
             builder.Setup(resolver);

@@ -104,19 +104,17 @@ namespace NBi.NUnit.Builder
             if (!string.IsNullOrEmpty(xml.Reference))
             {
                 if (xml.Reference.Trim().EndsWith("%"))
-                    builder.Setup(xml.Reference.Trim().Substring(0, xml.Reference.Trim().IndexOf("%")));
+                    builder.Setup(xml.Reference.Trim().Substring(0, xml.Reference.Trim().IndexOf("%")), Variables);
                 else
-                    builder.Setup(xml.Reference);
+                    builder.Setup(xml.Reference, Variables);
             }
 
             if (xml.QueryScalar != null)
-                builder.Setup(xml.QueryScalar);
+                builder.Setup(xml.QueryScalar, ConstraintXml.Settings, Xml.Settings.SettingsXml.DefaultScope.Assert, Variables);
 
             if (xml.Projection != null)
-                builder.Setup(xml.Projection);
+                builder.Setup(xml.Projection, ConstraintXml.Settings, Xml.Settings.SettingsXml.DefaultScope.Assert, Variables);
 
-            builder.Setup(ConstraintXml.Settings);
-            builder.Setup(Variables);
             builder.Build();
             var args = builder.GetArgs();
 

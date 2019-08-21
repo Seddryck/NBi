@@ -59,6 +59,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
             var sutXmlStubFactory = new Mock<Systems.ScalarXml>();
             var queryXmlStubFactory = new Mock<QueryScalarXml>();
             queryXmlStubFactory.SetupGet(q => q.InlineQuery).Returns("select 0.78");
+            queryXmlStubFactory.Setup(i => i.Settings).Returns(SettingsXml.Empty);
             sutXmlStubFactory.Setup(s => s.BaseItem).Returns(queryXmlStubFactory.Object);
             var sutXml = sutXmlStubFactory.Object;
             sutXml.Query = queryXmlStubFactory.Object;
@@ -79,6 +80,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
             var sutXmlStubFactory = new Mock<Systems.ScalarXml>();
             var queryXmlStubFactory = new Mock<QueryScalarXml>();
             queryXmlStubFactory.SetupGet(q => q.InlineQuery).Returns("select 0.78");
+            queryXmlStubFactory.Setup(i => i.Settings).Returns(SettingsXml.Empty);
             sutXmlStubFactory.Setup(s => s.BaseItem).Returns(queryXmlStubFactory.Object);
             var sutXml = sutXmlStubFactory.Object;
             sutXml.Query = queryXmlStubFactory.Object;

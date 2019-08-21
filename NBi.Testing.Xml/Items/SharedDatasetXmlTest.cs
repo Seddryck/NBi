@@ -72,7 +72,7 @@ namespace NBi.Testing.Xml.Unit.Items
             Assert.That(sharedDataset.Source, Is.EqualTo(@"Data Source=(local)\SQL2017;Initial Catalog=ReportServer;Integrated Security=True;"));
             Assert.That(sharedDataset.Path, Is.EqualTo("/AdventureWorks Sample Reports/"));
             Assert.That(sharedDataset.Name, Is.EqualTo("EmpSalesMonth"));
-            Assert.That(sharedDataset.GetConnectionString(), Is.EqualTo(@"Data Source=tadam;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly"));
+            Assert.That(sharedDataset.ConnectionString, Is.EqualTo(@"Data Source=tadam;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly"));
         }
 
         [Test]
@@ -87,7 +87,7 @@ namespace NBi.Testing.Xml.Unit.Items
             Assert.That(((ExecutionXml)ts.Tests[testNr].Systems[0]).BaseItem, Is.TypeOf<SharedDatasetXml>());
             var sharedDataset = (SharedDatasetXml)((ExecutionXml)ts.Tests[testNr].Systems[0]).BaseItem;
 
-            Assert.That(sharedDataset.GetConnectionString(), Is.EqualTo(@"Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly"));
+            Assert.That(sharedDataset.ConnectionString, Is.Null.Or.Empty);
         }
 
         [Test]
@@ -122,7 +122,7 @@ namespace NBi.Testing.Xml.Unit.Items
             Assert.That(sharedDataset.Source, Is.EqualTo(@"http://reports.com/reports"));
             Assert.That(sharedDataset.Path, Is.EqualTo("Dashboard"));
             Assert.That(sharedDataset.Name, Is.EqualTo("EmpSalesMonth"));
-            Assert.That(sharedDataset.GetConnectionString(), Is.EqualTo(@"Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly"));
+            Assert.That(sharedDataset.ConnectionString, Is.Null.Or.Empty);
         }
 
         [Test]
@@ -141,7 +141,7 @@ namespace NBi.Testing.Xml.Unit.Items
             Assert.That(sharedDataset.Source, Is.EqualTo(@"http://new.reports.com/reports"));
             Assert.That(sharedDataset.Path, Is.EqualTo("Details"));
             Assert.That(sharedDataset.Name, Is.EqualTo("EmpSalesMonth"));
-            Assert.That(sharedDataset.GetConnectionString(), Is.EqualTo(@"Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly"));
+            Assert.That(sharedDataset.ConnectionString, Is.Null.Or.Empty);
         }
 
         [Test]
@@ -160,7 +160,7 @@ namespace NBi.Testing.Xml.Unit.Items
             Assert.That(sharedDataset.Source, Is.EqualTo(@"http://new.reports.com/reports"));
             Assert.That(sharedDataset.Path, Is.EqualTo("alternate"));
             Assert.That(sharedDataset.Name, Is.EqualTo("EmpSalesMonth"));
-            Assert.That(sharedDataset.GetConnectionString(), Is.EqualTo(@"Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly"));
+            Assert.That(sharedDataset.ConnectionString, Is.Null.Or.Empty);
         }
     }
 }

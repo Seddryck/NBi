@@ -143,29 +143,8 @@ namespace NBi.Xml.Constraints
             }
         }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2100:Review SQL queries for security vulnerabilities")]
-        public virtual IDbCommand GetCommand()
-        {
-            if (Query==null)
-                return null;
-
-            var conn = new ClientProvider().Instantiate(Query.GetConnectionString()).CreateNew() as IDbConnection;
-            var cmd = conn.CreateCommand();
-            cmd.CommandText = Query.GetQuery();
-            
-
-            return cmd;
-        }
-
         private readonly bool parallelizeQueries;
-        public bool ParallelizeQueries
-        {
-            get
-            {
-                return parallelizeQueries || Settings.ParallelizeQueries;
-            }
-        }
-              
+        public bool ParallelizeQueries =>  parallelizeQueries || Settings.ParallelizeQueries;
     }
 
     public class EqualToOldXml : EqualToXml { }

@@ -287,17 +287,17 @@ namespace NBi.NUnit.Runtime
                 else
                 {
                     var builder = new ScalarResolverArgsBuilder(serviceLocator);
-                    builder.Setup(instances); //Pass the catalog that we're building to itself
+                    
                     if (variable.Script != null)
-                        builder.Setup(variable.Script);
+                        builder.Setup(variable.Script, instances);
                     else if (variable.QueryScalar != null)
                     {
                         variable.QueryScalar.Settings = TestSuiteManager.TestSuite.Settings;
                         variable.QueryScalar.Default = TestSuiteManager.TestSuite.Settings.GetDefault(Xml.Settings.SettingsXml.DefaultScope.Variable);
-                        builder.Setup(variable.QueryScalar);
+                        builder.Setup(variable.QueryScalar, variable.QueryScalar.Settings, Xml.Settings.SettingsXml.DefaultScope.Variable, instances);
                     }
                     else if (variable.Environment != null)
-                        builder.Setup(variable.Environment);
+                        builder.Setup(variable.Environment, instances);
                     builder.Build();
                     var args = builder.GetArgs();
 

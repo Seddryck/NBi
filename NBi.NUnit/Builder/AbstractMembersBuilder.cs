@@ -6,6 +6,7 @@ using NBi.Xml.Constraints;
 using NBi.Xml.Items;
 using NBi.Xml.Systems;
 using NBi.Core.Analysis.Member;
+using NBi.NUnit.Builder.Helper;
 
 namespace NBi.NUnit.Builder
 {
@@ -79,8 +80,10 @@ namespace NBi.NUnit.Builder
             }
             if (membersXml.Item is HierarchyXml || membersXml.Item is LevelXml)
             {
+                var connectionString = new ConnectionStringHelper().Execute(membersXml.Item, Xml.Settings.SettingsXml.DefaultScope.SystemUnderTest);
+
                 disco = discoveryFactory.Build(
-                    membersXml.Item.GetConnectionString(),
+                    connectionString,
                     membersXml.ChildrenOf,
                     membersXml.Exclude.Items,
                     BuildPatterns(membersXml.Exclude.Patterns),
@@ -94,9 +97,10 @@ namespace NBi.NUnit.Builder
             {
                 perspective = ((SetXml)membersXml.Item).Perspective;
                 set = membersXml.Item.Caption;
+                var connectionString = new ConnectionStringHelper().Execute(membersXml.Item, Xml.Settings.SettingsXml.DefaultScope.SystemUnderTest);
 
                 disco = discoveryFactory.Build(
-                    membersXml.Item.GetConnectionString(),
+                    connectionString,
                     membersXml.Exclude.Items,
                     BuildPatterns(membersXml.Exclude.Patterns),
                     perspective,

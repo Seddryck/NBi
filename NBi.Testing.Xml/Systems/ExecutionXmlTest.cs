@@ -25,82 +25,82 @@ namespace NBi.Testing.Xml.Unit.Systems
 
         #endregion
 
-        [Test]
-        public void GetQuery_FilenameSpecified_RetrieveContentOfFile()
-        {
-            //create a text file on disk
-            var filename = FileOnDisk.CreatePhysicalFile("QueryFile.sql", $"{GetType().Assembly.GetName().Name}.Resources.QueryFile.sql");
+        //[Test]
+        //public void GetQuery_FilenameSpecified_RetrieveContentOfFile()
+        //{
+        //    //create a text file on disk
+        //    var filename = FileOnDisk.CreatePhysicalFile("QueryFile.sql", $"{GetType().Assembly.GetName().Name}.Resources.QueryFile.sql");
            
-            //Instantiate a Test Case and specify to find the sql in the file created above
-            var testCase = new ExecutionXml()
-            {
-                Item = new QueryXml() { File = filename }
-            };
+        //    //Instantiate a Test Case and specify to find the sql in the file created above
+        //    var testCase = new ExecutionXml()
+        //    {
+        //        Item = new QueryXml() { File = filename }
+        //    };
 
-            // A Stream is needed to read the text file from the assembly.
-            string expectedContent;
-            using (Stream stream = Assembly.GetExecutingAssembly()
-                                           .GetManifestResourceStream($"{GetType().Assembly.GetName().Name}.Resources.QueryFile.sql"))
-                using (StreamReader reader = new StreamReader(stream))
-                   expectedContent = reader.ReadToEnd();
+        //    // A Stream is needed to read the text file from the assembly.
+        //    string expectedContent;
+        //    using (Stream stream = Assembly.GetExecutingAssembly()
+        //                                   .GetManifestResourceStream($"{GetType().Assembly.GetName().Name}.Resources.QueryFile.sql"))
+        //        using (StreamReader reader = new StreamReader(stream))
+        //           expectedContent = reader.ReadToEnd();
             
-            Assert.AreEqual(expectedContent, (testCase.Item as QueryableXml).GetQuery());
-        }
+        //    Assert.AreEqual(expectedContent, (testCase.Item as QueryableXml).GetQuery());
+        //}
 
-        [Test]
-        public void GetQuery_FilenameNotSpecified_RetrieveContentOfInlineQuery()
-        {
-            //Instantiate a System Under Test
-            var systemUnderTest = new ExecutionXml() 
-            {
-                Item = new QueryXml() { InlineQuery = "SELECT * FROM Product" }
-            };
+        //[Test]
+        //public void GetQuery_FilenameNotSpecified_RetrieveContentOfInlineQuery()
+        //{
+        //    //Instantiate a System Under Test
+        //    var systemUnderTest = new ExecutionXml() 
+        //    {
+        //        Item = new QueryXml() { InlineQuery = "SELECT * FROM Product" }
+        //    };
 
-            Assert.That(((QueryXml)systemUnderTest.Item).GetQuery(), Is.EqualTo("SELECT * FROM Product"));
-            Assert.That(((QueryXml)systemUnderTest.Item).InlineQuery, Is.Not.Null.And.Not.Empty.And.Contain("SELECT"));
-            Assert.That(((QueryXml)systemUnderTest.Item).File, Is.Null);
-        }
+        //    Assert.That(((QueryXml)systemUnderTest.Item).GetQuery(), Is.EqualTo("SELECT * FROM Product"));
+        //    Assert.That(((QueryXml)systemUnderTest.Item).InlineQuery, Is.Not.Null.And.Not.Empty.And.Contain("SELECT"));
+        //    Assert.That(((QueryXml)systemUnderTest.Item).File, Is.Null);
+        //}
 
-        [Test]
-        public void GetQuery_FileNameSpecified_RetrieveContentOfFile()
-        {
-            //Create the queryfile to read
-            var filename = "Select all products.sql";
-            FileOnDisk.CreatePhysicalFile(filename, $"{GetType().Assembly.GetName().Name}.Resources.SelectAllProducts.sql");
+        //[Test]
+        //public void GetQuery_FileNameSpecified_RetrieveContentOfFile()
+        //{
+        //    //Create the queryfile to read
+        //    var filename = "Select all products.sql";
+        //    FileOnDisk.CreatePhysicalFile(filename, $"{GetType().Assembly.GetName().Name}.Resources.SelectAllProducts.sql");
 
-            var systemUnderTest = new ExecutionXml()
-            {
-                Item = new QueryXml() { 
-                    File = filename, 
-                    Settings = new NBi.Xml.Settings.SettingsXml() { BasePath=FileOnDisk.GetDirectoryPath() }
-                }
-            };
+        //    var systemUnderTest = new ExecutionXml()
+        //    {
+        //        Item = new QueryXml() { 
+        //            File = filename, 
+        //            Settings = new NBi.Xml.Settings.SettingsXml() { BasePath=FileOnDisk.GetDirectoryPath() }
+        //        }
+        //    };
 
-            // Check the properties of the object.
-            Assert.That(((QueryXml)systemUnderTest.Item).File, Is.Not.Null.And.Not.Empty);
-            Assert.That(((QueryXml)systemUnderTest.Item).InlineQuery, Is.Null);
-            Assert.That(((QueryXml)systemUnderTest.Item).GetQuery(), Is.Not.Null.And.Not.Empty.And.Contain("SELECT"));
+        //    // Check the properties of the object.
+        //    Assert.That(((QueryXml)systemUnderTest.Item).File, Is.Not.Null.And.Not.Empty);
+        //    Assert.That(((QueryXml)systemUnderTest.Item).InlineQuery, Is.Null);
+        //    Assert.That(((QueryXml)systemUnderTest.Item).GetQuery(), Is.Not.Null.And.Not.Empty.And.Contain("SELECT"));
             
-        }
+        //}
 
 
-        [Test]
-        public void GetQuery_FilenameSpecified_RetrieveContentWithEuroSymbol()
-        {
-            //create a text file on disk
-            var filename = FileOnDisk.CreatePhysicalFile("QueryFile€.mdx", $"{GetType().Assembly.GetName().Name}.Resources.QueryFileEuro.mdx");
+        //[Test]
+        //public void GetQuery_FilenameSpecified_RetrieveContentWithEuroSymbol()
+        //{
+        //    //create a text file on disk
+        //    var filename = FileOnDisk.CreatePhysicalFile("QueryFile€.mdx", $"{GetType().Assembly.GetName().Name}.Resources.QueryFileEuro.mdx");
 
-            //Instantiate a Test Case and specify to find the sql in the file created above
-            var testCase = new ExecutionXml()
-            {
-                Item = new QueryXml() { File = filename }
-            };
+        //    //Instantiate a Test Case and specify to find the sql in the file created above
+        //    var testCase = new ExecutionXml()
+        //    {
+        //        Item = new QueryXml() { File = filename }
+        //    };
 
-            // A Stream is needed to read the text file from the assembly.
-            string expectedContent = "select [measure].[price €/Kg] on 0;";
+        //    // A Stream is needed to read the text file from the assembly.
+        //    string expectedContent = "select [measure].[price €/Kg] on 0;";
 
-            Assert.AreEqual(expectedContent, ((QueryableXml)testCase.Item).GetQuery());
-        }
+        //    Assert.AreEqual(expectedContent, ((QueryableXml)testCase.Item).GetQuery());
+        //}
        
     }
 }

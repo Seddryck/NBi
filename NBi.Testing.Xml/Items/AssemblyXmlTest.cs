@@ -171,8 +171,8 @@ namespace NBi.Testing.Xml.Unit.Items
             Assert.That(assembly.ConnectionString, Is.EqualTo("data source=foo;initial catalog=bar"));
             Assert.That(assembly.Roles, Is.EqualTo("admin"));
             Assert.That(assembly.Timeout, Is.EqualTo(10));
-            Assert.That(assembly.GetConnectionString(), Does.Contain("data source=foo;initial catalog=bar"));
-            Assert.That(assembly.GetConnectionString(), Does.Contain("Roles=\"admin\""));
+            Assert.That(assembly.ConnectionString, Does.Contain("data source=foo;initial catalog=bar"));
+            Assert.That(assembly.Roles, Does.Contain("admin"));
         }
 
 

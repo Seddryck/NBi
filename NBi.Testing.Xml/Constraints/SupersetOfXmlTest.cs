@@ -126,19 +126,13 @@ namespace NBi.Testing.Xml.Unit.Constraints
             Assert.That(ts.Tests[testNr].Constraints[0], Is.TypeOf<SupersetOfXml>());
             Assert.That(((SupersetOfXml)ts.Tests[testNr].Constraints[0]).Query, Is.TypeOf<QueryXml>());
 
-            var connStr = ((SupersetOfXml)ts.Tests[testNr].Constraints[0]).Query.GetConnectionString();
+            var connStr = ((SupersetOfXml)ts.Tests[testNr].Constraints[0]).Query.ConnectionString;
             Assert.That(connStr, Is.Not.Empty);
             Assert.That(connStr, Contains.Substring("Reference"));
 
-            var query = ((SupersetOfXml)ts.Tests[testNr].Constraints[0]).Query.GetQuery();
+            var query = ((SupersetOfXml)ts.Tests[testNr].Constraints[0]).Query.InlineQuery;
             Assert.That(query, Is.Not.Empty);
             Assert.That(query, Contains.Substring("select top 2 [Name]"));
-
-            var cmd = ((SupersetOfXml)ts.Tests[testNr].Constraints[0]).GetCommand();
-            Assert.That(cmd, Is.Not.Null);
-            Assert.That(cmd.Connection.ConnectionString, Contains.Substring("Adventure"));
-            Assert.That(cmd.CommandText, Contains.Substring("select top 2 [Name]"));
-            
         }
 
         [Test]

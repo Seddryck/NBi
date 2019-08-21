@@ -264,6 +264,29 @@
         </lookup-matches>
       </assert>
     </test>
+    <test name="Equality with new result-set" uid="00092">
+      <system-under-test>
+        <result-set>
+          <row>
+            <cell>A</cell>
+            <cell>110</cell>
+          </row>
+          <row>
+            <cell>B</cell>
+            <cell>120</cell>
+          </row>
+        </result-set>
+      </system-under-test>
+      <assert>
+        <equal-to>
+          <result-set>
+            <query>
+              select 'A', 110 union all select 'B', 120
+            </query>
+          </result-set>
+        </equal-to>
+      </assert>
+    </test>
   </group>
   <group name="system-under-tests">
     <test name="Embedded result-set" uid="0101">
@@ -360,7 +383,7 @@
         </all-rows>
       </assert>
     </test>
-    <test name="Query from assembly" uid="0106">
+    <!--<test name="Query from assembly" uid="0106">
       <system-under-test>
         <resultSet>
           <query>
@@ -375,7 +398,7 @@
           <resultSet file="..\Csv\ResellerOrderCountByYearBefore2006.csv"/>
         </equalTo>
       </assert>
-    </test>
+    </test>-->
     <test name="Query from report" uid="0107">
       <condition>
         <service-running name="MSSQL$SQL2017"/>

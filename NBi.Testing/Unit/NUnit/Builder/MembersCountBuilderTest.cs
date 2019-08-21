@@ -52,15 +52,15 @@ namespace NBi.Testing.Unit.NUnit.Builder
             var ctrXml = new CountXml();
 
             var discoFactoStubFactory = new Mock<DiscoveryRequestFactory>();
-            discoFactoStubFactory.Setup(dfs => 
+            discoFactoStubFactory.Setup(dfs =>
                 dfs.Build(
-                    It.IsAny<string>(), 
+                    It.IsAny<string>(),
                     It.IsAny<string>(),
                     It.IsAny<List<string>>(),
                     It.IsAny<List<PatternValue>>(),
-                    It.IsAny<string>(), 
-                    It.IsAny<string>(), 
-                    It.IsAny<string>(), 
+                    It.IsAny<string>(),
+                    It.IsAny<string>(),
+                    It.IsAny<string>(),
                     It.IsAny<string>()))
                     .Returns(new MembersDiscoveryRequest());
             var discoFactoStub = discoFactoStubFactory.Object;
@@ -86,7 +86,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
             item.ConnectionString = "@ref-connStr";
 
             var settingsXml = new SettingsXml();
-            settingsXml.References.Add(new ReferenceXml() {Name="ref-connStr", ConnectionString= new ConnectionStringXml() { Inline = "connectionString-ref" } });
+            settingsXml.References.Add(new ReferenceXml() { Name = "ref-connStr", ConnectionString = new ConnectionStringXml() { Inline = "connectionString-ref" } });
             sutXml.Settings = settingsXml;
 
             var ctrXml = new CountXml();
@@ -116,18 +116,27 @@ namespace NBi.Testing.Unit.NUnit.Builder
 
         [Test]
         public void GetSystemUnderTest_ConnectionStringInDefault_CorrectlyInitialized()
-        {           
-            var sutXml = new MembersXml();
-            
-            var item = new HierarchyXml();
-            sutXml.Item = item;
-            item.Perspective = "perspective";
-            item.Dimension = "dimension";
-            item.Caption = "hierarchy";
-
-            var defXml = new DefaultXml();
-            defXml.ConnectionString = new ConnectionStringXml() { Inline = "connectionString-default" };
-            sutXml.Default = defXml;
+        {
+            var sutXml = new MembersXml()
+            {
+                Item = new HierarchyXml()
+                {
+                    Perspective = "perspective",
+                    Dimension = "dimension",
+                    Caption = "hierarchy",
+                    Settings = new SettingsXml()
+                    {
+                        Defaults = new List<DefaultXml>()
+                        {
+                            new DefaultXml()
+                            {
+                                ApplyTo = SettingsXml.DefaultScope.SystemUnderTest,
+                                ConnectionString = new ConnectionStringXml() { Inline = "connectionString-default" }
+                            }
+                        }
+                    }
+                }
+            };
 
             var ctrXml = new CountXml();
 
@@ -163,7 +172,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
             sutXml.Item = item;
             item.ConnectionString = "connectionString";
             item.Perspective = "perspective";
-            item.Dimension="dimension";
+            item.Dimension = "dimension";
             item.Caption = "hierarchy";
             var ctrXml = new CountXml();
 

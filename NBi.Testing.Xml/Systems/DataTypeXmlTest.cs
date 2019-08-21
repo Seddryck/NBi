@@ -74,7 +74,7 @@ namespace NBi.Testing.Xml.Unit.Systems
             ColumnXml item = (ColumnXml)((DataTypeXml)ts.Tests[testNr].Systems[0]).Item;
             Assert.That(item.Caption, Is.EqualTo("column"));
             Assert.That(item.Perspective, Is.EqualTo("dwh"));
-            Assert.That(item.GetConnectionString(), Is.EqualTo("ConnectionString"));
+            Assert.That(item.ConnectionString, Is.EqualTo("ConnectionString"));
         }
 
 

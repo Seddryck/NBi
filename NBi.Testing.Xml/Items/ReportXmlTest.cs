@@ -73,7 +73,7 @@ namespace NBi.Testing.Xml.Unit.Items
             Assert.That(report.Path, Is.EqualTo("/AdventureWorks Sample Reports/"));
             Assert.That(report.Name, Is.EqualTo("Currency_List"));
             Assert.That(report.Dataset, Is.EqualTo("currency"));
-            Assert.That(report.GetConnectionString(), Is.EqualTo(@"Data Source=tadam;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly"));
+            Assert.That(report.ConnectionString, Is.Not.Null.And.Not.Empty);
         }
 
         [Test]
@@ -88,7 +88,7 @@ namespace NBi.Testing.Xml.Unit.Items
             Assert.That(((ExecutionXml)ts.Tests[testNr].Systems[0]).BaseItem, Is.TypeOf<ReportXml>());
             var report = (ReportXml)((ExecutionXml)ts.Tests[testNr].Systems[0]).BaseItem;
 
-            Assert.That(report.GetConnectionString(), Is.EqualTo(@"Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly"));
+            Assert.That(report.ConnectionString, Is.Null.Or.Empty);
         }
 
         [Test]
@@ -124,7 +124,7 @@ namespace NBi.Testing.Xml.Unit.Items
             Assert.That(report.Path, Is.EqualTo("Dashboard"));
             Assert.That(report.Name, Is.EqualTo("Currency Rates"));
             Assert.That(report.Dataset, Is.EqualTo("DataSet1"));
-            Assert.That(report.GetConnectionString(), Is.EqualTo(@"Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly"));
+            Assert.That(report.ConnectionString, Is.Null.Or.Empty);
         }
 
         [Test]
@@ -144,7 +144,7 @@ namespace NBi.Testing.Xml.Unit.Items
             Assert.That(report.Path, Is.EqualTo("Details"));
             Assert.That(report.Name, Is.EqualTo("Currency Rates"));
             Assert.That(report.Dataset, Is.EqualTo("DataSet1"));
-            Assert.That(report.GetConnectionString(), Is.EqualTo(@"Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly"));
+            Assert.That(report.ConnectionString, Is.Null.Or.Empty);
         }
 
         [Test]
@@ -164,7 +164,7 @@ namespace NBi.Testing.Xml.Unit.Items
             Assert.That(report.Path, Is.EqualTo("alternate"));
             Assert.That(report.Name, Is.EqualTo("Currency Rates"));
             Assert.That(report.Dataset, Is.EqualTo("DataSet1"));
-            Assert.That(report.GetConnectionString(), Is.EqualTo(@"Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly"));
+            Assert.That(report.ConnectionString, Is.Null.Or.Empty);
         }
     }
 }

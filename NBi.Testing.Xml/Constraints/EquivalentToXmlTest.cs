@@ -84,7 +84,7 @@ namespace NBi.Testing.Xml.Unit.Constraints
 
             Assert.That(ts.Tests[testNr].Constraints[0], Is.AssignableTo<EquivalentToXml>());
             Assert.That(((EquivalentToXml)ts.Tests[testNr].Constraints[0]).Query, Is.Not.Null);
-            Assert.That(((EquivalentToXml)ts.Tests[testNr].Constraints[0]).Query.GetQuery(), Does.Contain("Hello").And.Contain("World"));
+            Assert.That(((EquivalentToXml)ts.Tests[testNr].Constraints[0]).Query.InlineQuery, Does.Contain("Hello").And.Contain("World"));
         }
 
         [Test]

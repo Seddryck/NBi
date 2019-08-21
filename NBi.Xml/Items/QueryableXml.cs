@@ -8,8 +8,6 @@ namespace NBi.Xml.Items
 {
     public abstract class QueryableXml : ExecutableXml
     {       
-        public abstract string GetQuery();
-
         public QueryableXml()
         {
             Parameters = new List<QueryParameterXml>();

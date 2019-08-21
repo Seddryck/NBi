@@ -6,6 +6,7 @@ using NBi.Xml.Systems;
 using NBi.Core.Query.Resolver;
 using NBi.NUnit.Builder.Helper;
 using NBi.Core.ResultSet.Resolver;
+using NBi.Xml.Settings;
 
 namespace NBi.NUnit.Builder
 {
@@ -41,9 +42,7 @@ namespace NBi.NUnit.Builder
             if (ctrXml.Query != null)
             {
                 var builder = new ResultSetResolverArgsBuilder(ServiceLocator);
-                builder.Setup(ctrXml.Query);
-                builder.Setup(ctrXml.Settings);
-                builder.Setup(Variables);
+                builder.Setup(ctrXml.Query, ctrXml.Settings, SettingsXml.DefaultScope.Assert, Variables);
                 builder.Build();
 
                 var factory = ServiceLocator.GetResultSetResolverFactory();

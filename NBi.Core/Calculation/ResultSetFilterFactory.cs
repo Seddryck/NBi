@@ -16,12 +16,10 @@ namespace NBi.Core.Calculation
 {
     public class ResultSetFilterFactory
     {
-        private readonly IDictionary<string, ITestVariable> variables;
+        private IDictionary<string, ITestVariable> Variables { get; }
 
         public ResultSetFilterFactory(IDictionary<string, ITestVariable> variables)
-        {
-            this.variables = variables;
-        }
+            => Variables = variables;
 
         public IResultSetFilter Instantiate(IEnumerable<IColumnAlias> aliases, IEnumerable<IColumnExpression> expressions, PredicationArgs predicationArgs)
         {

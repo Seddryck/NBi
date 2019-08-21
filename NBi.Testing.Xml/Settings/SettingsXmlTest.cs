@@ -88,28 +88,32 @@ namespace NBi.Testing.Xml.Unit.Settings
         }
 
         [Test]
-        public void DeserializeEqualToResultSet_SettingsWithDefault_DefaultReplicatedForTest()
+        public void DeserializeEqualToResultSet_SettingsWithDefault_DefaultForwardedToItem()
         {
             int testNr = 0;
 
             // Create an instance of the XmlSerializer specifying type and namespace.
             TestSuiteXml ts = DeserializeSample("SettingsXmlWithDefault");
 
-            Assert.That(((ExecutionXml)ts.Tests[testNr].Systems[0]).Item.ConnectionString, Is.Null.Or.Empty);
-            Assert.That(((ExecutionXml)ts.Tests[testNr].Systems[0]).Item.GetConnectionString(), Is.Not.Null.And.Not.Empty);
+            var system = (ExecutionXml)ts.Tests[testNr].Systems[0];
+            Assert.That(system.Item.ConnectionString, Is.Null.Or.Empty);
+            Assert.That(system.Settings, Is.Not.Null);
+            Assert.That(system.Settings.GetDefault(SettingsXml.DefaultScope.SystemUnderTest).ConnectionString.Inline, Is.Not.Null.And.Not.Empty);
+            Assert.That(system.Item.Settings, Is.Not.Null);
+            Assert.That(system.Item.Settings.GetDefault(SettingsXml.DefaultScope.SystemUnderTest).ConnectionString.Inline, Is.Not.Null.And.Not.Empty);
+            Assert.That(system.Item.Settings.GetDefault(SettingsXml.DefaultScope.SystemUnderTest).ConnectionString.Inline, Is.EqualTo(system.Settings.GetDefault(SettingsXml.DefaultScope.SystemUnderTest).ConnectionString.Inline));
         }
 
         [Test]
-        public void DeserializeEqualToResultSet_SettingsWithDefault_DefaultReplicatedForTestRoleAdded()
+        public void DeserializeEqualToResultSet_SettingsWithDefault_RoleIsDeserialized()
         {
             int testNr = 1;
 
             // Create an instance of the XmlSerializer specifying type and namespace.
             TestSuiteXml ts = DeserializeSample("SettingsXmlWithDefault");
 
-            Assert.That(((ExecutionXml)ts.Tests[testNr].Systems[0]).Item.GetConnectionString(), Does.Not.Contain("\r"));
-            Assert.That(((ExecutionXml)ts.Tests[testNr].Systems[0]).Item.GetConnectionString(), Does.Not.Contain("\n"));
-            Assert.That(((ExecutionXml)ts.Tests[testNr].Systems[0]).Item.GetConnectionString(), Does.Contain("Roles=\"admin\""));
+            Assert.That(((ExecutionXml)ts.Tests[testNr].Systems[0]).Item.ConnectionString, Is.Null.Or.Empty);
+            Assert.That(((ExecutionXml)ts.Tests[testNr].Systems[0]).Item.Roles, Is.EqualTo("admin"));
         }
 
         [Test]
@@ -120,7 +124,13 @@ namespace NBi.Testing.Xml.Unit.Settings
             // Create an instance of the XmlSerializer specifying type and namespace.
             TestSuiteXml ts = DeserializeSample("SettingsXmlWithDefaultAssert");
 
-            Assert.That(((EqualToXml)ts.Tests[testNr].Constraints[0]).GetCommand().Connection.ConnectionString, Is.Not.Null.And.Not.Empty);
+            var assert = (EqualToXml)ts.Tests[testNr].Constraints[0];
+            Assert.That(assert.BaseItem.ConnectionString, Is.Null.Or.Empty);
+            Assert.That(assert.Settings, Is.Not.Null);
+            Assert.That(assert.Settings.GetDefault(SettingsXml.DefaultScope.Assert).ConnectionString.Inline, Is.Not.Null.And.Not.Empty);
+            Assert.That(assert.BaseItem.Settings, Is.Not.Null);
+            Assert.That(assert.BaseItem.Settings.GetDefault(SettingsXml.DefaultScope.Assert).ConnectionString.Inline, Is.Not.Null.And.Not.Empty);
+            Assert.That(assert.BaseItem.Settings.GetDefault(SettingsXml.DefaultScope.Assert).ConnectionString.Inline, Is.EqualTo(assert.Settings.GetDefault(SettingsXml.DefaultScope.Assert).ConnectionString.Inline));
         }
 
         [Test]
@@ -142,7 +152,7 @@ namespace NBi.Testing.Xml.Unit.Settings
             // Create an instance of the XmlSerializer specifying type and namespace.
             TestSuiteXml ts = DeserializeSample("SettingsXmlWithoutDefault");
 
-            Assert.That(((QueryXml)((ExecutionXml)ts.Tests[testNr].Systems[0]).Item).GetConnectionString(), Is.Null.Or.Empty);
+            Assert.That(((QueryXml)((ExecutionXml)ts.Tests[testNr].Systems[0]).Item).ConnectionString, Is.Null.Or.Empty);
         }
 
         [Test]
@@ -192,8 +202,17 @@ namespace NBi.Testing.Xml.Unit.Settings
             // Create an instance of the XmlSerializer specifying type and namespace.
             TestSuiteXml ts = DeserializeSample("SettingsXmlWithReference");
 
-            Assert.That(((ExecutionXml)ts.Tests[testNr].Systems[0]).Item.GetConnectionString(), Is.Not.Null.And.Not.Empty);
-            Assert.That(((ExecutionXml)ts.Tests[testNr].Systems[0]).Item.GetConnectionString(), Is.EqualTo("My Second Connection String"));
+            Assert.That(((ExecutionXml)ts.Tests[testNr].Systems[0]).Item.ConnectionString, Is.Not.Null.And.Not.Empty);
+            Assert.That(((ExecutionXml)ts.Tests[testNr].Systems[0]).Item.ConnectionString, Is.EqualTo("@second-ref"));
+            var system = (ExecutionXml)ts.Tests[testNr].Systems[0];
+            Assert.That(system.Item.ConnectionString, Is.Not.Null.And.Not.Empty);
+            Assert.That(system.Item.ConnectionString, Does.StartWith("@"));
+            Assert.That(system.Item.ConnectionString, Is.EqualTo("@second-ref"));
+            Assert.That(system.Settings, Is.Not.Null);
+            Assert.That(system.Settings.GetReference("second-ref").ConnectionString.Inline, Is.Not.Null.And.Not.Empty);
+            Assert.That(system.Item.Settings, Is.Not.Null);
+            Assert.That(system.Item.Settings.GetReference("second-ref").ConnectionString.Inline, Is.Not.Null.And.Not.Empty);
+            Assert.That(system.Item.Settings.GetReference("second-ref").ConnectionString.Inline, Is.EqualTo(system.Settings.GetReference("second-ref").ConnectionString.Inline));
         }
 
         [Test]
@@ -203,21 +222,10 @@ namespace NBi.Testing.Xml.Unit.Settings
 
             // Create an instance of the XmlSerializer specifying type and namespace.
             TestSuiteXml ts = DeserializeSample("SettingsXmlWithReference");
-            Assert.That(((QueryXml)((ExecutionXml)ts.Tests[testNr].Systems[0]).Item).GetConnectionString(), Is.Null.Or.Empty);
-            Assert.That(((ExecutionXml)ts.Tests[testNr].Systems[0]).Item.GetConnectionString(), Is.Null.Or.Empty);
+            Assert.That(((QueryXml)((ExecutionXml)ts.Tests[testNr].Systems[0]).Item).ConnectionString, Is.Null.Or.Empty);
+            Assert.That(((ExecutionXml)ts.Tests[testNr].Systems[0]).Item.ConnectionString, Is.Null.Or.Empty);
         }
 
-        [Test]
-        public void DeserializeStructurePerspective_SettingsWithReference_ReferenceAppliedToTest()
-        {
-            int testNr = 2;
-
-            // Create an instance of the XmlSerializer specifying type and namespace.
-            TestSuiteXml ts = DeserializeSample("SettingsXmlWithReference");
-
-            Assert.That(((StructureXml)ts.Tests[testNr].Systems[0]).Item.GetConnectionString(), Is.Not.Null.And.Not.Empty);
-            Assert.That(((StructureXml)ts.Tests[testNr].Systems[0]).Item.GetConnectionString(), Is.EqualTo("My First Connection String"));
-        }
 
         [Test]
         public void DeserializeStructurePerspective_SettingsWithoutParallelizeQueries_False()
@@ -274,34 +282,6 @@ namespace NBi.Testing.Xml.Unit.Settings
 
             var parameters = ((QueryXml)ts.Tests[testNr].Systems[0].BaseItem).GetTemplateVariables();
             Assert.That(parameters.Count, Is.EqualTo(3));
-        }
-
-        [Test]
-        public void DeserializeStructurePerspective_SettingsWithDefaultEverywhere_True()
-        {
-            int testNr = 0;
-
-            // Create an instance of the XmlSerializer specifying type and namespace.
-            TestSuiteXml ts = DeserializeSample("SettingsXmlWithDefaultEverywhere");
-
-            //The connections string is overriden where needed
-            Assert.That(((QueryXml)ts.Tests[testNr].Systems[0].BaseItem).GetConnectionString(), Is.EqualTo("My Connection String"));
-            Assert.That(((QueryXml)ts.Tests[testNr].Constraints[0].BaseItem).GetConnectionString(), Is.EqualTo("My Connection String from Everywhere"));
-
-            //The param is copied everywhere
-            Assert.That(((QueryXml)ts.Tests[testNr].Systems[0].BaseItem).GetParameters().Find(p => p.Name == "paramEverywhere").StringValue, Is.EqualTo("120"));
-            Assert.That(((QueryXml)ts.Tests[testNr].Constraints[0].BaseItem).GetParameters().Find(p => p.Name == "paramEverywhere").StringValue, Is.EqualTo("120"));
-
-            //The param is not overriden
-            Assert.That(((QueryXml)ts.Tests[testNr].Systems[0].BaseItem).GetParameters().Find(p => p.Name == "paramToOverride").StringValue, Is.EqualTo("Alpha"));
-            //The param is overriden
-            Assert.That(((QueryXml)ts.Tests[testNr].Constraints[0].BaseItem).GetParameters().Find(p => p.Name == "paramToOverride").StringValue, Is.EqualTo("80"));
-
-            //The param is not overriden
-            Assert.That(((QueryXml)ts.Tests[testNr].Systems[0].BaseItem).GetParameters().Find(p => p.Name == "paramToOverrideTwice").StringValue, Is.EqualTo("3"));
-            //The param is overriden
-            Assert.That(((QueryXml)ts.Tests[testNr].Constraints[0].BaseItem).GetParameters().Find(p => p.Name == "paramToOverrideTwice").StringValue, Is.EqualTo("1"));
-
         }
     }
 }

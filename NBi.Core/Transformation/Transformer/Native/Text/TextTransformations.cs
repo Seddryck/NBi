@@ -15,7 +15,7 @@ namespace NBi.Core.Transformation.Transformer.Native
             switch (value)
             {
                 case null: return EvaluateNull();
-                case DBNull dbnull: return EvaluateNull();
+                case DBNull _: return EvaluateNull();
                 case string s: return EvaluateHighLevelString(s);
                 default:
                     var caster = new TextCaster();

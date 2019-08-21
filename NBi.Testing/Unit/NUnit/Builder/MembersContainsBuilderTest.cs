@@ -85,14 +85,19 @@ namespace NBi.Testing.Unit.NUnit.Builder
                     Perspective = "perspective",
                     Dimension = "dimension",
                     Caption = "hierarchy",
+                    Settings = new SettingsXml()
+                    {
+                        Defaults = new List<DefaultXml>()
+                        {
+                            new DefaultXml()
+                            {
+                                ApplyTo = SettingsXml.DefaultScope.SystemUnderTest,
+                                ConnectionString = new ConnectionStringXml() { Inline = "connectionString-default" }
+                            }
+                        }
+                    }
                 }
             };
-
-            var defXml = new DefaultXml
-            {
-                ConnectionString = new ConnectionStringXml() { Inline = "connectionString-default" }
-            };
-            sutXml.Default = defXml;
 
             var ctrXml = new ContainXml();
 

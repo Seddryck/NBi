@@ -13,6 +13,7 @@ using NBi.Core.Scalar.Conversion;
 using NBi.Core.Transformation;
 using NBi.Core.Variable;
 using NBi.Xml.Items.Calculation.Ranking;
+using NBi.Xml.Settings;
 using NBi.Xml.Systems;
 using System;
 using System.Collections.Generic;
@@ -25,20 +26,20 @@ namespace NBi.NUnit.Builder.Helper
     class ResultSetSystemHelper
     {
         private readonly ServiceLocator serviceLocator;
+        private SettingsXml.DefaultScope scope = SettingsXml.DefaultScope.Everywhere;
         private readonly IDictionary<string, ITestVariable> variables;
 
-        public ResultSetSystemHelper(ServiceLocator serviceLocator, IDictionary<string, ITestVariable> variables)
+        public ResultSetSystemHelper(ServiceLocator serviceLocator, SettingsXml.DefaultScope scope, IDictionary<string, ITestVariable> variables)
         {
             this.serviceLocator = serviceLocator;
+            this.scope = scope;
             this.variables = variables;
         }
 
         public IResultSetResolver InstantiateResolver(ResultSetSystemXml resultSetXml)
         {
             var argsBuilder = new ResultSetResolverArgsBuilder(serviceLocator);
-            argsBuilder.Setup(resultSetXml);
-            argsBuilder.Setup(resultSetXml.Settings);
-            argsBuilder.Setup(variables);
+            argsBuilder.Setup(resultSetXml, resultSetXml.Settings, scope, variables);
             argsBuilder.Build();
 
             var factory = serviceLocator.GetResultSetResolverFactory();

@@ -1,0 +1,44 @@
+﻿<testSuite name="MyTestSuite" xmlns="http://NBi/TestSuite">
+  <settings>
+    <default apply-to="system-under-test">
+      <connectionString>Provider=MSOLAP.4;Data Source=(local)\SQL2017TABULAR;Initial Catalog='AdventureWorks Tabular Model SQL 2012';localeidentifier=1033</connectionString>
+    </default>
+    <default apply-to="assert">
+      <connectionString>Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly</connectionString>
+    </default>
+    <default apply-to="variable">
+      <connectionString>Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly</connectionString>
+    </default>
+    <parallelize-queries>false</parallelize-queries>
+  </settings>
+  <variables>
+    <variable name="vTestProjectNumber">
+      <query-scalar>
+        SELECT 10
+      </query-scalar>
+    </variable>
+  </variables>
+  <test name="Data: Project Dimension">
+    <system-under-test>
+      <execution>
+        <query>
+          EVALUATE
+          (CALCULATETABLE(
+          VALUES('Product Subcategory'[Product Subcategory Name]),
+          'Product Category'[Product Category Name] = @ProjectNumber ))
+          <parameter name="ProjectNumber">@vTestProjectNumber</parameter> <!-- This works! -->
+        </query>
+      </execution>
+    </system-under-test>
+    <assert>
+      <!--<equalTo>
+        <column index="0" role="key" type="text"/>
+        <query>select 'Mountain Bikes' union all select 'Road Bikes' union all select 'Touring Bikes'</query>
+      </equalTo>-->
+      <equal-to>
+        <column index="0" role="key" type="text"/>
+        <query>select 'Mountain Bikes' union all select 'Road Bikes' union all select 'Touring Bikes'</query>
+      </equal-to>
+    </assert>
+  </test>
+</testSuite>

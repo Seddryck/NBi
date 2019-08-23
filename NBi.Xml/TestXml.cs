@@ -121,6 +121,7 @@ namespace NBi.Xml
         XmlArrayItem(Type = typeof(EqualToXml), ElementName = "equal-to"),
         XmlArrayItem(Type = typeof(SupersetOfXml), ElementName = "superset-of"),
         XmlArrayItem(Type = typeof(SubsetOfXml), ElementName = "subset-of"),
+         XmlArrayItem(Type = typeof(IntersectionOfXml), ElementName = "intersection-of"),
         XmlArrayItem(Type = typeof(CountXml), ElementName = "count"),
         XmlArrayItem(Type = typeof(ContainXml), ElementName = "contain"),
         XmlArrayItem(Type = typeof(ExistsXml), ElementName = "exists"),
@@ -279,30 +280,14 @@ namespace NBi.Xml
         [XmlIgnore]
         public bool SetupSpecified
         {
-            get
-            {
-                return !(
-                            Setup == null
-                            || (
-                                    (Setup.Commands == null || Setup.Commands.Count == 0)
-                               )
-                         );
-            }
+            get => (Setup?.Commands?.Count ?? 0) != 0;
             set { return; }
         }
 
         [XmlIgnore]
         public bool CleanupSpecified
         {
-            get
-            {
-                return !(
-                            Cleanup == null
-                            || (
-                                    (Cleanup.Commands == null || Cleanup.Commands.Count == 0)
-                               )
-                         );
-            }
+            get => (Cleanup?.Commands?.Count ?? 0) != 0;
             set { return; }
         }
 

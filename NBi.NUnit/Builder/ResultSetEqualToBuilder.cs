@@ -57,10 +57,12 @@ namespace NBi.NUnit.Builder
                     transformationProvider.Add(columnDef.Identifier, columnDef.Transformation);
             }
 
-            if (ConstraintXml.GetCommand() != null)
+            if (ConstraintXml.BaseItem is QueryXml)
                 ctr = InstantiateConstraint(((QueryXml)(ConstraintXml.BaseItem)), ConstraintXml.Settings, transformationProvider);
+            else if (ConstraintXml.ResultSetOld != null)
+                ctr = InstantiateConstraint(ConstraintXml.ResultSetOld, ConstraintXml.Settings, transformationProvider);
             else if (ConstraintXml.ResultSet != null)
-                ctr = InstantiateConstraint(ConstraintXml.ResultSet, ConstraintXml.Settings, transformationProvider);
+                ctr = InstantiateConstraint(ConstraintXml.ResultSet, ConstraintXml.Settings);
             else if (ConstraintXml.XmlSource != null)
                 ctr = InstantiateConstraint(ConstraintXml.XmlSource, ConstraintXml.Settings, transformationProvider);
 
@@ -102,12 +104,22 @@ namespace NBi.NUnit.Builder
             return ctr;
         }
 
+        protected virtual BaseResultSetComparisonConstraint InstantiateConstraint(ResultSetSystemXml xml, SettingsXml settings)
+        {
+            xml.Settings = settings;
+            var builder = new ResultSetServiceBuilder();
+            var helper = new ResultSetSystemHelper(ServiceLocator, SettingsXml.DefaultScope.Assert, Variables);
+            builder.Setup(helper.InstantiateResolver(xml));
+            builder.Setup(helper.InstantiateAlterations(xml));
+            var service = builder.GetService();
+
+            return InstantiateConstraint(service);
+        }
+
         protected virtual BaseResultSetComparisonConstraint InstantiateConstraint(object obj, SettingsXml settings, TransformationProvider transformation)
         {
             var argsBuilder = new ResultSetResolverArgsBuilder(ServiceLocator);
-            argsBuilder.Setup(obj);
-            argsBuilder.Setup(settings);
-            argsBuilder.Setup(Variables);
+            argsBuilder.Setup(obj, settings, SettingsXml.DefaultScope.Assert, Variables);
             argsBuilder.Build();
 
             var factory = ServiceLocator.GetResultSetResolverFactory();

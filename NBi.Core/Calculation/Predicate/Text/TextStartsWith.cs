@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NBi.Core.Scalar.Resolver;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -9,7 +10,7 @@ namespace NBi.Core.Calculation.Predicate.Text
 {
     class TextStartsWith : AbstractTextPredicate
     {
-        public TextStartsWith(bool not, object reference, StringComparison stringComparison)
+        public TextStartsWith(bool not, IScalarResolver reference, StringComparison stringComparison)
             : base(not, reference, stringComparison)
         {
         }
@@ -19,7 +20,7 @@ namespace NBi.Core.Calculation.Predicate.Text
         }
         public override string ToString()
         {
-            return $"starts with '{Reference}'";
+            return $"starts with '{Reference.Execute()}'";
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
-using NBi.Service.RunnerConfig;
+using NBi.UI.Genbi.RunnerConfig;
 using NBi.UI.Genbi.Command;
 using NBi.UI.Genbi.Command.Configs;
 

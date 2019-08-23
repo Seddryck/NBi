@@ -7,6 +7,7 @@ using NBi.Xml.Systems;
 using NBi.Core.Structure;
 using System.Collections.Generic;
 using NBi.Xml.Items.Filters;
+using NBi.NUnit.Builder.Helper;
 
 namespace NBi.NUnit.Builder
 {
@@ -44,7 +45,8 @@ namespace NBi.NUnit.Builder
 
         protected override StructureDiscoveryCommand InstantiateCommand(AbstractItem item)
         {
-            var factory = discoveryProvider.Instantiate(item.GetConnectionString());
+            var connectionString = new ConnectionStringHelper().Execute(item, Xml.Settings.SettingsXml.DefaultScope.SystemUnderTest);
+            var factory = discoveryProvider.Instantiate(connectionString);
 
             var target = BuildTarget(item);
             var filters = BuildFilters(item);

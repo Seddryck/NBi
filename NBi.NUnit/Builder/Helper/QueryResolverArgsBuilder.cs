@@ -12,6 +12,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using NBi.Extensibility.Query;
+using System.Text.RegularExpressions;
+using System.Diagnostics;
+using NBi.Core;
 
 namespace NBi.NUnit.Builder.Helper
 {
@@ -20,8 +23,9 @@ namespace NBi.NUnit.Builder.Helper
         private bool isSetup = false;
         private readonly ServiceLocator serviceLocator;
 
-        private QueryXml queryXml = null;
+        private object obj = null;
         private SettingsXml settingsXml = null;
+        private SettingsXml.DefaultScope scope = SettingsXml.DefaultScope.Everywhere;
         private IDictionary<string, ITestVariable> globalVariables = null;
         private BaseQueryResolverArgs args = null;
 
@@ -30,20 +34,22 @@ namespace NBi.NUnit.Builder.Helper
             this.serviceLocator = serviceLocator;
         }
 
-        public void Setup(QueryXml queryXml)
+        public void Setup(QueryXml queryXml, SettingsXml settingsXml, SettingsXml.DefaultScope scope, IDictionary<string, ITestVariable> globalVariables)
         {
-            this.queryXml = queryXml;
+            this.obj = queryXml;
+            this.settingsXml = settingsXml;
+            this.scope = scope;
+            this.globalVariables = globalVariables;
             isSetup = true;
         }
 
-        public void Setup(SettingsXml settingsXml)
+        public void Setup(ExecutableXml executableXml, SettingsXml settingsXml, IDictionary<string, ITestVariable> globalVariables)
         {
+            this.obj = executableXml;
             this.settingsXml = settingsXml;
-        }
-
-        public void Setup(IDictionary<string, ITestVariable> globalVariables)
-        {
+            this.scope = SettingsXml.DefaultScope.SystemUnderTest;
             this.globalVariables = globalVariables;
+            isSetup = true;
         }
 
         public void Build()
@@ -51,7 +57,16 @@ namespace NBi.NUnit.Builder.Helper
             if (!isSetup)
                 throw new InvalidOperationException();
 
-            var connectionString = queryXml.GetConnectionString();
+            switch (obj)
+            {
+                case QueryXml queryXml: Build(queryXml); break;
+                case ExecutableXml executableXml: Build(executableXml); break;
+            }
+        }
+
+        protected void Build(QueryXml queryXml)
+        {
+            var connectionString = new ConnectionStringHelper().Execute(queryXml, scope);
             var parameters = BuildParameters(queryXml.GetParameters());
             var templateVariables = queryXml.GetTemplateVariables();
             var timeout = queryXml.Timeout;
@@ -69,35 +84,68 @@ namespace NBi.NUnit.Builder.Helper
             }
 
             else if (queryXml.Assembly != null)
-            {
-                var file = GetFullPath(settingsXml?.BasePath, queryXml.Assembly.Path);
+                args = Build(queryXml.Assembly, connectionString, parameters, templateVariables, new TimeSpan(0, 0, timeout));
 
-                args = new AssemblyQueryResolverArgs(
-                    file, queryXml.Assembly.Klass, queryXml.Assembly.Method,
-                    queryXml.Assembly.Static, queryXml.Assembly.GetMethodParameters()
-                    , connectionString, parameters, templateVariables, new TimeSpan(0, 0, timeout));
-            }
 
             else if (queryXml.Report != null)
-            {
-                var path = string.IsNullOrEmpty(queryXml.Report.Source) ? settingsXml.BasePath + queryXml.Report.Path : queryXml.Report.Path;
+                args = Build(queryXml.Report, connectionString, parameters, templateVariables, new TimeSpan(0, 0, timeout));
 
-                args = new ReportDataSetQueryResolverArgs(
-                    queryXml.Report.Source, path, queryXml.Report.Name, queryXml.Report.Dataset
-                    , connectionString, parameters, templateVariables, new TimeSpan(0, 0, timeout));
-            }
 
             else if (queryXml.SharedDataset != null)
-            {
-                var path = string.IsNullOrEmpty(queryXml.SharedDataset.Source) ? settingsXml.BasePath + queryXml.SharedDataset.Path : queryXml.SharedDataset.Path;
-
-                args = new SharedDataSetQueryResolverArgs(
-                    queryXml.SharedDataset.Source, queryXml.SharedDataset.Path, queryXml.SharedDataset.Name
-                    , connectionString, parameters, templateVariables, new TimeSpan(0, 0, timeout));
-            }
+                args = Build(queryXml.SharedDataset, connectionString, parameters, templateVariables, new TimeSpan(0, 0, timeout));
 
             if (args == null)
                 throw new ArgumentException();
+        }
+
+        private BaseQueryResolverArgs Build(AssemblyXml xml, string connectionString, IEnumerable<IQueryParameter> parameters, IEnumerable<IQueryTemplateVariable> templateVariables, TimeSpan timeout)
+        {
+            var file = GetFullPath(xml?.Settings?.BasePath, xml.Path);
+
+            return new AssemblyQueryResolverArgs(
+                file, xml.Klass, xml.Method,
+                xml.Static, xml.GetMethodParameters()
+                , connectionString, parameters, templateVariables, timeout);
+        }
+
+        private BaseQueryResolverArgs Build(ReportXml xml, string connectionString, IEnumerable<IQueryParameter> parameters, IEnumerable<IQueryTemplateVariable> templateVariables, TimeSpan timeout)
+        {
+            var path = string.IsNullOrEmpty(xml.Source) ? settingsXml.BasePath + xml.Path : xml.Path;
+
+            return new ReportDataSetQueryResolverArgs(
+                xml.Source, path, xml.Name, xml.Dataset
+                , connectionString, parameters, templateVariables, timeout);
+        }
+
+        private BaseQueryResolverArgs Build(SharedDatasetXml xml, string connectionString, IEnumerable<IQueryParameter> parameters, IEnumerable<IQueryTemplateVariable> templateVariables, TimeSpan timeout)
+        {
+            var path = string.IsNullOrEmpty(xml.Source) ? settingsXml.BasePath + xml.Path : xml.Path;
+
+            return new SharedDataSetQueryResolverArgs(
+                xml.Source, path, xml.Name
+                , connectionString, parameters, templateVariables, timeout);
+        }
+
+        protected void Build(ExecutableXml executableXml)
+        {
+            if (executableXml is QueryXml)
+                Build(executableXml as QueryXml);
+            else
+            {
+                var connectionString = new ConnectionStringHelper().Execute(executableXml, scope);
+
+                var queryableXml = executableXml as QueryableXml;
+                var parameters = BuildParameters(queryableXml.GetParameters());
+                var templateVariables = queryableXml.GetTemplateVariables();
+                var timeout = queryableXml.Timeout;
+
+                switch (executableXml)
+                {
+                    case AssemblyXml xml: args = Build(xml, connectionString, parameters, templateVariables, new TimeSpan(0, 0, timeout)); break;
+                    case ReportXml xml: args = Build(xml, connectionString, parameters, templateVariables, new TimeSpan(0, 0, timeout)); break;
+                    case SharedDatasetXml xml: args = Build(xml, connectionString, parameters, templateVariables, new TimeSpan(0, 0, timeout)); break;
+                }
+            }
         }
 
         private string GetFullPath(string basePath, string path)
@@ -115,8 +163,7 @@ namespace NBi.NUnit.Builder.Helper
                 var stringWithoutSpecialChars = parameterXml.StringValue.Replace("\r", "").Replace("\n", "").Replace("\t", "").Trim();
 
                 var builder = new ScalarResolverArgsBuilder(serviceLocator);
-                builder.Setup(stringWithoutSpecialChars);
-                builder.Setup(globalVariables);
+                builder.Setup(stringWithoutSpecialChars, globalVariables);
                 builder.Build();
                 var args = builder.GetArgs();
 
@@ -126,9 +173,6 @@ namespace NBi.NUnit.Builder.Helper
             }
         }
 
-        public BaseQueryResolverArgs GetArgs()
-        {
-            return args;
-        }
+        public BaseQueryResolverArgs GetArgs() => args;
     }
 }

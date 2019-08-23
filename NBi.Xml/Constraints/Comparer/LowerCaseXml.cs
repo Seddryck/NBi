@@ -11,6 +11,6 @@ namespace NBi.Xml.Constraints.Comparer
 {
     public class LowerCaseXml : PredicateXml
     {
-        internal override ComparerType ComparerType { get => ComparerType.LowerCase; }
+        public override ComparerType ComparerType { get => ComparerType.LowerCase; }
     }
 }

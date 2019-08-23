@@ -8,7 +8,7 @@ namespace NBi.Core.Sequence.Transformation.Aggregation
 {
     public enum AggregationFunctionType
     {
-        Mean,
+        Average,
         Sum,
         Max,
         Min,

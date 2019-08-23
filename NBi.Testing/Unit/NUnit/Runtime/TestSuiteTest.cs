@@ -322,7 +322,7 @@ namespace NBi.Testing.Unit.NUnit.Runtime
 
             // A Stream is needed to read the XML document.
             using (Stream stream = Assembly.GetExecutingAssembly()
-                                           .GetManifestResourceStream("NBi.Testing.Unit.Xml.Resources.GroupXmlTestSuite.xml"))
+                                           .GetManifestResourceStream("NBi.Testing.Unit.NUnit.Runtime.Resources.GroupXmlTestSuite.xml"))
             using (StreamReader reader = new StreamReader(stream))
             {
                 manager.Read(reader);

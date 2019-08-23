@@ -1,4 +1,5 @@
 ﻿using NBi.Core.Calculation;
+using NBi.Core.Calculation.Predicate;
 using NBi.Core.Calculation.Predicate.Text;
 using NBi.Core.ResultSet;
 using System;
@@ -19,20 +20,16 @@ namespace NBi.Core.Scalar.Conversion
         protected override DateTime OnExecute(string x, CultureInfo cultureInfo) 
             => DateTime.ParseExact(x, cultureInfo.DateTimeFormat.ShortDatePattern, cultureInfo, DateTimeStyles.None);
 
-        protected override IPredicateInfo GetPredicateInfo(CultureInfo cultureInfo) => new PredicateInfo(cultureInfo.Name);
+        protected override PredicateArgs GetPredicateArgs(CultureInfo cultureInfo) => new TextToDatePredicateArgs(cultureInfo.Name);
 
-        private class PredicateInfo : IPredicateInfo, ICultureSensitivePredicateInfo
+        private class TextToDatePredicateArgs : CultureSensitivePredicateArgs
         {
-            public PredicateInfo(string culture)
+            public TextToDatePredicateArgs(string culture)
             {
+                ColumnType = ColumnType.Text;
+                ComparerType = ComparerType.MatchesDate;
                 Culture = culture;
             }
-
-            public ColumnType ColumnType { get => ColumnType.Text; set => throw new NotImplementedException(); }
-            public ComparerType ComparerType => ComparerType.MatchesDate;
-            public IColumnIdentifier Operand { get => null; set => throw new NotImplementedException(); }
-            public bool Not { get => false; set => throw new NotImplementedException(); }
-            public string Culture { get; }
         }
     }
 }

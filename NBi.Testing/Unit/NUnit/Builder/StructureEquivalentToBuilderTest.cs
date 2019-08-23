@@ -1,4 +1,4 @@
-﻿    #region Using directives
+﻿#region Using directives
 
 using System.Linq;
 using Moq;
@@ -12,6 +12,7 @@ using NUnit.Framework;
 using NBi.Core.Structure.Olap;
 using NBi.Xml.Items.Filters;
 using NBi.Core.Structure;
+using System.Collections.Generic;
 
 #endregion
 
@@ -90,12 +91,18 @@ namespace NBi.Testing.Unit.NUnit.Builder
             var ctrXmlStubFactory = new Mock<EquivalentToXml>();
             var ctrXml = ctrXmlStubFactory.Object;
 
-            var sutXml = new StructureXml();
-
-            sutXml.Item = new MeasureGroupsXml();
-            ((MeasureGroupsXml)sutXml.Item).Perspective = "Perspective";
-
-            sutXml.Default = new DefaultXml() { ConnectionString = new ConnectionStringXml() { Inline = ConnectionStringReader.GetAdomd() } };
+            var sutXml = new StructureXml()
+            {
+                Item = new MeasureGroupsXml()
+                {
+                    Perspective = "Perspective",
+                    Settings = new SettingsXml()
+                    {
+                        Defaults = new List<DefaultXml>()
+                        { new DefaultXml() { ConnectionString = new ConnectionStringXml() { Inline = ConnectionStringReader.GetAdomd() } } }
+                    }
+                }
+            };
 
             var builder = new StructureEquivalentToBuilder();
             builder.Setup(sutXml, ctrXml);
@@ -130,7 +137,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
             //Assertion
             Assert.That(sut, Is.InstanceOf<OlapCommand>());
         }
-        
+
         //**********************
         //       Measure-Group
         //**********************
@@ -175,8 +182,8 @@ namespace NBi.Testing.Unit.NUnit.Builder
             //Assertion
             Assert.That(sut, Is.InstanceOf<OlapCommand>());
         }
-        
-        
+
+
 
         //**********************
         //       Measure
@@ -200,7 +207,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
             var sut = builder.GetSystemUnderTest();
 
             //Assertion
-            Assert.That(sut, Is.InstanceOf<OlapCommand>()); 
+            Assert.That(sut, Is.InstanceOf<OlapCommand>());
         }
 
         //**********************

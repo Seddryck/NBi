@@ -33,12 +33,12 @@ namespace NBi.Core.Scalar.Resolver
             return (T)typedEvaluation;
         }
 
-        object IScalarResolver.Execute() => Execute();
+        object IResolver.Execute() => Execute();
 
         private void DisplayVariable(string name, object value)
         {
             var invariantCulture = new CultureFactory().Invariant;
-            var msg = $@"Variable '{args.VariableName}' used with value: {
+            var msg = $@"Variable '{name}' used with value: {
                     (
                         value == null ? "(null)" :
                         value is string && string.IsNullOrEmpty(value.ToString()) ? "(empty)" :
@@ -90,15 +90,9 @@ namespace NBi.Core.Scalar.Resolver
             lock (locker)
             {
                 if (!variable.IsEvaluated())
-                {
-                    var stopWatch = new Stopwatch();
-                    stopWatch.Start();
-                    variable.GetValue();
-                    Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceInfo, $"Time needed for the evaluation of the variable '{args.VariableName}': {stopWatch.Elapsed.ToString(@"d\d\.hh\h\:mm\m\:ss\s\ \+fff\m\s")}");
-                }
+                variable.Evaluate();
             }
-            var output = variable.GetValue();
-            return output;
+            return variable.GetValue();
         }
     }
 }

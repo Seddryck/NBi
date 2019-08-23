@@ -1,4 +1,5 @@
 ﻿using NBi.GenbiL.Parser.Valuable;
+using NBi.GenbiL.Stateful;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -7,7 +8,7 @@ using System.Text;
 
 namespace NBi.GenbiL.Action.Case
 {
-    public class SplitCaseAction : ICaseAction
+    public class SplitCaseAction : ISingleCaseAction
     {
         public IEnumerable<string> Columns { get; private set; }
         public string Separator { get; private set; }
@@ -17,13 +18,15 @@ namespace NBi.GenbiL.Action.Case
             Separator = separator;
         }
 
-        public void Execute(GenerationState state)
+        public void Execute(GenerationState state) => Execute(state.CaseCollection.CurrentScope);
+
+        public void Execute(CaseSet testCases)
         {
-            var dataTable = state.TestCaseCollection.Scope.Content;
+            var dataTable = testCases.Content;
 
             foreach (var columnName in Columns)
             {
-                if (!state.TestCaseCollection.Scope.Variables.Contains(columnName))
+                if (!testCases.Variables.Contains(columnName))
                     throw new ArgumentOutOfRangeException(String.Format("No column named '{0}' has been found.", columnName));
 
                 dataTable.Columns.Add("_" + columnName, typeof(string[]));

@@ -27,10 +27,7 @@ namespace NBi.GenbiL.Action.Case
             return result;
         }
 
-        public override string Display
-        {
-            get => $"Crossing the set of test-cases '{FirstSet}' with '{SecondSet}' on column '{MatchingColumns}'";
-        }
-
+        public override string Display 
+            => $"Crossing the set of test-cases '{FirstSet}' with '{SecondSet}' on column '{MatchingColumns}'";
     }
 }

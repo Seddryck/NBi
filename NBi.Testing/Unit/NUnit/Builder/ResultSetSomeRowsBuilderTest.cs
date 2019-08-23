@@ -58,8 +58,9 @@ namespace NBi.Testing.Unit.NUnit.Builder
         public void GetConstraint_BuildWithResultSet_CorrectConstraint()
         {
             var sutXmlStubFactory = new Mock<Systems.ExecutionXml>();
-            var itemXmlStubFactory = new Mock<QueryableXml>();
-            itemXmlStubFactory.Setup(i => i.GetQuery()).Returns("query");
+            var itemXmlStubFactory = new Mock<QueryXml>();
+            itemXmlStubFactory.Setup(i => i.InlineQuery).Returns("query");
+            itemXmlStubFactory.Setup(i => i.Settings).Returns(SettingsXml.Empty);
             sutXmlStubFactory.Setup(s => s.Item).Returns(itemXmlStubFactory.Object);
             var sutXml = sutXmlStubFactory.Object;
             sutXml.Item = itemXmlStubFactory.Object;
@@ -68,7 +69,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
             {
                 Predication = new PredicationXml()
                 {
-                    Predicate = new MoreThanXml() { Value = "100" },
+                    Predicate = new MoreThanXml() { Reference = "100" },
                     Operand = new ColumnOrdinalIdentifier(0)
                 }
             };
@@ -87,8 +88,9 @@ namespace NBi.Testing.Unit.NUnit.Builder
         public void GetConstraint_Build_DontEvaluateVariable()
         {
             var sutXmlStubFactory = new Mock<Systems.ExecutionXml>();
-            var itemXmlStubFactory = new Mock<QueryableXml>();
-            itemXmlStubFactory.Setup(i => i.GetQuery()).Returns("query");
+            var itemXmlStubFactory = new Mock<QueryXml>();
+            itemXmlStubFactory.Setup(i => i.InlineQuery).Returns("query");
+            itemXmlStubFactory.Setup(i => i.Settings).Returns(SettingsXml.Empty);
             sutXmlStubFactory.Setup(s => s.Item).Returns(itemXmlStubFactory.Object);
             var sutXml = sutXmlStubFactory.Object;
             sutXml.Item = itemXmlStubFactory.Object;
@@ -97,7 +99,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
             {
                 Predication = new PredicationXml()
                 {
-                    Predicate = new MoreThanXml() { Value = "@year" },
+                    Predicate = new MoreThanXml() { Reference = "@year" },
                     Operand = new ColumnOrdinalIdentifier(0)
                 }
             };
@@ -122,8 +124,9 @@ namespace NBi.Testing.Unit.NUnit.Builder
         public void GetConstraint_BuildWithVariables_DontEvaluateThem()
         {
             var sutXmlStubFactory = new Mock<Systems.ExecutionXml>();
-            var itemXmlStubFactory = new Mock<QueryableXml>();
-            itemXmlStubFactory.Setup(i => i.GetQuery()).Returns("query");
+            var itemXmlStubFactory = new Mock<QueryXml>();
+            itemXmlStubFactory.Setup(i => i.InlineQuery).Returns("query");
+            itemXmlStubFactory.Setup(i => i.Settings).Returns(SettingsXml.Empty);
             sutXmlStubFactory.Setup(s => s.Item).Returns(itemXmlStubFactory.Object);
             var sutXml = sutXmlStubFactory.Object;
             sutXml.Item = itemXmlStubFactory.Object;
@@ -132,7 +135,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
             {
                 Predication = new PredicationXml()
                 {
-                    Predicate = new MoreThanXml() { Value = "@year" },
+                    Predicate = new MoreThanXml() { Reference = "@year" },
                     Operand = new ColumnOrdinalIdentifier(0)
                 }
             };
@@ -159,8 +162,9 @@ namespace NBi.Testing.Unit.NUnit.Builder
         public void GetSystemUnderTest_ExecutionXml_IResultSetService()
         {
             var sutXmlStubFactory = new Mock<Systems.ExecutionXml>();
-            var itemXmlStubFactory = new Mock<QueryableXml>();
-            itemXmlStubFactory.Setup(i => i.GetQuery()).Returns("query");
+            var itemXmlStubFactory = new Mock<QueryXml>();
+            itemXmlStubFactory.Setup(i => i.InlineQuery).Returns("query");
+            itemXmlStubFactory.Setup(i => i.Settings).Returns(SettingsXml.Empty);
             sutXmlStubFactory.Setup(s => s.Item).Returns(itemXmlStubFactory.Object);
             var sutXml = sutXmlStubFactory.Object;
             sutXml.Item = itemXmlStubFactory.Object;
@@ -169,7 +173,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
             {
                 Predication = new PredicationXml()
                 {
-                    Predicate = new MoreThanXml() { Value = "100" },
+                    Predicate = new MoreThanXml() { Reference = "100" },
                     Operand = new ColumnOrdinalIdentifier(0)
                 }
             };
@@ -194,7 +198,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
             {
                 Predication = new PredicationXml()
                 {
-                    Predicate = new MoreThanXml() { Value = "100" },
+                    Predicate = new MoreThanXml() { Reference = "100" },
                     Operand = new ColumnOrdinalIdentifier(0)
                 }
             };

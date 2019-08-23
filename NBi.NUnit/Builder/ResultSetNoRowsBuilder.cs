@@ -7,6 +7,9 @@ using NBi.Xml.Constraints;
 using NBi.Xml.Systems;
 using NBi.Core.Calculation;
 using NBi.Core.Evaluate;
+using NBi.NUnit.Builder.Helper;
+using NBi.Core.Calculation.Predicate;
+using NBi.Core.ResultSet;
 
 namespace NBi.NUnit.Builder
 {
@@ -43,25 +46,33 @@ namespace NBi.NUnit.Builder
             var factory = new ResultSetFilterFactory(Variables);
             if (ConstraintXml.Predication != null)
             {
+                var helper = new PredicateArgsBuilder(ServiceLocator, Variables);
+                var args = helper.Execute(ConstraintXml.Predication.ColumnType, ConstraintXml.Predication.Predicate);
+
                 return factory.Instantiate
                             (
                                 ConstraintXml.Aliases
                                 , expressions
-                                , ConstraintXml.Predication
+                                , new PredicationArgs(ConstraintXml.Predication.Operand, args)
                             );
             }
             else if (ConstraintXml.Combination != null)
             {
-                var predicateInfos = new List<IPredicateInfo>();
-                foreach (var predicateXml in ConstraintXml.Combination.Predicates)
-                    predicateInfos.Add(predicateXml);
+                var helper = new PredicateArgsBuilder(ServiceLocator, Variables);
+
+                var predicationArgs = new List<PredicationArgs>();
+                foreach (var predicationXml in ConstraintXml.Combination.Predications)
+                {
+                    var args = helper.Execute(predicationXml.ColumnType, predicationXml.Predicate);
+                    predicationArgs.Add(new PredicationArgs(predicationXml.Operand, args));
+                }
 
                 return factory.Instantiate
                             (
                                 ConstraintXml.Aliases
                                 , expressions
                                 , ConstraintXml.Combination.Operator
-                                , predicateInfos
+                                , predicationArgs
                             );
             }
             else

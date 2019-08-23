@@ -56,15 +56,16 @@ namespace NBi.Testing.Unit.NUnit.Builder
         public void GetConstraint_BuildWithResultSet_CorrectConstraint()
         {
             var sutXmlStubFactory = new Mock<Systems.ExecutionXml>();
-            var itemXmlStubFactory = new Mock<QueryableXml>();
-            itemXmlStubFactory.Setup(i => i.GetQuery()).Returns("query");
+            var itemXmlStubFactory = new Mock<QueryXml>();
+            itemXmlStubFactory.Setup(i => i.InlineQuery).Returns("query");
+            itemXmlStubFactory.Setup(i => i.Settings).Returns(SettingsXml.Empty);
             sutXmlStubFactory.Setup(s => s.Item).Returns(itemXmlStubFactory.Object);
             var sutXml = sutXmlStubFactory.Object;
             sutXml.Item = itemXmlStubFactory.Object;
 
             var ctrXml = new RowCountXml(SettingsXml.Empty)
             {
-                MoreThan = new MoreThanXml() { Value = "100"} 
+                MoreThan = new MoreThanXml() { Reference = "100"} 
             };
 
             var builder = new ResultSetRowCountBuilder();
@@ -81,18 +82,16 @@ namespace NBi.Testing.Unit.NUnit.Builder
         public void GetConstraint_RowCountFiltered_CorrectConstraint()
         {
             var sutXmlStubFactory = new Mock<Systems.ExecutionXml>();
-            var itemXmlStubFactory = new Mock<QueryableXml>();
-            itemXmlStubFactory.Setup(i => i.GetQuery()).Returns("query");
+            var itemXmlStubFactory = new Mock<QueryXml>();
+            itemXmlStubFactory.Setup(i => i.InlineQuery).Returns("query");
+            itemXmlStubFactory.Setup(i => i.Settings).Returns(SettingsXml.Empty);
             sutXmlStubFactory.Setup(s => s.Item).Returns(itemXmlStubFactory.Object);
             var sutXml = sutXmlStubFactory.Object;
             sutXml.Item = itemXmlStubFactory.Object;
 
             var ctrXml = new RowCountXml(SettingsXml.Empty)
             {
-                Equal = new EqualXml
-                {
-                    Value = "50"
-                },
+                Equal = new EqualXml { Reference = "50" },
                 Filter = new FilterXml()
             };
             ctrXml.Filter.InternalAliases.Add(new AliasXml());
@@ -112,15 +111,16 @@ namespace NBi.Testing.Unit.NUnit.Builder
         public void GetConstraint_PercentageForRowCount_CorrectConstraint()
         {
             var sutXmlStubFactory = new Mock<Systems.ExecutionXml>();
-            var itemXmlStubFactory = new Mock<QueryableXml>();
-            itemXmlStubFactory.Setup(i => i.GetQuery()).Returns("query");
+            var itemXmlStubFactory = new Mock<QueryXml>();
+            itemXmlStubFactory.Setup(i => i.InlineQuery).Returns("query");
+            itemXmlStubFactory.Setup(i => i.Settings).Returns(SettingsXml.Empty);
             sutXmlStubFactory.Setup(s => s.Item).Returns(itemXmlStubFactory.Object);
             var sutXml = sutXmlStubFactory.Object;
             sutXml.Item = itemXmlStubFactory.Object;
 
             var ctrXml = new RowCountXml(SettingsXml.Empty)
             {
-                Equal = new EqualXml() { Value = "50.4%" },
+                Equal = new EqualXml() { Reference = "50.4%" },
                 Filter = new FilterXml()
                 {
                     InternalAliases = new List<AliasXml>() { new AliasXml()},
@@ -142,15 +142,16 @@ namespace NBi.Testing.Unit.NUnit.Builder
         public void GetSystemUnderTest_ExecutionXml_IResultSetService()
         {
             var sutXmlStubFactory = new Mock<Systems.ExecutionXml>();
-            var itemXmlStubFactory = new Mock<QueryableXml>();
-            itemXmlStubFactory.Setup(i => i.GetQuery()).Returns("query");
+            var itemXmlStubFactory = new Mock<QueryXml>();
+            itemXmlStubFactory.Setup(i => i.InlineQuery).Returns("query");
+            itemXmlStubFactory.Setup(i => i.Settings).Returns(SettingsXml.Empty);
             sutXmlStubFactory.Setup(s => s.Item).Returns(itemXmlStubFactory.Object);
             var sutXml = sutXmlStubFactory.Object;
             sutXml.Item = itemXmlStubFactory.Object;
 
             var ctrXml = new RowCountXml(SettingsXml.Empty)
             {
-                MoreThan = new MoreThanXml() { Value = "10" }
+                MoreThan = new MoreThanXml() { Reference = "10" }
             };
 
             var builder = new ResultSetRowCountBuilder();
@@ -172,7 +173,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
 
             var ctrXml = new RowCountXml(SettingsXml.Empty)
             {
-                MoreThan = new MoreThanXml() { Value = "10" }
+                MoreThan = new MoreThanXml() { Reference = "10" }
             };
 
             var builder = new ResultSetRowCountBuilder();

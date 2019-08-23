@@ -1,4 +1,4 @@
-﻿using NBi.Service.Dto;
+﻿using NBi.UI.Genbi.Dto;
 using NBi.UI.Genbi.Command;
 
 namespace NBi.UI.Genbi.Presenter

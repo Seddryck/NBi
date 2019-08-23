@@ -6,6 +6,7 @@ using NBi.Xml.Systems;
 using NBi.Xml.Items;
 using NBi.Core.Query;
 using NBi.Extensibility.Query;
+using NBi.NUnit.Builder.Helper;
 
 namespace NBi.NUnit.Builder
 {
@@ -67,7 +68,9 @@ namespace NBi.NUnit.Builder
 
         private IQuery BuildQuery(QueryXml queryXml)
         {
-            return new NBi.Core.Query.Query(queryXml.GetQuery(), queryXml.GetConnectionString(), new TimeSpan(0, 0, 0));
+            var connectionString = new ConnectionStringHelper().Execute(queryXml, Xml.Settings.SettingsXml.DefaultScope.SystemUnderTest);
+
+            return new NBi.Core.Query.Query(queryXml.InlineQuery, connectionString, new TimeSpan(0, 0, 0));
         }
 
 

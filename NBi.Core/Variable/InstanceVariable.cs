@@ -16,6 +16,8 @@ namespace NBi.Core.Variable
             this.value = value;
         }
 
+        public void Evaluate() => throw new InvalidOperationException();
+
         public object GetValue() => value;
 
         public bool IsEvaluated() => true;

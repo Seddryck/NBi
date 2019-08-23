@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using NBi.GenbiL.Stateful;
 using NBi.Xml.Settings;
 
 namespace NBi.GenbiL.Action.Setting
@@ -22,35 +23,23 @@ namespace NBi.GenbiL.Action.Setting
             if (Variable.ToLower() != "ConnectionString".ToLower())
                 throw new ArgumentException("Currently you must define the variable as ConnectionString. Other options are not supported!");
 
-            var name = string.Empty;
-            switch (DefaultType)
-            {
-                case DefaultType.Everywhere: name = "Default - Everywhere";
-                    break;
-                case DefaultType.SystemUnderTest: name = "Default - System-under-test";
-                    break;
-                case DefaultType.Assert: name= "Default - Assert";
-                    break;
-                case DefaultType.SetupCleanup: name = "Default - Setup-cleanup";
-                    break;
-                default:
-                    break;
-            }
-
-            state.Settings.SetValue(name, Value);
+            var defaultScope = MapDefaultScope(DefaultType);
+            state.Settings.GetDefault(defaultScope).ConnectionString = new ConnectionStringXml() { Inline = Value };
         }
 
-        public string Display
+        private SettingsXml.DefaultScope MapDefaultScope(DefaultType defaultValue)
         {
-            get
+            switch (defaultValue)
             {
-                return string.Format("Create {0} default value for {1} and defining it to '{2}'"
-                    , GetLiteralForDefaulType(DefaultType)
-                    , Variable
-                    , Value
-                    );
+                case DefaultType.Everywhere: return SettingsXml.DefaultScope.Everywhere;
+                case DefaultType.SystemUnderTest:return SettingsXml.DefaultScope.SystemUnderTest;
+                case DefaultType.Assert:return SettingsXml.DefaultScope.Assert;
+                case DefaultType.SetupCleanup: return SettingsXml.DefaultScope.Decoration;
+                default: throw new ArgumentOutOfRangeException();
             }
         }
+
+        public string Display => $"Create {GetLiteralForDefaulType(DefaultType)} default value for {Variable} and defining it to '{Value}'";
 
         private string GetLiteralForDefaulType(Action.DefaultType defaultType)
         {

@@ -1,4 +1,5 @@
 ﻿using NBi.Core.Scalar.Comparer;
+using NBi.Core.Scalar.Resolver;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -10,7 +11,7 @@ namespace NBi.Core.Calculation.Predicate.Numeric
 {
     class NumericEqual : AbstractPredicateReference
     {
-        public NumericEqual(bool not, object reference) : base(not, reference)
+        public NumericEqual(bool not, IScalarResolver reference) : base(not, reference)
         { }
 
         protected override bool ApplyWithReference(object reference, object x)
@@ -18,6 +19,6 @@ namespace NBi.Core.Calculation.Predicate.Numeric
             var comparer = new NumericComparer();
             return comparer.Compare(x, reference).AreEqual;
         }
-        public override string ToString() => $"is equal to {Reference}";
+        public override string ToString() => $"is equal to {Reference.Execute()}";
     }
 }

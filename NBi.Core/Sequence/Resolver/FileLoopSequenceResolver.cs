@@ -15,6 +15,7 @@ namespace NBi.Core.Sequence.Resolver
 
         public FileLoopSequenceResolver(FileLoopSequenceResolverArgs args) => this.args = args;
 
+        object IResolver.Execute() => Execute();
         IList ISequenceResolver.Execute() => Execute();
 
         public List<string> Execute()
@@ -23,5 +24,7 @@ namespace NBi.Core.Sequence.Resolver
             var files = fileLister.Execute(args.Filters);
             return files.Select(x => x.Name).ToList();
         }
+
+        
     }
 }

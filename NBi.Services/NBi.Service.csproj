@@ -55,32 +55,7 @@
     <Compile Include="..\AssemblyInfo.cs">
       <Link>Properties\AssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="Dto\Document.cs" />
-    <Compile Include="Dto\DocumentBase.cs" />
-    <Compile Include="Dto\Schema.cs" />
-    <Compile Include="Dto\Setting.cs" />
-    <Compile Include="Dto\Style.cs" />
-    <Compile Include="Operator.cs" />
-    <Compile Include="RunnerConfig\AbstractRunnerConfigBuilder.cs" />
-    <Compile Include="TestCaseCollectionManager.cs" />
-    <Compile Include="TestCaseManager.cs" />
-    <Compile Include="Dto\Test.cs" />
-    <Compile Include="RunnerConfig\FilePersister.cs" />
-    <Compile Include="RunnerConfig\GallioRunnerConfigBuilder.cs" />
-    <Compile Include="RunnerConfig\IFilePersister.cs" />
-    <Compile Include="RunnerConfig\IRunnerConfigBuilder.cs" />
-    <Compile Include="RunnerConfig\NUnitRunnerConfigBuilder.cs" />
-    <Compile Include="ProgressEventArgs.cs" />
-    <Compile Include="RunnerConfig\RunnerConfigManager.cs" />
-    <Compile Include="SettingsManager.cs" />
-    <Compile Include="StringTemplateEngine.cs" />
-    <Compile Include="ExpectedVariableNotFoundException.cs" />
-    <Compile Include="HomeMadeEngine.cs" />
     <Compile Include="Properties\ProjectAssemblyInfo.cs" />
-    <Compile Include="TemplateExecutionException.cs" />
-    <Compile Include="TemplateManager.cs" />
-    <Compile Include="TestListManager.cs" />
-    <Compile Include="TestSuiteManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NBi.Core\NBi.Core.csproj">
@@ -95,58 +70,6 @@
       <Project>{3a9822b3-cce4-441b-9c3e-d52817a994ca}</Project>
       <Name>NBi.Xml</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="RunnerConfig\Resources\Gallio.gallio">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="RunnerConfig\Resources\NBi.config" />
-    <EmbeddedResource Include="RunnerConfig\Resources\NUnit.nunit" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Templates\ExistsDimension.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Templates\ExistsHierarchy.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Templates\ExistsLevel.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Templates\ExistsMeasure.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Templates\ExistsMeasureGroup.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Templates\ExistsPerspective.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Templates\ContainedInDimensions.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Templates\ContainedInHierarchies.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Templates\ContainedInLevels.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Templates\ContainedInMeasureGroup.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Templates\ContainedInMeasures.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Templates\ContainedInPerspectives.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Templates\LinkedToDimension.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Templates\LinkedToMeasureGroup.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Templates\QueryEqualToItself.txt" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

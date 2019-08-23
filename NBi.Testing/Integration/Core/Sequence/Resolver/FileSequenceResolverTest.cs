@@ -1,5 +1,6 @@
 ﻿using NBi.Core.Calculation.Predicate.DateTime;
 using NBi.Core.IO.Filtering;
+using NBi.Core.Scalar.Resolver;
 using NBi.Core.Sequence.Resolver;
 using NUnit.Framework;
 using System;
@@ -51,7 +52,7 @@ namespace NBi.Testing.Integration.Core.Sequence.Resolver
                     Filters = new List<IFileFilter>()
                     {
                         new PatternRootFilter("foo-*.txt"),
-                        new CreationDateTimeFilter(new DateTimeMoreThan(false, DateTime.Now.AddDays(-2)), false),
+                        new CreationDateTimeFilter(new DateTimeMoreThan(false, new LiteralScalarResolver<DateTime>(DateTime.Now.AddDays(-2))), false),
                     }
                 }
             );

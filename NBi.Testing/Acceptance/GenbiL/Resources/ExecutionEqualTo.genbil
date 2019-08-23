@@ -1,0 +1,7 @@
+﻿case load file 'Acceptance\GenbiL\Resources\ExecutionEqualTo.csv';
+
+template load file 'Acceptance\GenbiL\Resources\ExecutionEqualTo.nbitt';
+suite generate;
+suite include file 'Acceptance\GenbiL\Resources\ExecutionEqualTo.nbitx';
+suite save as 'Acceptance\GenbiL\Resources\ExecutionEqualTo.nbits';
+

@@ -26,6 +26,7 @@ namespace NBi.NUnit.Builder.Helper
 
         private object obj = null;
         private SettingsXml settings = null;
+        private SettingsXml.DefaultScope scope = SettingsXml.DefaultScope.Everywhere;
         private IDictionary<string, ITestVariable> globalVariables = new Dictionary<string, ITestVariable>();
         private ResultSetResolverArgs args = null;
 
@@ -33,15 +34,14 @@ namespace NBi.NUnit.Builder.Helper
 
         public ResultSetResolverArgsBuilder(ServiceLocator serviceLocator) => this.serviceLocator = serviceLocator;
 
-        public void Setup(object obj)
+        public void Setup(object obj, SettingsXml settingsXml, SettingsXml.DefaultScope scope, IDictionary<string, ITestVariable> globalVariables)
         {
             this.obj = obj;
+            this.settings = settingsXml;
+            this.scope = scope;
+            this.globalVariables = globalVariables;
             isSetup = true;
         }
-
-        public void Setup(SettingsXml settingsXml) => this.settings = settingsXml;
-
-        public void Setup(IDictionary<string, ITestVariable> globalVariables) => this.globalVariables = globalVariables;
 
         public void Build()
         {
@@ -55,7 +55,7 @@ namespace NBi.NUnit.Builder.Helper
                     args = BuildFlatFileResultSetResolverArgs((obj as ResultSetSystemXml).File);
                 //Query
                 else if ((obj as ResultSetSystemXml).Query != null)
-                    args = BuildQueryResolverArgs((obj as ResultSetSystemXml).Query);
+                    args = BuildQueryResolverArgs((obj as ResultSetSystemXml).Query, scope);
                 //Sequences combination
                 else if ((obj as ResultSetSystemXml).SequenceCombination != null)
                     args = BuildSequenceCombinationResolverArgs((obj as ResultSetSystemXml).SequenceCombination);
@@ -88,7 +88,7 @@ namespace NBi.NUnit.Builder.Helper
             }
 
             if (obj is QueryXml)
-                args = BuildQueryResolverArgs((obj as QueryXml));
+                args = BuildQueryResolverArgs((obj as QueryXml), scope);
 
             if (obj is XmlSourceXml)
                 args = BuildXPathResolverArgs((obj as XmlSourceXml));
@@ -129,13 +129,11 @@ namespace NBi.NUnit.Builder.Helper
             return new ContentResultSetResolverArgs(content);
         }
 
-        private ResultSetResolverArgs BuildQueryResolverArgs(QueryXml queryXml)
+        private ResultSetResolverArgs BuildQueryResolverArgs(QueryXml queryXml, SettingsXml.DefaultScope scope)
         {
             Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceVerbose, "ResultSet defined through a query.");
-            var argsBuilder = new Helper.QueryResolverArgsBuilder(serviceLocator);
-            argsBuilder.Setup(queryXml);
-            argsBuilder.Setup(settings);
-            argsBuilder.Setup(globalVariables);
+            var argsBuilder = new QueryResolverArgsBuilder(serviceLocator);
+            argsBuilder.Setup(queryXml, settings, scope, globalVariables);
             argsBuilder.Build();
             var argsQuery = argsBuilder.GetArgs();
 
@@ -146,15 +144,13 @@ namespace NBi.NUnit.Builder.Helper
         {
             Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceVerbose, $"ResultSet defined in an external flat file to be read with {(string.IsNullOrEmpty(fileMetadata.Parser?.Name) ? "the default CSV parser" : fileMetadata.Parser?.Name)}.");
 
-            var helper = new ScalarHelper(serviceLocator, globalVariables, settings);
+            var helper = new ScalarHelper(serviceLocator, settings, scope, globalVariables);
             var resolverPath = helper.InstantiateResolver<string>(fileMetadata.Path);
             if (fileMetadata.IfMissing == null)
                 return new FlatFileResultSetResolverArgs(resolverPath, settings?.BasePath, fileMetadata.Parser?.Name, settings?.CsvProfile);
 
             var builder = new ResultSetResolverArgsBuilder(serviceLocator);
-            builder.Setup(fileMetadata.IfMissing);
-            builder.Setup(settings);
-            builder.Setup(globalVariables);
+            builder.Setup(fileMetadata.IfMissing, settings, scope, globalVariables);
             builder.Build();
             var redirection = builder.GetArgs();
             var factory = new ResultSetResolverFactory(serviceLocator);

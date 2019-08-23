@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NBi.GenbiL.Stateful;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -6,7 +7,7 @@ using System.Text;
 
 namespace NBi.GenbiL.Action.Case
 {
-    public class GroupCaseAction : ICaseAction
+    public class GroupCaseAction : ISingleCaseAction
     {
         public List<string> ColumnNames { get; }
 
@@ -15,9 +16,11 @@ namespace NBi.GenbiL.Action.Case
             this.ColumnNames = new List<string>(variableNames);
         }
 
-        public void Execute(GenerationState state)
+        public void Execute(GenerationState state) => Execute(state.CaseCollection.CurrentScope);
+
+        public void Execute(CaseSet testCases)
         {
-            var dataTable = state.TestCaseCollection.Scope.Content;
+            var dataTable = testCases.Content;
             dataTable.AcceptChanges();
 
             foreach (var columnName in ColumnNames)

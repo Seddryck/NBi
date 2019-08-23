@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NBi.Core.Scalar.Resolver;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -10,7 +11,7 @@ namespace NBi.Core.Calculation.Predicate.Text
 {
     class TextMatchesRegex : AbstractTextPredicate
     {
-        public TextMatchesRegex(bool not, object reference, StringComparison stringComparison)
+        public TextMatchesRegex(bool not, IScalarResolver reference, StringComparison stringComparison)
             : base(not, reference, stringComparison)
         { }
 

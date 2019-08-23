@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<testSuite name="The TestSuite" xmlns="http://NBi/TestSuite">
+	<test name="numeric format">
+		<system-under-test>
+			<members>
+				<level dimension="dimension" hierarchy="US Phone Number" caption="US Phone Number" perspective="Perspective" connectionString="ConnectionString"/>
+			</members>
+		</system-under-test>
+		<assert>
+			<matchPattern>
+				<numeric-format
+					decimal-digits="4"
+					decimal-separator=","
+					group-separator=""/>
+			</matchPattern>
+		</assert>
+	</test>
+	<test name="currency format">
+		<system-under-test>
+			<members>
+				<level dimension="dimension" hierarchy="US Phone Number" caption="US Phone Number" perspective="Perspective" connectionString="ConnectionString"/>
+			</members>
+		</system-under-test>
+		<assert>
+			<matchPattern>
+				<currency-format
+					decimal-digits="2"
+					currency-pattern="n $"
+					currency-symbol="€"/>
+			</matchPattern>
+		</assert>
+	</test>
+	<test name="default currency format">
+		<system-under-test>
+			<members>
+				<level dimension="dimension" hierarchy="US Phone Number" caption="US Phone Number" perspective="Perspective" connectionString="ConnectionString"/>
+			</members>
+		</system-under-test>
+		<assert>
+			<matchPattern>
+				<currency-format
+					decimal-digits="2"
+					currency-pattern="$n"
+					currency-symbol="SEK"/>
+			</matchPattern>
+		</assert>
+	</test>
+</testSuite>

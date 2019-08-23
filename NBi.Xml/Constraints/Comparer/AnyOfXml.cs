@@ -9,9 +9,9 @@ using System.Xml.Serialization;
 
 namespace NBi.Xml.Constraints.Comparer
 {
-    public class AnyOfXml : CaseSensitiveTextPredicateXml
+    public class AnyOfXml : SequenceReferencePredicateXml
     {
-        internal override ComparerType ComparerType { get => ComparerType.AnyOf; }
+        public override ComparerType ComparerType { get => ComparerType.AnyOf; }
     }
 
     public class WithinListXml : AnyOfXml

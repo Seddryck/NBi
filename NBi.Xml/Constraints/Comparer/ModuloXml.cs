@@ -10,11 +10,8 @@ using System.Xml.Serialization;
 
 namespace NBi.Xml.Constraints.Comparer
 {
-    public class ModuloXml : PredicateXml, ITwoOperandsXml
+    public class ModuloXml : SecondOperandPredicateXml
     {
-        [XmlAttribute("second-operand")]
-        public string SecondOperand { get; set; }
-
-        internal override ComparerType ComparerType { get => ComparerType.Modulo; }
+        public override ComparerType ComparerType { get => ComparerType.Modulo; }
     }
 }

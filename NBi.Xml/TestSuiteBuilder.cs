@@ -101,7 +101,7 @@ namespace NBi.Xml
 
                     var ctr = new EqualToXml();
                     test.Constraints.Add(ctr);
-                    ctr.ResultSet = new ResultSetXml()
+                    ctr.ResultSetOld = new ResultSetXml()
                     {
                         File = Path.Combine(expect.Directory, Path.GetFileNameWithoutExtension(query) + ".csv")
                     };

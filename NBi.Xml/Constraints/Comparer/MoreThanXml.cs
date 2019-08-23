@@ -11,6 +11,6 @@ namespace NBi.Xml.Constraints.Comparer
 {
     public class MoreThanXml : MoreLessThanPredicateXml
     {
-        internal override ComparerType ComparerType { get => OrEqual ? ComparerType.MoreThanOrEqual : ComparerType.MoreThan; }
+        public override ComparerType ComparerType { get => OrEqual ? ComparerType.MoreThanOrEqual : ComparerType.MoreThan; }
     }
 }

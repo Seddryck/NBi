@@ -26,7 +26,7 @@
     </variable>
   </variables>
   <group name="asserts">
-    <!--<test name="Csv equal to embedded result-set" uid="0001">
+    <test name="Csv equal to embedded result-set" uid="0001">
       <system-under-test>
         <resultSet file="..\Csv\ResellerOrderCountByYearBefore2006.csv"/>
       </system-under-test>
@@ -53,7 +53,26 @@
         </equalTo>
       </assert>
     </test>
-    <test name="all are less than 10000" uid="0002">
+    <test name="Csv equivalent to embedded result-set" uid="0002">
+      <system-under-test>
+        <resultSet file="..\Csv\ResellerOrderCountByYearBefore2006.csv"/>
+      </system-under-test>
+      <assert>
+        <intersection-of>
+          <resultSet>
+            <row>
+              <cell>CY 2008</cell>
+              <cell>894</cell>
+            </row>
+            <row>
+              <cell>CY 2009</cell>
+              <cell>1800</cell>
+            </row>
+          </resultSet>
+        </intersection-of>
+      </assert>
+    </test>
+    <test name="all are less than 10000" uid="0020">
       <system-under-test>
         <resultSet file="..\Csv\ResellerOrderCountByYearBefore2006.csv"/>
       </system-under-test>
@@ -65,7 +84,7 @@
         </all-rows>
       </assert>
     </test>
-    <test name="none are more than 10000" uid="0003">
+    <test name="none are more than 10000" uid="0030">
       <system-under-test>
         <resultSet file="..\Csv\ResellerOrderCountByYearBefore2006.csv"/>
       </system-under-test>
@@ -77,7 +96,7 @@
         </no-rows>
       </assert>
     </test>
-    <test name="some are less than 1000" uid="0004">
+    <test name="some are less than 1000" uid="0040">
       <system-under-test>
         <resultSet file="..\Csv\ResellerOrderCountByYearBefore2006.csv"/>
       </system-under-test>
@@ -89,7 +108,7 @@
         </some-rows>
       </assert>
     </test>
-    <test name="single is more than 1500" uid="0005">
+    <test name="single is more than 1500" uid="0050">
       <system-under-test>
         <resultSet file="..\Csv\ResellerOrderCountByYearBefore2006.csv"/>
       </system-under-test>
@@ -101,7 +120,7 @@
         </single-row>
       </assert>
     </test>
-    <test name="'rows are unique" uid="0006">
+    <test name="'rows are unique" uid="0060">
       <system-under-test>
         <resultSet file="..\Csv\ResellerOrderCountByYearBefore2006.csv"/>
       </system-under-test>
@@ -178,21 +197,21 @@
           <result-set file="..\Csv\Orders.csv"/>
         </lookup-exists>
       </assert>
-    </test>-->
+    </test>
     <test name="lookup-matches" uid="00091">
       <system-under-test>
         <result-set>
           <query>
-            select 
-              NationalIdNumber,
-              h.[DepartmentID]as DepartmentID,
-              d.Name as DepartmentName
-            from 
-              [HumanResources].[Employee] e
-            inner join [HumanResources].[EmployeeDepartmentHistory] 
-              h on e.BusinessEntityId = h.BusinessEntityId
-            inner join [HumanResources].[Department] d on 
-              h.DepartmentId = d.DepartmentId
+            select
+            NationalIdNumber,
+            h.[DepartmentID]as DepartmentID,
+            d.Name as DepartmentName
+            from
+            [HumanResources].[Employee] e
+            inner join [HumanResources].[EmployeeDepartmentHistory]
+            h on e.BusinessEntityId = h.BusinessEntityId
+            inner join [HumanResources].[Department] d on
+            h.DepartmentId = d.DepartmentId
           </query>
         </result-set>
       </system-under-test>
@@ -245,8 +264,31 @@
         </lookup-matches>
       </assert>
     </test>
+    <test name="Equality with new result-set" uid="00092">
+      <system-under-test>
+        <result-set>
+          <row>
+            <cell>A</cell>
+            <cell>110</cell>
+          </row>
+          <row>
+            <cell>B</cell>
+            <cell>120</cell>
+          </row>
+        </result-set>
+      </system-under-test>
+      <assert>
+        <equal-to>
+          <result-set>
+            <query>
+              select 'A', 110 union all select 'B', 120
+            </query>
+          </result-set>
+        </equal-to>
+      </assert>
+    </test>
   </group>
-  <!--<group name="system-under-tests">
+  <group name="system-under-tests">
     <test name="Embedded result-set" uid="0101">
       <system-under-test>
         <resultSet>
@@ -341,7 +383,7 @@
         </all-rows>
       </assert>
     </test>
-    <test name="Query from assembly" uid="0106">
+    <!--<test name="Query from assembly" uid="0106">
       <system-under-test>
         <resultSet>
           <query>
@@ -356,7 +398,7 @@
           <resultSet file="..\Csv\ResellerOrderCountByYearBefore2006.csv"/>
         </equalTo>
       </assert>
-    </test>
+    </test>-->
     <test name="Query from report" uid="0107">
       <condition>
         <service-running name="MSSQL$SQL2017"/>
@@ -554,6 +596,33 @@
             <filter>
               <predicate name="#0" type="text">
                 <less-than>@CY2007</less-than>
+              </predicate>
+            </filter>
+          </alteration>
+        </resultSet>
+      </system-under-test>
+      <assert>
+        <equalTo>
+          <resultSet>
+            <row>
+              <cell>CY 2005</cell>
+              <cell>366</cell>
+            </row>
+            <row>
+              <cell>CY 2006</cell>
+              <cell>1015</cell>
+            </row>
+          </resultSet>
+        </equalTo>
+      </assert>
+    </test>
+    <test name="Filter with one predicate having the reference defined as a native transformation applied to a variable" uid="0205">
+      <system-under-test>
+        <resultSet file="..\Csv\ResellerOrderCountByYearBefore2006.csv">
+          <alteration>
+            <filter>
+              <predicate name="#0" type="text">
+                <less-than>@CY2007 | text-to-upper</less-than>
               </predicate>
             </filter>
           </alteration>
@@ -801,5 +870,73 @@
         </equalTo>
       </assert>
     </test>
-  </group>-->
+    <test name="Renamings" uid="0241">
+      <system-under-test>
+        <result-set>
+          <query>
+            select 'a' as f0, null as f1, 'FOO' as f2 union all select 'B', 'qwarks', 'bar'
+          </query>
+          <alteration>
+            <rename identifier="[f0]" new-name="keyField"/>
+            <rename identifier="[f2]" new-name="@CY2007"/>
+          </alteration>
+        </result-set>
+      </system-under-test>
+      <assert>
+        <equal-to>
+          <column name="keyField" role="key" type="text"/>
+          <column name="CY 2007" role="value" type="text"/>
+          <result-set>
+            <query connection-string="@ref1">
+              select 'a' as f0, 'FOO' as f1, null as f2 union all select 'B', 'bar', null
+            </query>
+            <alteration>
+              <rename identifier="[f0]" new-name="keyField"/>
+              <rename identifier="[f1]" new-name="@CY2007"/>
+            </alteration>
+          </result-set>
+        </equal-to>
+      </assert>
+    </test>
+    <test name="Extensions" uid="0251">
+      <system-under-test>
+        <result-set>
+          <query>
+            select 'A' as Id, 10 as ColA, 20 as ColB union all select 'B', 30, 50
+          </query>
+          <alteration>
+            <extend identifier="[Sum]">
+              <script language="ncalc">ColA + ColB</script>
+            </extend>
+            <extend identifier="[Product]">
+              <script language="ncalc">ColA * ColB</script>
+            </extend>
+          </alteration>
+        </result-set>
+      </system-under-test>
+      <assert>
+        <equal-to>
+          <result-set>
+            <row>
+              <cell>A</cell>
+              <cell>10</cell>
+              <cell>30</cell>
+              <cell>200</cell>
+            </row>
+            <row>
+              <cell>B</cell>
+              <cell>30</cell>
+              <cell>80</cell>
+              <cell>1500</cell>
+            </row>
+            <alteration>
+              <extend identifier="#2">
+                <script language="ncalc">[#3] - [#1]</script>
+              </extend>
+            </alteration>
+          </result-set>
+        </equal-to>
+      </assert>
+    </test>
+  </group>
 </testSuite>

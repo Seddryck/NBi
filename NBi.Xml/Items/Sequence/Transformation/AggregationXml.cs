@@ -36,9 +36,9 @@ namespace NBi.Xml.Items.Sequence.Transformation
         public SumXml() : base(AggregationFunctionType.Sum) { } 
     }
 
-    public class MeanXml : AggregationXml
+    public class AverageXml : AggregationXml
     {
-        public MeanXml() : base(AggregationFunctionType.Mean) { }
+        public AverageXml() : base(AggregationFunctionType.Average) { }
     }
 
     public class MaxXml : AggregationXml

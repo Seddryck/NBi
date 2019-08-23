@@ -55,6 +55,9 @@
     <ApplicationIcon>favicon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Antlr4.StringTemplate, Version=4.0.6.9004, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Antlr4.StringTemplate.4.0.6.9004\lib\net35\Antlr4.StringTemplate.dll</HintPath>
+    </Reference>
     <Reference Include="ICSharpCode.TextEditor, Version=3.2.1.6466, Culture=neutral, PublicKeyToken=4d61825e8dd49f1a, processorArchitecture=MSIL">
       <HintPath>..\packages\ICSharpCode.TextEditor.3.2.1.6466\lib\Net20\ICSharpCode.TextEditor.dll</HintPath>
     </Reference>
@@ -117,6 +120,11 @@
     <Compile Include="Command\ToolStripCommandBinding.cs" />
     <Compile Include="Command\TestCases\RemoveVariableCommand.cs" />
     <Compile Include="Command\TestCases\RenameVariableCommand.cs" />
+    <Compile Include="Dto\Document.cs" />
+    <Compile Include="Dto\DocumentBase.cs" />
+    <Compile Include="Dto\Schema.cs" />
+    <Compile Include="Dto\Style.cs" />
+    <Compile Include="Dto\Test.cs" />
     <Compile Include="IBootstrapper.cs" />
     <Compile Include="Interface\IMacroView.cs" />
     <Compile Include="Interface\ITemplateView.cs" />
@@ -139,6 +147,18 @@
     <Compile Include="Presenter\RunnerConfigPresenter.cs" />
     <Compile Include="Presenter\TemplatePresenter.cs" />
     <Compile Include="Presenter\TestCasesPresenter.cs" />
+    <Compile Include="RunnerConfig\AbstractRunnerConfigBuilder.cs" />
+    <Compile Include="RunnerConfig\FilePersister.cs" />
+    <Compile Include="RunnerConfig\GallioRunnerConfigBuilder.cs" />
+    <Compile Include="RunnerConfig\IFilePersister.cs" />
+    <Compile Include="RunnerConfig\IRunnerConfigBuilder.cs" />
+    <Compile Include="RunnerConfig\NUnitRunnerConfigBuilder.cs" />
+    <Compile Include="RunnerConfig\RunnerConfigManager.cs" />
+    <Compile Include="Service\SettingsManager.cs" />
+    <Compile Include="Service\TemplateManager.cs" />
+    <Compile Include="Service\TestCaseCollectionManager.cs" />
+    <Compile Include="Service\TestListManager.cs" />
+    <Compile Include="Service\TestSuiteManager.cs" />
     <Compile Include="Stateful\LargeBindingList.cs" />
     <Compile Include="Stateful\TestListGenerationResult.cs" />
     <Compile Include="Presenter\TestListPresenter.cs" />
@@ -374,6 +394,11 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <EmbeddedResource Include="RunnerConfig\Resources\Gallio.gallio">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RunnerConfig\Resources\NBi.config" />
+    <EmbeddedResource Include="RunnerConfig\Resources\NUnit.nunit" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -382,10 +407,6 @@
     <ProjectReference Include="..\NBi.genbiL\NBi.GenbiL.csproj">
       <Project>{dfb8aa0e-a144-49e3-976b-ad03bf2a55e7}</Project>
       <Name>NBi.GenbiL</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\NBi.Services\NBi.Service.csproj">
-      <Project>{a9c7e50a-1d3d-4c6d-9c56-8ea8925fe2d6}</Project>
-      <Name>NBi.Service</Name>
     </ProjectReference>
     <ProjectReference Include="..\NBi.Xml\NBi.Xml.csproj">
       <Project>{3a9822b3-cce4-441b-9c3e-d52817a994ca}</Project>

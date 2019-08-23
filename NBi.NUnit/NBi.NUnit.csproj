@@ -78,9 +78,11 @@
     <Compile Include="Builder\AbstractExecutionBuilder.cs" />
     <Compile Include="Builder\AbstractStructureBuilder.cs" />
     <Compile Include="Builder\AbstractExecutionNonQueryBuilder.cs" />
+    <Compile Include="Builder\Helper\ConnectionStringHelper.cs" />
     <Compile Include="Builder\Helper\SetupHelper.cs" />
     <Compile Include="Builder\Helper\ConditionHelper.cs" />
     <Compile Include="Builder\Helper\InstanceArgsBuilder.cs" />
+    <Compile Include="Builder\Helper\PredicateArgsBuilder.cs" />
     <Compile Include="Builder\Helper\SequenceResolverArgsBuilder.cs" />
     <Compile Include="Builder\Helper\ScalarHelper.cs" />
     <Compile Include="Builder\Helper\ResultSetSystemHelper.cs" />
@@ -88,6 +90,7 @@
     <Compile Include="Builder\Helper\ResultSetResolverArgsBuilder.cs" />
     <Compile Include="Builder\Helper\QueryResolverArgsBuilder.cs" />
     <Compile Include="Builder\ResultSetLookupMatchesBuilder.cs" />
+    <Compile Include="Builder\IntersectionOfBuilder.cs" />
     <Compile Include="Builder\ScalarScoreBuilder.cs" />
     <Compile Include="Builder\ResultSetSingleRowBuilder.cs" />
     <Compile Include="Builder\ResultSetSomeRowsBuilder.cs" />
@@ -131,6 +134,7 @@
     <Compile Include="ResultSetComparison\LookupMatchesConstraint.cs" />
     <Compile Include="ResultSetComparison\LookupReverseExistsConstraint.cs" />
     <Compile Include="ResultSetComparison\LookupExistsConstraint.cs" />
+    <Compile Include="ResultSetComparison\IntersectionOfConstraint.cs" />
     <Compile Include="ResultSetComparison\UniqueRowsConstraint.cs" />
     <Compile Include="ResultSetComparison\SubsetOfConstraint.cs" />
     <Compile Include="Query\NoRowsConstraint.cs" />

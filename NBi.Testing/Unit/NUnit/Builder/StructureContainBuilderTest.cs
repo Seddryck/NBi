@@ -122,13 +122,18 @@ namespace NBi.Testing.Unit.NUnit.Builder
             var ctrXmlStubFactory = new Mock<ContainXml>();
             var ctrXml = ctrXmlStubFactory.Object;
 
-            var sutXml = new StructureXml
+            var sutXml = new StructureXml()
             {
                 Item = new MeasureGroupsXml()
+                {
+                    Perspective = "Perspective",
+                    Settings = new SettingsXml()
+                    {
+                        Defaults = new List<DefaultXml>()
+                        { new DefaultXml() { ConnectionString = new ConnectionStringXml() { Inline = ConnectionStringReader.GetAdomd() } } }
+                    }
+                }
             };
-            ((MeasureGroupsXml)sutXml.Item).Perspective = "Perspective";
-
-            sutXml.Default = new DefaultXml() { ConnectionString = new ConnectionStringXml() { Inline = ConnectionStringReader.GetAdomd() } };
 
             var builder = new StructureContainBuilder();
             builder.Setup(sutXml, ctrXml);

@@ -68,6 +68,7 @@ namespace NBi.Testing.Acceptance
         [TestCase("Scoring.nbits")]
         [TestCase("Environment.nbits")]
         [TestCase("MultipleInstance.nbits")]
+        //[TestCase("Etl.nbits")]
         //[TestCase("PowerBiDesktop.nbits")]
         //[TestCase("EvaluateRows.nbits")]
         [Category("Acceptance")]

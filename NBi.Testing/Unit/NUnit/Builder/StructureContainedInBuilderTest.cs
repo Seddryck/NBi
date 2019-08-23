@@ -11,6 +11,7 @@ using NBi.Xml.Settings;
 using NBi.Xml.Systems;
 using NUnit.Framework;
 using NBi.Core.Structure.Olap;
+using System.Collections.Generic;
 #endregion
 
 namespace NBi.Testing.Unit.NUnit.Builder
@@ -130,12 +131,18 @@ namespace NBi.Testing.Unit.NUnit.Builder
             var ctrXmlStubFactory = new Mock<ContainedInXml>();
             var ctrXml = ctrXmlStubFactory.Object;
 
-            var sutXml = new StructureXml();
-
-            sutXml.Item = new MeasureGroupsXml();
-            ((MeasureGroupsXml)sutXml.Item).Perspective = "Perspective";
-
-            sutXml.Default = new DefaultXml() { ConnectionString = new ConnectionStringXml() { Inline = ConnectionStringReader.GetAdomd() } };
+            var sutXml = new StructureXml()
+            {
+                Item = new MeasureGroupsXml()
+                {
+                    Perspective = "Perspective",
+                    Settings = new SettingsXml()
+                    {
+                        Defaults = new List<DefaultXml>()
+                        { new DefaultXml() { ConnectionString = new ConnectionStringXml() { Inline = ConnectionStringReader.GetAdomd() } } }
+                    }
+                }
+            };
 
             var builder = new StructureContainedInBuilder();
             builder.Setup(sutXml, ctrXml);

@@ -383,7 +383,7 @@
       </all-rows>
     </assert>
   </test>
-  <test name="With Predicate is NOT within-list" uid="00054">
+  <test name="With Predicate is NOT any-of" uid="00054">
     <system-under-test>
       <execution>
         <query>
@@ -394,11 +394,11 @@
     <assert>
       <all-rows>
         <predicate name="#0" type="text">
-          <within-list not="true">
+          <any-of not="true">
             <item>Washington</item>
             <item>Chicago</item>
             <item>Seattle</item>
-          </within-list>
+          </any-of>
         </predicate>
       </all-rows>
     </assert>

@@ -11,6 +11,6 @@ namespace NBi.Xml.Constraints.Comparer
 {
     public class NullXml : PredicateXml
     {
-        internal override ComparerType ComparerType { get => ComparerType.Null; }
+        public override ComparerType ComparerType { get => ComparerType.Null; }
     }
 }

@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Testing.Unit.Core.IO.Filtering
+namespace NBi.Testing.Integration.Core.IO.Filtering
 {
     public class PatternRootFilterTest
     {

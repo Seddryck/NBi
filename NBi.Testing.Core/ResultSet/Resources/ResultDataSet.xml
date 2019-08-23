@@ -1,0 +1,19 @@
+<?xml version="1.0" standalone="yes"?>
+<NewDataSet>
+  <Table>
+    <_x005B_Date_x005D_._x005B_Calendar_x005D_._x005B_Year_x005D_._x005B_MEMBER_CAPTION_x005D_>2009</_x005B_Date_x005D_._x005B_Calendar_x005D_._x005B_Year_x005D_._x005B_MEMBER_CAPTION_x005D_>
+    <_x005B_Measures_x005D_._x005B_Amount_x005D_ xsi:type="xs:double" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">4242.79</_x005B_Measures_x005D_._x005B_Amount_x005D_>
+  </Table>
+  <Table>
+    <_x005B_Date_x005D_._x005B_Calendar_x005D_._x005B_Year_x005D_._x005B_MEMBER_CAPTION_x005D_>2010</_x005B_Date_x005D_._x005B_Calendar_x005D_._x005B_Year_x005D_._x005B_MEMBER_CAPTION_x005D_>
+    <_x005B_Measures_x005D_._x005B_Amount_x005D_ xsi:type="xs:double" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">3845.4300000000021</_x005B_Measures_x005D_._x005B_Amount_x005D_>
+  </Table>
+  <Table>
+    <_x005B_Date_x005D_._x005B_Calendar_x005D_._x005B_Year_x005D_._x005B_MEMBER_CAPTION_x005D_>2011</_x005B_Date_x005D_._x005B_Calendar_x005D_._x005B_Year_x005D_._x005B_MEMBER_CAPTION_x005D_>
+    <_x005B_Measures_x005D_._x005B_Amount_x005D_ xsi:type="xs:double" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">789.05000000000041</_x005B_Measures_x005D_._x005B_Amount_x005D_>
+  </Table>
+  <Table>
+    <_x005B_Date_x005D_._x005B_Calendar_x005D_._x005B_Year_x005D_._x005B_MEMBER_CAPTION_x005D_>2012</_x005B_Date_x005D_._x005B_Calendar_x005D_._x005B_Year_x005D_._x005B_MEMBER_CAPTION_x005D_>
+    <_x005B_Measures_x005D_._x005B_Amount_x005D_ xsi:type="xs:double" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">-3795.8299999999995</_x005B_Measures_x005D_._x005B_Amount_x005D_>
+  </Table>
+</NewDataSet>

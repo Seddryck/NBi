@@ -17,7 +17,7 @@ namespace NBi.Testing.Unit.NUnit.Builder.Helper
         public void Build_VariableAndFunctions_FunctionScalarResolverArgs()
         {
             var builder = new ScalarResolverArgsBuilder(new ServiceLocator());
-            builder.Setup("@myVar | text-to-trim | text-to-length");
+            builder.Setup("@myVar | text-to-trim | text-to-length", null);
             builder.Build();
             var args = builder.GetArgs();
             Assert.That(args, Is.TypeOf<FunctionScalarResolverArgs>());
@@ -33,7 +33,7 @@ namespace NBi.Testing.Unit.NUnit.Builder.Helper
         public void Build_Variable_GlobalVariableScalarResolverArgs()
         {
             var builder = new ScalarResolverArgsBuilder(new ServiceLocator());
-            builder.Setup("@myVar");
+            builder.Setup("@myVar", null);
             builder.Build();
             var args = builder.GetArgs();
             Assert.That(args, Is.TypeOf<GlobalVariableScalarResolverArgs>());
@@ -43,7 +43,7 @@ namespace NBi.Testing.Unit.NUnit.Builder.Helper
         public void Build_LiteralAndFunctions_FunctionScalarResolverArgs()
         {
             var builder = new ScalarResolverArgsBuilder(new ServiceLocator());
-            builder.Setup("2019-03-12 | dateTime-to-first-of-month");
+            builder.Setup("2019-03-12 | dateTime-to-first-of-month", null);
             builder.Build();
             var args = builder.GetArgs();
 
@@ -59,7 +59,7 @@ namespace NBi.Testing.Unit.NUnit.Builder.Helper
         public void Build_Literal_LiteralResolverArgs()
         {
             var builder = new ScalarResolverArgsBuilder(new ServiceLocator());
-            builder.Setup("2019-03-12");
+            builder.Setup("2019-03-12", null);
             builder.Build();
             var args = builder.GetArgs();
             Assert.That(args, Is.TypeOf<LiteralScalarResolverArgs>());
@@ -69,7 +69,7 @@ namespace NBi.Testing.Unit.NUnit.Builder.Helper
         public void Build_FormatAndFunctions_FunctionScalarResolverArgs()
         {
             var builder = new ScalarResolverArgsBuilder(new ServiceLocator());
-            builder.Setup("~First day of 2018 is a { @myVar: dddd} | text-to-length");
+            builder.Setup("~First day of 2018 is a { @myVar: dddd} | text-to-length", null);
             builder.Build();
             var args = builder.GetArgs();
             Assert.That(args, Is.TypeOf<FunctionScalarResolverArgs>());
@@ -81,10 +81,20 @@ namespace NBi.Testing.Unit.NUnit.Builder.Helper
         }
 
         [Test]
+        public void Build_FormatIncludingFunctions_FunctionScalarResolverArgs()
+        {
+            var builder = new ScalarResolverArgsBuilder(new ServiceLocator());
+            builder.Setup("~First day of 2018 is a { @myVar | dateTime-to-previous-month : dddd }", null);
+            builder.Build();
+            var args = builder.GetArgs();
+            Assert.That(args, Is.TypeOf<FormatScalarResolverArgs>());
+        }
+
+        [Test]
         public void Build_Format_FormatResolverArgs()
         {
             var builder = new ScalarResolverArgsBuilder(new ServiceLocator());
-            builder.Setup("~First day of 2018 is a { @myVar: dddd}");
+            builder.Setup("~First day of 2018 is a { @myVar: dddd}", null);
             builder.Build();
             var args = builder.GetArgs();
             Assert.That(args, Is.TypeOf<FormatScalarResolverArgs>());

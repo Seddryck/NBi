@@ -12,6 +12,7 @@ using NBi.Core.ResultSet;
 using NBi.Core.Query;
 using NBi.Core.Injection;
 using NBi.Extensibility.Query;
+using NBi.Xml.Settings;
 #endregion
 
 namespace NBi.Testing.Unit.NUnit.Builder
@@ -50,8 +51,9 @@ namespace NBi.Testing.Unit.NUnit.Builder
         public void GetConstraint_Build_CorrectConstraint()
         {
             var sutXmlStubFactory = new Mock<ExecutionXml>();
-            var itemXmlStubFactory = new Mock<QueryableXml>();
-            itemXmlStubFactory.Setup(i => i.GetQuery()).Returns("query");
+            var itemXmlStubFactory = new Mock<QueryXml>();
+            itemXmlStubFactory.Setup(i => i.InlineQuery).Returns("query");
+            itemXmlStubFactory.Setup(i => i.Settings).Returns(SettingsXml.Empty);
             sutXmlStubFactory.Setup(s => s.Item).Returns(itemXmlStubFactory.Object);
             var sutXml = sutXmlStubFactory.Object;
             sutXml.Item = itemXmlStubFactory.Object;
@@ -70,8 +72,9 @@ namespace NBi.Testing.Unit.NUnit.Builder
         public void GetSystemUnderTest_Build_CorrectIResultSetService()
         {
             var sutXmlStubFactory = new Mock<ExecutionXml>();
-            var itemXmlStubFactory = new Mock<QueryableXml>();
-            itemXmlStubFactory.Setup(i => i.GetQuery()).Returns("query");
+            var itemXmlStubFactory = new Mock<QueryXml>();
+            itemXmlStubFactory.Setup(i => i.InlineQuery).Returns("query");
+            itemXmlStubFactory.Setup(i => i.Settings).Returns(SettingsXml.Empty);
             sutXmlStubFactory.Setup(s => s.Item).Returns(itemXmlStubFactory.Object);
             var sutXml = sutXmlStubFactory.Object;
             sutXml.Item = itemXmlStubFactory.Object;

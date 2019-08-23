@@ -25,28 +25,25 @@ namespace NBi.NUnit.Builder.Helper
     public class ScalarHelper
     {
         private ServiceLocator ServiceLocator { get; }
+        private SettingsXml.DefaultScope Scope { get; }
         private IDictionary<string, ITestVariable> Variables { get; } = new Dictionary<string, ITestVariable>();
         private SettingsXml Settings { get; set; }
 
         public ScalarHelper(ServiceLocator serviceLocator, IDictionary<string, ITestVariable> variables)
-        {
-            ServiceLocator = serviceLocator;
-            Variables = variables;
-        }
+         : this(serviceLocator, null, SettingsXml.DefaultScope.Everywhere, variables) { }
 
-        public ScalarHelper(ServiceLocator serviceLocator, IDictionary<string, ITestVariable> variables, SettingsXml settings)
+        public ScalarHelper(ServiceLocator serviceLocator, SettingsXml settings, SettingsXml.DefaultScope scope, IDictionary<string, ITestVariable> variables)
         {
             ServiceLocator = serviceLocator;
-            Variables = variables;
             Settings = settings;
+            Scope = scope;
+            Variables = variables;
         }
 
         public IScalarResolver<T> InstantiateResolver<T>(ScalarXml scalarXml)
         {
             var argsBuilder = new ScalarResolverArgsBuilder(ServiceLocator);
-            argsBuilder.Setup(scalarXml.BaseItem);
-            argsBuilder.Setup(scalarXml.Settings);
-            argsBuilder.Setup(Variables);
+            argsBuilder.Setup(scalarXml.BaseItem, scalarXml.Settings, Scope, Variables);
             argsBuilder.Build();
 
             var factory = ServiceLocator.GetScalarResolverFactory();
@@ -58,13 +55,31 @@ namespace NBi.NUnit.Builder.Helper
         {
             var argsBuilder = new ScalarResolverArgsBuilder(ServiceLocator);
 
-            argsBuilder.Setup(Variables);
-            argsBuilder.Setup(value);
+            argsBuilder.Setup(value, Variables);
             argsBuilder.Build();
 
             var factory = ServiceLocator.GetScalarResolverFactory();
             var resolver = factory.Instantiate<T>(argsBuilder.GetArgs());
             return resolver;
+        }
+
+        public IScalarResolver InstantiateResolver(ColumnType columnType, string value)
+        {
+            var argsBuilder = new ScalarResolverArgsBuilder(ServiceLocator);
+
+            argsBuilder.Setup(value, Variables);
+            argsBuilder.Build();
+            var args = argsBuilder.GetArgs();
+
+            var factory = ServiceLocator.GetScalarResolverFactory();
+            switch (columnType)
+            {
+                case ColumnType.Text: return factory.Instantiate<string>(args);
+                case ColumnType.Numeric: return factory.Instantiate<decimal>(args);
+                case ColumnType.DateTime: return factory.Instantiate<DateTime>(args);
+                case ColumnType.Boolean: return factory.Instantiate<bool>(args);
+                default: throw new ArgumentOutOfRangeException();
+            }
         }
     }
 }

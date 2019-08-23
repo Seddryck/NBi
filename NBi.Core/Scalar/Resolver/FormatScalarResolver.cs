@@ -33,6 +33,6 @@ namespace NBi.Core.Scalar.Resolver
             return value;
         }
 
-        object IScalarResolver.Execute() => Execute();
+        object IResolver.Execute() => Execute();
     }
 }

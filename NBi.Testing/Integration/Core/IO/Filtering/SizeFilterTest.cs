@@ -2,6 +2,7 @@
 using NBi.Core.Calculation.Predicate.DateTime;
 using NBi.Core.Calculation.Predicate.Numeric;
 using NBi.Core.IO.Filtering;
+using NBi.Core.Scalar.Resolver;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
@@ -39,7 +40,7 @@ namespace NBi.Testing.Integration.Core.IO.Filtering
         {
             File.AppendAllText(Path.Combine(DirectoryName, "foo.txt"), ".");
             var fileInfo = new FileInfo(Path.Combine(DirectoryName, "foo.txt"));
-            var filter = new SizeFilter(new NumericMoreThan(false, size));
+            var filter = new SizeFilter(new NumericMoreThan(false, new LiteralScalarResolver<decimal>(size)));
 
             Assert.That(filter.Execute(fileInfo), Is.EqualTo(result));
         }
@@ -51,7 +52,7 @@ namespace NBi.Testing.Integration.Core.IO.Filtering
         {
             File.AppendAllText(Path.Combine(DirectoryName, "foo.txt"), ".");
             var fileInfo = new FileInfo(Path.Combine(DirectoryName, "foo.txt"));
-            var filter = new SizeFilter(new NumericLessThan(false, size));
+            var filter = new SizeFilter(new NumericLessThan(false, new LiteralScalarResolver<decimal>(size)));
 
             Assert.That(filter.Execute(fileInfo), Is.EqualTo(result));
         }

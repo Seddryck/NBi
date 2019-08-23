@@ -12,7 +12,34 @@ namespace NBi.GenbiL.Parser
         (
                 from generate in Keyword.Generate
                 from grouping in Parse.IgnoreCase("grouping").Token().Return(true).XOr(Parse.Return(false))
-                select new GenerateSuiteAction(grouping)
+                select new GenerateTestSuiteAction(grouping)
+        );
+
+        readonly static Parser<ISuiteAction> GenerateTestGroupByParser =
+        (
+                from generate in Keyword.Generate
+                from test in (Parse.IgnoreCase("tests").Or(Parse.IgnoreCase("test"))).Token().Optional()
+                from groupby in Parse.IgnoreCase("group by")
+                from groupPattern in Grammar.QuotedTextual.Token()
+                select new GenerateTestGroupBySuiteAction(groupPattern)
+        );
+
+        readonly static Parser<ISuiteAction> GenerateSetupGroupByParser =
+        (
+                from generate in Keyword.Generate
+                from setup in (Parse.IgnoreCase("setups").Or(Parse.IgnoreCase("setup"))).Token()
+                from groupby in Parse.IgnoreCase("group by")
+                from groupPattern in Grammar.QuotedTextual.Token()
+                select new GenerateSetupGroupBySuiteAction(groupPattern)
+        );
+
+        readonly static Parser<ISuiteAction> GenerateCleanupGroupByParser =
+        (
+                from generate in Keyword.Generate
+                from setup in (Parse.IgnoreCase("cleanups").Or(Parse.IgnoreCase("cleanup"))).Token()
+                from groupby in Parse.IgnoreCase("group by")
+                from groupPattern in Grammar.QuotedTextual.Token()
+                select new GenerateCleanupGroupBySuiteAction(groupPattern)
         );
 
         readonly static Parser<ISuiteAction> SaveParser =
@@ -28,7 +55,16 @@ namespace NBi.GenbiL.Parser
                 from include in (Keyword.Add).Or(Keyword.Include)
                 from file in Keyword.File
                 from filename in Grammar.QuotedTextual.Token()
-                select new IncludeSuiteAction(filename)
+                from groupName in GroupNameParser.Optional()
+                select new IncludeSuiteAction(filename, groupName.GetOrElse("."))
+        );
+
+        readonly static Parser<string> GroupNameParser =
+        (
+            from @into in (Keyword.Into).Or(Keyword.To)
+            from @group in Keyword.Group
+            from groupName in Grammar.QuotedTextual.Token()
+            select groupName
         );
 
         readonly static Parser<ISuiteAction> AddRangeParser =
@@ -36,13 +72,14 @@ namespace NBi.GenbiL.Parser
                 from addrange in Keyword.AddRange
                 from file in Keyword.File
                 from filename in Grammar.QuotedTextual.Token()
-                select new AddRangeSuiteAction(filename)
+                from groupName in GroupNameParser.Optional()
+                select new AddRangeSuiteAction(filename, groupName.GetOrElse("."))
         );
 
         public readonly static Parser<IAction> Parser =
         (
-                from load in Keyword.Suite
-                from text in GenerateParser.Or(SaveParser).Or(IncludeParser).Or(AddRangeParser)
+                from suite in Keyword.Suite
+                from text in GenerateSetupGroupByParser.Or(GenerateCleanupGroupByParser).Or(GenerateTestGroupByParser).Or(GenerateParser).Or(SaveParser).Or(IncludeParser).Or(AddRangeParser)
                 select text
         );
     }

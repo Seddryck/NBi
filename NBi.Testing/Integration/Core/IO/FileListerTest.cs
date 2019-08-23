@@ -1,6 +1,7 @@
 ﻿using NBi.Core.Calculation.Predicate.DateTime;
 using NBi.Core.IO.File;
 using NBi.Core.IO.Filtering;
+using NBi.Core.Scalar.Resolver;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
@@ -9,7 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Testing.Unit.Core.IO.Filtering
+namespace NBi.Testing.Integration.Core.IO.Filtering
 {
     public class FileListerTest
     {
@@ -47,8 +48,8 @@ namespace NBi.Testing.Unit.Core.IO.Filtering
             var filters = new List<IFileFilter>()
             {
                 new PatternRootFilter("foo-*.txt"),
-                new CreationDateTimeFilter(new DateTimeMoreThan(false, DateTime.Now.AddDays(-2)), false),
-                new UpdateDateTimeFilter(new DateTimeMoreThan(false, DateTime.Now.AddHours(-1)), false),
+                new CreationDateTimeFilter(new DateTimeMoreThan(false, new LiteralScalarResolver<DateTime>(DateTime.Now.AddDays(-2))), false),
+                new UpdateDateTimeFilter(new DateTimeMoreThan(false, new LiteralScalarResolver<DateTime>(DateTime.Now.AddHours(-1))), false),
             };
 
             var dir = new DirectoryInfo(DirectoryName);

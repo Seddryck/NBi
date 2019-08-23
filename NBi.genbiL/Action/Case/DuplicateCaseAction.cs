@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NBi.GenbiL.Stateful;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace NBi.GenbiL.Action.Case
 {
-    class DuplicateCaseAction : ICaseAction
+    class DuplicateCaseAction : ISingleCaseAction
     {
         public string OriginalColumn { get; }
         public IEnumerable<string> NewColumns { get; }
@@ -18,13 +19,13 @@ namespace NBi.GenbiL.Action.Case
             this.NewColumns = newColumns;
         }
 
-        public void Execute(GenerationState state)
+        public void Execute(GenerationState state) => Execute(state.CaseCollection.CurrentScope);
+
+        public void Execute(CaseSet testCases)
         {
             foreach (var newColumn in NewColumns)
             {
-                state.TestCaseCollection.Scope.Variables.Add(newColumn);
-
-                var dataTable = state.TestCaseCollection.Scope.Content;
+                var dataTable = testCases.Content;
                 dataTable.Columns.Add(new DataColumn(newColumn, typeof(object)) { AllowDBNull = true, DefaultValue = DBNull.Value });
 
                 foreach (DataRow row in dataTable.Rows)

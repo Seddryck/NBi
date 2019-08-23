@@ -7,5 +7,9 @@ namespace NBi.Xml.Decoration
 {
     public class SetupXml : DecorationXml
     {
+        public SetupXml() { }
+
+        public SetupXml(SetupStandaloneXml standalone)
+            => Commands = standalone.Commands;
     }
 }

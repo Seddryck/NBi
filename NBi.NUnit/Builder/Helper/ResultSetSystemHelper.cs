@@ -1,14 +1,18 @@
 ﻿using NBi.Core.Calculation;
+using NBi.Core.Calculation.Predicate;
 using NBi.Core.Evaluate;
 using NBi.Core.Injection;
 using NBi.Core.ResultSet;
 using NBi.Core.ResultSet.Alteration;
+using NBi.Core.ResultSet.Alteration.Extension;
+using NBi.Core.ResultSet.Alteration.Renaming;
 using NBi.Core.ResultSet.Conversion;
 using NBi.Core.ResultSet.Projecting;
 using NBi.Core.ResultSet.Resolver;
 using NBi.Core.Scalar.Conversion;
 using NBi.Core.Transformation;
 using NBi.Core.Variable;
+using NBi.Xml.Settings;
 using NBi.Xml.Systems;
 using System.Collections.Generic;
 
@@ -17,20 +21,20 @@ namespace NBi.NUnit.Builder.Helper
     class ResultSetSystemHelper
     {
         private readonly ServiceLocator serviceLocator;
+        private SettingsXml.DefaultScope scope = SettingsXml.DefaultScope.Everywhere;
         private readonly IDictionary<string, ITestVariable> variables;
 
-        public ResultSetSystemHelper(ServiceLocator serviceLocator, IDictionary<string, ITestVariable> variables)
+        public ResultSetSystemHelper(ServiceLocator serviceLocator, SettingsXml.DefaultScope scope, IDictionary<string, ITestVariable> variables)
         {
             this.serviceLocator = serviceLocator;
+            this.scope = scope;
             this.variables = variables;
         }
 
         public IResultSetResolver InstantiateResolver(ResultSetSystemXml resultSetXml)
         {
             var argsBuilder = new ResultSetResolverArgsBuilder(serviceLocator);
-            argsBuilder.Setup(resultSetXml);
-            argsBuilder.Setup(resultSetXml.Settings);
-            argsBuilder.Setup(variables);
+            argsBuilder.Setup(resultSetXml, resultSetXml.Settings, scope, variables);
             argsBuilder.Build();
 
             var factory = serviceLocator.GetResultSetResolverFactory();
@@ -55,20 +59,35 @@ namespace NBi.NUnit.Builder.Helper
                             expressions.Add(filterXml.Expression);
                         
                         if (filterXml.Predication != null)
+                        {
+                            var helper = new PredicateArgsBuilder(serviceLocator, variables);
+                            var args = helper.Execute(filterXml.Predication.ColumnType, filterXml.Predication.Predicate);
+
                             yield return factory.Instantiate
                                         (
                                             filterXml.Aliases
                                             , expressions
-                                            , filterXml.Predication
+                                            , new PredicationArgs(filterXml.Predication.Operand, args)
                                         ).Apply;
+                        }
                         if (filterXml.Combination != null)
+                        {
+                            var helper = new PredicateArgsBuilder(serviceLocator, variables);
+                            var predicationArgs = new List<PredicationArgs>();
+                            foreach (var predication in filterXml.Combination.Predications)
+                            {
+                                var args = helper.Execute(predication.ColumnType, predication.Predicate);
+                                predicationArgs.Add(new PredicationArgs(predication.Operand, args));
+                            }
+
                             yield return factory.Instantiate
                                         (
                                             filterXml.Aliases
                                             , expressions
                                             , filterXml.Combination.Operator
-                                            , filterXml.Combination.Predicates
+                                            , predicationArgs
                                         ).Apply;
+                        }
                     }
                     else
                     {
@@ -101,12 +120,39 @@ namespace NBi.NUnit.Builder.Helper
                 yield return provider.Transform;
             }
 
-            if (resultSetXml.Alteration.Projections != null)
+            if (resultSetXml.Alteration.Renamings != null)
+            {
+                foreach (var renameXml in resultSetXml.Alteration.Renamings)
+                {
+                    var helper = new ScalarHelper(serviceLocator, variables);
+                    var newName = helper.InstantiateResolver<string>(renameXml.NewName);
+
+                    var factory = new RenamingFactory();
+                    var renamer = factory.Instantiate(new NewNameRenamingArgs(renameXml.Identifier, newName));
+                    yield return renamer.Execute;
+                }
+            }
+
+            if (resultSetXml.Alteration.Extensions != null)
+            {
+                foreach (var extension in resultSetXml.Alteration.Extensions)
+                {
+                    var factory = new ExtensionFactory();
+                    var extender = factory.Instantiate(new ExtendArgs
+                        (
+                            extension.Identifier
+                            , extension.Script?.Code ?? throw new ArgumentException("Script cannot be empty or null")
+                        ));
+                    yield return extender.Execute;
+                }
+            }
+
+            if (resultSetXml.Alteration.Summarizations != null)
             {
                 var identifierFactory = new ColumnIdentifierFactory();
 
                 var factory = new ProjectionFactory();
-                foreach (var projectionXml in resultSetXml.Alteration.Projections)
+                foreach (var projectionXml in resultSetXml.Alteration.Summarizations)
                 {
 
                 }

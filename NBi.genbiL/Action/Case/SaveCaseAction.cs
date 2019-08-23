@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Linq;
-using NBi.Service;
+using NBi.Core.FlatFile;
+using NBi.GenbiL.Stateful;
 
 namespace NBi.GenbiL.Action.Case
 {
-    class SaveCaseAction : ICaseAction
+    class SaveCaseAction : ISingleCaseAction
     {
         public string Filename { get; set; }
 
@@ -12,9 +13,12 @@ namespace NBi.GenbiL.Action.Case
         {
             Filename = filename;
         }
-        public void Execute(GenerationState state)
+        public void Execute(GenerationState state) => Execute(state.CaseCollection.CurrentScope);
+
+        public void Execute(CaseSet testCases)
         {
-            state.TestCaseCollection.Scope.Save(Filename);
+            var csvWriter = new CsvWriter(true);
+            csvWriter.Write(testCases.Content, Filename);
         }
 
         public virtual string Display

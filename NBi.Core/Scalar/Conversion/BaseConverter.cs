@@ -21,7 +21,7 @@ namespace NBi.Core.Scalar.Conversion
 
         public BaseConverter(CultureInfo cultureInfo, object defaultValue)
         {
-            var info = GetPredicateInfo(cultureInfo);
+            var info = GetPredicateArgs(cultureInfo);
             var predicateFactory = new PredicateFactory();
             predicate = predicateFactory.Instantiate(info);
 
@@ -29,7 +29,7 @@ namespace NBi.Core.Scalar.Conversion
             this.cultureInfo = cultureInfo;
         }
 
-        protected abstract IPredicateInfo GetPredicateInfo(CultureInfo cultureInfo);
+        protected abstract PredicateArgs GetPredicateArgs(CultureInfo cultureInfo);
 
         public object Execute(object x)
         {

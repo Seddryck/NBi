@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using NBi.Core.Analysis.Request;
+using NBi.NUnit.Builder.Helper;
 using NBi.Xml.Items;
 
 namespace NBi.NUnit.Builder
@@ -120,7 +121,7 @@ namespace NBi.NUnit.Builder
             if (filter != null)
                 filters.Add(filter);
 
-            var connectionString = item.GetConnectionString();
+            var connectionString = new ConnectionStringHelper().Execute(item, Xml.Settings.SettingsXml.DefaultScope.SystemUnderTest);
 
             var factory = new DiscoveryRequestFactory();
             MetadataDiscoveryRequest request = null;

@@ -177,7 +177,7 @@ namespace NBi.Testing.Core.ResultSet.Lookup
             stopWatch.Start();
             analyzer.Execute(candidate, reference);
             stopWatch.Stop();
-            Assert.That(stopWatch.Elapsed.TotalSeconds, Is.LessThan(10));
+            Assert.That(stopWatch.Elapsed.TotalSeconds, Is.LessThan(20));
         }
 
         [Test]

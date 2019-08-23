@@ -22,18 +22,17 @@ using NBi.Core.Configuration;
 using NBi.Core.Injection;
 using NBi.Core.Variable;
 using NBi.Extensibility.Query;
+using NBi.Xml.Settings;
 
 namespace NBi.NUnit.Builder
 {
     abstract class AbstractResultSetBuilder : AbstractTestCaseBuilder
     {
         protected AbstractSystemUnderTestXml SystemUnderTestXml { get; set; }
-        protected ResultSetSystemHelper Helper { get; private set; }
-
+        
         public override void Setup(AbstractSystemUnderTestXml sutXml, AbstractConstraintXml ctrXml, IConfiguration config, IDictionary<string, ITestVariable> variables, ServiceLocator serviceLocator)
         {
             base.Setup(sutXml, ctrXml, config, variables, serviceLocator);
-            Helper = new ResultSetSystemHelper(ServiceLocator, Xml.Settings.SettingsXml.DefaultScope.SystemUnderTest, Variables);
         }
 
         protected override void BaseSetup(AbstractSystemUnderTestXml sutXml, AbstractConstraintXml ctrXml)
@@ -71,12 +70,10 @@ namespace NBi.NUnit.Builder
         protected virtual object InstantiateSystemUnderTest(ResultSetSystemXml resultSetXml)
         {
             var builder = new ResultSetServiceBuilder();
-            builder.Setup(Helper.InstantiateResolver(resultSetXml));
-            builder.Setup(Helper.InstantiateAlterations(resultSetXml));
+            var helper = new ResultSetSystemHelper(ServiceLocator, SettingsXml.DefaultScope.SystemUnderTest, Variables);
+            builder.Setup(helper.InstantiateResolver(resultSetXml));
+            builder.Setup(helper.InstantiateAlterations(resultSetXml));
             return builder.GetService();
         }
-
-        
-
     }
 }

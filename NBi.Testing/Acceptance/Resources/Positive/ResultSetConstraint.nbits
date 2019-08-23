@@ -383,7 +383,7 @@
         </all-rows>
       </assert>
     </test>
-    --><!--<test name="Query from assembly" uid="0106">
+    <!--<test name="Query from assembly" uid="0106">
       <system-under-test>
         <resultSet>
           <query>
@@ -398,7 +398,7 @@
           <resultSet file="..\Csv\ResellerOrderCountByYearBefore2006.csv"/>
         </equalTo>
       </assert>
-    </test>--><!--
+    </test>-->
     <test name="Query from report" uid="0107">
       <condition>
         <service-running name="MSSQL$SQL2017"/>

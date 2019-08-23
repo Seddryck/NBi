@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace NBi.Testing.Core.ResultSet.Alteration.Renaming
 {
-    public class RenamingEngineFactoryTest
+    public class NewNameRenamingEngineTest
     {
         [Test]
         public void Execute_FirstColumnIsText_FirstColumnIsNumeric()

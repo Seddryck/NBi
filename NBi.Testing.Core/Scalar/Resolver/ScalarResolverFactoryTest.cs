@@ -8,6 +8,7 @@ using NBi.Core.Variable;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -104,6 +105,21 @@ namespace NBi.Testing.Core.Scalar.Resolver
             var resolver = factory.Instantiate<object>(args);
 
             Assert.That(resolver, Is.TypeOf<FunctionScalarResolver<object>>());
+        }
+
+        [Test]
+        public void Instantiate_NCalcArgs_NcalcResolver()
+        {
+            using (var dt = new DataTable())
+            { 
+                var row = dt.NewRow();
+                var args = new NCalcScalarResolverArgs("a * b - 2", row);
+
+                var factory = new ScalarResolverFactory(null);
+                var resolver = factory.Instantiate<object>(args);
+
+                Assert.That(resolver, Is.TypeOf<NCalcScalarResolver<object>>());
+            }
         }
     }
 }

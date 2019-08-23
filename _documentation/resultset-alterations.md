@@ -9,7 +9,9 @@ Using the [new syntax](../syntax-2-0/), it's possible to define alterations on a
 
 ## Renamings
 
-This alteration is useful when you want to rename a column. This kind of alteration is usually not needed except or can be handled by the query but when dealing with flat files, it could save you! To identify the original column to be renamed, you can use a column identifier of type ordinal such as *#3* or of type name such as *[myColumn]*. The new name of this column is a [scalar](../primitive-scalar/), it means that you can use a literal value but also variables, native transformations or formatting.
+This alteration is useful when you want to rename a column. This kind of alteration is usually not needed because this kind of operation can be handled by the query. On the other hand, when dealing with flat files, it could save you!
+
+To identify the original column to be renamed, you can use a column identifier of type ordinal such as *#3* or of type name such as *[myColumn]*. The new name of this column is a [scalar](../primitive-scalar/), it means that you can use a literal value but also variables, native transformations or formatting.
 
 In the following example, the first column is renamed *keyField* and the column named *f1* is renamed based on the content of the variable *newName* upper-cased.
 
@@ -24,6 +26,30 @@ In the following example, the first column is renamed *keyField* and the column 
   </alteration>
 </result-set>
 {% endhighlight %}
+
+## Extensions
+
+This alteration is useful when you want to create a new column based on the content of some other columns. At the moment, you cannot use variables or values from other rows. The definition of the content of the new column is performed with the help of the *NCalc* language, using column identifications (ordinal or names) as input parameters of the NCalc function.
+
+In the following example, two new columns are created. The first one will be positioned as the first column (due to the identifier #0) and the second one will be added at the end of the result-set and named *myNewColumn*.
+
+{% highlight xml %}
+<result-set>
+  <query>
+    select 10 as ColA, 20 as ColB, 30 as ColC union all select 1, 5, 9
+  </query>
+  <alteration>
+    <extend identifier="#0">
+       <script language="ncalc">[#1] * Max([#2], [#3])</script>
+    </extend>
+    <extend identifier="[myNewColumn]">
+       <script language="ncalc">[colA] * Max(ColB, ColC)</script>
+    </extend>
+  </alteration>
+</result-set>
+{% endhighlight %}
+
+When using an index identifier the newly created column will be available at the expected position. If the expected position is unreachable (less columns that expected), the alteration will put the new column as the latest column. In case of a name identifier, if the newly created column has the same name than an existing column this column will be replaced.
 
 ## Filters
 

@@ -419,6 +419,11 @@
     <Compile Include="Report\ReportDataSetRequest.cs" />
     <Compile Include="Report\ReportingCommand.cs" />
     <Compile Include="ResultSet\Alteration\Alter.cs" />
+    <Compile Include="ResultSet\Alteration\Extension\ExtendArgs.cs" />
+    <Compile Include="ResultSet\Alteration\Extension\IExtensionArgs.cs" />
+    <Compile Include="ResultSet\Alteration\Extension\IExtensionEngine.cs" />
+    <Compile Include="ResultSet\Alteration\Extension\ExtendEngine.cs" />
+    <Compile Include="ResultSet\Alteration\Extension\ExtensionFactory.cs" />
     <Compile Include="ResultSet\Alteration\Renaming\IRenamingArgs.cs" />
     <Compile Include="ResultSet\Alteration\Renaming\IRenamingEngine.cs" />
     <Compile Include="ResultSet\Alteration\Renaming\NewNameRenamingArgs.cs" />
@@ -597,12 +602,14 @@
     <Compile Include="Query\Performance\PerformanceResult.cs" />
     <Compile Include="Analysis\Member\MemberResult.cs" />
     <Compile Include="Properties\ProjectAssemblyInfo.cs" />
+    <Compile Include="Scalar\Resolver\NCalcScalarResolver.cs" />
     <Compile Include="Scalar\Resolver\FormatScalarResolverArgs.cs" />
     <Compile Include="Scalar\Resolver\EnvironmentScalarResolverArgs.cs" />
     <Compile Include="Scalar\Resolver\EnvironmentScalarResolver.cs" />
     <Compile Include="Scalar\Resolver\FormatScalarResolver.cs" />
     <Compile Include="Scalar\Resolver\FunctionScalarResolver.cs" />
     <Compile Include="Scalar\Resolver\FunctionScalarResolverArgs.cs" />
+    <Compile Include="Scalar\Resolver\NCalcScalarResolverArgs.cs" />
     <Compile Include="Scalar\Resolver\ScalarResolverArgsFactory.cs" />
     <Compile Include="Scalar\ThreeStateBoolean.cs" />
     <Compile Include="ResultSet\Uniqueness\ResultOccurenceUniqueRows.cs" />

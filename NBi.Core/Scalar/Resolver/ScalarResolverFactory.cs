@@ -31,6 +31,8 @@ namespace NBi.Core.Scalar.Resolver
                     return new ProjectionResultSetScalarResolver<T>(x, serviceLocator.GetResultSetResolverFactory());
                 case CSharpScalarResolverArgs x:
                     return new CSharpScalarResolver<T>(x);
+                case NCalcScalarResolverArgs x:
+                    return new NCalcScalarResolver<T>(x);
                 case EnvironmentScalarResolverArgs x:
                     return new EnvironmentScalarResolver<T>(x);
                 case FormatScalarResolverArgs x:

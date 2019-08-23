@@ -156,6 +156,7 @@
     <Compile Include="Items\Alteration\Conversion\TextToDateConverterXml.cs" />
     <Compile Include="Items\Alteration\Conversion\TextToNumericConverterXml.cs" />
     <Compile Include="Items\Alteration\Conversion\TextToDateTimeConverterXml.cs" />
+    <Compile Include="Items\Alteration\Extension\ExtendXml.cs" />
     <Compile Include="Items\Alteration\Renaming\RenamingXml.cs" />
     <Compile Include="Items\Alteration\Transformation\LightTransformXml.cs" />
     <Compile Include="Items\Calculation\CombinationPredicateXml.cs" />

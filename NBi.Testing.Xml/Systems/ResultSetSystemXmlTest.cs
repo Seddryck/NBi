@@ -264,6 +264,27 @@ namespace NBi.Testing.Xml.Unit.Systems
         }
 
         [Test]
+        public void Deserialize_SampleFile_AlterationExtend()
+        {
+            int testNr = 12;
+
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            TestSuiteXml ts = DeserializeSample();
+
+            // Check the properties of the object.
+            Assert.That(ts.Tests[testNr].Systems[0], Is.AssignableTo<ResultSetSystemXml>());
+            var rs = ts.Tests[testNr].Systems[0] as ResultSetSystemXml;
+
+            Assert.That(rs.Alteration, Is.Not.Null);
+            Assert.That(rs.Alteration.Extensions, Is.Not.Null);
+            Assert.That(rs.Alteration.Extensions, Has.Count.EqualTo(1));
+
+            Assert.That(rs.Alteration.Extensions[0].Identifier.Label, Is.EqualTo("[myNewColumn]"));
+            Assert.That(rs.Alteration.Extensions[0].Script, Is.Not.Null);
+            Assert.That(rs.Alteration.Extensions[0].Script.Language, Is.EqualTo(LanguageType.NCalc));
+        }
+
+        [Test]
         public void Serialize_FileAndParser_Correct()
         {
             var root = new ResultSetSystemXml()

@@ -39,7 +39,7 @@ namespace NBi.Core.Scalar.Resolver
             string codeTemplate = @"
                 using System;
             
-                namespace NBi.Core.Variable.Dynamic
+                namespace {1}
                 {{                
                     public class VariableClass
                     {{                
@@ -51,31 +51,30 @@ namespace NBi.Core.Scalar.Resolver
                 }}
             ";
 
-            string finalCode = string.Format(codeTemplate, code);
+            string finalCode = string.Format(codeTemplate, code, $"{GetType().Namespace}.Dynamic");
 
-            CSharpCodeProvider provider = new CSharpCodeProvider();
-            CompilerParameters parameters = new CompilerParameters()
+            using (var provider = new CSharpCodeProvider())
             {
-                GenerateInMemory = true,
-                GenerateExecutable = false,
-            };
-
-            CompilerResults results = provider.CompileAssemblyFromSource(parameters, finalCode);
-
-            if (results.Errors.HasErrors)
-            {
-                StringBuilder sb = new StringBuilder();
-
-                foreach (CompilerError error in results.Errors)
+                var parameters = new CompilerParameters()
                 {
-                    sb.AppendLine(String.Format("Error ({0}): {1}", error.ErrorNumber, error.ErrorText));
+                    GenerateInMemory = true,
+                    GenerateExecutable = false,
+                };
+
+                var results = provider.CompileAssemblyFromSource(parameters, finalCode);
+
+                if (results.Errors.HasErrors)
+                {
+                    var sb = new StringBuilder();
+                    foreach (CompilerError error in results.Errors)
+                        sb.AppendLine($"Error ({error.ErrorNumber}): {error.ErrorText}");
+
+                    throw new InvalidOperationException(sb.ToString());
                 }
 
-                throw new InvalidOperationException(sb.ToString());
+                var @class = results.CompiledAssembly.GetType($"{GetType().Namespace}.Dynamic.VariableClass");
+                return @class.GetMethod("Function");
             }
-
-            Type function = results.CompiledAssembly.GetType("NBi.Core.Variable.Dynamic.VariableClass");
-            return function.GetMethod("Function");
         }
 
         object IResolver.Execute() => Execute();

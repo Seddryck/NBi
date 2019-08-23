@@ -898,5 +898,45 @@
         </equal-to>
       </assert>
     </test>
+    <test name="Extensions" uid="0251">
+      <system-under-test>
+        <result-set>
+          <query>
+            select 'A' as Id, 10 as ColA, 20 as ColB union all select 'B', 30, 50
+          </query>
+          <alteration>
+            <extend identifier="[Sum]">
+              <script language="ncalc">ColA + ColB</script>
+            </extend>
+            <extend identifier="[Product]">
+              <script language="ncalc">ColA * ColB</script>
+            </extend>
+          </alteration>
+        </result-set>
+      </system-under-test>
+      <assert>
+        <equal-to>
+          <result-set>
+            <row>
+              <cell>A</cell>
+              <cell>10</cell>
+              <cell>30</cell>
+              <cell>200</cell>
+            </row>
+            <row>
+              <cell>B</cell>
+              <cell>30</cell>
+              <cell>80</cell>
+              <cell>1500</cell>
+            </row>
+            <alteration>
+              <extend identifier="#2">
+                <script language="ncalc">[#3] - [#1]</script>
+              </extend>
+            </alteration>
+          </result-set>
+        </equal-to>
+      </assert>
+    </test>
   </group>
 </testSuite>

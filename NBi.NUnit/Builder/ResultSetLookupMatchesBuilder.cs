@@ -12,6 +12,7 @@ using NBi.Core.ResultSet;
 using NBi.NUnit.ResultSetComparison;
 using NBi.Xml.Items.ResultSet.Lookup;
 using NBi.Core.Scalar.Comparer;
+using NBi.Xml.Settings;
 
 namespace NBi.NUnit.Builder
 {
@@ -41,8 +42,9 @@ namespace NBi.NUnit.Builder
             var inclusionTolerances = BuildTolerances(ctrXml.Inclusion);
 
             var builder = new ResultSetServiceBuilder();
-            builder.Setup(Helper.InstantiateResolver(ctrXml.ResultSet));
-            builder.Setup(Helper.InstantiateAlterations(ctrXml.ResultSet));
+            var helper = new ResultSetSystemHelper(ServiceLocator, SettingsXml.DefaultScope.Assert, Variables);
+            builder.Setup(helper.InstantiateResolver(ctrXml.ResultSet));
+            builder.Setup(helper.InstantiateAlterations(ctrXml.ResultSet));
             var service = builder.GetService();
 
             var ctr = new LookupMatchesConstraint(service);

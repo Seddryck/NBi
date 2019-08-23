@@ -108,8 +108,9 @@ namespace NBi.NUnit.Builder
         {
             xml.Settings = settings;
             var builder = new ResultSetServiceBuilder();
-            builder.Setup(Helper.InstantiateResolver(xml));
-            builder.Setup(Helper.InstantiateAlterations(xml));
+            var helper = new ResultSetSystemHelper(ServiceLocator, SettingsXml.DefaultScope.Assert, Variables);
+            builder.Setup(helper.InstantiateResolver(xml));
+            builder.Setup(helper.InstantiateAlterations(xml));
             var service = builder.GetService();
 
             return InstantiateConstraint(service);

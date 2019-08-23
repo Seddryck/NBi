@@ -325,7 +325,7 @@ namespace NBi.Testing.Core.ResultSet.Lookup
             stopWatch.Start();
             referencer.Execute(child, reference);
             stopWatch.Stop();
-            Assert.That(stopWatch.Elapsed.TotalSeconds, Is.LessThan(10));
+            Assert.That(stopWatch.Elapsed.TotalSeconds, Is.LessThan(30));
         }
 
         [Test]

@@ -1498,6 +1498,7 @@
   <xs:complexType name="alteration-type">
     <xs:sequence>
       <xs:element name="rename" type="rename-type" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="extend" type="extend-type" minOccurs="0" maxOccurs="unbounded"/>
       <xs:element name="filter" type="filter-type" minOccurs="0" maxOccurs="unbounded"/>
       <xs:element name="convert" type="convert-type" minOccurs="0" maxOccurs="unbounded"/>
       <xs:element name="transform" type="enhanced-transformation-type" minOccurs="0" maxOccurs="unbounded"/>
@@ -1506,6 +1507,12 @@
   <xs:complexType name="rename-type">
     <xs:attribute name="identifier" type="xs:string" use="required"/>
     <xs:attribute name="new-name" type="xs:string" use="required"/>
+  </xs:complexType>
+  <xs:complexType name="extend-type">
+    <xs:choice minOccurs="1" maxOccurs="1">
+      <xs:element name="script" type="script-extend-type" minOccurs="1" maxOccurs="1"/>
+    </xs:choice>
+    <xs:attribute name="identifier" type="xs:string" use="required"/>
   </xs:complexType>
   <xs:complexType name="convert-type">
     <xs:choice>
@@ -1708,6 +1715,19 @@
             <xs:restriction base="xs:string">
               <xs:enumeration value="c-sharp"/>
               <xs:enumeration value="native"/>
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:attribute>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="script-extend-type">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute name="language" use="required" >
+          <xs:simpleType>
+            <xs:restriction base="xs:string">
+              <xs:enumeration value="ncalc"/>
             </xs:restriction>
           </xs:simpleType>
         </xs:attribute>

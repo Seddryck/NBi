@@ -6,6 +6,7 @@ using NBi.Core.Evaluate;
 using NBi.Core.Injection;
 using NBi.Core.ResultSet;
 using NBi.Core.ResultSet.Alteration;
+using NBi.Core.ResultSet.Alteration.Extension;
 using NBi.Core.ResultSet.Alteration.Renaming;
 using NBi.Core.ResultSet.Conversion;
 using NBi.Core.ResultSet.Resolver;
@@ -136,6 +137,20 @@ namespace NBi.NUnit.Builder.Helper
                     var factory = new RenamingFactory();
                     var renamer = factory.Instantiate(new NewNameRenamingArgs(renameXml.Identifier, newName));
                     yield return renamer.Execute;
+                }
+            }
+
+            if (resultSetXml.Alteration.Extensions != null)
+            {
+                foreach (var extension in resultSetXml.Alteration.Extensions)
+                {
+                    var factory = new ExtensionFactory();
+                    var extender = factory.Instantiate(new ExtendArgs
+                        (
+                            extension.Identifier
+                            , extension.Script?.Code ?? throw new ArgumentException("Script cannot be empty or null")
+                        ));
+                    yield return extender.Execute;
                 }
             }
         }

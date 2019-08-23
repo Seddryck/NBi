@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace NBi.Core.ResultSet.Alteration.Extension
 {
-    class ExtendArgs : IExtensionArgs
+    public class ExtendArgs : IExtensionArgs
     {
         public IColumnIdentifier NewColumn { get; set; }
         public string Code { get; set; }

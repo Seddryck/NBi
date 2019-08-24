@@ -103,6 +103,7 @@ namespace NBi.Testing.Core.Transformation.Transformer
         [TestCase("2019-03-11", "2019-03-10")]
         [TestCase("2019-02-01", "2019-01-31")]
         [TestCase("2020-03-01", "2020-02-29")]
+        [TestCase("2020-03-01 17:30:12", "2020-02-29 17:30:12")]
         public void Execute_DateTimeToPreviousDay_Valid(object value, DateTime expected)
         {
             var function = new DateTimeToPreviousDay();
@@ -114,6 +115,7 @@ namespace NBi.Testing.Core.Transformation.Transformer
         [TestCase("2019-03-11", "2019-02-11")]
         [TestCase("2019-03-31", "2019-02-28")]
         [TestCase("2020-01-31", "2019-12-31")]
+        [TestCase("2020-01-31 17:30:12", "2019-12-31 17:30:12")]
         public void Execute_DateTimeToPreviousMonth_Valid(object value, DateTime expected)
         {
             var function = new DateTimeToPreviousMonth();

@@ -140,5 +140,53 @@ namespace NBi.Testing.Core.Transformation.Transformer
             var result = function.Evaluate(value);
             Assert.That(result, Is.EqualTo(expected));
         }
+
+        [Test]
+        [TestCase("2019-03-11 17:00:00", "2019-03-11 17:00:00")]
+        [TestCase("2019-03-11 17:20:00", "2019-03-11 17:00:00")]
+        [TestCase("2019-03-11 17:20:24", "2019-03-11 17:00:00")]
+        [TestCase("2019-03-11 17:40:00", "2019-03-11 17:00:00")]
+        public void Execute_DateTimeToFloorHour_Valid(object value, DateTime expected)
+        {
+            var function = new DateTimeToFloorHour();
+            var result = function.Evaluate(value);
+            Assert.That(result, Is.EqualTo(expected));
+        }
+
+        [Test]
+        [TestCase("2019-03-11 17:00:00", "2019-03-11 17:00:00")]
+        [TestCase("2019-03-11 17:20:00", "2019-03-11 18:00:00")]
+        [TestCase("2019-03-11 17:20:24", "2019-03-11 18:00:00")]
+        [TestCase("2019-03-11 17:40:00", "2019-03-11 18:00:00")]
+        public void Execute_DateTimeToCeilingHour_Valid(object value, DateTime expected)
+        {
+            var function = new DateTimeToCeilingHour();
+            var result = function.Evaluate(value);
+            Assert.That(result, Is.EqualTo(expected));
+        }
+
+        [Test]
+        [TestCase("2019-03-11 17:00:00", "2019-03-11 17:00:00")]
+        [TestCase("2019-03-11 17:20:00", "2019-03-11 17:20:00")]
+        [TestCase("2019-03-11 17:20:24.120", "2019-03-11 17:20:00")]
+        [TestCase("2019-03-11 17:40:59", "2019-03-11 17:40:00")]
+        public void Execute_DateTimeToFloorMinute_Valid(object value, DateTime expected)
+        {
+            var function = new DateTimeToFloorMinute();
+            var result = function.Evaluate(value);
+            Assert.That(result, Is.EqualTo(expected));
+        }
+
+        [Test]
+        [TestCase("2019-03-11 17:00:00", "2019-03-11 17:00:00")]
+        [TestCase("2019-03-11 17:20:00", "2019-03-11 17:20:00")]
+        [TestCase("2019-03-11 17:20:24.120", "2019-03-11 17:21:00")]
+        [TestCase("2019-03-11 17:59:59", "2019-03-11 18:00:00")]
+        public void Execute_DateTimeToCeilingMinute_Valid(object value, DateTime expected)
+        {
+            var function = new DateTimeToCeilingMinute();
+            var result = function.Evaluate(value);
+            Assert.That(result, Is.EqualTo(expected));
+        }
     }
 }

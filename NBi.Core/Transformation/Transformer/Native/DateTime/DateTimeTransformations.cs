@@ -145,4 +145,28 @@ namespace NBi.Core.Transformation.Transformer.Native
         protected override object EvaluateNull() => Default;
         protected override object EvaluateDateTime(DateTime value) => value;
     }
+
+    class DateTimeToFloorHour : AbstractDateTimeTransformation
+    {
+        protected override object EvaluateDateTime(DateTime value) 
+            => value.AddTicks(-1 * (value.Ticks % TimeSpan.TicksPerHour));
+    }
+
+    class DateTimeToCeilingHour : AbstractDateTimeTransformation
+    {
+        protected override object EvaluateDateTime(DateTime value)
+            => value.AddTicks(TimeSpan.TicksPerHour - (value.Ticks % TimeSpan.TicksPerHour == 0 ? TimeSpan.TicksPerHour : value.Ticks % TimeSpan.TicksPerHour));
+    }
+
+    class DateTimeToFloorMinute : AbstractDateTimeTransformation
+    {
+        protected override object EvaluateDateTime(DateTime value)
+            => value.AddTicks(-1 * (value.Ticks % TimeSpan.TicksPerMinute));
+    }
+
+    class DateTimeToCeilingMinute : AbstractDateTimeTransformation
+    {
+        protected override object EvaluateDateTime(DateTime value)
+            => value.AddTicks(TimeSpan.TicksPerMinute - (value.Ticks % TimeSpan.TicksPerMinute == 0 ? TimeSpan.TicksPerMinute : value.Ticks % TimeSpan.TicksPerMinute));
+    }
 }

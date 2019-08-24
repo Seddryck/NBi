@@ -693,6 +693,10 @@
       <xs:enumeration value="dateTime-to-previous-month"/>
       <xs:enumeration value="dateTime-to-next-year"/>
       <xs:enumeration value="dateTime-to-previous-year"/>
+      <xs:enumeration value="dateTime-to-floor-hour"/>
+      <xs:enumeration value="dateTime-to-ceiling-hour"/>
+      <xs:enumeration value="dateTime-to-floor-minute"/>
+      <xs:enumeration value="dateTime-to-ceiling-minute"/>
       <xs:enumeration value="dateTime-to-set-time("/>
       <xs:enumeration value="numeric-to-round("/>
       <xs:enumeration value="numeric-to-floor"/>

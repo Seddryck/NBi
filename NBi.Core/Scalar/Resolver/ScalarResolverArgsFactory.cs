@@ -24,13 +24,15 @@ namespace NBi.Core.Scalar.Resolver
         {
             switch (value)
             {
+                case string obj when obj.TrimStart().StartsWith("`") && obj.TrimEnd().EndsWith("`"):
+                    return new LiteralScalarResolverArgs(obj.Trim().Substring(1, obj.Trim().Length-2));
                 case string obj when string.IsNullOrEmpty(value): return new LiteralScalarResolverArgs(string.Empty);
                 case null: return new LiteralScalarResolverArgs(string.Empty);
                 default:
                     var tokens = Regex.Matches(value, @"(?:(?:\{(?>[^{}]+|\{(?<subpart>)|\}(?<-subpart>))*(?(subpart)(?!))\})|[^|])+").Cast<Match>().Select(x => x.Value.Trim());
-                    //var tokens = value.Trim().Split(new[] { "|" }, StringSplitOptions.RemoveEmptyEntries).Select(x => x.Trim());
                     var variable = tokens.First().Trim();
                     var prefix = tokens.First().Trim().ToCharArray()[0];
+                    var suffix = tokens.Last().Trim().ToCharArray().Last();
                     var functions = tokens.Skip(1);
                     var factory = ServiceLocator.GetScalarResolverFactory();
                     IScalarResolverArgs args = null;

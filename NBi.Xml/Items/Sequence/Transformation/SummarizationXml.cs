@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NBi.Xml.Items.Calculation.Grouping;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,5 +16,8 @@ namespace NBi.Xml.Items.Sequence.Transformation
             XmlElement(Type = typeof(AverageXml), ElementName = "average"),
         ]
         public AggregationXml Aggregation { get; set; }
+
+        [XmlElement(ElementName = "group-by")]
+        public GroupByXml GroupBy { get; set; }
     }
 }

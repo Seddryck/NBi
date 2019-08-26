@@ -45,7 +45,7 @@ namespace NBi.Testing.Core.ResultSet.Alteration.Summarization
         {
             var rs = Build();
 
-            var args = new SummerizeArgs(
+            var args = new SummarizeArgs(
                     new List<ColumnAggregationArgs>()
                     { new ColumnAggregationArgs(new ColumnNameIdentifier("valueColumn"), AggregationFunctionType.Sum, ColumnType.Numeric) },
                     new List<IColumnDefinitionLight>()
@@ -68,7 +68,7 @@ namespace NBi.Testing.Core.ResultSet.Alteration.Summarization
         {
             var rs = Build();
 
-            var args = new SummerizeArgs(
+            var args = new SummarizeArgs(
                     new List<ColumnAggregationArgs>()
                     {
                         new ColumnAggregationArgs(new ColumnNameIdentifier("valueColumn"), AggregationFunctionType.Sum, ColumnType.Numeric),
@@ -98,7 +98,7 @@ namespace NBi.Testing.Core.ResultSet.Alteration.Summarization
         {
             var rs = Build();
 
-            var args = new SummerizeArgs(
+            var args = new SummarizeArgs(
                     new List<ColumnAggregationArgs>()
                     {
                         new ColumnAggregationArgs(new ColumnNameIdentifier("valueColumn"), AggregationFunctionType.Sum, ColumnType.Numeric),
@@ -119,7 +119,7 @@ namespace NBi.Testing.Core.ResultSet.Alteration.Summarization
         {
             var rs = Build();
 
-            var args = new SummerizeArgs(
+            var args = new SummarizeArgs(
                     new List<ColumnAggregationArgs>()
                     {
                         new ColumnAggregationArgs(new ColumnNameIdentifier("valueColumn"), AggregationFunctionType.Sum, ColumnType.Numeric),
@@ -148,7 +148,7 @@ namespace NBi.Testing.Core.ResultSet.Alteration.Summarization
         {
             var rs = BuildLarge(count);
 
-            var args = new SummerizeArgs(
+            var args = new SummarizeArgs(
                     new List<ColumnAggregationArgs>()
                     {
                         new ColumnAggregationArgs(new ColumnNameIdentifier("valueColumn"), AggregationFunctionType.Sum, ColumnType.Numeric),

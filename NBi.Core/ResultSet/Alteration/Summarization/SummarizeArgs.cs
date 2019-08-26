@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 
 namespace NBi.Core.ResultSet.Alteration.Summarization
 {
-    public class SummerizeArgs : ISummarizationArgs
+    public class SummarizeArgs : ISummarizationArgs
     {
-        public List<IColumnDefinitionLight> GroupBys { get; set; }
-        public List<ColumnAggregationArgs> Aggregations { get; set; }
+        public IEnumerable<IColumnDefinitionLight> GroupBys { get; set; }
+        public IEnumerable<ColumnAggregationArgs> Aggregations { get; set; }
 
-        public SummerizeArgs(List<ColumnAggregationArgs> aggregations, List<IColumnDefinitionLight> groupBys)
+        public SummarizeArgs(IEnumerable<ColumnAggregationArgs> aggregations, IEnumerable<IColumnDefinitionLight> groupBys)
             => (Aggregations, GroupBys) = (aggregations, groupBys);
     }
 }

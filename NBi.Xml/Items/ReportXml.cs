@@ -27,14 +27,6 @@ namespace NBi.Xml.Items
 
         public ReportXml() : base() { }
 
-        private ReportingCommand command;
-        
-        public virtual CommandType GetCommandType()
-        {
-            return command.CommandType;
-        }
-
-
         public new List<QueryParameterXml> GetParameters()
         {
             var list = Parameters;

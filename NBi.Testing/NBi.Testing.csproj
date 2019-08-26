@@ -195,16 +195,6 @@
     <Compile Include="Integration\NUnit\Structure\ExistsConstraintTest.cs" />
     <Compile Include="Integration\Core\IO\Filtering\PatternRootFilterTest.cs" />
     <Compile Include="Integration\Core\Scalar\Resolver\QueryScalarResolverTest.cs" />
-    <Compile Include="Unit\Core\Sequence\Transformation\Aggregation\AggregationFactoryTest.cs" />
-    <Compile Include="Unit\Core\Sequence\Transformation\Aggregation\Numeric\MinTest.cs" />
-    <Compile Include="Unit\Core\Sequence\Transformation\Aggregation\Numeric\MaxTest.cs" />
-    <Compile Include="Unit\Core\Sequence\Transformation\Aggregation\Numeric\SumTest.cs" />
-    <Compile Include="Unit\Core\Sequence\Transformation\Aggregation\Numeric\MeanTest.cs" />
-    <Compile Include="Unit\Core\Sequence\Transformation\Strategy\FailureEmptySeriesStrategyTest.cs" />
-    <Compile Include="Unit\Core\Sequence\Transformation\Strategy\FailureMissingValueStrategyTest.cs" />
-    <Compile Include="Unit\Core\Sequence\Transformation\Strategy\ReplaceByDefaultStrategyTest.cs" />
-    <Compile Include="Unit\Core\Sequence\Transformation\Strategy\DropStrategyTest.cs" />
-    <Compile Include="Unit\Core\Sequence\Transformation\Strategy\ReturnDefaultStrategyTest.cs" />
     <Compile Include="Integration\Core\DirectoryInfoExtensionsTest.cs" />
     <Compile Include="Unit\NUnit\Builder\Helper\ConnectionStringHelperTest.cs" />
     <Compile Include="Unit\NUnit\Builder\Helper\ScalarResolverArgsBuilderTest.cs" />

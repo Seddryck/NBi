@@ -6,14 +6,16 @@ using NBi.Core.ResultSet;
 using NBi.Core.ResultSet.Alteration;
 using NBi.Core.ResultSet.Alteration.Extension;
 using NBi.Core.ResultSet.Alteration.Renaming;
+using NBi.Core.ResultSet.Alteration.Summarization;
 using NBi.Core.ResultSet.Conversion;
-using NBi.Core.ResultSet.Projecting;
 using NBi.Core.ResultSet.Resolver;
 using NBi.Core.Scalar.Conversion;
 using NBi.Core.Transformation;
 using NBi.Core.Variable;
 using NBi.Xml.Settings;
 using NBi.Xml.Systems;
+using System;
+using System.Linq;
 using System.Collections.Generic;
 
 namespace NBi.NUnit.Builder.Helper
@@ -57,7 +59,7 @@ namespace NBi.NUnit.Builder.Helper
                         var expressions = new List<IColumnExpression>();
                         if (filterXml.Expression != null)
                             expressions.Add(filterXml.Expression);
-                        
+
                         if (filterXml.Predication != null)
                         {
                             var helper = new PredicateArgsBuilder(serviceLocator, variables);
@@ -92,7 +94,7 @@ namespace NBi.NUnit.Builder.Helper
                     else
                     {
                         yield return factory.Instantiate(
-                            filterXml.Ranking, 
+                            filterXml.Ranking,
                             filterXml.Ranking?.GroupBy?.Columns
                             ).Apply;
                     }
@@ -149,15 +151,22 @@ namespace NBi.NUnit.Builder.Helper
 
             if (resultSetXml.Alteration.Summarizations != null)
             {
-                var identifierFactory = new ColumnIdentifierFactory();
-
-                var factory = new ProjectionFactory();
-                foreach (var projectionXml in resultSetXml.Alteration.Summarizations)
+                var factory = new SummarizationFactory();
+                foreach (var summarizationXml in resultSetXml.Alteration.Summarizations)
                 {
+                    var aggregations = new List<ColumnAggregationArgs>()
+                    {
+                        new ColumnAggregationArgs(
+                            summarizationXml.Aggregation.Identifier,
+                            summarizationXml.Aggregation.Function,
+                            summarizationXml.Aggregation.ColumnType
+                        )
+                    };
+                    var groupBys = summarizationXml.GroupBy.Columns.Cast<IColumnDefinitionLight>();
 
+                    var summarizer = factory.Instantiate(new SummarizeArgs(aggregations, groupBys));
+                    yield return summarizer.Execute;
                 }
-                    provider.Add(transformationXml.Identifier, transformationXml);
-                yield return provider.Transform;
             }
         }
     }

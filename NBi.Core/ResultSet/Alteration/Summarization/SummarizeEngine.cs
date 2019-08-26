@@ -12,9 +12,9 @@ namespace NBi.Core.ResultSet.Alteration.Summarization
 {
     class SummerizeEngine : ISummarizationEngine
     {
-        private SummerizeArgs Args { get; }
+        private SummarizeArgs Args { get; }
 
-        public SummerizeEngine(SummerizeArgs args)
+        public SummerizeEngine(SummarizeArgs args)
             => Args = args;
 
         public ResultSet Execute(ResultSet rs)

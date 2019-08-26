@@ -298,6 +298,7 @@
     <Compile Include="XmlManager.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="packages.config" />
     <EmbeddedResource Include="Schema\BaseType.xsd">
       <SubType>Designer</SubType>

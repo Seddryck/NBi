@@ -1,5 +1,4 @@
-﻿using Deedle;
-using NBi.Core.ResultSet;
+﻿using NBi.Core.ResultSet;
 using NBi.Core.Sequence.Transformation.Aggregation.Function;
 using NUnit.Framework;
 using System;

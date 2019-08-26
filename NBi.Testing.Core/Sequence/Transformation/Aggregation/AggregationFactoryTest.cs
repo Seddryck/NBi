@@ -15,7 +15,7 @@ namespace NBi.Testing.Unit.Core.Sequence.Transformation.Aggregation
     {
         [Test]
         [TestCase(ColumnType.Numeric,   AggregationFunctionType.Sum,     typeof(SumNumeric))]
-        [TestCase(ColumnType.Numeric,   AggregationFunctionType.Mean,    typeof(MeanNumeric))]
+        [TestCase(ColumnType.Numeric,   AggregationFunctionType.Average,    typeof(AverageNumeric))]
         [TestCase(ColumnType.Numeric,   AggregationFunctionType.Min,     typeof(MinNumeric))]
         [TestCase(ColumnType.Numeric,   AggregationFunctionType.Max,     typeof(MaxNumeric))]
         [TestCase(ColumnType.DateTime,  AggregationFunctionType.Min,     typeof(MinDateTime))]
@@ -29,7 +29,7 @@ namespace NBi.Testing.Unit.Core.Sequence.Transformation.Aggregation
         }
 
         [TestCase(ColumnType.DateTime, AggregationFunctionType.Sum)]
-        [TestCase(ColumnType.DateTime, AggregationFunctionType.Mean)]
+        [TestCase(ColumnType.DateTime, AggregationFunctionType.Average)]
         public void Instantiate_ColumnTypeAndAggregationFunction_CorrectAggregation(ColumnType columnType, AggregationFunctionType function)
         {
             var factory = new AggregationFactory();

@@ -12,7 +12,7 @@ namespace NBi.Core.Sequence.Transformation.Aggregation.Strategy
         public IEnumerable<object> Execute(IEnumerable<object> values)
         {
             var caster = new NumericCaster();
-            return values.Where(x => caster.IsStrictlyValid(x)).Select(x => caster.Execute(x)).Cast<object>(); 
+            return values.Where(x => caster.IsValid(x)).Select(x => caster.Execute(x)).Cast<object>(); 
         }
     }
 }

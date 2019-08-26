@@ -69,7 +69,7 @@ namespace NBi.Core.ResultSet
 
         protected void PerformSetsAndColumnsCheck(SettingsOrdinalResultSet.KeysChoice defaultKeysSet, SettingsOrdinalResultSet.ValuesChoice defaultValuesSet)
         {
-            if ((keysSet != defaultKeysSet || valuesSet != defaultValuesSet)
+            if (((keysSet != defaultKeysSet && keysSet != SettingsOrdinalResultSet.KeysChoice.None) || valuesSet != defaultValuesSet && valuesSet != SettingsOrdinalResultSet.ValuesChoice.None)
                 && definitionColumns.Any(c => c.Identifier is ColumnNameIdentifier))
                 throw new InvalidOperationException("You cannot define an engine based on columns' index and specify some columns' definition where you explicitely give a value to the 'name' attribute. Use attribute 'index' in place of 'name'.");
         }

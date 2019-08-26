@@ -25,7 +25,7 @@ namespace NBi.Core.Calculation.Grouping
             {
                 var definition = new ColumnDefinition()
                 {
-                    Identifier = column.Identifier as ColumnOrdinalIdentifier,
+                    Identifier = column.Identifier,
                     Type = column.Type
                 };
                 definitions.Add(definition);

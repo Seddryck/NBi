@@ -1,5 +1,4 @@
-﻿using Deedle;
-using NBi.Core.ResultSet;
+﻿using NBi.Core.ResultSet;
 using NBi.Core.Sequence.Transformation.Aggregation.Function;
 using NUnit.Framework;
 using System;
@@ -16,7 +15,7 @@ namespace NBi.Testing.Unit.Core.Sequence.Transformation.Aggregation.Numeric
         public void Execute_Array_CorrectValue()
         {
             var list = new List<object>() { 1, 3, 5};
-            var aggregation = new MeanNumeric();
+            var aggregation = new AverageNumeric();
             Assert.That(aggregation.Execute(list), Is.EqualTo(3));
         }
     }

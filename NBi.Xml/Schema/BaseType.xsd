@@ -1517,13 +1517,15 @@
     </xs:sequence>
   </xs:complexType>
   <xs:complexType name="alteration-type">
-    <xs:sequence>
-      <xs:element name="rename" type="rename-type" minOccurs="0" maxOccurs="unbounded"/>
-      <xs:element name="summarize" type="summarization-type" minOccurs="0" maxOccurs="unbounded"/>
-      <xs:element name="extend" type="extend-type" minOccurs="0" maxOccurs="unbounded"/>
-      <xs:element name="filter" type="filter-type" minOccurs="0" maxOccurs="unbounded"/>
-      <xs:element name="convert" type="convert-type" minOccurs="0" maxOccurs="unbounded"/>
-      <xs:element name="transform" type="enhanced-transformation-type" minOccurs="0" maxOccurs="unbounded"/>
+    <xs:sequence minOccurs="0" maxOccurs="unbounded">
+      <xs:choice>
+        <xs:element name="rename" type="rename-type" minOccurs="0" maxOccurs="1"/>
+        <xs:element name="summarize" type="summarization-type" minOccurs="0" maxOccurs="1"/>
+        <xs:element name="extend" type="extend-type" minOccurs="0" maxOccurs="1"/>
+        <xs:element name="filter" type="filter-type" minOccurs="0" maxOccurs="1"/>
+        <xs:element name="convert" type="convert-type" minOccurs="0" maxOccurs="1"/>
+        <xs:element name="transform" type="enhanced-transformation-type" minOccurs="0" maxOccurs="1"/>
+      </xs:choice>
     </xs:sequence>
   </xs:complexType>
   <xs:complexType name="rename-type">

@@ -13,7 +13,7 @@ namespace NBi.Xml.Items.Sequence.Transformation
     {
         [XmlIgnore]
         public AggregationFunctionType Function { get; set; }
-        public AggregationXml(AggregationFunctionType function) => Function = Function;
+        public AggregationXml(AggregationFunctionType function) => Function = function;
 
         [XmlAttribute("column")]
         public string IdentifierSerializer { get; set; }

@@ -715,10 +715,13 @@
   </xs:simpleType>
   <xs:complexType name="summarization-type">
     <xs:sequence>
-      <xs:element name="sum" type="aggregation-type" minOccurs="0" maxOccurs="1"/>
-      <xs:element name="average" type="aggregation-type" minOccurs="0" maxOccurs="1"/>
-      <xs:element name="max" type="aggregation-type" minOccurs="0" maxOccurs="1"/>
-      <xs:element name="min" type="aggregation-type" minOccurs="0" maxOccurs="1"/>
+      <xs:choice>
+        <xs:element name="sum" type="aggregation-type" minOccurs="0" maxOccurs="1"/>
+        <xs:element name="average" type="aggregation-type" minOccurs="0" maxOccurs="1"/>
+        <xs:element name="max" type="aggregation-type" minOccurs="0" maxOccurs="1"/>
+        <xs:element name="min" type="aggregation-type" minOccurs="0" maxOccurs="1"/>
+      </xs:choice>
+      <xs:element name="group-by" type="group-by-type" minOccurs="0" maxOccurs="1"/>
     </xs:sequence>
   </xs:complexType>
   <xs:complexType name="aggregation-type">
@@ -1516,11 +1519,11 @@
   <xs:complexType name="alteration-type">
     <xs:sequence>
       <xs:element name="rename" type="rename-type" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="summarize" type="summarization-type" minOccurs="0" maxOccurs="unbounded"/>
       <xs:element name="extend" type="extend-type" minOccurs="0" maxOccurs="unbounded"/>
       <xs:element name="filter" type="filter-type" minOccurs="0" maxOccurs="unbounded"/>
       <xs:element name="convert" type="convert-type" minOccurs="0" maxOccurs="unbounded"/>
       <xs:element name="transform" type="enhanced-transformation-type" minOccurs="0" maxOccurs="unbounded"/>
-      <xs:element name="summarize" type="summarization-type" minOccurs="0" maxOccurs="unbounded"/>
     </xs:sequence>
   </xs:complexType>
   <xs:complexType name="rename-type">

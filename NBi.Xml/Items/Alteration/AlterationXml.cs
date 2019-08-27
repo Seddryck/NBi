@@ -27,7 +27,7 @@ namespace NBi.Xml.Items.Alteration
         [XmlElement("transform")]
         public List<TransformXml> Transformations { get; set; }
         [XmlElement("summarize")]
-        public List<SummarizationXml> Summarizations { get; set; }
+        public List<SummarizeXml> Summarizations { get; set; }
 
         public AlterationXml()
         {
@@ -36,7 +36,7 @@ namespace NBi.Xml.Items.Alteration
             Filters = new List<FilterXml>();
             Conversions = new List<ConvertXml>();
             Transformations = new List<TransformXml>();
-            Summarizations = new List<SummarizationXml>();
+            Summarizations = new List<SummarizeXml>();
         }
     }
 }

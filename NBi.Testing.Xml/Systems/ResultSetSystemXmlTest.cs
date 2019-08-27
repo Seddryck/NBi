@@ -288,7 +288,7 @@ namespace NBi.Testing.Xml.Unit.Systems
             Assert.That(rs.Alteration.Summarizations, Has.Count.EqualTo(1));
 
             Assert.That(rs.Alteration.Summarizations[0], Is.Not.Null);
-            Assert.That(rs.Alteration.Summarizations[0], Is.TypeOf<SummarizationXml>());
+            Assert.That(rs.Alteration.Summarizations[0], Is.TypeOf<SummarizeXml>());
 
             Assert.That(rs.Alteration.Summarizations[0].Aggregation, Is.Not.Null);
             Assert.That(rs.Alteration.Summarizations[0].Aggregation, Is.TypeOf<SumXml>());
@@ -386,7 +386,7 @@ namespace NBi.Testing.Xml.Unit.Systems
         [TestCase(typeof(MinXml), "min")]
         public void Serialize_Sum_Correct(Type aggregationType, string serialization)
         {
-            var root = new SummarizationXml()
+            var root = new SummarizeXml()
             {
                 Aggregation = (AggregationXml)Activator.CreateInstance(aggregationType)
             };

@@ -162,7 +162,7 @@ namespace NBi.NUnit.Builder.Helper
                             summarizationXml.Aggregation.ColumnType
                         )
                     };
-                    var groupBys = summarizationXml.GroupBy.Columns.Cast<IColumnDefinitionLight>();
+                    var groupBys = summarizationXml.GroupBy?.Columns?.Cast<IColumnDefinitionLight>() ?? new List<IColumnDefinitionLight>();
 
                     var summarizer = factory.Instantiate(new SummarizeArgs(aggregations, groupBys));
                     yield return summarizer.Execute;

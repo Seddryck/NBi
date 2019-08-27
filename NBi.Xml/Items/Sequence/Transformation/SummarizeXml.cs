@@ -8,7 +8,7 @@ using System.Xml.Serialization;
 
 namespace NBi.Xml.Items.Sequence.Transformation
 {
-    public class SummarizationXml
+    public class SummarizeXml
     {
         [XmlElement(Type = typeof(SumXml), ElementName = "sum"),
             XmlElement(Type = typeof(MinXml), ElementName = "min"),
@@ -19,5 +19,6 @@ namespace NBi.Xml.Items.Sequence.Transformation
 
         [XmlElement(ElementName = "group-by")]
         public GroupByXml GroupBy { get; set; }
+
     }
 }

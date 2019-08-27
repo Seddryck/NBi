@@ -938,5 +938,115 @@
         </equal-to>
       </assert>
     </test>
+    <test name="Summarization on all columns" uid="0261">
+      <system-under-test>
+        <result-set>
+          <query>
+            select 'A' as Key1, 'alpha' as Key2, 10 as Value 
+            union all select 'B', 'alpha', 30 
+            union all select 'B', 'alpha', 20 
+            union all select 'B', 'beta', 10 
+            union all select 'A', 'beta', 15
+          </query>
+          <alteration>
+            <summarize>
+              <sum column="[Value]" type="numeric"/>
+              <group-by>
+                <column identifier="Key1" type="text"/>
+                <column identifier="Key2" type="text"/>
+              </group-by>
+            </summarize>
+          </alteration>
+        </result-set>
+      </system-under-test>
+      <assert>
+        <equal-to keys="all-except-last">
+          <result-set>
+            <row>
+              <cell>A</cell>
+              <cell>alpha</cell>
+              <cell>10</cell>
+            </row>
+            <row>
+              <cell>A</cell>
+              <cell>beta</cell>
+              <cell>15</cell>
+            </row>
+            <row>
+              <cell>B</cell>
+              <cell>alpha</cell>
+              <cell>50</cell>
+            </row>
+            <row>
+              <cell>B</cell>
+              <cell>beta</cell>
+              <cell>10</cell>
+            </row>
+          </result-set>
+        </equal-to>
+      </assert>
+    </test>
+    <test name="Summarization on few columns" uid="0262">
+      <system-under-test>
+        <result-set>
+          <query>
+            select 'A' as Key1, 'alpha' as Key2, 10 as Value
+            union all select 'B', 'alpha', 30
+            union all select 'B', 'alpha', 20
+            union all select 'B', 'beta', 10
+            union all select 'A', 'beta', 15
+          </query>
+          <alteration>
+            <summarize>
+              <sum column="[Value]" type="numeric"/>
+              <group-by>
+                <column identifier="Key1" type="text"/>
+              </group-by>
+            </summarize>
+          </alteration>
+        </result-set>
+      </system-under-test>
+      <assert>
+        <equal-to>
+          <result-set>
+            <row>
+              <cell>A</cell>
+              <cell>25</cell>
+            </row>
+            <row>
+              <cell>B</cell>
+              <cell>60</cell>
+            </row>
+          </result-set>
+        </equal-to>
+      </assert>
+    </test>
+  <test name="Summarization on no column" uid="0263">
+    <system-under-test>
+      <result-set>
+        <query>
+          select 'A' as Key1, 'alpha' as Key2, 10 as Value
+          union all select 'B', 'alpha', 30
+          union all select 'B', 'alpha', 20
+          union all select 'B', 'beta', 10
+          union all select 'A', 'beta', 15
+        </query>
+        <alteration>
+          <summarize>
+            <sum column="[Value]" type="numeric"/>
+          </summarize>
+        </alteration>
+      </result-set>
+    </system-under-test>
+    <assert>
+      <equal-to behavior="single-row">
+        <result-set>
+          <row>
+            <cell>85</cell>
+          </row>
+        </result-set>
+      </equal-to>
+    </assert>
+  </test>
   </group>
 </testSuite>

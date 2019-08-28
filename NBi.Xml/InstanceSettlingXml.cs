@@ -9,6 +9,7 @@ using System.Xml.Serialization;
 
 namespace NBi.Xml
 {
+    [XmlInclude(typeof(InstanceUnique))]
     public class InstanceSettlingXml
     {
         [XmlElement("local-variable")]

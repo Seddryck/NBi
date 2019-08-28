@@ -17,50 +17,8 @@ using System.Collections.Generic;
 namespace NBi.Testing.Xml.Unit.Constraints
 {
     [TestFixture]
-    public class RowCountXmlTest
+    public class RowCountXmlTest : BaseXmlTest
     {
-
-        #region SetUp & TearDown
-        //Called only at instance creation
-        [OneTimeSetUp]
-        public void SetupMethods()
-        {
-
-        }
-
-        //Called only at instance destruction
-        [OneTimeTearDown]
-        public void TearDownMethods()
-        {
-        }
-
-        //Called before each test
-        [SetUp]
-        public void SetupTest()
-        {
-        }
-
-        //Called after each test
-        [TearDown]
-        public void TearDownTest()
-        {
-        }
-        #endregion
-
-        protected TestSuiteXml DeserializeSample()
-        {
-            // Declare an object variable of the type to be deserialized.
-            var manager = new XmlManager();
-
-            // A Stream is needed to read the XML document.
-            using (Stream stream = Assembly.GetExecutingAssembly()
-                                           .GetManifestResourceStream($"{GetType().Assembly.GetName().Name}.Resources.RowCountXmlTestSuite.xml"))
-            using (StreamReader reader = new StreamReader(stream))
-            {
-                manager.Read(reader);
-            }
-            return manager.TestSuite;
-        }
 
         [Test]
         public void Deserialize_SampleFile_ReadCorrectlyRowCount()

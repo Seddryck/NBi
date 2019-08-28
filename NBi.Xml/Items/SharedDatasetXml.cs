@@ -30,14 +30,6 @@ namespace NBi.Xml.Items
             Parameters = new List<QueryParameterXml>();
         }
 
-        private ReportingCommand command;
-        
-        public virtual CommandType GetCommandType()
-        {
-            return command.CommandType;
-        }
-
-
         public new List<QueryParameterXml> GetParameters()
         {
             var list = Parameters;

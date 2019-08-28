@@ -15,19 +15,8 @@ using NBi.Core.ResultSet;
 
 namespace NBi.Testing.Xml.Unit.Variables
 {
-    public class LocalVariableXmlTest
+    public class LocalVariableXmlTest : BaseXmlTest
     {
-        protected TestSuiteXml DeserializeSample()
-        {
-            var manager = new XmlManager();
-
-            using (Stream stream = Assembly.GetExecutingAssembly()
-                                           .GetManifestResourceStream($"{GetType().Assembly.GetName().Name}.Resources.LocalVariableXmlTestSuite.xml"))
-            using (StreamReader reader = new StreamReader(stream))
-                manager.Read(reader);
-
-            return manager.TestSuite;
-        }
 
         [Test]
         public void Deserialize_SampleFile_InstanceDefinitionHasVariable()

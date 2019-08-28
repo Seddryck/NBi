@@ -14,34 +14,6 @@ namespace NBi.Testing.Xml.Unit.Items
     [TestFixture]
     public class EtlXmlTest
     {
-
-        #region SetUp & TearDown
-        //Called only at instance creation
-        [OneTimeSetUp]
-        public void SetupMethods()
-        {
-
-        }
-
-        //Called only at instance destruction
-        [OneTimeTearDown]
-        public void TearDownMethods()
-        {
-        }
-
-        //Called before each test
-        [SetUp]
-        public void SetupTest()
-        {
-        }
-
-        //Called after each test
-        [TearDown]
-        public void TearDownTest()
-        {
-        }
-        #endregion
-
         protected TestSuiteXml DeserializeSample(string file)
         {
             // Declare an object variable of the type to be deserialized.

@@ -15,19 +15,8 @@ using NBi.Xml.Settings;
 
 namespace NBi.Testing.Xml.Unit
 {
-    public class InstanceSettlingXmlTest
+    public class InstanceSettlingXmlTest : BaseXmlTest
     {
-        protected TestSuiteXml DeserializeSample()
-        {
-            var manager = new XmlManager();
-
-            using (Stream stream = Assembly.GetExecutingAssembly()
-                                           .GetManifestResourceStream($"{GetType().Assembly.GetName().Name}.Resources.InstanceSettlingXmlTestSuite.xml"))
-            using (StreamReader reader = new StreamReader(stream))
-                manager.Read(reader);
-
-            return manager.TestSuite;
-        }
 
         [Test]
         public void Deserialize_SampleFilWithInstanceSettlinge_InstanceDefinitionNotNull()

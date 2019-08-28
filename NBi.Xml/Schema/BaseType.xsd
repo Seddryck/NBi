@@ -717,6 +717,27 @@
   <xs:simpleType name="not-native-transformation-type">
     <xs:restriction base="xs:string"/>
   </xs:simpleType>
+  <xs:complexType name="summarization-type">
+    <xs:sequence>
+      <xs:choice>
+        <xs:element name="sum" type="aggregation-type" minOccurs="0" maxOccurs="1"/>
+        <xs:element name="average" type="aggregation-type" minOccurs="0" maxOccurs="1"/>
+        <xs:element name="max" type="aggregation-type" minOccurs="0" maxOccurs="1"/>
+        <xs:element name="min" type="aggregation-type" minOccurs="0" maxOccurs="1"/>
+      </xs:choice>
+      <xs:element name="group-by" type="group-by-type" minOccurs="0" maxOccurs="1"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="aggregation-type">
+    <xs:simpleContent>
+      <xs:extension base="code-transformation-type">
+        <xs:attribute name="column" use="required" />
+        <xs:attribute name="type" type="column-type-enum" use="required" />
+        <xs:attribute name="if-empty-series" use="optional" />
+        <xs:attribute name="if-missing-values" use="optional" />
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
   <xs:complexType name="select-type">
     <xs:simpleContent>
       <xs:extension base="xs:string">
@@ -1500,12 +1521,15 @@
     </xs:sequence>
   </xs:complexType>
   <xs:complexType name="alteration-type">
-    <xs:sequence>
-      <xs:element name="rename" type="rename-type" minOccurs="0" maxOccurs="unbounded"/>
-      <xs:element name="extend" type="extend-type" minOccurs="0" maxOccurs="unbounded"/>
-      <xs:element name="filter" type="filter-type" minOccurs="0" maxOccurs="unbounded"/>
-      <xs:element name="convert" type="convert-type" minOccurs="0" maxOccurs="unbounded"/>
-      <xs:element name="transform" type="enhanced-transformation-type" minOccurs="0" maxOccurs="unbounded"/>
+    <xs:sequence minOccurs="0" maxOccurs="unbounded">
+      <xs:choice>
+        <xs:element name="rename" type="rename-type" minOccurs="0" maxOccurs="1"/>
+        <xs:element name="summarize" type="summarization-type" minOccurs="0" maxOccurs="1"/>
+        <xs:element name="extend" type="extend-type" minOccurs="0" maxOccurs="1"/>
+        <xs:element name="filter" type="filter-type" minOccurs="0" maxOccurs="1"/>
+        <xs:element name="convert" type="convert-type" minOccurs="0" maxOccurs="1"/>
+        <xs:element name="transform" type="enhanced-transformation-type" minOccurs="0" maxOccurs="1"/>
+      </xs:choice>
     </xs:sequence>
   </xs:complexType>
   <xs:complexType name="rename-type">

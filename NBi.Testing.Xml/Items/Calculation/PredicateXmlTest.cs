@@ -16,22 +16,8 @@ using System.Xml.Serialization;
 
 namespace NBi.Testing.Xml.Unit.Items.Calculation
 {
-    public class PredicationXmlTest
-    {
-        protected TestSuiteXml DeserializeSample()
-        {
-            // Declare an object variable of the type to be deserialized.
-            var manager = new XmlManager();
-
-            // A Stream is needed to read the XML document.
-            using (Stream stream = Assembly.GetExecutingAssembly()
-                                           .GetManifestResourceStream($"{GetType().Assembly.GetName().Name}.Resources.PredicateXmlTestSuite.xml"))
-            using (StreamReader reader = new StreamReader(stream))
-            {
-                manager.Read(reader);
-            }
-            return manager.TestSuite;
-        }
+    public class PredicateXmlTest : BaseXmlTest
+    { 
 
         [Test]
         public void Deserialize_OnlyOperandNoName_PredicateXml()

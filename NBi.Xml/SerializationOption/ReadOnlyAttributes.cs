@@ -46,7 +46,7 @@ namespace NBi.Xml.SerializationOption
 
             AddToElements((PredicationXml p) => p.Predicate, "within-list", typeof(WithinListXml));
 
-            AddToElements((ProjectionXml x) => x.ResultSetOld, "resultSet", typeof(ResultSetSystemXml));
+            AddToElements((ProjectionOldXml x) => x.ResultSetOld, "resultSet", typeof(ResultSetSystemXml));
             AddToElements((LookupExistsXml x) => x.ResultSetOld, "resultSet", typeof(ResultSetSystemXml));
             AddToElements((LookupMatchesXml x) => x.ResultSetOld, "resultSet", typeof(ResultSetSystemXml));
 #pragma warning restore 0618

@@ -8,6 +8,7 @@ using NBi.Xml.Items.Alteration.Conversion;
 using NBi.Xml.Items.Alteration.Renaming;
 using NBi.Xml.Items.Alteration.Transform;
 using NBi.Xml.Items.ResultSet;
+using NBi.Xml.Items.Sequence.Transformation;
 using NBi.Xml.SerializationOption;
 using NBi.Xml.Systems;
 using NUnit.Framework;
@@ -22,22 +23,8 @@ using System.Threading.Tasks;
 namespace NBi.Testing.Xml.Unit.Systems
 {
     [TestFixture]
-    public class ResultSetSystemXmlTest
-    {
-        protected TestSuiteXml DeserializeSample()
-        {
-            // Declare an object variable of the type to be deserialized.
-            var manager = new XmlManager();
-
-            // A Stream is needed to read the XML document.
-            using (Stream stream = Assembly.GetExecutingAssembly()
-                                           .GetManifestResourceStream($"{GetType().Assembly.GetName().Name}.Resources.ResultSetSystemXmlTestSuite.xml"))
-            using (StreamReader reader = new StreamReader(stream))
-            {
-                manager.Read(reader);
-            }
-            return manager.TestSuite;
-        }
+    public class ResultSetSystemXmlTest : BaseXmlTest
+    { 
 
         [Test]
         public void Deserialize_SampleFile_CsvFile()
@@ -283,6 +270,31 @@ namespace NBi.Testing.Xml.Unit.Systems
             Assert.That(rs.Alteration.Extensions[0].Script, Is.Not.Null);
             Assert.That(rs.Alteration.Extensions[0].Script.Language, Is.EqualTo(LanguageType.NCalc));
         }
+        
+        [Test]
+        public void Deserialize_SampleFile_AlterationSummarization()
+        {
+            int testNr = 13;
+
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            var ts = DeserializeSample();
+
+            // Check the properties of the object.
+            Assert.That(ts.Tests[testNr].Systems[0], Is.AssignableTo<ResultSetSystemXml>());
+            var rs = ts.Tests[testNr].Systems[0] as ResultSetSystemXml;
+
+            Assert.That(rs.Alteration, Is.Not.Null);
+            Assert.That(rs.Alteration.Summarizations, Is.Not.Null);
+            Assert.That(rs.Alteration.Summarizations, Has.Count.EqualTo(1));
+
+            Assert.That(rs.Alteration.Summarizations[0], Is.Not.Null);
+            Assert.That(rs.Alteration.Summarizations[0], Is.TypeOf<SummarizeXml>());
+
+            Assert.That(rs.Alteration.Summarizations[0].Aggregation, Is.Not.Null);
+            Assert.That(rs.Alteration.Summarizations[0].Aggregation, Is.TypeOf<SumXml>());
+
+            Assert.That(rs.Alteration.Summarizations[0].Aggregation.ColumnType, Is.EqualTo(ColumnType.Numeric));
+        }
 
         [Test]
         public void Serialize_FileAndParser_Correct()
@@ -365,6 +377,27 @@ namespace NBi.Testing.Xml.Unit.Systems
             Assert.That(xml, Does.Contain("<rename"));
             Assert.That(xml, Does.Contain("#5"));
             Assert.That(xml, Does.Contain("myNewName"));
+        }
+        
+        [Test]
+        [TestCase(typeof(SumXml), "sum")]
+        [TestCase(typeof(AverageXml), "average")]
+        [TestCase(typeof(MaxXml), "max")]
+        [TestCase(typeof(MinXml), "min")]
+        public void Serialize_Sum_Correct(Type aggregationType, string serialization)
+        {
+            var root = new SummarizeXml()
+            {
+                Aggregation = (AggregationXml)Activator.CreateInstance(aggregationType)
+            };
+            root.Aggregation.ColumnType = ColumnType.DateTime;
+            root.Aggregation.Identifier = new ColumnOrdinalIdentifier(2);
+
+            var manager = new XmlManager();
+            var xml = manager.XmlSerializeFrom(root);
+            Console.WriteLine(xml);
+            Assert.That(xml, Does.Contain($"<{serialization}"));
+            Assert.That(xml, Does.Contain("dateTime"));
         }
 
     }

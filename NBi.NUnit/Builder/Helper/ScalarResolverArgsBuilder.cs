@@ -63,7 +63,7 @@ namespace NBi.NUnit.Builder.Helper
                     queryBuilder.Build();
                     args = new QueryScalarResolverArgs(queryBuilder.GetArgs());
                     break;
-                case ProjectionXml obj:
+                case ProjectionOldXml obj:
                     var resultSetBuilder = new ResultSetResolverArgsBuilder(serviceLocator);
                     resultSetBuilder.Setup(obj.ResultSet, settings, scope, variables);
                     resultSetBuilder.Build();

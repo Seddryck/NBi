@@ -18,22 +18,8 @@ using System.Xml.Serialization;
 namespace NBi.Testing.Xml.Unit.Constraints
 {
     [TestFixture]
-    public class LookupExistsXmlTest
+    public class LookupExistsXmlTest : BaseXmlTest
     {
-        protected TestSuiteXml DeserializeSample()
-        {
-            // Declare an object variable of the type to be deserialized.
-            var manager = new XmlManager();
-
-            // A Stream is needed to read the XML document.
-            using (var stream = Assembly.GetExecutingAssembly()
-                                           .GetManifestResourceStream($"{GetType().Assembly.GetName().Name}.Resources.LookupExistsXmlTestSuite.xml"))
-            using (var reader = new StreamReader(stream))
-            {
-                manager.Read(reader);
-            }
-            return manager.TestSuite;
-        }
 
         [Test]
         public void Deserialize_SampleFile_ReadCorrectlyReferenceExists()

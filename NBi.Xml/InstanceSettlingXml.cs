@@ -9,6 +9,7 @@ using System.Xml.Serialization;
 
 namespace NBi.Xml
 {
+    [XmlInclude(typeof(InstanceUnique))]
     public class InstanceSettlingXml
     {
         [XmlElement("local-variable")]
@@ -20,15 +21,7 @@ namespace NBi.Xml
         [XmlElement("trait")]
         public List<TraitXml> Traits { get; set; } = new List<TraitXml>();
 
-        private static InstanceSettlingXml _unique { get; set; }
-        public static InstanceSettlingXml Unique
-        {
-            get
-            {
-                _unique = _unique ?? new InstanceUnique();
-                return _unique;
-            }
-        }
+        public static InstanceSettlingXml Unique { get; } = new InstanceUnique();
 
         public class InstanceUnique : InstanceSettlingXml
         { }

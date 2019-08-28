@@ -9,23 +9,8 @@ using System;
 
 namespace NBi.Testing.Xml.Unit.Items
 {
-    public class XmlSourceTest
+    public class XmlSourceTest : BaseXmlTest
     {
-        protected TestSuiteXml DeserializeSample()
-        {
-            // Declare an object variable of the type to be deserialized.
-            var manager = new XmlManager();
-
-            // A Stream is needed to read the XML document.
-            using (Stream stream = Assembly.GetExecutingAssembly()
-                                           .GetManifestResourceStream($"{GetType().Assembly.GetName().Name}.Resources.XmlSourceTestSuite.xml"))
-            using (StreamReader reader = new StreamReader(stream))
-            {
-                manager.Read(reader);
-            }
-            return manager.TestSuite;
-        }
-
         [Test]
         public void Deserialize_SampleFile_XmlSource()
         {

@@ -51,8 +51,14 @@
     <Reference Include="Antlr4.StringTemplate, Version=4.0.6.9004, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Antlr4.StringTemplate.4.0.6.9004\lib\net35\Antlr4.StringTemplate.dll</HintPath>
     </Reference>
+    <Reference Include="Deedle, Version=2.0.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Deedle.2.0.4\lib\net45\Deedle.dll</HintPath>
+    </Reference>
     <Reference Include="Castle.Core, Version=4.0.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
       <HintPath>..\packages\Castle.Core.4.4.0\lib\net45\Castle.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="FSharp.Core, Version=4.7.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\FSharp.Core.4.7.0\lib\net45\FSharp.Core.dll</HintPath>
     </Reference>
     <Reference Include="FuzzyString, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\FuzzyString.1.0.0\lib\FuzzyString.dll</HintPath>
@@ -419,6 +425,12 @@
     <Compile Include="Report\ReportDataSetRequest.cs" />
     <Compile Include="Report\ReportingCommand.cs" />
     <Compile Include="ResultSet\Alteration\Alter.cs" />
+    <Compile Include="ResultSet\Alteration\Summarization\ColumnAggregationArgs.cs" />
+    <Compile Include="ResultSet\Alteration\Summarization\SummarizeArgs.cs" />
+    <Compile Include="ResultSet\Alteration\Summarization\SummarizeEngine.cs" />
+    <Compile Include="ResultSet\Alteration\Summarization\SummarizationFactory.cs" />
+    <Compile Include="ResultSet\Alteration\Summarization\ISummarizationArgs.cs" />
+    <Compile Include="ResultSet\Alteration\Summarization\ISummarizationEngine.cs" />
     <Compile Include="ResultSet\Alteration\Extension\ExtendArgs.cs" />
     <Compile Include="ResultSet\Alteration\Extension\IExtensionArgs.cs" />
     <Compile Include="ResultSet\Alteration\Extension\IExtensionEngine.cs" />
@@ -667,6 +679,25 @@
     <Compile Include="Sequence\Resolver\ListSequenceResolver.cs" />
     <Compile Include="Sequence\Resolver\ListSequenceResolverArgs.cs" />
     <Compile Include="Sequence\Resolver\SequenceResolverFactory.cs" />
+    <Compile Include="Sequence\Transformation\Aggregation\Aggregation.cs" />
+    <Compile Include="Sequence\Transformation\Aggregation\AggregationArgs.cs" />
+    <Compile Include="Sequence\Transformation\Aggregation\AggregationFactory.cs" />
+    <Compile Include="Sequence\Transformation\Aggregation\AggregationFunctionType.cs" />
+    <Compile Include="Sequence\Transformation\Aggregation\IAggregationStrategy.cs" />
+    <Compile Include="Sequence\Transformation\Aggregation\Function\BaseAggregation.cs" />
+    <Compile Include="Sequence\Transformation\Aggregation\IAggregationFunction.cs" />
+    <Compile Include="Sequence\Transformation\Aggregation\Function\Max.cs" />
+    <Compile Include="Sequence\Transformation\Aggregation\Function\Min.cs" />
+    <Compile Include="Sequence\Transformation\Aggregation\Function\Sum.cs" />
+    <Compile Include="Sequence\Transformation\Aggregation\Function\Average.cs" />
+    <Compile Include="Sequence\Transformation\ISequenceTransformation.cs" />
+    <Compile Include="Sequence\Transformation\Aggregation\Strategy\FailureEmptySeriesStrategy.cs" />
+    <Compile Include="Sequence\Transformation\Aggregation\Strategy\IEmptySeriesStrategy.cs" />
+    <Compile Include="Sequence\Transformation\Aggregation\Strategy\ReplaceByDefaultStrategy.cs" />
+    <Compile Include="Sequence\Transformation\Aggregation\Strategy\DropStrategy.cs" />
+    <Compile Include="Sequence\Transformation\Aggregation\Strategy\FailureMissingValueStrategy.cs" />
+    <Compile Include="Sequence\Transformation\Aggregation\Strategy\IMissingValueStrategy.cs" />
+    <Compile Include="Sequence\Transformation\Aggregation\Strategy\ReturnDefaultStrategy.cs" />
     <Compile Include="StringComparerHelper.cs" />
     <Compile Include="StringExtensions.cs" />
     <Compile Include="StringTemplateEngine.cs" />
@@ -783,6 +814,7 @@
     <EmbeddedResource Include="Report\ReportServerQueryFromSharedDataSet.sql" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

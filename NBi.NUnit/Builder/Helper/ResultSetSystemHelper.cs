@@ -1,26 +1,22 @@
 ﻿using NBi.Core.Calculation;
-using NBi.Core.Calculation.Grouping;
 using NBi.Core.Calculation.Predicate;
-using NBi.Core.Calculation.Ranking;
 using NBi.Core.Evaluate;
 using NBi.Core.Injection;
 using NBi.Core.ResultSet;
 using NBi.Core.ResultSet.Alteration;
 using NBi.Core.ResultSet.Alteration.Extension;
 using NBi.Core.ResultSet.Alteration.Renaming;
+using NBi.Core.ResultSet.Alteration.Summarization;
 using NBi.Core.ResultSet.Conversion;
 using NBi.Core.ResultSet.Resolver;
 using NBi.Core.Scalar.Conversion;
 using NBi.Core.Transformation;
 using NBi.Core.Variable;
-using NBi.Xml.Items.Calculation.Ranking;
 using NBi.Xml.Settings;
 using NBi.Xml.Systems;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Collections.Generic;
 
 namespace NBi.NUnit.Builder.Helper
 {
@@ -48,7 +44,6 @@ namespace NBi.NUnit.Builder.Helper
             return resolver;
         }
 
-
         public IEnumerable<Alter> InstantiateAlterations(ResultSetSystemXml resultSetXml)
         {
             if (resultSetXml.Alteration == null)
@@ -64,7 +59,7 @@ namespace NBi.NUnit.Builder.Helper
                         var expressions = new List<IColumnExpression>();
                         if (filterXml.Expression != null)
                             expressions.Add(filterXml.Expression);
-                        
+
                         if (filterXml.Predication != null)
                         {
                             var helper = new PredicateArgsBuilder(serviceLocator, variables);
@@ -99,7 +94,7 @@ namespace NBi.NUnit.Builder.Helper
                     else
                     {
                         yield return factory.Instantiate(
-                            filterXml.Ranking, 
+                            filterXml.Ranking,
                             filterXml.Ranking?.GroupBy?.Columns
                             ).Apply;
                     }
@@ -108,9 +103,9 @@ namespace NBi.NUnit.Builder.Helper
 
             if (resultSetXml.Alteration.Conversions != null)
             {
+                var factory = new ConverterFactory();
                 foreach (var conversionXml in resultSetXml.Alteration.Conversions)
                 {
-                    var factory = new ConverterFactory();
                     var converter = factory.Instantiate(conversionXml.Converter.From, conversionXml.Converter.To, conversionXml.Converter.DefaultValue, conversionXml.Converter.Culture);
                     var engine = new ConverterEngine(conversionXml.Column, converter);
                     yield return engine.Execute;
@@ -151,6 +146,26 @@ namespace NBi.NUnit.Builder.Helper
                             , extension.Script?.Code ?? throw new ArgumentException("Script cannot be empty or null")
                         ));
                     yield return extender.Execute;
+                }
+            }
+
+            if (resultSetXml.Alteration.Summarizations != null)
+            {
+                var factory = new SummarizationFactory();
+                foreach (var summarizationXml in resultSetXml.Alteration.Summarizations)
+                {
+                    var aggregations = new List<ColumnAggregationArgs>()
+                    {
+                        new ColumnAggregationArgs(
+                            summarizationXml.Aggregation.Identifier,
+                            summarizationXml.Aggregation.Function,
+                            summarizationXml.Aggregation.ColumnType
+                        )
+                    };
+                    var groupBys = summarizationXml.GroupBy?.Columns?.Cast<IColumnDefinitionLight>() ?? new List<IColumnDefinitionLight>();
+
+                    var summarizer = factory.Instantiate(new SummarizeArgs(aggregations, groupBys));
+                    yield return summarizer.Execute;
                 }
             }
         }

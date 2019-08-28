@@ -51,6 +51,7 @@
     <Compile Include="..\AssemblyInfo.cs">
       <Link>Properties\AssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="BaseXmlTest.cs" />
     <Compile Include="FileOnDisk.cs" />
     <Compile Include="Constraints\AllRowsXmlTest.cs" />
     <Compile Include="Constraints\ContainedInXmlTest.cs" />
@@ -105,7 +106,6 @@
     <Compile Include="Settings\CsvProfileXmlTest.cs" />
     <Compile Include="Settings\SettingsXmlTest.cs" />
     <Compile Include="Systems\DataTypeXmlTest.cs" />
-    <Compile Include="Systems\ExecutionXmlTest.cs" />
     <Compile Include="Systems\MembersXmlTest.cs" />
     <Compile Include="Systems\ResultSetSystemXmlTest.cs" />
     <Compile Include="Systems\StructureXmlTest.cs" />
@@ -121,6 +121,7 @@
     <Compile Include="XmlManagerWithExternalSettingsTest.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="packages.config" />
     <EmbeddedResource Include="Resources\QueryFileEuro.mdx" />
   </ItemGroup>

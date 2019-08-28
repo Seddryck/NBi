@@ -16,19 +16,8 @@ using NBi.Xml.Variables.Sequence;
 
 namespace NBi.Testing.Xml.Unit.Variables.Sequence
 {
-    public class SentinelLoopXmlTest
+    public class SentinelLoopXmlTest : BaseXmlTest
     {
-        protected TestSuiteXml DeserializeSample()
-        {
-            var manager = new XmlManager();
-
-            using (Stream stream = Assembly.GetExecutingAssembly()
-                                           .GetManifestResourceStream($"{GetType().Assembly.GetName().Name}.Resources.SentinelLoopXmlTestSuite.xml"))
-                using (StreamReader reader = new StreamReader(stream))
-                    manager.Read(reader);
-
-            return manager.TestSuite;
-        }
 
         [Test]
         public void Deserialize_SampleFile_VariableHasSentinelLoop()

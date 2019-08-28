@@ -172,7 +172,7 @@
       <unique-rows/>
     </assert>
   </test>
-  <test name="Alteration has a renaming" uid="0012">
+  <test name="Alteration has an extend" uid="0012">
     <system-under-test>
       <resultSet>
         <query>
@@ -182,6 +182,25 @@
           <extend identifier="[myNewColumn]">
             <script language="ncalc">[A] * [B] + Max(5, [C])</script>
           </extend>
+        </alteration>
+      </resultSet>
+    </system-under-test>
+    <assert>
+      <equalTo>
+        <resultSet file="..\Csv\ResellerOrderCountByYearBefore2006.csv"/>
+      </equalTo>
+    </assert>
+  </test>
+  <test name="Alteration has a summarization" uid="0013">
+    <system-under-test>
+      <resultSet>
+        <query>
+          <report path="/path/" name="MyReport" dataset="MyDataSet"/>
+        </query>
+        <alteration>
+          <summarize>
+            <sum type="numeric" column="#2"/>
+          </summarize>
         </alteration>
       </resultSet>
     </system-under-test>

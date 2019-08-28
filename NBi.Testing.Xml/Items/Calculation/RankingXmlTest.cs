@@ -20,22 +20,8 @@ using System.Xml.Serialization;
 
 namespace NBi.Testing.Xml.Unit.Items.Calculation
 {
-    public class RankingXmlTest
+    public class RankingXmlTest : BaseXmlTest
     {
-        protected TestSuiteXml DeserializeSample()
-        {
-            // Declare an object variable of the type to be deserialized.
-            var manager = new XmlManager();
-
-            // A Stream is needed to read the XML document.
-            using (Stream stream = Assembly.GetExecutingAssembly()
-                                           .GetManifestResourceStream($"{GetType().Assembly.GetName().Name}.Resources.RankingXmlTestSuite.xml"))
-            using (StreamReader reader = new StreamReader(stream))
-            {
-                manager.Read(reader);
-            }
-            return manager.TestSuite;
-        }
 
         [Test]
         public void Deserialize_RankingWithDefaultType_RankingXml()

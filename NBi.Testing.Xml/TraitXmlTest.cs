@@ -7,22 +7,8 @@ using NBi.Xml.Settings;
 namespace NBi.Testing.Xml.Unit
 {
     [TestFixture]
-    public class TraitXmlTest
+    public class TraitXmlTest : BaseXmlTest
     {
-        protected TestSuiteXml DeserializeSample()
-        {
-            // Declare an object variable of the type to be deserialized.
-            var manager = new XmlManager();
-
-            // A Stream is needed to read the XML document.
-            using (Stream stream = Assembly.GetExecutingAssembly()
-                                           .GetManifestResourceStream($"{GetType().Assembly.GetName().Name}.Resources.TraitXmlTestSuite.xml"))
-            using (StreamReader reader = new StreamReader(stream))
-            {
-                manager.Read(reader);
-            }
-            return manager.TestSuite;
-        }
 
         [Test]
         public void Deserialize_TraitAttributeNotSpecified_NoTrait()

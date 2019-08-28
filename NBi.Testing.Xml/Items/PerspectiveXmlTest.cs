@@ -15,25 +15,8 @@ using NBi.Xml.Systems;
 namespace NBi.Testing.Xml.Unit.Items
 {
     [TestFixture]
-    public class PerspectiveXmlTest
+    public class PerspectiveXmlTest : BaseXmlTest
     {
-
-        protected TestSuiteXml DeserializeSample()
-        {
-            // Declare an object variable of the type to be deserialized.
-            var manager = new XmlManager();
-
-            // A Stream is needed to read the XML document.
-            using (Stream stream = Assembly.GetExecutingAssembly()
-                                           .GetManifestResourceStream($"{GetType().Assembly.GetName().Name}.Resources.PerspectiveXmlTestSuite.xml"))
-            using (StreamReader reader = new StreamReader(stream))
-            {
-                manager.Read(reader);
-            }
-            return manager.TestSuite;
-        }
-
-
         [Test]
         public void Serialize_PerspectiveXml_WithDefaultAndSettings()
         {

@@ -16,19 +16,8 @@ using NBi.Xml.Variables.Sequence;
 
 namespace NBi.Testing.Xml.Unit.Variables.Sequence
 {
-    public class FileLoopXmlTest
+    public class FileLoopXmlTest : BaseXmlTest
     {
-        protected TestSuiteXml DeserializeSample()
-        {
-            var manager = new XmlManager();
-
-            using (Stream stream = Assembly.GetExecutingAssembly()
-                                           .GetManifestResourceStream($"{GetType().Assembly.GetName().Name}.Resources.FileLoopXmlTestSuite.xml"))
-                using (StreamReader reader = new StreamReader(stream))
-                    manager.Read(reader);
-
-            return manager.TestSuite;
-        }
 
         [Test]
         public void Deserialize_SampleFile_VariableHasFileLoop()

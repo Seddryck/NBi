@@ -17,7 +17,7 @@ namespace NBi.Xml.Constraints.Comparer
         public bool Not { get; set; }
 
         [XmlElement("projection")]
-        public ProjectionXml Projection { get; set; }
+        public ProjectionOldXml Projection { get; set; }
 
         [XmlElement("query-scalar")]
         public QueryScalarXml QueryScalar { get; set; }

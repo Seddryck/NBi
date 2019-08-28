@@ -14,45 +14,8 @@ using System.Threading.Tasks;
 
 namespace NBi.Testing.Xml.Unit.Items.ResultSet
 {
-    public class SequenceCombinationXmlTest
+    public class SequenceCombinationXmlTest : BaseXmlTest
     {
-        #region SetUp & TearDown
-        //Called only at instance creation
-        [OneTimeSetUp]
-        public void SetupMethods()
-        {
-
-        }
-
-        //Called only at instance destruction
-        [OneTimeTearDown]
-        public void TearDownMethods()
-        {
-        }
-
-        //Called before each test
-        [SetUp]
-        public void SetupTest()
-        {
-        }
-
-        //Called after each test
-        [TearDown]
-        public void TearDownTest()
-        {
-        }
-        #endregion
-
-        protected TestSuiteXml DeserializeSample()
-        {
-            var manager = new XmlManager();
-            using (var stream = Assembly.GetExecutingAssembly()
-                        .GetManifestResourceStream(
-                            $"{Assembly.GetExecutingAssembly().GetName().Name}.Resources.{GetType().Name}Suite.xml"))
-            using (var reader = new StreamReader(stream))
-                manager.Read(reader);
-            return manager.TestSuite;
-        }
 
         [Test]
         public void Deserialize_SequenceCombination_TwoSequences()

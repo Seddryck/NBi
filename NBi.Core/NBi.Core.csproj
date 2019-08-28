@@ -425,6 +425,11 @@
     <Compile Include="Report\ReportDataSetRequest.cs" />
     <Compile Include="Report\ReportingCommand.cs" />
     <Compile Include="ResultSet\Alteration\Alter.cs" />
+    <Compile Include="ResultSet\Alteration\Reshaping\IReshapingArgs.cs" />
+    <Compile Include="ResultSet\Alteration\Reshaping\IReshapingEngine.cs" />
+    <Compile Include="ResultSet\Alteration\Reshaping\ReshapingFactory.cs" />
+    <Compile Include="ResultSet\Alteration\Reshaping\UnstackEngine.cs" />
+    <Compile Include="ResultSet\Alteration\Reshaping\UnstackArgs.cs" />
     <Compile Include="ResultSet\Alteration\Summarization\ColumnAggregationArgs.cs" />
     <Compile Include="ResultSet\Alteration\Summarization\SummarizeArgs.cs" />
     <Compile Include="ResultSet\Alteration\Summarization\SummarizeEngine.cs" />

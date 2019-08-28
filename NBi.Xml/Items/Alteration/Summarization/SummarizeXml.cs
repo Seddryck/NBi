@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 
-namespace NBi.Xml.Items.Sequence.Transformation
+namespace NBi.Xml.Items.Alteration.Summarization
 {
     public class SummarizeXml
     {

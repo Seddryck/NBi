@@ -177,8 +177,8 @@
     <Compile Include="Items\ResultSet\Lookup\ColumnMappingXml.cs" />
     <Compile Include="Items\ResultSet\Lookup\InclusionXml.cs" />
     <Compile Include="Items\ResultSet\Lookup\JoinXml.cs" />
-    <Compile Include="Items\Sequence\Transformation\AggregationXml.cs" />
-    <Compile Include="Items\Sequence\Transformation\SummarizeXml.cs" />
+    <Compile Include="Items\Alteration\Summarization\AggregationXml.cs" />
+    <Compile Include="Items\Alteration\Summarization\SummarizeXml.cs" />
     <Compile Include="Items\SharedDatasetXml.cs" />
     <Compile Include="Items\Alteration\Transformation\TransformXml.cs" />
     <Compile Include="Items\UrlXml.cs" />

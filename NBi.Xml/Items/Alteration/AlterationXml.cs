@@ -4,7 +4,7 @@ using NBi.Xml.Items.Alteration.Renaming;
 using NBi.Xml.Items.Alteration.Transform;
 using NBi.Xml.Items.Calculation;
 using NBi.Xml.Items.ResultSet;
-using NBi.Xml.Items.Sequence.Transformation;
+using NBi.Xml.Items.Alteration.Summarization;
 using System;
 using System.Collections.Generic;
 using System.Linq;

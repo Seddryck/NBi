@@ -12,7 +12,7 @@ namespace NBi.Core.ResultSet.Alteration.Summarization
         {
             switch(args)
             {
-                case SummarizeArgs x: return new SummerizeEngine(x);
+                case SummarizeArgs x: return new SummarizeEngine(x);
                 default: throw new ArgumentException();
             }
         }

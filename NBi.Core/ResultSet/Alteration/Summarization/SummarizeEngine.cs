@@ -10,11 +10,11 @@ using System.Threading.Tasks;
 
 namespace NBi.Core.ResultSet.Alteration.Summarization
 {
-    class SummerizeEngine : ISummarizationEngine
+    class SummarizeEngine : ISummarizationEngine
     {
         private SummarizeArgs Args { get; }
 
-        public SummerizeEngine(SummarizeArgs args)
+        public SummarizeEngine(SummarizeArgs args)
             => Args = args;
 
         public ResultSet Execute(ResultSet rs)

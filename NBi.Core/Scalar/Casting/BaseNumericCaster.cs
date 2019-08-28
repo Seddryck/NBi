@@ -51,17 +51,20 @@ namespace NBi.Core.Scalar.Casting
 
         protected bool IsParsableNumeric(object value)
         {
-            var result = Decimal.TryParse(value.ToString()
+            if (value == null)
+                return false;
+
+            var result = decimal.TryParse(value.ToString()
                                 , NumberStyles.AllowLeadingSign | NumberStyles.AllowLeadingWhite | NumberStyles.AllowTrailingWhite | NumberStyles.AllowDecimalPoint
                                 , CultureInfo.InvariantCulture
-                                , out decimal num);
+                                , out _);
             //The first method is not enough, you can have cases where this method returns false but the value is effectively a numeric. The problem is in the .ToString() on the object where you apply the regional settings for the numeric values.
             //The second method gives a better result but unfortunately generates an exception.
             if (!result)
             {
                 try
                 {
-                    num = Convert.ToDecimal(value, NumberFormatInfo.InvariantInfo);
+                    var num = Convert.ToDecimal(value, NumberFormatInfo.InvariantInfo);
                     result = true;
                 }
                 catch (Exception)

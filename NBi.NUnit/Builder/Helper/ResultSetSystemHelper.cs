@@ -17,6 +17,14 @@ using NBi.Xml.Systems;
 using System;
 using System.Linq;
 using System.Collections.Generic;
+using NBi.Core.ResultSet.Alteration.Reshaping;
+using NBi.Xml.Items.Calculation;
+using NBi.Xml.Items.Alteration.Summarization;
+using NBi.Xml.Items.Alteration.Extension;
+using NBi.Xml.Items.Alteration.Reshaping;
+using NBi.Xml.Items.Alteration.Transform;
+using NBi.Xml.Items.Alteration.Conversion;
+using NBi.Xml.Items.Alteration.Renaming;
 
 namespace NBi.NUnit.Builder.Helper
 {
@@ -46,128 +54,138 @@ namespace NBi.NUnit.Builder.Helper
 
         public IEnumerable<Alter> InstantiateAlterations(ResultSetSystemXml resultSetXml)
         {
-            if (resultSetXml.Alteration == null)
+            if ((resultSetXml.Alterations?.Count ?? 0) == 0)
                 yield break;
 
-            if (resultSetXml.Alteration.Filters != null)
+            foreach (var alterationXml in resultSetXml.Alterations)
             {
-                var factory = new ResultSetFilterFactory(variables);
-                foreach (var filterXml in resultSetXml.Alteration.Filters)
+                switch(alterationXml)
                 {
-                    if (filterXml.Ranking == null)
+                    case FilterXml x: yield return InstantiateFilter(x); break;
+                    case ConvertXml x: yield return InstantiateConvert(x); break;
+                    case TransformXml x: yield return InstantiateTransform(x); break;
+                    case RenamingXml x: yield return InstantiateRename(x); break;
+                    case SummarizeXml x: yield return InstantiateSummarize(x); break;
+                    case ExtendXml x: yield return InstantiateExtend(x); break;
+                    case UnstackXml x: yield return InstantiateUnstack(x); break;
+                    default: throw new ArgumentException();
+                }
+            }
+        }
+
+        private Alter InstantiateFilter(FilterXml filterXml)
+        {
+            var factory = new ResultSetFilterFactory(variables);
+
+            if (filterXml.Ranking == null)
+            {
+                var expressions = new List<IColumnExpression>();
+                if (filterXml.Expression != null)
+                    expressions.Add(filterXml.Expression);
+
+                if (filterXml.Predication != null)
+                {
+                    var helper = new PredicateArgsBuilder(serviceLocator, variables);
+                    var args = helper.Execute(filterXml.Predication.ColumnType, filterXml.Predication.Predicate);
+
+                    return factory.Instantiate
+                                (
+                                    filterXml.Aliases
+                                    , expressions
+                                    , new PredicationArgs(filterXml.Predication.Operand, args)
+                                ).Apply;
+                }
+                if (filterXml.Combination != null)
+                {
+                    var helper = new PredicateArgsBuilder(serviceLocator, variables);
+                    var predicationArgs = new List<PredicationArgs>();
+                    foreach (var predication in filterXml.Combination.Predications)
                     {
-                        var expressions = new List<IColumnExpression>();
-                        if (filterXml.Expression != null)
-                            expressions.Add(filterXml.Expression);
-
-                        if (filterXml.Predication != null)
-                        {
-                            var helper = new PredicateArgsBuilder(serviceLocator, variables);
-                            var args = helper.Execute(filterXml.Predication.ColumnType, filterXml.Predication.Predicate);
-
-                            yield return factory.Instantiate
-                                        (
-                                            filterXml.Aliases
-                                            , expressions
-                                            , new PredicationArgs(filterXml.Predication.Operand, args)
-                                        ).Apply;
-                        }
-                        if (filterXml.Combination != null)
-                        {
-                            var helper = new PredicateArgsBuilder(serviceLocator, variables);
-                            var predicationArgs = new List<PredicationArgs>();
-                            foreach (var predication in filterXml.Combination.Predications)
-                            {
-                                var args = helper.Execute(predication.ColumnType, predication.Predicate);
-                                predicationArgs.Add(new PredicationArgs(predication.Operand, args));
-                            }
-
-                            yield return factory.Instantiate
-                                        (
-                                            filterXml.Aliases
-                                            , expressions
-                                            , filterXml.Combination.Operator
-                                            , predicationArgs
-                                        ).Apply;
-                        }
+                        var args = helper.Execute(predication.ColumnType, predication.Predicate);
+                        predicationArgs.Add(new PredicationArgs(predication.Operand, args));
                     }
-                    else
-                    {
-                        yield return factory.Instantiate(
-                            filterXml.Ranking,
-                            filterXml.Ranking?.GroupBy?.Columns
-                            ).Apply;
-                    }
+
+                    return factory.Instantiate
+                                (
+                                    filterXml.Aliases
+                                    , expressions
+                                    , filterXml.Combination.Operator
+                                    , predicationArgs
+                                ).Apply;
                 }
+                throw new ArgumentException();
             }
-
-            if (resultSetXml.Alteration.Conversions != null)
+            else
             {
-                var factory = new ConverterFactory();
-                foreach (var conversionXml in resultSetXml.Alteration.Conversions)
-                {
-                    var converter = factory.Instantiate(conversionXml.Converter.From, conversionXml.Converter.To, conversionXml.Converter.DefaultValue, conversionXml.Converter.Culture);
-                    var engine = new ConverterEngine(conversionXml.Column, converter);
-                    yield return engine.Execute;
-                }
+                return factory.Instantiate(
+                    filterXml.Ranking,
+                    filterXml.Ranking?.GroupBy?.Columns
+                    ).Apply;
             }
+        }
 
-            if (resultSetXml.Alteration.Transformations != null)
-            {
-                var identifierFactory = new ColumnIdentifierFactory();
+        private Alter InstantiateConvert(ConvertXml convertXml)
+        {
+            var factory = new ConverterFactory();
+            var converter = factory.Instantiate(convertXml.Converter.From, convertXml.Converter.To, convertXml.Converter.DefaultValue, convertXml.Converter.Culture);
+            var engine = new ConverterEngine(convertXml.Column, converter);
+            return engine.Execute;
+        }
 
-                var provider = new TransformationProvider();
-                foreach (var transformationXml in resultSetXml.Alteration.Transformations)
-                    provider.Add(transformationXml.Identifier, transformationXml);
-                yield return provider.Transform;
-            }
+        private Alter InstantiateRename(RenamingXml renameXml)
+        {
+            var helper = new ScalarHelper(serviceLocator, variables);
+            var newName = helper.InstantiateResolver<string>(renameXml.NewName);
 
-            if (resultSetXml.Alteration.Renamings != null)
-            {
-                foreach (var renameXml in resultSetXml.Alteration.Renamings)
-                {
-                    var helper = new ScalarHelper(serviceLocator, variables);
-                    var newName = helper.InstantiateResolver<string>(renameXml.NewName);
+            var factory = new RenamingFactory();
+            var renamer = factory.Instantiate(new NewNameRenamingArgs(renameXml.Identifier, newName));
+            return renamer.Execute;
+        }
 
-                    var factory = new RenamingFactory();
-                    var renamer = factory.Instantiate(new NewNameRenamingArgs(renameXml.Identifier, newName));
-                    yield return renamer.Execute;
-                }
-            }
+        private Alter InstantiateTransform(TransformXml transformXml)
+        {
+            var identifierFactory = new ColumnIdentifierFactory();
+            var provider = new TransformationProvider();
+            provider.Add(transformXml.Identifier, transformXml);
+            return provider.Transform;
+        }
 
-            if (resultSetXml.Alteration.Extensions != null)
-            {
-                foreach (var extension in resultSetXml.Alteration.Extensions)
-                {
-                    var factory = new ExtensionFactory();
-                    var extender = factory.Instantiate(new ExtendArgs
-                        (
-                            extension.Identifier
-                            , extension.Script?.Code ?? throw new ArgumentException("Script cannot be empty or null")
-                        ));
-                    yield return extender.Execute;
-                }
-            }
-
-            if (resultSetXml.Alteration.Summarizations != null)
-            {
-                var factory = new SummarizationFactory();
-                foreach (var summarizationXml in resultSetXml.Alteration.Summarizations)
-                {
-                    var aggregations = new List<ColumnAggregationArgs>()
+        private Alter InstantiateSummarize(SummarizeXml summarizeXml)
+        {
+            var factory = new SummarizationFactory();
+            var aggregations = new List<ColumnAggregationArgs>()
                     {
                         new ColumnAggregationArgs(
-                            summarizationXml.Aggregation.Identifier,
-                            summarizationXml.Aggregation.Function,
-                            summarizationXml.Aggregation.ColumnType
+                            summarizeXml.Aggregation.Identifier,
+                            summarizeXml.Aggregation.Function,
+                            summarizeXml.Aggregation.ColumnType
                         )
                     };
-                    var groupBys = summarizationXml.GroupBy?.Columns?.Cast<IColumnDefinitionLight>() ?? new List<IColumnDefinitionLight>();
+            var groupBys = summarizeXml.GroupBy?.Columns?.Cast<IColumnDefinitionLight>() ?? new List<IColumnDefinitionLight>();
 
-                    var summarizer = factory.Instantiate(new SummarizeArgs(aggregations, groupBys));
-                    yield return summarizer.Execute;
-                }
-            }
+            var summarizer = factory.Instantiate(new SummarizeArgs(aggregations, groupBys));
+            return summarizer.Execute;
+        }
+
+        private Alter InstantiateExtend(ExtendXml extendXml)
+        {
+            var factory = new ExtensionFactory();
+            var extender = factory.Instantiate(new ExtendArgs
+                (
+                    extendXml.Identifier
+                    , extendXml.Script?.Code ?? throw new ArgumentException("Script cannot be empty or null")
+                ));
+            return extender.Execute;
+        }
+
+        private Alter InstantiateUnstack(UnstackXml unstackXml)
+        {
+            var factory = new ReshapingFactory();
+            var header = unstackXml.Header.Column.Identifier;
+            var groupBys = unstackXml.GroupBy?.Columns?.Cast<IColumnDefinitionLight>() ?? new List<IColumnDefinitionLight>();
+
+            var reshaper = factory.Instantiate(new UnstackArgs(header, groupBys));
+            return reshaper.Execute;
         }
     }
 }

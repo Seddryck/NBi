@@ -158,6 +158,8 @@
     <Compile Include="Items\Alteration\Conversion\TextToDateTimeConverterXml.cs" />
     <Compile Include="Items\Alteration\Extension\ExtendXml.cs" />
     <Compile Include="Items\Alteration\Renaming\RenamingXml.cs" />
+    <Compile Include="Items\Alteration\Reshaping\HeaderXml.cs" />
+    <Compile Include="Items\Alteration\Reshaping\UnstackXml.cs" />
     <Compile Include="Items\Alteration\Transformation\LightTransformXml.cs" />
     <Compile Include="Items\Calculation\CombinationPredicateXml.cs" />
     <Compile Include="Items\EnvironmentXml.cs" />

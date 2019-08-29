@@ -1,4 +1,5 @@
 ﻿using NBi.Core.Evaluate;
+using NBi.Xml.Items.Alteration;
 using NBi.Xml.Items.Calculation;
 using NBi.Xml.Items.Calculation.Ranking;
 using System;
@@ -11,7 +12,7 @@ using System.Xml.Serialization;
 
 namespace NBi.Xml.Items.Calculation
 {
-    public class FilterXml
+    public class FilterXml : AlterationXml
     {
         [XmlIgnore()]
         public IReadOnlyCollection<IColumnAlias> Aliases

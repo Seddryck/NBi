@@ -32,11 +32,11 @@ namespace NBi.Testing.Xml.Unit.Items.Calculation
             TestSuiteXml ts = DeserializeSample();
 
             Assert.That(ts.Tests[testNr].Systems[0], Is.AssignableTo<ResultSetSystemXml>());
-            var alteration = (ts.Tests[testNr].Systems[0] as ResultSetSystemXml).Alteration;
-            Assert.That(alteration.Filters, Is.Not.Null.And.Not.Empty);
-            Assert.That(alteration.Filters[0].Ranking, Is.Not.Null);
-            Assert.That(alteration.Filters[0].Ranking.Operand, Is.InstanceOf<IColumnIdentifier>());
-            Assert.That(alteration.Filters[0].Ranking.Type, Is.EqualTo(ColumnType.Numeric));
+            var alterations = (ts.Tests[testNr].Systems[0] as ResultSetSystemXml).Alterations;
+            Assert.That(alterations, Is.Not.Null.And.Not.Empty);
+            Assert.That((alterations[0] as FilterXml).Ranking, Is.Not.Null);
+            Assert.That((alterations[0] as FilterXml).Ranking.Operand, Is.InstanceOf<IColumnIdentifier>());
+            Assert.That((alterations[0] as FilterXml).Ranking.Type, Is.EqualTo(ColumnType.Numeric));
         }
 
         [Test]
@@ -48,11 +48,11 @@ namespace NBi.Testing.Xml.Unit.Items.Calculation
             TestSuiteXml ts = DeserializeSample();
 
             Assert.That(ts.Tests[testNr].Systems[0], Is.AssignableTo<ResultSetSystemXml>());
-            var alteration = (ts.Tests[testNr].Systems[0] as ResultSetSystemXml).Alteration;
-            Assert.That(alteration.Filters, Is.Not.Null.And.Not.Empty);
-            Assert.That(alteration.Filters[0].Ranking.Rank, Is.Not.Null);
-            Assert.That(alteration.Filters[0].Ranking.Rank, Is.TypeOf<TopRankingXml>());
-            Assert.That(alteration.Filters[0].Ranking.Rank.Count, Is.EqualTo(1));
+            var alterations = (ts.Tests[testNr].Systems[0] as ResultSetSystemXml).Alterations;
+            Assert.That(alterations, Is.Not.Null.And.Not.Empty);
+            Assert.That((alterations[0] as FilterXml).Ranking.Rank, Is.Not.Null);
+            Assert.That((alterations[0] as FilterXml).Ranking.Rank, Is.TypeOf<TopRankingXml>());
+            Assert.That((alterations[0] as FilterXml).Ranking.Rank.Count, Is.EqualTo(1));
         }
 
         [Test]
@@ -64,11 +64,11 @@ namespace NBi.Testing.Xml.Unit.Items.Calculation
             TestSuiteXml ts = DeserializeSample();
 
             Assert.That(ts.Tests[testNr].Systems[0], Is.AssignableTo<ResultSetSystemXml>());
-            var alteration = (ts.Tests[testNr].Systems[0] as ResultSetSystemXml).Alteration;
-            Assert.That(alteration.Filters, Is.Not.Null.And.Not.Empty);
-            Assert.That(alteration.Filters[0].Ranking.Rank, Is.Not.Null);
-            Assert.That(alteration.Filters[0].Ranking.Rank, Is.TypeOf<BottomRankingXml>());
-            Assert.That(alteration.Filters[0].Ranking.Rank.Count, Is.EqualTo(3));
+            var alterations = (ts.Tests[testNr].Systems[0] as ResultSetSystemXml).Alterations;
+            Assert.That(alterations, Is.Not.Null.And.Not.Empty);
+            Assert.That((alterations[0] as FilterXml).Ranking.Rank, Is.Not.Null);
+            Assert.That((alterations[0] as FilterXml).Ranking.Rank, Is.TypeOf<BottomRankingXml>());
+            Assert.That((alterations[0] as FilterXml).Ranking.Rank.Count, Is.EqualTo(3));
         }
 
         [Test]
@@ -80,11 +80,11 @@ namespace NBi.Testing.Xml.Unit.Items.Calculation
             TestSuiteXml ts = DeserializeSample();
 
             Assert.That(ts.Tests[testNr].Systems[0], Is.AssignableTo<ResultSetSystemXml>());
-            var alteration = (ts.Tests[testNr].Systems[0] as ResultSetSystemXml).Alteration;
-            Assert.That(alteration.Filters, Is.Not.Null.And.Not.Empty);
-            Assert.That(alteration.Filters[0].Ranking.GroupBy, Is.Not.Null);
-            Assert.That(alteration.Filters[0].Ranking.GroupBy.Columns, Is.Not.Null.And.Not.Empty);
-            Assert.That(alteration.Filters[0].Ranking.GroupBy.Columns, Has.Count.EqualTo(2));
+            var alterations = (ts.Tests[testNr].Systems[0] as ResultSetSystemXml).Alterations;
+            Assert.That(alterations, Is.Not.Null.And.Not.Empty);
+            Assert.That((alterations[0] as FilterXml).Ranking.GroupBy, Is.Not.Null);
+            Assert.That((alterations[0] as FilterXml).Ranking.GroupBy.Columns, Is.Not.Null.And.Not.Empty);
+            Assert.That((alterations[0] as FilterXml).Ranking.GroupBy.Columns, Has.Count.EqualTo(2));
         }
 
         [Test]
@@ -96,10 +96,10 @@ namespace NBi.Testing.Xml.Unit.Items.Calculation
             TestSuiteXml ts = DeserializeSample();
 
             Assert.That(ts.Tests[testNr].Systems[0], Is.AssignableTo<ResultSetSystemXml>());
-            var alteration = (ts.Tests[testNr].Systems[0] as ResultSetSystemXml).Alteration;
-            Assert.That(alteration.Filters, Is.Not.Null.And.Not.Empty);
-            Assert.That(alteration.Filters[0].Ranking.GroupBy.Columns[0].Identifier, Is.InstanceOf<IColumnIdentifier>());
-            Assert.That(alteration.Filters[0].Ranking.GroupBy.Columns[0].Type, Is.EqualTo(ColumnType.DateTime));
+            var alterations = (ts.Tests[testNr].Systems[0] as ResultSetSystemXml).Alterations;
+            Assert.That(alterations, Is.Not.Null.And.Not.Empty);
+            Assert.That((alterations[0] as FilterXml).Ranking.GroupBy.Columns[0].Identifier, Is.InstanceOf<IColumnIdentifier>());
+            Assert.That((alterations[0] as FilterXml).Ranking.GroupBy.Columns[0].Type, Is.EqualTo(ColumnType.DateTime));
         }
 
         [Test]
@@ -111,10 +111,10 @@ namespace NBi.Testing.Xml.Unit.Items.Calculation
             TestSuiteXml ts = DeserializeSample();
 
             Assert.That(ts.Tests[testNr].Systems[0], Is.AssignableTo<ResultSetSystemXml>());
-            var alteration = (ts.Tests[testNr].Systems[0] as ResultSetSystemXml).Alteration;
-            Assert.That(alteration.Filters, Is.Not.Null.And.Not.Empty);
-            Assert.That(alteration.Filters[0].Ranking.GroupBy.Columns[1].Identifier, Is.InstanceOf<IColumnIdentifier>());
-            Assert.That(alteration.Filters[0].Ranking.GroupBy.Columns[1].Type, Is.EqualTo(ColumnType.Text));
+            var alterations = (ts.Tests[testNr].Systems[0] as ResultSetSystemXml).Alterations;
+            Assert.That(alterations, Is.Not.Null.And.Not.Empty);
+            Assert.That((alterations[0] as FilterXml).Ranking.GroupBy.Columns[1].Identifier, Is.InstanceOf<IColumnIdentifier>());
+            Assert.That((alterations[0] as FilterXml).Ranking.GroupBy.Columns[1].Type, Is.EqualTo(ColumnType.Text));
         }
 
         [Test]

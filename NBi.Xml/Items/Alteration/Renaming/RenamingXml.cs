@@ -8,7 +8,7 @@ using System.Xml.Serialization;
 
 namespace NBi.Xml.Items.Alteration.Renaming
 {
-    public class RenamingXml
+    public class RenamingXml : AlterationXml
     {
         [XmlAttribute("identifier")]
         public string IdentifierSerializer { get; set; }

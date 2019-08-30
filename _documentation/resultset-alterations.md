@@ -7,6 +7,48 @@ permalink: /docs/resultset-alterations/
 ---
 Using the [new syntax](../syntax-2-0/), it's possible to define alterations on a result-set. It gives you the possibility to alter the result-set without modifying the query retrieving it. It's especially useful when the alteration is complex to write in the query language or when it's not possible to modify the query (stored procedure, assembly, report-dataset ...). The two alterations supported by NBi are the filters and the converts.
 
+## Projections
+
+This alteration is useful when you want to perform your test on a subset of the columns of your result-set.
+
+To identify the columns to be include in the altered result-set, you must use the operation *project* and list the columns with a column identifier of type ordinal such as *#3* or of type name such as *[myColumn]*. 
+
+The order of the columns in the result is specified by the order of the arguments. Only the columns specified in the arguments are included in the result: any others in the input are dropped.
+
+In the following example, the first column and the column named *f2* will be available in the altered result-set, other columns will be discarded.
+
+{% highlight xml %}
+<result-set>
+  <query>
+    select 'a' as f0, 'FOO' as f1, null as f2 union all select 'B', 'bar', 'quark'
+  </query>
+  <alteration>
+    <project>
+      <column identifier="#0">
+      <column identifier="[f2]">
+    </project>
+  </alteration>
+</result-set>
+{% endhighlight %}
+
+At the opposite, the operator *project-away* expects the list of columns to be excluded in the altered result-set.
+
+The order of the columns in the result is determined by their original order in the table. Only the columns that were specified as arguments are dropped. The other columns are included in the result.
+
+{% highlight xml %}
+<result-set>
+  <query>
+    select 'a' as f0, 'FOO' as f1, null as f2, getdate() as f3 union all select 'B', 'bar', 'quark', getdate()
+  </query>
+  <alteration>
+    <project-away>
+      <column identifier="#0">
+      <column identifier="[f3]">
+    </project-away>
+  </alteration>
+</result-set>
+{% endhighlight %}
+
 ## Renamings
 
 This alteration is useful when you want to rename a column. This kind of alteration is usually not needed because this kind of operation can be handled by the query. On the other hand, when dealing with flat files, it could save you!
@@ -101,3 +143,84 @@ The different possibilities for the conversion are
 * **text-to-date**: will use the *Short Date Pattern* of the specified culture  to try the conversion from text to a dateTime.
 * **text-to-dateTime**: will use the concatenation of the *Short Date Pattern* and the *Long Time Pattern* of the specified culture to try the conversion from text to a dateTime.
 * **text-to-numeric**: will use the *Decimal Separator* of the specified culture to try the conversion from text to a numeric.
+
+## Summarize
+
+This alteration is useful when you want to produces a table that aggregates the content of the input result-set.
+
+{% highlight xml %}
+<resultSet>
+  <query>
+    select 'supplier X' as supplier, 'apple' as fruit, 10.2 as price, '2019-01-01' as priceDate
+    union all 'supplier Y', 'apple' , 10.6, '2019-01-01'
+    union all 'supplier Y', 'orange' , 10.9, '2019-01-01'
+    union all 'supplier Y', 'orange' , 10.5, '2019-01-02'
+    union all 'supplier X', 'apple' , 10.7, '2019-01-02'
+  <query>
+  <alteration>
+    <summarize>
+      <average column="price" type="numeric"/>
+      <group-by>
+        <column identifier="fruit"/>
+        <column identifier="supplier"/>
+      </group-by>
+    </summarize>
+  </alteration>
+<resultSet>
+{% endhighlight %}
+
+A result-set that shows the average price of each fruit from each supplier. There's a row in the output for each distinct combination of fruit and supplier. The output columns show the average price, fruit and supplier. All other input columns are ignored.
+
+|fruit|supplier|price
+|-----|-----|-----
+|Apple|Supplier X| 10.45
+|Apple|Supplier Y| 10.6
+|Orange|Supplier Y| 10.7 
+
+The different aggregations supported are
+
+* average
+* sum
+* min
+* max
+
+## Reshaping
+
+Reshaping alterations are useful when you want to change a column into a row or other transformations similar to this one.
+
+### Unstack
+
+Reshaping the data using the *unstack* operation converts the data into unstacked format .i.e. the row is unstacked column wise. The SQL "pivot" is similar to the unstack operator.
+
+You must specify the column containing the distinct values that must be converted into columns into the element *header*. Suppose that a column contains the distinct values *Import* and *Export*. These two values will create two new columns named *import* and *export*.
+
+Most of the time, you'll group the rows into buckets. Each bucket will result in a single row in the altered result-set. You need to specify the columns identifying the buckets into the element *group-by*.
+
+The remaining column will be used to fill the content of the newly created columns.
+
+{% highlight xml %}
+<result-set>
+  <query>
+    select 'apple' as fruit, 'import' as direction, 10.2 as price
+    union all 'apple' , 'export', 10.6, '2019-01-01'
+    union all 'orange' , 'export', 10.5, '2019-01-02'
+  <query>
+  <alteration>
+    <unstack>
+      <header>
+        <column identifier="direction"/>
+      </header>
+      <group-by>
+        <column identifier="price"/>
+      </group-by>
+    </summarize>
+  </alteration>
+<resultSet>
+{% endhighlight %}
+
+This alteration Will result in the following result-set
+
+|fruit|import|export
+|-----|-----|-----
+|Apple|10.2| 10.6
+|Orange|```(null)```| 10.5

@@ -110,10 +110,11 @@ namespace NBi.Xml.Systems
         ]
         public virtual List<AlterationXml> Alterations { get; set; }
 
+        [XmlIgnore]
         public bool AlterationsSpecified
         {
             get => (Alterations?.Count ?? 0) > 0;
-            set => throw new NotImplementedException();
+            set {}
         }
 
         public override ICollection<string> GetAutoCategories()

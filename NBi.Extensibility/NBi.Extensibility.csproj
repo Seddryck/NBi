@@ -32,6 +32,9 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net461\System.ValueTuple.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -43,8 +46,18 @@
     <Compile Include="..\AssemblyInfo.cs">
       <Link>Properties\AssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="Decoration\CustomConditionResult.cs" />
+    <Compile Include="Decoration\ICustomCommand.cs" />
+    <Compile Include="Decoration\ICustomCondition.cs" />
+    <Compile Include="DataEngineering\IEtl.cs" />
+    <Compile Include="DataEngineering\IEtlRunCommand.cs" />
+    <Compile Include="DataEngineering\IBatchRunCommand.cs" />
+    <Compile Include="FlatFile\IFlatFileProfile.cs" />
+    <Compile Include="FlatFile\IFlatFileReader.cs" />
     <Compile Include="ITemplateEngine.cs" />
     <Compile Include="NBiTraceSwitch.cs" />
+    <Compile Include="ProgressStatusEventArgs.cs" />
+    <Compile Include="ProgressStatusHandler.cs" />
     <Compile Include="Properties\ProjectAssemblyInfo.cs" />
     <Compile Include="Query\IClient.cs" />
     <Compile Include="Query\IClientFactory.cs" />
@@ -55,6 +68,9 @@
     <Compile Include="Query\IQueryParameter.cs" />
     <Compile Include="Query\IQueryTemplateVariable.cs" />
     <Compile Include="Query\SupportedCommandTypeAttribute.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

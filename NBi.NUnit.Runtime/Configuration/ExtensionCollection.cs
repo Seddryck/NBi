@@ -9,14 +9,11 @@ namespace NBi.NUnit.Runtime.Configuration
 {
     public class ExtensionCollection : ConfigurationElementCollection
     {
-
         public ExtensionCollection()
         { }
 
         public override ConfigurationElementCollectionType CollectionType
-        {
-            get => ConfigurationElementCollectionType.AddRemoveClearMap;
-        }
+            { get => ConfigurationElementCollectionType.AddRemoveClearMap; }
 
         protected override ConfigurationElement CreateNewElement()
             => new ExtensionElement();
@@ -37,18 +34,11 @@ namespace NBi.NUnit.Runtime.Configuration
         {
             get => base.ClearElementName;
             set => base.ClearElementName = value;
-
         }
 
-        public new string RemoveElementName
-        {
-            get => base.RemoveElementName;
-        }
+        public new string RemoveElementName { get => base.RemoveElementName; }
 
-        public new int Count
-        {
-            get => base.Count;
-        }
+        public new int Count { get => base.Count; }
 
         public ExtensionElement this[int index]
         {
@@ -61,10 +51,7 @@ namespace NBi.NUnit.Runtime.Configuration
             }
         }
 
-        new public ExtensionElement this[string Name]
-        {
-            get => (ExtensionElement)BaseGet(Name);
-        }
+        new public ExtensionElement this[string Name] { get => (ExtensionElement)BaseGet(Name); }
 
         public int IndexOf(ExtensionElement assembly) => BaseIndexOf(assembly);
 

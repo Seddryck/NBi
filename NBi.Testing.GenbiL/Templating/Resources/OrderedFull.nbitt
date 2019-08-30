@@ -1,0 +1,18 @@
+﻿<test name="Member of the hiearchy '$hierarchy$' are ordered as '$order$' ">
+	<system-under-test>
+		<members>
+			<level caption="$hierarchy$" dimension="$dimension$" perspective="$perspective$" hierarchy="$hierarchy$"/>
+			<exclude>
+				<item>$exclude$</item>
+			</exclude>
+		</members>
+	</system-under-test>
+	<assert>
+		<ordered descending="$descending$" rule="$order$">
+			<rule-definition>
+				<item>One</item>
+				<item>Two</item>
+			</rule-definition>
+		</ordered>
+	</assert>
+</test>

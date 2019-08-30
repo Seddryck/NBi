@@ -1,4 +1,5 @@
 ﻿using NBi.Core.Variable;
+using NBi.GenbiL.Stateful;
 using NBi.Xml;
 using NBi.Xml.Settings;
 using NBi.Xml.Variables;
@@ -12,7 +13,7 @@ using System.Xml.Serialization;
 
 namespace NBi.GenbiL.Action.Variable
 {
-    public class IncludeVariableAction : IVariableAction
+    public class IncludeVariableAction : Serializer, IVariableAction
     {
         public string Filename { get; set; }
 
@@ -23,11 +24,9 @@ namespace NBi.GenbiL.Action.Variable
 
         public void Execute(GenerationState state)
         {
-                var variables = ReadXml(Filename);
-                var factory = new TestVariableFactory();
-
-                foreach (var variable in variables)
-                    state.Variables.Add(variable.Name, variable);
+            var variables = ReadXml(Filename);
+            foreach (var variable in variables)
+                state.Variables.Add(variable);
         }
 
         protected virtual IEnumerable<GlobalVariableXml> ReadXml(string filename)
@@ -48,32 +47,6 @@ namespace NBi.GenbiL.Action.Variable
             }
         }
 
-        protected internal T XmlDeserializeFromString<T>(string objectData)
-        {
-            return (T)XmlDeserializeFromString(objectData, typeof(T));
-        }
-
-        protected object XmlDeserializeFromString(string objectData, Type type)
-        {
-            var serializer = new XmlSerializer(type);
-            object result;
-
-            using (TextReader reader = new StringReader(objectData))
-            {
-                result = serializer.Deserialize(reader);
-            }
-
-            return result;
-        }
-
-        public string Display
-        {
-            get
-            {
-                return string.Format("Include variables from '{0}'"
-                    , Filename
-                    );
-            }
-        }
+        public string Display => $"Include variables from '{Filename}'";
     }
 }

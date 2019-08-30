@@ -27,14 +27,10 @@ namespace NBi.NUnit.Builder
         protected EqualToXml ConstraintXml { get; set; }
 
         protected virtual EquivalenceKind EquivalenceKind
-        {
-            get { return EquivalenceKind.EqualTo; }
-        }
+            { get => EquivalenceKind.EqualTo; }
 
         public ResultSetEqualToBuilder()
-        {
-
-        }
+        { }
 
         protected override void SpecificSetup(AbstractSystemUnderTestXml sutXml, AbstractConstraintXml ctrXml)
         {
@@ -58,13 +54,15 @@ namespace NBi.NUnit.Builder
             foreach (var columnDef in ConstraintXml.ColumnsDef)
             {
                 if (columnDef.Transformation != null)
-                    transformationProvider.Add(columnDef.Index, columnDef.Transformation);
+                    transformationProvider.Add(columnDef.Identifier, columnDef.Transformation);
             }
 
-            if (ConstraintXml.GetCommand() != null)
+            if (ConstraintXml.BaseItem is QueryXml)
                 ctr = InstantiateConstraint(((QueryXml)(ConstraintXml.BaseItem)), ConstraintXml.Settings, transformationProvider);
+            else if (ConstraintXml.ResultSetOld != null)
+                ctr = InstantiateConstraint(ConstraintXml.ResultSetOld, ConstraintXml.Settings, transformationProvider);
             else if (ConstraintXml.ResultSet != null)
-                ctr = InstantiateConstraint(ConstraintXml.ResultSet, ConstraintXml.Settings, transformationProvider);
+                ctr = InstantiateConstraint(ConstraintXml.ResultSet, ConstraintXml.Settings);
             else if (ConstraintXml.XmlSource != null)
                 ctr = InstantiateConstraint(ConstraintXml.XmlSource, ConstraintXml.Settings, transformationProvider);
 
@@ -106,11 +104,22 @@ namespace NBi.NUnit.Builder
             return ctr;
         }
 
+        protected virtual BaseResultSetComparisonConstraint InstantiateConstraint(ResultSetSystemXml xml, SettingsXml settings)
+        {
+            xml.Settings = settings;
+            var builder = new ResultSetServiceBuilder();
+            var helper = new ResultSetSystemHelper(ServiceLocator, SettingsXml.DefaultScope.Assert, Variables);
+            builder.Setup(helper.InstantiateResolver(xml));
+            builder.Setup(helper.InstantiateAlterations(xml));
+            var service = builder.GetService();
+
+            return InstantiateConstraint(service);
+        }
+
         protected virtual BaseResultSetComparisonConstraint InstantiateConstraint(object obj, SettingsXml settings, TransformationProvider transformation)
         {
             var argsBuilder = new ResultSetResolverArgsBuilder(ServiceLocator);
-            argsBuilder.Setup(obj);
-            argsBuilder.Setup(settings);
+            argsBuilder.Setup(obj, settings, SettingsXml.DefaultScope.Assert, Variables);
             argsBuilder.Build();
 
             var factory = ServiceLocator.GetResultSetResolverFactory();
@@ -123,9 +132,10 @@ namespace NBi.NUnit.Builder
 
             var service = serviceBuilder.GetService();
 
-            return new EqualToConstraint(service);
+            return InstantiateConstraint(service);
         }
 
-
+        protected virtual BaseResultSetComparisonConstraint InstantiateConstraint(IResultSetService service)
+            => new EqualToConstraint(service);
     }
 }

@@ -42,7 +42,7 @@ namespace NBi.Framework.FailureMessage.Markdown
         {
             actual = new MarkdownContainer();
             var sb = new StringBuilder();
-            var uniqueCount = actualRows.Count() - result.Rows.Sum(x => Convert.ToInt32(x[0]));
+            var uniqueCount = actualRows.Count() - result.Rows?.Sum(x => Convert.ToInt32(x[0])) ?? 0;
             sb.Append($"The actual result-set has {result.RowCount} rows.");
             sb.Append($" {uniqueCount} row{(uniqueCount > 1 ? "s are" : " is")} effectively unique");
             sb.Append($" and {result.Values.Count()} distinct row{(result.Values.Count() > 1 ? "s are" : " is")} duplicated.");
@@ -64,11 +64,11 @@ namespace NBi.Framework.FailureMessage.Markdown
 
         private MarkdownContainer BuildTable(EngineStyle style, IEnumerable<DataRow> rows, ISampler<DataRow> sampler)
         {
-            var tableBuilder = new TableHelper(style);
+            var tableBuilder = new TableHelperMarkdown(style);
             return BuildTable(tableBuilder, rows, string.Empty, sampler);
         }
 
-        private MarkdownContainer BuildTable(TableHelper tableBuilder, IEnumerable<DataRow> rows, string title, ISampler<DataRow> sampler)
+        private MarkdownContainer BuildTable(TableHelperMarkdown tableBuilder, IEnumerable<DataRow> rows, string title, ISampler<DataRow> sampler)
         {
             rows = rows ?? new List<DataRow>();
 
@@ -97,8 +97,8 @@ namespace NBi.Framework.FailureMessage.Markdown
 
         private MarkdownContainer BuildNonEmptyTable(EngineStyle style, IEnumerable<DataRow> rows, string title, ISampler<DataRow> sampler)
         {
-            var tableBuilder = new TableHelper(style);
-            if (rows.Count() > 0)
+            var tableBuilder = new TableHelperMarkdown(style);
+            if (rows !=null && rows.Count() > 0)
                 return BuildTable(tableBuilder, rows, title, sampler);
             else
                 return new MarkdownContainer();
@@ -107,7 +107,7 @@ namespace NBi.Framework.FailureMessage.Markdown
 
         private MarkdownContainer BuildCompareTable(EngineStyle style, IEnumerable<DataRow> rows, string title, ISampler<DataRow> sampler)
         {
-            var tableBuilder = new CompareTableHelper(style);
+            var tableBuilder = new CompareTableHelperMarkdown(style);
             if (rows.Count() > 0)
                 return BuildTable(tableBuilder, rows, title, sampler);
             else
@@ -124,7 +124,7 @@ namespace NBi.Framework.FailureMessage.Markdown
             if (samplers["expected"] is NoneSampler<DataRow>)
                 return "Display skipped.";
             else
-                return expected.ToMarkdown();
+                return expected?.ToMarkdown();
         }
 
         public string RenderActual()

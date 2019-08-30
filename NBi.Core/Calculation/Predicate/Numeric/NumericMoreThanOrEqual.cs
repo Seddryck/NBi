@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NBi.Core.Scalar.Resolver;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -9,7 +10,7 @@ namespace NBi.Core.Calculation.Predicate.Numeric
 {
     class NumericMoreThanOrEqual : NumericPredicate
     {
-        public NumericMoreThanOrEqual(bool not, object reference) : base(not, reference)
+        public NumericMoreThanOrEqual(bool not, IScalarResolver reference) : base(not, reference)
         { }
 
         protected override bool Compare(decimal x, decimal y)
@@ -19,7 +20,7 @@ namespace NBi.Core.Calculation.Predicate.Numeric
 
         public override string ToString()
         {
-            return $"is more, or equal, than {Reference}";
+            return $"is more, or equal, than {Reference.Execute()}";
         }
     }
 }

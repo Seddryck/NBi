@@ -12,23 +12,17 @@ namespace NBi.Xml.Constraints.Comparer
 {
     public abstract class PredicateXml
     {
-        [XmlText]
-        public string Value { get; set; }
-
         [DefaultValue(false)]
         [XmlAttribute("not")]
         public bool Not { get; set; }
 
-        [XmlElement("item")]
-        public List<string> Values { get; set; }
-
         [XmlElement("projection")]
-        public ProjectionXml Projection { get; set; }
+        public ProjectionOldXml Projection { get; set; }
 
         [XmlElement("query-scalar")]
         public QueryScalarXml QueryScalar { get; set; }
 
         [XmlIgnore]
-        internal abstract ComparerType ComparerType { get; }
+        public abstract ComparerType ComparerType { get; }
     }
 }

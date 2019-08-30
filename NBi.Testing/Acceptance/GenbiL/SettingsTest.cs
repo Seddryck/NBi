@@ -71,17 +71,19 @@ namespace NBi.Testing.Acceptance.GenbiL
 
             Assert.That(content, Is.StringContaining("<default "));
             Assert.That(content, Is.StringContaining("apply-to=\"system-under-test\""));
-            Assert.That(content, Is.StringContaining("<connectionString>myDefaultConnectionString</connectionString>"));
+            Assert.That(content, Is.StringContaining("<connection-string>myDefaultConnectionString</connection-string>"));
 
             Assert.That(content, Is.StringContaining("<reference"));
             Assert.That(content, Is.StringContaining("name=\"olap\""));
-            Assert.That(content, Is.StringContaining("<connectionString>myReferenceConnectionString</connectionString>"));
+            Assert.That(content, Is.StringContaining("<connection-string>myReferenceConnectionString</connection-string>"));
 
             Assert.That(content, Is.StringContaining("<regex"));
             Assert.That(content, Is.StringContaining("[AZ-az]"));
 
             Assert.That(content, Is.StringContaining("<csv-profile"));
             Assert.That(content, Is.StringContaining("field-separator=\"Tab\""));
+            Assert.That(content, Is.Not.StringContaining("<MissingCell"));
+            Assert.That(content, Is.Not.StringContaining("<EmptyCell"));
         }
 
     }

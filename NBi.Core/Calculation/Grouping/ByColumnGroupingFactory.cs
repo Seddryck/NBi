@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using static NBi.Core.ResultSet.SettingsIndexResultSet;
+using static NBi.Core.ResultSet.SettingsOrdinalResultSet;
 
 namespace NBi.Core.Calculation.Grouping
 {
@@ -25,8 +25,7 @@ namespace NBi.Core.Calculation.Grouping
             {
                 var definition = new ColumnDefinition()
                 {
-                    Index = (column.Identifier as ColumnPositionIdentifier)?.Position ?? 0,
-                    Name = (column.Identifier as ColumnNameIdentifier)?.Name ?? string.Empty,
+                    Identifier = column.Identifier,
                     Type = column.Type
                 };
                 definitions.Add(definition);
@@ -38,8 +37,8 @@ namespace NBi.Core.Calculation.Grouping
             builder.Build();
 
             var settings = builder.GetSettings();
-            if (settings is SettingsIndexResultSet)
-                return new IndexByColumnGrouping(settings as SettingsIndexResultSet);
+            if (settings is SettingsOrdinalResultSet)
+                return new OrdinalByColumnGrouping(settings as SettingsOrdinalResultSet);
 
             else if (settings is SettingsNameResultSet)
                 return new NameByColumnGrouping(settings as SettingsNameResultSet);
@@ -49,8 +48,7 @@ namespace NBi.Core.Calculation.Grouping
 
         private class ColumnDefinition : IColumnDefinition
         {
-            public int Index { get; set; }
-            public string Name { get; set; }
+            public IColumnIdentifier Identifier { get; set; }
             public ColumnRole Role { get => ColumnRole.Key; set => throw new NotImplementedException(); }
             public ColumnType Type { get; set; }
 

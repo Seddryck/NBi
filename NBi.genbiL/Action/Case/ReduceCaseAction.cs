@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NBi.GenbiL.Stateful;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -6,25 +7,26 @@ using System.Text;
 
 namespace NBi.GenbiL.Action.Case
 {
-    public class ReduceCaseAction : ICaseAction
+    public class ReduceCaseAction : ISingleCaseAction
     {
-        public List<string> columnNames { get; set; }
+        public List<string> ColumnNames { get; set; }
 
         public ReduceCaseAction(IEnumerable<string> variableNames)
         {
-            this.columnNames = new List<string>(variableNames);
+            this.ColumnNames = new List<string>(variableNames);
         }
 
-        public void Execute(GenerationState state)
+        public void Execute(GenerationState state) => Execute(state.CaseCollection.CurrentScope);
+
+        public void Execute(CaseSet testCases)
         {
 
-            foreach (DataRow row in state.TestCaseCollection.Scope.Content.Rows)
+            foreach (DataRow row in testCases.Content.Rows)
             {
-                foreach (var columnName in columnNames)
+                foreach (var columnName in ColumnNames)
                 {
-                    var list = row[columnName] as IList<string>;
-                    if (list != null)
-                        row[columnName] = list.Distinct().ToList();
+                    if (row[columnName] is IEnumerable<string> list)
+                        row[columnName] = list.Distinct().ToArray();
                 }
             }
         }
@@ -33,10 +35,10 @@ namespace NBi.GenbiL.Action.Case
         {
             get
             {
-                if (columnNames.Count == 1)
-                    return string.Format("Reducing the length of groups for column '{0}'", columnNames[0]);
+                if (ColumnNames.Count == 1)
+                    return string.Format("Reducing the length of groups for column '{0}'", ColumnNames[0]);
                 else
-                    return string.Format("Reducing the length of groups for columns '{0}'", String.Join("', '", columnNames));
+                    return string.Format("Reducing the length of groups for columns '{0}'", String.Join("', '", ColumnNames));
             }
         }
     }

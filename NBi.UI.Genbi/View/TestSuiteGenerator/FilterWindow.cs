@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Windows.Forms;
-using NBi.Service;
+using NBi.GenbiL.Action;
 
 namespace NBi.UI.Genbi.View.TestSuiteGenerator
 {
@@ -14,14 +14,14 @@ namespace NBi.UI.Genbi.View.TestSuiteGenerator
                 @operator.SelectedIndex = 0;
         }
 
-        public Operator Operator
+        public OperatorType Operator
         {
             get
             {
                 if (@operator.Text == "Equal")
-                    return Operator.Equal;
+                    return OperatorType.Equal;
                 if (@operator.Text == "Like")
-                    return Operator.Like;
+                    return OperatorType.Like;
                 throw new ArgumentException();
             }
         }

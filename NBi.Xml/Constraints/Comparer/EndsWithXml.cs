@@ -9,8 +9,11 @@ using System.Xml.Serialization;
 
 namespace NBi.Xml.Constraints.Comparer
 {
-    public class EndsWithXml : CaseSensitiveTextPredicateXml
+    public class EndsWithXml : ScalarReferencePredicateXml, ICaseSensitiveTextPredicateXml
     {
-        internal override ComparerType ComparerType { get => ComparerType.EndsWith; }
+        [XmlAttribute("ignore-case")]
+        [DefaultValue(false)]
+        public bool IgnoreCase { get; set; }
+        public override ComparerType ComparerType { get => ComparerType.EndsWith; }
     }
 }

@@ -11,6 +11,6 @@ namespace NBi.Xml.Constraints.Comparer
 {
     public class OnTheDayXml : PredicateXml
     {
-        internal override ComparerType ComparerType { get => ComparerType.OnTheDay; }
+        public override ComparerType ComparerType { get => ComparerType.OnTheDay; }
     }
 }

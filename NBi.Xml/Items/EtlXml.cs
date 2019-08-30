@@ -10,7 +10,7 @@ using System.Reflection;
 
 namespace NBi.Xml.Items
 {
-    public class EtlXml: ExecutableXml, IEtl, IReferenceFriendly
+    public class EtlXml: ExecutableXml, IReferenceFriendly
     {
         protected const int DEFAULT_TIMEOUT = 30;
         protected const string DEFAULT_VERSION = "SqlServer2014";

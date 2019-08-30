@@ -1,6 +1,8 @@
 ﻿using NBi.Core.Calculation.Predicate;
 using NBi.Core.Evaluate;
 using NBi.Core.ResultSet;
+using NBi.Core.Transformation;
+using NBi.Core.Transformation.Transformer;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -31,13 +33,13 @@ namespace NBi.Core.Calculation
             return Apply(rs, (x => x));
         }
 
-        protected ResultSet.ResultSet Apply(ResultSet.ResultSet rs, Func<bool,bool> onApply)
+        protected ResultSet.ResultSet Apply(ResultSet.ResultSet rs, Func<bool, bool> onApply)
         {
             var filteredRs = new ResultSet.ResultSet();
             var table = rs.Table.Clone();
             filteredRs.Load(table);
             filteredRs.Table.Clear();
-            
+
             foreach (DataRow row in rs.Rows)
             {
                 if (onApply(RowApply(row)))
@@ -64,9 +66,9 @@ namespace NBi.Core.Calculation
 
         protected object GetValueFromRow(DataRow row, IColumnIdentifier identifier)
         {
-            if (identifier is ColumnPositionIdentifier)
+            if (identifier is ColumnOrdinalIdentifier)
             {
-                var ordinal = (identifier as ColumnPositionIdentifier).Position;
+                var ordinal = (identifier as ColumnOrdinalIdentifier).Ordinal;
                 if (ordinal <= row.Table.Columns.Count)
                     return row.ItemArray[ordinal];
                 else
@@ -74,11 +76,11 @@ namespace NBi.Core.Calculation
             }
 
             var name = (identifier as ColumnNameIdentifier).Name;
-            var alias = aliases.SingleOrDefault(x => x.Name == name);
+            var alias = aliases.SingleOrDefault(x => string.Equals(x.Name, name, StringComparison.OrdinalIgnoreCase));
             if (alias != null)
                 return row.ItemArray[alias.Column];
 
-            var expression = expressions.SingleOrDefault(x => x.Name == name);
+            var expression = expressions.SingleOrDefault(x => string.Equals(x.Name, name, StringComparison.OrdinalIgnoreCase));
             if (expression != null)
             {
                 var result = EvaluateExpression(expression, row);
@@ -88,31 +90,62 @@ namespace NBi.Core.Calculation
                     var newColumn = new DataColumn(expColumnName, typeof(object));
                     row.Table.Columns.Add(newColumn);
                 }
-                    
+
                 row[expColumnName] = result;
                 return result;
             }
 
-            var column = row.Table.Columns.Cast<DataColumn>().SingleOrDefault(x => x.ColumnName == name);
+            var column = row.Table.Columns.Cast<DataColumn>().SingleOrDefault(x => string.Equals(x.ColumnName, name, StringComparison.OrdinalIgnoreCase));
             if (column != null)
                 return row[column.ColumnName];
 
-            throw new ArgumentException($"The value '{name}' is not recognized as a column name or a column position or a column alias or an expression."); 
+            var existingNames = row.Table.Columns.Cast<DataColumn>().Select(x => x.ColumnName)
+                .Union(aliases.Select(x => x.Name)
+                .Union(expressions.Select(x => x.Name)));
+
+            throw new ArgumentException($"The value '{name}' is not recognized as a column position, a column name, a column alias or an expression. Possible arguments are: '{string.Join("', '", existingNames.ToArray())}'");
         }
 
         protected object EvaluateExpression(IColumnExpression expression, DataRow row)
         {
-            var exp = new NCalc.Expression(expression.Value);
-            var factory = new ColumnIdentifierFactory();
-
-            exp.EvaluateParameter += delegate (string name, NCalc.ParameterArgs args)
+            if (expression.Language == LanguageType.NCalc)
             {
-                args.Result=GetValueFromRow(row, factory.Instantiate(name));
-            };
+                var exp = new NCalc.Expression(expression.Value);
+                var factory = new ColumnIdentifierFactory();
 
-            return exp.Evaluate();
+                exp.EvaluateParameter += delegate (string name, NCalc.ParameterArgs args)
+                {
+                    args.Result = GetValueFromRow(row, factory.Instantiate(name));
+                };
+
+                return exp.Evaluate();
+            }
+            else if (expression.Language == LanguageType.Native)
+            {
+                var parse = expression.Value.Split(new[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
+                var variable = new ColumnIdentifierFactory().Instantiate(parse.ElementAt(0));
+                var value = GetValueFromRow(row, variable);
+
+                foreach (var nativeFunction in parse.Skip(1))
+                {
+                    var factory = new NativeTransformationFactory();
+                    var transformer = factory.Instantiate(nativeFunction);
+                    value = transformer.Evaluate(value);
+                }
+                
+                return value;
+            }
+            else
+                throw new ArgumentOutOfRangeException($"The language {expression.Language} is not supported during the evaluation of an expression.");
         }
 
         public abstract string Describe();
+
+        private class TransformationInfo : ITransformationInfo
+        {
+            public ColumnType OriginalType { get; set; }
+            public LanguageType Language { get; set; }
+            public string Code { get; set; }
+        }
     }
 }

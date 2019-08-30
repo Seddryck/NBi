@@ -8,6 +8,16 @@ using NBi.Core.ResultSet;
 using NBi.Xml.Items.ResultSet;
 using System.IO;
 using NBi.Xml.Items.Alteration;
+using NBi.Xml.Items.ResultSet.Combination;
+using System;
+using NBi.Xml.Items.Alteration.Renaming;
+using NBi.Xml.Items.Alteration.Extension;
+using NBi.Xml.Items.Calculation;
+using NBi.Xml.Items.Alteration.Conversion;
+using NBi.Xml.Items.Alteration.Transform;
+using NBi.Xml.Items.Alteration.Summarization;
+using NBi.Xml.Items.Alteration.Reshaping;
+using NBi.Xml.Items.Alteration.Projection;
 
 namespace NBi.Xml.Systems
 {
@@ -51,8 +61,27 @@ namespace NBi.Xml.Systems
             }
         }
 
-        [XmlAttribute("file")]
-        public virtual string File { get; set; }
+        [XmlAttribute("path")]
+        [Obsolete("Use File in place of FileAttribute")]
+        public virtual string FilePath
+        {
+            get => File.Path + (File.IsBasic() ? string.Empty : $"!{File.Parser.Name}");
+            set
+            {
+                var tokens = value.Split(new[] { '!' }, StringSplitOptions.RemoveEmptyEntries);
+                File.Path = tokens[0];
+                if (tokens.Count() > 1)
+                    File.Parser = new ParserXml() { Name = tokens[1] };
+                else
+                    File.Parser = null;
+            }
+        }
+
+        [XmlElement("file")]
+        public virtual FileXml File { get; set; } = new FileXml();
+
+        public bool ShouldSerializeFilePath() => File.IsBasic() && !File.IsEmpty();
+        public bool ShouldSerializeFile() => !File.IsBasic() || !File.IsEmpty();
 
         public override BaseItem BaseItem
         {
@@ -65,8 +94,31 @@ namespace NBi.Xml.Systems
         [XmlElement("query")]
         public virtual QueryXml Query { get; set; }
 
-        [XmlElement("alteration")]
-        public virtual AlterationXml Alteration { get; set; }
+        [XmlElement("sequences-combination")]
+        public virtual SequenceCombinationXml SequenceCombination { get; set; }
+
+        [XmlIgnore]
+        public bool SequenceCombinationSpecified { get => SequenceCombination != null; set { } }
+
+        [XmlArray("alteration"),
+            XmlArrayItem(Type = typeof(RenamingXml), ElementName = "rename"),
+            XmlArrayItem(Type = typeof(ExtendXml), ElementName = "extend"),
+            XmlArrayItem(Type = typeof(FilterXml), ElementName = "filter"),
+            XmlArrayItem(Type = typeof(ConvertXml), ElementName = "convert"),
+            XmlArrayItem(Type = typeof(TransformXml), ElementName = "transform"),
+            XmlArrayItem(Type = typeof(SummarizeXml), ElementName = "summarize"),
+            XmlArrayItem(Type = typeof(UnstackXml), ElementName = "unstack"),
+            XmlArrayItem(Type = typeof(ProjectXml), ElementName = "project"),
+            XmlArrayItem(Type = typeof(ProjectAwayXml), ElementName = "project-away"),
+        ]
+        public virtual List<AlterationXml> Alterations { get; set; }
+
+        [XmlIgnore]
+        public bool AlterationsSpecified
+        {
+            get => (Alterations?.Count ?? 0) > 0;
+            set {}
+        }
 
         public override ICollection<string> GetAutoCategories()
         {
@@ -78,4 +130,6 @@ namespace NBi.Xml.Systems
             _rows = new List<RowXml>();
         }
     }
+
+    public class ResultSetSystemOldXml : ResultSetSystemXml { }
 }

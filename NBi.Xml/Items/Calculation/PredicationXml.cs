@@ -5,6 +5,7 @@ using NBi.Xml.Constraints.Comparer;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,23 +13,20 @@ using System.Xml.Serialization;
 
 namespace NBi.Xml.Items.Calculation
 {
-    public class PredicationXml : IPredicateInfo, IReferencePredicateInfo, ISecondOperandPredicateInfo, ICultureSensitivePredicateInfo, ICaseSensitivePredicateInfo 
-    {
+    public class PredicationXml
+    { 
         public PredicationXml()
         {
-            ColumnIndex = -1;
             ColumnType = ColumnType.Numeric;
         }
 
-        [DefaultValue(-1)]
+        [XmlIgnore()]
         [XmlAttribute("column-index")]
-        public int ColumnIndex { get; set; }
-
-        [XmlIgnore]
-        public bool Not
+        [Obsolete("Deprecated. Use operand in place of column-index")]
+        public int ColumnIndex
         {
-            get => Predicate.Not; 
-            set => Predicate.Not = value;
+            get => throw new InvalidOperationException();
+            set => Operand = new ColumnIdentifierFactory().Instantiate($"#{value}");
         }
 
         [XmlAttribute("operand")]
@@ -42,6 +40,7 @@ namespace NBi.Xml.Items.Calculation
         public IColumnIdentifier Operand { get; set; }
 
         [Obsolete("Deprecated. Use operand in place of name")]
+        [XmlIgnore()]
         public string Name { get => Operand.Label; set => Operand=new ColumnIdentifierFactory().Instantiate(value); }
 
         [DefaultValue(ColumnType.Numeric)]
@@ -72,46 +71,5 @@ namespace NBi.Xml.Items.Calculation
         [XmlElement(Type = typeof(TrueXml), ElementName = "true")]
         [XmlElement(Type = typeof(FalseXml), ElementName = "false")]
         public PredicateXml Predicate { get; set; }
-
-        private object reference;
-        [XmlIgnore]
-        public object Reference
-        {
-            get { return reference ?? Predicate.Value ?? Predicate.Values as object; }
-            set { reference = value; }
-        }
-
-        [XmlIgnore]
-        public object SecondOperand
-        {
-            get { return (Predicate as ITwoOperandsXml)?.SecondOperand; }
-        }
-
-        [XmlIgnore]
-        public StringComparison StringComparison
-        {
-            get
-            {
-                if (Predicate is CaseSensitiveTextPredicateXml)
-                    return ((CaseSensitiveTextPredicateXml)Predicate).IgnoreCase ? StringComparison.InvariantCultureIgnoreCase : StringComparison.InvariantCulture;
-                else
-                    throw new InvalidOperationException();
-            }
-        }
-
-        [XmlIgnore]
-        public string Culture
-        {
-            get
-            {
-                if (Predicate is CultureSensitiveTextPredicateXml)
-                    return ((CultureSensitiveTextPredicateXml)Predicate).Culture;
-                else
-                    throw new InvalidOperationException();
-            }
-        }
-
-        [XmlIgnore]
-        public ComparerType ComparerType { get => Predicate.ComparerType; }
     }
 }

@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Linq;
-using NBi.Service.Dto;
+using NBi.GenbiL.Stateful;
 using NBi.GenbiL;
+using NBi.IO.Genbi.Dto;
 
 namespace NBi.UI.Genbi.Stateful
 {

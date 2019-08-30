@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Linq;
-using NBi.Service;
+using NBi.GenbiL.Stateful;
 
 namespace NBi.GenbiL.Action.Case
 {
-    class ScopeCaseAction : ICaseAction
+    public class ScopeCaseAction : IMultiCaseAction
     {
         public string Name { get; set; }
         
@@ -14,15 +14,11 @@ namespace NBi.GenbiL.Action.Case
         }
         public void Execute(GenerationState state)
         {
-            state.TestCaseCollection.SetFocus(Name);
+            if (!state.CaseCollection.ContainsKey(Name))
+                state.CaseCollection.Add(Name, new CaseSet());
+            state.CaseCollection.CurrentScopeName = Name;
         }
 
-        public virtual string Display
-        {
-            get
-            {
-                return string.Format("Focussing on test cases set named '{0}'", Name);
-            }
-        }
+        public virtual string Display => $"Focussing on test cases set named '{Name}'";
     }
 }

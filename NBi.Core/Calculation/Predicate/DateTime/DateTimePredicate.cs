@@ -1,4 +1,5 @@
-﻿using NBi.Core.Scalar.Caster;
+﻿using NBi.Core.Scalar.Casting;
+using NBi.Core.Scalar.Resolver;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,14 +10,14 @@ namespace NBi.Core.Calculation.Predicate.DateTime
 {
     abstract class DateTimePredicate : AbstractPredicateReference
     {
-        public DateTimePredicate(bool not, object reference) : base(not, reference)
+        public DateTimePredicate(bool not, IScalarResolver reference) : base(not, reference)
         { }
 
-        protected override bool Apply(object x)
+        protected override bool ApplyWithReference(object reference, object x)
         {
             var caster = new DateTimeCaster();
             var dtX = caster.Execute(x);
-            var dtY = caster.Execute(Reference);
+            var dtY = caster.Execute(reference);
 
             return Compare(dtX, dtY);
         }

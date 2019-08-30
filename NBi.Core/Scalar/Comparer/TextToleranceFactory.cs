@@ -20,6 +20,10 @@ namespace NBi.Core.Scalar.Comparer
 
             value = value.Trim().Replace(" ", "");
 
+            //Empty equals ignore-case then ignore-case
+            if (string.Compare(value, "ignore-case", true) == 0)
+                return new TextCaseTolerance();
+
             //extract the value between parenthesis
             var distanceString = Regex.Match(value, @"\(([^)]*)\)").Groups[1].Value;
             var isDistanceNumeric = Double.TryParse(distanceString, NumberStyles.Float, CultureInfo.InvariantCulture, out var distanceNumeric);
@@ -58,7 +62,7 @@ namespace NBi.Core.Scalar.Comparer
                     readableNames.Add(correctName);
                 }
                 var tolerance = (FuzzyStringComparisonTolerance)Enum.Parse(typeof(FuzzyStringComparisonTolerance), distanceEnum);
-                Func<string, string, bool> implementation = (x, y) => x.ApproximatelyEquals(y, options, tolerance);
+                bool implementation(string x, string y) => x.ApproximatelyEquals(y, options, tolerance);
                 return new TextMultipleMethodsTolerance(string.Join(", ", readableNames), distanceEnum, implementation);
             }
 
@@ -116,7 +120,7 @@ namespace NBi.Core.Scalar.Comparer
             else
                 return false;
 
-             correctValue = (FuzzyStringComparisonOptions)Enum.Parse(type, correctName);
+            correctValue = (FuzzyStringComparisonOptions)Enum.Parse(type, correctName);
 
             return true;
         }
@@ -129,7 +133,7 @@ namespace NBi.Core.Scalar.Comparer
             else
             {
                 var firstDelegate = methodInfo.CreateDelegate(typeof(Func<string, string, Int32>));
-                Func<string, string, double> convert = (x, y) => { return Convert.ToDouble(firstDelegate.DynamicInvoke(new[] { x, y })); };
+                double convert(string x, string y) { return Convert.ToDouble(firstDelegate.DynamicInvoke(new[] { x, y })); }
                 return convert;
             }
         }

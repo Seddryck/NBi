@@ -9,6 +9,8 @@ using NBi.Xml.Decoration.Command;
 using NBi.Xml.Settings;
 using NBi.Xml.Systems;
 using System.Xml;
+using NBi.Xml.Variables;
+using NBi.Core.Variable;
 
 namespace NBi.Xml
 {
@@ -20,6 +22,7 @@ namespace NBi.Xml
 
         [XmlAttribute("uid")]
         public string UniqueIdentifier { get; set; }
+
 
         [XmlElement("ignore", Order = 1)]
         public IgnoreXml IgnoreElement { get; set; }
@@ -44,7 +47,10 @@ namespace NBi.Xml
             }
         }
 
-        [XmlElement("description", Order = 2)]
+        [XmlElement("instance-settling", Order = 2)]
+        public InstanceSettlingXml InstanceSettling { get; set; }
+
+        [XmlElement("description", Order = 3)]
         public DescriptionXml DescriptionElement { get; set; }
         [XmlIgnore]
         public string Description
@@ -68,17 +74,17 @@ namespace NBi.Xml
             }
         }
 
-        [XmlElement("edition", Order = 3)]
+        [XmlElement("edition", Order = 4)]
         public EditionXml Edition;
 
-        [XmlElement("category", Order = 4)]
+        [XmlElement("category", Order = 5)]
         public List<string> Categories
         {
             get { return categories; }
             set { categories = value; }
         }
 
-        [XmlElement("trait", Order = 5)]
+        [XmlElement("trait", Order = 6)]
         public List<TraitXml> Traits
         {
             get { return traits; }
@@ -89,38 +95,40 @@ namespace NBi.Xml
         [DefaultValue(0)]
         public int Timeout { get; set; }
 
-        [XmlElement("condition", Order = 6)]
+        [XmlElement("condition", Order = 7)]
         public ConditionXml Condition;
 
-        [XmlElement("setup", Order = 7)]
+        [XmlElement("setup", Order = 8)]
         public SetupXml Setup
         {
             get { return setup; }
             set { setup = value; }
         }
 
-        [XmlArray("system-under-test", Order = 8),
+        [XmlArray("system-under-test", Order = 9),
         XmlArrayItem(Type = typeof(ExecutionXml), ElementName = "execution"),
-        XmlArrayItem(Type = typeof(ResultSetSystemXml), ElementName = "resultSet"),
+        XmlArrayItem(Type = typeof(ResultSetSystemXml), ElementName = "result-set"),
+        XmlArrayItem(Type = typeof(ScalarXml), ElementName = "scalar"),
         XmlArrayItem(Type = typeof(MembersXml), ElementName = "members"),
         XmlArrayItem(Type = typeof(StructureXml), ElementName = "structure"),
         XmlArrayItem(Type = typeof(DataTypeXml), ElementName = "data-type"),
         ]
-        public List<AbstractSystemUnderTestXml> Systems;
+        public List<AbstractSystemUnderTestXml> Systems { get; set; }
 
-        [XmlArray("assert", Order = 9),
-        XmlArrayItem(Type = typeof(SyntacticallyCorrectXml), ElementName = "syntacticallyCorrect"),
-        XmlArrayItem(Type = typeof(FasterThanXml), ElementName = "fasterThan"),
-        XmlArrayItem(Type = typeof(EqualToXml), ElementName = "equalTo"),
+        [XmlArray("assert", Order = 10),
+        XmlArrayItem(Type = typeof(SyntacticallyCorrectXml), ElementName = "syntactically-correct"),
+        XmlArrayItem(Type = typeof(FasterThanXml), ElementName = "faster-than"),
+        XmlArrayItem(Type = typeof(EqualToXml), ElementName = "equal-to"),
         XmlArrayItem(Type = typeof(SupersetOfXml), ElementName = "superset-of"),
         XmlArrayItem(Type = typeof(SubsetOfXml), ElementName = "subset-of"),
+         XmlArrayItem(Type = typeof(IntersectionOfXml), ElementName = "intersection-of"),
         XmlArrayItem(Type = typeof(CountXml), ElementName = "count"),
         XmlArrayItem(Type = typeof(ContainXml), ElementName = "contain"),
         XmlArrayItem(Type = typeof(ExistsXml), ElementName = "exists"),
         XmlArrayItem(Type = typeof(OrderedXml), ElementName = "ordered"),
         XmlArrayItem(Type = typeof(LinkedToXml), ElementName = "linkedTo"),
         XmlArrayItem(Type = typeof(ContainedInXml), ElementName = "contained-in"),
-        XmlArrayItem(Type = typeof(EquivalentToXml), ElementName = "equivalentTo"),
+        XmlArrayItem(Type = typeof(EquivalentToXml), ElementName = "equivalent-to"),
         XmlArrayItem(Type = typeof(MatchPatternXml), ElementName = "matchPattern"),
         XmlArrayItem(Type = typeof(EvaluateRowsXml), ElementName = "evaluate-rows"),
         XmlArrayItem(Type = typeof(SuccessfulXml), ElementName = "successful"),
@@ -131,25 +139,28 @@ namespace NBi.Xml
         XmlArrayItem(Type = typeof(SingleRowXml), ElementName = "single-rows"),
         XmlArrayItem(Type = typeof(IsXml), ElementName = "is"),
         XmlArrayItem(Type = typeof(UniqueRowsXml), ElementName = "unique-rows"),
-        XmlArrayItem(Type = typeof(ReferenceExistsXml), ElementName = "reference-exists"),
+        XmlArrayItem(Type = typeof(LookupExistsXml), ElementName = "lookup-exists"),
+        XmlArrayItem(Type = typeof(LookupMatchesXml), ElementName = "lookup-matches"),
+        XmlArrayItem(Type = typeof(ScoreXml), ElementName = "score"),
         ]
-        public List<AbstractConstraintXml> Constraints;
+        public List<AbstractConstraintXml> Constraints { get; set; }
 
-        [XmlElement("cleanup", Order = 10)]
+        [XmlElement("cleanup", Order = 11)]
         public CleanupXml Cleanup
         {
             get { return cleanup; }
             set { cleanup = value; }
         }
 
-        [XmlElement("not-implemented", Order = 11)]
+        [XmlElement("not-implemented", Order = 12)]
         public IgnoreXml NotImplemented { get; set; }
 
-        [XmlAnyElement(Order = 12)]
+        [XmlAnyElement(Order = 13)]
         public List<XmlElement> Drafts { get; set; }
 
         public TestXml() : base()
         {
+            InstanceSettling = InstanceSettlingXml.Unique;
             Constraints = new List<AbstractConstraintXml>();
             Systems = new List<AbstractSystemUnderTestXml>();
             Condition = new ConditionXml();
@@ -158,17 +169,20 @@ namespace NBi.Xml
 
         public TestXml(TestStandaloneXml standalone)
         {
-            this.Name = standalone.Name;
-            this.DescriptionElement = standalone.DescriptionElement;
-            this.IgnoreElement = standalone.IgnoreElement;
-            this.Categories = standalone.Categories;
-            this.Traits = standalone.Traits;
-            this.Constraints = standalone.Constraints;
-            this.Setup = standalone.Setup;
-            this.Cleanup = standalone.Cleanup;
-            this.Systems = standalone.Systems;
-            this.UniqueIdentifier = standalone.UniqueIdentifier;
-            this.Edition = standalone.Edition;
+            Categories = standalone.Categories;
+            Cleanup = standalone.Cleanup;
+            Condition = standalone.Condition;
+            Constraints = standalone.Constraints;
+            DescriptionElement = standalone.DescriptionElement;
+            Drafts = standalone.Drafts;
+            Edition = standalone.Edition;
+            IgnoreElement = standalone.IgnoreElement;
+            InstanceSettling = standalone.InstanceSettling;
+            Name = standalone.Name;
+            Setup = standalone.Setup;
+            Systems = standalone.Systems;
+            Traits = standalone.Traits;
+            UniqueIdentifier = standalone.UniqueIdentifier;
         }
 
         public string GetName()
@@ -194,6 +208,17 @@ namespace NBi.Xml
                     Console.WriteLine(string.Format("Unknown tag '{0}' in test name has stopped the replacement of tag in test name", key));
                 }
             }
+            return newName;
+        }
+
+        public string GetName(IDictionary<string, ITestVariable> dico)
+        {
+            var newName = GetName() + ".";
+            foreach (var token in dico)
+                newName = $"{newName}{token.Key}={token.Value};";
+            if (newName.EndsWith(";"))
+                newName = newName.PadLeft(newName.Length - 1);
+
             return newName;
         }
 
@@ -246,6 +271,8 @@ namespace NBi.Xml
         }
 
         [XmlIgnore]
+        public bool InstanceSettlingSpecified { get => !(InstanceSettling==InstanceSettlingXml.Unique); }
+        [XmlIgnore]
         public bool SystemsSpecified { get => !(Systems == null || Systems.Count == 0); }
         [XmlIgnore]
         public bool ConstraintsSpecified { get => !(Constraints == null || Constraints.Count == 0); }
@@ -253,34 +280,19 @@ namespace NBi.Xml
         [XmlIgnore]
         public bool SetupSpecified
         {
-            get
-            {
-                return !(
-                            Setup == null
-                            || (
-                                    (Setup.Commands == null || Setup.Commands.Count == 0)
-                               )
-                         );
-            }
+            get => (Setup?.Commands?.Count ?? 0) != 0;
             set { return; }
         }
 
         [XmlIgnore]
         public bool CleanupSpecified
         {
-            get
-            {
-                return !(
-                            Cleanup == null
-                            || (
-                                    (Cleanup.Commands == null || Cleanup.Commands.Count == 0)
-                               )
-                         );
-            }
+            get => (Cleanup?.Commands?.Count ?? 0) != 0;
             set { return; }
         }
 
         [XmlIgnore]
         public bool IsNotImplemented { get => NotImplemented != null; }
+
     }
 }

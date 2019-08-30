@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,28 +9,29 @@ namespace NBi.Core.ResultSet.Lookup
 {
     public class ColumnMapping
     {
-        public string ChildColumn { get; }
-        public string ParentColumn { get; }
+        public IColumnIdentifier CandidateColumn { get; }
+        public IColumnIdentifier ReferenceColumn { get; }
         public ColumnType Type { get; }
 
-        public ColumnMapping(string childColumn, string parentColumn, ColumnType type)
+        public ColumnMapping(IColumnIdentifier candidateColumn, IColumnIdentifier referenceColumn, ColumnType type)
         {
-            ChildColumn = childColumn;
-            ParentColumn = parentColumn;
+            CandidateColumn = candidateColumn;
+            ReferenceColumn = referenceColumn;
             Type = type;
         }
 
-        public IColumnDefinition ToColumnDefinition(Func<string> target)
+        public ColumnMapping(IColumnIdentifier column, ColumnType type)
+            : this(column, column, type)
+        { }
+
+        public IColumnDefinition ToColumnDefinition(Func<IColumnIdentifier> target)
         {
             var defColumn = new Column()
             {
+                Identifier = target(),
                 Role = ColumnRole.Key,
                 Type = Type,
             };
-            if (target().StartsWith("#"))
-                defColumn.Index = Convert.ToInt32(target().Substring(1));
-            else
-                defColumn.Name = target();
             return defColumn;
         }
     }

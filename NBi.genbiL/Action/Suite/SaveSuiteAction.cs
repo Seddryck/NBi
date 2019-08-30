@@ -1,4 +1,8 @@
-﻿using System;
+﻿using NBi.GenbiL.Stateful;
+using NBi.GenbiL.Stateful.Tree;
+using NBi.Xml;
+using NBi.Xml.Decoration;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,20 +20,41 @@ namespace NBi.GenbiL.Action.Suite
         
         public void Execute(GenerationState state)
         {
-            state.Suite.DefineSettings(state.Settings.GetSettingsXml());
-            state.Suite.DefineVariables(state.Variables);
-            state.Suite.DefineTests(state.List.GetTests());
-            state.Suite.SaveAs(Filename);
+            var suiteXml = new TestSuiteXml()
+            {
+                Settings = state.Settings,
+                Variables = state.Variables.ToList(),
+            };
+
+            AppendNodes(suiteXml.Groups, suiteXml.Tests, state.Suite.Children);
+
+            var manager = new XmlManager();
+            manager.Persist(Filename, suiteXml);
         }
 
-        public string Display
+        private void AppendNodes(IList<GroupXml> groups, IList<TestXml> tests, IEnumerable<TreeNode> nodes)
         {
-            get
+            foreach (var node in nodes.Where(x => x is GroupNode).Cast<GroupNode>())
             {
-                return string.Format("Saving TestSuite to '{0}'"
-                    , Filename
-                    );
+                var newGroup = new GroupXml() { Name = node.Name };
+                groups.Add(newGroup);
+
+                var setupNode = (node).Children.FirstOrDefault(x => x is SetupNode);
+                if (setupNode != null)
+                    newGroup.Setup = new SetupXml((setupNode as SetupNode).Content);
+
+                var cleanupNode = (node).Children.FirstOrDefault(x => x is CleanupNode);
+                if (cleanupNode != null)
+                    newGroup.Cleanup = new CleanupXml((cleanupNode as CleanupNode).Content);
+
+                AppendNodes(newGroup.Groups, newGroup.Tests, node.Children);
             }
+
+            foreach (var node in nodes.Where(x => x is TestNode).Cast<TestNode>())
+                tests.Add(new TestXml(node.Content));
         }
+
+
+        public string Display => $"Saving TestSuite to '{Filename}'";
     }
 }

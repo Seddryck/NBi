@@ -11,9 +11,18 @@ namespace NBi.Framework.FailureMessage.Markdown.Helper
     public class ColumnPropertiesFormatter
     {
 
+        public virtual string GetText(IColumnDefinition definition)
+            => GetText(definition.Role, definition.Type, new ToleranceFactory().Instantiate(definition) , null);
+
+        public virtual string GetText(ColumnMetadata metadata)
+            => GetText(metadata.Role, metadata.Type, metadata.Tolerance, metadata.Rounding);
+
         public virtual string GetText(ColumnRole role, ColumnType type, Tolerance tolerance, Rounding rounding)
         {
             var roleText = GetRoleText(role);
+            if (string.IsNullOrEmpty(roleText))
+                return string.Empty;
+
             var typeText = GetTypeText(type);
             var toleranceText = GetToleranceText(tolerance);
             var roundingText = GetRoundingText(rounding);

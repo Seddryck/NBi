@@ -1,0 +1,236 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<testSuite name="The Query TestSuite" xmlns="http://NBi/TestSuite">
+	<settings>
+		<default apply-to="system-under-test">
+			<connectionString>Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly</connectionString>
+		</default>
+	</settings>
+	<test name="My first test case" uid="0001">
+		<system-under-test>
+			<execution>
+				<query name="Select first departments">
+					select top 2 [DepartmentID], [Name], [GroupName] from [HumanResources].[Department] order by Name
+				</query>
+			</execution>
+		</system-under-test>
+		<assert>
+			<equal-to>
+				<resultSet>
+					<row>
+						<cell>12</cell>
+						<cell>Document Control</cell>
+						<cell>Quality Assurance</cell>
+					</row>
+					<row>
+						<cell>1</cell>
+						<cell>Engineering</cell>
+						<cell>Research and Development</cell>
+					</row>
+				</resultSet>
+			</equal-to>
+		</assert>
+	</test>
+	<test name="external resultSet file">
+		<system-under-test>
+			<execution>
+				<query name="Select first departments">
+					select top 2 [DepartmentID], [Name], [GroupName] from [HumanResources].[Department] order by Name
+				</query>
+			</execution>
+		</system-under-test>
+		<assert>
+			<equalTo>
+				<resultSet file="Query.csv"/>
+			</equalTo>
+		</assert>
+	</test>
+	<test name="keys">
+		<system-under-test>
+			<execution>
+				<query>
+					select top 2 [DepartmentID], [Name], [GroupName] from [HumanResources].[Department] order by Name;
+				</query>
+			</execution>
+		</system-under-test>
+		<assert>
+			<equalTo keys="first">
+				<resultSet file="Query.csv"/>
+			</equalTo>
+		</assert>
+	</test>
+	<test name="values">
+		<system-under-test>
+			<execution>
+				<query>
+					select top 2 [DepartmentID], [Name], [GroupName], cast(0 as bit) As Active from [HumanResources].[Department] order by Name
+				</query>
+			</execution>
+		</system-under-test>
+		<assert>
+			<equalTo>
+				<column role="value" index="3" type="numeric" tolerance="10"/>
+				<column role="value" index="4" type="boolean"/>
+				<query file="Query.sql"/>
+			</equalTo>
+		</assert>
+	</test>
+	<test name="values">
+		<system-under-test>
+			<execution>
+				<query>
+					select top 2 [Name], [GroupName], [DepartmentID] from [HumanResources].[Department] order by Name
+				</query>
+			</execution>
+		</system-under-test>
+		<assert>
+			<equalTo>
+				<query connectionString="Data Source=Reference;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly">
+					select top 2 [Name], [GroupName], [DepartmentID] from [HumanResources].[Department] order by Name
+				</query>
+			</equalTo>
+		</assert>
+	</test>
+	<test name="equalTo values and tolerance">
+		<system-under-test>
+			<execution>
+				<query>
+					select top 2 [Name], [GroupName], [DepartmentID] from [HumanResources].[Department] order by Name
+				</query>
+			</execution>
+		</system-under-test>
+		<assert>
+			<equalTo values="last" tolerance="100">
+				<query file="Query.sql"/>
+			</equalTo>
+		</assert>
+	</test>
+	<test name="equalTo Persistance">
+		<system-under-test>
+			<execution>
+				<query>
+					select top 2 [DepartmentID], [Name], [GroupName] from [HumanResources].[Department] order by Name
+				</query>
+			</execution>
+		</system-under-test>
+		<assert>
+			<equalTo persistance="only-if-failed">
+				<resultSet file="Query.csv"/>
+			</equalTo>
+		</assert>
+	</test>
+	<test name="equalTo Rounding">
+		<system-under-test>
+			<execution>
+				<query>
+					select top 2 [EventID], [Rank], [QuarterHour] from Event
+				</query>
+			</execution>
+		</system-under-test>
+		<assert>
+			<equalTo>
+				<column index="0" role="key"/>
+				<column index="1" role="value" type="numeric" rounding-style="round" rounding-step="100"/>
+				<column index="2" role="value" type="dateTime" rounding-style="floor" rounding-step="00:15:00"/>
+				<resultSet file="Query.csv"/>
+			</equalTo>
+		</assert>
+	</test>
+	<test name="equalTo Special Tolerance">
+		<system-under-test>
+			<execution>
+				<query>
+					select top 2 [EventID], [Cost], [Period], [QuarterHour], [Instant] from Event
+				</query>
+			</execution>
+		</system-under-test>
+		<assert>
+			<equalTo>
+				<column index="0" role="key"/>
+				<column index="1" role="value" type="numeric" tolerance="16%"/>
+				<column index="2" role="value" type="dateTime" tolerance="1.12:00:00"/>
+				<column index="3" role="value" type="dateTime" tolerance="00:15:00"/>
+				<column index="4" role="value" type="dateTime" tolerance="00:00:00.125"/>
+				<resultSet file="Query.csv"/>
+			</equalTo>
+		</assert>
+	</test>
+  <test name="equalTo Special Value-Default-Type">
+    <system-under-test>
+      <execution>
+        <query>
+          select top 2 [EventID], [Cost], [Period], [QuarterHour], [Instant] from Event
+        </query>
+      </execution>
+    </system-under-test>
+    <assert>
+      <equalTo values="all-except-first" values-default-type="dateTime">
+        <column index="1" role="value" type="numeric" tolerance="16%"/>
+        <resultSet file="Query.csv"/>
+      </equalTo>
+    </assert>
+  </test>
+  <test name="equalTo Transformation">
+    <system-under-test>
+      <execution>
+        <query>
+          select top 2 [EventID], [Cost], [Period], [QuarterHour], [Instant] from Event
+        </query>
+      </execution>
+    </system-under-test>
+    <assert>
+      <equalTo values="all-except-first" values-default-type="dateTime">
+        <column index="1" role="value" type="text">
+          <transformation>value.Substring(2)</transformation>
+        </column>
+        <column index="2" role="value" type="text">
+          <transformation language="c-sharp" original-type="dateTime">String.Format("{0:00}.{1}", value.Month, value.Year)</transformation>
+        </column>
+        <resultSet file="Query.csv"/>
+      </equalTo>
+    </assert>
+  </test>
+  <test name="equalTo single-row">
+    <system-under-test>
+      <execution>
+        <query>
+          select top 1 [EventID], [Cost], [Period], [QuarterHour], [Instant] from Event
+        </query>
+      </execution>
+    </system-under-test>
+    <assert>
+      <equalTo behavior="single-row" values-default-type="dateTime">
+        <resultSet file="Query.csv"/>
+      </equalTo>
+    </assert>
+  </test>
+  <test name="equal-to full featured result-set">
+    <system-under-test>
+      <execution>
+        <query>
+          select top 2 [EventID], [Cost], [Period], [QuarterHour], [Instant] from Event
+        </query>
+      </execution>
+    </system-under-test>
+    <assert>
+      <equal-to values-default-type="dateTime">
+        <result-set>
+          <file>
+            <path>C:\bar.txt</path>
+            <if-missing>
+              <file>
+                <path>C:\foo.txt</path>
+              </file>
+            </if-missing>
+          </file>
+          <alteration>
+            <filter>
+              <predicate operand="#3">
+                <more-than>@myVar</more-than>
+              </predicate>
+            </filter>
+          </alteration>
+        </result-set>
+      </equal-to>
+    </assert>
+  </test>
+</testSuite>

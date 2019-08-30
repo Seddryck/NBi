@@ -31,7 +31,7 @@ namespace NBi.Xml.Items
         }
 
         [XmlText]
-        public string InlineQuery
+        public virtual string InlineQuery
         {
             get { return inlineQuery; }
             set { inlineQuery = value; }
@@ -45,39 +45,6 @@ namespace NBi.Xml.Items
 
         [XmlElement("shared-dataset")]
         public virtual SharedDatasetXml SharedDataset { get; set; }
-
-        public override string GetQuery()
-        {
-            //if Sql is specified then return it
-            if (InlineQuery!= null && !string.IsNullOrEmpty(InlineQuery))
-                return InlineQuery;
-
-            if (string.IsNullOrEmpty(File))
-                throw new InvalidOperationException("Element query must contain a query or a file!");
-
-            //Else check that file exists and read the file's content
-            var file = string.Empty;
-            if (Path.IsPathRooted(File))
-                file = File;
-            else
-                file = Settings.BasePath + File;
-            if (!System.IO.File.Exists(file))
-                throw new ExternalDependencyNotFoundException(file);
-            var query = System.IO.File.ReadAllText(file, Encoding.UTF8);
-            return query;
-        }
-
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2100:Review SQL queries for security vulnerabilities")]
-        public virtual IDbCommand GetCommand()
-        {
-            var conn = new ClientProvider().Instantiate(GetConnectionString()).CreateNew() as IDbConnection;
-            var cmd = conn.CreateCommand();
-            cmd.CommandText = GetQuery();
-
-            return cmd;
-        }
-
-        
 
     }
 }

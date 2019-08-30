@@ -5,7 +5,7 @@ using NBi.Core;
 
 namespace NBi.Xml.Decoration.Condition
 {
-    public abstract class DecorationConditionXml : IDecorationCheck
+    public abstract class DecorationConditionXml
     {
         [XmlIgnore()]
         public Settings.SettingsXml Settings { get; set; }

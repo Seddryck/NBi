@@ -1,0 +1,252 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<testSuite name="All-rows TestSuite" xmlns="http://NBi/TestSuite">
+  <settings>
+    <default apply-to="system-under-test">
+      <connectionString>Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly</connectionString>
+    </default>
+  </settings>
+  <variables>
+    <variable name="firstDayOfCurrentMonth">
+      <script language="c-sharp">new DateTime(2016, 3, 1)</script>
+    </variable>
+  </variables>
+  <test name="Instances are defined through a single variable and an integer step" uid="0001">
+    <instance-settling>
+      <local-variable name="integer" type="numeric">
+        <loop-sentinel seed="1" terminal="3" step="1"/>
+      </local-variable>
+    </instance-settling>
+    <system-under-test>
+      <resultSet file="~..\csv\MyData_2016_0{@integer}.csv"/>
+    </system-under-test>
+    <assert>
+      <no-rows>
+        <predicate name="#0">
+          <null/>
+        </predicate>
+      </no-rows>
+    </assert>
+  </test>
+  <test name="Instances are defined through a single variable and a duration step" uid="0002">
+    <instance-settling>
+      <local-variable name="firstDayOfMonth" type="dateTime">
+        <loop-sentinel seed="2016-01-01" terminal="2016-03-01" step="1 month"/>
+      </local-variable>
+    </instance-settling>
+    <system-under-test>
+      <resultSet file="~..\csv\MyData_{@firstDayOfMonth:yyyy}_{@firstDayOfMonth:MM}.csv"/>
+    </system-under-test>
+    <assert>
+      <no-rows>
+        <predicate name="#0">
+          <null/>
+        </predicate>
+      </no-rows>
+    </assert>
+  </test>
+  <test name="Instances are defined through a single variable and a duration step with a native transformation" uid="0003">
+    <instance-settling>
+      <local-variable name="firstDayOfMonth" type="dateTime">
+        <loop-sentinel seed="2016-02-01" terminal="2016-04-01" step="1 month"/>
+      </local-variable>
+    </instance-settling>
+    <system-under-test>
+      <resultSet file="~..\csv\MyData_{@firstDayOfMonth:yyyy}_{@firstDayOfMonth|dateTime-to-previous-month:MM}.csv"/>
+    </system-under-test>
+    <assert>
+      <no-rows>
+        <predicate name="#0">
+          <null/>
+        </predicate>
+      </no-rows>
+    </assert>
+  </test>
+  <test name="Instances are defined through a single variable with a dynamic evaluation of terminal" uid="0004">
+    <instance-settling>
+      <local-variable name="firstDayOfMonth" type="dateTime">
+        <loop-sentinel seed="2016-01-01" terminal="@firstDayOfCurrentMonth" step="1 month"/>
+      </local-variable>
+    </instance-settling>
+    <system-under-test>
+      <resultSet file="~..\csv\MyData_{@firstDayOfMonth:yyyy}_{@firstDayOfMonth:MM}.csv"/>
+    </system-under-test>
+    <assert>
+      <no-rows>
+        <predicate name="#0">
+          <null/>
+        </predicate>
+      </no-rows>
+    </assert>
+  </test>
+  <test name="Instances are defined through a single variable and a duration step but a native function is used" uid="0005">
+    <instance-settling>
+      <local-variable name="firstDayOfMonth" type="dateTime">
+        <loop-sentinel seed="2016-01-07 | dateTime-to-first-of-month" terminal="2016-03-01" step="1 month"/>
+      </local-variable>
+    </instance-settling>
+    <system-under-test>
+      <resultSet file="~..\csv\MyData_{@firstDayOfMonth:yyyy}_{@firstDayOfMonth:MM}.csv"/>
+    </system-under-test>
+    <assert>
+      <no-rows>
+        <predicate name="#0">
+          <null/>
+        </predicate>
+      </no-rows>
+    </assert>
+  </test>
+  <test name="Instances are defined through a single variable and a duration step but a native function is used" uid="0006">
+    <instance-settling>
+      <local-variable name="magicDate" type="dateTime">
+        <loop-sentinel seed="2016-01-31 22:00:00" terminal="2016-01-07 | dateTime-to-last-of-month | dateTime-to-next-day" step="01:00:00" interval="half-open"/>
+      </local-variable>
+    </instance-settling>
+    <system-under-test>
+      <result-set>
+        <file>
+          <path>~..\csv\MyData_{@magicDate:yyyy}_{@magicDate:MM}.csv</path>
+        </file>
+      </result-set>
+    </system-under-test>
+    <assert>
+      <no-rows>
+        <predicate name="#0">
+          <null/>
+        </predicate>
+      </no-rows>
+    </assert>
+  </test>
+  <test name="~Instance also defines the test's name and categories and traits for {@firstDayOfMonth:MMMM}" uid="0010">
+    <instance-settling>
+      <local-variable name="firstDayOfMonth" type="dateTime">
+        <loop-sentinel seed="2016-01-01" terminal="2016-03-01" step="1 month"/>
+      </local-variable>
+      <category>~{@firstDayOfMonth:MMMM}</category>
+      <trait name="Year">~{@firstDayOfMonth:yyyy}</trait>
+      <trait name="Month">~{@firstDayOfMonth:yyyy}</trait>
+      <trait name="Date">@firstDayOfMonth</trait>
+    </instance-settling>
+    <system-under-test>
+      <resultSet file="~..\csv\MyData_{@firstDayOfMonth:yyyy}_{@firstDayOfMonth:MM}.csv"/>
+    </system-under-test>
+    <assert>
+      <no-rows>
+        <predicate name="#0">
+          <null/>
+        </predicate>
+      </no-rows>
+    </assert>
+  </test>
+  <test name="Instances are defined through a single variable based on a predefined list of text" uid="0020">
+    <instance-settling>
+      <local-variable name="department" type="text">
+        <item>Production</item>
+        <item>Sales</item>
+      </local-variable>
+    </instance-settling>
+    <system-under-test>
+      <result-set>
+        <query>
+          <parameter name="@dept">@department</parameter>
+          select
+          NationalIdNumber, h.[DepartmentID]as DepartmentID, d.Name as DepartmentName
+          from
+          [HumanResources].[Employee] e
+          inner join [HumanResources].[EmployeeDepartmentHistory]
+          h on e.BusinessEntityId = h.BusinessEntityId
+          inner join [HumanResources].[Department] d on
+          h.DepartmentId = d.DepartmentId
+          where d.Name=@dept;
+        </query>
+      </result-set>
+    </system-under-test>
+    <assert>
+      <row-count>
+        <more-than>10</more-than>
+      </row-count>
+    </assert>
+  </test>
+  <test name="Instances are defined through a single variable based on a predefined list of dateTime" uid="0021">
+    <instance-settling>
+      <local-variable name="firstDayOfMonth" type="dateTime">
+        <item>2016-01-01</item>
+        <item>2016-02-01</item>
+      </local-variable>
+    </instance-settling>
+    <system-under-test>
+      <resultSet file="~..\csv\MyData_{@firstDayOfMonth:yyyy}_{@firstDayOfMonth:MM}.csv"/>
+    </system-under-test>
+    <assert>
+      <no-rows>
+        <predicate name="#0">
+          <null/>
+        </predicate>
+      </no-rows>
+    </assert>
+  </test>
+  <test name="Instances variables are consummed in the setup/cleanup" uid="0030">
+    <instance-settling>
+      <local-variable name="firstDayOfMonth" type="dateTime">
+        <item>2016-01-01</item>
+        <item>2016-02-01</item>
+      </local-variable>
+    </instance-settling>
+    <setup>
+      <file-delete-pattern path="temp files\" pattern="data-*.txt"/>
+      <exe-run path="." name="create-file.cmd" arguments="~&quot;Acceptance\Resources\Positive\temp files&quot; &quot;data-{@firstDayOfMonth:yyMM}.txt&quot; {@firstDayOfMonth:yyyy-MM-dd}" timeout-milliseconds="1000"/>
+    </setup>
+    <system-under-test>
+      <resultSet file="~temp files\data-{@firstDayOfMonth:yyMM}.txt"/>
+    </system-under-test>
+    <assert>
+      <all-rows>
+        <predicate name="#0" type="dateTime">
+          <within-range>[2016-01-01;2016-02-01]</within-range>
+        </predicate>
+      </all-rows>
+    </assert>
+  </test>
+  <!--<test name="Instances are defined through multiple variables" uid="0010">
+    <instances>
+      <combination>
+        <local-variable name="firstDayOfMonth" type="dateTime">
+          <loop-sentinel seed="2016-01-01" terminal="2016-12-01" step="1 month"/>
+        </local-variable>
+        <local-variable name="area">
+          <items>
+            <item>BE</item>
+            <item>FR</item>
+            <item>NL</item>
+          </items>
+        </local-variable>
+      </combination>
+    </instances>
+    <system-under-test>
+      <resultSet file="~{@area}_{@firstDayOfMonth:yyyy}_{@firstDayOfMonth:MM}.csv"/>
+    </system-under-test>
+    <assert>
+      <none-rows>
+        <predicate name="#1">
+          <null/>
+        </predicate>
+      </none-rows>
+    </assert>
+  </test>-->
+  <test name="Instances are defined through a single variable based on a list of files" uid="0050">
+    <instance-settling>
+      <local-variable name="file" type="text">
+        <loop-file path="..\csv\" pattern="MyData*.csv"/>
+      </local-variable>
+    </instance-settling>
+    <system-under-test>
+      <resultSet file="~..\csv\{@file}"/>
+    </system-under-test>
+    <assert>
+      <no-rows>
+        <predicate name="#0">
+          <null/>
+        </predicate>
+      </no-rows>
+    </assert>
+  </test>
+</testSuite>

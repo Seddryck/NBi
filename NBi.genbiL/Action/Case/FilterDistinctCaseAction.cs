@@ -1,28 +1,39 @@
-﻿using System;
+﻿using NBi.GenbiL.Stateful;
+using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 
 namespace NBi.GenbiL.Action.Case
 {
-    class FilterDistinctCaseAction: ICaseAction
+    public class FilterDistinctCaseAction: ISingleCaseAction
     {
 
         public FilterDistinctCaseAction()
-        {
-        }
+        { }
 
-        public void Execute(GenerationState state)
-        {
-            state.TestCaseCollection.Scope.FilterDistinct();
-        }
+        public void Execute(GenerationState state) => Execute(state.CaseCollection.CurrentScope);
 
-        public virtual string Display
+        public void Execute(CaseSet testCases)
         {
-            get
+            DataTableReader dataReader = null;
+
+            var content = testCases.Content;
+            var distinctRows = content.AsEnumerable().Distinct(DataRowComparer.Default);
+
+            if (distinctRows.Count() > 0)
             {
-                return string.Format("Filtering distinct cases.");
+                var distinctTable = distinctRows.CopyToDataTable();
+                dataReader = distinctTable.CreateDataReader();
             }
+            content.Clear();
+
+            if (dataReader != null)
+                content.Load(dataReader, LoadOption.PreserveChanges);
+            content.AcceptChanges();
         }
+
+        public virtual string Display { get => $"Filtering distinct cases."; }
     }
 }

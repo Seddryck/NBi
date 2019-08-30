@@ -19,17 +19,21 @@ namespace NBi.Core.ResultSet
                 var positionString = identifier.Substring(1);
                 if (int.TryParse(positionString, out var position))
                     if (position>=0)
-                        return new ColumnPositionIdentifier(position);
+                        return new ColumnOrdinalIdentifier(position);
                 throw new ArgumentException($"The column identification '{positionString}' is starting by a '#' implying that it's a position but the position is not a numeric value or not a positive value or not an integer value.");
             }
-            else if(identifier.StartsWith("&"))
-            {
-                var positionString = identifier.Substring(1);
-                return new ColumnDynamicIdentifier(positionString, (int i) => i + 1);
-            }
+            //else if(identifier.StartsWith("&"))
+            //{
+            //    var positionString = identifier.Substring(1);
+            //    return new ColumnDynamicIdentifier(positionString, (int i) => i + 1);
+            //}
             else
             {
-                if (identifier.StartsWith("[") && identifier.EndsWith("]"))
+                if (identifier.StartsWith("[[") && identifier.EndsWith("]]") && identifier.Contains("].[") )
+                    return new ColumnNameIdentifier(identifier.Substring(1, identifier.Length - 2));
+                else if (identifier.StartsWith("[") && identifier.EndsWith("]") && identifier.Contains("].["))
+                        return new ColumnNameIdentifier(identifier);
+                else if (identifier.StartsWith("[") && identifier.EndsWith("]"))
                     return new ColumnNameIdentifier(identifier.Substring(1, identifier.Length - 2));
                 else
                     return new ColumnNameIdentifier(identifier);

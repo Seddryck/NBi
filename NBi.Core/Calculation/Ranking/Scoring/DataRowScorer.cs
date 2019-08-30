@@ -27,9 +27,9 @@ namespace NBi.Core.Calculation.Ranking.Scoring
 
         protected object GetValueFromRow(DataRow row, IColumnIdentifier identifier)
         {
-            if (identifier is ColumnPositionIdentifier)
+            if (identifier is ColumnOrdinalIdentifier)
             {
-                var ordinal = (identifier as ColumnPositionIdentifier).Position;
+                var ordinal = (identifier as ColumnOrdinalIdentifier).Ordinal;
                 if (ordinal <= row.Table.Columns.Count)
                     return row.ItemArray[ordinal];
                 else

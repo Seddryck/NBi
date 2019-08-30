@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NBi.Core.Scalar.Resolver;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,7 +11,7 @@ namespace NBi.Core.Calculation.Predicate
     {
         public StringComparison StringComparison { get; private set; }
 
-        public AbstractTextPredicate(bool not, object reference, StringComparison stringComparison) 
+        public AbstractTextPredicate(bool not, IResolver reference, StringComparison stringComparison) 
             : base(not, reference)
         {
             this.StringComparison = stringComparison;

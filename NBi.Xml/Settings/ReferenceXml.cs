@@ -1,6 +1,7 @@
 ﻿using System.Xml.Serialization;
 using NBi.Xml.Items.Format;
 using NBi.Xml.Items;
+using System;
 
 namespace NBi.Xml.Settings
 {
@@ -9,8 +10,25 @@ namespace NBi.Xml.Settings
         [XmlAttribute("name")]
         public string Name { get; set; }
 
-        [XmlElement("connectionString")]
-        public string ConnectionString { get; set; }
+        [XmlElement("connection-string")]
+        public ConnectionStringXml ConnectionString { get; set; }
+
+
+        [Obsolete("Replaced by connection-string")]
+        [XmlIgnore]
+        public ConnectionStringXml ConnectionStringOld
+        {
+            get => ConnectionString;
+            set { ConnectionString = value; }
+        }
+
+
+        [XmlIgnore]
+        public bool ConnectionStringSpecified
+        {
+            get { return !string.IsNullOrEmpty(ConnectionString.Inline) || ConnectionString.Environment != null; }
+            set { return; }
+        }
 
         [XmlElement("regex")]
         public string Regex { get; set; }
@@ -26,6 +44,11 @@ namespace NBi.Xml.Settings
 
         [XmlElement("etl")]
         public EtlBaseXml Etl { get; set; }
+
+        public ReferenceXml()
+        {
+            ConnectionString = new ConnectionStringXml();
+        }
 
     }
 }

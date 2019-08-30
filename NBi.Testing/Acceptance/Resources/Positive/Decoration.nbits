@@ -23,7 +23,7 @@
 				/>
       </tasks>
     </setup>
-    <test name="decoration with setup and cleanup">
+    <test name="decoration with condition service-running">
       <condition>
         <service-running name="MSSQL$SQL2017"/>
       </condition>
@@ -63,7 +63,7 @@
         <table-reset name="Users"/>
       </cleanup>
     </test>
-    <test name="decoration with setup and cleanup">
+    <test name="decoration with condition service-running">
       <condition>
         <service-running name="MSSQL$SQL2017"/>
       </condition>
@@ -85,6 +85,71 @@
             </row>
           </resultSet>
         </equalTo>
+      </assert>
+    </test>
+  </group>
+  <group name="Custom">
+    <test name="decoration with custom condition (valid)">
+      <condition>
+        <custom assembly-path="NBi.Testing.dll" type="CustomConditionTrue"/>
+      </condition>
+      <system-under-test>
+        <result-set>
+          <row>
+            <cell>OK</cell>
+          </row>
+        </result-set>
+      </system-under-test>
+      <assert>
+        <equal-to>
+          <resultSet>
+            <row>
+              <cell>OK</cell>
+            </row>
+          </resultSet>
+        </equal-to>
+      </assert>
+    </test>
+    <test name="decoration with custom condition (not succesful)">
+      <condition>
+        <custom assembly-path="NBi.Testing.dll" type="CustomConditionFalse"/>
+      </condition>
+      <system-under-test>
+        <result-set>
+          <row>
+            <cell>OK</cell>
+          </row>
+        </result-set>
+      </system-under-test>
+      <assert>
+        <equal-to>
+          <resultSet>
+            <row>
+              <cell>OK</cell>
+            </row>
+          </resultSet>
+        </equal-to>
+      </assert>
+    </test>
+    <test name="decoration with custom command">
+      <setup>
+        <custom assembly-path="NBi.Testing.dll" type="CustomCommand"/>
+      </setup>
+      <system-under-test>
+        <result-set>
+          <row>
+            <cell>OK</cell>
+          </row>
+        </result-set>
+      </system-under-test>
+      <assert>
+        <equal-to>
+          <resultSet>
+            <row>
+              <cell>OK</cell>
+            </row>
+          </resultSet>
+        </equal-to>
       </assert>
     </test>
   </group>

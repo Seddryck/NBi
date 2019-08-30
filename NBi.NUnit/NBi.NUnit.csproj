@@ -46,11 +46,20 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Dynamitey, Version=2.0.9.136, Culture=neutral, PublicKeyToken=cbf53ea3aeb972c6, processorArchitecture=MSIL">
+      <HintPath>..\packages\Dynamitey.2.0.9.136\lib\net40\Dynamitey.dll</HintPath>
+    </Reference>
+    <Reference Include="ImpromptuInterface, Version=7.0.1.0, Culture=neutral, PublicKeyToken=0b1781c923b2975b, processorArchitecture=MSIL">
+      <HintPath>..\packages\ImpromptuInterface.7.0.1\lib\net40\ImpromptuInterface.dll</HintPath>
+    </Reference>
     <Reference Include="nunit.framework, Version=2.6.4.14350, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
       <HintPath>..\packages\NUnit.2.6.4\lib\nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net461\System.ValueTuple.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -61,6 +70,7 @@
     <Compile Include="..\AssemblyInfo.cs">
       <Link>Properties\AssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="Builder\AbstractScalarBuilder.cs" />
     <Compile Include="Builder\AbstractResultSetBuilder.cs" />
     <Compile Include="Builder\AbstractMembersBuilder.cs" />
     <Compile Include="Builder\AbstractDataTypeBuilder.cs" />
@@ -68,13 +78,23 @@
     <Compile Include="Builder\AbstractExecutionBuilder.cs" />
     <Compile Include="Builder\AbstractStructureBuilder.cs" />
     <Compile Include="Builder\AbstractExecutionNonQueryBuilder.cs" />
+    <Compile Include="Builder\Helper\ConnectionStringHelper.cs" />
+    <Compile Include="Builder\Helper\SetupHelper.cs" />
+    <Compile Include="Builder\Helper\ConditionHelper.cs" />
+    <Compile Include="Builder\Helper\InstanceArgsBuilder.cs" />
+    <Compile Include="Builder\Helper\PredicateArgsBuilder.cs" />
+    <Compile Include="Builder\Helper\SequenceResolverArgsBuilder.cs" />
+    <Compile Include="Builder\Helper\ScalarHelper.cs" />
     <Compile Include="Builder\Helper\ResultSetSystemHelper.cs" />
     <Compile Include="Builder\Helper\ScalarResolverArgsBuilder.cs" />
     <Compile Include="Builder\Helper\ResultSetResolverArgsBuilder.cs" />
     <Compile Include="Builder\Helper\QueryResolverArgsBuilder.cs" />
+    <Compile Include="Builder\ResultSetLookupMatchesBuilder.cs" />
+    <Compile Include="Builder\IntersectionOfBuilder.cs" />
+    <Compile Include="Builder\ScalarScoreBuilder.cs" />
     <Compile Include="Builder\ResultSetSingleRowBuilder.cs" />
     <Compile Include="Builder\ResultSetSomeRowsBuilder.cs" />
-    <Compile Include="Builder\ResultSetReferenceExistsBuilder.cs" />
+    <Compile Include="Builder\ResultSetLookupExistsBuilder.cs" />
     <Compile Include="Builder\ResultSetUniqueRowsBuilder.cs" />
     <Compile Include="Builder\ResultSetSubsetOfBuilder.cs" />
     <Compile Include="Builder\ResultSetSupersetOfBuilder.cs" />
@@ -111,7 +131,10 @@
     <Compile Include="Query\SingleRowConstraint.cs" />
     <Compile Include="Query\SomeRowsConstraint.cs" />
     <Compile Include="ResultSetComparison\BaseResultSetComparisonConstraint.cs" />
-    <Compile Include="ResultSetComparison\ReferenceExistsConstraint.cs" />
+    <Compile Include="ResultSetComparison\LookupMatchesConstraint.cs" />
+    <Compile Include="ResultSetComparison\LookupReverseExistsConstraint.cs" />
+    <Compile Include="ResultSetComparison\LookupExistsConstraint.cs" />
+    <Compile Include="ResultSetComparison\IntersectionOfConstraint.cs" />
     <Compile Include="ResultSetComparison\UniqueRowsConstraint.cs" />
     <Compile Include="ResultSetComparison\SubsetOfConstraint.cs" />
     <Compile Include="Query\NoRowsConstraint.cs" />
@@ -129,6 +152,7 @@
     <Compile Include="Query\EvaluateRowsConstraint.cs" />
     <Compile Include="Query\MatchPatternConstraint.cs" />
     <Compile Include="ResultSetComparison\SupersetOfConstraint.cs" />
+    <Compile Include="Scoring\ScoreConstraint.cs" />
     <Compile Include="Structure\AbstractCollectionConstraint.cs" />
     <Compile Include="Structure\AbstractStructureConstraint.cs" />
     <Compile Include="Structure\EquivalentToConstraint.cs" />
@@ -169,6 +193,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

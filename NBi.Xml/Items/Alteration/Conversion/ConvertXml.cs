@@ -7,7 +7,7 @@ using System.Xml.Serialization;
 
 namespace NBi.Xml.Items.Alteration.Conversion
 {
-    public class ConvertXml
+    public class ConvertXml : AlterationXml
     {
         [XmlAttribute("column")]
         public string Column { get; set; }

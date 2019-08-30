@@ -14,10 +14,10 @@ namespace NBi.Core.ResultSet
 
         protected override bool IsKey(string name)
         {
-            if (ColumnsDef.Any(c => c.Name == name && c.Role != ColumnRole.Key))
+            if (ColumnsDef.Any(c => (c.Identifier as ColumnNameIdentifier)?.Name == name && c.Role != ColumnRole.Key))
                 return false;
 
-            if (ColumnsDef.Any(c => c.Name == name && c.Role == ColumnRole.Key))
+            if (ColumnsDef.Any(c => (c.Identifier as ColumnNameIdentifier)?.Name == name && c.Role == ColumnRole.Key))
                 return true;
 
             if (KeyNames.Contains(name))
@@ -34,10 +34,10 @@ namespace NBi.Core.ResultSet
         
         protected override bool IsValue(string name)
         {
-            if (ColumnsDef.Any(c => c.Name == name && c.Role != ColumnRole.Value))
+            if (ColumnsDef.Any(c => (c.Identifier as ColumnNameIdentifier)?.Name == name && c.Role != ColumnRole.Value))
                 return false;
 
-            if (ColumnsDef.Any(c => c.Name == name && c.Role == ColumnRole.Value))
+            if (ColumnsDef.Any(c => (c.Identifier as ColumnNameIdentifier)?.Name == name && c.Role == ColumnRole.Value))
                 return true;
 
             if (KeyNames.Contains(name))
@@ -55,7 +55,7 @@ namespace NBi.Core.ResultSet
         public override bool IsRounding(string name)
         {
             return ColumnsDef.Any(
-                    c => c.Name == name
+                    c => (c.Identifier as ColumnNameIdentifier)?.Name == name
                     && c.Role == ColumnRole.Value
                     && c.RoundingStyle != Rounding.RoundingStyle.None
                     && !string.IsNullOrEmpty(c.RoundingStep));
@@ -67,7 +67,7 @@ namespace NBi.Core.ResultSet
                 return null;
 
             return RoundingFactory.Build(ColumnsDef.Single(
-                    c => c.Name == name
+                    c => (c.Identifier as ColumnNameIdentifier)?.Name == name
                     && c.Role == ColumnRole.Value));
         }
         
@@ -104,10 +104,10 @@ namespace NBi.Core.ResultSet
         
         protected override bool IsType(string name, ColumnType type)
         {
-            if (ColumnsDef.Any(c => c.Name == name && c.Type != type))
+            if (ColumnsDef.Any(c => (c.Identifier as ColumnNameIdentifier)?.Name == name && c.Type != type))
                 return false;
 
-            if (ColumnsDef.Any(c => c.Name == name && c.Type == type))
+            if (ColumnsDef.Any(c => (c.Identifier as ColumnNameIdentifier)?.Name == name && c.Type == type))
                 return true;
 
             if (IsKey(name))
@@ -121,7 +121,7 @@ namespace NBi.Core.ResultSet
             if (GetColumnType(name) != ColumnType.Numeric && GetColumnType(name) != ColumnType.DateTime)
                 return null;
 
-            var col = ColumnsDef.FirstOrDefault(c => c.Name == name);
+            var col = ColumnsDef.FirstOrDefault(c => (c.Identifier as ColumnNameIdentifier)?.Name == name);
             if (col == null || !col.IsToleranceSpecified)
             {
                 if (IsNumeric(name))
@@ -130,7 +130,7 @@ namespace NBi.Core.ResultSet
                     return DateTimeTolerance.None;
             }
 
-            return ToleranceFactory.Instantiate(col);
+            return new ToleranceFactory().Instantiate(col);
         }
         
 
@@ -169,14 +169,14 @@ namespace NBi.Core.ResultSet
         public IEnumerable<string> GetKeyNames()
         {
             var result = new List<string>(KeyNames);
-            result.AddRange(ColumnsDef.Where(c => c.Role==ColumnRole.Key).Select(c => c.Name));
+            result.AddRange(ColumnsDef.Where(c => c.Role==ColumnRole.Key).Select(c => (c.Identifier as ColumnNameIdentifier).Name));
             return result.Distinct().OrderBy(x => x);
         }
 
         public IEnumerable<string> GetValueNames()
         {
             var result = new List<string>(ValueNames);
-            result.AddRange(ColumnsDef.Where(c => c.Role == ColumnRole.Value).Select(c => c.Name));
+            result.AddRange(ColumnsDef.Where(c => c.Role == ColumnRole.Value).Select(c => (c.Identifier as ColumnNameIdentifier).Name));
             return result.Distinct();
         }
 

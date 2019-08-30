@@ -6,8 +6,11 @@ using System.Threading.Tasks;
 
 namespace NBi.Core.Scalar.Resolver
 {
-    public interface IScalarResolver<T>
+    public interface IScalarResolver : IResolver
+    { }
+
+    public interface IScalarResolver<T> : IScalarResolver
     {
-        T Execute();
+        new T Execute();
     }
 }

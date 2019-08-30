@@ -18,8 +18,14 @@
     <variable name="var1">
       <query-scalar>select 1963</query-scalar>
     </variable>
+    <variable name="CY2007">
+      <script language="c-sharp">"CY 2007"</script>
+    </variable>
+    <variable name="year">
+      <script language="c-sharp">new DateTime(2006, 1, 1)</script>
+    </variable>
   </variables>
-  <!--<group name="asserts">
+  <group name="asserts">
     <test name="Csv equal to embedded result-set" uid="0001">
       <system-under-test>
         <resultSet file="..\Csv\ResellerOrderCountByYearBefore2006.csv"/>
@@ -47,7 +53,26 @@
         </equalTo>
       </assert>
     </test>
-    <test name="all are less than 10000" uid="0002">
+    <test name="Csv equivalent to embedded result-set" uid="0002">
+      <system-under-test>
+        <resultSet file="..\Csv\ResellerOrderCountByYearBefore2006.csv"/>
+      </system-under-test>
+      <assert>
+        <intersection-of>
+          <resultSet>
+            <row>
+              <cell>CY 2008</cell>
+              <cell>894</cell>
+            </row>
+            <row>
+              <cell>CY 2009</cell>
+              <cell>1800</cell>
+            </row>
+          </resultSet>
+        </intersection-of>
+      </assert>
+    </test>
+    <test name="all are less than 10000" uid="0020">
       <system-under-test>
         <resultSet file="..\Csv\ResellerOrderCountByYearBefore2006.csv"/>
       </system-under-test>
@@ -59,7 +84,7 @@
         </all-rows>
       </assert>
     </test>
-    <test name="none are more than 10000" uid="0003">
+    <test name="none are more than 10000" uid="0030">
       <system-under-test>
         <resultSet file="..\Csv\ResellerOrderCountByYearBefore2006.csv"/>
       </system-under-test>
@@ -71,7 +96,7 @@
         </no-rows>
       </assert>
     </test>
-    <test name="some are less than 1000" uid="0004">
+    <test name="some are less than 1000" uid="0040">
       <system-under-test>
         <resultSet file="..\Csv\ResellerOrderCountByYearBefore2006.csv"/>
       </system-under-test>
@@ -83,7 +108,7 @@
         </some-rows>
       </assert>
     </test>
-    <test name="single is more than 1500" uid="0005">
+    <test name="single is more than 1500" uid="0050">
       <system-under-test>
         <resultSet file="..\Csv\ResellerOrderCountByYearBefore2006.csv"/>
       </system-under-test>
@@ -95,7 +120,7 @@
         </single-row>
       </assert>
     </test>
-    <test name="'rows are unique" uid="0006">
+    <test name="'rows are unique" uid="0060">
       <system-under-test>
         <resultSet file="..\Csv\ResellerOrderCountByYearBefore2006.csv"/>
       </system-under-test>
@@ -118,25 +143,148 @@
         <resultSet file="..\Csv\Orders.csv"/>
       </system-under-test>
       <assert>
-        <reference-exists>
-          <column-mapping child="#2" parent="#0" type="text"/>
-          <resultSet>
-            <query connectionString="@ref1">select 'CUST0001' union all select 'CUST0002' union all select 'CUST0003'</query>
-          </resultSet>
-        </reference-exists>
+        <lookup-exists>
+          <join>
+            <mapping candidate="#2" reference="#0" type="text"/>
+          </join>
+          <result-set>
+            <query connection-string="@ref1">select 'CUST0001' union all select 'CUST0002' union all select 'CUST0003'</query>
+          </result-set>
+        </lookup-exists>
       </assert>
     </test>
-    <test name="references exist" uid="00081">
+    <test name="lookup-exist" uid="00081">
+      <system-under-test>
+        <result-set file="..\Csv\Orders.csv"/>
+      </system-under-test>
+      <assert>
+        <lookup-exists>
+          <join>
+            <mapping candidate="#2" reference="#0" type="text"/>
+          </join>
+          <resultSet>
+            <query>select 'CUST0001' union all select 'CUST0002' union all select 'CUST0003'</query>
+          </resultSet>
+        </lookup-exists>
+      </assert>
+    </test>
+    <test name="lookup-exist with using" uid="00082">
       <system-under-test>
         <resultSet file="..\Csv\Orders.csv"/>
       </system-under-test>
       <assert>
-        <reference-exists>
-          <column-mapping child="#2" parent="#0" type="text"/>
+        <lookup-exists>
+          <join>
+            <using type="text">#2</using>
+          </join>
           <resultSet>
-            <query>select 'CUST0001' union all select 'CUST0002' union all select 'CUST0003'</query>
+            <query>select 'Foo', 'A', 'CUST0001' union all select 'Foo', 'A', 'CUST0002' union all select 'Bar', 'B', 'CUST0003'</query>
           </resultSet>
-        </reference-exists>
+        </lookup-exists>
+      </assert>
+    </test>
+    <test name="lookup-exist reversed" uid="00081">
+      <system-under-test>
+        <result-set>
+          <query>select 'CUST0001' union all select 'CUST0002' union all select 'CUST0003' union all select 'NOT EXISTING'</query>
+        </result-set>
+      </system-under-test>
+      <assert>
+        <lookup-exists reverse="true">
+          <join>
+            <mapping candidate="#2" reference="#0" type="text"/>
+          </join>
+          <result-set file="..\Csv\Orders.csv"/>
+        </lookup-exists>
+      </assert>
+    </test>
+    <test name="lookup-matches" uid="00091">
+      <system-under-test>
+        <result-set>
+          <query>
+            select
+            NationalIdNumber,
+            h.[DepartmentID]as DepartmentID,
+            d.Name as DepartmentName
+            from
+            [HumanResources].[Employee] e
+            inner join [HumanResources].[EmployeeDepartmentHistory]
+            h on e.BusinessEntityId = h.BusinessEntityId
+            inner join [HumanResources].[Department] d on
+            h.DepartmentId = d.DepartmentId
+          </query>
+        </result-set>
+      </system-under-test>
+      <assert>
+        <lookup-matches>
+          <join>
+            <mapping candidate="DepartmentID" reference="Id" type="numeric"/>
+          </join>
+          <inclusion>
+            <mapping candidate="DepartmentName" reference="Name" type="text"/>
+          </inclusion>
+          <result-set>
+            <query>
+              select [DepartmentID] as Id, [Name] from [HumanResources].[Department]
+            </query>
+          </result-set>
+        </lookup-matches>
+      </assert>
+    </test>
+    <test name="lookup-matches with tolerances" uid="00092">
+      <system-under-test>
+        <result-set>
+          <query>
+            select
+            NationalIdNumber,
+            h.[DepartmentID]as DepartmentID,
+            d.Name as DepartmentName
+            from
+            [HumanResources].[Employee] e
+            inner join [HumanResources].[EmployeeDepartmentHistory]
+            h on e.BusinessEntityId = h.BusinessEntityId
+            inner join [HumanResources].[Department] d on
+            h.DepartmentId = d.DepartmentId
+          </query>
+        </result-set>
+      </system-under-test>
+      <assert>
+        <lookup-matches>
+          <join>
+            <mapping candidate="DepartmentID" reference="Id" type="numeric"/>
+          </join>
+          <inclusion>
+            <mapping candidate="DepartmentName" reference="LowerName" type="text" tolerance="ignore-case"/>
+          </inclusion>
+          <result-set>
+            <query>
+              select [DepartmentID] as Id, Lower([Name]) as LowerName from [HumanResources].[Department]
+            </query>
+          </result-set>
+        </lookup-matches>
+      </assert>
+    </test>
+    <test name="Equality with new result-set" uid="00092">
+      <system-under-test>
+        <result-set>
+          <row>
+            <cell>A</cell>
+            <cell>110</cell>
+          </row>
+          <row>
+            <cell>B</cell>
+            <cell>120</cell>
+          </row>
+        </result-set>
+      </system-under-test>
+      <assert>
+        <equal-to>
+          <result-set>
+            <query>
+              select 'A', 110 union all select 'B', 120
+            </query>
+          </result-set>
+        </equal-to>
       </assert>
     </test>
   </group>
@@ -174,7 +322,32 @@
         <unique-rows/>
       </assert>
     </test>
-    <test name="Embedded query" uid="0103">
+    <test name="External result-set defined with variable formatting" uid="0103">
+      <system-under-test>
+        <resultSet file="~..\Csv\ResellerOrderCountByYearBefore{@year:yyyy}.csv"/>
+      </system-under-test>
+      <assert>
+        <unique-rows/>
+      </assert>
+    </test>
+    <test name="External result-set with if-missing" uid="0103">
+      <system-under-test>
+        <result-set>
+          <file>
+            <path>~..\Csv\ResellerOrderCountByYearBefore{@year:yy}.csv</path>
+            <if-missing>
+              <file>
+                <path>..\Csv\ResellerOrderCountByYearBefore2006.csv</path>
+              </file>
+            </if-missing>
+          </file>
+        </result-set>
+      </system-under-test>
+      <assert>
+        <unique-rows/>
+      </assert>
+    </test>
+    <test name="Embedded query" uid="0104">
       <system-under-test>
         <resultSet>
           <query>
@@ -194,7 +367,7 @@
         </all-rows>
       </assert>
     </test>
-    <test name="External query" uid="0104">
+    <test name="External query" uid="0105">
       <system-under-test>
         <resultSet>
           <query file="..\Query\ResellerOrderCount.sql">
@@ -210,7 +383,7 @@
         </all-rows>
       </assert>
     </test>
-    <test name="Query from assembly" uid="0105">
+    <!--<test name="Query from assembly" uid="0106">
       <system-under-test>
         <resultSet>
           <query>
@@ -225,8 +398,8 @@
           <resultSet file="..\Csv\ResellerOrderCountByYearBefore2006.csv"/>
         </equalTo>
       </assert>
-    </test>
-    <test name="Query from report" uid="0106">
+    </test>-->
+    <test name="Query from report" uid="0107">
       <condition>
         <service-running name="MSSQL$SQL2017"/>
       </condition>
@@ -247,7 +420,7 @@
         </equalTo>
       </assert>
     </test>
-    <test name="Query with variable" uid="0107">
+    <test name="Query with variable" uid="0108">
       <system-under-test>
         <resultSet>
           <query>
@@ -275,9 +448,56 @@
         </equalTo>
       </assert>
     </test>
-  </group>-->
+    <test name="Result-set is the cartesian product of two sequences" uid="0130">
+      <system-under-test>
+        <result-set>
+          <sequences-combination operation="cartesian-product">
+            <sequence type="text">
+              <item>be</item>
+              <item>fr</item>
+            </sequence>
+            <sequence type="dateTime">
+              <loop-sentinel seed="2015-01-01" terminal="2017-01-01" step="1 year"/>
+            </sequence>
+          </sequences-combination>
+        </result-set>
+      </system-under-test>
+      <assert>
+        <equal-to>
+          <column index="0" role="key" type="text"/>
+          <column index="1" role="key" type="dateTime"/>
+          <resultSet>
+            <row>
+              <cell>be</cell>
+              <cell>2015-01-01</cell>
+            </row>
+            <row>
+              <cell>fr</cell>
+              <cell>2015-01-01</cell>
+            </row>
+            <row>
+              <cell>be</cell>
+              <cell>2016-01-01</cell>
+            </row>
+            <row>
+              <cell>fr</cell>
+              <cell>2016-01-01</cell>
+            </row>
+            <row>
+              <cell>be</cell>
+              <cell>2017-01-01</cell>
+            </row>
+            <row>
+              <cell>fr</cell>
+              <cell>2017-01-01</cell>
+            </row>
+          </resultSet>
+        </equal-to>
+      </assert>
+    </test>
+  </group>
   <group name="alterations">
-    <!--<test name="Filter with one predicate" uid="0201">
+    <test name="Filter with one predicate" uid="0201">
       <system-under-test>
         <resultSet file="..\Csv\ResellerOrderCountByYearBefore2006.csv">
           <alteration>
@@ -340,7 +560,90 @@
         </equalTo>
       </assert>
     </test>
-    <test name="Filter with one predicate" uid="0211">
+    <test name="Filter with one predicate (but in a combination)" uid="0203">
+      <system-under-test>
+        <resultSet file="..\Csv\ResellerOrderCountByYearBefore2006.csv">
+          <alteration>
+            <filter>
+              <combination operator="or">
+                <predicate name="#0" type="text">
+                  <less-than>CY 2007</less-than>
+                </predicate>
+              </combination>
+            </filter>
+          </alteration>
+        </resultSet>
+      </system-under-test>
+      <assert>
+        <equalTo>
+          <resultSet>
+            <row>
+              <cell>CY 2005</cell>
+              <cell>366</cell>
+            </row>
+            <row>
+              <cell>CY 2006</cell>
+              <cell>1015</cell>
+            </row>
+          </resultSet>
+        </equalTo>
+      </assert>
+    </test>
+    <test name="Filter with one predicate and a reference variable" uid="0204">
+      <system-under-test>
+        <resultSet file="..\Csv\ResellerOrderCountByYearBefore2006.csv">
+          <alteration>
+            <filter>
+              <predicate name="#0" type="text">
+                <less-than>@CY2007</less-than>
+              </predicate>
+            </filter>
+          </alteration>
+        </resultSet>
+      </system-under-test>
+      <assert>
+        <equalTo>
+          <resultSet>
+            <row>
+              <cell>CY 2005</cell>
+              <cell>366</cell>
+            </row>
+            <row>
+              <cell>CY 2006</cell>
+              <cell>1015</cell>
+            </row>
+          </resultSet>
+        </equalTo>
+      </assert>
+    </test>
+    <test name="Filter with one predicate having the reference defined as a native transformation applied to a variable" uid="0205">
+      <system-under-test>
+        <resultSet file="..\Csv\ResellerOrderCountByYearBefore2006.csv">
+          <alteration>
+            <filter>
+              <predicate name="#0" type="text">
+                <less-than>@CY2007 | text-to-upper</less-than>
+              </predicate>
+            </filter>
+          </alteration>
+        </resultSet>
+      </system-under-test>
+      <assert>
+        <equalTo>
+          <resultSet>
+            <row>
+              <cell>CY 2005</cell>
+              <cell>366</cell>
+            </row>
+            <row>
+              <cell>CY 2006</cell>
+              <cell>1015</cell>
+            </row>
+          </resultSet>
+        </equalTo>
+      </assert>
+    </test>
+    <test name="Filter with one ranking top" uid="0211">
       <system-under-test>
         <resultSet file="..\Csv\ResellerOrderCountByYearBefore2006.csv">
           <alteration>
@@ -360,7 +663,7 @@
         </all-rows>
       </assert>
     </test>
-    <test name="Filter with one predicate" uid="0212">
+    <test name="Filter with one ranking bottom" uid="0212">
       <system-under-test>
         <resultSet file="..\Csv\Orders.csv">
           <alteration>
@@ -534,81 +837,410 @@
           </resultSet>
         </equalTo>
       </assert>
-    </test>-->
-    <test name="Hold columns" uid="0241">
+    </test>
+    <test name="Transformations" uid="0231">
       <system-under-test>
-        <resultSet file="..\Csv\Orders.csv">
+        <resultSet>
+          <query>
+            select 'a', 'FOO' union all select 'B', 'bar'
+          </query>
           <alteration>
-            <hold>
-              <column identifier="#0"/>
-              <column identifier="#3"/>
-            </hold>
+            <transform column-index="0" language="native" original-type="text">
+              text-to-upper
+            </transform>
           </alteration>
         </resultSet>
       </system-under-test>
       <assert>
         <equalTo keys="first">
+          <column index="0" type="text" role="key">
+            <transform language="native" original-type="text">text-to-upper</transform>
+          </column>
+          <column index="1" type="text" role="value" tolerance="ignore-case"/>
           <resultSet>
             <row>
-              <cell>0001</cell>
-              <cell>100</cell>
+              <cell>A</cell>
+              <cell>foo</cell>
             </row>
             <row>
-              <cell>0002</cell>
-              <cell>80</cell>
-            </row>
-            <row>
-              <cell>0003</cell>
-              <cell>120</cell>
-            </row>
-            <row>
-              <cell>0004</cell>
-              <cell>80</cell>
-            </row>
-            <row>
-              <cell>0005</cell>
-              <cell>55</cell>
+              <cell>b</cell>
+              <cell>BaR</cell>
             </row>
           </resultSet>
         </equalTo>
       </assert>
     </test>
-    <test name="Remove columns" uid="0242">
+    <test name="Renamings" uid="0241">
       <system-under-test>
-        <resultSet file="..\Csv\Orders.csv">
+        <result-set>
+          <query>
+            select 'a' as f0, null as f1, 'FOO' as f2 union all select 'B', 'qwarks', 'bar'
+          </query>
           <alteration>
-            <remove>
-              <column identifier="#1"/>
-              <column identifier="#2"/>
-            </remove>
+            <rename identifier="[f0]" new-name="keyField"/>
+            <rename identifier="[f2]" new-name="@CY2007"/>
           </alteration>
-        </resultSet>
+        </result-set>
       </system-under-test>
       <assert>
-        <equalTo keys="first">
-          <resultSet>
+        <equal-to>
+          <column name="keyField" role="key" type="text"/>
+          <column name="CY 2007" role="value" type="text"/>
+          <result-set>
+            <query connection-string="@ref1">
+              select 'a' as f0, 'FOO' as f1, null as f2 union all select 'B', 'bar', null
+            </query>
+            <alteration>
+              <rename identifier="[f0]" new-name="keyField"/>
+              <rename identifier="[f1]" new-name="@CY2007"/>
+            </alteration>
+          </result-set>
+        </equal-to>
+      </assert>
+    </test>
+    <test name="Extensions" uid="0251">
+      <system-under-test>
+        <result-set>
+          <query>
+            select 'A' as Id, 10 as ColA, 20 as ColB union all select 'B', 30, 50
+          </query>
+          <alteration>
+            <extend identifier="[Sum]">
+              <script language="ncalc">ColA + ColB</script>
+            </extend>
+            <extend identifier="[Product]">
+              <script language="ncalc">ColA * ColB</script>
+            </extend>
+          </alteration>
+        </result-set>
+      </system-under-test>
+      <assert>
+        <equal-to>
+          <result-set>
             <row>
-              <cell>0001</cell>
-              <cell>100</cell>
+              <cell>A</cell>
+              <cell>10</cell>
+              <cell>30</cell>
+              <cell>200</cell>
             </row>
             <row>
-              <cell>0002</cell>
+              <cell>B</cell>
+              <cell>30</cell>
               <cell>80</cell>
+              <cell>1500</cell>
+            </row>
+            <alteration>
+              <extend identifier="#2">
+                <script language="ncalc">[#3] - [#1]</script>
+              </extend>
+            </alteration>
+          </result-set>
+        </equal-to>
+      </assert>
+    </test>
+    <test name="Summarization on all columns" uid="0261">
+      <system-under-test>
+        <result-set>
+          <query>
+            select 'A' as Key1, 'alpha' as Key2, 10 as Value 
+            union all select 'B', 'alpha', 30 
+            union all select 'B', 'alpha', 20 
+            union all select 'B', 'beta', 10 
+            union all select 'A', 'beta', 15
+          </query>
+          <alteration>
+            <summarize>
+              <sum column="[Value]" type="numeric"/>
+              <group-by>
+                <column identifier="Key1" type="text"/>
+                <column identifier="Key2" type="text"/>
+              </group-by>
+            </summarize>
+          </alteration>
+        </result-set>
+      </system-under-test>
+      <assert>
+        <equal-to keys="all-except-last">
+          <result-set>
+            <row>
+              <cell>A</cell>
+              <cell>alpha</cell>
+              <cell>10</cell>
             </row>
             <row>
-              <cell>0003</cell>
-              <cell>120</cell>
+              <cell>A</cell>
+              <cell>beta</cell>
+              <cell>15</cell>
             </row>
             <row>
-              <cell>0004</cell>
-              <cell>80</cell>
+              <cell>B</cell>
+              <cell>alpha</cell>
+              <cell>50</cell>
             </row>
             <row>
-              <cell>0005</cell>
-              <cell>55</cell>
+              <cell>B</cell>
+              <cell>beta</cell>
+              <cell>10</cell>
             </row>
-          </resultSet>
-        </equalTo>
+          </result-set>
+        </equal-to>
+      </assert>
+    </test>
+    <test name="Summarization on few columns" uid="0262">
+      <system-under-test>
+        <result-set>
+          <query>
+            select 'A' as Key1, 'alpha' as Key2, 10 as Value
+            union all select 'B', 'alpha', 30
+            union all select 'B', 'alpha', 20
+            union all select 'B', 'beta', 10
+            union all select 'A', 'beta', 15
+          </query>
+          <alteration>
+            <summarize>
+              <sum column="[Value]" type="numeric"/>
+              <group-by>
+                <column identifier="Key1" type="text"/>
+              </group-by>
+            </summarize>
+          </alteration>
+        </result-set>
+      </system-under-test>
+      <assert>
+        <equal-to>
+          <result-set>
+            <row>
+              <cell>A</cell>
+              <cell>25</cell>
+            </row>
+            <row>
+              <cell>B</cell>
+              <cell>60</cell>
+            </row>
+          </result-set>
+        </equal-to>
+      </assert>
+    </test>
+    <test name="Summarization on no column" uid="0263">
+      <system-under-test>
+        <result-set>
+          <query>
+            select 'A' as Key1, 'alpha' as Key2, 10 as Value
+            union all select 'B', 'alpha', 30
+            union all select 'B', 'alpha', 20
+            union all select 'B', 'beta', 10
+            union all select 'A', 'beta', 15
+          </query>
+          <alteration>
+            <summarize>
+              <sum column="[Value]" type="numeric"/>
+            </summarize>
+          </alteration>
+        </result-set>
+      </system-under-test>
+      <assert>
+        <equal-to behavior="single-row">
+          <result-set>
+            <row>
+              <cell>85</cell>
+            </row>
+          </result-set>
+        </equal-to>
+      </assert>
+    </test>
+    <test name="Unstacking on one key" uid="0270">
+      <system-under-test>
+        <result-set>
+          <query>
+            select 'A' as Key1, 'alpha' as Header, 10 as Value
+            union all select 'B', 'beta', 10
+            union all select 'A', 'beta', 15
+          </query>
+          <alteration>
+            <unstack>
+              <header>
+                <column identifier="Header"/>
+              </header>
+              <group-by>
+                <column identifier="#0"/>
+              </group-by>
+            </unstack>
+          </alteration>
+        </result-set>
+      </system-under-test>
+      <assert>
+        <equal-to keys="first">
+          <result-set>
+            <row>
+              <cell>A</cell>
+              <cell>10</cell>
+              <cell>15</cell>
+            </row>
+            <row>
+              <cell>B</cell>
+              <cell>(null)</cell>
+              <cell>10</cell>
+            </row>
+          </result-set>
+        </equal-to>
+      </assert>
+    </test>
+    <test name="Project on two fields" uid="0280">
+      <system-under-test>
+        <result-set>
+          <query>
+            select 'A' as Col0, 'alpha' as Col1, 15 as Col2
+            union all select 'B', 'beta', 10
+          </query>
+          <alteration>
+            <project>
+              <column identifier="#0"/>
+              <column identifier="Col2"/>
+            </project>
+          </alteration>
+        </result-set>
+      </system-under-test>
+      <assert>
+        <equal-to keys="first">
+          <result-set>
+            <row>
+              <cell>A</cell>
+              <cell>15</cell>
+            </row>
+            <row>
+              <cell>B</cell>
+              <cell>10</cell>
+            </row>
+          </result-set>
+        </equal-to>
+      </assert>
+    </test>
+    <test name="Project on two fields with re-order" uid="0280">
+      <system-under-test>
+        <result-set>
+          <query>
+            select 'A' as Col0, 'alpha' as Col1, 15 as Col2
+            union all select 'B', 'beta', 10
+          </query>
+          <alteration>
+            <project>
+              <column identifier="Col2"/>
+              <column identifier="#0"/>
+            </project>
+          </alteration>
+        </result-set>
+      </system-under-test>
+      <assert>
+        <equal-to>
+          <column index="0" role="value" type="numeric"/>
+          <column index="1" role="key" type="text"/>
+          <result-set>
+            <row>
+              <cell>15</cell>
+              <cell>A</cell>
+            </row>
+            <row>
+              <cell>10</cell>
+              <cell>B</cell>
+            </row>
+          </result-set>
+        </equal-to>
+      </assert>
+    </test>
+    <test name="Project-away on two fields" uid="0280">
+      <system-under-test>
+        <result-set>
+          <query>
+            select 'A' as Col0, 'alpha' as Col1, 10 as Col2
+            union all select 'B', 'beta', 10
+          </query>
+          <alteration>
+            <project-away>
+              <column identifier="Col2"/>
+              <column identifier="#0"/>
+            </project-away>
+          </alteration>
+        </result-set>
+      </system-under-test>
+      <assert>
+        <equal-to keys="first">
+          <result-set>
+            <row>
+              <cell>alpha</cell>
+            </row>
+            <row>
+              <cell>beta</cell>
+            </row>
+          </result-set>
+        </equal-to>
+      </assert>
+    </test>
+    <test name="Transform, summarize, unstack, extend, project" uid="0300">
+      <system-under-test>
+        <result-set>
+          <query>
+            select '2019-01-01 00:00:00' as DateTime, 'Import' as Direction, 10 as Value
+            union all select '2019-01-01 00:15:00', 'Import', 20
+            union all select '2019-01-01 00:30:00', 'Import', 15
+            union all select '2019-01-01 00:45:00', 'Import', 15
+            union all select '2019-01-01 00:00:00', 'Export', 7
+            union all select '2019-01-01 00:15:00', 'Export', 8
+            union all select '2019-01-01 00:30:00', 'Export', 12
+            union all select '2019-01-01 00:45:00', 'Export', 13
+            union all select '2019-01-01 01:00:00', 'Import', 5
+            union all select '2019-01-01 01:15:00', 'Import', 15
+            union all select '2019-01-01 01:30:00', 'Import', 18
+            union all select '2019-01-01 01:45:00', 'Import', 17
+            union all select '2019-01-01 01:00:00', 'Export', 14
+            union all select '2019-01-01 01:15:00', 'Export', 16
+            union all select '2019-01-01 01:30:00', 'Export', 11
+            union all select '2019-01-01 01:45:00', 'Export', 19
+          </query>
+          <alteration>
+            <transform column="DateTime" language="native" original-type="dateTime">
+              dateTime-to-floor-hour
+            </transform>
+            <summarize>
+              <sum column="Value" type="numeric"/>
+              <group-by>
+                <column identifier="DateTime"/>
+                <column identifier="Direction"/>
+              </group-by>
+            </summarize>
+            <unstack>
+              <header>
+                <column identifier="Direction"/>
+              </header>
+              <group-by>
+                <column identifier="DateTime"/>
+              </group-by>
+            </unstack>
+            <extend identifier="Delta">
+              <script language="ncalc">
+                [Import] - [Export]
+              </script>
+            </extend>
+            <project>
+              <column identifier="DateTime"/>
+              <column identifier="Delta"/>
+            </project>
+          </alteration>
+        </result-set>
+      </system-under-test>
+      <assert>
+        <equal-to keys="first">
+          <column index="0" role="key" type="dateTime"/>
+          <result-set>
+            <row>
+              <cell>2019-01-01 00:00:00</cell>
+              <cell>20</cell>
+            </row>
+            <row>
+              <cell>2019-01-01 01:00:00</cell>
+              <cell>-5</cell>
+            </row>
+          </result-set>
+        </equal-to>
       </assert>
     </test>
   </group>

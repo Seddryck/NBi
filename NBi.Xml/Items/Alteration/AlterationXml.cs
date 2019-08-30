@@ -1,35 +1,20 @@
 ﻿using NBi.Xml.Items.Alteration.Conversion;
-using NBi.Xml.Items.Alteration.Mutation;
+using NBi.Xml.Items.Alteration.Extension;
+using NBi.Xml.Items.Alteration.Renaming;
+using NBi.Xml.Items.Alteration.Transform;
 using NBi.Xml.Items.Calculation;
 using NBi.Xml.Items.ResultSet;
+using NBi.Xml.Items.Alteration.Summarization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
+using NBi.Xml.Items.Alteration.Reshaping;
 
 namespace NBi.Xml.Items.Alteration
 {
-    public class AlterationXml
-    {
-        [XmlElement("filter")]
-        public List<FilterXml> Filters { get; set; }
-        [XmlElement("convert")]
-        public List<ConvertXml> Conversions { get; set; }
-        [XmlElement("transform")]
-        public List<TransformationXml> Transformations { get; set; }
-        [XmlElement(Type = typeof(HoldColumnXml), ElementName = "hold")]
-        [XmlElement(Type = typeof(RemoveColumnXml), ElementName = "remove")]
-        public List<AlterationItemXml> Mutations { get; set; }
-
-
-        public AlterationXml()
-        {
-            Filters = new List<FilterXml>();
-            Conversions = new List<ConvertXml>();
-            Transformations = new List<TransformationXml>();
-            Mutations = new List<AlterationItemXml>();
-        }
-    }
+    public abstract class AlterationXml
+    { }
 }

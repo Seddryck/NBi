@@ -1,5 +1,5 @@
 ﻿using Microsoft.CSharp;
-using NBi.Core.Scalar.Caster;
+using NBi.Core.Scalar.Casting;
 using NBi.Core.Transformation.Transformer.Native;
 using System;
 using System.CodeDom.Compiler;
@@ -17,28 +17,10 @@ namespace NBi.Core.Transformation.Transformer
         private INativeTransformation transformation;
 
         public NativeTransformer()
-        {
-        }
+        { }
 
-        public void Initialize(string code)
-        {
-            var textInfo = CultureInfo.InvariantCulture.TextInfo;
-            var className = textInfo.ToTitleCase(code.Trim().Replace("-", " ")).Replace(" ", "");
-
-            var clazz = AppDomain.CurrentDomain.GetAssemblies()
-                       .SelectMany(t => t.GetTypes())
-                       .Where(
-                                t => t.IsClass
-                                && t.IsAbstract == false
-                                && t.Name == className
-                                && t.GetInterface("INativeTransformation") != null)
-                       .SingleOrDefault();
-
-            if (clazz == null)
-                throw new NotImplementedTransformationException(code);
-
-            transformation = (INativeTransformation)Activator.CreateInstance(clazz);
-        }
+        public void Initialize(string code) 
+            => transformation = new NativeTransformationFactory().Instantiate(code);
 
         public object Execute(object value)
         {
@@ -47,7 +29,15 @@ namespace NBi.Core.Transformation.Transformer
 
             var factory = new CasterFactory<T>();
             var caster = factory.Instantiate();
-            var typedValue = caster.Execute(value);
+
+            object typedValue = null;
+
+            if (value == null || value == DBNull.Value || value as string == "(null)")
+                typedValue = null;
+            else if ((typeof(T)!=typeof(string)) && (value is string) && ((string.IsNullOrEmpty(value as string) || value as string == "(empty)")))
+                typedValue = null;
+            else
+                typedValue = caster.Execute(value);
 
             var transformedValue = transformation.Evaluate(typedValue);
 

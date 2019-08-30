@@ -6,7 +6,7 @@ using System.Globalization;
 using System.Linq;
 using NBi.Core.Scalar.Comparer;
 using System.Text;
-using NBi.Core.Scalar.Caster;
+using NBi.Core.Scalar.Casting;
 using NBi.Core.ResultSet;
 using NBi.Core.ResultSet.Analyzer;
 using NBi.Core.ResultSet.Equivalence;
@@ -77,11 +77,16 @@ namespace NBi.Core.ResultSet.Uniqueness
 
             if (missingColumns.Count > 0)
             {
-                var exception = string.Format("You've defined {0} column{1} named '{2}' as key{1} or value{1} but there is no column with {3} name{1} in the resultset. When using comparison by columns' name, you must ensure that all columns defined as keys and values are effectively available in the result-set."
+                var allColumnsHaveNoName = true;
+                foreach (DataColumn column in dt.Columns)
+                    allColumnsHaveNoName &= column.ColumnName.StartsWith("No name");
+
+                var exception = string.Format("You've defined {0} column{1} named '{2}' as key{1} or value{1} but there is no column with {3} name{1} in the resultset. {4}When using comparison by columns' name, you must ensure that all columns defined as keys and values are effectively available in the result-set."
                     , missingColumns.Count > 1 ? "some" : "a"
                     , missingColumns.Count > 1 ? "s" : string.Empty
                     , string.Join("', '", missingColumns.Select(kv => kv.Key))
                     , missingColumns.Count > 1 ? "these" : "this"
+                    , allColumnsHaveNoName ? "None of the result-set's columns have a name. " : string.Empty
                     );
 
                 throw new EquivalerException(exception);

@@ -9,8 +9,8 @@ using System.Xml.Serialization;
 
 namespace NBi.Xml.Constraints.Comparer
 {
-    public class WithinRangeXml : PredicateXml
+    public class WithinRangeXml : ScalarReferencePredicateXml
     {
-        internal override ComparerType ComparerType { get => ComparerType.WithinRange; }
+        public override ComparerType ComparerType { get => ComparerType.WithinRange; }
     }
 }

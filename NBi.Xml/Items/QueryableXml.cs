@@ -8,8 +8,6 @@ namespace NBi.Xml.Items
 {
     public abstract class QueryableXml : ExecutableXml
     {       
-        public abstract string GetQuery();
-
         public QueryableXml()
         {
             Parameters = new List<QueryParameterXml>();
@@ -44,7 +42,7 @@ namespace NBi.Xml.Items
             return list;
         }
 
-        public virtual List<QueryTemplateVariableXml> GetVariables()
+        public virtual List<QueryTemplateVariableXml> GetTemplateVariables()
         {
             var list = Variables;
             foreach (var variable in Default.Variables)

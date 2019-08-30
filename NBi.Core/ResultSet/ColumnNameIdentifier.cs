@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,16 +17,22 @@ namespace NBi.Core.ResultSet
             Name = name;
         }
 
+        public DataColumn GetColumn(DataTable dataTable) => dataTable.Columns[Name];
 
-        public override bool Equals(object obj) => this.Equals(obj as ColumnNameIdentifier);
+        public object GetValue(DataRow dataRow) => dataRow[Name];
 
         public override int GetHashCode() => Name.GetHashCode();
 
-        public bool Equals(ColumnNameIdentifier other)
+        public override bool Equals(object value)
         {
-            if (other is null)
-                return false;
-            return (other.Name == Name);
+            switch (value)
+            {
+                case ColumnNameIdentifier x: return Equals(x);
+                default: return false;
+            }
         }
+
+        public bool Equals(ColumnNameIdentifier other)
+            => !(other is null) && Name == other.Name;
     }
 }

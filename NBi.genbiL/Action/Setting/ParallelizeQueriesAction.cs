@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using NBi.GenbiL.Stateful;
 using NBi.Xml.Settings;
 
 namespace NBi.GenbiL.Action.Setting
@@ -15,7 +16,7 @@ namespace NBi.GenbiL.Action.Setting
 
         public void Execute(GenerationState state)
         {
-            state.Settings.SetParallelizeQueries(Value);
+            state.Settings.ParallelizeQueries = Value;
         }
 
         public string Display

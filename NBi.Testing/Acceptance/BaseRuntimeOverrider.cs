@@ -8,6 +8,7 @@ using NBi.Framework;
 using NBi.Core;
 using System.Collections.Generic;
 using NBi.Core.Configuration;
+using NBi.Core.Variable;
 
 namespace NBi.Testing.Acceptance
 {
@@ -26,9 +27,12 @@ namespace NBi.Testing.Acceptance
             //Execute the NUnit TestCases one by one
             foreach (var testCaseData in tests)
             {
+                var test = (TestXml)testCaseData.Arguments[0];
+                var testName = (string)testCaseData.Arguments[1];
+                var localVariables = (IDictionary<string, ITestVariable>)testCaseData.Arguments[2];
                 try
                 {
-                    testSuite.ExecuteTestCases((TestXml)testCaseData.Arguments[0]);
+                    testSuite.ExecuteTestCases(test, testName, localVariables);
                 }
                 catch (IgnoreException)
                 {
@@ -51,7 +55,7 @@ namespace NBi.Testing.Acceptance
 
             //Execute the NUnit TestCases one by one
             foreach (var testCaseData in tests)
-                testSuite.ExecuteTestCases((TestXml)testCaseData.Arguments[0], testSuite.Configuration);
+                testSuite.ExecuteTestCases((TestXml)testCaseData.Arguments[0], (string)testCaseData.Arguments[1], testSuite.Configuration);
         }
 
         public virtual void RunNegativeTestSuite(string filename)
@@ -64,9 +68,11 @@ namespace NBi.Testing.Acceptance
             foreach (var testCaseData in tests)
             {
                 var testXml = (TestXml)testCaseData.Arguments[0];
+                var testName = (string)testCaseData.Arguments[1];
+                var localVariables = (IDictionary<string, ITestVariable>)testCaseData.Arguments[2] ?? new Dictionary<string, ITestVariable>();
                 try
                 {
-                    testSuite.ExecuteTestCases(testXml);
+                    testSuite.ExecuteTestCases(testXml, testName, localVariables);
                     Assert.Fail("The test named '{0}' (uid={1}) and defined in '{2}' should have failed but it hasn't."
                         , testXml.Name
                         , testXml.UniqueIdentifier
@@ -94,7 +100,7 @@ namespace NBi.Testing.Acceptance
 
         public virtual void RunNegativeTestSuiteWithConfig(string filename)
         {
-            var testSuite = new TestSuiteOverrider(@"Negative\" + filename, @"Negative\" + filename);
+            var testSuite = new TestSuiteOverrider($@"Negative\{ filename }", $@"Negative\{filename}" );
 
             //First retrieve the NUnit TestCases with base class (NBi.NUnit.Runtime)
             //These NUnit TestCases are defined in the Test Suite file
@@ -104,9 +110,11 @@ namespace NBi.Testing.Acceptance
             foreach (var testCaseData in tests)
             {
                 var testXml = (TestXml)testCaseData.Arguments[0];
+                var testName = (string)testCaseData.Arguments[1];
+                var localVariables = (IDictionary<string, ITestVariable>)testCaseData.Arguments[2] ?? new Dictionary<string, ITestVariable>();
                 try
                 {
-                    testSuite.ExecuteTestCases(testXml);
+                    testSuite.ExecuteTestCases(testXml, testName, localVariables);
                     Assert.Fail("The test named '{0}' (uid={1}) and defined in '{2}' should have failed but it hasn't."
                         , testXml.Name
                         , testXml.UniqueIdentifier
@@ -148,9 +156,12 @@ namespace NBi.Testing.Acceptance
             foreach (var testCaseData in tests)
             {
                 var isSuccess = false;
+                var test = (TestXml)testCaseData.Arguments[0];
+                var testName = (string)testCaseData.Arguments[1];
+                var localVariables = (IDictionary<string, ITestVariable>)testCaseData.Arguments[2] ?? new Dictionary<string, ITestVariable>();
                 try
                 {
-                    testSuite.ExecuteTestCases((TestXml)testCaseData.Arguments[0]);
+                    testSuite.ExecuteTestCases(test, testName, localVariables);
                 }
                 catch (IgnoreException)
                 {

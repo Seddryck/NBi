@@ -6,18 +6,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using NBi.Core.Scalar.Interval;
-using NBi.Core.Scalar.Caster;
+using NBi.Core.Scalar.Casting;
+using NBi.Core.Scalar.Resolver;
 
 namespace NBi.Core.Calculation.Predicate.DateTime
 {
     class DateTimeWithinRange : AbstractPredicateReference
     {
-        public DateTimeWithinRange(bool not, object reference) : base(not, reference)
+        public DateTimeWithinRange(bool not, IScalarResolver reference) : base(not, reference)
         { }
 
-        protected override bool Apply(object x)
+        protected override bool ApplyWithReference(object reference, object x)
         {
-            var builder = new DateTimeIntervalBuilder(Reference);
+            var builder = new DateTimeIntervalBuilder(reference);
             builder.Build();
             var interval = builder.GetInterval();
 
@@ -28,7 +29,7 @@ namespace NBi.Core.Calculation.Predicate.DateTime
 
         public override string ToString()
         {
-            return $"is within the interval {Reference}";
+            return $"is within the interval {Reference.Execute()}";
         }
     }
 }

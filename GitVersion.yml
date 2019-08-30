@@ -1,10 +1,15 @@
 mode: ContinuousDelivery
 branches:
-  dev(elop)?(ment)?$:
+  develop:
+    regex: dev(elop)?(ment)?$
     tag: beta
-  features?[/-]:
+  feature:
+    regex: features?[/-]
     tag: alpha
-  releases?[/-]:
-    tag: RC
+    source-branches: ['master', 'develop', 'feature', 'hotfix', 'support']
+  release:
+    regex: releases?[/-]
+    tag: rc
+    source-branches: ['hotfix', 'develop', 'master', 'feature', 'support']
 ignore:
   sha: []

@@ -1,0 +1,23 @@
+﻿<test name="$name$">
+  <description>$name$.</description>
+  <category>TC01</category>
+  <system-under-test>
+    <result-set>
+      <query connectionString="@$refConn$" timeout-milliSeconds="5000">
+        <![CDATA[
+      $query$
+      ]]>
+      </query>
+    </result-set>
+  </system-under-test>
+  <assert>
+    <equal-to>
+      <column index="0" role="key" type="numeric" />
+      <query connectionString="@$refConn$" timeout-milliSeconds="10000">
+        <![CDATA[
+      $query$
+      ]]>
+      </query>
+    </equal-to>
+  </assert>
+</test>

@@ -60,7 +60,7 @@ namespace NBi.Xml
                 }
             }
 
-            //Load the settings eventually define in another file or in the config file.
+            //Load the settings optionally define in another file or in the config file.
             if (!string.IsNullOrEmpty(settingsFilename))
             {
                 var fullPath = System.IO.Path.IsPathRooted(settingsFilename) ? settingsFilename : basePath + settingsFilename;
@@ -257,8 +257,11 @@ namespace NBi.Xml
             // Create the XmlReader object.
             using (var xmlReader = BuildXmlReaderForSettings(settingsFilename, false))
             {
+                var overrides = new ReadOnlyAttributes();
+                overrides.Build();
+
                 // Create an instance of the XmlSerializer specifying type.
-                var serializer = new XmlSerializer(typeof(SettingsXml), xmlRoot);
+                var serializer = new XmlSerializer(typeof(SettingsXml), overrides, null, xmlRoot, string.Empty);
                 // Use the Deserialize method to restore the object's state.
                 settings = (SettingsXml)serializer.Deserialize(xmlReader);
             }
@@ -356,9 +359,7 @@ namespace NBi.Xml
         }
 
         protected internal string XmlSerializeFrom<T>(T objectData)
-        {
-            return SerializeFrom(objectData, typeof(T));
-        }
+            =>SerializeFrom(objectData, typeof(T));
 
         protected string SerializeFrom(object objectData, Type type)
         {
@@ -371,6 +372,41 @@ namespace NBi.Xml
                 result = writer.ToString();
             }
             return result;
+        }
+
+        protected internal string XmlSerializeFrom<T>(T objectData, ReadWriteAttributes attr)
+            =>  SerializeFrom(objectData, typeof(T), attr);
+
+        protected string SerializeFrom(object objectData, Type type, ReadWriteAttributes attr)
+        {
+            var serializer = new XmlSerializer(type, attr);
+            using (var writer = new StringWriter())
+            {
+                serializer.Serialize(writer, objectData);
+                return writer.ToString();
+            }
+        }
+
+        protected internal T XmlDeserializeTo<T>(string objectData)
+            => (T)DeserializeTo(objectData, typeof(T));
+
+        protected object DeserializeTo(string objectData, Type type)
+        {
+            var serializer = new XmlSerializer(type);
+            var result = string.Empty;
+            using (var reader = new StringReader(objectData))
+                return serializer.Deserialize(reader);
+        }
+
+        protected internal T XmlDeserializeTo<T>(string objectData, ReadWriteAttributes attr)
+            => (T)DeserializeTo(objectData, typeof(T), attr);
+
+        protected object DeserializeTo(string objectData, Type type, ReadWriteAttributes attr)
+        {
+            var serializer = new XmlSerializer(type, attr);
+            var result = string.Empty;
+            using (var reader = new StringReader(objectData))
+                return serializer.Deserialize(reader);
         }
     }
 }

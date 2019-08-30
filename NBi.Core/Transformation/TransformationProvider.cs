@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NBi.Core.ResultSet;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
@@ -10,41 +11,45 @@ namespace NBi.Core.Transformation
 {
     public class TransformationProvider
     {
-        private IDictionary<int, ITransformer> cacheTransformers;
+        private IDictionary<IColumnIdentifier, ITransformer> cacheTransformers;
         private readonly TransformerFactory factory;
 
         public TransformationProvider()
         {
-            cacheTransformers = new Dictionary<int, ITransformer>();
+            cacheTransformers = new Dictionary<IColumnIdentifier, ITransformer>();
             factory = new TransformerFactory();
         }
 
-        public void Add(int columnIndex, ITransformationInfo transfo)
+        public void Add(IColumnIdentifier indentifier, ITransformationInfo transfo)
         {
             var transformer = factory.Instantiate(transfo);
             transformer.Initialize(transfo.Code);
-            if (cacheTransformers.ContainsKey(columnIndex))
-                throw new NBiException($"You can't define two transformers for the same column. The column with index '{columnIndex}' has already another transformer specified.");
-            cacheTransformers.Add(columnIndex, transformer);
+            if (cacheTransformers.ContainsKey(indentifier))
+                throw new NBiException($"You can't define two transformers for the same column. The column {indentifier.Label} has already another transformer specified.");
+            cacheTransformers.Add(indentifier, transformer);
         }
 
         public virtual ResultSet.ResultSet Transform(ResultSet.ResultSet resultSet)
         {
-            foreach (var index in cacheTransformers.Keys)
+            foreach (var identifier in cacheTransformers.Keys)
             {
                 var tsStart = DateTime.Now;
-                var transformer = cacheTransformers[index];
+                var transformer = cacheTransformers[identifier];
 
                 var newColumn = new DataColumn() { DataType = typeof(object) };
                 resultSet.Table.Columns.Add(newColumn);
 
+                var ordinal = (identifier as ColumnOrdinalIdentifier)?.Ordinal ?? resultSet.Table.Columns[(identifier as ColumnNameIdentifier).Name].Ordinal;
+                var originalName = resultSet.Table.Columns[ordinal].ColumnName;
+
                 foreach (DataRow row in resultSet.Table.Rows)
-                    row[newColumn.Ordinal] = transformer.Execute(row[index]);
+                    row[newColumn.Ordinal] = transformer.Execute(row[ordinal]);
 
-                resultSet.Table.Columns.RemoveAt(index);
-                newColumn.SetOrdinal(index);
+                resultSet.Table.Columns.RemoveAt(ordinal);
+                newColumn.SetOrdinal(ordinal);
+                newColumn.ColumnName = originalName;
 
-                Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceInfo, string.Format("Time needed to transform column with index {0}: {1}", index, DateTime.Now.Subtract(tsStart).ToString(@"d\d\.hh\h\:mm\m\:ss\s\ \+fff\m\s")));
+                Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceInfo, string.Format("Time needed to transform column {0}: {1}", identifier.Label, DateTime.Now.Subtract(tsStart).ToString(@"d\d\.hh\h\:mm\m\:ss\s\ \+fff\m\s")));
             }
 
             return resultSet;

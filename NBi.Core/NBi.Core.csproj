@@ -51,14 +51,29 @@
     <Reference Include="Antlr4.StringTemplate, Version=4.0.6.9004, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Antlr4.StringTemplate.4.0.6.9004\lib\net35\Antlr4.StringTemplate.dll</HintPath>
     </Reference>
+    <Reference Include="Deedle, Version=2.0.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Deedle.2.0.4\lib\net45\Deedle.dll</HintPath>
+    </Reference>
+    <Reference Include="Castle.Core, Version=4.0.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
+      <HintPath>..\packages\Castle.Core.4.4.0\lib\net45\Castle.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="FSharp.Core, Version=4.7.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\FSharp.Core.4.7.0\lib\net45\FSharp.Core.dll</HintPath>
+    </Reference>
     <Reference Include="FuzzyString, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\FuzzyString.1.0.0\lib\FuzzyString.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.AnalysisServices.AdomdClient, Version=12.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.AnalysisServices.AdomdClient.12.0.2000.8\lib\net40\Microsoft.AnalysisServices.AdomdClient.dll</HintPath>
+    <Reference Include="Microsoft.AnalysisServices.AdomdClient, Version=16.3.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AnalysisServices.AdomdClient.retail.amd64.16.3.0\lib\net45\Microsoft.AnalysisServices.AdomdClient.dll</HintPath>
     </Reference>
-    <Reference Include="NCalc, Version=1.4.3.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\NCalc-Edge.1.4.3\lib\NCalc.dll</HintPath>
+    <Reference Include="Microsoft.AnalysisServices.SPClient.Interfaces, Version=16.3.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AnalysisServices.AdomdClient.retail.amd64.16.3.0\lib\net45\Microsoft.AnalysisServices.SPClient.Interfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="Moq, Version=4.12.0.0, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
+      <HintPath>..\packages\Moq.4.12.0\lib\net45\Moq.dll</HintPath>
+    </Reference>
+    <Reference Include="NCalc, Version=1.5.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\NCalc-Edge.1.5.0\lib\net35\NCalc.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
@@ -66,10 +81,23 @@
     <Reference Include="Ninject, Version=3.3.4.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
       <HintPath>..\packages\Ninject.3.3.4\lib\net45\Ninject.dll</HintPath>
     </Reference>
+    <Reference Include="PocketCsvReader, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\PocketCsvReader.1.0.0\lib\net461\PocketCsvReader.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Management" />
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.5.0\lib\netstandard2.0\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
     <Reference Include="System.ServiceProcess" />
+    <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Threading.Tasks.Extensions.4.5.1\lib\netstandard2.0\System.Threading.Tasks.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net461\System.ValueTuple.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -91,6 +119,14 @@
     <Compile Include="Analysis\Request\MetadataLinkedToDiscoveryRequest.cs" />
     <Compile Include="Analysis\Request\FactoryValidations\TableNotNullIfColumn.cs" />
     <Compile Include="Analysis\Request\FactoryValidations\ValidationFilter.cs" />
+    <Compile Include="Assemblies\Decoration\AbstractCustomFactory.cs" />
+    <Compile Include="Assemblies\Decoration\CustomCommand.cs" />
+    <Compile Include="Assemblies\Decoration\CustomCondition.cs" />
+    <Compile Include="Assemblies\Decoration\CustomCommandFactory.cs" />
+    <Compile Include="Assemblies\Decoration\CustomConditionFactory.cs" />
+    <Compile Include="Assemblies\Decoration\ICustomCommandArgs.cs" />
+    <Compile Include="Assemblies\Decoration\ICustomArgs.cs" />
+    <Compile Include="Assemblies\Decoration\ICustomConditionArgs.cs" />
     <Compile Include="AttributeExtensions.cs" />
     <Compile Include="Calculation\BaseRankingFilter.cs" />
     <Compile Include="Calculation\CombinationOperator.cs" />
@@ -102,15 +138,11 @@
     <Compile Include="Calculation\Grouping\NoneGrouping.cs" />
     <Compile Include="Calculation\Grouping\IByColumnGrouping.cs" />
     <Compile Include="Calculation\Grouping\NameByColumnGrouping.cs" />
-    <Compile Include="Calculation\Grouping\IndexByColumnGrouping.cs" />
-    <Compile Include="Calculation\ICultureSensitivePredicateInfo.cs" />
-    <Compile Include="Calculation\ICaseSensitivePredicateInfo.cs" />
-    <Compile Include="Calculation\ISecondOperandPredicateInfo.cs" />
-    <Compile Include="Calculation\IReferencePredicateInfo.cs" />
-    <Compile Include="Calculation\IPredicateInfo.cs" />
+    <Compile Include="Calculation\Grouping\OrdinalByColumnGrouping.cs" />
     <Compile Include="Calculation\Combination\BaseCombinationPredicateFilter.cs" />
     <Compile Include="Calculation\Combination\OrCombinationPredicateFilter.cs" />
     <Compile Include="Calculation\BasePredicateFilter.cs" />
+    <Compile Include="Calculation\Predicate\PredicateArgs.cs" />
     <Compile Include="Calculation\ResultSetFilterFactory.cs" />
     <Compile Include="Calculation\Predicate\AbstractPredicate.cs" />
     <Compile Include="Calculation\Predicate\AbstractPredicateReference.cs" />
@@ -186,20 +218,46 @@
     <Compile Include="Configuration\IExtensionsConfiguration.cs" />
     <Compile Include="Configuration\FailureReport\IFailureReportProfile.cs" />
     <Compile Include="Configuration\IFailureReportProfileConfiguration.cs" />
+    <Compile Include="DataRowExtensions.cs" />
+    <Compile Include="Decoration\DataEngineering\Commands\SqlServer\EtlRunCommand.cs" />
+    <Compile Include="Decoration\DataEngineering\IEtlRunCommandArgs.cs" />
+    <Compile Include="Decoration\DataEngineering\IBatchRunCommandArgs.cs" />
+    <Compile Include="Decoration\Grouping\Commands\SequentialCommand.cs" />
+    <Compile Include="Decoration\Grouping\Commands\ParallelCommand.cs" />
+    <Compile Include="Decoration\Grouping\IGroupCommandArgs.cs" />
+    <Compile Include="Decoration\Grouping\IParallelCommandArgs.cs" />
+    <Compile Include="Decoration\Grouping\ISequentialCommandArgs.cs" />
+    <Compile Include="Decoration\IDecorationConditionArgs.cs" />
+    <Compile Include="Decoration\IO\Commands\DeleteExtensionCommand.cs" />
+    <Compile Include="Decoration\IO\Commands\CopyExtensionCommand.cs" />
+    <Compile Include="Decoration\IO\Commands\DeletePatternCommand.cs" />
+    <Compile Include="Decoration\IO\Commands\CopyPatternCommand.cs" />
+    <Compile Include="Decoration\IO\IDeleteExtensionCommandArgs.cs" />
+    <Compile Include="Decoration\IO\ICopyExtensionCommandArgs.cs" />
+    <Compile Include="Decoration\IO\IDeletePatternCommandArgs.cs" />
+    <Compile Include="Decoration\IO\ICopyPatternCommandArgs.cs" />
+    <Compile Include="Decoration\Process\Commands\StopCommand.cs" />
+    <Compile Include="Decoration\Process\Commands\StartCommand.cs" />
+    <Compile Include="Decoration\Process\Conditions\RunningCondition.cs" />
+    <Compile Include="Decoration\Process\IProcessConditionArgs.cs" />
+    <Compile Include="DirectoryInfoExtentions.cs" />
+    <Compile Include="Etl\EtlRun.cs" />
+    <Compile Include="Etl\EtlRunnerFactory.cs" />
+    <Compile Include="Etl\IEtlExecutable.cs" />
+    <Compile Include="FlatFile\FlatFileReaderFactory.cs" />
     <Compile Include="Injection\ConfigurationModule.cs" />
     <Compile Include="Injection\QueryModule.cs" />
     <Compile Include="Injection\ServiceLocator.cs" />
-    <Compile Include="Calculation\IBasePredicateInfo.cs" />
+    <Compile Include="IResolver.cs" />
+    <Compile Include="IO\FileLister.cs" />
+    <Compile Include="PathExtensions.cs" />
     <Compile Include="Query\EngineFactory.cs" />
     <Compile Include="Configuration\Configuration.cs" />
     <Compile Include="CommandTimeoutException.cs" />
-    <Compile Include="Connection\IConnectionWaitCommand.cs" />
-    <Compile Include="Connection\ConnectionWaitCommand.cs" />
-    <Compile Include="Connection\ConnectionWaitFactory.cs" />
-    <Compile Include="CsvWriter.cs" />
-    <Compile Include="Batch\BatchRunnerFactory.cs" />
-    <Compile Include="Batch\IBatchRunnerFatory.cs" />
-    <Compile Include="Batch\IBatchRunCommand.cs" />
+    <Compile Include="Decoration\DataEngineering\IConnectionWaitCommandArgs.cs" />
+    <Compile Include="Decoration\DataEngineering\Commands\ConnectionWaitCommand.cs" />
+    <Compile Include="FlatFile\CsvWriter.cs" />
+    <Compile Include="Decoration\DataEngineering\Commands\SqlServer\BatchRunCommand.cs" />
     <Compile Include="DataType\CaptionFilter.cs" />
     <Compile Include="DataType\CommandDescription.cs" />
     <Compile Include="DataType\CommandFilter.cs" />
@@ -224,27 +282,20 @@
     <Compile Include="DataType\Target.cs" />
     <Compile Include="DataType\TextInfo.cs" />
     <Compile Include="Etl\ExecResult.cs" />
-    <Compile Include="Etl\IEtlRunnerFactory.cs" />
     <Compile Include="Etl\IPackageEvents.cs" />
-    <Compile Include="FileManipulation\FileManipulationFactory.cs" />
-    <Compile Include="FileManipulation\IFileManipulationFactory.cs" />
-    <Compile Include="FileManipulation\IFileManipulationCommand.cs" />
-    <Compile Include="FileManipulation\IDeleteCommand.cs" />
-    <Compile Include="FileManipulation\DeleteCommand.cs" />
-    <Compile Include="FileManipulation\CopyCommand.cs" />
-    <Compile Include="FileManipulation\ICopyCommand.cs" />
-    <Compile Include="GroupCommand.cs" />
-    <Compile Include="GroupCommandFactory.cs" />
+    <Compile Include="Decoration\IO\IOFactory.cs" />
+    <Compile Include="Decoration\IO\IIoCommandArgs.cs" />
+    <Compile Include="Decoration\IO\IDeleteCommandArgs.cs" />
+    <Compile Include="Decoration\IO\Commands\DeleteCommand.cs" />
+    <Compile Include="Decoration\IO\Commands\CopyCommand.cs" />
+    <Compile Include="Decoration\IO\ICopyCommandArgs.cs" />
+    <Compile Include="Decoration\Grouping\GroupCommandFactory.cs" />
     <Compile Include="IExecutionResult.cs" />
-    <Compile Include="Etl\EtlRunnerFactory.cs" />
     <Compile Include="Etl\EtlRunResult.cs" />
-    <Compile Include="Etl\IEtl.cs" />
     <Compile Include="Etl\EtlParameter.cs" />
-    <Compile Include="Etl\IEtlRunCommand.cs" />
-    <Compile Include="Etl\IEtlRunner.cs" />
     <Compile Include="ExecutionFactory.cs" />
-    <Compile Include="IDecorationCheckImplementation.cs" />
-    <Compile Include="CsvReader.cs" />
+    <Compile Include="Decoration\IDecorationCondition.cs" />
+    <Compile Include="FlatFile\CsvReader.cs" />
     <Compile Include="Analysis\Request\BaseDiscoveryRequest.cs" />
     <Compile Include="Analysis\Request\FactoryValidations\AtLeastOneNotNull.cs" />
     <Compile Include="Analysis\Request\FactoryValidations\MeasureNotNull.cs" />
@@ -265,15 +316,15 @@
     <Compile Include="Analysis\Member\MembersCommand.cs" />
     <Compile Include="Assemblies\AssemblyManager.cs" />
     <Compile Include="Assemblies\TypeConverter.cs" />
-    <Compile Include="DataManipulation\IDataManipulationCommand.cs" />
-    <Compile Include="DataManipulation\IDataManipulationFactory.cs" />
-    <Compile Include="IDecorationCommandImplementation.cs" />
-    <Compile Include="DataManipulation\IResetCommand.cs" />
-    <Compile Include="DataManipulation\ILoadCommand.cs" />
-    <Compile Include="DataManipulation\SqlServer\BulkLoadCommand.cs" />
-    <Compile Include="DataManipulation\DataManipulationFactory.cs" />
-    <Compile Include="DataManipulation\SqlServer\SqlServerDataManipulationFactory.cs" />
-    <Compile Include="DecorationFactory.cs" />
+    <Compile Include="Decoration\DataEngineering\IDataEngineeringCommandArgs.cs" />
+    <Compile Include="Decoration\DataEngineering\IDataEngineeringFactory.cs" />
+    <Compile Include="Decoration\IDecorationCommand.cs" />
+    <Compile Include="Decoration\DataEngineering\IResetCommandArgs.cs" />
+    <Compile Include="Decoration\DataEngineering\ILoadCommandArgs.cs" />
+    <Compile Include="Decoration\DataEngineering\Commands\SqlServer\BulkLoadCommand.cs" />
+    <Compile Include="Decoration\DataEngineering\DataEngineeringFactory.cs" />
+    <Compile Include="Decoration\DataEngineering\Commands\SqlServer\SqlServerDataEngineeringFactory.cs" />
+    <Compile Include="Decoration\DecorationFactory.cs" />
     <Compile Include="Evaluate\ExpressionEvaluationResult.cs" />
     <Compile Include="Evaluate\ExpressionComparable.cs" />
     <Compile Include="Evaluate\IColumnAlias.cs" />
@@ -288,8 +339,7 @@
     <Compile Include="Format\ICurrencyFormat.cs" />
     <Compile Include="Format\INumericFormat.cs" />
     <Compile Include="Format\RegexBuilder.cs" />
-    <Compile Include="IDecorationCheck.cs" />
-    <Compile Include="IDecorationCommand.cs" />
+    <Compile Include="Decoration\IDecorationCommandArgs.cs" />
     <Compile Include="IExecutable.cs" />
     <Compile Include="IExecution.cs" />
     <Compile Include="IGroupCommand.cs" />
@@ -315,14 +365,14 @@
     <Compile Include="OfficeDataConnectionFileParser.cs" />
     <Compile Include="PowerBiDesktop\PowerBiDesktopConnectionStringBuilder.cs" />
     <Compile Include="PowerBiDesktop\ProcessExtensions.cs" />
-    <Compile Include="Process\IProcessCommand.cs" />
-    <Compile Include="Process\IKillCommand.cs" />
-    <Compile Include="Process\IWaitCommand.cs" />
-    <Compile Include="Process\IRunCommand.cs" />
-    <Compile Include="Process\ProcessCommandFactory.cs" />
-    <Compile Include="Process\KillCommand.cs" />
-    <Compile Include="Process\WaitCommand.cs" />
-    <Compile Include="Process\RunCommand.cs" />
+    <Compile Include="Decoration\Process\IProcessCommandArgs.cs" />
+    <Compile Include="Decoration\Process\IKillCommandArgs.cs" />
+    <Compile Include="Decoration\Process\IWaitCommandArgs.cs" />
+    <Compile Include="Decoration\Process\IRunCommandArgs.cs" />
+    <Compile Include="Decoration\Process\ProcessCommandFactory.cs" />
+    <Compile Include="Decoration\Process\Commands\KillCommand.cs" />
+    <Compile Include="Decoration\Process\Commands\WaitCommand.cs" />
+    <Compile Include="Decoration\Process\Commands\RunCommand.cs" />
     <Compile Include="Query\Command\AdomdCommandFactory.cs" />
     <Compile Include="Query\Command\CommandProvider.cs" />
     <Compile Include="Query\Command\OleDbCommandFactory.cs" />
@@ -375,17 +425,40 @@
     <Compile Include="Report\ReportDataSetRequest.cs" />
     <Compile Include="Report\ReportingCommand.cs" />
     <Compile Include="ResultSet\Alteration\Alter.cs" />
-    <Compile Include="ResultSet\Alteration\AlterationFactory.cs" />
-    <Compile Include="ResultSet\Alteration\AlterationType.cs" />
-    <Compile Include="ResultSet\Alteration\ColumnBased\HoldWhileCondition.cs" />
-    <Compile Include="ResultSet\Alteration\ColumnBased\Strategy\ApplyToRow.cs" />
-    <Compile Include="ResultSet\Alteration\ColumnBased\RemoveWhileCondition.cs" />
-    <Compile Include="ResultSet\Alteration\ColumnBased\Strategy\TopRowsStrategy.cs" />
-    <Compile Include="ResultSet\Alteration\ColumnBased\Strategy\AnyRowsStrategy.cs" />
-    <Compile Include="ResultSet\Alteration\ColumnBased\Strategy\AllRowsStrategy.cs" />
-    <Compile Include="ResultSet\Alteration\ColumnBased\Strategy\IStrategy.cs" />
-    <Compile Include="ResultSet\Alteration\ColumnBased\Strategy\StrategyFactory.cs" />
-    <Compile Include="ResultSet\Alteration\IAlteration.cs" />
+    <Compile Include="ResultSet\Alteration\Projection\ProjectArgs.cs" />
+    <Compile Include="ResultSet\Alteration\Projection\ProjectAwayArgs.cs" />
+    <Compile Include="ResultSet\Alteration\Projection\ProjectWhileEngine.cs" />
+    <Compile Include="ResultSet\Alteration\Projection\IProjectionArgs.cs" />
+    <Compile Include="ResultSet\Alteration\Projection\IProjectionEngine.cs" />
+    <Compile Include="ResultSet\Alteration\Projection\ProjectionFactory.cs" />
+    <Compile Include="ResultSet\Alteration\Projection\Strategy\ApplyToRow.cs" />
+    <Compile Include="ResultSet\Alteration\Projection\ProjectAwayWhileEngine.cs" />
+    <Compile Include="ResultSet\Alteration\Projection\Strategy\TopRowsStrategy.cs" />
+    <Compile Include="ResultSet\Alteration\Projection\Strategy\AnyRowsStrategy.cs" />
+    <Compile Include="ResultSet\Alteration\Projection\Strategy\AllRowsStrategy.cs" />
+    <Compile Include="ResultSet\Alteration\Projection\Strategy\IStrategy.cs" />
+    <Compile Include="ResultSet\Alteration\Projection\Strategy\StrategyFactory.cs" />
+    <Compile Include="ResultSet\Alteration\Reshaping\IReshapingArgs.cs" />
+    <Compile Include="ResultSet\Alteration\Reshaping\IReshapingEngine.cs" />
+    <Compile Include="ResultSet\Alteration\Reshaping\ReshapingFactory.cs" />
+    <Compile Include="ResultSet\Alteration\Reshaping\UnstackEngine.cs" />
+    <Compile Include="ResultSet\Alteration\Reshaping\UnstackArgs.cs" />
+    <Compile Include="ResultSet\Alteration\Summarization\ColumnAggregationArgs.cs" />
+    <Compile Include="ResultSet\Alteration\Summarization\SummarizeArgs.cs" />
+    <Compile Include="ResultSet\Alteration\Summarization\SummarizeEngine.cs" />
+    <Compile Include="ResultSet\Alteration\Summarization\SummarizationFactory.cs" />
+    <Compile Include="ResultSet\Alteration\Summarization\ISummarizationArgs.cs" />
+    <Compile Include="ResultSet\Alteration\Summarization\ISummarizationEngine.cs" />
+    <Compile Include="ResultSet\Alteration\Extension\ExtendArgs.cs" />
+    <Compile Include="ResultSet\Alteration\Extension\IExtensionArgs.cs" />
+    <Compile Include="ResultSet\Alteration\Extension\IExtensionEngine.cs" />
+    <Compile Include="ResultSet\Alteration\Extension\ExtendEngine.cs" />
+    <Compile Include="ResultSet\Alteration\Extension\ExtensionFactory.cs" />
+    <Compile Include="ResultSet\Alteration\Renaming\IRenamingArgs.cs" />
+    <Compile Include="ResultSet\Alteration\Renaming\IRenamingEngine.cs" />
+    <Compile Include="ResultSet\Alteration\Renaming\NewNameRenamingArgs.cs" />
+    <Compile Include="ResultSet\Alteration\Renaming\NewNameRenamingEngine.cs" />
+    <Compile Include="ResultSet\Alteration\Renaming\RenamingFactory.cs" />
     <Compile Include="ResultSet\Analyzer\AnalyzersFactory.cs" />
     <Compile Include="ResultSet\Analyzer\BaseRowsAnalyzer.cs" />
     <Compile Include="ResultSet\Analyzer\IRowsAnalyzer.cs" />
@@ -394,20 +467,33 @@
     <Compile Include="ResultSet\Analyzer\MissingRowsAnalyzer.cs" />
     <Compile Include="ResultSet\ColumnIdentifierFactory.cs" />
     <Compile Include="ResultSet\ColumnDynamicIdentifier.cs" />
-    <Compile Include="ResultSet\ColumnPositionIdentifier.cs" />
+    <Compile Include="ResultSet\ColumnMetadata.cs" />
+    <Compile Include="ResultSet\ColumnOrdinalIdentifier.cs" />
     <Compile Include="ResultSet\ColumnNameIdentifier.cs" />
     <Compile Include="ResultSet\ColumnRole.cs" />
     <Compile Include="ResultSet\ColumnType.cs" />
+    <Compile Include="ResultSet\Combination\CartesianProductSequenceCombination.cs" />
+    <Compile Include="ResultSet\Combination\SequenceCombinationOperation.cs" />
+    <Compile Include="ResultSet\Lookup\ILookupAnalyzer.cs" />
+    <Compile Include="ResultSet\Lookup\LookupMatchesAnalyzer.cs" />
+    <Compile Include="ResultSet\Lookup\LookupExistsAnalyzer.cs" />
     <Compile Include="ResultSet\IColumnIdentifier.cs" />
-    <Compile Include="ResultSet\Lookup\ReferenceAnalyzer.cs" />
     <Compile Include="ResultSet\Lookup\ColumnMapping.cs" />
-    <Compile Include="ResultSet\Lookup\KeysRetriever.cs" />
-    <Compile Include="ResultSet\Lookup\KeysRetrieverByIndex.cs" />
-    <Compile Include="ResultSet\Lookup\KeysRetrieverByName.cs" />
+    <Compile Include="ResultSet\Lookup\CellRetriever.cs" />
+    <Compile Include="ResultSet\Lookup\CellRetrieverByOrdinal.cs" />
+    <Compile Include="ResultSet\Lookup\CellRetrieverByName.cs" />
     <Compile Include="ResultSet\Lookup\ColumnMappingCollection.cs" />
-    <Compile Include="ResultSet\Lookup\ReferenceViolations.cs" />
-    <Compile Include="ResultSet\Alteration\ColumnBased\HoldIdentification.cs" />
-    <Compile Include="ResultSet\Alteration\ColumnBased\RemoveIdentification.cs" />
+    <Compile Include="ResultSet\Lookup\Violation\LookupMatchesViolationComposite.cs" />
+    <Compile Include="ResultSet\Alteration\Projection\ProjectEngine.cs" />
+    <Compile Include="ResultSet\Alteration\Projection\ProjectAwayEngine.cs" />
+    <Compile Include="ResultSet\Resolver\SequenceCombinationResultSetResolverArgs.cs" />
+    <Compile Include="ResultSet\Resolver\SequenceCombinationResultSetResolver.cs" />
+    <Compile Include="Scalar\Casting\ImplicitCaster.cs" />
+    <Compile Include="ResultSet\Lookup\Violation\LookupViolationCollection.cs" />
+    <Compile Include="ResultSet\Lookup\Violation\LookupMatchesViolationRecord.cs" />
+    <Compile Include="ResultSet\Lookup\Violation\LookupViolationInformation.cs" />
+    <Compile Include="ResultSet\Lookup\Violation\LookupMatchesViolationData.cs" />
+    <Compile Include="ResultSet\Lookup\Violation\RowViolationState.cs" />
     <Compile Include="Scalar\Comparer\CellComparer.cs" />
     <Compile Include="Scalar\Comparer\ComparerFactory.cs" />
     <Compile Include="Report\DatabaseReportingParser.cs" />
@@ -416,6 +502,7 @@
     <Compile Include="Report\ReportingParserFactory.cs" />
     <Compile Include="Scalar\Comparer\DateTimeToleranceFactory.cs" />
     <Compile Include="Scalar\Comparer\TextMultipleMethodsTolerance.cs" />
+    <Compile Include="Scalar\Comparer\TextCaseTolerance.cs" />
     <Compile Include="Scalar\Comparer\TextTolerance.cs" />
     <Compile Include="Scalar\Comparer\TextToleranceFactory.cs" />
     <Compile Include="Scalar\Comparer\TextSingleMethodTolerance.cs" />
@@ -424,7 +511,7 @@
     <Compile Include="Scalar\Comparer\SideTolerance.cs" />
     <Compile Include="ResultSet\Conversion\ConverterEngine.cs" />
     <Compile Include="ResultSet\Equivalence\EquivalerFactory.cs" />
-    <Compile Include="ResultSet\Resolver\CsvResultSetResolverArgs.cs" />
+    <Compile Include="ResultSet\Resolver\FlatFileResultSetResolverArgs.cs" />
     <Compile Include="ResultSet\Resolver\QueryResultSetResolverArgs.cs" />
     <Compile Include="ResultSet\Resolver\RowsResultSetResolverArgs.cs" />
     <Compile Include="ResultSet\Resolver\ContentResultSetResolverArgs.cs" />
@@ -437,14 +524,14 @@
     <Compile Include="Scalar\Casting\BaseNumericCaster.cs" />
     <Compile Include="Scalar\Casting\CasterFactory.cs" />
     <Compile Include="Scalar\Casting\ICaster.cs" />
-    <Compile Include="Scalar\Casting\DateTimeCast.cs" />
+    <Compile Include="Scalar\Casting\DateTimeCaster.cs" />
     <Compile Include="Scalar\Casting\BooleanCaster.cs" />
     <Compile Include="Scalar\Casting\ThreeStateBooleanCaster.cs" />
     <Compile Include="Scalar\Casting\NumericCaster.cs" />
     <Compile Include="Scalar\Casting\TextCaster.cs" />
     <Compile Include="ResultSet\DataRowKeysComparerByName.cs" />
-    <Compile Include="ResultSet\DataRowKeysComparerByIndex.cs" />
-    <Compile Include="ResultSet\Resolver\CsvResultSetResolver.cs" />
+    <Compile Include="ResultSet\DataRowKeysComparerByOrdinal.cs" />
+    <Compile Include="ResultSet\Resolver\FlatFileResultSetResolver.cs" />
     <Compile Include="ResultSet\Resolver\IResultSetResolver.cs" />
     <Compile Include="ResultSet\IResultSetService.cs" />
     <Compile Include="ResultSet\Resolver\ContentResultSetResolver.cs" />
@@ -473,6 +560,22 @@
     <Compile Include="ResultSet\Uniqueness\NameEvaluator.cs" />
     <Compile Include="ResultSet\Uniqueness\SettingsEvaluatorBuilder.cs" />
     <Compile Include="ResultSet\Uniqueness\ResultUniqueRows.cs" />
+    <Compile Include="Scalar\Presentation\BooleanPresenter.cs" />
+    <Compile Include="Scalar\Presentation\BasePresenter.cs" />
+    <Compile Include="Scalar\Presentation\IPresenter.cs" />
+    <Compile Include="Scalar\Presentation\NumericPresenter.cs" />
+    <Compile Include="Scalar\Presentation\PresenterFactory.cs" />
+    <Compile Include="Scalar\Presentation\DateTimePresenter.cs" />
+    <Compile Include="Scalar\Presentation\TextPresenter.cs" />
+    <Compile Include="Scalar\Duration\DateTimeExtensions.cs" />
+    <Compile Include="Scalar\Duration\FixedDuration.cs" />
+    <Compile Include="Scalar\Duration\IDuration.cs" />
+    <Compile Include="Scalar\Duration\DurationConverter.cs" />
+    <Compile Include="Scalar\Duration\YearDuration.cs" />
+    <Compile Include="Scalar\Duration\MonthDuration.cs" />
+    <Compile Include="Scalar\Format\FormatterFactory.cs" />
+    <Compile Include="Scalar\Format\IFormatter.cs" />
+    <Compile Include="Scalar\Format\InvariantFormatter.cs" />
     <Compile Include="Scalar\Interval\EndPoint.cs" />
     <Compile Include="ResultSet\IContent.cs" />
     <Compile Include="Scalar\Interval\DateTimeInterval.cs" />
@@ -505,14 +608,14 @@
     <Compile Include="ResultSet\ISettingsResultSet.cs" />
     <Compile Include="ResultSet\Uniqueness\Evaluator.cs" />
     <Compile Include="ResultSet\Equivalence\BaseEquivaler.cs" />
-    <Compile Include="ResultSet\Uniqueness\IndexEvaluator.cs" />
+    <Compile Include="ResultSet\Uniqueness\OrdinalEvaluator.cs" />
     <Compile Include="ResultSet\Equivalence\NameEquivaler.cs" />
-    <Compile Include="ResultSet\SettingsIndexResultSet.cs" />
+    <Compile Include="ResultSet\SettingsOrdinalResultSet.cs" />
     <Compile Include="ResultSet\SettingsNameResultSet.cs" />
     <Compile Include="ResultSet\Equivalence\SettingsEquivalerBuilder.cs" />
     <Compile Include="ResultSet\SettingsSingleRowResultSet.cs" />
     <Compile Include="ResultSet\Equivalence\SingleRowEquivaler.cs" />
-    <Compile Include="ResultSet\Equivalence\IndexEquivaler.cs" />
+    <Compile Include="ResultSet\Equivalence\OrdinalEquivaler.cs" />
     <Compile Include="ResultSet\DataRowKeysComparer.cs" />
     <Compile Include="Scalar\Interval\NumericInterval.cs" />
     <Compile Include="ResultSet\KeyCollection.cs" />
@@ -527,14 +630,20 @@
     <Compile Include="ResultSet\ResultResultSet.cs" />
     <Compile Include="ResultSet\Equivalence\IEquivaler.cs" />
     <Compile Include="ConnectionException.cs" />
-    <Compile Include="CsvDefinition.cs" />
+    <Compile Include="FlatFile\CsvProfile.cs" />
     <Compile Include="Query\ParserResult.cs" />
     <Compile Include="Query\Performance\PerformanceResult.cs" />
-    <Compile Include="IProgressStatusAware.cs" />
     <Compile Include="Analysis\Member\MemberResult.cs" />
-    <Compile Include="ProgressStatusHandler.cs" />
-    <Compile Include="ProgressStatusEventArgs.cs" />
     <Compile Include="Properties\ProjectAssemblyInfo.cs" />
+    <Compile Include="Scalar\Resolver\NCalcScalarResolver.cs" />
+    <Compile Include="Scalar\Resolver\FormatScalarResolverArgs.cs" />
+    <Compile Include="Scalar\Resolver\EnvironmentScalarResolverArgs.cs" />
+    <Compile Include="Scalar\Resolver\EnvironmentScalarResolver.cs" />
+    <Compile Include="Scalar\Resolver\FormatScalarResolver.cs" />
+    <Compile Include="Scalar\Resolver\FunctionScalarResolver.cs" />
+    <Compile Include="Scalar\Resolver\FunctionScalarResolverArgs.cs" />
+    <Compile Include="Scalar\Resolver\NCalcScalarResolverArgs.cs" />
+    <Compile Include="Scalar\Resolver\ScalarResolverArgsFactory.cs" />
     <Compile Include="Scalar\ThreeStateBoolean.cs" />
     <Compile Include="ResultSet\Uniqueness\ResultOccurenceUniqueRows.cs" />
     <Compile Include="Scalar\Conversion\BaseConverter.cs" />
@@ -562,11 +671,58 @@
     <Compile Include="Scalar\Resolver\IScalarResolverArgs.cs" />
     <Compile Include="Scalar\Resolver\ScalarResolverFactory.cs" />
     <Compile Include="Scalar\ScalarComparer.cs" />
+    <Compile Include="Sequence\Resolver\FileLoopSequenceResolver.cs" />
+    <Compile Include="Sequence\Resolver\FileLoopSequenceResolverArgs.cs" />
+    <Compile Include="IO\Filtering\UpdateDateTimeFilter.cs" />
+    <Compile Include="IO\Filtering\IPropertyFilter.cs" />
+    <Compile Include="IO\Filtering\IRootFileFilter.cs" />
+    <Compile Include="IO\Filtering\IFileFilter.cs" />
+    <Compile Include="IO\Filtering\NullRootFilter.cs" />
+    <Compile Include="IO\Filtering\PatternRootFilter.cs" />
+    <Compile Include="IO\Filtering\CreationDateTimeFilter.cs" />
+    <Compile Include="IO\Filtering\SizeFilter.cs" />
+    <Compile Include="Sequence\Resolver\ILoopSequenceResolverArgs.cs" />
+    <Compile Include="Sequence\Resolver\LoopSequenceResolver.cs" />
+    <Compile Include="Sequence\Resolver\CountLoopSequenceResolverArgs.cs" />
+    <Compile Include="Sequence\Resolver\Loop\IntervalMode.cs" />
+    <Compile Include="Sequence\Resolver\Loop\SentinelHalfOpenNumericLoopStrategy.cs" />
+    <Compile Include="Sequence\Resolver\Loop\SentinelHalfOpenDateTimeLoopStrategy.cs" />
+    <Compile Include="Sequence\Resolver\SentinelLoopSequenceResolverArgs.cs" />
+    <Compile Include="Sequence\Resolver\Loop\CountDateTimeLoopStrategy.cs" />
+    <Compile Include="Sequence\Resolver\Loop\SentinelCloseDateTimeLoopStrategy.cs" />
+    <Compile Include="Sequence\Resolver\Loop\SentinelCloseNumericLoopStrategy.cs" />
+    <Compile Include="Sequence\Resolver\Loop\SentinelLoopStrategy.cs" />
+    <Compile Include="Sequence\Resolver\Loop\CountLoopStrategy.cs" />
+    <Compile Include="Sequence\Resolver\Loop\CountNumericLoopStrategy.cs" />
+    <Compile Include="Sequence\Resolver\Loop\ILoopStrategy.cs" />
+    <Compile Include="Sequence\Resolver\ISequenceResolver.cs" />
+    <Compile Include="Sequence\Resolver\ISequenceResolverArgs.cs" />
+    <Compile Include="Sequence\Resolver\ListSequenceResolver.cs" />
+    <Compile Include="Sequence\Resolver\ListSequenceResolverArgs.cs" />
+    <Compile Include="Sequence\Resolver\SequenceResolverFactory.cs" />
+    <Compile Include="Sequence\Transformation\Aggregation\Aggregation.cs" />
+    <Compile Include="Sequence\Transformation\Aggregation\AggregationArgs.cs" />
+    <Compile Include="Sequence\Transformation\Aggregation\AggregationFactory.cs" />
+    <Compile Include="Sequence\Transformation\Aggregation\AggregationFunctionType.cs" />
+    <Compile Include="Sequence\Transformation\Aggregation\IAggregationStrategy.cs" />
+    <Compile Include="Sequence\Transformation\Aggregation\Function\BaseAggregation.cs" />
+    <Compile Include="Sequence\Transformation\Aggregation\IAggregationFunction.cs" />
+    <Compile Include="Sequence\Transformation\Aggregation\Function\Max.cs" />
+    <Compile Include="Sequence\Transformation\Aggregation\Function\Min.cs" />
+    <Compile Include="Sequence\Transformation\Aggregation\Function\Sum.cs" />
+    <Compile Include="Sequence\Transformation\Aggregation\Function\Average.cs" />
+    <Compile Include="Sequence\Transformation\ISequenceTransformation.cs" />
+    <Compile Include="Sequence\Transformation\Aggregation\Strategy\FailureEmptySeriesStrategy.cs" />
+    <Compile Include="Sequence\Transformation\Aggregation\Strategy\IEmptySeriesStrategy.cs" />
+    <Compile Include="Sequence\Transformation\Aggregation\Strategy\ReplaceByDefaultStrategy.cs" />
+    <Compile Include="Sequence\Transformation\Aggregation\Strategy\DropStrategy.cs" />
+    <Compile Include="Sequence\Transformation\Aggregation\Strategy\FailureMissingValueStrategy.cs" />
+    <Compile Include="Sequence\Transformation\Aggregation\Strategy\IMissingValueStrategy.cs" />
+    <Compile Include="Sequence\Transformation\Aggregation\Strategy\ReturnDefaultStrategy.cs" />
     <Compile Include="StringComparerHelper.cs" />
     <Compile Include="StringExtensions.cs" />
-    <Compile Include="StringHelper.cs" />
     <Compile Include="StringTemplateEngine.cs" />
-    <Compile Include="DataManipulation\SqlServer\TruncateCommand.cs" />
+    <Compile Include="Decoration\DataEngineering\Commands\SqlServer\TruncateCommand.cs" />
     <Compile Include="Structure\IDiscoveryCommandBuilder.cs" />
     <Compile Include="Structure\IFilter.cs" />
     <Compile Include="Structure\IValueFilter.cs" />
@@ -622,24 +778,22 @@
     <Compile Include="Structure\TargetType.cs" />
     <Compile Include="Structure\Target.cs" />
     <Compile Include="Transformation\Transformer\FormatTransformer.cs" />
+    <Compile Include="Transformation\Transformer\NativeTransformationFactory.cs" />
     <Compile Include="Transformation\Transformer\NativeTransformer.cs" />
-    <Compile Include="Transformation\Transformer\Native\TextToHtml.cs" />
+    <Compile Include="Transformation\Transformer\Native\DateTime\DateTimeTransformations.cs" />
+    <Compile Include="Transformation\Transformer\Native\IO\FileTransformation.cs" />
+    <Compile Include="Transformation\Transformer\Native\IO\IBasePathTransformation.cs" />
+    <Compile Include="Transformation\Transformer\Native\IO\PathTransformation.cs" />
+    <Compile Include="Transformation\Transformer\Native\Numeric\NumericTransformations.cs" />
+    <Compile Include="Transformation\Transformer\Native\Text\TextTransformations.cs" />
     <Compile Include="Transformation\Transformer\Native\INativeTransformation.cs" />
-    <Compile Include="Transformation\Transformer\Native\DateToAge.cs" />
     <Compile Include="Transformation\Transformer\Native\NotImplementedTransformationException.cs" />
-    <Compile Include="Transformation\Transformer\Native\NullToValue.cs" />
-    <Compile Include="Transformation\Transformer\Native\TextToLength.cs" />
-    <Compile Include="Transformation\Transformer\Native\HtmlToText.cs" />
-    <Compile Include="Transformation\Transformer\Native\TextToWithoutDiacritics.cs" />
-    <Compile Include="Transformation\Transformer\Native\TextToUpper.cs" />
-    <Compile Include="Transformation\Transformer\Native\TextToLower.cs" />
-    <Compile Include="Transformation\Transformer\Native\TextToTrim.cs" />
-    <Compile Include="Transformation\Transformer\Native\ValueToValue.cs" />
-    <Compile Include="Transformation\Transformer\Native\AnyToAny.cs" />
-    <Compile Include="Transformation\Transformer\Native\NullToEmpty.cs" />
-    <Compile Include="Transformation\Transformer\Native\EmptyToNull.cs" />
-    <Compile Include="Transformation\Transformer\Native\BlankToNull.cs" />
-    <Compile Include="Transformation\Transformer\Native\BlankToEmpty.cs" />
+    <Compile Include="Transformation\Transformer\Native\Special\NullToValue.cs" />
+    <Compile Include="Transformation\Transformer\Native\Text\TextToWithoutWhitespaces.cs" />
+    <Compile Include="Transformation\Transformer\Native\Text\TextToWithoutDiacritics.cs" />
+    <Compile Include="Transformation\Transformer\Native\DateTime\TimeZoneTransformations.cs" />
+    <Compile Include="Transformation\Transformer\Native\Special\ValueToValue.cs" />
+    <Compile Include="Transformation\Transformer\Native\Special\AnyToAny.cs" />
     <Compile Include="Transformation\Transformer\NCalcTransformer.cs" />
     <Compile Include="Transformation\Transformer\CSharpTransformer.cs" />
     <Compile Include="Transformation\ITransformationInfo.cs" />
@@ -647,19 +801,22 @@
     <Compile Include="Transformation\LanguageType.cs" />
     <Compile Include="Transformation\TransformerFactory.cs" />
     <Compile Include="Transformation\TransformationProvider.cs" />
+    <Compile Include="Variable\GlobalVariable.cs" />
+    <Compile Include="Variable\Instantiation\DefaultInstanceArgs.cs" />
+    <Compile Include="Variable\Instantiation\IInstanceArgs.cs" />
+    <Compile Include="Variable\Instantiation\Instance.cs" />
+    <Compile Include="Variable\Instantiation\InstanceFactory.cs" />
+    <Compile Include="Variable\InstanceVariable.cs" />
+    <Compile Include="Variable\OverridenVariable.cs" />
+    <Compile Include="Variable\Instantiation\SingleVariableInstanceArgs.cs" />
     <Compile Include="Variable\TestVariable.cs" />
     <Compile Include="Variable\ITestVariable.cs" />
-    <Compile Include="Variable\TestVariableBuilder.cs" />
-    <Compile Include="WindowsService\IWindowsServiceCheck.cs" />
-    <Compile Include="WindowsService\WindowsServiceCheck.cs" />
-    <Compile Include="WindowsService\WindowsServiceCheckFactory.cs" />
-    <Compile Include="WindowsService\IWindowsServiceRunningCheck.cs" />
-    <Compile Include="WindowsService\IWindowsServiceCommand.cs" />
-    <Compile Include="WindowsService\IWindowsServiceStopCommand.cs" />
-    <Compile Include="WindowsService\IWindowsServiceBase.cs" />
-    <Compile Include="WindowsService\IWindowsServiceStartCommand.cs" />
-    <Compile Include="WindowsService\WindowsServiceCommand.cs" />
-    <Compile Include="WindowsService\WindowsServiceCommandFactory.cs" />
+    <Compile Include="Variable\VariableFactory.cs" />
+    <Compile Include="Variable\VariableScope.cs" />
+    <Compile Include="Decoration\Process\ProcessConditionFactory.cs" />
+    <Compile Include="Decoration\Process\IRunningConditionArgs.cs" />
+    <Compile Include="Decoration\Process\IStopCommandArgs.cs" />
+    <Compile Include="Decoration\Process\IStartCommandArgs.cs" />
     <Compile Include="Xml\EvaluateSelect.cs" />
     <Compile Include="Xml\AttributeSelect.cs" />
     <Compile Include="Xml\AbstractSelect.cs" />
@@ -678,6 +835,7 @@
     <EmbeddedResource Include="Report\ReportServerQueryFromSharedDataSet.sql" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

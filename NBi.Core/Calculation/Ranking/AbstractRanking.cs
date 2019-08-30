@@ -8,11 +8,14 @@ using NBi.Core.Calculation.Predicate;
 using NBi.Core.Calculation.Ranking.Scoring;
 using NBi.Core.Evaluate;
 using NBi.Core.ResultSet;
+using NBi.Core.Scalar.Resolver;
 
 namespace NBi.Core.Calculation.Ranking
 {
     public abstract class AbstractRanking : BaseRankingFilter
     {
+        protected abstract ComparerType GetComparerType();
+
         public AbstractRanking(IColumnIdentifier operand, ColumnType columnType, IEnumerable<IColumnAlias> aliases, IEnumerable<IColumnExpression> expressions)
             : this(1, operand, columnType, aliases, expressions) { }
 
@@ -47,33 +50,27 @@ namespace NBi.Core.Calculation.Ranking
 
         protected virtual bool RowCompare(ScoredObject oldObj, ScoredObject newObj)
         {
-            var info = new PredicateInfo();
-            var factory = new PredicateFactory();
-            var predicateInfo = BuildPredicateInfo(oldObj.Score);
-            var predicate = factory.Instantiate(predicateInfo);
-            return predicate.Execute(newObj.Score);
+            switch (columnType)
+            {
+                case ColumnType.Text: return RowCompare<string>(oldObj, newObj);
+                case ColumnType.Numeric: return RowCompare<decimal>(oldObj, newObj);
+                case ColumnType.DateTime: return RowCompare<DateTime>(oldObj, newObj);
+                case ColumnType.Boolean: return RowCompare<bool>(oldObj, newObj);
+                default: throw new ArgumentOutOfRangeException();
+            }
         }
 
-        
-
-        private IPredicateInfo BuildPredicateInfo(object reference)
-            => new PredicateInfo()
+        protected virtual bool RowCompare<T>(ScoredObject oldObj, ScoredObject newObj)
+        {
+            var factory = new PredicateFactory();
+            var predicateArgs = new ReferencePredicateArgs()
             {
-                Operand = operand,
                 ColumnType = columnType,
                 ComparerType = GetComparerType(),
-                Reference = reference
+                Reference = new LiteralScalarResolver<T>(oldObj.Score)
             };
-
-        protected abstract ComparerType GetComparerType();
-
-        private class PredicateInfo : IPredicateInfo, IReferencePredicateInfo
-        {
-            public IColumnIdentifier Operand { get; set; }
-            public ColumnType ColumnType { get; set; }
-            public ComparerType ComparerType { get; set; }
-            public bool Not { get; set; }
-            public object Reference { get; set; }
+            var predicate = factory.Instantiate(predicateArgs);
+            return predicate.Execute(newObj.Score);
         }
     }
 }

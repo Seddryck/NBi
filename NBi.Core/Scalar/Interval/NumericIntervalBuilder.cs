@@ -104,8 +104,7 @@ namespace NBi.Core.Scalar.Interval
 					return new NumericInterval(new LeftEndPointNegativeInfinity(), new RightEndPointOpen<double>(0));
 			}
 
-			double d;
-			if (double.TryParse(value.Substring(1, value.Length - 1), NumberStyles.Number, CultureInfo.InvariantCulture.NumberFormat, out d))
+			if (double.TryParse(value.Substring(1, value.Length - 1), NumberStyles.Number, CultureInfo.InvariantCulture.NumberFormat, out double d))
 			{
 				switch (value.Substring(0,1))
 				{

@@ -33,15 +33,7 @@ namespace NBi.NUnit.Query
         }
 
         private IDataRowsMessageFormatter failure;
-        protected IDataRowsMessageFormatter Failure
-        {
-            get
-            {
-                if (failure == null)
-                    failure = BuildFailure();
-                return failure;
-            }
-        }
+        protected IDataRowsMessageFormatter Failure { get => failure ?? (failure = BuildFailure());}
 
         protected virtual IDataRowsMessageFormatter BuildFailure()
         {

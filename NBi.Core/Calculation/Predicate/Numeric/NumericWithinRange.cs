@@ -6,18 +6,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using NBi.Core.Scalar.Interval;
-using NBi.Core.Scalar.Caster;
+using NBi.Core.Scalar.Casting;
+using NBi.Core.Scalar.Resolver;
 
 namespace NBi.Core.Calculation.Predicate.Numeric
 {
     class NumericWithinRange : AbstractPredicateReference
     {
-        public NumericWithinRange(bool not, object reference) : base(not, reference)
+        public NumericWithinRange(bool not, IScalarResolver reference) : base(not, reference)
         { }
 
-        protected override bool Apply(object x)
+        protected override bool ApplyWithReference(object reference, object x)
         {
-            var builder = new NumericIntervalBuilder(Reference);
+            var builder = new NumericIntervalBuilder(reference);
             builder.Build();
             if (!builder.IsValid())
                 throw builder.GetException();
@@ -28,6 +29,6 @@ namespace NBi.Core.Calculation.Predicate.Numeric
             return interval.Contains(numX);
         }
 
-        public override string ToString() => $"is within the interval {Reference}";
+        public override string ToString() => $"is within the interval {Reference.Execute()}";
     }
 }

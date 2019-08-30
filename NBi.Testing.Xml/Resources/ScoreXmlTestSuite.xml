@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<testSuite name="All-rows TestSuite" xmlns="http://NBi/TestSuite">
+  <settings>
+    <default apply-to="system-under-test">
+      <connectionString>Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly</connectionString>
+    </default>
+  </settings>
+  <test name="Without threshold" uid="0000">
+    <system-under-test>
+      <scalar>
+        <query-scalar>
+          select case when count(*)>5 then 1 else 0 end as value from [HumanResources].[Department]
+        </query-scalar>
+      </scalar>
+    </system-under-test>
+    <assert>
+      <score/>
+    </assert>
+  </test>
+  <test name="With threshold" uid="0001">
+    <system-under-test>
+      <scalar>
+        <query-scalar>
+          select case when count(*)>5 then 1 else 0 end as value from [HumanResources].[Department]
+        </query-scalar>
+      </scalar>
+    </system-under-test>
+    <assert>
+      <score threshold="0.95"/>
+    </assert>
+  </test>
+</testSuite>

@@ -1,17 +1,18 @@
 ﻿using System;
 using System.Linq;
-using NBi.Service;
 using System.Collections.Generic;
+using NBi.GenbiL.Stateful;
+using System.Data;
 
 namespace NBi.GenbiL.Action.Case
 {
-    public class ReplaceCaseAction : ICaseAction
+    class ReplaceCaseAction : AbstractCompareCaseAction
     {
         public string Column { get; set; }
         public string NewValue { get; set; }
         public IEnumerable<string> Values { get; set; }
         public bool Negation { get; set; }
-        public Operator Operator { get; set; }
+        public OperatorType Operator { get; set; }
 
         public ReplaceCaseAction(string column, string newValue)
         {
@@ -19,7 +20,7 @@ namespace NBi.GenbiL.Action.Case
             NewValue = newValue;
         }
 
-        public ReplaceCaseAction(string column, string newValue, Operator @operator, IEnumerable<string> values, bool negation)
+        public ReplaceCaseAction(string column, string newValue, OperatorType @operator, IEnumerable<string> values, bool negation)
             : this(column, newValue)
         {
             Values = values;
@@ -27,15 +28,46 @@ namespace NBi.GenbiL.Action.Case
             Negation = negation;
         }
 
-        public void Execute(GenerationState state)
+        public override void Execute(CaseSet testCases)
         {
             if (Values==null || Values.Count()==0)
-                state.TestCaseCollection.Scope.Replace(Column, NewValue);
+                Replace(testCases, Column, NewValue);
             else
-                state.TestCaseCollection.Scope.Replace(Column, NewValue, Operator, Negation, Values);
+                Replace(testCases, Column, NewValue, Operator, Negation, Values);
         }
 
-        public virtual string Display
+        public void Replace(CaseSet testCases, string columnName, string newValue)
+        {
+            if (!testCases.Variables.Contains(columnName))
+                throw new ArgumentException($"No column named '{columnName}' has been found.");
+
+            var index = testCases.Variables.ToList().IndexOf(columnName);
+
+            foreach (DataRow row in testCases.Content.Rows)
+                row[index] = newValue;
+
+            testCases.Content.AcceptChanges();
+        }
+
+        public void Replace(CaseSet testCases, string columnName, string newValue, OperatorType @operator, bool negation, IEnumerable<string> values)
+        {
+            if (!testCases.Variables.Contains(columnName))
+                throw new ArgumentException($"No column named '{columnName}' has been found.");
+
+            var compare = AssignCompare(@operator);
+
+            var index = testCases.Variables.ToList().IndexOf(columnName);
+
+            foreach (DataRow row in testCases.Content.Rows)
+            {
+                if (compare(row[index].ToString(), values) != negation)
+                    row[index] = newValue;
+            }
+
+            testCases.Content.AcceptChanges();
+        }
+
+        public override string Display
         {
             get
             {
@@ -53,19 +85,6 @@ namespace NBi.GenbiL.Action.Case
 
                 return display;
             }
-        }
-        private string GetOperatorText(Operator @operator)
-        {
-            switch (@operator)
-            {
-                case Operator.Equal:
-                    return "equal to";
-                case Operator.Like:
-                    return "like";
-                default:
-                    break;
-            }
-            throw new ArgumentException();
         }
     }
 }

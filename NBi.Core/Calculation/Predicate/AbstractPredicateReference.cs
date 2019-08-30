@@ -1,4 +1,6 @@
-﻿using System;
+﻿using NBi.Core.Scalar.Resolver;
+using NBi.Core.Variable;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,12 +10,16 @@ namespace NBi.Core.Calculation.Predicate
 {
     abstract class AbstractPredicateReference : AbstractPredicate
     {
-        public object Reference { get; set; }
+        public IResolver Reference { get; set; }
 
-        public AbstractPredicateReference(bool not, object reference)
+        public AbstractPredicateReference(bool not, IResolver reference)
             : base(not)
         {
             Reference = reference;
         }
+
+        protected override bool Apply(object x) => ApplyWithReference(Reference.Execute(), x);
+
+        protected abstract bool ApplyWithReference(object reference, object x);
     }
 }

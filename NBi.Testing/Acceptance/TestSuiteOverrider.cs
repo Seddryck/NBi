@@ -1,4 +1,5 @@
 ﻿using NBi.Core.Configuration;
+using NBi.Core.Variable;
 using NBi.NUnit.Runtime;
 using NBi.Xml;
 using NUnit.Framework;
@@ -18,35 +19,35 @@ namespace NBi.Testing.Acceptance
         {
         }
 
-        public TestSuiteOverrider(string filename, string configFilename) : base()
-        {
-            TestSuiteFinder = new TestSuiteFinderOverrider(filename);
-            ConfigurationFinder = new ConfigurationFinderOverrider(configFilename);
-            ConnectionStringsFinder = new ConnectionStringsFinderOverrider(configFilename);
-        }
+        public TestSuiteOverrider(string filename, string configFilename) 
+            : base(new TestSuiteProviderOverrider(filename)
+                  , new ConfigurationProviderOverrider(configFilename)
+                  , new ConnectionStringsFinderOverrider(configFilename))
+        { }
 
-        internal class TestSuiteFinderOverrider : TestSuiteFinder
+        internal class TestSuiteProviderOverrider : TestSuiteProvider
         {
             private readonly string filename;
-            public TestSuiteFinderOverrider(string filename)
+            public TestSuiteProviderOverrider(string filename)
             {
                 this.filename = filename;
             }
 
-            protected internal override string Find()
+            public override string GetFilename(string path)
             {
-                return @"Acceptance\Resources\" + filename;
+                if (string.IsNullOrEmpty(path))
+                    return @"Acceptance\Resources\" + filename;
+                else
+                    return @"Acceptance\Resources\" + path;
             }
         }
 
-        internal class ConfigurationFinderOverrider : ConfigurationFinder
+        internal class ConfigurationProviderOverrider : ConfigurationProvider
         {
             private readonly string filename;
-            public ConfigurationFinderOverrider(string filename)
-            {
-                this.filename = filename;
-            }
-            protected internal override NBiSection Find()
+            public ConfigurationProviderOverrider(string filename) => this.filename = filename;
+
+            public override NBiSection GetSection()
             {
                 if (!string.IsNullOrEmpty(filename))
                 {
@@ -81,16 +82,16 @@ namespace NBi.Testing.Acceptance
         }
 
         [Ignore]
-        public override void ExecuteTestCases(TestXml test)
+        public override void ExecuteTestCases(TestXml test, string testName, IDictionary<string, ITestVariable> localVariables)
         {
-            base.ExecuteTestCases(test);
+            base.ExecuteTestCases(test, testName, localVariables);
         }
 
         [Ignore]
-        public void ExecuteTestCases(TestXml test, IConfiguration configuration)
+        public void ExecuteTestCases(TestXml test, string testName, IConfiguration configuration)
         {
             base.Configuration = configuration;
-            base.ExecuteTestCases(test);
+            base.ExecuteTestCases(test, testName, new Dictionary<string, ITestVariable>());
         }
     }
 }

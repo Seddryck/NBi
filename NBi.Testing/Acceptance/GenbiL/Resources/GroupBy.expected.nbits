@@ -1,0 +1,121 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<testSuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://NBi/TestSuite">
+  <settings />
+  <group name="Replacement policies">
+    <group name="Policy">
+      <setup>
+        <service-start name="msolap" />
+      </setup>
+      <test name="A dimension named 'Policy' exists in perspective 'Replacement policies'.">
+        <description>Assert that the dimension named 'Policy' exists through the perspective 'Replacement policies' and is visible for end-users</description>
+        <system-under-test>
+          <structure>
+            <dimension caption="Policy" perspective="Replacement policies" />
+          </structure>
+        </system-under-test>
+        <assert>
+          <exists />
+        </assert>
+      </test>
+      <group name="Policies hierarchy">
+        <test name="A hierarchy named 'Policies hierarchy' exists in dimension 'Policy', in perspective 'Replacement policies'.">
+          <description>Assert that the hierarchy named 'Policies hierarchy' exists in dimension 'Policy' through the perspective 'Replacement policies' and is visible for end-users</description>
+          <system-under-test>
+            <structure>
+              <hierarchy caption="Policies hierarchy" perspective="Replacement policies" dimension="Policy" />
+            </structure>
+          </system-under-test>
+          <assert>
+            <exists />
+          </assert>
+        </test>
+        <test name="A level named 'Financial driver' exists in hierarchy 'Policies hierarchy', dimension 'Policy', in perspective 'Replacement policies'.">
+          <description>Assert that the level named 'Financial driver' exists in hierarchy 'Policies hierarchy', in dimension 'Policy' through the perspective 'Replacement policies' and is visible for end-users</description>
+          <system-under-test>
+            <structure>
+              <level caption="Financial driver" perspective="Replacement policies" dimension="Policy" hierarchy="Policies hierarchy" />
+            </structure>
+          </system-under-test>
+          <assert>
+            <exists />
+          </assert>
+        </test>
+        <test name="A level named 'Macro-policy' exists in hierarchy 'Policies hierarchy', dimension 'Policy', in perspective 'Replacement policies'.">
+          <description>Assert that the level named 'Macro-policy' exists in hierarchy 'Policies hierarchy', in dimension 'Policy' through the perspective 'Replacement policies' and is visible for end-users</description>
+          <system-under-test>
+            <structure>
+              <level caption="Macro-policy" perspective="Replacement policies" dimension="Policy" hierarchy="Policies hierarchy" />
+            </structure>
+          </system-under-test>
+          <assert>
+            <exists />
+          </assert>
+        </test>
+      </group>
+    </group>
+    <group name="Agent">
+      <setup>
+        <service-start name="msolap" />
+      </setup>
+      <test name="A dimension named 'Agent' exists in perspective 'Replacement policies'.">
+        <description>Assert that the dimension named 'Agent' exists through the perspective 'Replacement policies' and is visible for end-users</description>
+        <system-under-test>
+          <structure>
+            <dimension caption="Agent" perspective="Replacement policies" />
+          </structure>
+        </system-under-test>
+        <assert>
+          <exists />
+        </assert>
+      </test>
+      <group name="Agent fullname">
+        <test name="A hierarchy named 'Agent fullname' exists in dimension 'Agent', in perspective 'Replacement policies'.">
+          <description>Assert that the hierarchy named 'Agent fullname' exists in dimension 'Agent' through the perspective 'Replacement policies' and is visible for end-users</description>
+          <system-under-test>
+            <structure>
+              <hierarchy caption="Agent fullname" perspective="Replacement policies" dimension="Agent" />
+            </structure>
+          </system-under-test>
+          <assert>
+            <exists />
+          </assert>
+        </test>
+        <test name="A level named 'Agent fullname' exists in hierarchy 'Agent fullname', dimension 'Agent', in perspective 'Replacement policies'.">
+          <description>Assert that the level named 'Agent fullname' exists in hierarchy 'Agent fullname', in dimension 'Agent' through the perspective 'Replacement policies' and is visible for end-users</description>
+          <system-under-test>
+            <structure>
+              <level caption="Agent fullname" perspective="Replacement policies" dimension="Agent" hierarchy="Agent fullname" />
+            </structure>
+          </system-under-test>
+          <assert>
+            <exists />
+          </assert>
+        </test>
+      </group>
+      <group name="Agent profile">
+        <test name="A hierarchy named 'Agent profile' exists in dimension 'Agent', in perspective 'Replacement policies'.">
+          <description>Assert that the hierarchy named 'Agent profile' exists in dimension 'Agent' through the perspective 'Replacement policies' and is visible for end-users</description>
+          <system-under-test>
+            <structure>
+              <hierarchy caption="Agent profile" perspective="Replacement policies" dimension="Agent" />
+            </structure>
+          </system-under-test>
+          <assert>
+            <exists />
+          </assert>
+        </test>
+        <test name="A level named 'Experience' exists in hierarchy 'Agent profile', dimension 'Agent', in perspective 'Replacement policies'.">
+          <description>Assert that the level named 'Experience' exists in hierarchy 'Agent profile', in dimension 'Agent' through the perspective 'Replacement policies' and is visible for end-users</description>
+          <system-under-test>
+            <structure>
+              <level caption="Experience" perspective="Replacement policies" dimension="Agent" hierarchy="Agent profile" />
+            </structure>
+          </system-under-test>
+          <assert>
+            <exists />
+          </assert>
+        </test>
+      </group>
+    </group>
+  </group>
+</testSuite>

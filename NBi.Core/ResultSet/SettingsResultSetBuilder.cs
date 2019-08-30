@@ -13,9 +13,9 @@ namespace NBi.Core.ResultSet
     {
         protected bool isBuild = false;
 
-        protected SettingsIndexResultSet.KeysChoice keysSet;
+        protected SettingsOrdinalResultSet.KeysChoice keysSet;
         protected IEnumerable<string> nameKeys = new string[0];
-        protected SettingsIndexResultSet.ValuesChoice valuesSet;
+        protected SettingsOrdinalResultSet.ValuesChoice valuesSet;
         protected IEnumerable<string> nameValues = new string[0];
         protected IReadOnlyList<IColumnDefinition> definitionColumns = new IColumnDefinition[0];
 
@@ -28,7 +28,7 @@ namespace NBi.Core.ResultSet
             this.nameValues = nameValues ?? new string[0];
         }
 
-        public void Setup(SettingsIndexResultSet.KeysChoice keysSet, SettingsIndexResultSet.ValuesChoice valuesSet)
+        public void Setup(SettingsOrdinalResultSet.KeysChoice keysSet, SettingsOrdinalResultSet.ValuesChoice valuesSet)
         {
             isBuild = false;
             this.keysSet = keysSet;
@@ -58,64 +58,41 @@ namespace NBi.Core.ResultSet
 
             
             if ((nameKeys.Count() > 0 || nameValues.Count() > 0)
-                && definitionColumns.Any(c => c.Index != 0))
+                && definitionColumns.Any(c => c.Identifier is ColumnOrdinalIdentifier))
                 throw new InvalidOperationException("You cannot define an engine based on columns' name and specify some column's definitions where you explicitely give a value to the 'index' attribute. Use attribute 'index' in place of 'name'.");
 
-            if (definitionColumns.Any(c => c.Index != 0 && !string.IsNullOrEmpty(c.Name)))
-                throw new InvalidOperationException("You cannot define some columns' definitions where you explicitely give a value to the 'index' attribute and to the 'name' attribute. Use attribute 'index' or 'name' but not both.");
-
-            if (!IsByName() && keysSet == SettingsIndexResultSet.KeysChoice.First
-                && definitionColumns.Any(c => c.Index == 0 && c.Role!=ColumnRole.Key)  
-                && !definitionColumns.Any(c => c.Index != 0 && c.Role == ColumnRole.Key))
+            if (!IsByName() && keysSet == SettingsOrdinalResultSet.KeysChoice.First
+                && definitionColumns.Any(c => (c.Identifier as ColumnOrdinalIdentifier).Ordinal == 0 && c.Role!=ColumnRole.Key)  
+                && !definitionColumns.Any(c => (c.Identifier as ColumnOrdinalIdentifier).Ordinal != 0 && c.Role == ColumnRole.Key))
                 throw new InvalidOperationException("You cannot define a dataset without key. You've define a unique key, then overriden this key as a value and never set another key. Review your columns' definition.");
         }
 
-        protected void PerformSetsAndColumnsCheck(SettingsIndexResultSet.KeysChoice defaultKeysSet, SettingsIndexResultSet.ValuesChoice defaultValuesSet)
+        protected void PerformSetsAndColumnsCheck(SettingsOrdinalResultSet.KeysChoice defaultKeysSet, SettingsOrdinalResultSet.ValuesChoice defaultValuesSet)
         {
-            if ((keysSet != defaultKeysSet || valuesSet != defaultValuesSet)
-                && definitionColumns.Any(c => !string.IsNullOrEmpty(c.Name)))
+            if (((keysSet != defaultKeysSet && keysSet != SettingsOrdinalResultSet.KeysChoice.None) || valuesSet != defaultValuesSet && valuesSet != SettingsOrdinalResultSet.ValuesChoice.None)
+                && definitionColumns.Any(c => c.Identifier is ColumnNameIdentifier))
                 throw new InvalidOperationException("You cannot define an engine based on columns' index and specify some columns' definition where you explicitely give a value to the 'name' attribute. Use attribute 'index' in place of 'name'.");
         }
 
 
         protected void PerformDuplicationChecks()
         {
-            var duplicatedColumnsDefByIndex = definitionColumns
-                                        .Where(c => c.Index != 0)
-                                        .GroupBy(c => c.Index)
+            var duplicatedColumnsDef = definitionColumns
+                                        .GroupBy(c => c.Identifier.Label)
                                         .Select(group => new
                                         {
-                                            Index = group.Key,
+                                            Label = group.Key,
                                             Count = group.Count()
                                         }).Where(group => group.Count > 1).ToList();
 
-            if (duplicatedColumnsDefByIndex.Count > 0)
+            if (duplicatedColumnsDef.Count > 0)
             {
                 throw new InvalidOperationException(
-                    string.Format("You cannot define an engine where the same column is defined more than once. The column{0} having the index{1} '{2}' {3} defined several times."
-                        , duplicatedColumnsDefByIndex.Count > 1 ? "s" : string.Empty
-                        , duplicatedColumnsDefByIndex.Count > 1 ? "es" : string.Empty
-                        , string.Join("', '", duplicatedColumnsDefByIndex.Select(x => x.Index.ToString()).ToArray())
-                        , duplicatedColumnsDefByIndex.Count > 1 ? "are" : "is"));
-            }
-
-            var duplicatedColumnsDefByName = definitionColumns
-                                        .Where(c => !string.IsNullOrEmpty(c.Name))
-                                        .GroupBy(c => c.Name)
-                                        .Select(group => new
-                                        {
-                                            Name = group.Key,
-                                            Count = group.Count()
-                                        }).Where(group => group.Count > 1).ToList();
-
-            if (duplicatedColumnsDefByName.Count > 0)
-            {
-                throw new InvalidOperationException(
-                    string.Format("You cannot define a comparison where the same column is defined more than once. The column{0} having the name{1} '{2}' {3} defined several times."
-                        , duplicatedColumnsDefByName.Count > 1 ? "s" : string.Empty
-                        , duplicatedColumnsDefByName.Count > 1 ? "s" : string.Empty
-                        , string.Join("', '", duplicatedColumnsDefByName.Select(x => x.Name).ToArray())
-                        , duplicatedColumnsDefByName.Count > 1 ? "are" : "is"));
+                    string.Format("You cannot define an engine where the same column is defined more than once. The column{0} having the label{1} '{2}' {3} defined several times."
+                        , duplicatedColumnsDef.Count > 1 ? "s" : string.Empty
+                        , duplicatedColumnsDef.Count > 1 ? "s" : string.Empty
+                        , string.Join("', '", duplicatedColumnsDef.Select(x => x.Label).ToArray())
+                        , duplicatedColumnsDef.Count > 1 ? "are" : "is"));
             }
         }
 
@@ -133,24 +110,23 @@ namespace NBi.Core.ResultSet
         protected virtual bool IsByName() => 
             nameKeys.Count()>0
             || nameValues.Count() > 0
-            || definitionColumns.Any(c => !string.IsNullOrEmpty(c.Name));
+            || definitionColumns.Any(c => c.Identifier is ColumnNameIdentifier);
 
         protected virtual void BuildSettings(ColumnType keysDefaultType, ColumnType valuesDefaultType, Tolerance defaultTolerance)
         {
             if (IsByName())
             {
                 var allColumns =
-                    nameKeys.Select(x => new Column() { Name = x, Role = ColumnRole.Key, Type = keysDefaultType })
-                    .Union(nameValues.Select(x => new Column() { Name = x, Role = ColumnRole.Value, Type = valuesDefaultType })
+                    nameKeys.Select(x => new Column() { Identifier = new ColumnNameIdentifier(x), Role = ColumnRole.Key, Type = keysDefaultType })
+                    .Union(nameValues.Select(x => new Column() { Identifier = new ColumnNameIdentifier(x), Role = ColumnRole.Value, Type = valuesDefaultType })
                     .Union(definitionColumns)
                     );
 
                 settings = new SettingsNameResultSet(valuesDefaultType, defaultTolerance, allColumns);
             }
-
             else
             {
-                settings = new SettingsIndexResultSet(keysSet, valuesSet, valuesDefaultType, defaultTolerance, definitionColumns);
+                settings = new SettingsOrdinalResultSet(keysSet, valuesSet, valuesDefaultType, defaultTolerance, definitionColumns);
             }
         }
 

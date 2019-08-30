@@ -3,4 +3,6 @@
     public class SyntacticallyCorrectXml : AbstractConstraintXml
     {
     }
+
+    public class SyntacticallyCorrectOldXml : SyntacticallyCorrectXml { }
 }

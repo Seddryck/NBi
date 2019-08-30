@@ -13,6 +13,10 @@ using System.Runtime.CompilerServices;
 
 //Reference the testing class to ensure access to internal members
 [assembly: InternalsVisibleTo("NBi.Testing")]
+[assembly: InternalsVisibleTo("NBi.Testing.Core")]
+[assembly: InternalsVisibleTo("NBi.Testing.Framework")]
+[assembly: InternalsVisibleTo("NBi.Testing.GenbiL")]
+[assembly: InternalsVisibleTo("NBi.Testing.Xml")]
 
 // Version information for an assembly consists of the following four values:
 //
@@ -23,6 +27,6 @@ using System.Runtime.CompilerServices;
 //
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
-[assembly: AssemblyVersion("1.17")]
-[assembly: AssemblyFileVersion("1.17")]
-[assembly: AssemblyInformationalVersion("1.17")]
+[assembly: AssemblyVersion("1.19")]
+[assembly: AssemblyFileVersion("1.19")]
+[assembly: AssemblyInformationalVersion("1.19")]

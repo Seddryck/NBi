@@ -25,38 +25,7 @@ namespace NBi.Xml.Items
         [XmlAttribute("dataset")]
         public string Dataset { get; set; }
 
-        [XmlElement("parameter")]
-        public new List<QueryParameterXml> Parameters { get; set; }
-
-        public ReportXml()
-        {
-            Parameters = new List<QueryParameterXml>();
-        }
-
-        private ReportingCommand command;
-        public override string GetQuery()
-        {
-            var factory = new ReportingParserFactory();
-            var parser = factory.Instantiate(Source);
-
-            var request = new ReportDataSetRequest
-            (
-                Source ?? Settings.BasePath,
-                Path,
-                Name, 
-                Dataset
-            );
-
-            command = parser.ExtractCommand(request);
-
-            return command.Text;
-        }
-
-        public virtual CommandType GetCommandType()
-        {
-            return command.CommandType;
-        }
-
+        public ReportXml() : base() { }
 
         public new List<QueryParameterXml> GetParameters()
         {
@@ -67,16 +36,6 @@ namespace NBi.Xml.Items
                         list.Add(param);
 
             return list;
-        }
-
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2100:Review SQL queries for security vulnerabilities")]
-        public virtual IDbCommand GetCommand()
-        {
-            var conn = new ClientProvider().Instantiate(GetConnectionString()).CreateNew() as IDbConnection;
-            var cmd = conn.CreateCommand();
-            cmd.CommandText = GetQuery();
-
-            return cmd;
         }
 
         public void AssignReferences(IEnumerable<ReferenceXml> references)

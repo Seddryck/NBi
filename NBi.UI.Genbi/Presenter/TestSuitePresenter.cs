@@ -1,11 +1,11 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Linq;
-using NBi.Service;
-using NBi.Service.Dto;
+using NBi.GenbiL.Stateful;
+using NBi.IO.Genbi.Dto;
 using NBi.UI.Genbi.Command;
 using NBi.UI.Genbi.Command.TestSuite;
-using NBi.UI.Genbi.Interface;
+using NBi.UI.Genbi.Service;
 
 namespace NBi.UI.Genbi.Presenter
 {
@@ -84,12 +84,7 @@ namespace NBi.UI.Genbi.Presenter
 
         public event EventHandler<EventArgs> TestSuiteLoaded;
 
-        public void OnTestSuiteLoaded(EventArgs e)
-        {
-            EventHandler<EventArgs> handler = TestSuiteLoaded;
-            if (handler != null)
-                handler(this, e);
-        }
+        public void OnTestSuiteLoaded(EventArgs e) => TestSuiteLoaded?.Invoke(this, e);
 
         internal void RefreshCommands()
         {

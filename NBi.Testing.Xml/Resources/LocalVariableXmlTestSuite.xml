@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<testSuite name="All-rows TestSuite" xmlns="http://NBi/TestSuite">
+  <settings>
+    <default apply-to="system-under-test">
+      <connectionString>Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly</connectionString>
+    </default>
+  </settings>
+  <variables>
+    <variable name="firstDayOfCurrentMonth">
+      <script language="c-sharp">new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1)</script>
+    </variable>
+  </variables>
+  <test name="Instances are defined through a single variable" uid="0000">
+    <instance-settling>
+      <local-variable name="firstDayOfMonth" type="dateTime">
+        <loop-sentinel seed="2016-01-01" terminal="2016-12-01" step="1 month"/>
+      </local-variable>
+    </instance-settling>
+    <system-under-test>
+      <resultSet file="~MyData_{@firstDayOfMonth:yyyy}_{@firstDayOfMonth:MM}.csv"/>
+    </system-under-test>
+    <assert>
+      <no-rows>
+        <predicate name="#1">
+          <null/>
+        </predicate>
+      </no-rows>
+    </assert>
+  </test>
+  <test name="Instances are defined through a single variable" uid="0001">
+    <instance-settling>
+      <local-variable name="season" type="text">
+        <item>Spring</item>
+        <item>Summer</item>
+        <item>Fall</item>
+        <item>Winter</item>
+      </local-variable>
+    </instance-settling>
+    <system-under-test>
+      <resultSet file="~MyData_{@firstDayOfMonth:yyyy}_{@firstDayOfMonth:MM}.csv"/>
+    </system-under-test>
+    <assert>
+      <no-rows>
+        <predicate name="#1">
+          <null/>
+        </predicate>
+      </no-rows>
+    </assert>
+  </test>
+</testSuite>

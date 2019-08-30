@@ -9,9 +9,8 @@ namespace NBi.Core.Variable
 {
     public interface ITestVariable
     {
+        void Evaluate();
         object GetValue();
         bool IsEvaluated();
-
-        
     }
 }

@@ -383,7 +383,7 @@
       </all-rows>
     </assert>
   </test>
-  <test name="With Predicate is NOT within-list" uid="00054">
+  <test name="With Predicate is NOT any-of" uid="00054">
     <system-under-test>
       <execution>
         <query>
@@ -394,11 +394,11 @@
     <assert>
       <all-rows>
         <predicate name="#0" type="text">
-          <within-list not="true">
+          <any-of not="true">
             <item>Washington</item>
             <item>Chicago</item>
             <item>Seattle</item>
-          </within-list>
+          </any-of>
         </predicate>
       </all-rows>
     </assert>
@@ -680,6 +680,39 @@
           <more-than>10000</more-than>
         </predicate>
       </no-rows>
+    </assert>
+  </test>
+  <test name="all-rows with dateTime informations using an expression based on native functions" uid="0140">
+    <system-under-test>
+      <execution>
+        <query
+					connectionString="Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly"
+				>
+          select '2019-10-01 06:00:00' as A, '2019-09-30 04:47:00' as 'B', 12 as 'C'
+          union all select '2019-10-01 23:00:00', '2019-10-01 04:42:00' as 'B',7
+          union all select '2019-10-02 02:00:00', '2019-10-01 04:42:00' as 'B',9
+        </query>
+      </execution>
+    </system-under-test>
+    <assert>
+      <all-rows>
+        <expression name="createdTime">
+          <script language="native">
+            [B] | utc-to-local(Brussels)
+          </script>
+        </expression>
+        <expression name="deadLine">
+          <script language="native">
+            [A] | utc-to-local(Brussels) | dateTime-to-date | dateTime-to-previous-day | dateTime-to-set-time(07:00:00)
+          </script>
+        </expression>
+        <expression name="check">
+          <![CDATA[[createdTime]<[deadLine]]]>
+        </expression>
+        <predicate name="check" type="boolean">
+          <true/>
+        </predicate>
+      </all-rows>
     </assert>
   </test>
   <test name="No-row with textual informations direct column name for predicate" uid="0011">

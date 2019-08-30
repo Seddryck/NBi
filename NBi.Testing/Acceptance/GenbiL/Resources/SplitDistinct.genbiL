@@ -1,0 +1,13 @@
+﻿/*******************
+	Common files
+*******************/
+
+case scope 'metadata';
+case load file 'Acceptance\GenbiL\Resources\SplitDistinct.csv';
+
+case split columns 'array' with value '/';
+case filter distinct;
+
+template load file 'Acceptance\GenbiL\Resources\SplitDistinct.nbitt'; 
+suite generate;
+suite save as 'Acceptance\GenbiL\Resources\SplitDistinct.nbits';

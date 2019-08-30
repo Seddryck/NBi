@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NBi.Core.Scalar.Resolver;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -9,18 +10,18 @@ namespace NBi.Core.Calculation.Predicate.Text
 {
     class TextContains : AbstractTextPredicate
     {
-        public TextContains(bool not, object reference, StringComparison stringComparison)
+        public TextContains(bool not, IScalarResolver reference, StringComparison stringComparison)
             : base(not, reference, stringComparison)
         {
         }
-        protected override bool Apply(object x)
+        protected override bool ApplyWithReference(object reference, object x)
         {
-            return x.ToString().IndexOf(Reference.ToString(), StringComparison) >= 0;
+            return x.ToString().IndexOf(reference.ToString(), StringComparison) >= 0;
         }
 
         public override string ToString()
         {
-            return $"contains the text '{Reference}'";
+            return $"contains the text '{Reference.Execute()}'";
         }
     }
 }

@@ -1,50 +1,50 @@
-﻿using System;
+﻿using NBi.GenbiL.Stateful;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
 namespace NBi.GenbiL.Action.Case
 {
-    public class HoldCaseAction : ICaseAction
+    public class HoldCaseAction : ISingleCaseAction
     {
-        private List<string> variableNames { get; set; }
+        private List<string> VariableNames { get; set; }
 
         public IReadOnlyList<string> Variables
         {
             get
             {
-                return variableNames.AsReadOnly();
+                return VariableNames.AsReadOnly();
             }
         }
         public HoldCaseAction(string variableName)
         {
-            variableNames = new List<string>() { variableName };
+            VariableNames = new List<string>() { variableName };
         }
 
         public HoldCaseAction(IEnumerable<string> variableNames)
         {
-            this.variableNames = new List<string>(variableNames);
+            this.VariableNames = new List<string>(variableNames);
         }
 
-        public void Execute(GenerationState state)
+        public void Execute(GenerationState state) => Execute(state.CaseCollection.CurrentScope);
+
+        public void Execute(CaseSet testCases)
         {
-            var variablesDeleted = state.TestCaseCollection.Scope.Variables.Except(variableNames).ToList();
+            var variablesDeleted = testCases.Variables.Except(VariableNames).ToList();
 
             foreach (var variable in variablesDeleted)
-            {
-                state.TestCaseCollection.Scope.Variables.Remove(variable);
-                state.TestCaseCollection.Scope.Content.Columns.Remove(variable);
-            }
+                testCases.Content.Columns.Remove(variable);
         }
 
         public string Display
         {
             get
             {
-                if (variableNames.Count == 1)
-                    return string.Format("Holding column '{0}'", variableNames[0]);
+                if (VariableNames.Count == 1)
+                    return string.Format("Holding column '{0}'", VariableNames[0]);
                 else
-                    return string.Format("Holding columns '{0}'", String.Join("', '", variableNames));
+                    return string.Format("Holding columns '{0}'", String.Join("', '", VariableNames));
             }
         }
     }

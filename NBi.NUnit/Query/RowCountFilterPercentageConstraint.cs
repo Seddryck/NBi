@@ -38,7 +38,7 @@ namespace NBi.NUnit.Query
             action(localWriter);
             var childMessage = localWriter.ToString();
             sb.Append(childMessage.Substring(0, childMessage.LastIndexOf(" ") + 1));
-            sb.Append(Decimal.Parse(childMessage.Substring(childMessage.LastIndexOf(" ") + 1).Replace("m", ""), System.Threading.Thread.CurrentThread.CurrentUICulture.NumberFormat));
+            sb.Append(decimal.Parse(childMessage.Substring(childMessage.LastIndexOf(" ") + 1).Replace("m", ""), System.Threading.Thread.CurrentThread.CurrentUICulture.NumberFormat));
             sb.Append("%");
 
             return sb.ToString();

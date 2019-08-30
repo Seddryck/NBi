@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.Scalar.Caster
+namespace NBi.Core.Scalar.Casting
 {
     class NumericCaster : BaseNumericCaster, ICaster<decimal>
     {
@@ -14,7 +14,15 @@ namespace NBi.Core.Scalar.Caster
             if (value is decimal)
                 return (decimal)value;
 
-            return System.Convert.ToDecimal(value, NumberFormatInfo.InvariantInfo);
+            try
+            {
+                return System.Convert.ToDecimal(value, NumberFormatInfo.InvariantInfo);
+            }
+            catch
+            {
+                throw new NBiException($"Can't cast the value '{value}' to a decimal.");
+            }
+            
         }
 
         object ICaster.Execute(object value) => Execute(value);

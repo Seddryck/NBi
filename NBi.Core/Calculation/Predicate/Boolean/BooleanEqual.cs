@@ -1,4 +1,5 @@
 ﻿using NBi.Core.Scalar.Comparer;
+using NBi.Core.Scalar.Resolver;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -10,15 +11,15 @@ namespace NBi.Core.Calculation.Predicate.Boolean
 {
     class BooleanEqual : AbstractPredicateReference
     {
-        public BooleanEqual(bool not, object reference) : base(not, reference)
+        public BooleanEqual(bool not, IScalarResolver reference) : base(not, reference)
         { }
 
-        protected override bool Apply(object x)
+        protected override bool ApplyWithReference(object reference, object x)
         {
             var cpr = new BooleanComparer();
-            return cpr.Compare(x, Reference).AreEqual;
+            return cpr.Compare(x, reference).AreEqual;
         }
 
-        public override string ToString() => $"is equal to {Reference}";
+        public override string ToString() => $"is equal to {Reference.Execute()}";
     }
 }

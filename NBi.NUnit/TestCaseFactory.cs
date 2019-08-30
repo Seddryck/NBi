@@ -58,25 +58,29 @@ namespace NBi.NUnit
             Register(typeof(ResultSetSystemXml), typeof(EqualToXml), new ResultSetEqualToBuilder());
             Register(typeof(ResultSetSystemXml), typeof(SupersetOfXml), new ResultSetSupersetOfBuilder());
             Register(typeof(ResultSetSystemXml), typeof(SubsetOfXml), new ResultSetSubsetOfBuilder());
+            Register(typeof(ResultSetSystemXml), typeof(IntersectionOfXml), new IntersectionOfBuilder());
             Register(typeof(ResultSetSystemXml), typeof(RowCountXml), new ResultSetRowCountBuilder());
             Register(typeof(ResultSetSystemXml), typeof(AllRowsXml), new ResultSetAllRowsBuilder());
             Register(typeof(ResultSetSystemXml), typeof(NoRowsXml), new ResultSetNoRowsBuilder());
             Register(typeof(ResultSetSystemXml), typeof(SomeRowsXml), new ResultSetSomeRowsBuilder());
             Register(typeof(ResultSetSystemXml), typeof(SingleRowXml), new ResultSetSingleRowBuilder());
             Register(typeof(ResultSetSystemXml), typeof(UniqueRowsXml), new ResultSetUniqueRowsBuilder());
-            Register(typeof(ResultSetSystemXml), typeof(ReferenceExistsXml), new ResultSetReferenceExistsBuilder());
+            Register(typeof(ResultSetSystemXml), typeof(LookupExistsXml), new ResultSetLookupExistsBuilder());
+            Register(typeof(ResultSetSystemXml), typeof(LookupMatchesXml), new ResultSetLookupMatchesBuilder());
+
+            Register(typeof(ScalarXml), typeof(ScoreXml), new ScalarScoreBuilder());
 
             Register(typeof(MembersXml), typeof(CountXml), new MembersCountBuilder());
             Register(typeof(MembersXml), typeof(OrderedXml), new MembersOrderedBuilder());
             Register(typeof(MembersXml), typeof(ContainXml), new MembersContainBuilder());
             Register(typeof(MembersXml), typeof(ContainedInXml), new MembersContainedInBuilder());
-            Register(typeof(MembersXml), typeof(SubsetOf1xXml), new MembersContainedInBuilder());
+            Register(typeof(MembersXml), typeof(SubsetOfOldXml), new MembersContainedInBuilder());
             Register(typeof(MembersXml), typeof(EquivalentToXml), new MembersEquivalentToBuilder());
             Register(typeof(MembersXml), typeof(MatchPatternXml), new MembersMatchPatternBuilder());
 
             Register(typeof(StructureXml), typeof(ContainXml), new StructureContainBuilder());
             Register(typeof(StructureXml), typeof(ContainedInXml), new StructureContainedInBuilder());
-            Register(typeof(StructureXml), typeof(SubsetOf1xXml), new StructureContainedInBuilder());
+            Register(typeof(StructureXml), typeof(SubsetOfOldXml), new StructureContainedInBuilder());
             Register(typeof(StructureXml), typeof(EquivalentToXml), new StructureEquivalentToBuilder());
             Register(typeof(StructureXml), typeof(ExistsXml), new StructureExistsBuilder());
             Register(typeof(StructureXml), typeof(LinkedToXml), new StructureLinkedToBuilder());
@@ -93,7 +97,7 @@ namespace NBi.NUnit
         internal void Register(Type sutType, Type ctrType, ITestCaseBuilder builder)
         {
             if (IsHandling(sutType, ctrType))
-                registrations.FirstOrDefault(reg => reg.SystemUnderTestType.Equals(sutType) && reg.ConstraintType.Equals(ctrType)).Builder = builder;
+                registrations.FirstOrDefault(reg => IsRegistered(reg, sutType, ctrType)).Builder = builder;
             else
                 registrations.Add(new BuilderRegistration(sutType, ctrType, builder));
         }
@@ -106,11 +110,11 @@ namespace NBi.NUnit
                 registrations.Add(new BuilderRegistration(sutType, ctrType, chooser));
         }
 
-        internal bool IsHandling(Type sutType, Type ctrType)
-        {
-            var existing = registrations.FirstOrDefault(reg => reg.SystemUnderTestType.Equals(sutType) && reg.ConstraintType.Equals(ctrType));
-            return (existing != null);
-        }
+        internal bool IsHandling(Type sutType, Type ctrType) => registrations.Any(reg => IsRegistered(reg, sutType, ctrType));
+
+        private bool IsRegistered(BuilderRegistration reg, Type sutType, Type ctrType) 
+            => (reg.SystemUnderTestType.Equals(sutType) || reg.SystemUnderTestType.Name == sutType.Name.Replace("OldXml", "Xml"))
+                    && (reg.ConstraintType.Equals(ctrType) || reg.ConstraintType.Name == ctrType.Name.Replace("OldXml", "Xml"));
 
         internal class BuilderRegistration
         {
@@ -147,15 +151,13 @@ namespace NBi.NUnit
         /// <returns></returns>
         public TestCase Instantiate(AbstractSystemUnderTestXml sutXml, AbstractConstraintXml ctrXml)
         {
-            if (sutXml == null)
-                throw new ArgumentNullException("sutXml");
-            if (ctrXml == null)
-                throw new ArgumentNullException("ctrXml");
+            sutXml = sutXml ?? throw new ArgumentNullException("sutXml");
+            ctrXml = ctrXml ?? throw new ArgumentNullException("ctrXml");
 
             ITestCaseBuilder builder = null;
 
             //Look for registration ...
-            var registration = registrations.FirstOrDefault(reg => sutXml.GetType() == reg.SystemUnderTestType && ctrXml.GetType() == reg.ConstraintType);
+            var registration = registrations.FirstOrDefault(reg => IsRegistered(reg, sutXml.GetType(), ctrXml.GetType()));
             if (registration == null)
                 throw new ArgumentException(string.Format("'{0}' is not an expected type for a constraint with a system-under-test '{1}'.", ctrXml.GetType().Name, sutXml.GetType().Name));
 

@@ -16,10 +16,6 @@ namespace NBi.Core.Calculation
         private readonly IColumnIdentifier operand;
         private readonly Func<string> describeFunction;
 
-        public SinglePredicateFilter(IEnumerable<IColumnAlias> aliases, IEnumerable<IColumnExpression> expressions, IColumnIdentifier operand, Func<object, bool> executeFunction)
-            : this (aliases, expressions, operand, executeFunction, () => "unspecified description")
-        { }
-
         public SinglePredicateFilter(IEnumerable<IColumnAlias> aliases, IEnumerable<IColumnExpression> expressions, IColumnIdentifier operand, Func<object, bool> implementation, Func<string> describeFunction)
             : base(aliases, expressions)
         {

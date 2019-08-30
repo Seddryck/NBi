@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<testSuite name="The TestSuite" xmlns="http://NBi/TestSuite">
+	<test name="With perspective element">
+		<system-under-test>
+			<structure>
+				<perspective caption="Perspective" connection-string="ConnectionString"/>
+			</structure>
+		</system-under-test>
+		<assert>
+			<exists/>
+		</assert>
+	</test>
+  <test name="With perspective element and owner attribute">
+    <system-under-test>
+      <structure>
+        <perspective caption="Perspective" owner="dbo" connectionString="ConnectionString"/>
+      </structure>
+    </system-under-test>
+    <assert>
+      <exists/>
+    </assert>
+  </test>
+  <test name="With perspectives element">
+    <system-under-test>
+      <structure>
+        <perspectives connectionString="ConnectionString"/>
+      </structure>
+    </system-under-test>
+    <assert>
+      <exists/>
+    </assert>
+  </test>
+  <test name="With perspectives element and owner attribute">
+    <system-under-test>
+      <structure>
+        <perspectives owner="dbo" connectionString="ConnectionString"/>
+      </structure>
+    </system-under-test>
+    <assert>
+      <exists/>
+    </assert>
+  </test>
+</testSuite>

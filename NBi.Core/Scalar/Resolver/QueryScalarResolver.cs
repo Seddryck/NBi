@@ -45,5 +45,7 @@ namespace NBi.Core.Scalar.Resolver
             var value = ExecuteQuery(cmd);
             return (T)Convert.ChangeType(value, typeof(T));
         }
+
+        object IResolver.Execute() => Execute();
     }
 }

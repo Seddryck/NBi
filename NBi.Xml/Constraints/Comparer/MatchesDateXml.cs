@@ -9,8 +9,12 @@ using System.Xml.Serialization;
 
 namespace NBi.Xml.Constraints.Comparer
 {
-    public class MatchesDateXml : CultureSensitiveTextPredicateXml
+    public class MatchesDateXml : PredicateXml, ICultureSensitiveTextPredicateXml
     {
-        internal override ComparerType ComparerType { get => ComparerType.MatchesDate; }
+        [XmlAttribute("culture")]
+        public string Culture { get; set; }
+
+        public override ComparerType ComparerType { get => ComparerType.MatchesDate; }
+        
     }
 }

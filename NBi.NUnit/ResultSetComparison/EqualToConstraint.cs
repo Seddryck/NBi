@@ -9,7 +9,6 @@ namespace NBi.NUnit.ResultSetComparison
 {
     public class EqualToConstraint : BaseResultSetComparisonConstraint
     {
-
         public EqualToConstraint(IResultSetService value)
             : base(value)
         { }

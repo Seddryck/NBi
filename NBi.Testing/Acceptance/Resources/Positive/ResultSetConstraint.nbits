@@ -917,6 +917,53 @@
         </equalTo>
       </assert>
     </test>
+    <test name="Transformation lookup" uid="0240">
+      <system-under-test>
+        <resultSet>
+          <query>
+            select 'A' as Id, 1 as FooBarId  union all select 'B', 2 union all select 'C', 2 union all select 'D', 3
+          </query>
+          <alteration>
+            <lookup>
+              <missing behaviour="discard"/>
+              <join>
+                <using>[FooBarId]</using>
+              </join>
+              <result-set>
+                <row>
+                  <cell>1</cell>
+                  <cell>Foo</cell>
+                </row>
+                <row>
+                  <cell>2</cell>
+                  <cell>Bar</cell>
+                </row>
+              </result-set>
+            </lookup>
+          </alteration>
+        </resultSet>
+      </system-under-test>
+      <assert>
+        <equalTo keys="first">
+          <column index="0" type="text" role="key"/>
+          <column index="1" type="text" role="value"/>
+          <resultSet>
+            <row>
+              <cell>A</cell>
+              <cell>Foo</cell>
+            </row>
+            <row>
+              <cell>B</cell>
+              <cell>Bar</cell>
+            </row>
+            <row>
+              <cell>C</cell>
+              <cell>Bar</cell>
+            </row>
+          </resultSet>
+        </equalTo>
+      </assert>
+    </test>
     <test name="Renamings" uid="0241">
       <system-under-test>
         <result-set>

@@ -472,6 +472,7 @@
     <Compile Include="ResultSet\ColumnNameIdentifier.cs" />
     <Compile Include="ResultSet\ColumnRole.cs" />
     <Compile Include="ResultSet\ColumnType.cs" />
+    <Compile Include="ResultSet\Lookup\Behavior.cs" />
     <Compile Include="ResultSet\Combination\CartesianProductSequenceCombination.cs" />
     <Compile Include="ResultSet\Lookup\Behavior.cs" />
     <Compile Include="ResultSet\Combination\SequenceCombinationOperation.cs" />

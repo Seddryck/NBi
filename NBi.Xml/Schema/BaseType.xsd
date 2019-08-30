@@ -1364,7 +1364,6 @@
       </xs:choice>
     </xs:sequence>
   </xs:group>
-  <xs:complexType name="lookup-exists-type">
     <xs:sequence>
       <xs:group ref="base-lookup-group"/>
     </xs:sequence>
@@ -1372,13 +1371,17 @@
   </xs:complexType>
 <<<<<<< HEAD
   <xs:complexType name="lookup-matches-type">
-    <xs:sequence minOccurs="0" maxOccurs="unbounded">
       <xs:element name="join" type="join-type" minOccurs="1" maxOccurs="1" />
       <xs:element name="inclusion" type="inclusion-type" minOccurs="1" maxOccurs="1" />
       <xs:choice minOccurs="1" maxOccurs="1">
         <xs:element name="resultSet" type="result-set-type" minOccurs="1" maxOccurs="1"/>
         <xs:element name="result-set" type="result-set-type" minOccurs="1" maxOccurs="1"/>
       </xs:choice>
+    </xs:sequence>
+  </xs:group>
+  <xs:complexType name="lookup-exists-type">
+    <xs:sequence>
+      <xs:group ref="base-lookup-group"/>
     </xs:sequence>
     <xs:attribute name="reverse" type="xs:boolean"/>
 =======
@@ -1402,6 +1405,26 @@
       </xs:extension>
     </xs:simpleContent>
 >>>>>>> Serailize and desrialize the new lookup alteration
+  </xs:complexType>
+  <xs:complexType name="lookup-type">
+    <xs:sequence>
+      <xs:element name="missing" type="missing-type" minOccurs="1" maxOccurs="1"/>
+      <xs:group ref="base-lookup-group"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="missing-type">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute name="behavior">
+          <xs:simpleType>
+            <xs:restriction base="xs:string">
+              <xs:enumeration value="maintain"/>
+              <xs:enumeration value="discard"/>
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:attribute>
+      </xs:extension>
+    </xs:simpleContent>
   </xs:complexType>
   <xs:complexType name="join-type">
     <xs:sequence>

@@ -1,6 +1,7 @@
 ﻿using NBi.Xml.Items.Alteration.Conversion;
 using NBi.Xml.Items.Alteration.Extension;
 using NBi.Xml.Items.Alteration.Lookup;
+using NBi.Xml.Items.Alteration.Lookup;
 using NBi.Xml.Items.Alteration.Renaming;
 using NBi.Xml.Items.Alteration.Transform;
 using NBi.Xml.Items.Calculation;

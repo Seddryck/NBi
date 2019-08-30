@@ -199,7 +199,65 @@
     <Compile Include="Integration\Core\IO\Filtering\PatternRootFilterTest.cs" />
     <Compile Include="Integration\Core\Scalar\Resolver\QueryScalarResolverTest.cs" />
     <Compile Include="Integration\Core\DirectoryInfoExtensionsTest.cs" />
+    <Compile Include="Unit\NUnit\Builder\Helper\ConnectionStringHelperTest.cs" />
+    <Compile Include="Unit\NUnit\Builder\Helper\ScalarResolverArgsBuilderTest.cs" />
+    <Compile Include="Unit\NUnit\Builder\Helper\SetupHelperTest.cs" />
+    <Compile Include="Unit\NUnit\Builder\ResultSetAllRowsBuilderTest.cs" />
+    <Compile Include="Unit\NUnit\Builder\ScalarScoreBuilderTest.cs" />
+    <Compile Include="Unit\NUnit\Builder\ResultSetSomeRowsBuilderTest.cs" />
+    <Compile Include="Unit\NUnit\Builder\ResultSetLookupExistsBuilderTest.cs" />
+    <Compile Include="Unit\NUnit\Builder\ResultSetUniqueRowsBuilderTest.cs" />
+    <Compile Include="Unit\NUnit\Builder\ResultSetSingleRowBuilderTest.cs" />
+    <Compile Include="Unit\NUnit\Builder\ResultSetSupersetOfBuilderTest.cs" />
+    <Compile Include="Unit\NUnit\Builder\ResultSetRowCountBuilderTest.cs" />
+    <Compile Include="Unit\NUnit\Builder\ExecutionMatchPatternBuilderTest.cs" />
+    <Compile Include="Unit\NUnit\Builder\MembersMatchPatternBuilderTest.cs" />
+    <Compile Include="Unit\NUnit\Builder\MembersEquivalentToBuilderTest.cs" />
+    <Compile Include="Unit\NUnit\Builder\StructureContainedInBuilderTest.cs" />
+    <Compile Include="Unit\NUnit\Builder\StructureEquivalentToBuilderTest.cs" />
+    <Compile Include="Unit\NUnit\Builder\QuerySyntacticallyCorrectBuilderTest.cs" />
+    <Compile Include="Unit\NUnit\Builder\QueryFasterThanBuilderTest.cs" />
+    <Compile Include="Unit\NUnit\Builder\ResultSetEqualToBuilderTest.cs" />
+    <Compile Include="Unit\NUnit\Builder\StructureExistsBuilderTest.cs" />
+    <Compile Include="Unit\NUnit\Builder\MembersContainsBuilderTest.cs" />
+    <Compile Include="Unit\NUnit\Builder\MembersOrderedBuilderTest.cs" />
+    <Compile Include="Unit\NUnit\Builder\MembersCountBuilderTest.cs" />
+    <Compile Include="Unit\NUnit\Builder\StructureContainBuilderTest.cs" />
+    <Compile Include="Unit\NUnit\DataType\IsConstraintTest.cs" />
+    <Compile Include="Unit\NUnit\DifferedConstraintTest.cs" />
+    <Compile Include="Unit\NUnit\ResultSetComparison\LookupReverseExistsConstraintTest.cs" />
+    <Compile Include="Unit\NUnit\ResultSetComparison\NoRowsConstraintTest.cs" />
+    <Compile Include="Unit\NUnit\ResultSetComparison\LookupExistsConstraintTest.cs" />
+    <Compile Include="Unit\NUnit\ResultSetComparison\SingleRowConstraintTest.cs" />
+    <Compile Include="Unit\NUnit\ResultSetComparison\SomeRowsConstraintTest.cs" />
+    <Compile Include="Unit\NUnit\ResultSetComparison\AllRowsConstraintTest.cs" />
+    <Compile Include="Unit\NUnit\ResultSetComparison\RowCountConstraintTest.cs" />
+    <Compile Include="Unit\NUnit\Execution\SuccessfulConstraintTest.cs" />
+    <Compile Include="Unit\NUnit\Execution\FasterThanConstraintTest.cs" />
+    <Compile Include="Unit\NUnit\Member\CountConstraintTest.cs" />
+    <Compile Include="Unit\NUnit\Member\MatchPatternConstraintTest.cs" />
+    <Compile Include="Unit\NUnit\Member\EquivalentToConstraintTest.cs" />
+    <Compile Include="Unit\NUnit\Member\SubsetOfConstraintTest.cs" />
+    <Compile Include="Unit\NUnit\Query\FasterThanConstraintTest.cs" />
+    <Compile Include="Unit\NUnit\Member\ContainsConstraintTest.cs" />
+    <Compile Include="Unit\NUnit\Member\OrderedConstraintTest.cs" />
+    <Compile Include="Unit\NUnit\ResultSetComparison\MatchPatternConstraintTest.cs" />
+    <Compile Include="Unit\NUnit\ResultSetComparison\SupersetOfConstraintTest.cs" />
+    <Compile Include="Unit\NUnit\Runtime\Embed\Result\FlatResultBuilderTest.cs" />
+    <Compile Include="Unit\NUnit\Runtime\TestSuiteTest.cs" />
+    <Compile Include="Unit\NUnit\Scoring\ScoreConstraintTest.cs" />
+    <Compile Include="Unit\NUnit\Structure\ContainConstraintTest.cs" />
+    <Compile Include="Unit\NUnit\Structure\SubsetOfConstraintTest.cs" />
+    <Compile Include="Unit\NUnit\Structure\EquivalentToConstraintTest.cs" />
+    <Compile Include="Unit\NUnit\Structure\ExistsConstraintTest.cs" />
+    <Compile Include="Unit\NUnit\Query\SyntacticallyCorrectConstraintTest.cs" />
+    <Compile Include="Unit\NUnit\ResultSetComparison\EqualToConstraintTest.cs" />
     <Compile Include="Properties\ProjectAssemblyInfo.cs" />
+    <Compile Include="Unit\UI\RunnerConfig\GallioRunnerConfigBuilderTest.cs" />
+    <Compile Include="Unit\UI\RunnerConfig\NUnitRunnerConfigBuilderTest.cs" />
+    <Compile Include="Unit\UI\RunnerConfig\RunnerConfigManagerTest.cs" />
+    <Compile Include="Unit\NUnit\TestCaseFactoryTest.cs" />
+    <Compile Include="Unit\UI\Service\TestCaseCollectionManagerTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Integration\Core\Analysis\Query\" />
@@ -661,6 +719,9 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Unit\NUnit\Runtime\Resources\GroupXmlTestSuite.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Acceptance\Resources\Negative\Scoring-Json-0001.txt" />
     <EmbeddedResource Include="Acceptance\Resources\Positive\MultipleInstance.nbits">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

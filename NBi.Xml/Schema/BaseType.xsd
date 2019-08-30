@@ -1529,6 +1529,7 @@
         <xs:element name="filter" type="filter-type" minOccurs="0" maxOccurs="1"/>
         <xs:element name="convert" type="convert-type" minOccurs="0" maxOccurs="1"/>
         <xs:element name="transform" type="enhanced-transformation-type" minOccurs="0" maxOccurs="1"/>
+        <xs:element name="unstack" type="unstack-type" minOccurs="0" maxOccurs="1"/>
       </xs:choice>
     </xs:sequence>
   </xs:complexType>
@@ -1541,6 +1542,18 @@
       <xs:element name="script" type="script-extend-type" minOccurs="1" maxOccurs="1"/>
     </xs:choice>
     <xs:attribute name="identifier" type="xs:string" use="required"/>
+  </xs:complexType>
+  <xs:complexType name="unstack-type">
+    <xs:sequence>
+      <xs:element name="header" minOccurs="1" maxOccurs="1">
+        <xs:complexType>
+          <xs:sequence minOccurs="1" maxOccurs="1">
+            <xs:element name="column" type="definition-column-base-type" minOccurs="1" maxOccurs="1"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="group-by" type="group-by-type" minOccurs="1" maxOccurs="1" />
+    </xs:sequence>
   </xs:complexType>
   <xs:complexType name="convert-type">
     <xs:choice>

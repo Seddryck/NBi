@@ -158,6 +158,8 @@
     <Compile Include="Items\Alteration\Conversion\TextToDateTimeConverterXml.cs" />
     <Compile Include="Items\Alteration\Extension\ExtendXml.cs" />
     <Compile Include="Items\Alteration\Renaming\RenamingXml.cs" />
+    <Compile Include="Items\Alteration\Reshaping\HeaderXml.cs" />
+    <Compile Include="Items\Alteration\Reshaping\UnstackXml.cs" />
     <Compile Include="Items\Alteration\Transformation\LightTransformXml.cs" />
     <Compile Include="Items\Calculation\CombinationPredicateXml.cs" />
     <Compile Include="Items\EnvironmentXml.cs" />
@@ -177,8 +179,8 @@
     <Compile Include="Items\ResultSet\Lookup\ColumnMappingXml.cs" />
     <Compile Include="Items\ResultSet\Lookup\InclusionXml.cs" />
     <Compile Include="Items\ResultSet\Lookup\JoinXml.cs" />
-    <Compile Include="Items\Sequence\Transformation\AggregationXml.cs" />
-    <Compile Include="Items\Sequence\Transformation\SummarizeXml.cs" />
+    <Compile Include="Items\Alteration\Summarization\AggregationXml.cs" />
+    <Compile Include="Items\Alteration\Summarization\SummarizeXml.cs" />
     <Compile Include="Items\SharedDatasetXml.cs" />
     <Compile Include="Items\Alteration\Transformation\TransformXml.cs" />
     <Compile Include="Items\UrlXml.cs" />

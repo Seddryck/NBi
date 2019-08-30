@@ -8,7 +8,7 @@ using NBi.Xml.Items.Alteration.Conversion;
 using NBi.Xml.Items.Alteration.Renaming;
 using NBi.Xml.Items.Alteration.Transform;
 using NBi.Xml.Items.ResultSet;
-using NBi.Xml.Items.Sequence.Transformation;
+using NBi.Xml.Items.Alteration.Summarization;
 using NBi.Xml.SerializationOption;
 using NBi.Xml.Systems;
 using NUnit.Framework;
@@ -19,12 +19,16 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using NBi.Xml.Items.Alteration.Reshaping;
+using NBi.Xml.Items.Calculation.Grouping;
+using NBi.Xml.Items.Calculation;
+using NBi.Xml.Items.Alteration.Extension;
 
 namespace NBi.Testing.Xml.Unit.Systems
 {
     [TestFixture]
     public class ResultSetSystemXmlTest : BaseXmlTest
-    { 
+    {
 
         [Test]
         public void Deserialize_SampleFile_CsvFile()
@@ -171,11 +175,10 @@ namespace NBi.Testing.Xml.Unit.Systems
             Assert.That(ts.Tests[testNr].Systems[0], Is.AssignableTo<ResultSetSystemXml>());
             var rs = ts.Tests[testNr].Systems[0] as ResultSetSystemXml;
 
-            Assert.That(rs.Alteration, Is.Not.Null);
-            Assert.That(rs.Alteration.Filters, Is.Not.Null);
-            Assert.That(rs.Alteration.Filters, Has.Count.EqualTo(1));
+            Assert.That(rs.Alterations, Is.Not.Null);
+            Assert.That(rs.Alterations, Has.Count.EqualTo(1));
 
-            Assert.That(rs.Alteration.Filters[0].Predication, Is.Not.Null);
+            Assert.That((rs.Alterations[0] as FilterXml).Predication, Is.Not.Null);
         }
 
         [Test]
@@ -190,17 +193,17 @@ namespace NBi.Testing.Xml.Unit.Systems
             Assert.That(ts.Tests[testNr].Systems[0], Is.AssignableTo<ResultSetSystemXml>());
             var rs = ts.Tests[testNr].Systems[0] as ResultSetSystemXml;
 
-            Assert.That(rs.Alteration, Is.Not.Null);
-            Assert.That(rs.Alteration.Conversions, Is.Not.Null);
-            Assert.That(rs.Alteration.Conversions, Has.Count.EqualTo(1));
+            Assert.That(rs.Alterations, Is.Not.Null);
+            Assert.That(rs.Alterations, Has.Count.EqualTo(1));
 
-            Assert.That(rs.Alteration.Conversions[0], Is.Not.Null);
-            Assert.That(rs.Alteration.Conversions[0], Is.TypeOf<ConvertXml>());
+            Assert.That(rs.Alterations[0], Is.Not.Null);
+            Assert.That(rs.Alterations[0], Is.TypeOf<ConvertXml>());
+            var convert = rs.Alterations[0] as ConvertXml;
 
-            Assert.That(rs.Alteration.Conversions[0].Column, Is.EqualTo("#0"));
-            Assert.That(rs.Alteration.Conversions[0].Converter, Is.TypeOf<TextToDateConverterXml>());
-            Assert.That(rs.Alteration.Conversions[0].Converter.Culture, Is.EqualTo("fr-fr"));
-            Assert.That(rs.Alteration.Conversions[0].Converter.DefaultValue, Is.Null);
+            Assert.That(convert.Column, Is.EqualTo("#0"));
+            Assert.That(convert.Converter, Is.TypeOf<TextToDateConverterXml>());
+            Assert.That(convert.Converter.Culture, Is.EqualTo("fr-fr"));
+            Assert.That(convert.Converter.DefaultValue, Is.Null);
         }
 
         [Test]
@@ -215,19 +218,19 @@ namespace NBi.Testing.Xml.Unit.Systems
             Assert.That(ts.Tests[testNr].Systems[0], Is.AssignableTo<ResultSetSystemXml>());
             var rs = ts.Tests[testNr].Systems[0] as ResultSetSystemXml;
 
-            Assert.That(rs.Alteration, Is.Not.Null);
-            Assert.That(rs.Alteration.Transformations, Is.Not.Null);
-            Assert.That(rs.Alteration.Transformations, Has.Count.EqualTo(1));
+            Assert.That(rs.Alterations, Is.Not.Null);
+            Assert.That(rs.Alterations, Has.Count.EqualTo(1));
 
-            Assert.That(rs.Alteration.Transformations[0], Is.Not.Null);
-            Assert.That(rs.Alteration.Transformations[0], Is.TypeOf<TransformXml>());
+            Assert.That(rs.Alterations[0], Is.Not.Null);
+            Assert.That(rs.Alterations[0], Is.TypeOf<TransformXml>());
+            var alteration = rs.Alterations[0] as TransformXml;
 
-            Assert.That(rs.Alteration.Transformations[0].Language, Is.EqualTo(LanguageType.CSharp));
-            Assert.That(rs.Alteration.Transformations[0].OriginalType, Is.EqualTo(ColumnType.Text));
-            Assert.That(rs.Alteration.Transformations[0].Identifier.Label, Is.EqualTo("#1"));
-            Assert.That(rs.Alteration.Transformations[0].Identifier, Is.TypeOf<ColumnOrdinalIdentifier>());
-            Assert.That((rs.Alteration.Transformations[0].Identifier as ColumnOrdinalIdentifier).Ordinal, Is.EqualTo(1));
-            Assert.That(rs.Alteration.Transformations[0].Code.Trim(), Is.EqualTo("value.EndsWith(\".\") ? value : value + \".\""));
+            Assert.That(alteration.Language, Is.EqualTo(LanguageType.CSharp));
+            Assert.That(alteration.OriginalType, Is.EqualTo(ColumnType.Text));
+            Assert.That(alteration.Identifier.Label, Is.EqualTo("#1"));
+            Assert.That(alteration.Identifier, Is.TypeOf<ColumnOrdinalIdentifier>());
+            Assert.That((alteration.Identifier as ColumnOrdinalIdentifier).Ordinal, Is.EqualTo(1));
+            Assert.That(alteration.Code.Trim(), Is.EqualTo("value.EndsWith(\".\") ? value : value + \".\""));
         }
 
         [Test]
@@ -242,12 +245,11 @@ namespace NBi.Testing.Xml.Unit.Systems
             Assert.That(ts.Tests[testNr].Systems[0], Is.AssignableTo<ResultSetSystemXml>());
             var rs = ts.Tests[testNr].Systems[0] as ResultSetSystemXml;
 
-            Assert.That(rs.Alteration, Is.Not.Null);
-            Assert.That(rs.Alteration.Renamings, Is.Not.Null);
-            Assert.That(rs.Alteration.Renamings, Has.Count.EqualTo(1));
-
-            Assert.That(rs.Alteration.Renamings[0].Identifier.Label, Is.EqualTo("#3"));
-            Assert.That(rs.Alteration.Renamings[0].NewName, Is.EqualTo("myNewName"));
+            Assert.That(rs.Alterations, Is.Not.Null);
+            Assert.That(rs.Alterations, Has.Count.EqualTo(1));
+            var renaming = rs.Alterations[0] as RenamingXml;
+            Assert.That(renaming.Identifier.Label, Is.EqualTo("#3"));
+            Assert.That(renaming.NewName, Is.EqualTo("myNewName"));
         }
 
         [Test]
@@ -262,15 +264,15 @@ namespace NBi.Testing.Xml.Unit.Systems
             Assert.That(ts.Tests[testNr].Systems[0], Is.AssignableTo<ResultSetSystemXml>());
             var rs = ts.Tests[testNr].Systems[0] as ResultSetSystemXml;
 
-            Assert.That(rs.Alteration, Is.Not.Null);
-            Assert.That(rs.Alteration.Extensions, Is.Not.Null);
-            Assert.That(rs.Alteration.Extensions, Has.Count.EqualTo(1));
+            Assert.That(rs.Alterations, Is.Not.Null);
+            Assert.That(rs.Alterations, Has.Count.EqualTo(1));
+            var extend = rs.Alterations[0] as ExtendXml;
 
-            Assert.That(rs.Alteration.Extensions[0].Identifier.Label, Is.EqualTo("[myNewColumn]"));
-            Assert.That(rs.Alteration.Extensions[0].Script, Is.Not.Null);
-            Assert.That(rs.Alteration.Extensions[0].Script.Language, Is.EqualTo(LanguageType.NCalc));
+            Assert.That(extend.Identifier.Label, Is.EqualTo("[myNewColumn]"));
+            Assert.That(extend.Script, Is.Not.Null);
+            Assert.That(extend.Script.Language, Is.EqualTo(LanguageType.NCalc));
         }
-        
+
         [Test]
         public void Deserialize_SampleFile_AlterationSummarization()
         {
@@ -283,17 +285,40 @@ namespace NBi.Testing.Xml.Unit.Systems
             Assert.That(ts.Tests[testNr].Systems[0], Is.AssignableTo<ResultSetSystemXml>());
             var rs = ts.Tests[testNr].Systems[0] as ResultSetSystemXml;
 
-            Assert.That(rs.Alteration, Is.Not.Null);
-            Assert.That(rs.Alteration.Summarizations, Is.Not.Null);
-            Assert.That(rs.Alteration.Summarizations, Has.Count.EqualTo(1));
+            Assert.That(rs.Alterations, Is.Not.Null);
+            Assert.That(rs.Alterations, Has.Count.EqualTo(1));
 
-            Assert.That(rs.Alteration.Summarizations[0], Is.Not.Null);
-            Assert.That(rs.Alteration.Summarizations[0], Is.TypeOf<SummarizeXml>());
+            Assert.That(rs.Alterations[0], Is.Not.Null);
+            Assert.That(rs.Alterations[0], Is.TypeOf<SummarizeXml>());
+            var summerize = rs.Alterations[0] as SummarizeXml;
 
-            Assert.That(rs.Alteration.Summarizations[0].Aggregation, Is.Not.Null);
-            Assert.That(rs.Alteration.Summarizations[0].Aggregation, Is.TypeOf<SumXml>());
+            Assert.That(summerize.Aggregation, Is.Not.Null);
+            Assert.That(summerize.Aggregation, Is.TypeOf<SumXml>());
+            Assert.That(summerize.Aggregation.ColumnType, Is.EqualTo(ColumnType.Numeric));
+        }
 
-            Assert.That(rs.Alteration.Summarizations[0].Aggregation.ColumnType, Is.EqualTo(ColumnType.Numeric));
+        [Test]
+        public void Deserialize_SampleFile_AlterationUnstack()
+        {
+            int testNr = 14;
+
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            var ts = DeserializeSample();
+
+            // Check the properties of the object.
+            Assert.That(ts.Tests[testNr].Systems[0], Is.AssignableTo<ResultSetSystemXml>());
+            var rs = ts.Tests[testNr].Systems[0] as ResultSetSystemXml;
+
+            Assert.That(rs.Alterations, Is.Not.Null);
+            Assert.That(rs.Alterations, Has.Count.EqualTo(1));
+
+            Assert.That(rs.Alterations[0], Is.Not.Null);
+            Assert.That(rs.Alterations[0], Is.TypeOf<UnstackXml>());
+            var unstack = rs.Alterations[0] as UnstackXml;
+
+            Assert.That(unstack.Header, Is.Not.Null);
+            Assert.That(unstack.Header, Is.TypeOf<HeaderXml>());
+            Assert.That(unstack.GroupBy, Is.TypeOf<GroupByXml>());
         }
 
         [Test]
@@ -363,11 +388,11 @@ namespace NBi.Testing.Xml.Unit.Systems
         {
             var root = new ResultSetSystemXml()
             {
-                File = new FileXml() { Path=@"C:\Temp\foo.txt" },
-                Alteration = new AlterationXml()
-                {
-                    Renamings = new List<RenamingXml>() { new RenamingXml()
-                    { Identifier= new ColumnOrdinalIdentifier(5), NewName = "myNewName" } }
+                File = new FileXml() { Path = @"C:\Temp\foo.txt" },
+                Alterations = new List<AlterationXml>()
+                { 
+                    new RenamingXml()
+                        { Identifier= new ColumnOrdinalIdentifier(5), NewName = "myNewName" }
                 }
             };
 
@@ -378,7 +403,7 @@ namespace NBi.Testing.Xml.Unit.Systems
             Assert.That(xml, Does.Contain("#5"));
             Assert.That(xml, Does.Contain("myNewName"));
         }
-        
+
         [Test]
         [TestCase(typeof(SumXml), "sum")]
         [TestCase(typeof(AverageXml), "average")]
@@ -400,5 +425,37 @@ namespace NBi.Testing.Xml.Unit.Systems
             Assert.That(xml, Does.Contain("dateTime"));
         }
 
+        [Test]
+        public void Serialize_Unstack_Correct()
+        {
+            var root = new ResultSetSystemXml()
+            {
+                Alterations = new List<AlterationXml>()
+                {
+                    new UnstackXml()
+                    {
+                        Header = new HeaderXml() { Column = new ColumnDefinitionLightXml() { Identifier= new ColumnOrdinalIdentifier(2), Type= ColumnType.Text } },
+                        GroupBy = new GroupByXml()
+                        {
+                            Columns = new List<ColumnDefinitionLightXml>()
+                            {
+                                new ColumnDefinitionLightXml() { Identifier= new ColumnOrdinalIdentifier(0), Type= ColumnType.Numeric },
+                                new ColumnDefinitionLightXml() { Identifier= new ColumnOrdinalIdentifier(1), Type= ColumnType.DateTime }
+                            }
+                        }
+                    }
+                }
+            };
+
+            var manager = new XmlManager();
+            var xml = manager.XmlSerializeFrom(root);
+            Console.WriteLine(xml);
+            Assert.That(xml, Does.Contain("<unstack>"));
+            Assert.That(xml, Does.Contain("<header>"));
+            Assert.That(xml, Does.Contain("<column identifier=\"#2\" />"));
+            Assert.That(xml, Does.Contain("<group-by>"));
+            Assert.That(xml, Does.Contain("<column identifier=\"#0\" type=\"numeric\" />"));
+            Assert.That(xml, Does.Contain("<column identifier=\"#1\" type=\"dateTime\" />"));
+        }
     }
 }

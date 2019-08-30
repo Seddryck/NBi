@@ -7,7 +7,7 @@ using NUnit.Framework;
 namespace NBi.Testing.Acceptance.GenbiL
 {
     [TestFixture]
-    public class syntaxOldNewTest
+    public class SyntaxOldNewTest
     {
         private const string TEST_SUITE_NAME= "SyntaxOldNew";
         private string DefinitionFilename { get => $"Acceptance\\GenbiL\\Resources\\{TEST_SUITE_NAME}.genbil"; }

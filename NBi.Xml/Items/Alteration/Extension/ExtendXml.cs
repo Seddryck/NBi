@@ -9,7 +9,7 @@ using System.Xml.Serialization;
 
 namespace NBi.Xml.Items.Alteration.Extension
 {
-    public class ExtendXml
+    public class ExtendXml : AlterationXml
     {
         [XmlAttribute("identifier")]
         public string IdentifierSerializer { get; set; }

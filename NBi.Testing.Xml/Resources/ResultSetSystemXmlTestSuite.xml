@@ -210,4 +210,28 @@
       </equalTo>
     </assert>
   </test>
+  <test name="Alteration has a unstack" uid="0014">
+    <system-under-test>
+      <resultSet>
+        <query>
+          <report path="/path/" name="MyReport" dataset="MyDataSet"/>
+        </query>
+        <alteration>
+          <unstack>
+            <header>
+              <column identifier="myHeaderColumn"/>
+            </header>
+            <group-by>
+              <column identifier="myKeyColumn"/>
+            </group-by>
+          </unstack>
+        </alteration>
+      </resultSet>
+    </system-under-test>
+    <assert>
+      <equalTo>
+        <resultSet file="..\Csv\ResellerOrderCountByYearBefore2006.csv"/>
+      </equalTo>
+    </assert>
+  </test>
 </testSuite>

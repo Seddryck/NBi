@@ -154,6 +154,7 @@
     <Compile Include="ResultSet\Alteration\Extension\RenamingFactoryTest.cs" />
     <Compile Include="ResultSet\Alteration\Renaming\NewNameRenamingEngineTest.cs" />
     <Compile Include="ResultSet\Alteration\Renaming\RenamingFactoryTest.cs" />
+    <Compile Include="ResultSet\Alteration\Reshaping\UnstackEngineTest.cs" />
     <Compile Include="ResultSet\Alteration\Summarization\SummarizeEngineTest.cs" />
     <Compile Include="ResultSet\ColumnIdentifierFactory.cs" />
     <Compile Include="ResultSet\Combination\CartesianProductSequenceCombinationTest.cs" />

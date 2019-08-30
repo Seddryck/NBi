@@ -4,15 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.ResultSet.Alteration.Summarization
+namespace NBi.Core.ResultSet.Alteration.Reshaping
 {
-    public class SummarizationFactory
+    public class ReshapingFactory
     {
-        public ISummarizationEngine Instantiate(ISummarizationArgs args)
+        public IReshapingEngine Instantiate(IReshapingArgs args)
         {
             switch(args)
             {
-                case SummarizeArgs x: return new SummarizeEngine(x);
+                case UnstackArgs x: return new UnstackEngine(x);
                 default: throw new ArgumentException();
             }
         }

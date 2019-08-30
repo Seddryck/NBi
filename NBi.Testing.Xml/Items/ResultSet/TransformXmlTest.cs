@@ -130,9 +130,9 @@ namespace NBi.Testing.Xml.Unit.Items.ResultSet
         [Test]
         public void Serialize_AlterTransform_OrdinalCorrect()
         {
-            var root = new AlterationXml()
+            var root = new ResultSetSystemXml()
             {
-                Transformations = new List<TransformXml>()
+                Alterations = new List<AlterationXml>()
                 {
                     new TransformXml()
                     {
@@ -153,9 +153,9 @@ namespace NBi.Testing.Xml.Unit.Items.ResultSet
         [Test]
         public void Serialize_AlterTransform_IdentifierCorrect()
         {
-            var root = new AlterationXml()
+            var root = new ResultSetSystemXml()
             {
-                Transformations = new List<TransformXml>()
+                Alterations = new List<AlterationXml>()
                 {
                     new TransformXml()
                     {

@@ -6,9 +6,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 
-namespace NBi.Xml.Items.Sequence.Transformation
+namespace NBi.Xml.Items.Alteration.Summarization
 {
-    public class SummarizeXml
+    public class SummarizeXml : AlterationXml
     {
         [XmlElement(Type = typeof(SumXml), ElementName = "sum"),
             XmlElement(Type = typeof(MinXml), ElementName = "min"),

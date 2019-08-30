@@ -8,9 +8,14 @@ using System.Xml.Serialization;
 
 namespace NBi.Xml.Items.Calculation.Grouping
 {
+    [XmlInclude(typeof(GroupByNone))]
     public class GroupByXml
     {
         [XmlElement("column")]
-        public List<ColumnDefinitionLightXml> Columns { get; set; }
+        public List<ColumnDefinitionLightXml> Columns { get; set; } = new List<ColumnDefinitionLightXml>();
+
+        public static GroupByXml None { get; } = new GroupByNone();
+
+        public class GroupByNone : GroupByXml { }
     }
 }

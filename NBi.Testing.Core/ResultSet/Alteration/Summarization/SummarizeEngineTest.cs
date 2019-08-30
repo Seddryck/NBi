@@ -52,7 +52,7 @@ namespace NBi.Testing.Core.ResultSet.Alteration.Summarization
                     { Mock.Of<IColumnDefinitionLight>(x => x.Identifier == new ColumnNameIdentifier("keyColumn") && x.Type == ColumnType.Text) }
                 );
 
-            var summarize = new SummerizeEngine(args);
+            var summarize = new SummarizeEngine(args);
             var result = summarize.Execute(rs);
             Assert.That(result, Is.Not.Null);
             Assert.That(result.Columns.Count, Is.EqualTo(2));
@@ -79,7 +79,7 @@ namespace NBi.Testing.Core.ResultSet.Alteration.Summarization
                     { Mock.Of<IColumnDefinitionLight>(x => x.Identifier == new ColumnNameIdentifier("keyColumn") && x.Type == ColumnType.Text) }
                 );
 
-            var summarize = new SummerizeEngine(args);
+            var summarize = new SummarizeEngine(args);
             var result = summarize.Execute(rs);
             Assert.That(result, Is.Not.Null);
             Assert.That(result.Columns.Count, Is.EqualTo(4));
@@ -106,7 +106,7 @@ namespace NBi.Testing.Core.ResultSet.Alteration.Summarization
                     new List<IColumnDefinitionLight>()
                 );
 
-            var summarize = new SummerizeEngine(args);
+            var summarize = new SummarizeEngine(args);
             var result = summarize.Execute(rs);
             Assert.That(result, Is.Not.Null);
             Assert.That(result.Columns.Count, Is.EqualTo(1));
@@ -129,7 +129,7 @@ namespace NBi.Testing.Core.ResultSet.Alteration.Summarization
                     new List<IColumnDefinitionLight>()
                 );
 
-            var summarize = new SummerizeEngine(args);
+            var summarize = new SummarizeEngine(args);
             var result = summarize.Execute(rs);
             Assert.That(result, Is.Not.Null);
             Assert.That(result.Columns.Count, Is.EqualTo(3));
@@ -159,7 +159,7 @@ namespace NBi.Testing.Core.ResultSet.Alteration.Summarization
                     { Mock.Of<IColumnDefinitionLight>(x => x.Identifier == new ColumnNameIdentifier("keyColumn") && x.Type == ColumnType.Text) }
                 );
 
-            var summarize = new SummerizeEngine(args);
+            var summarize = new SummarizeEngine(args);
 
             var stopWatch = new Stopwatch();
             stopWatch.Start();

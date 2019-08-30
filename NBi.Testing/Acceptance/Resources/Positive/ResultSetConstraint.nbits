@@ -1021,32 +1021,137 @@
         </equal-to>
       </assert>
     </test>
-  <test name="Summarization on no column" uid="0263">
-    <system-under-test>
-      <result-set>
-        <query>
-          select 'A' as Key1, 'alpha' as Key2, 10 as Value
-          union all select 'B', 'alpha', 30
-          union all select 'B', 'alpha', 20
-          union all select 'B', 'beta', 10
-          union all select 'A', 'beta', 15
-        </query>
-        <alteration>
-          <summarize>
-            <sum column="[Value]" type="numeric"/>
-          </summarize>
-        </alteration>
-      </result-set>
-    </system-under-test>
-    <assert>
-      <equal-to behavior="single-row">
+    <test name="Summarization on no column" uid="0263">
+      <system-under-test>
         <result-set>
-          <row>
-            <cell>85</cell>
-          </row>
+          <query>
+            select 'A' as Key1, 'alpha' as Key2, 10 as Value
+            union all select 'B', 'alpha', 30
+            union all select 'B', 'alpha', 20
+            union all select 'B', 'beta', 10
+            union all select 'A', 'beta', 15
+          </query>
+          <alteration>
+            <summarize>
+              <sum column="[Value]" type="numeric"/>
+            </summarize>
+          </alteration>
         </result-set>
-      </equal-to>
-    </assert>
-  </test>
+      </system-under-test>
+      <assert>
+        <equal-to behavior="single-row">
+          <result-set>
+            <row>
+              <cell>85</cell>
+            </row>
+          </result-set>
+        </equal-to>
+      </assert>
+    </test>
+    <test name="Unstacking on one key" uid="0270">
+      <system-under-test>
+        <result-set>
+          <query>
+            select 'A' as Key1, 'alpha' as Header, 10 as Value
+            union all select 'B', 'beta', 10
+            union all select 'A', 'beta', 15
+          </query>
+          <alteration>
+            <unstack>
+              <header>
+                <column identifier="Header"/>
+              </header>
+              <group-by>
+                <column identifier="#0"/>
+              </group-by>
+            </unstack>
+          </alteration>
+        </result-set>
+      </system-under-test>
+      <assert>
+        <equal-to keys="first">
+          <result-set>
+            <row>
+              <cell>A</cell>
+              <cell>10</cell>
+              <cell>15</cell>
+            </row>
+            <row>
+              <cell>B</cell>
+              <cell>(null)</cell>
+              <cell>10</cell>
+            </row>
+          </result-set>
+        </equal-to>
+      </assert>
+    </test>
+    <test name="Transform, summarize, unstack, extend" uid="0300">
+      <system-under-test>
+        <result-set>
+          <query>
+            select '2019-01-01 00:00:00' as DateTime, 'Import' as Direction, 10 as Value
+            union all select '2019-01-01 00:15:00', 'Import', 20
+            union all select '2019-01-01 00:30:00', 'Import', 15
+            union all select '2019-01-01 00:45:00', 'Import', 15
+            union all select '2019-01-01 00:00:00', 'Export', 7
+            union all select '2019-01-01 00:15:00', 'Export', 8
+            union all select '2019-01-01 00:30:00', 'Export', 12
+            union all select '2019-01-01 00:45:00', 'Export', 13
+            union all select '2019-01-01 01:00:00', 'Import', 5
+            union all select '2019-01-01 01:15:00', 'Import', 15
+            union all select '2019-01-01 01:30:00', 'Import', 18
+            union all select '2019-01-01 01:45:00', 'Import', 17
+            union all select '2019-01-01 01:00:00', 'Export', 14
+            union all select '2019-01-01 01:15:00', 'Export', 16
+            union all select '2019-01-01 01:30:00', 'Export', 11
+            union all select '2019-01-01 01:45:00', 'Export', 19
+          </query>
+          <alteration>
+            <transform column="DateTime" language="format" original-type="dateTime">
+              yyyy-MM-dd HH:00:00
+            </transform>
+            <summarize>
+              <sum column="Value" type="numeric"/>
+              <group-by>
+                <column identifier="DateTime"/>
+                <column identifier="Direction"/>
+              </group-by>
+            </summarize>
+            <unstack>
+              <header>
+                <column identifier="Direction"/>
+              </header>
+              <group-by>
+                <column identifier="DateTime"/>
+              </group-by>
+            </unstack>
+            <extend identifier="Delta">
+              <script language="ncalc">
+                [Import] - [Export]
+              </script>
+            </extend>
+          </alteration>
+        </result-set>
+      </system-under-test>
+      <assert>
+        <equal-to keys="first">
+          <column index="0" role="key" type="dateTime"/>
+          <result-set>
+            <row>
+              <cell>2019-01-01 00:00:00</cell>
+              <cell>60</cell>
+              <cell>40</cell>
+              <cell>20</cell>
+            </row>
+            <row>
+              <cell>2019-01-01 01:00:00</cell>
+              <cell>55</cell>
+              <cell>60</cell>
+              <cell>-5</cell>
+            </row>
+          </result-set>
+        </equal-to>
+      </assert>
+    </test>
   </group>
 </testSuite>

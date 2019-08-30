@@ -10,6 +10,13 @@ using System.IO;
 using NBi.Xml.Items.Alteration;
 using NBi.Xml.Items.ResultSet.Combination;
 using System;
+using NBi.Xml.Items.Alteration.Renaming;
+using NBi.Xml.Items.Alteration.Extension;
+using NBi.Xml.Items.Calculation;
+using NBi.Xml.Items.Alteration.Conversion;
+using NBi.Xml.Items.Alteration.Transform;
+using NBi.Xml.Items.Alteration.Summarization;
+using NBi.Xml.Items.Alteration.Reshaping;
 
 namespace NBi.Xml.Systems
 {
@@ -92,8 +99,23 @@ namespace NBi.Xml.Systems
         [XmlIgnore]
         public bool SequenceCombinationSpecified { get => SequenceCombination != null; set { } }
 
-        [XmlElement("alteration")]
-        public virtual AlterationXml Alteration { get; set; }
+        [XmlArray("alteration"),
+            XmlArrayItem(Type = typeof(RenamingXml), ElementName = "rename"),
+            XmlArrayItem(Type = typeof(ExtendXml), ElementName = "extend"),
+            XmlArrayItem(Type = typeof(FilterXml), ElementName = "filter"),
+            XmlArrayItem(Type = typeof(ConvertXml), ElementName = "convert"),
+            XmlArrayItem(Type = typeof(TransformXml), ElementName = "transform"),
+            XmlArrayItem(Type = typeof(SummarizeXml), ElementName = "summarize"),
+            XmlArrayItem(Type = typeof(UnstackXml), ElementName = "unstack"),
+        ]
+        public virtual List<AlterationXml> Alterations { get; set; }
+
+        [XmlIgnore]
+        public bool AlterationsSpecified
+        {
+            get => (Alterations?.Count ?? 0) > 0;
+            set {}
+        }
 
         public override ICollection<string> GetAutoCategories()
         {

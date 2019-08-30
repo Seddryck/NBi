@@ -16,6 +16,7 @@ using System.Diagnostics;
 using System.Collections.Generic;
 using NBi.Xml.Systems;
 using NBi.Core.Calculation;
+using NBi.Xml.Items.Calculation;
 #endregion
 
 namespace NBi.Testing.Xml.Unit.Constraints
@@ -242,8 +243,8 @@ namespace NBi.Testing.Xml.Unit.Constraints
             var rs = ctr.ResultSet as ResultSetSystemXml;
             Assert.That(rs.File.Path, Is.EqualTo(@"C:\bar.txt"));
             Assert.That(rs.File.IfMissing.File.Path, Is.EqualTo(@"C:\foo.txt"));
-            Assert.That(rs.Alteration.Filters, Has.Count.EqualTo(1));
-            Assert.That(rs.Alteration.Filters[0].Predication.Predicate.ComparerType, Is.EqualTo(ComparerType.MoreThan));
+            Assert.That(rs.Alterations, Has.Count.EqualTo(1));
+            Assert.That((rs.Alterations[0] as FilterXml).Predication.Predicate.ComparerType, Is.EqualTo(ComparerType.MoreThan));
         }
 
         [Test]

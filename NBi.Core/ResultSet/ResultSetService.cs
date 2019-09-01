@@ -18,7 +18,7 @@ namespace NBi.Core.ResultSet
         public ResultSetService(Load load, List<Alter> alterations)
         {
             this.load = load;
-            this.alterations = alterations.AsReadOnly();
+            this.alterations = (alterations ?? new List<Alter>()).AsReadOnly();
         }
 
         public ResultSet Execute()

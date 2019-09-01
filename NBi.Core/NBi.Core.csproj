@@ -425,6 +425,16 @@
     <Compile Include="Report\ReportDataSetRequest.cs" />
     <Compile Include="Report\ReportingCommand.cs" />
     <Compile Include="ResultSet\Alteration\Alter.cs" />
+    <Compile Include="ResultSet\Alteration\Lookup\LookupReplaceArgs.cs" />
+    <Compile Include="ResultSet\Alteration\Lookup\LookupReplaceEngine.cs" />
+    <Compile Include="ResultSet\Alteration\Lookup\LookupFactory.cs" />
+    <Compile Include="ResultSet\Alteration\Lookup\ILookupArgs.cs" />
+    <Compile Include="ResultSet\Alteration\Lookup\ILookupEngine.cs" />
+    <Compile Include="ResultSet\Alteration\Lookup\Strategies\Missing\DefaultValueMissingStrategy.cs" />
+    <Compile Include="ResultSet\Alteration\Lookup\Strategies\Missing\DiscardRowMissingStrategy.cs" />
+    <Compile Include="ResultSet\Alteration\Lookup\Strategies\Missing\FailureMissingStrategy.cs" />
+    <Compile Include="ResultSet\Alteration\Lookup\Strategies\Missing\IMissingStrategy.cs" />
+    <Compile Include="ResultSet\Alteration\Lookup\Strategies\Missing\OriginalValueMissingStrategy.cs" />
     <Compile Include="ResultSet\Alteration\Projection\ProjectArgs.cs" />
     <Compile Include="ResultSet\Alteration\Projection\ProjectAwayArgs.cs" />
     <Compile Include="ResultSet\Alteration\Projection\ProjectWhileEngine.cs" />
@@ -474,7 +484,6 @@
     <Compile Include="ResultSet\ColumnType.cs" />
     <Compile Include="ResultSet\Lookup\Behavior.cs" />
     <Compile Include="ResultSet\Combination\CartesianProductSequenceCombination.cs" />
-    <Compile Include="ResultSet\Lookup\Behavior.cs" />
     <Compile Include="ResultSet\Combination\SequenceCombinationOperation.cs" />
     <Compile Include="ResultSet\Lookup\ILookupAnalyzer.cs" />
     <Compile Include="ResultSet\Lookup\LookupMatchesAnalyzer.cs" />

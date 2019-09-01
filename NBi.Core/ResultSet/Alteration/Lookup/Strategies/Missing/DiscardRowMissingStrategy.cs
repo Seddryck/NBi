@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace NBi.Core.ResultSet.Alteration.Lookup.Strategies.Missing
 {
-    class DiscardRowMissingStrategy : IMissingStrategy
+    public class DiscardRowMissingStrategy : IMissingStrategy
     {
         public void Execute(DataRow row, DataColumn originalColumn, DataColumn newColumn)
             => row.Delete();

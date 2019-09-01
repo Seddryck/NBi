@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace NBi.Core.ResultSet.Alteration.Lookup.Strategies.Missing
 {
-    class OriginalValueMissingStrategy : IMissingStrategy
+    public class OriginalValueMissingStrategy : IMissingStrategy
     {
         public void Execute(DataRow row, DataColumn originalColumn, DataColumn newColumn)
             => row[newColumn.Ordinal] = row[originalColumn.Ordinal];

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace NBi.Core.ResultSet.Alteration.Lookup.Strategies.Missing
 {
-    class FailureMissingStrategy : IMissingStrategy
+    public class FailureMissingStrategy : IMissingStrategy
     {
         public void Execute(DataRow row, DataColumn originalColumn, DataColumn newColumn)
             => throw new NBiException($"The value '{row[originalColumn.Ordinal]}' is not available on the reference table.");

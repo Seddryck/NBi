@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace NBi.Core.ResultSet.Alteration.Lookup.Strategies.Missing
 {
-    class DefaultValueMissingStrategy : IMissingStrategy
+    public class DefaultValueMissingStrategy : IMissingStrategy
     {
         public object Value { get; }
 

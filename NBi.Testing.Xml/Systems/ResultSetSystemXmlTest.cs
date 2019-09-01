@@ -23,6 +23,8 @@ using NBi.Xml.Items.Calculation.Grouping;
 using NBi.Xml.Items.Calculation;
 using NBi.Xml.Items.Alteration.Extension;
 using NBi.Xml.Items.Alteration.Projection;
+using NBi.Xml.Items.Alteration.Lookup;
+using NBi.Xml.Items.ResultSet.Lookup;
 
 namespace NBi.Testing.Xml.Unit.Systems
 {
@@ -367,6 +369,36 @@ namespace NBi.Testing.Xml.Unit.Systems
             Assert.That(projectAway.Columns.Count, Is.EqualTo(2));
         }
 
+
+        [Test]
+        public void Deserialize_SampleFile_AlterationLookupReplace()
+        {
+            int testNr = 17;
+
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            var ts = DeserializeSample();
+
+            // Check the properties of the object.
+            Assert.That(ts.Tests[testNr].Systems[0], Is.AssignableTo<ResultSetSystemXml>());
+            var rs = ts.Tests[testNr].Systems[0] as ResultSetSystemXml;
+
+            Assert.That(rs.Alterations, Is.Not.Null);
+            Assert.That(rs.Alterations, Has.Count.EqualTo(1));
+
+            Assert.That(rs.Alterations[0], Is.Not.Null);
+            Assert.That(rs.Alterations[0], Is.TypeOf<LookupReplaceXml>());
+            var lookup = rs.Alterations[0] as LookupReplaceXml;
+
+            Assert.That(lookup.Missing, Is.Not.Null);
+            Assert.That(lookup.Missing.Behavior, Is.EqualTo(Behavior.Failure));
+
+            Assert.That(lookup.Join, Is.Not.Null);
+            Assert.That(lookup.ResultSet, Is.Not.Null);
+
+            Assert.That(lookup.Replacement, Is.Not.Null);
+            Assert.That(lookup.Replacement.Identifier.Label, Is.EqualTo("#1"));
+        }
+
         [Test]
         public void Serialize_FileAndParser_Correct()
         {
@@ -554,6 +586,54 @@ namespace NBi.Testing.Xml.Unit.Systems
             Assert.That(xml, Does.Contain("<project-away>"));
             Assert.That(xml, Does.Contain("<column identifier=\"#2\" />"));
             Assert.That(xml, Does.Contain("<column identifier=\"[foo]\" />"));
+        }
+
+        [Test]
+        public void Serialize_LookupReplace_Correct()
+        {
+            var root = new ResultSetSystemXml()
+            {
+                Alterations = new List<AlterationXml>()
+                {
+                    new LookupReplaceXml()
+                    {
+                        Missing = new MissingXml() { Behavior=Behavior.DefaultValue, DefaultValue="(null)" },
+                        Join = new JoinXml() { Usings = new List<ColumnUsingXml>() { new ColumnUsingXml() { Column = "#1" } } },
+                        ResultSet = new ResultSetSystemXml(),
+                        Replacement = new ColumnDefinitionLightXml() { Identifier = new ColumnNameIdentifier("foo") }
+                    }
+                }
+            };
+
+            var manager = new XmlManager();
+            var xml = manager.XmlSerializeFrom(root);
+            Console.WriteLine(xml);
+            Assert.That(xml, Does.Contain("<lookup-replace>"));
+            Assert.That(xml, Does.Contain("<missing behavior=\"default-value\">(null)</missing>"));
+            Assert.That(xml, Does.Contain("<join>"));
+            Assert.That(xml, Does.Contain("<result-set"));
+            Assert.That(xml, Does.Contain("<replacement identifier=\"[foo]\" />"));
+        }
+
+        [Test]
+        public void Serialize_LookupReplaceDefaultMissing_Correct()
+        {
+            var root = new ResultSetSystemXml()
+            {
+                Alterations = new List<AlterationXml>()
+                {
+                    new LookupReplaceXml()
+                    {
+                        Missing = new MissingXml() { Behavior=Behavior.Failure },
+                    }
+                }
+            };
+
+            var manager = new XmlManager();
+            var xml = manager.XmlSerializeFrom(root);
+            Console.WriteLine(xml);
+            Assert.That(xml, Does.Contain("<lookup-replace"));
+            Assert.That(xml, Does.Not.Contain("<missing"));
         }
     }
 }

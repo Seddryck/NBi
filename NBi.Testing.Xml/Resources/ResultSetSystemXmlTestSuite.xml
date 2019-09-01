@@ -274,4 +274,36 @@
       </equalTo>
     </assert>
   </test>
+  <test name="Alteration has a project-away" uid="0017">
+    <system-under-test>
+      <result-set>
+        <query>
+          <report path="/path/" name="MyReport" dataset="MyDataSet"/>
+        </query>
+        <alteration>
+          <lookup-replace>
+            <join>
+              <mapping candidate="#1" reference="#0"/>
+            </join>
+            <result-set>
+              <row>
+                <cell>A</cell>
+                <cell>alpha</cell>
+              </row>
+              <row>
+                <cell>B</cell>
+                <cell>beta</cell>
+              </row>
+            </result-set>
+            <replacement identifier="#1"/>
+          </lookup-replace>
+        </alteration>
+      </result-set>
+    </system-under-test>
+    <assert>
+      <equal-to>
+        <resultSet file="..\Csv\ResellerOrderCountByYearBefore2006.csv"/>
+      </equal-to>
+    </assert>
+  </test>
 </testSuite>

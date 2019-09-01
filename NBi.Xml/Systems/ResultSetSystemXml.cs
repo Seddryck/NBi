@@ -18,6 +18,7 @@ using NBi.Xml.Items.Alteration.Transform;
 using NBi.Xml.Items.Alteration.Summarization;
 using NBi.Xml.Items.Alteration.Reshaping;
 using NBi.Xml.Items.Alteration.Projection;
+using NBi.Xml.Items.Alteration.Lookup;
 
 namespace NBi.Xml.Systems
 {
@@ -110,6 +111,7 @@ namespace NBi.Xml.Systems
             XmlArrayItem(Type = typeof(UnstackXml), ElementName = "unstack"),
             XmlArrayItem(Type = typeof(ProjectXml), ElementName = "project"),
             XmlArrayItem(Type = typeof(ProjectAwayXml), ElementName = "project-away"),
+            XmlArrayItem(Type = typeof(LookupReplaceXml), ElementName = "lookup-replace"),
         ]
         public virtual List<AlterationXml> Alterations { get; set; }
 

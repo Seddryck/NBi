@@ -1,4 +1,5 @@
-﻿using NBi.Xml.Items.ResultSet.Lookup;
+﻿using NBi.Xml.Items.ResultSet;
+using NBi.Xml.Items.ResultSet.Lookup;
 using NBi.Xml.Systems;
 using System;
 using System.Collections.Generic;
@@ -9,7 +10,7 @@ using System.Xml.Serialization;
 
 namespace NBi.Xml.Items.Alteration.Lookup
 {
-    public class LookupXml
+    public class LookupReplaceXml : AlterationXml
     {
         [XmlElement("missing")]
         public MissingXml Missing { get; set; }
@@ -17,7 +18,7 @@ namespace NBi.Xml.Items.Alteration.Lookup
         [XmlIgnore()]
         public bool MissingSpecified
         {
-            get => Missing != MissingXml.Default;
+            get => Missing.Behavior != Behavior.Failure;
             set { }
         }
 
@@ -27,9 +28,10 @@ namespace NBi.Xml.Items.Alteration.Lookup
         [XmlElement("result-set")]
         public ResultSetSystemXml ResultSet { get; set; }
 
-        public LookupXml()
-        {
-            Missing = MissingXml.Default;
-        }
+        [XmlElement("replacement")]
+        public ColumnDefinitionLightXml Replacement { get; set; }
+
+        public LookupReplaceXml()
+            => Missing = new MissingXml() { Behavior = Behavior.Failure };
     }
 }

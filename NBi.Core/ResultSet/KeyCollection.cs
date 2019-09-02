@@ -22,10 +22,19 @@ namespace NBi.Core.ResultSet
                 int hash = 0;
                 for (int i = 0; i < this.Members.Length; i++)
                 {
-                    hash = hash ^ 397 * Members[i].GetHashCode();
+                    hash = hash ^ 397 * GetGenericValue(Members[i]).GetHashCode();
                 }
                 return hash;
             }
+        }
+
+        private object GetGenericValue(object obj)
+        {
+            if (obj == DBNull.Value || obj == null)
+                return "(null)";
+            if (obj is string && string.IsNullOrEmpty(obj as string))
+                return "(empty)";
+            return obj;
         }
 
         public bool Equals(KeyCollection other)
@@ -44,7 +53,7 @@ namespace NBi.Core.ResultSet
 
             for (int i = 0; i < this.Members.Length; i++)
             {
-                if (!other.Members[i].Equals(this.Members[i]))
+                if (!GetGenericValue(other.Members[i]).Equals(GetGenericValue(this.Members[i])))
                     return false;
             }
             return true;

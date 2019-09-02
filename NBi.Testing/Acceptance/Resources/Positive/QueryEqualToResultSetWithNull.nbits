@@ -5,7 +5,7 @@
       <connectionString>Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly</connectionString>
     </default>
   </settings>
-	<test name="'Reseller Order Count' by year between 2005 and 2009" uid="0001">
+	<!--<test name="'Reseller Order Count' by year between 2005 and 2009" uid="0001">
     <condition>
       <service-running name="MSOLAP$SQL2017TABULAR"/>
     </condition>
@@ -86,6 +86,41 @@
           </row>
         </resultSet>
       </equalTo>
+    </assert>
+  </test>-->
+  <test name="Some keys with null and empty" uid="0030">
+    <system-under-test>
+      <execution>
+        <query>
+          select
+            '001', 100
+          union all
+          select
+            null, null
+          union all
+          select
+            '', 300
+        </query>
+      </execution>
+    </system-under-test>
+    <assert>
+      <equal-to>
+        <column index="1" role="key" type="numeric"/>
+        <resultSet>
+          <row>
+            <cell>001</cell>
+            <cell>100</cell>
+          </row>
+          <row>
+            <cell>(null)</cell>
+            <cell>(null)</cell>
+          </row>
+          <row>
+            <cell>(empty)</cell>
+            <cell>300</cell>
+          </row>
+        </resultSet>
+      </equal-to>
     </assert>
   </test>
 </testSuite>

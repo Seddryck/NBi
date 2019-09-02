@@ -32,6 +32,9 @@ namespace NBi.Core.Scalar.Casting
             if (value is DateTime)
                 return (DateTime)value;
 
+            if (value == DBNull.Value || value is null || (value is string && value as string == "(null)"))
+                throw new NBiException($"Can't cast the value '(null)' to a dateTime.");
+
             if (value is string)
                 return StringParse((string)value);
 
@@ -45,7 +48,7 @@ namespace NBi.Core.Scalar.Casting
             bool result = false;
             result = ValidDateTime(value, Cultures, out DateTime dateTime);
             if (!result)
-                throw new NBiException($"The value '{value}' is not recognized as a valid date");
+                throw new NBiException($"Can't cast the value '{value}' to a valid dateTime.");
 
             return dateTime;
         }

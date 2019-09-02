@@ -109,7 +109,30 @@ namespace NBi.Testing.Core.Scalar.Caster
         [Test]
         public void Execute_NonDate_ThrowNBiException()
         {
-            Assert.Throws<NBiException>(() => new DateTimeCaster().Execute("tomorrow"));
+            var ex = Assert.Throws<NBiException>(() => new DateTimeCaster().Execute("tomorrow"));
+            Assert.That(ex.Message, Is.EqualTo("Can't cast the value 'tomorrow' to a valid dateTime."));
+        }
+
+        [Test]
+        public void Execute_DBNull_ThrowNBiException()
+        {
+            var ex = Assert.Throws<NBiException>(() => new DateTimeCaster().Execute(DBNull.Value));
+            Assert.That(ex.Message, Is.EqualTo("Can't cast the value '(null)' to a dateTime."));
+        }
+
+        [Test]
+        public void Execute_Null_ThrowNBiException()
+        {
+            var ex = Assert.Throws<NBiException>(() => new DateTimeCaster().Execute(null));
+            Assert.That(ex.Message, Is.EqualTo("Can't cast the value '(null)' to a dateTime."));
+        }
+
+
+        [Test]
+        public void Execute_NullString_ThrowNBiException()
+        {
+            var ex = Assert.Throws<NBiException>(() => new DateTimeCaster().Execute("(null)"));
+            Assert.That(ex.Message, Is.EqualTo("Can't cast the value '(null)' to a dateTime."));
         }
     }
 }

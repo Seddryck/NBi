@@ -42,21 +42,22 @@ namespace NBi.Core.ResultSet
 
         protected internal object FormatValue(ColumnType columnType, object value)
         {
-            object v = null;
-            if (columnType == ColumnType.Numeric)
-                v = new NumericCaster().Execute(value);
-            else if (columnType == ColumnType.DateTime)
-                v = new DateTimeCaster().Execute(value);
-            else if (columnType == ColumnType.Boolean)
-                v = new ThreeStateBooleanCaster().Execute(value);
-            else
+            switch (columnType)
             {
-                if (value is IConvertible)
-                    v = ((IConvertible)value).ToString(CultureInfo.InvariantCulture);
-                else
-                    v = value.ToString();
+                case ColumnType.Numeric:
+                    return new NumericCaster().Execute(value);
+                case ColumnType.DateTime:
+                    return new DateTimeCaster().Execute(value);
+                case ColumnType.Boolean:
+                    return new ThreeStateBooleanCaster().Execute(value);
+                default:
+                    if (value == DBNull.Value)
+                        return "(null)";
+                    else if (value is IConvertible)
+                        return ((IConvertible)value).ToString(CultureInfo.InvariantCulture);
+                    else
+                        return value.ToString();
             }
-            return v;
         }
     }
 }

@@ -152,6 +152,7 @@
     <Compile Include="ResultSetManagerTest.cs" />
     <Compile Include="ResultSet\Alteration\Extension\ExtendEngineTest.cs" />
     <Compile Include="ResultSet\Alteration\Extension\RenamingFactoryTest.cs" />
+    <Compile Include="ResultSet\Alteration\Lookup\LookupReplaceEngineTest.cs" />
     <Compile Include="ResultSet\Alteration\Projection\ProjectAwayEngineTest.cs" />
     <Compile Include="ResultSet\Alteration\Projection\ProjectEngineTest.cs" />
     <Compile Include="ResultSet\Alteration\Renaming\NewNameRenamingEngineTest.cs" />

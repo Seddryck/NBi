@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Xml.Serialization;
 
-namespace NBi.Xml.Items.Alteration
+namespace NBi.Core.ResultSet.Alteration.Lookup
 {
-    public abstract class AlterationXml
-    { }
+    public interface ILookupArgs
+    {
+    }
 }

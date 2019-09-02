@@ -158,6 +158,8 @@
     <Compile Include="Items\Alteration\Conversion\TextToDateTimeConverterXml.cs" />
     <Compile Include="Items\Alteration\Projection\ProjectXml.cs" />
     <Compile Include="Items\Alteration\Projection\AbstractProjectionXml.cs" />
+    <Compile Include="Items\Alteration\Lookup\LookupReplaceXml.cs" />
+    <Compile Include="Items\Alteration\Lookup\MissingXml.cs" />
     <Compile Include="Items\Alteration\Projection\ProjectAwayXml.cs" />
     <Compile Include="Items\Alteration\Extension\ExtendXml.cs" />
     <Compile Include="Items\Alteration\Renaming\RenamingXml.cs" />

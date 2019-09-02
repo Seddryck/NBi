@@ -27,6 +27,11 @@ using NBi.Xml.Items.Alteration.Conversion;
 using NBi.Xml.Items.Alteration.Renaming;
 using NBi.Xml.Items.Alteration.Projection;
 using NBi.Core.ResultSet.Alteration.Projection;
+using NBi.Xml.Items.Alteration.Lookup;
+using NBi.Core.ResultSet.Alteration.Lookup;
+using NBi.Xml.Items.ResultSet.Lookup;
+using NBi.Core.ResultSet.Lookup;
+using NBi.Core.ResultSet.Alteration.Lookup.Strategies.Missing;
 
 namespace NBi.NUnit.Builder.Helper
 {
@@ -72,6 +77,7 @@ namespace NBi.NUnit.Builder.Helper
                     case UnstackXml x: yield return InstantiateUnstack(x); break;
                     case ProjectAwayXml x: yield return InstantiateProjectAway(x); break;
                     case ProjectXml x: yield return InstantiateProject(x); break;
+                    case LookupReplaceXml x: yield return InstantiateLookupReplace(x); break;
                     default: throw new ArgumentException();
                 }
             }
@@ -204,6 +210,57 @@ namespace NBi.NUnit.Builder.Helper
             var factory = new ProjectionFactory();
             var project = factory.Instantiate(new ProjectAwayArgs(projectXml.Columns.Select(x => x.Identifier)));
             return project.Execute;
+        }
+
+        private Alter InstantiateLookupReplace(LookupReplaceXml lookupReplaceXml)
+        {
+            var factory = new LookupFactory();
+
+            var innerService = new ResultSetServiceBuilder();
+            innerService.Setup(InstantiateResolver(lookupReplaceXml.ResultSet));
+            innerService.Setup(InstantiateAlterations(lookupReplaceXml.ResultSet));
+
+            IMissingStrategy strategy = new FailureMissingStrategy();
+            switch (lookupReplaceXml.Missing.Behavior)
+            {
+                case Behavior.OriginalValue:
+                    strategy = new OriginalValueMissingStrategy();
+                    break;
+                case Behavior.DefaultValue:
+                    strategy = new DefaultValueMissingStrategy(lookupReplaceXml.Missing.DefaultValue);
+                    break;
+                case Behavior.DiscardRow:
+                    strategy = new DiscardRowMissingStrategy();
+                    break;
+                default:
+                    strategy = new FailureMissingStrategy();
+                    break;
+            }
+
+            var lookup = factory.Instantiate(
+                    new LookupReplaceArgs(
+                        innerService.GetService(),
+                        BuildMappings(lookupReplaceXml.Join).ElementAt(0),
+                        lookupReplaceXml.Replacement.Identifier,
+                        strategy
+                ));
+
+            return lookup.Execute;
+        }
+
+        private IEnumerable<ColumnMapping> BuildMappings(JoinXml joinXml)
+        {
+            var factory = new ColumnIdentifierFactory();
+
+            return joinXml?.Mappings.Select(mapping => new ColumnMapping(
+                        factory.Instantiate(mapping.Candidate)
+                        , factory.Instantiate(mapping.Reference)
+                        , mapping.Type))
+                .Union(
+                    joinXml?.Usings.Select(@using => new ColumnMapping(
+                        factory.Instantiate(@using.Column)
+                        , @using.Type)
+                    ));
         }
     }
 }

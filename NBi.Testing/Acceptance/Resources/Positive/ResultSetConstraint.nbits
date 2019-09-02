@@ -1115,7 +1115,7 @@
         </equal-to>
       </assert>
     </test>
-    <test name="Project on two fields with re-order" uid="0280">
+    <test name="Project on two fields with re-order" uid="0281">
       <system-under-test>
         <result-set>
           <query>
@@ -1147,7 +1147,7 @@
         </equal-to>
       </assert>
     </test>
-    <test name="Project-away on two fields" uid="0280">
+    <test name="Project-away on two fields" uid="0282">
       <system-under-test>
         <result-set>
           <query>
@@ -1175,31 +1175,90 @@
         </equal-to>
       </assert>
     </test>
-    <test name="Transform, summarize, unstack, extend, project" uid="0300">
+    <test name="Transformation lookup" uid="0290">
+      <system-under-test>
+        <resultSet>
+          <query>
+            select 'A' as Id, 1 as FooBarId  union all select 'B', 2 union all select 'C', 2 union all select 'D', 3
+          </query>
+          <alteration>
+            <lookup-replace>
+              <missing behavior="discard-row"/>
+              <join>
+                <using>[FooBarId]</using>
+              </join>
+              <result-set>
+                <query connection-string="Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly">
+                  select 1 as FooBarId, 'Foo' as ValueX union all select 2, 'Bar'
+                </query>
+              </result-set>
+              <replacement identifier="ValueX"/>
+            </lookup-replace>
+          </alteration>
+        </resultSet>
+      </system-under-test>
+      <assert>
+        <equal-to keys="first">
+          <column index="0" type="text" role="key"/>
+          <column index="1" type="text" role="value"/>
+          <result-set>
+            <row>
+              <cell>A</cell>
+              <cell>Foo</cell>
+            </row>
+            <row>
+              <cell>B</cell>
+              <cell>Bar</cell>
+            </row>
+            <row>
+              <cell>C</cell>
+              <cell>Bar</cell>
+            </row>
+          </result-set>
+        </equal-to>
+      </assert>
+    </test>
+    <test name="Transform, lookup-replace, summarize, unstack, extend, project" uid="0300">
       <system-under-test>
         <result-set>
           <query>
-            select '2019-01-01 00:00:00' as DateTime, 'Import' as Direction, 10 as Value
-            union all select '2019-01-01 00:15:00', 'Import', 20
-            union all select '2019-01-01 00:30:00', 'Import', 15
-            union all select '2019-01-01 00:45:00', 'Import', 15
-            union all select '2019-01-01 00:00:00', 'Export', 7
-            union all select '2019-01-01 00:15:00', 'Export', 8
-            union all select '2019-01-01 00:30:00', 'Export', 12
-            union all select '2019-01-01 00:45:00', 'Export', 13
-            union all select '2019-01-01 01:00:00', 'Import', 5
-            union all select '2019-01-01 01:15:00', 'Import', 15
-            union all select '2019-01-01 01:30:00', 'Import', 18
-            union all select '2019-01-01 01:45:00', 'Import', 17
-            union all select '2019-01-01 01:00:00', 'Export', 14
-            union all select '2019-01-01 01:15:00', 'Export', 16
-            union all select '2019-01-01 01:30:00', 'Export', 11
-            union all select '2019-01-01 01:45:00', 'Export', 19
+            select '2019-01-01 00:00:00' as DateTime, 'I' as Direction, 10 as Value
+            union all select '2019-01-01 00:15:00', 'I', 20
+            union all select '2019-01-01 00:30:00', 'I', 15
+            union all select '2019-01-01 00:45:00', 'I', 15
+            union all select '2019-01-01 00:00:00', 'E', 7
+            union all select '2019-01-01 00:15:00', 'E', 8
+            union all select '2019-01-01 00:30:00', 'E', 12
+            union all select '2019-01-01 00:45:00', 'E', 13
+            union all select '2019-01-01 01:00:00', 'I', 5
+            union all select '2019-01-01 01:15:00', 'I', 15
+            union all select '2019-01-01 01:30:00', 'I', 18
+            union all select '2019-01-01 01:45:00', 'I', 17
+            union all select '2019-01-01 01:00:00', 'E', 14
+            union all select '2019-01-01 01:15:00', 'E', 16
+            union all select '2019-01-01 01:30:00', 'E', 11
+            union all select '2019-01-01 01:45:00', 'E', 19
           </query>
           <alteration>
             <transform column="DateTime" language="native" original-type="dateTime">
               dateTime-to-floor-hour
             </transform>
+            <lookup-replace>
+              <join>
+                <mapping candidate="Direction" reference="#0"/>
+              </join>
+              <result-set>
+                <row>
+                  <cell>I</cell>
+                  <cell>Import</cell>
+                </row>
+                <row>
+                  <cell>E</cell>
+                  <cell>Export</cell>
+                </row>
+              </result-set>
+              <replacement identifier="#1"/>
+            </lookup-replace>
             <summarize>
               <sum column="Value" type="numeric"/>
               <group-by>

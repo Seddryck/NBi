@@ -20,7 +20,7 @@ test_script:
 - cmd: >-
     nunit3-console NBi.Testing.Core\bin\debug\NBi.Testing.Core.dll NBi.Testing.Framework\bin\debug\NBi.Testing.Framework.dll NBi.Testing.GenbiL\bin\debug\NBi.Testing.GenbiL.dll NBi.Testing.Xml\bin\debug\NBi.Testing.Xml.dll  --where "cat!=Acceptance and cat!=Olap and cat!=Etl and cat!=WindowsService and cat!=ReportServerDB and cat!=LocalSQL" --result=myresults.xml;format=AppVeyor
     
-    nunit-console-x86 NBi.Testing\bin\debug\NBi.Testing.dll /exclude:Acceptance,Olap,Etl,WindowsService,ReportServerDB,LocalSQL
+    nunit-console-x86 NBi.Testing\bin\debug\NBi.Testing.dll /exclude:Olap,Etl,WindowsService,ReportServerDB,LocalSQL
     
 artifacts:
 - path: NBi.NUnit.Runtime\bin\Debug

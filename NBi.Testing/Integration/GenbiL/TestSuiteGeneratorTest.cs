@@ -17,7 +17,7 @@ namespace NBi.Testing.Integration.GenbiL
 
             var generator = new TestSuiteGenerator();
             generator.Load(filename);
-            Assert.That(generator.Text, Is.StringContaining("€"));
+            Assert.That(generator.Text, Does.Contain("€"));
         }
     }
 }

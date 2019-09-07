@@ -28,11 +28,12 @@ namespace NBi.NUnit.Runtime.Embed
             
             var package = new NBiPackage(BinPath, configFileName);
 
-            var runner = new TestDomain();
-            runner.Load(package);
-            var testResult = runner.Run(new NullListener(), filter, false, LoggingThreshold.Warn);
-
-            return testResult;
+            using (var runner = new TestDomain())
+            { 
+                runner.Load(package);
+                var testResult = runner.Run(new NullListener(), filter, false, LoggingThreshold.Warn);
+                return testResult;
+            }
         }
 
         public Engine()

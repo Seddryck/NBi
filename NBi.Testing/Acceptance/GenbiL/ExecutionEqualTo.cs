@@ -19,14 +19,14 @@ namespace NBi.Testing.Acceptance.GenbiL
 
         #region SetUp & TearDown
         //Called only at instance creation
-        [TestFixtureSetUp]
+        [OneTimeSetUp]
         public void SetupMethods()
         {
 
         }
 
         //Called only at instance destruction
-        [TestFixtureTearDown]
+        [OneTimeTearDown]
         public void TearDownMethods()
         {
 
@@ -74,10 +74,10 @@ namespace NBi.Testing.Acceptance.GenbiL
 
             var content = File.ReadAllText(TargetFilename);
             Console.WriteLine(content);
-            Assert.That(content, Is.StringContaining("<query connection-string=\"@tst\" timeout-milliSeconds=\"10000\">"));
-            Assert.That(content, Is.StringContaining("<query connection-string=\"@tst\" timeout-milliSeconds=\"5000\">"));
-            Assert.That(content, Is.StringContaining("<equal-to>"));
-            Assert.That(content, Is.StringContaining("TC02"));
+            Assert.That(content, Does.Contain("<query connection-string=\"@tst\" timeout-milliSeconds=\"10000\">"));
+            Assert.That(content, Does.Contain("<query connection-string=\"@tst\" timeout-milliSeconds=\"5000\">"));
+            Assert.That(content, Does.Contain("<equal-to>"));
+            Assert.That(content, Does.Contain("TC02"));
         }
     }
 }

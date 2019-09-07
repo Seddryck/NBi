@@ -185,7 +185,7 @@ namespace NBi.Testing.Unit.NUnit.Builder.Helper
 
             var helper = new ConnectionStringHelper();
             var actual = helper.Execute(xml, SettingsXml.DefaultScope.Assert);
-            Assert.That(actual, Is.StringContaining(CONNECTION_STRING));
+            Assert.That(actual, Does.Contain(CONNECTION_STRING));
             Assert.That(actual, Is.Not.StringContaining("Roles="));
         }
 
@@ -201,8 +201,8 @@ namespace NBi.Testing.Unit.NUnit.Builder.Helper
 
             var helper = new ConnectionStringHelper();
             var actual = helper.Execute(xml, SettingsXml.DefaultScope.Assert);
-            Assert.That(actual, Is.StringContaining(CONNECTION_STRING));
-            Assert.That(actual, Is.StringContaining("Roles=\"Admin\""));
+            Assert.That(actual, Does.Contain(CONNECTION_STRING));
+            Assert.That(actual, Does.Contain("Roles=\"Admin\""));
         }
 
         [Test]
@@ -217,8 +217,8 @@ namespace NBi.Testing.Unit.NUnit.Builder.Helper
 
             var helper = new ConnectionStringHelper();
             var actual = helper.Execute(xml, SettingsXml.DefaultScope.Assert);
-            Assert.That(actual, Is.StringContaining(CONNECTION_STRING));
-            Assert.That(actual, Is.StringMatching(".*Roles.*=.*\"PowerUser;LimitedAccess\".*"));
+            Assert.That(actual, Does.Contain(CONNECTION_STRING));
+            Assert.That(actual, Does.Match(".*Roles.*=.*\"PowerUser;LimitedAccess\".*"));
         }
 
         [Test]
@@ -233,7 +233,7 @@ namespace NBi.Testing.Unit.NUnit.Builder.Helper
 
             var helper = new ConnectionStringHelper();
             var actual = helper.Execute(xml, SettingsXml.DefaultScope.Assert);
-            Assert.That(actual, Is.StringMatching(".*Roles.*=.*\"PowerUser\".*"));
+            Assert.That(actual, Does.Match(".*Roles.*=.*\"PowerUser\".*"));
             Assert.That(actual, Is.Not.StringMatching("Admin"));
         }
 
@@ -249,7 +249,7 @@ namespace NBi.Testing.Unit.NUnit.Builder.Helper
 
             var helper = new ConnectionStringHelper();
             var actual = helper.Execute(xml, SettingsXml.DefaultScope.Assert);
-            Assert.That(actual, Is.StringMatching(".*Roles.*=.*\"Power User;Limited Access\".*"));
+            Assert.That(actual, Does.Match(".*Roles.*=.*\"Power User;Limited Access\".*"));
             Assert.That(actual, Is.Not.StringMatching("Admin"));
             Assert.That(actual, Is.Not.StringMatching("Maximum"));
         }

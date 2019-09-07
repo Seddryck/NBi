@@ -87,8 +87,8 @@ namespace NBi.Testing.Integration.Core.Query.Resolver
                 new TimeSpan(0, 0, 10));
             var resolver = new ExternalFileQueryResolver(args);
             var ex = Assert.Catch<ExternalDependencyNotFoundException>(() => resolver.Execute());
-            Assert.That(ex.Message, Is.StringContaining(@"NBi.Testing\bin\"));
-            Assert.That(ex.Message, Is.StringContaining(@"NotExistingFile.sql"));
+            Assert.That(ex.Message, Does.Contain(@"NBi.Testing\bin\"));
+            Assert.That(ex.Message, Does.Contain(@"NotExistingFile.sql"));
         }
 
         [Test]
@@ -102,7 +102,7 @@ namespace NBi.Testing.Integration.Core.Query.Resolver
                 new TimeSpan(0, 0, 10));
             var resolver = new ExternalFileQueryResolver(args);
             var ex = Assert.Catch<ExternalDependencyNotFoundException>(() => resolver.Execute());
-            Assert.That(ex.Message, Is.StringContaining(@"C:\NotExistingFile.sql"));
+            Assert.That(ex.Message, Does.Contain(@"C:\NotExistingFile.sql"));
         }
 
     }

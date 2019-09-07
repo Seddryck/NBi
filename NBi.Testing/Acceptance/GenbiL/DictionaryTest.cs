@@ -16,14 +16,14 @@ namespace NBi.Testing.Acceptance.GenbiL
 
         #region SetUp & TearDown
         //Called only at instance creation
-        [TestFixtureSetUp]
+        [OneTimeSetUp]
         public void SetupMethods()
         {
 
         }
 
         //Called only at instance destruction
-        [TestFixtureTearDown]
+        [OneTimeTearDown]
         public void TearDownMethods()
         {
             
@@ -70,15 +70,15 @@ namespace NBi.Testing.Acceptance.GenbiL
                 Assert.Inconclusive("Test Suite not generated!");
 
             var content = File.ReadAllText(TargetFilename);
-            Assert.That(content, Is.StringContaining("<predicate operand=\"[foo]\">"));
-            Assert.That(content, Is.StringContaining("<equal>0</equal>"));
-            Assert.That(content, Is.StringContaining("<predicate operand=\"[bar]\">"));
-            Assert.That(content, Is.StringContaining("<equal>None</equal>"));
+            Assert.That(content, Does.Contain("<predicate operand=\"[foo]\">"));
+            Assert.That(content, Does.Contain("<equal>0</equal>"));
+            Assert.That(content, Does.Contain("<predicate operand=\"[bar]\">"));
+            Assert.That(content, Does.Contain("<equal>None</equal>"));
 
-            Assert.That(content, Is.StringContaining("<equal>1</equal>"));
-            Assert.That(content, Is.StringContaining("<equal>Some</equal>"));
-            Assert.That(content, Is.StringContaining("<predicate operand=\"[wax]\">"));
-            Assert.That(content, Is.StringContaining("<equal>false</equal>"));
+            Assert.That(content, Does.Contain("<equal>1</equal>"));
+            Assert.That(content, Does.Contain("<equal>Some</equal>"));
+            Assert.That(content, Does.Contain("<predicate operand=\"[wax]\">"));
+            Assert.That(content, Does.Contain("<equal>false</equal>"));
         }
     }
 }

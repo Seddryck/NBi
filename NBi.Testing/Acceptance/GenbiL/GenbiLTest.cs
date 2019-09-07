@@ -15,14 +15,14 @@ namespace NBi.Testing.Acceptance.GenbiL
 
         #region SetUp & TearDown
         //Called only at instance creation
-        [TestFixtureSetUp]
+        [OneTimeSetUp]
         public void SetupMethods()
         {
 
         }
 
         //Called only at instance destruction
-        [TestFixtureTearDown]
+        [OneTimeTearDown]
         public void TearDownMethods()
         {
             
@@ -66,41 +66,41 @@ namespace NBi.Testing.Acceptance.GenbiL
                 Assert.Inconclusive("Test Suite not generated!");
 
             var content = File.ReadAllText(TargetFilename);
-            Assert.That(content, Is.StringContaining("<dimension "));
-            Assert.That(content, Is.StringContaining("caption=\"first-dimension\""));
-            Assert.That(content, Is.StringContaining("caption=\"second-dimension\""));
+            Assert.That(content, Does.Contain("<dimension "));
+            Assert.That(content, Does.Contain("caption=\"first-dimension\""));
+            Assert.That(content, Does.Contain("caption=\"second-dimension\""));
             Assert.That(content, Is.Not.StringContaining("caption=\"exclude-dimension\""));
-            Assert.That(content, Is.StringContaining("perspective=\"first-perspective\""));
-            Assert.That(content, Is.StringContaining("exist"));
+            Assert.That(content, Does.Contain("perspective=\"first-perspective\""));
+            Assert.That(content, Does.Contain("exist"));
 
-            Assert.That(content, Is.StringContaining("<dimensions "));
-            Assert.That(content, Is.StringContaining("<contained-in"));
+            Assert.That(content, Does.Contain("<dimensions "));
+            Assert.That(content, Does.Contain("<contained-in"));
 
-            Assert.That(content, Is.StringContaining("<default"));
-            Assert.That(content, Is.StringContaining("apply-to=\"assert\""));
-            Assert.That(content, Is.StringContaining("<connection-string>youyou-default-assert</connection-string>"));
+            Assert.That(content, Does.Contain("<default"));
+            Assert.That(content, Does.Contain("apply-to=\"assert\""));
+            Assert.That(content, Does.Contain("<connection-string>youyou-default-assert</connection-string>"));
 
-            Assert.That(content, Is.StringContaining("<default"));
-            Assert.That(content, Is.StringContaining("apply-to=\"system-under-test\""));
-            Assert.That(content, Is.StringContaining("<connection-string>youyou-default-sut</connection-string>"));
+            Assert.That(content, Does.Contain("<default"));
+            Assert.That(content, Does.Contain("apply-to=\"system-under-test\""));
+            Assert.That(content, Does.Contain("<connection-string>youyou-default-sut</connection-string>"));
             Assert.That(content, Is.Not.StringContaining("name=\"System-Under-Test\""));
             Assert.That(content, Is.Not.StringContaining("<report />"));
 
-            Assert.That(content, Is.StringContaining("<reference"));
-            Assert.That(content, Is.StringContaining("name=\"noway\""));
-            Assert.That(content, Is.StringContaining("<connection-string>youyou-reference-noway</connection-string>"));
+            Assert.That(content, Does.Contain("<reference"));
+            Assert.That(content, Does.Contain("name=\"noway\""));
+            Assert.That(content, Does.Contain("<connection-string>youyou-reference-noway</connection-string>"));
 
-            Assert.That(content, Is.StringContaining("<hierarchy "));
-            Assert.That(content, Is.StringContaining("caption=\"first-hierarchy\""));
-            Assert.That(content, Is.StringContaining("caption=\"second-hierarchy\""));
+            Assert.That(content, Does.Contain("<hierarchy "));
+            Assert.That(content, Does.Contain("caption=\"first-hierarchy\""));
+            Assert.That(content, Does.Contain("caption=\"second-hierarchy\""));
             Assert.That(content, Is.Not.StringContaining("caption=\"third-hierarchy\""));
-            Assert.That(content, Is.StringContaining("dimension=\"first-dimension\""));
+            Assert.That(content, Does.Contain("dimension=\"first-dimension\""));
 
-            Assert.That(content, Is.StringContaining("<hierarchies "));
-            Assert.That(content, Is.StringContaining("<contained-in"));
+            Assert.That(content, Does.Contain("<hierarchies "));
+            Assert.That(content, Does.Contain("<contained-in"));
             Assert.That(content, Is.Not.StringContaining("<item>fourth-hierarchy</item>"));
 
-            Assert.That(content, Is.StringContaining("<parallelize-queries>false</parallelize-queries>"));
+            Assert.That(content, Does.Contain("<parallelize-queries>false</parallelize-queries>"));
         }
 
     }

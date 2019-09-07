@@ -11,17 +11,14 @@ namespace NBi.Testing.Acceptance
     [TestFixture]
     public class RuntimeOverrider : BaseRuntimeOverrider
     {
-
-        [TestFixtureSetUp]
-        public void SetupMethods()
+        public override void SetupMethods()
         {
             //Set environment variable
             Environment.SetEnvironmentVariable("FirstJanuary2015", "2015-01-01", EnvironmentVariableTarget.User);
             Environment.SetEnvironmentVariable("ConnStrAdvWorksCloud", ConnectionStringReader.GetSqlClient(), EnvironmentVariableTarget.User);
         }
 
-        [TestFixtureTearDown]
-        public void TearDownMethods()
+        public override void TearDownMethods()
         {
             //Delete environment variable
             Environment.SetEnvironmentVariable("FirstJanuary2015", null, EnvironmentVariableTarget.User);
@@ -73,9 +70,17 @@ namespace NBi.Testing.Acceptance
         //[TestCase("EvaluateRows.nbits")]
         [Category("Acceptance")]
         public override void RunPositiveTestSuite(string filename)
-        {
-            base.RunPositiveTestSuite(filename);
-        }
+            => base.RunPositiveTestSuite(filename);
+        
+
+        
+        //[Category("Acceptance")]
+        //public void RunPositiveRequiringOneTimeSetUpTestSuite(string filename)
+        //{
+        //    SetupMethods();
+        //    base.RunPositiveTestSuite(filename);
+        //    TearDownMethods();
+        //}
 
         [Test]
         [TestCase("QueryEqualToResultSetProvider.nbits")]

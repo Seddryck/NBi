@@ -15,14 +15,14 @@ namespace NBi.Testing.Acceptance.GenbiL
 
         #region SetUp & TearDown
         //Called only at instance creation
-        [TestFixtureSetUp]
+        [OneTimeSetUp]
         public void SetupMethods()
         {
 
         }
 
         //Called only at instance destruction
-        [TestFixtureTearDown]
+        [OneTimeTearDown]
         public void TearDownMethods()
         {
             
@@ -66,22 +66,22 @@ namespace NBi.Testing.Acceptance.GenbiL
                 Assert.Inconclusive("Test Suite not generated!");
 
             var content = File.ReadAllText(TargetFilename);
-            Assert.That(content, Is.StringContaining("<settings>"));
+            Assert.That(content, Does.Contain("<settings>"));
             
 
-            Assert.That(content, Is.StringContaining("<default "));
-            Assert.That(content, Is.StringContaining("apply-to=\"system-under-test\""));
-            Assert.That(content, Is.StringContaining("<connection-string>myDefaultConnectionString</connection-string>"));
+            Assert.That(content, Does.Contain("<default "));
+            Assert.That(content, Does.Contain("apply-to=\"system-under-test\""));
+            Assert.That(content, Does.Contain("<connection-string>myDefaultConnectionString</connection-string>"));
 
-            Assert.That(content, Is.StringContaining("<reference"));
-            Assert.That(content, Is.StringContaining("name=\"olap\""));
-            Assert.That(content, Is.StringContaining("<connection-string>myReferenceConnectionString</connection-string>"));
+            Assert.That(content, Does.Contain("<reference"));
+            Assert.That(content, Does.Contain("name=\"olap\""));
+            Assert.That(content, Does.Contain("<connection-string>myReferenceConnectionString</connection-string>"));
 
-            Assert.That(content, Is.StringContaining("<regex"));
-            Assert.That(content, Is.StringContaining("[AZ-az]"));
+            Assert.That(content, Does.Contain("<regex"));
+            Assert.That(content, Does.Contain("[AZ-az]"));
 
-            Assert.That(content, Is.StringContaining("<csv-profile"));
-            Assert.That(content, Is.StringContaining("field-separator=\"Tab\""));
+            Assert.That(content, Does.Contain("<csv-profile"));
+            Assert.That(content, Does.Contain("field-separator=\"Tab\""));
             Assert.That(content, Is.Not.StringContaining("<MissingCell"));
             Assert.That(content, Is.Not.StringContaining("<EmptyCell"));
         }

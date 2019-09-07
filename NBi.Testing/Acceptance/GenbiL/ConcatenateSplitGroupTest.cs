@@ -15,14 +15,14 @@ namespace NBi.Testing.Acceptance.GenbiL
 
         #region SetUp & TearDown
         //Called only at instance creation
-        [TestFixtureSetUp]
+        [OneTimeSetUp]
         public void SetupMethods()
         {
 
         }
 
         //Called only at instance destruction
-        [TestFixtureTearDown]
+        [OneTimeTearDown]
         public void TearDownMethods()
         {
             
@@ -55,8 +55,8 @@ namespace NBi.Testing.Acceptance.GenbiL
             Assert.That(File.Exists(TargetFilename));
             var text = File.ReadAllText(TargetFilename);
             Assert.That(text, Is.Not.StringContaining("System.Collections.Generic.List`1[System.String]"));
-            Assert.That(text, Is.StringContaining("<category>91675</category>"));
-            Assert.That(text, Is.StringContaining("<category>75755</category>"));
+            Assert.That(text, Does.Contain("<category>91675</category>"));
+            Assert.That(text, Does.Contain("<category>75755</category>"));
         }
 
 

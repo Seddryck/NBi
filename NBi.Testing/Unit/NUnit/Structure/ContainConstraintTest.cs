@@ -69,7 +69,7 @@ namespace NBi.Testing.Unit.NUnit.Structure
             }
 
             //Test conclusion            
-            Assert.That(assertionText, Is.StringContaining("perspective-name").And
+            Assert.That(assertionText, Does.Contain("perspective-name").And
                                             .StringContaining("dimension-caption").And
                                             .StringContaining("Expected hierarchy"));
         }
@@ -106,7 +106,7 @@ namespace NBi.Testing.Unit.NUnit.Structure
             }
 
             //Test conclusion            
-            Assert.That(assertionText, Is.StringContaining("perspective-name").And
+            Assert.That(assertionText, Does.Contain("perspective-name").And
                                             .StringContaining("measure-group-caption").And
                                             .StringContaining("Expected measure"));
         }
@@ -144,7 +144,7 @@ namespace NBi.Testing.Unit.NUnit.Structure
             }
 
             //Test conclusion            
-            Assert.That(assertionText, Is.StringContaining("perspective-name").And
+            Assert.That(assertionText, Does.Contain("perspective-name").And
                                             .StringContaining("dimension-caption").And
                                             .StringContaining("hierarchies").And
                                             .StringContaining("Expected hierarchy 1").And
@@ -179,7 +179,7 @@ namespace NBi.Testing.Unit.NUnit.Structure
             }
 
             //Test conclusion            
-            Assert.That(assertionText, Is.StringContaining("find a perspective named 'Expected perspective'.").And
+            Assert.That(assertionText, Does.Contain("find a perspective named 'Expected perspective'.").And
                                             .StringContaining("Actual perspective 1").And
                                             .StringContaining("Actual perspective 2").And
                                             .Not.StringContaining("contain"));
@@ -213,7 +213,7 @@ namespace NBi.Testing.Unit.NUnit.Structure
             }
 
             //Test conclusion            
-            Assert.That(assertionText, Is.StringContaining("find the perspectives named").And
+            Assert.That(assertionText, Does.Contain("find the perspectives named").And
                                             .StringContaining("Expected perspective 1").And
                                             .StringContaining("Expected perspective 2").And
                                             .StringContaining(".").And

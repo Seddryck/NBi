@@ -17,14 +17,14 @@ namespace NBi.Testing.Acceptance.GenbiL
 
         #region SetUp & TearDown
         //Called only at instance creation
-        [TestFixtureSetUp]
+        [OneTimeSetUp]
         public void SetupMethods()
         {
 
         }
 
         //Called only at instance destruction
-        [TestFixtureTearDown]
+        [OneTimeTearDown]
         public void TearDownMethods()
         {
             
@@ -71,12 +71,12 @@ namespace NBi.Testing.Acceptance.GenbiL
                 Assert.Inconclusive("Test Suite not generated!");
 
             var content = File.ReadAllText(TargetFilename);
-            Assert.That(content, Is.StringContaining("<variables>"));
+            Assert.That(content, Does.Contain("<variables>"));
 
 
-            Assert.That(content, Is.StringContaining("<variable "));
-            Assert.That(content, Is.StringContaining("name=\"var1\""));
-            Assert.That(content, Is.StringContaining("DateTime.Now"));
+            Assert.That(content, Does.Contain("<variable "));
+            Assert.That(content, Does.Contain("name=\"var1\""));
+            Assert.That(content, Does.Contain("DateTime.Now"));
         }
     }
 }

@@ -9,12 +9,21 @@ using NBi.Core;
 using System.Collections.Generic;
 using NBi.Core.Configuration;
 using NBi.Core.Variable;
+using System;
 
 namespace NBi.Testing.Acceptance
 {
     
     public abstract class BaseRuntimeOverrider
     {
+        [OneTimeSetUp]
+        public virtual void SetupMethods()
+        { }
+
+        [OneTimeTearDown]
+        public virtual void TearDownMethods()
+        { }
+
         public virtual void RunPositiveTestSuite(string filename)
         {
             var ignoredTests = new List<string>();

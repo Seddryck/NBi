@@ -16,14 +16,14 @@ namespace NBi.Testing.Integration.Core.Report
 
         #region SetUp & TearDown
         //Called only at instance creation
-        [TestFixtureSetUp]
+        [OneTimeSetUp]
         public void SetupMethods()
         {
             isSqlServerStarted = CheckIfSqlServerStarted();
         }
 
         //Called only at instance destruction
-        [TestFixtureTearDown]
+        [OneTimeTearDown]
         public void TearDownMethods()
         {
         }
@@ -63,7 +63,7 @@ namespace NBi.Testing.Integration.Core.Report
             var query = parser.ExtractCommand(request);
 
             Assert.That(query.Text, 
-                Is.StringContaining("SELECT").And
+                Does.Contain("SELECT").And
                 .StringContaining("[CurrencyAlternateKey]").And
                 .StringContaining("[DimCurrency]"));
             Assert.That(query.CommandType, Is.EqualTo(CommandType.Text));
@@ -81,7 +81,7 @@ namespace NBi.Testing.Integration.Core.Report
 
             var parser = new DatabaseReportingParser();
             var ex = Assert.Throws<ArgumentException>(()=> parser.ExtractCommand(request));
-            Assert.That(ex.Message, Is.StringContaining("'Currency_List'"));
+            Assert.That(ex.Message, Does.Contain("'Currency_List'"));
         }
 
         [Test]
@@ -96,7 +96,7 @@ namespace NBi.Testing.Integration.Core.Report
 
             var parser = new DatabaseReportingParser();
             var ex = Assert.Throws<ArgumentException>(() => parser.ExtractCommand(request));
-            Assert.That(ex.Message, Is.StringContaining("DataSet1").And.StringContaining("DataSet2"));
+            Assert.That(ex.Message, Does.Contain("DataSet1").And.StringContaining("DataSet2"));
         }
 
         [Test]
@@ -111,7 +111,7 @@ namespace NBi.Testing.Integration.Core.Report
 
             var parser = new DatabaseReportingParser();
             var ex = Assert.Throws<ArgumentException>(() => parser.ExtractCommand(request));
-            Assert.That(ex.Message, Is.StringContaining("No report found"));
+            Assert.That(ex.Message, Does.Contain("No report found"));
         }
 
         [Test]
@@ -128,7 +128,7 @@ namespace NBi.Testing.Integration.Core.Report
             var query = parser.ExtractCommand(request);
 
             Assert.That(query.Text,
-                Is.StringContaining("SELECT"));
+                Does.Contain("SELECT"));
             Assert.That(query.CommandType, Is.EqualTo(CommandType.Text));
 
         }
@@ -145,7 +145,7 @@ namespace NBi.Testing.Integration.Core.Report
 
             var parser = new DatabaseReportingParser();
             var ex = Assert.Throws<ArgumentException>(() => parser.ExtractCommand(request));
-            Assert.That(ex.Message, Is.StringContaining("Quota").And.StringContaining("EmpSalesMonth"));
+            Assert.That(ex.Message, Does.Contain("Quota").And.StringContaining("EmpSalesMonth"));
         }
 
         [Test]
@@ -161,7 +161,7 @@ namespace NBi.Testing.Integration.Core.Report
             var query = parser.ExtractCommand(request);
 
             Assert.That(query.Text,
-                Is.StringContaining("SELECT"));
+                Does.Contain("SELECT"));
             Assert.That(query.CommandType, Is.EqualTo(CommandType.Text));
 
         }

@@ -84,7 +84,7 @@ namespace NBi.Testing.Unit.NUnit.Member
             }
 
             //Test conclusion            
-            Assert.That(assertionText, Is.StringContaining("perspective-name").And
+            Assert.That(assertionText, Does.Contain("perspective-name").And
                                             .StringContaining("dimension-caption").And
                                             .StringContaining("hierarchy-caption").And
                                             .StringContaining("member-caption").And

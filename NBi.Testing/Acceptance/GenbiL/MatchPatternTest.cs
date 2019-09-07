@@ -16,14 +16,14 @@ namespace NBi.Testing.Acceptance.GenbiL
 
         #region SetUp & TearDown
         //Called only at instance creation
-        [TestFixtureSetUp]
+        [OneTimeSetUp]
         public void SetupMethods()
         {
 
         }
 
         //Called only at instance destruction
-        [TestFixtureTearDown]
+        [OneTimeTearDown]
         public void TearDownMethods()
         {
             
@@ -70,9 +70,9 @@ namespace NBi.Testing.Acceptance.GenbiL
                 Assert.Inconclusive("Test Suite not generated!");
 
             var content = File.ReadAllText(TargetFilename);
-            Assert.That(content, Is.StringContaining("<matchPattern"));
-            Assert.That(content, Is.StringContaining("<numeric-format"));
-            Assert.That(content, Is.StringContaining("decimal-digits=\"3\""));
+            Assert.That(content, Does.Contain("<matchPattern"));
+            Assert.That(content, Does.Contain("<numeric-format"));
+            Assert.That(content, Does.Contain("decimal-digits=\"3\""));
         }
 
     }

@@ -16,14 +16,14 @@ namespace NBi.Testing.Acceptance.GenbiL
 
         #region SetUp & TearDown
         //Called only at instance creation
-        [TestFixtureSetUp]
+        [OneTimeSetUp]
         public void SetupMethods()
         {
 
         }
 
         //Called only at instance destruction
-        [TestFixtureTearDown]
+        [OneTimeTearDown]
         public void TearDownMethods()
         {
             
@@ -70,7 +70,7 @@ namespace NBi.Testing.Acceptance.GenbiL
                 Assert.Inconclusive("Test Suite not generated!");
 
             var content = File.ReadAllText(TargetFilename);
-            Assert.That(content, Is.StringContaining("<category>It works!</category>"));
+            Assert.That(content, Does.Contain("<category>It works!</category>"));
         }
 
         [Test]
@@ -84,7 +84,7 @@ namespace NBi.Testing.Acceptance.GenbiL
                 Assert.Inconclusive("Test Suite not generated!");
 
             var content = File.ReadAllText(TargetFilename);
-            Assert.That(content, Is.StringContaining($"<category>{DateTime.Now.Date.ToShortDateString()}</category>"));
+            Assert.That(content, Does.Contain($"<category>{DateTime.Now.Date.ToShortDateString()}</category>"));
         }
 
     }

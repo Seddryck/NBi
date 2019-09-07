@@ -55,7 +55,7 @@ namespace NBi.Testing.Integration.Core.Query.Resolver
             var resolver = new AssemblyQueryResolver(BuildArgs());
             var query = resolver.Execute();
 
-            Assert.That(query.Statement, Is.StringStarting("select 'CY 2005', 366"));
+            Assert.That(query.Statement, Does.StartWith("select 'CY 2005', 366"));
         }
 
         [Test]
@@ -99,7 +99,7 @@ namespace NBi.Testing.Integration.Core.Query.Resolver
 
             var resolver = new AssemblyQueryResolver(args);
             var ex = Assert.Catch<ExternalDependencyNotFoundException>(() => resolver.Execute());
-            Assert.That(ex.Message, Is.StringContaining(@"C:\NotExisting.dll"));
+            Assert.That(ex.Message, Does.Contain(@"C:\NotExisting.dll"));
         }
 
     }

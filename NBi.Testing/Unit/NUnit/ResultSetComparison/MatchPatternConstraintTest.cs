@@ -151,7 +151,7 @@ namespace NBi.Testing.Unit.NUnit.ResultSetComparison
             matchPatternConstraint.WriteDescriptionTo(msg);
 
             //Test conclusion    
-            Assert.That(msg.Predicate, Is.StringContaining("cell")
+            Assert.That(msg.Predicate, Does.Contain("cell")
                 .And.StringContaining("regex"));
         }
 
@@ -175,7 +175,7 @@ namespace NBi.Testing.Unit.NUnit.ResultSetComparison
             matchPatternConstraint.WriteActualValueTo(msg);
 
             //Test conclusion    
-            Assert.That(msg.Message, Is.StringContaining("$125")
+            Assert.That(msg.Message, Does.Contain("$125")
                 .And.StringContaining("doesn't validate this pattern"));
         }
 

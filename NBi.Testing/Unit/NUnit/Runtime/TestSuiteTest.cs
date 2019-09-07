@@ -26,14 +26,14 @@ namespace NBi.Testing.Unit.NUnit.Runtime
 
         #region SetUp & TearDown
         //Called only at instance creation
-        [TestFixtureSetUp]
+        [OneTimeSetUp]
         public void SetupMethods()
         {
 
         }
 
         //Called only at instance destruction
-        [TestFixtureTearDown]
+        [OneTimeTearDown]
         public void TearDownMethods()
         {
         }
@@ -108,7 +108,7 @@ namespace NBi.Testing.Unit.NUnit.Runtime
 
             //Assertion
             Console.WriteLine(testCase.TestName);
-            Assert.That(testCase.TestName, Is.StringContaining("my name contains a regex").And
+            Assert.That(testCase.TestName, Does.Contain("my name contains a regex").And
                                             .StringContaining("My Caption").And
                                             .StringContaining("My Display Folder").And
                                             .StringContaining("and it's parsed!"));
@@ -153,8 +153,8 @@ namespace NBi.Testing.Unit.NUnit.Runtime
             var testCases = testSuite.GetTestCases();
 
             //Assertion
-            Assert.That(testCases.ElementAt(0).TestName, Is.StringContaining("My test for January"));
-            Assert.That(testCases.ElementAt(1).TestName, Is.StringContaining("My test for February"));
+            Assert.That(testCases.ElementAt(0).TestName, Does.Contain("My test for January"));
+            Assert.That(testCases.ElementAt(1).TestName, Does.Contain("My test for February"));
         }
 
         [Test]
@@ -245,7 +245,7 @@ namespace NBi.Testing.Unit.NUnit.Runtime
             catch (AssertionException ex)
             {
                 Console.WriteLine(ex.Message);
-                Assert.That(ex.Message, Is.StringContaining("empty"));
+                Assert.That(ex.Message, Does.Contain("empty"));
             }
             catch (Exception ex)
             {
@@ -303,7 +303,7 @@ namespace NBi.Testing.Unit.NUnit.Runtime
             catch (CustomStackTraceErrorException ex)
             {
                 //Console.WriteLine(ex.Message);
-                Assert.That(ex.Message, Is.StringContaining("Filename"));
+                Assert.That(ex.Message, Does.Contain("Filename"));
             }
             catch (Exception ex)
             {

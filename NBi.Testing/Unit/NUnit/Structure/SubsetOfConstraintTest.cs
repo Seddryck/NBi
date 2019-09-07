@@ -43,7 +43,7 @@ namespace NBi.Testing.Unit.NUnit.Structure
             }
 
             //Test conclusion            
-            Assert.That(assertionText, Is.StringContaining("set").And
+            Assert.That(assertionText, Does.Contain("set").And
                                             .StringContaining("perspective-name").And
                                             .StringContaining("dimension-caption").And
                                             .StringContaining("hierarchy-caption").And

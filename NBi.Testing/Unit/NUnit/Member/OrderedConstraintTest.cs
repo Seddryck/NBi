@@ -15,14 +15,14 @@ namespace NBi.Testing.Unit.NUnit.Member
 
         #region SetUp & TearDown
         //Called only at instance creation
-        [TestFixtureSetUp]
+        [OneTimeSetUp]
         public void SetupMethods()
         {
 
         }
 
         //Called only at instance destruction
-        [TestFixtureTearDown]
+        [OneTimeTearDown]
         public void TearDownMethods()
         {
         }
@@ -116,7 +116,7 @@ namespace NBi.Testing.Unit.NUnit.Member
                 assertionText = ex.Message;
             }
             //Test conclusion            
-            Assert.That(assertionText, Is.StringContaining("perspective-name").And
+            Assert.That(assertionText, Does.Contain("perspective-name").And
                                             .StringContaining("dimension-caption").And
                                             .StringContaining("hierarchy-caption").And
                                             .StringContaining("member-caption").And
@@ -322,7 +322,7 @@ namespace NBi.Testing.Unit.NUnit.Member
                 assertionText = ex.Message;
             }
             //Test conclusion            
-            Assert.That(assertionText, Is.StringContaining("perspective-name").And
+            Assert.That(assertionText, Does.Contain("perspective-name").And
                                             .StringContaining("dimension-caption").And
                                             .StringContaining("hierarchy-caption").And
                                             .StringContaining("member-caption").And

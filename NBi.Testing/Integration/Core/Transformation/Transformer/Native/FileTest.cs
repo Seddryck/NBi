@@ -124,8 +124,8 @@ namespace NBi.Testing.Integration.Core.Transformation.Transformer.Native
             var ex = Assert.Throws<ExternalDependencyNotFoundException>(() => function.Evaluate(filename));
             Assert.That(ex.Message, Is.Not.StringContaining(@"Temp\Temp"));
             Assert.That(ex.Message, Is.Not.StringContaining(@"\\"));
-            Assert.That(ex.Message, Is.StringContaining(@":\"));
-            Assert.That(ex.Message, Is.StringEnding(@".txt'."));
+            Assert.That(ex.Message, Does.Contain(@":\"));
+            Assert.That(ex.Message, Does.EndWith(@".txt'."));
         }
     }
 }

@@ -147,6 +147,8 @@ namespace NBi.Testing.Core.ResultSet.Alteration.Reshaping
         [TestCase(1000)]
         [TestCase(10000)]
         [TestCase(40000)]
+        [Retry(3)]
+        [Parallelizable(ParallelScope.Self)]
         public void Execute_LargeResultSet_ExpectedPerformance(int count)
         {
             var values = new List<object>();

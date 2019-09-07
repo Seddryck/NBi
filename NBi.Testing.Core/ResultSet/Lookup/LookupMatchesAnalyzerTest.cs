@@ -147,6 +147,7 @@ namespace NBi.Testing.Core.ResultSet.Lookup
         [TestCase(10000)]
         [TestCase(100000)]
         [TestCase(1000000)]
+        [Retry(3)]
         [Parallelizable(ParallelScope.Self)]
         public void Execute_LargeVolumeReference_Fast(int maxItem)
         {
@@ -185,6 +186,8 @@ namespace NBi.Testing.Core.ResultSet.Lookup
         [TestCase(10000)]
         [TestCase(100000)]
         [TestCase(1000000)]
+        [Retry(3)]
+        [Parallelizable(ParallelScope.Self)]
         public void Execute_LargeVolumeCandidate_Fast(int maxItem)
         {
             var reference = BuildDataTable(new[] { "Key0", "Key1", "Key0" }, new[] { "Foo", "Bar", "Foo" }, new object[] { 1, 2, 3 });

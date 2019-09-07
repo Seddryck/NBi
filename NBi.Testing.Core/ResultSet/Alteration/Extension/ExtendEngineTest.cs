@@ -60,6 +60,7 @@ namespace NBi.Testing.Core.ResultSet.Alteration.Extension
         [Test]
         [TestCase(1000)]
         [TestCase(10000)]
+        [Retry(3)]
         public void Execute_ManyTimes_Performances(int count)
         {
             var rows = new List<object[]>();

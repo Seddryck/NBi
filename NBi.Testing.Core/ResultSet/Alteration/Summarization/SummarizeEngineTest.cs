@@ -144,6 +144,7 @@ namespace NBi.Testing.Core.ResultSet.Alteration.Summarization
         [TestCase(1000)]
         [TestCase(10000)]
         [TestCase(100000)]
+        [Retry(3)]
         public void Execute_LargeResultSet_ExpectedPerformance(int count)
         {
             var rs = BuildLarge(count);

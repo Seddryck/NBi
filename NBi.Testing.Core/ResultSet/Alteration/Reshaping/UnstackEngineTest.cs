@@ -173,7 +173,7 @@ namespace NBi.Testing.Core.ResultSet.Alteration.Reshaping
             stopWatch.Start();
             var result = unstack.Execute(rs);
             stopWatch.Stop();
-            Assert.That(stopWatch.Elapsed.TotalSeconds, Is.LessThan(10));
+            Assert.That(stopWatch.Elapsed.TotalSeconds, Is.LessThan(15));
         }
     }
 }

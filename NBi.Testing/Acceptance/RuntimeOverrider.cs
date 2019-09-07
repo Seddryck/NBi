@@ -11,6 +11,7 @@ namespace NBi.Testing.Acceptance
     [TestFixture]
     public class RuntimeOverrider : BaseRuntimeOverrider
     {
+        [OneTimeSetUp]
         public override void SetupMethods()
         {
             //Set environment variable
@@ -18,6 +19,7 @@ namespace NBi.Testing.Acceptance
             Environment.SetEnvironmentVariable("ConnStrAdvWorksCloud", ConnectionStringReader.GetSqlClient(), EnvironmentVariableTarget.User);
         }
 
+        [OneTimeTearDown]
         public override void TearDownMethods()
         {
             //Delete environment variable

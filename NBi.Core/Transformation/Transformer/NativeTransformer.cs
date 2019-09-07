@@ -14,24 +14,32 @@ namespace NBi.Core.Transformation.Transformer
 {
     class NativeTransformer<T> : ITransformer
     {
-        private INativeTransformation transformation;
+        private IList<INativeTransformation> Transformations { get; } = new List<INativeTransformation>();
+        private bool IsInitialized { get; set; } = false;
 
         public NativeTransformer()
         { }
 
-        public void Initialize(string code) 
-            => transformation = new NativeTransformationFactory().Instantiate(code);
+        public void Initialize(string code)
+        {
+            var functions = code.Split(new[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
+            foreach (var function in functions)
+            {
+                var transformation = new NativeTransformationFactory().Instantiate(function);
+                Transformations.Add(transformation);
+            }
+            IsInitialized = true;
+        }
 
         public object Execute(object value)
         {
-            if (transformation == null)
+            if (!IsInitialized)
                 throw new InvalidOperationException();
 
             var factory = new CasterFactory<T>();
             var caster = factory.Instantiate();
 
-            object typedValue = null;
-
+            object typedValue;
             if (value == null || value == DBNull.Value || value as string == "(null)")
                 typedValue = null;
             else if ((typeof(T)!=typeof(string)) && (value is string) && ((string.IsNullOrEmpty(value as string) || value as string == "(empty)")))
@@ -39,7 +47,10 @@ namespace NBi.Core.Transformation.Transformer
             else
                 typedValue = caster.Execute(value);
 
-            var transformedValue = transformation.Evaluate(typedValue);
+            object transformedValue = typedValue;
+
+            foreach (var transformation in Transformations)
+                transformedValue = transformation.Evaluate(transformedValue);
 
             return transformedValue;
         }

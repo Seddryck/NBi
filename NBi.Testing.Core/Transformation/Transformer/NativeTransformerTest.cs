@@ -487,6 +487,32 @@ namespace NBi.Testing.Core.Transformation.Transformer
         }
 
         [Test]
+        [TestCase("(null)", 0)]
+        [TestCase("foo", 3)]
+        public void Execute_ChainingTransformations_Valid(object value, decimal expected)
+        {
+            var code = "null-to-empty | text-to-length";
+            var provider = new NativeTransformer<string>();
+            provider.Initialize(code);
+
+            var result = provider.Execute(value);
+            Assert.That(result, Is.EqualTo(expected));
+        }
+
+        [Test]
+        [TestCase("(null)", 0)]
+        [TestCase("foo", 3)]
+        public void Execute_ChainingTransformationsStartingByValue_Valid(object value, decimal expected)
+        {
+            var code = "value | null-to-empty | text-to-length";
+            var provider = new NativeTransformer<string>();
+            provider.Initialize(code);
+
+            var result = provider.Execute(value);
+            Assert.That(result, Is.EqualTo(expected));
+        }
+
+        [Test]
         [TestCase(10, 10)]
         [TestCase(10.566, 10.566)]
         [TestCase(null, 0)]

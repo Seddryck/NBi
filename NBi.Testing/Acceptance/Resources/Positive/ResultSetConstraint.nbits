@@ -870,6 +870,41 @@
         </equalTo>
       </assert>
     </test>
+    <test name="Chaining native transformations in one transform statement" uid="0232">
+      <system-under-test>
+        <result-set>
+          <query>
+            select 'A', 'FOO' union all select 'B', 'bar' union all select 'C', null
+          </query>
+          <alteration>
+            <transform column-index="1" language="native" original-type="text">
+              null-to-empty | text-to-upper
+            </transform>
+          </alteration>
+        </result-set>
+      </system-under-test>
+      <assert>
+        <equalTo keys="first">
+          <column index="1" type="text" role="value">
+            <transform language="native" original-type="text">null-to-empty | text-to-upper</transform>
+          </column>
+          <result-set>
+            <row>
+              <cell>A</cell>
+              <cell>FOO</cell>
+            </row>
+            <row>
+              <cell>B</cell>
+              <cell>BAR</cell>
+            </row>
+            <row>
+              <cell>C</cell>
+              <cell>(empty)</cell>
+            </row>
+          </result-set>
+        </equalTo>
+      </assert>
+    </test>
     <test name="Renamings" uid="0241">
       <system-under-test>
         <result-set>

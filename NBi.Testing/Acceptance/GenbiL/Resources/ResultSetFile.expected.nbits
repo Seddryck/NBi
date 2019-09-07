@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<testSuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://NBi/TestSuite">
+  <settings />
+  <test name="Compare '..\csv\001.csv' to '..\txt\001.txt'">
+    <system-under-test>
+      <result-set>
+        <file>
+          <path>..\csv\001.csv</path>
+        </file>
+      </result-set>
+    </system-under-test>
+    <assert>
+      <equal-to>
+        <result-set>
+          <file>
+            <path>..\txt\001.txt</path>
+            <parser name="myTextParser" />
+          </file>
+        </result-set>
+      </equal-to>
+    </assert>
+  </test>
+  <test name="Compare '..\csv\002.csv' to '..\txt\002.txt'">
+    <system-under-test>
+      <result-set>
+        <file>
+          <path>..\csv\002.csv</path>
+        </file>
+      </result-set>
+    </system-under-test>
+    <assert>
+      <equal-to>
+        <result-set>
+          <file>
+            <path>..\txt\002.txt</path>
+            <parser name="myTextParser" />
+          </file>
+        </result-set>
+      </equal-to>
+    </assert>
+  </test>
+</testSuite>

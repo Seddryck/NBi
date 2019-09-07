@@ -1,0 +1,10 @@
+﻿<test name="Compare '$fileSut$' to '$fileAssert$'">
+  <system-under-test>
+    <result-set file="$fileSut$" />
+  </system-under-test>
+  <assert>
+    <equal-to>
+      <result-set file="$fileAssert$!myTextParse" />
+    </equal-to>
+  </assert>
+</test>

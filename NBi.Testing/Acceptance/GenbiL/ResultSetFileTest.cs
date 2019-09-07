@@ -48,7 +48,7 @@ namespace NBi.Testing.Acceptance.GenbiL
         #endregion
 
         [Test]
-        public void Execute_Group_FileGenerated()
+        public void Execute_ResultSetFile_FileGenerated()
         {
             var generator = new TestSuiteGenerator();
             generator.Load(DefinitionFilename);
@@ -58,7 +58,7 @@ namespace NBi.Testing.Acceptance.GenbiL
         }
 
         [Test]
-        public void Execute_Group_ExpectedContent()
+        public void Execute_ResultSetFile_ExpectedContent()
         {
             var generator = new TestSuiteGenerator();
             generator.Load(DefinitionFilename);

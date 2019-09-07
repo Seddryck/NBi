@@ -4,7 +4,7 @@
   </system-under-test>
   <assert>
     <equal-to>
-      <result-set file="$fileAssert$!myTextParse" />
+      <result-set file="$fileAssert$!myTextParser" />
     </equal-to>
   </assert>
 </test>

@@ -42,6 +42,9 @@ namespace NBi.Core.ResultSet
 
         protected internal object FormatValue(ColumnType columnType, object value)
         {
+            if (value==null || value==DBNull.Value || value as string == "(null)")
+                return "(null)";
+
             switch (columnType)
             {
                 case ColumnType.Numeric:

@@ -796,6 +796,7 @@
     <Compile Include="Transformation\Transformer\Native\IO\IBasePathTransformation.cs" />
     <Compile Include="Transformation\Transformer\Native\IO\PathTransformation.cs" />
     <Compile Include="Transformation\Transformer\Native\Numeric\NumericTransformations.cs" />
+    <Compile Include="Transformation\Transformer\Native\Special\Neutral.cs" />
     <Compile Include="Transformation\Transformer\Native\Text\TextTransformations.cs" />
     <Compile Include="Transformation\Transformer\Native\INativeTransformation.cs" />
     <Compile Include="Transformation\Transformer\Native\NotImplementedTransformationException.cs" />

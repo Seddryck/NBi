@@ -17,12 +17,21 @@ namespace NBi.Testing.Acceptance
     public abstract class BaseRuntimeOverrider
     {
         [OneTimeSetUp]
-        public virtual void SetupMethods()
-        { }
+        public void SetupMethods()
+        {
+            //Set environment variable
+            Environment.SetEnvironmentVariable("FirstJanuary2015", "2015-01-01", EnvironmentVariableTarget.User);
+            Environment.SetEnvironmentVariable("ConnStrAdvWorksCloud", ConnectionStringReader.GetSqlClient(), EnvironmentVariableTarget.User);
+        }
 
         [OneTimeTearDown]
         public virtual void TearDownMethods()
-        { }
+        {
+            //Delete environment variable
+            Environment.SetEnvironmentVariable("FirstJanuary2015", null, EnvironmentVariableTarget.User);
+            Environment.SetEnvironmentVariable("ConnStrAdvWorksCloud", null, EnvironmentVariableTarget.User);
+
+        }
 
         public virtual void RunPositiveTestSuite(string filename)
         {

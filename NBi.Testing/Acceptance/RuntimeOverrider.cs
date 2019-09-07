@@ -11,23 +11,6 @@ namespace NBi.Testing.Acceptance
     [TestFixture]
     public class RuntimeOverrider : BaseRuntimeOverrider
     {
-        [OneTimeSetUp]
-        public override void SetupMethods()
-        {
-            //Set environment variable
-            Environment.SetEnvironmentVariable("FirstJanuary2015", "2015-01-01", EnvironmentVariableTarget.User);
-            Environment.SetEnvironmentVariable("ConnStrAdvWorksCloud", ConnectionStringReader.GetSqlClient(), EnvironmentVariableTarget.User);
-        }
-
-        [OneTimeTearDown]
-        public override void TearDownMethods()
-        {
-            //Delete environment variable
-            Environment.SetEnvironmentVariable("FirstJanuary2015", null, EnvironmentVariableTarget.User);
-            Environment.SetEnvironmentVariable("ConnStrAdvWorksCloud", null, EnvironmentVariableTarget.User);
-
-        }
-
         //By Acceptance Test Suite (file) create a Test Case
         [Test]
         [TestCase("QueryUniqueRows.nbits")]
@@ -65,7 +48,6 @@ namespace NBi.Testing.Acceptance
         [TestCase("QueryAllNoRows.nbits")]
         [TestCase("ResultSetConstraint.nbits")]
         [TestCase("Scoring.nbits")]
-        [TestCase("Environment.nbits")]
         [TestCase("MultipleInstance.nbits")]
         //[TestCase("Etl.nbits")]
         //[TestCase("PowerBiDesktop.nbits")]
@@ -73,16 +55,15 @@ namespace NBi.Testing.Acceptance
         [Category("Acceptance")]
         public override void RunPositiveTestSuite(string filename)
             => base.RunPositiveTestSuite(filename);
-        
 
-        
-        //[Category("Acceptance")]
-        //public void RunPositiveRequiringOneTimeSetUpTestSuite(string filename)
-        //{
-        //    SetupMethods();
-        //    base.RunPositiveTestSuite(filename);
-        //    TearDownMethods();
-        //}
+        [TestCase("Environment.nbits")]
+        [Category("Acceptance")]
+        public void RunPositiveRequiringOneTimeSetUpTestSuite(string filename)
+        {
+            SetupMethods();
+            base.RunPositiveTestSuite(filename);
+            TearDownMethods();
+        }
 
         [Test]
         [TestCase("QueryEqualToResultSetProvider.nbits")]

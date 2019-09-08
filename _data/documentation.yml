@@ -47,10 +47,9 @@
   - primitive-scalar
   - primitive-sequence
   - primitive-result-set   
-
-- title: Transform a result-set
-  docs:
-  - transform-column
+  - scalar-transform 
+  - scalar-native-transformation
+  - resultset-alteration
 
 - title: Query's execution
   docs:

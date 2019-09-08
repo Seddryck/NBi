@@ -1,9 +1,9 @@
 ---
 layout: documentation
 title: Alterations
-prev_section: syntax-2-0
-next_section: 
-permalink: /docs/resultset-alterations/
+prev_section: scalar-native-transformation
+next_section: query-syntax
+permalink: /docs/resultset-alteration/
 ---
 Using the [new syntax](../syntax-2-0/), it's possible to define alterations on a result-set. It gives you the possibility to alter the result-set without modifying the query retrieving it. It's especially useful when the alteration is complex to write in the query language or when it's not possible to modify the query (stored procedure, assembly, report-dataset ...). The two alterations supported by NBi are the filters and the converts.
 
@@ -92,6 +92,50 @@ In the following example, two new columns are created. The first one will be pos
 {% endhighlight %}
 
 When using an index identifier the newly created column will be available at the expected position. If the expected position is unreachable (less columns that expected), the alteration will put the new column as the latest column. In case of a name identifier, if the newly created column has the same name than an existing column this column will be replaced.
+
+## Lookup-replaces
+
+This alteration is useful when you want to change the content of a column based on a dictionary.
+
+The syntax is simiar to the syntax for lookup-exists and lookup-matches. The jointure must be performed on a single column. The content of this column will be replaced by the associated value in the reference result-set. The associated column of the reference result-set is defined in the *replacement* element.
+
+In the example here under, the value of the column *myForeignKey* in the original result-set will be looking for in the reference result-set defined in the element *lookup-replace*. This search will be executed on column *myKey*. If a value is found, the original value in the candidate result-set is replaced by the content *myValue* of the reference result-set.
+
+{% highlight xml %}
+<result-set>
+  <query>
+    select 'a' as f0, 'FOO' as f1, null as f2 union all select 'B', 'bar', 'quark'
+  </query>
+  <alteration>
+    <lookup-replace>
+      <join>
+        <mapping candidate="[myForeignKey]" reference="[myKey]" />
+      </join>
+      <result-set>
+         ...
+      </result-set>
+      <replacement identifier="[myValue]" />
+    </lookup-replace>
+  </alteration>
+</result-set>
+{% endhighlight %}
+
+### Strategies for lookup-replace
+
+You also have the possibility to define a *missing* strategy to specify the behaviour of the lookup-replace alteration when the value of the candidate result-set cannot be found in the reference result-set. By defaut the behaviour is *failure*.
+
+* ```failure```: The test executing this alteration will fail.
+* ```original-value```: The original value of the candidate result-set is maintained.
+* ```default-value```: The value of the candidate result-set is replaced by a default value. This value must be specify as a text in the *missing* element.
+* ```discard-row```: The row of the candidate result-set is discarded.
+
+{% highlight xml %}
+<alteration>
+  <lookup-replace>
+    <missing behavior="default-value">Not found!</missing>
+  </lookup-replace>
+</alteration>
+{% endhighlight %}
 
 ## Filters
 

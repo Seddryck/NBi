@@ -2,7 +2,7 @@
 layout: documentation
 title: Result-set
 prev_section: primitive-sequence
-next_section: transform-column
+next_section: scalar-transform
 permalink: /docs/primitive-result-set/
 ---
 Two-dimensional size-mutable, potentially heterogeneous tabular data structure with labeled axes (rows and columns). The primary NBi data structure.
@@ -199,11 +199,13 @@ More info about [shared-dataset](../docs/shared-dataset)
 
 You can also define an alteration to the result-set. For the moment, three kinds of alterations are supported by NBi:
 
-* [rename](../resultset-alterations/#renamings)
-* [extend](../resultset-alterations/#extensions)
-* [filter](../resultset-rows-count-advanced/#filters).
-* [convert](../resultset-alterations/#converts)
-* [transform](../transform-column/)
+* [projections](../resultset-alteration/#projections)
+* [renamings](../resultset-alteration/#renamings)
+* [extentions](../resultset-alteration/#extensions)
+* [lookup for replacement](../resultset-alteration/#lookup-replaces)
+* [filtering](../resultset-rows-count-advanced/#filters).
+* [convertions](../resultset-alteration/#converts)
+* [transformations](../transform-column/)
 
 {% highlight xml %}
 <result-set>

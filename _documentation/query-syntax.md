@@ -1,7 +1,7 @@
 ---
 layout: documentation
 title: Validate syntax
-prev_section: transform-column
+prev_section: resultset-alteration
 next_section: query-performance
 permalink: /docs/query-syntax/
 ---

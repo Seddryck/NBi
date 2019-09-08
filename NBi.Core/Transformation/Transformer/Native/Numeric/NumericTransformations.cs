@@ -86,4 +86,59 @@ namespace NBi.Core.Transformation.Transformer.Native
 
         protected override decimal EvaluateNumeric(decimal numeric) => (numeric < Min) ? Min : (numeric > Max) ? Max : numeric;
     }
+
+    abstract class AbstractNumericArithmetic : AbstractNumericTransformation
+    {
+        public decimal Value { get; }
+
+        public AbstractNumericArithmetic(string value)
+        {
+            var caster = new NumericCaster();
+            Value = caster.Execute(value);
+        }
+    }
+
+    class NumericToAdd : AbstractNumericArithmetic
+    {
+        public int Times { get; }
+
+        public NumericToAdd(string value, string times)
+            : base(value)
+        {
+            var caster = new NumericCaster();
+            var tempTimes = caster.Execute(times);
+            Times = Convert.ToInt32(Math.Truncate(tempTimes));
+            if (Times != tempTimes)
+                throw new NBiException("The native transformation 'DateTimeToAddTimeSpan' is expecting a second parameter that has an integer value.");
+        }
+
+        public NumericToAdd(string value)
+            : this(value, 1.ToString()) { }
+
+        protected override decimal EvaluateNumeric(decimal value)
+            => value + (Value * Times);
+    }
+    
+    class NumericToIncrement : NumericToAdd
+    {
+        public NumericToIncrement()
+        : base(1.ToString()) { }
+    }
+
+    class NumericToMultiply : AbstractNumericArithmetic
+    {
+        public NumericToMultiply(string value)
+            : base(value) { }
+
+        protected override decimal EvaluateNumeric(decimal value)
+            => value * Value;
+    }
+
+    class NumericToInvert : AbstractNumericTransformation
+    {
+        public NumericToInvert()
+        { }
+
+        protected override decimal EvaluateNumeric(decimal value) => 1/value;
+    }
 }

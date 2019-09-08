@@ -608,6 +608,77 @@ namespace NBi.Testing.Core.Transformation.Transformer
         }
 
         [Test]
+        [TestCase(10, 11)]
+        [TestCase(-1, 0)]
+        public void Execute_NumericToIncrement_Valid(object value, decimal expected)
+        {
+            var code = $"numeric-to-increment";
+            var provider = new NativeTransformer<decimal>();
+            provider.Initialize(code);
+
+            var result = provider.Execute(value);
+            Assert.That(result, Is.EqualTo(expected));
+        }
+
+        [Test]
+        [TestCase(10, 8, 18)]
+        [TestCase(10, -12, -2)]
+        [TestCase(10, 0, 10)]
+        public void Execute_NumericToAdd_Valid(object value, object additional, decimal expected)
+        {
+            var code = $"numeric-to-add({additional})";
+            var provider = new NativeTransformer<decimal>();
+            provider.Initialize(code);
+
+            var result = provider.Execute(value);
+            Assert.That(result, Is.EqualTo(expected));
+        }
+
+        [Test]
+        [TestCase(10, 2, 1, 12)]
+        [TestCase(10, 2, 0, 10)]
+        [TestCase(10, 2, 3, 16)]
+        [TestCase(10, 2, -1, 8)]
+        public void Execute_NumericToAddTimes_Valid(object value, object additional, object times, decimal expected)
+        {
+            var code = $"numeric-to-add({additional}, {times})";
+            var provider = new NativeTransformer<decimal>();
+            provider.Initialize(code);
+
+            var result = provider.Execute(value);
+            Assert.That(result, Is.EqualTo(expected));
+        }
+
+        [Test]
+        [TestCase(10, 2, 20)]
+        [TestCase(10, 0, 0)]
+        [TestCase(-10, -2, 20)]
+        [TestCase(10, -1, -10)]
+        public void Execute_NumericToMultiply_Valid(object value, object multiplicator, decimal expected)
+        {
+            var code = $"numeric-to-multiply({multiplicator})";
+            var provider = new NativeTransformer<decimal>();
+            provider.Initialize(code);
+
+            var result = provider.Execute(value);
+            Assert.That(result, Is.EqualTo(expected));
+        }
+
+        [Test]
+        [TestCase(1, 1)]
+        [TestCase(10, 0.1)]
+        [TestCase(0.5, 2)]
+        public void Execute_NumericToInvert_Valid(object value, decimal expected)
+        {
+            var code = $"numeric-to-invert";
+            var provider = new NativeTransformer<decimal>();
+            provider.Initialize(code);
+
+            var result = provider.Execute(value);
+            Assert.That(result, Is.EqualTo(expected));
+        }
+
+        [Test]
         [TestCase("2019-03-11", "2019-03-11")]
         [TestCase("2019-02-11", "2019-03-01")]
         [TestCase("2019-04-11", "2019-03-31")]
@@ -619,6 +690,28 @@ namespace NBi.Testing.Core.Transformation.Transformer
 
             var result = provider.Execute(value);
             Assert.That(result, Is.EqualTo(expected));
+        }
+
+        [Test]
+        public void Execute_DateTimeToAddTimeSpan_Valid()
+        {
+            var code = $"dateTime-to-add(04:00:00, 4)";
+            var provider = new NativeTransformer<DateTime>();
+            provider.Initialize(code);
+
+            var result = provider.Execute(new DateTime(2017, 12, 31, 21, 0, 0));
+            Assert.That(result, Is.EqualTo(new DateTime(2018, 01, 01, 13, 0, 0)));
+        }
+
+        [Test]
+        public void Execute_DateTimeToAddTimeSpanWithoutTimes_Valid()
+        {
+            var code = $"dateTime-to-add(04:00:00)";
+            var provider = new NativeTransformer<DateTime>();
+            provider.Initialize(code);
+
+            var result = provider.Execute(new DateTime(2017, 12, 31, 21, 0, 0));
+            Assert.That(result, Is.EqualTo(new DateTime(2018, 01, 01, 01, 0, 0)));
         }
     }
 }

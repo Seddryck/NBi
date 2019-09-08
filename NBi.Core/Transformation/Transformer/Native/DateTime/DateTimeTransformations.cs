@@ -15,7 +15,7 @@ namespace NBi.Core.Transformation.Transformer.Native
             switch (value)
             {
                 case null: return EvaluateNull();
-                case DBNull dbnull: return EvaluateNull();
+                case DBNull _: return EvaluateNull();
                 case DateTime dt: return EvaluateDateTime(dt);
                 default: return EvaluateUncasted(value);
             }
@@ -168,5 +168,27 @@ namespace NBi.Core.Transformation.Transformer.Native
     {
         protected override object EvaluateDateTime(DateTime value)
             => value.AddTicks(TimeSpan.TicksPerMinute - (value.Ticks % TimeSpan.TicksPerMinute == 0 ? TimeSpan.TicksPerMinute : value.Ticks % TimeSpan.TicksPerMinute));
+    }
+
+    class DateTimeToAdd : AbstractDateTimeTransformation
+    {
+        public int Times { get; }
+        public TimeSpan TimeSpan { get; }
+
+        public DateTimeToAdd(string timeSpan, string times)
+        {
+            var tempTimes = new NumericCaster().Execute(times);
+            Times = Convert.ToInt32(Math.Truncate(tempTimes));
+            if (Times != tempTimes)
+                throw new NBiException("The native transformation 'DateTimeToAddTimeSpan' is expecting a second parameter that has an integer value.");
+                
+            TimeSpan = TimeSpan.Parse(timeSpan);
+        }
+
+        public DateTimeToAdd(string timeSpan)
+            : this(timeSpan, 1.ToString()) { }
+
+        protected override object EvaluateDateTime(DateTime value)
+            => value.AddTicks(TimeSpan.Ticks * Times);
     }
 }

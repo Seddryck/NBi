@@ -698,10 +698,15 @@
       <xs:enumeration value="dateTime-to-floor-minute"/>
       <xs:enumeration value="dateTime-to-ceiling-minute"/>
       <xs:enumeration value="dateTime-to-set-time("/>
+      <xs:enumeration value="dateTime-to-add("/>
       <xs:enumeration value="numeric-to-round("/>
       <xs:enumeration value="numeric-to-floor"/>
       <xs:enumeration value="numeric-to-ceiling"/>
       <xs:enumeration value="numeric-to-integer"/>
+      <xs:enumeration value="numeric-to-increment"/>
+      <xs:enumeration value="numeric-to-add("/>
+      <xs:enumeration value="numeric-to-multiply("/>
+      <xs:enumeration value="numeric-to-invert"/>
       <xs:enumeration value="path-to-filename"/>
       <xs:enumeration value="path-to-filename-without-extension"/>
       <xs:enumeration value="path-to-extension"/>

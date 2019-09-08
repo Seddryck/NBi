@@ -190,5 +190,17 @@ namespace NBi.Testing.Core.Transformation.Transformer
             var result = function.Evaluate(value);
             Assert.That(result, Is.EqualTo(expected));
         }
+
+        [Test]
+        [TestCase("2019-03-11 17:00:00", 0, "04:00:00", "2019-03-11 17:00:00")]
+        [TestCase("2019-03-11 17:00:00", 1, "04:00:00", "2019-03-11 21:00:00")]
+        [TestCase("2019-03-11 17:00:00", 2, "04:00:00", "2019-03-12 01:00:00")]
+        [TestCase("2019-03-11 17:00:00", -1, "04:00:00", "2019-03-11 13:00:00")]
+        public void Execute_DateTimeToAdd_Valid(object value, int times, string timeSpan, DateTime expected)
+        {
+            var function = new DateTimeToAdd(timeSpan, times.ToString());
+            var result = function.Evaluate(value);
+            Assert.That(result, Is.EqualTo(expected));
+        }
     }
 }

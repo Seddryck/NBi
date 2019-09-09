@@ -64,6 +64,68 @@ namespace NBi.Testing.Core.ResultSet.Alteration.Summarization
         }
 
         [Test]
+        public void Execute_MultipleKeySingleAggregation_ExpectedResultSet()
+        {
+            var rs = new ObjectsResultSetResolver(
+                new ObjectsResultSetResolverArgs(
+                    new[] { new object[] { "alpha", "foo", 1 }, new object[] { "alpha", "foo", 2 }, new object[] { "beta", "foo", 3 }, new object[] { "alpha", "bar", 4 } })
+                ).Execute();
+            rs.Columns[0].ColumnName = "ColumnA";
+            rs.Columns[1].ColumnName = "ColumnB";
+            rs.Columns[2].ColumnName = "valueColumn";
+
+            var args = new SummarizeArgs(
+                    new List<ColumnAggregationArgs>()
+                    { new ColumnAggregationArgs(new ColumnNameIdentifier("valueColumn"), AggregationFunctionType.Sum, ColumnType.Numeric) },
+                    new List<IColumnDefinitionLight>()
+                    {
+                        Mock.Of<IColumnDefinitionLight>(x => x.Identifier == new ColumnNameIdentifier("ColumnA") && x.Type == ColumnType.Text),
+                        Mock.Of<IColumnDefinitionLight>(x => x.Identifier == new ColumnNameIdentifier("ColumnB") && x.Type == ColumnType.Text)
+                    }
+                );
+
+            var summarize = new SummarizeEngine(args);
+            var result = summarize.Execute(rs);
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result.Columns.Count, Is.EqualTo(3));
+            Assert.That(result.Rows.Cast<DataRow>().Any(x => x["ColumnA"] as string == "alpha" && x["ColumnB"] as string == "foo"));
+            Assert.That(result.Rows.Cast<DataRow>().Any(x => x["ColumnA"] as string == "beta"  && x["ColumnB"] as string == "foo"));
+            Assert.That(result.Rows.Cast<DataRow>().Any(x => x["ColumnA"] as string == "alpha" && x["ColumnB"] as string == "bar"));
+            Assert.That(result.Rows.Count, Is.EqualTo(3));
+        }
+
+        [Test]
+        public void Execute_MultipleKeyNonAlphabeticalOrderSingleAggregation_ExpectedResultSet()
+        {
+            var rs = new ObjectsResultSetResolver(
+                new ObjectsResultSetResolverArgs(
+                    new[] { new object[] { "alpha", "foo", 1 }, new object[] { "alpha", "foo", 2 }, new object[] { "beta", "foo", 3 }, new object[] { "alpha", "bar", 4 } })
+                ).Execute();
+            rs.Columns[0].ColumnName = "ColumnB";
+            rs.Columns[1].ColumnName = "ColumnA";
+            rs.Columns[2].ColumnName = "valueColumn";
+
+            var args = new SummarizeArgs(
+                    new List<ColumnAggregationArgs>()
+                    { new ColumnAggregationArgs(new ColumnNameIdentifier("valueColumn"), AggregationFunctionType.Sum, ColumnType.Numeric) },
+                    new List<IColumnDefinitionLight>()
+                    {
+                        Mock.Of<IColumnDefinitionLight>(x => x.Identifier == new ColumnNameIdentifier("ColumnB") && x.Type == ColumnType.Text),
+                        Mock.Of<IColumnDefinitionLight>(x => x.Identifier == new ColumnNameIdentifier("ColumnA") && x.Type == ColumnType.Text),
+                    }
+                );
+
+            var summarize = new SummarizeEngine(args);
+            var result = summarize.Execute(rs);
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result.Columns.Count, Is.EqualTo(3));
+            Assert.That(result.Rows.Cast<DataRow>().Any(x => x["ColumnB"] as string == "alpha" && x["ColumnA"] as string == "foo"));
+            Assert.That(result.Rows.Cast<DataRow>().Any(x => x["ColumnB"] as string == "beta"  && x["ColumnA"] as string == "foo"));
+            Assert.That(result.Rows.Cast<DataRow>().Any(x => x["ColumnB"] as string == "alpha" && x["ColumnA"] as string == "bar"));
+            Assert.That(result.Rows.Count, Is.EqualTo(3));
+        }
+
+        [Test]
         public void Execute_SingleKeyMultipleAggregations_ExpectedResultSet()
         {
             var rs = Build();

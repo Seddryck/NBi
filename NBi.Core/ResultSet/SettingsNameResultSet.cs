@@ -170,7 +170,7 @@ namespace NBi.Core.ResultSet
         {
             var result = new List<string>(KeyNames);
             result.AddRange(ColumnsDef.Where(c => c.Role==ColumnRole.Key).Select(c => (c.Identifier as ColumnNameIdentifier).Name));
-            return result.Distinct().OrderBy(x => x);
+            return result.Distinct();
         }
 
         public IEnumerable<string> GetValueNames()

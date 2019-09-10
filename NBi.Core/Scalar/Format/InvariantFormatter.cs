@@ -57,7 +57,7 @@ namespace NBi.Core.Scalar.Format
             var factory = serviceLocator.GetScalarResolverFactory();
             foreach (var arg in args)
             {
-                var resolver = factory.Instantiate<object>(arg);
+                var resolver = factory.Instantiate(arg);
                 objects.Add(resolver.Execute());
             }
 

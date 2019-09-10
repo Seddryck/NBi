@@ -9,7 +9,7 @@ namespace NBi.Core.Variable
 {
     public class GlobalVariable : TestVariable
     {
-        public GlobalVariable(IScalarResolver<object> resolver)
+        public GlobalVariable(IScalarResolver resolver)
             : base(resolver) { }
     }
 }

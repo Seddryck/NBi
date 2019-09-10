@@ -17,6 +17,15 @@ namespace NBi.Core.Scalar.Resolver
             this.serviceLocator = serviceLocator;
         }
 
+        public IScalarResolver Instantiate(IScalarResolverArgs args)
+        {
+            switch (args)
+            {
+                case FormatScalarResolverArgs _: return Instantiate<string>(args);
+                default: return Instantiate<object>(args);
+            }
+        }
+
         public IScalarResolver<T> Instantiate<T>(IScalarResolverArgs args)
         {
             switch (args)
@@ -36,7 +45,7 @@ namespace NBi.Core.Scalar.Resolver
                 case EnvironmentScalarResolverArgs x:
                     return new EnvironmentScalarResolver<T>(x);
                 case FormatScalarResolverArgs x:
-                    return (IScalarResolver<T>)new FormatScalarResolver(x, serviceLocator);
+                    return typeof(T) == typeof(string) ? (IScalarResolver<T>)new FormatScalarResolver(x, serviceLocator) : throw new ArgumentException("You cannot instantiate a FormatScalarResolver that is not a string.");
                 case FunctionScalarResolverArgs x:
                     return new FunctionScalarResolver<T>(x);
                 default:

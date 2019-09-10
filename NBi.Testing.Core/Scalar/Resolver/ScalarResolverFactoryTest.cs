@@ -23,7 +23,7 @@ namespace NBi.Testing.Core.Scalar.Resolver
             var args = new LiteralScalarResolverArgs("myValue");
 
             var factory = new ScalarResolverFactory(null);
-            var resolver = factory.Instantiate<object>(args);
+            var resolver = factory.Instantiate(args);
 
             Assert.That(resolver, Is.TypeOf<LiteralScalarResolver<object>>());
         }
@@ -34,7 +34,7 @@ namespace NBi.Testing.Core.Scalar.Resolver
             var args = new GlobalVariableScalarResolverArgs("myVar", new Dictionary<string, ITestVariable>() { { "myVar", null } });
 
             var factory = new ScalarResolverFactory(null);
-            var resolver = factory.Instantiate<object>(args);
+            var resolver = factory.Instantiate(args);
 
             Assert.That(resolver, Is.TypeOf<GlobalVariableScalarResolver<object>>());
         }
@@ -45,7 +45,7 @@ namespace NBi.Testing.Core.Scalar.Resolver
             var args = new QueryScalarResolverArgs(new EmbeddedQueryResolverArgs("select * from table;", "connStr", null, null, new TimeSpan()));
 
             var factory = new ScalarResolverFactory(null);
-            var resolver = factory.Instantiate<object>(args);
+            var resolver = factory.Instantiate(args);
 
             Assert.That(resolver, Is.TypeOf<QueryScalarResolver<object>>());
         }
@@ -58,7 +58,7 @@ namespace NBi.Testing.Core.Scalar.Resolver
             stub.Setup(x => x.GetResultSetResolverFactory()).Returns(new ResultSetResolverFactory(stub.Object));
 
             var factory = new ScalarResolverFactory(stub.Object);
-            var resolver = factory.Instantiate<object>(args);
+            var resolver = factory.Instantiate(args);
 
             Assert.That(resolver, Is.TypeOf<ProjectionResultSetScalarResolver<object>>());
         }
@@ -69,7 +69,7 @@ namespace NBi.Testing.Core.Scalar.Resolver
             var args = new CSharpScalarResolverArgs("DateTime.Now.Year");
 
             var factory = new ScalarResolverFactory(null);
-            var resolver = factory.Instantiate<object>(args);
+            var resolver = factory.Instantiate(args);
 
             Assert.That(resolver, Is.TypeOf<CSharpScalarResolver<object>>());
         }
@@ -80,7 +80,7 @@ namespace NBi.Testing.Core.Scalar.Resolver
             var args = new EnvironmentScalarResolverArgs("myVar");
 
             var factory = new ScalarResolverFactory(null);
-            var resolver = factory.Instantiate<object>(args);
+            var resolver = factory.Instantiate(args);
 
             Assert.That(resolver, Is.TypeOf<EnvironmentScalarResolver<object>>());
         }
@@ -97,12 +97,32 @@ namespace NBi.Testing.Core.Scalar.Resolver
         }
 
         [Test]
+        public void InstantiateNeutral_FormatArgs_FormatResolver()
+        {
+            var args = new FormatScalarResolverArgs("myVar", new Dictionary<string, ITestVariable>());
+
+            var factory = new ScalarResolverFactory(null);
+            var resolver = factory.Instantiate(args);
+
+            Assert.That(resolver, Is.TypeOf<FormatScalarResolver>());
+        }
+
+        [Test]
+        public void InstantiateNotString_FormatArgs_FormatResolver()
+        {
+            var args = new FormatScalarResolverArgs("myVar", new Dictionary<string, ITestVariable>());
+
+            var factory = new ScalarResolverFactory(null);
+            var ex = Assert.Throws<ArgumentException>(() => factory.Instantiate<object>(args));
+        }
+
+        [Test]
         public void Instantiate_FunctionArgs_FunctionResolver()
         {
             var args = new FunctionScalarResolverArgs(new LiteralScalarResolver<string>("myVar"), new INativeTransformation[] { });
 
             var factory = new ScalarResolverFactory(null);
-            var resolver = factory.Instantiate<object>(args);
+            var resolver = factory.Instantiate(args);
 
             Assert.That(resolver, Is.TypeOf<FunctionScalarResolver<object>>());
         }
@@ -116,7 +136,7 @@ namespace NBi.Testing.Core.Scalar.Resolver
                 var args = new NCalcScalarResolverArgs("a * b - 2", row);
 
                 var factory = new ScalarResolverFactory(null);
-                var resolver = factory.Instantiate<object>(args);
+                var resolver = factory.Instantiate(args);
 
                 Assert.That(resolver, Is.TypeOf<NCalcScalarResolver<object>>());
             }

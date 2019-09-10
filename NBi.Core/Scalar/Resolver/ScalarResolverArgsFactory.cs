@@ -25,7 +25,7 @@ namespace NBi.Core.Scalar.Resolver
             switch (value)
             {
                 case string obj when obj.TrimStart().StartsWith("`") && obj.TrimEnd().EndsWith("`"):
-                    return new LiteralScalarResolverArgs(obj.Trim().Substring(1, obj.Trim().Length-2));
+                    return new LiteralScalarResolverArgs(obj.Trim().Substring(1, obj.Trim().Length - 2));
                 case string obj when string.IsNullOrEmpty(value): return new LiteralScalarResolverArgs(string.Empty);
                 case null: return new LiteralScalarResolverArgs(string.Empty);
                 default:
@@ -57,10 +57,7 @@ namespace NBi.Core.Scalar.Resolver
                         foreach (var function in functions)
                             transformations.Add(nativeTransformationFactory.Instantiate(function));
 
-                        if (args is FormatScalarResolverArgs)
-                            return new FunctionScalarResolverArgs(factory.Instantiate<string>(args), transformations);
-                        else
-                            return new FunctionScalarResolverArgs(factory.Instantiate<object>(args), transformations);
+                        return new FunctionScalarResolverArgs(factory.Instantiate(args), transformations);
                     }
                     else
                         return args;

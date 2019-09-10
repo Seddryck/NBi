@@ -301,7 +301,7 @@ namespace NBi.NUnit.Runtime
                     builder.Build();
                     var args = builder.GetArgs();
 
-                    var resolver = resolverFactory.Instantiate<object>(args);
+                    var resolver = resolverFactory.Instantiate(args);
                     instances.Add(variable.Name, variableFactory.Instantiate(VariableScope.Global, resolver));
                 }
 

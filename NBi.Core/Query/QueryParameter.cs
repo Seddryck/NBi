@@ -10,16 +10,16 @@ namespace NBi.Core.Query
 {
     public class QueryParameter : IQueryParameter
     {
-        private readonly IScalarResolver<object> resolver;
+        private readonly IScalarResolver resolver;
 
-        public QueryParameter(string name, string sqlType, IScalarResolver<object> resolver)
+        public QueryParameter(string name, string sqlType, IScalarResolver resolver)
         {
             Name = name;
             SqlType = sqlType;
             this.resolver = resolver;
         }
 
-        internal QueryParameter(string name, IScalarResolver<object> resolver)
+        internal QueryParameter(string name, IScalarResolver resolver)
             : this(name, string.Empty, resolver)
         {}
 
@@ -31,8 +31,6 @@ namespace NBi.Core.Query
         public string SqlType { get; }
 
         public object GetValue()
-        {
-            return resolver.Execute();
-        }
+            => resolver.Execute();
     }
 }

@@ -8,6 +8,30 @@
       <connection-string>Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly</connection-string>
     </default>
   </settings>
+  <variables>
+    <variable name="TwoThousandAndFive">
+      <script>
+        new DateTime(2005,1,1)
+      </script>
+    </variable>
+  </variables>
+  <test name="'Reseller Order Count' by year before 2006" uid="0001">
+    <system-under-test>
+      <execution>
+        <query>
+          SELECT @cyYear, 366
+          <parameter name="cyYear" sql-type="varchar(10)">~CY {@TwoThousandAndFive:yyyy}</parameter>
+        </query>
+      </execution>
+    </system-under-test>
+    <assert>
+      <equal-to>
+        <query>
+          SELECT 'CY 2005', 366.0
+        </query>
+      </equal-to>
+    </assert>
+  </test>
   <test name="'Reseller Order Count' by year before 2006" uid="0001">
     <condition>
       <service-running name="MSOLAP$SQL2017" />

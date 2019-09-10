@@ -54,7 +54,7 @@ namespace NBi.Testing.Core.Scalar.Resolver
         [Test]
         public void Execute_ManyParallelExecutionOnlyOneEvaluation_CorrectEvaluation()
         {
-            var resolverMock = Mock.Of<IScalarResolver<object>>();
+            var resolverMock = Mock.Of<IScalarResolver>();
             Mock.Get(resolverMock).Setup(r => r.Execute()).Returns(true);
 
             var globalVariables = new Dictionary<string, ITestVariable>()

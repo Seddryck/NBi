@@ -168,7 +168,7 @@ namespace NBi.NUnit.Builder.Helper
                 var args = builder.GetArgs();
 
                 var factory = serviceLocator.GetScalarResolverFactory();
-                var resolver = factory.Instantiate<object>(args);
+                var resolver = factory.Instantiate(args);
                 yield return new QueryParameter(parameterXml.Name, parameterXml.SqlType, resolver);
             }
         }

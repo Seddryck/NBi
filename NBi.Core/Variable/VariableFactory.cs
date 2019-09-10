@@ -9,7 +9,7 @@ namespace NBi.Core.Variable
 {
     public class VariableFactory
     {
-        public ITestVariable Instantiate(VariableScope scope, IScalarResolver<object> resolver)
+        public ITestVariable Instantiate(VariableScope scope, IScalarResolver resolver)
         {
             switch (scope)
             {

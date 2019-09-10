@@ -17,9 +17,9 @@ namespace NBi.Core.Variable
     {
         private object value;
         private bool isEvaluated;
-        private readonly IScalarResolver<object> resolver;
+        private readonly IScalarResolver resolver;
 
-        public TestVariable(IScalarResolver<object> resolver)
+        public TestVariable(IScalarResolver resolver)
         {
             this.resolver = resolver;
         }

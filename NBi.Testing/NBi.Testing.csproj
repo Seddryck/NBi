@@ -118,6 +118,7 @@
     <Compile Include="Acceptance\GenbiL\DictionaryTest.cs" />
     <Compile Include="Acceptance\GenbiL\ConsumablesTest.cs" />
     <Compile Include="Acceptance\GenbiL\ExecutionEqualTo.cs" />
+    <Compile Include="Acceptance\GenbiL\ResultSetFileTest.cs" />
     <Compile Include="Acceptance\GenbiL\GroupByTest.cs" />
     <Compile Include="Acceptance\GenbiL\SplitDistinctTest.cs" />
     <Compile Include="Acceptance\GenbiL\SyntaxOldNewTest.cs" />
@@ -353,7 +354,19 @@
     <EmbeddedResource Include="Acceptance\GenbiL\Resources\MultipleTemplates1.nbitt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <None Include="Acceptance\GenbiL\Resources\dictionary.csv">
+    <None Include="Acceptance\GenbiL\Resources\ResultSetFile.expected.nbits">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Acceptance\GenbiL\Resources\ResultSetFile.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <EmbeddedResource Include="Acceptance\GenbiL\Resources\ResultSetFile.genbil">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Acceptance\GenbiL\Resources\ResultSetFile.nbitt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <None Include="Acceptance\GenbiL\Resources\Dictionary.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="Acceptance\GenbiL\Resources\Consumables.csv">
@@ -362,10 +375,10 @@
     <EmbeddedResource Include="Acceptance\GenbiL\Resources\Consumables.genbil">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="Acceptance\GenbiL\Resources\dictionary.nbitt">
+    <EmbeddedResource Include="Acceptance\GenbiL\Resources\Dictionary.nbitt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="Acceptance\GenbiL\Resources\dictionary.genbil">
+    <EmbeddedResource Include="Acceptance\GenbiL\Resources\Dictionary.genbil">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="Acceptance\GenbiL\Resources\SyntaxOldNew.genbil">
@@ -752,7 +765,7 @@
     <EmbeddedResource Include="Acceptance\Resources\PurchaseOrders.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <None Include="Acceptance\GenbiL\Resources\dimension.csv">
+    <None Include="Acceptance\GenbiL\Resources\Dimension.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <EmbeddedResource Include="Acceptance\Resources\Negative\ItemsMessage-0002.txt" />

@@ -53,25 +53,11 @@ namespace NBi.Xml.Items
         [XmlAttribute("timeout")]
         public int Timeout { get; set; }
 
-        [XmlIgnore]
-        public List<EtlParameter> Parameters
-        {
-            get
-            {
-                return InternalParameters.ToList<EtlParameter>();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
-
         [XmlElement("parameter")]
-        public  List<EtlParameterXml> InternalParameters { get; set; }
+        public List<EtlParameterXml> Parameters { get; set; } = new List<EtlParameterXml>();
 
         public EtlXml()
         {
-            InternalParameters = new List<EtlParameterXml>();
             Version = DEFAULT_VERSION;
         }
 

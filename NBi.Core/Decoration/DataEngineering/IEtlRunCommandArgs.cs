@@ -11,6 +11,6 @@ namespace NBi.Core.Decoration.DataEngineering
     public interface IEtlRunCommandArgs : IDataEngineeringCommandArgs
     {
         string Version { get; }
-        IEtl Etl { get; }
+        IEtlArgs Etl { get; }
     }
 }

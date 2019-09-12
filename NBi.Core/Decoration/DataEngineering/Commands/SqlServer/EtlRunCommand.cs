@@ -13,39 +13,13 @@ namespace NBi.Core.Decoration.DataEngineering
 
         public EtlRunCommand(IEtlRunCommandArgs args) => this.args = args;
 
-        public void Execute() => Execute(args.Version, args.Etl);
+        public void Execute() => Execute(args.Etl);
 
-        internal void Execute(string version, IEtl etl)
+        protected void Execute(IEtlArgs args)
         {
-            var directory = AssemblyDirectory;
-            var filename = $"NBi.Core.{version}.dll";
-            var filepath = $"{directory}\\{filename}";
-            if (!File.Exists(filepath))
-                throw new InvalidOperationException($"Can't find the dll for version '{args.Version}' in '{directory}'. NBi was expecting to find a dll named '{filename}'.");
-
-            var assembly = Assembly.LoadFrom(filepath);
-            var types = assembly.GetTypes()
-                            .Where(m => m.IsClass && m.GetInterface("IEtlRunCommand") != null);
-            
-            if (types.Count()==0)
-                throw new InvalidOperationException($"Can't find a class implementing 'IEtlRunCommand' in '{assembly.FullName}'.");
-            if (types.Count() > 1)
-                throw new InvalidOperationException($"Found more than one class implementing 'IEtlRunCommand' in '{assembly.FullName}'.");
-
-            var etlRunCommand = Activator.CreateInstance(types.ElementAt(0)) as IEtlRunCommand;
-            etlRunCommand.Execute(etl);
+            var provider = new EtlRunnerProvider();
+            var etl = provider.Instantiate(args);
+            etl.Execute(); 
         }
-
-        private static string AssemblyDirectory
-        {
-            get
-            {
-                string codeBase = Assembly.GetExecutingAssembly().CodeBase;
-                UriBuilder uri = new UriBuilder(codeBase);
-                string path = Uri.UnescapeDataString(uri.Path);
-                return Path.GetDirectoryName(path);
-            }
-        }
-
     }
 }

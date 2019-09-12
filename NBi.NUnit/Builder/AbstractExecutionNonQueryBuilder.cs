@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using NBi.Core;
+using NBi.Extensibility;
 using NBi.Xml.Constraints;
 using NBi.Xml.Systems;
 
@@ -23,10 +24,10 @@ namespace NBi.NUnit.Builder
             SystemUnderTest = InstantiateSystemUnderTest(SystemUnderTestXml);
         }
 
-        protected IExecution InstantiateSystemUnderTest(ExecutionXml executionXml)
+        protected IExecutable InstantiateSystemUnderTest(ExecutionXml executionXml)
         {
             var factory = new ExecutionFactory();
-            var instance = factory.Instantiate(executionXml.BaseItem as IExecutable);
+            var instance = factory.Instantiate(executionXml.BaseItem as IExecutableArgs);
             return instance;
         }
 

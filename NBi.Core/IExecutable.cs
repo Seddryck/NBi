@@ -5,7 +5,7 @@ using System.Text;
 
 namespace NBi.Core
 {
-    public interface IExecutable
+    public interface IExecutableArgs
     {
     }
 }

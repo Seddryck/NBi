@@ -5,12 +5,12 @@ using NBi.Core.Etl;
 
 namespace NBi.Xml.Items
 {
-    public class EtlParameterXml: EtlParameter
+    public class EtlParameterXml
     {
         [XmlAttribute("name")]
-        public override string Name { get; set; }
+        public string Name { get; set; }
 
         [XmlText]
-        public override string StringValue { get; set; }
+        public string StringValue { get; set; }
     }
 }

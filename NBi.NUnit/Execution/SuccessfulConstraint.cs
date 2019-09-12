@@ -2,6 +2,7 @@
 using System.Data;
 using NBi.Core;
 using NBi.Core.Query;
+using NBi.Extensibility;
 using NUnitCtr = NUnit.Framework.Constraints;
 
 namespace NBi.NUnit.Execution
@@ -15,21 +16,19 @@ namespace NBi.NUnit.Execution
         protected IExecutionResult Result;
 
         public SuccessfulConstraint()
-        {
-        }
-
+        { }
 
         public override bool Matches(object actual)
         {
-            if (actual is IExecution)
-                return doMatch((IExecution)actual);
+            if (actual is IExecutable)
+                return doMatch((IExecutable)actual);
             else
                 return false;               
         }
 
-        protected bool doMatch(IExecution actual)
+        protected bool doMatch(IExecutable actual)
         {
-            Result = actual.Run();
+            Result = actual.Execute();
             return Result.IsSuccess;
         }
 

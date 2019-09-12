@@ -53,25 +53,11 @@ namespace NBi.Xml.Decoration.Command
         [XmlAttribute("timeout")]
         public int Timeout { get; set; }
 
-        [XmlIgnore]
-        public List<EtlParameter> Parameters
-        {
-            get
-            {
-                return InternalParameters.ToList<EtlParameter>();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
-
         [XmlElement("parameter")]
-        public List<EtlParameterXml> InternalParameters { get; set; }
+        public List<EtlParameterXml> Parameters { get; set; } = new List<EtlParameterXml>();
 
         public EtlRunXml()
         {
-            InternalParameters = new List<EtlParameterXml>();
             Version = "SqlServer2014";
             Timeout = DEFAULT_TIMEOUT;
         }

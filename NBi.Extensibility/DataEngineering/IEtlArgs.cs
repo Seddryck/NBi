@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace NBi.Extensibility.DataEngineering
 {
-    public interface IEtl
+    public interface IEtlArgs
     {
         string Version { get; set; }
         string Server { get; set; }

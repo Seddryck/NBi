@@ -46,14 +46,18 @@
     <Compile Include="..\AssemblyInfo.cs">
       <Link>Properties\AssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="DataEngineering\IEtlRunnerFactory.cs" />
+    <Compile Include="DataEngineering\IEtlRunResult.cs" />
     <Compile Include="Decoration\CustomConditionResult.cs" />
     <Compile Include="Decoration\ICustomCommand.cs" />
     <Compile Include="Decoration\ICustomCondition.cs" />
-    <Compile Include="DataEngineering\IEtl.cs" />
-    <Compile Include="DataEngineering\IEtlRunCommand.cs" />
+    <Compile Include="DataEngineering\IEtlArgs.cs" />
+    <Compile Include="DataEngineering\IEtlRunner.cs" />
     <Compile Include="DataEngineering\IBatchRunCommand.cs" />
     <Compile Include="FlatFile\IFlatFileProfile.cs" />
     <Compile Include="FlatFile\IFlatFileReader.cs" />
+    <Compile Include="IEtlRunResult.cs" />
+    <Compile Include="IExecutable.cs" />
     <Compile Include="ITemplateEngine.cs" />
     <Compile Include="NBiTraceSwitch.cs" />
     <Compile Include="ProgressStatusEventArgs.cs" />

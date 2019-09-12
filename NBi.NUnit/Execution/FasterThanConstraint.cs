@@ -1,5 +1,6 @@
 ﻿using System;
-using NBi.Core;
+using NBi.Extensibility;
+using NBi.Extensibility.DataEngineering;
 using NUnitCtr = NUnit.Framework.Constraints;
 
 namespace NBi.NUnit.Execution
@@ -33,8 +34,8 @@ namespace NBi.NUnit.Execution
         /// <returns>true, if the query defined in parameter is executed in less that expected else false</returns>
         public override bool Matches(object actual)
         {
-            if (actual is IExecution)
-                return doMatch((IExecution)actual);
+            if (actual is IExecutable)
+                return doMatch((IExecutable)actual);
             else
                 return false;
         }
@@ -44,9 +45,9 @@ namespace NBi.NUnit.Execution
         /// </summary>
         /// <param name="actual">SQL string</param>
         /// <returns>true, if the query defined in parameter is executed in less that expected else false</returns>
-        public bool doMatch(IExecution actual)
+        public bool doMatch(IExecutable actual)
         {
-            Result = actual.Run();
+            Result = actual.Execute();
             return 
                 (
                     Result.TimeElapsed.TotalMilliseconds < maxTimeMilliSeconds

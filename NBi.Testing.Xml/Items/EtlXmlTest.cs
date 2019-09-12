@@ -112,8 +112,8 @@ namespace NBi.Testing.Xml.Unit.Items
 
             Assert.That(parameters, Is.Not.Null);
             Assert.That(parameters, Has.Count.EqualTo(2));
-            Assert.That(parameters, Has.Member(new EtlParameter("param1", "value1")));
-            Assert.That(parameters, Has.Member(new EtlParameter("param2", "value2")));
+            Assert.That(parameters.Any(x => x.Name == "param1" && x.StringValue == "value1"));
+            Assert.That(parameters.Any(x => x.Name == "param2" && x.StringValue == "value2"));
         }
 
         [Test]
@@ -130,8 +130,8 @@ namespace NBi.Testing.Xml.Unit.Items
 
             Assert.That(parameters, Is.Not.Null);
             Assert.That(parameters, Has.Count.EqualTo(2));
-            Assert.That(parameters, Has.Member(new EtlParameter("param1", "value1")));
-            Assert.That(parameters, Has.Member(new EtlParameter("param2", "value2")));
+            Assert.That(parameters.Any(x => x.Name == "param1" && x.StringValue == "value1"));
+            Assert.That(parameters.Any(x => x.Name == "param2" && x.StringValue == "value2"));
         }
 
         [Test]

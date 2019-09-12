@@ -241,9 +241,7 @@
     <Compile Include="Decoration\Process\Conditions\RunningCondition.cs" />
     <Compile Include="Decoration\Process\IProcessConditionArgs.cs" />
     <Compile Include="DirectoryInfoExtentions.cs" />
-    <Compile Include="Etl\EtlRun.cs" />
-    <Compile Include="Etl\EtlRunnerFactory.cs" />
-    <Compile Include="Etl\IEtlExecutable.cs" />
+    <Compile Include="Etl\EtlRunnerProvider.cs" />
     <Compile Include="FlatFile\FlatFileReaderFactory.cs" />
     <Compile Include="Injection\ConfigurationModule.cs" />
     <Compile Include="Injection\QueryModule.cs" />
@@ -281,8 +279,6 @@
     <Compile Include="DataType\Relational\RelationalDataTypeDiscoveryFactory.cs" />
     <Compile Include="DataType\Target.cs" />
     <Compile Include="DataType\TextInfo.cs" />
-    <Compile Include="Etl\ExecResult.cs" />
-    <Compile Include="Etl\IPackageEvents.cs" />
     <Compile Include="Decoration\IO\IOFactory.cs" />
     <Compile Include="Decoration\IO\IIoCommandArgs.cs" />
     <Compile Include="Decoration\IO\IDeleteCommandArgs.cs" />
@@ -290,9 +286,6 @@
     <Compile Include="Decoration\IO\Commands\CopyCommand.cs" />
     <Compile Include="Decoration\IO\ICopyCommandArgs.cs" />
     <Compile Include="Decoration\Grouping\GroupCommandFactory.cs" />
-    <Compile Include="IExecutionResult.cs" />
-    <Compile Include="Etl\EtlRunResult.cs" />
-    <Compile Include="Etl\EtlParameter.cs" />
     <Compile Include="ExecutionFactory.cs" />
     <Compile Include="Decoration\IDecorationCondition.cs" />
     <Compile Include="FlatFile\CsvReader.cs" />
@@ -341,7 +334,6 @@
     <Compile Include="Format\RegexBuilder.cs" />
     <Compile Include="Decoration\IDecorationCommandArgs.cs" />
     <Compile Include="IExecutable.cs" />
-    <Compile Include="IExecution.cs" />
     <Compile Include="IGroupCommand.cs" />
     <Compile Include="Members\Predefined\BaseBuilder.cs" />
     <Compile Include="Members\Predefined\IPredefinedMembersBuilder.cs" />

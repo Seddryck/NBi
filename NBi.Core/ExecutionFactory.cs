@@ -1,17 +1,18 @@
 ﻿using System;
 using System.Linq;
 using NBi.Core.Etl;
+using NBi.Extensibility;
 using NBi.Extensibility.DataEngineering;
 
 namespace NBi.Core
 {
     public class ExecutionFactory
     {
-        public IExecution Instantiate(IExecutable executable)
+        public IExecutable Instantiate(IExecutableArgs args)
         {
-            switch (executable)
+            switch (args)
             {
-                case IEtlExecutable etl: return new EtlRunnerFactory().Instantiate(etl);
+                case IEtlArgs etl: return new EtlRunnerProvider().Instantiate(etl);
                 default:throw new ArgumentException();
             }
         }

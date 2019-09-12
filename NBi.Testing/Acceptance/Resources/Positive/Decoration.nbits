@@ -16,10 +16,10 @@
       </tasks>
       <tasks>
         <table-load   name="Users"
-							file ="Users.csv"
+							file ="Acceptance\Resources\Positive\Users.csv"
 				/>
         <table-load   name="KeyDates"
-							file ="KeyDates.csv"
+							file ="Acceptance\Resources\Positive\KeyDates.csv"
 				/>
       </tasks>
     </setup>
@@ -81,7 +81,7 @@
         <equalTo>
           <resultSet>
             <row>
-              <cell>6</cell>
+              <cell>3</cell>
             </row>
           </resultSet>
         </equalTo>

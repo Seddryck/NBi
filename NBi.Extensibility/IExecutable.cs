@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Extensibility.DataEngineering
+namespace NBi.Extensibility
 {
-    public interface IEtlRunCommand
+    public interface IExecutable
     {
-        void Execute(IEtl etl);
+        IExecutionResult Execute();
     }
 }

@@ -15,7 +15,7 @@ namespace NBi.Core.Decoration.DataEngineering
         public IBatchRunnerFactory Instantiate(string version)
         {
             var directory = AssemblyDirectory;
-            var filename = $"NBi.Core.{version}.dll";
+            var filename = $"NBi.Core.SqlServer.dll";
             var filepath = $"{directory}\\{filename}";
             if (!File.Exists(filepath))
                 throw new InvalidOperationException($"Can't find the dll for version '{version}' in '{directory}'. NBi was expecting to find a dll named '{filename}'.");

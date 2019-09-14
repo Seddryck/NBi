@@ -1,4 +1,5 @@
 ﻿using NBi.Core.Query.Client;
+using NBi.Extensibility;
 using System;
 using System.Collections.Generic;
 using System.Data;

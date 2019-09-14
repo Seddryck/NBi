@@ -10,6 +10,7 @@ using System.Diagnostics;
 using NBi.Core;
 using NBi.Core.Injection;
 using NBi.Core.Configuration;
+using NBi.Extensibility;
 
 namespace NBi.NUnit.Builder
 {

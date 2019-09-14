@@ -1,5 +1,7 @@
 ﻿using NBi.Core.Decoration;
 using NBi.Core.Scalar.Resolver;
+using NBi.Extensibility;
+using NBi.Extensibility.Decoration;
 using System;
 using System.Collections.Generic;
 using System.Linq;

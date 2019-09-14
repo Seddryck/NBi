@@ -8,6 +8,8 @@ using NBi.Core.Decoration.IO;
 using NBi.Core.Decoration.Process;
 using NBi.Core.Injection;
 using NBi.Core.Variable;
+using NBi.Extensibility.Decoration;
+using NBi.Extensibility.Decoration.DataEngineering;
 using NBi.Xml.Decoration.Command;
 using System;
 using System.Collections.Generic;

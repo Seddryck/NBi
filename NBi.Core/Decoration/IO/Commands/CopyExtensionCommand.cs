@@ -5,6 +5,7 @@ using System.Text;
 using System.IO;
 using NBi.Core.Decoration.IO;
 using System.Diagnostics;
+using NBi.Extensibility;
 
 namespace NBi.Core.Decoration.IO.Commands
 {

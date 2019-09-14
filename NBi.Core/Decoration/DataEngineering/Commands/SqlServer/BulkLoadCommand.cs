@@ -22,7 +22,7 @@ namespace NBi.Core.Decoration.DataEngineering.Commands.SqlServer
             {
                 // make sure to enable triggers
                 // more on triggers in next post
-                SqlBulkCopy bulkCopy =
+                using (var bulkCopy =
                     new SqlBulkCopy
                     (
                         connection,
@@ -33,15 +33,18 @@ namespace NBi.Core.Decoration.DataEngineering.Commands.SqlServer
                     {
                         // set the destination table name
                         DestinationTableName = tableName
-                    };
-                connection.Open();
+                    }
+                )
+                {
+                    connection.Open();
 
-                // write the data in the "dataTable"
-                var fileReader = new CsvReader();
-                var dataTable = fileReader.ToDataTable(filename, false);
-                bulkCopy.WriteToServer(dataTable);
+                    // write the data in the "dataTable"
+                    var fileReader = new CsvReader();
+                    var dataTable = fileReader.ToDataTable(filename, false);
+                    bulkCopy.WriteToServer(dataTable);
 
-                connection.Close();
+                    connection.Close();
+                }
             }
 
         }

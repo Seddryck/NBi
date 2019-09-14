@@ -5,10 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Extensibility.DataEngineering
+namespace NBi.Extensibility.Decoration.DataEngineering
 {
-    public interface IBatchRunCommand
+    public interface IBatchRunner
     {
-        void Execute(string fullPath, IDbConnection Connection);
+        void Execute();
     }
 }

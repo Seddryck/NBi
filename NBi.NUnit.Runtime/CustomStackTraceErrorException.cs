@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using NBi.Core;
+using NBi.Extensibility;
 
 namespace NBi.NUnit.Runtime
 {

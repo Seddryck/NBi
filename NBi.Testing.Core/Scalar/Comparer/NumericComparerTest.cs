@@ -2,6 +2,7 @@
 using System.Linq;
 using NBi.Core;
 using NBi.Core.Scalar.Comparer;
+using NBi.Extensibility;
 using NUnit.Framework;
 
 namespace NBi.Testing.Core.Scalar.Comparer

@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace NBi.Core.Decoration.DataEngineering
 {
-    public interface IDataEngineeringCommandArgs : IDecorationCommandArgs
+    public interface IBatchRunCommand
     {
-        string ConnectionString { get; }
+        void Execute(string fullPath, IDbConnection Connection);
     }
 }

@@ -1,6 +1,7 @@
 ﻿using NBi.Core;
 using NBi.Core.ResultSet;
 using NBi.Core.ResultSet.Lookup;
+using NBi.Extensibility;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;

@@ -18,6 +18,8 @@ using NBi.Core.Decoration.Process.Conditions;
 using NBi.Core.Assemblies;
 using NBi.Core.Assemblies.Decoration;
 using System.Reflection;
+using NBi.Extensibility.Decoration;
+using NBi.Extensibility.Decoration.DataEngineering;
 
 namespace NBi.Testing.Core.Decoration.DataEngineering
 {

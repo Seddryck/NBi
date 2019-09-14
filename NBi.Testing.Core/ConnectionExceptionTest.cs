@@ -2,6 +2,7 @@
 using System.Data.OleDb;
 using System.Linq;
 using NBi.Core;
+using NBi.Extensibility;
 using NUnit.Framework;
 
 namespace NBi.Testing.Core

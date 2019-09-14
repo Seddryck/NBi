@@ -4,6 +4,7 @@ using NBi.Core.Scalar.Comparer;
 using NUnit.Framework;
 using NBi.Core.Scalar.Casting;
 using NBi.Core;
+using NBi.Extensibility;
 
 namespace NBi.Testing.Core.Scalar.Caster
 {

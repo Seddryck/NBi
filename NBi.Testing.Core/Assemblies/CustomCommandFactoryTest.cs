@@ -3,6 +3,7 @@ using NBi.Core;
 using NBi.Core.Assemblies;
 using NBi.Core.Assemblies.Decoration;
 using NBi.Core.Scalar.Resolver;
+using NBi.Extensibility;
 using NBi.Extensibility.Decoration;
 using NBi.Testing.Core.Assemblies.Resource;
 using NUnit.Framework;

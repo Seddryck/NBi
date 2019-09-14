@@ -7,6 +7,8 @@ using NBi.Core.Decoration.IO;
 using NBi.Core.Decoration.Process;
 using NBi.Core.Decoration.Grouping;
 using NBi.Core.Assemblies.Decoration;
+using NBi.Extensibility;
+using NBi.Extensibility.Decoration;
 
 namespace NBi.Core.Decoration
 {

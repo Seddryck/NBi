@@ -9,6 +9,7 @@ using System.IO;
 using NBi.Core.Decoration.Process;
 using NBi.Core.Scalar.Resolver;
 using NBi.Core.Decoration.Process.Commands;
+using NBi.Extensibility;
 
 namespace NBi.Testing.Integration.Core.Decoration.Process.Commands
 {
@@ -69,7 +70,7 @@ namespace NBi.Testing.Integration.Core.Decoration.Process.Commands
             );
 
             var command = new RunCommand(runArgs);
-            Assert.Throws<NBi.Core.NBiException>(() => command.Execute());
+            Assert.Throws<NBiException>(() => command.Execute());
         }
 
         [Test]

@@ -2,7 +2,8 @@
 using System.Linq;
 using NBi.Core.Etl;
 using NBi.Extensibility;
-using NBi.Extensibility.DataEngineering;
+using NBi.Core.Decoration.DataEngineering;
+using NBi.Extensibility.Decoration.DataEngineering;
 
 namespace NBi.Core
 {
@@ -12,7 +13,7 @@ namespace NBi.Core
         {
             switch (args)
             {
-                case IEtlArgs etl: return new EtlRunnerProvider().Instantiate(etl);
+                case IEtlArgs etl: return new EtlRunnerProvider().Instantiate(etl.Version).Instantiate(etl);
                 default:throw new ArgumentException();
             }
         }

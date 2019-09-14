@@ -1,4 +1,5 @@
 ﻿using NBi.Core.Scalar.Casting;
+using NBi.Extensibility;
 using System;
 using System.Collections.Generic;
 using System.Linq;

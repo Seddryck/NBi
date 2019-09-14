@@ -4,6 +4,7 @@ using NBi.Core.ResultSet.Alteration.Lookup;
 using NBi.Core.ResultSet.Alteration.Lookup.Strategies.Missing;
 using NBi.Core.ResultSet.Lookup;
 using NBi.Core.ResultSet.Resolver;
+using NBi.Extensibility;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;

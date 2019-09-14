@@ -3,6 +3,7 @@ using System.Data.OleDb;
 using System.Data.SqlClient;
 using Microsoft.AnalysisServices.AdomdClient;
 using System.Data;
+using NBi.Extensibility;
 
 namespace NBi.Core
 {

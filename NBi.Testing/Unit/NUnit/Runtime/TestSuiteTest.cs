@@ -7,6 +7,7 @@ using System.Reflection;
 using Moq;
 using NBi.Core;
 using NBi.Core.ResultSet;
+using NBi.Extensibility;
 using NBi.NUnit.Runtime;
 using NBi.NUnit.Runtime.Configuration;
 using NBi.Xml;

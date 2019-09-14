@@ -2,6 +2,7 @@
 using NBi.Core.Injection;
 using NBi.Core.Query;
 using NBi.Core.Scalar.Resolver;
+using NBi.Extensibility;
 using System;
 using System.Collections.Generic;
 using System.Data;

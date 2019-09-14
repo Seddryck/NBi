@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace NBi.Extensibility.DataEngineering
+namespace NBi.Extensibility.Decoration.DataEngineering
 {
     public interface IEtlArgs
     {

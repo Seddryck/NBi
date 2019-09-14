@@ -1,21 +1,19 @@
-﻿using NBi.Core.Decoration.DataEngineering;
-using NBi.Extensibility;
+﻿using NBi.Extensibility.Decoration.DataEngineering;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
-using NBi.Extensibility.Decoration.DataEngineering;
 
-namespace NBi.Core.Etl
+namespace NBi.Core.Decoration.DataEngineering
 {
-    public class EtlRunnerProvider
+    class BatchRunnerProvider
     {
-        public IEtlRunnerFactory Instantiate(string version)
+        public IBatchRunnerFactory Instantiate(string version)
         {
-            var interfaceName = typeof(IEtlRunnerFactory).Name;
             var directory = AssemblyDirectory;
             var filename = $"NBi.Core.{version}.dll";
             var filepath = $"{directory}\\{filename}";
@@ -24,14 +22,14 @@ namespace NBi.Core.Etl
 
             var assembly = Assembly.LoadFrom(filepath);
             var types = assembly.GetTypes()
-                            .Where(m => m.IsClass && m.GetInterface(interfaceName) != null);
+                            .Where(m => m.IsClass && m.GetInterface(typeof(IBatchRunnerFactory).Name) != null);
 
             if (types.Count() == 0)
-                throw new InvalidOperationException($"Can't find a class implementing '{interfaceName}' in '{assembly.FullName}'.");
+                throw new InvalidOperationException($"Can't find a class implementing '{typeof(IBatchRunnerFactory).Name}' in '{assembly.FullName}'.");
             if (types.Count() > 1)
-                throw new InvalidOperationException($"Found more than one class implementing '{interfaceName}' in '{assembly.FullName}'.");
+                throw new InvalidOperationException($"Found more than one class implementing '{typeof(IBatchRunnerFactory).Name}' in '{assembly.FullName}'.");
 
-            return Activator.CreateInstance(types.ElementAt(0)) as IEtlRunnerFactory;
+            return Activator.CreateInstance(types.ElementAt(0)) as IBatchRunnerFactory;
         }
 
         private static string AssemblyDirectory

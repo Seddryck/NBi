@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.IO;
+using NBi.Extensibility;
 
 namespace NBi.Core.Assemblies
 {

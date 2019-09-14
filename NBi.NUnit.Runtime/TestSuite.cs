@@ -19,6 +19,7 @@ using NBi.Core.Configuration.Extension;
 using NBi.Core.Scalar.Casting;
 using NBi.Core.Variable.Instantiation;
 using NBi.Core.Decoration;
+using NBi.Extensibility;
 
 namespace NBi.NUnit.Runtime
 {

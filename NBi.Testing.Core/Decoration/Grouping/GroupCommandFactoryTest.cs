@@ -9,6 +9,7 @@ using NBi.Core.Scalar.Resolver;
 using NBi.Core.Decoration;
 using NBi.Core.Decoration.Grouping;
 using NBi.Core.Decoration.Grouping.Commands;
+using NBi.Extensibility.Decoration;
 
 namespace NBi.Testing.Core.Decoration.Grouping
 {

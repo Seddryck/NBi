@@ -1,6 +1,7 @@
 ﻿using NBi.Core;
 using NBi.Core.Transformation.Transformer.Native;
 using NBi.Core.Transformation.Transformer.Native.IO;
+using NBi.Extensibility;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;

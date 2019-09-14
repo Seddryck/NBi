@@ -10,6 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using NBi.Extensibility.Query;
+using NBi.Extensibility;
 
 namespace NBi.Testing.Integration.Core.Query.Resolver
 {

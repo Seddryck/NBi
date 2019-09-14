@@ -12,6 +12,8 @@ using NBi.Core.Decoration.Process;
 using NBi.Core.Injection;
 using NBi.Core.Scalar.Resolver;
 using NBi.Core.Variable;
+using NBi.Extensibility.Decoration;
+using NBi.Extensibility.Decoration.DataEngineering;
 using NBi.NUnit.Builder.Helper;
 using NBi.Xml.Decoration;
 using NBi.Xml.Decoration.Command;

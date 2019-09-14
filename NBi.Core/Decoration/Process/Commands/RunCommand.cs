@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NBi.Extensibility;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -52,7 +53,7 @@ namespace NBi.Core.Decoration.Process.Commands
                 }
                 else
                 {
-                    Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceInfo, "Not waiting the end of the process.");
+                    Trace.WriteLineIf(NBiTraceSwitch.TraceInfo, "Not waiting the end of the process.");
                 }
             }
         }

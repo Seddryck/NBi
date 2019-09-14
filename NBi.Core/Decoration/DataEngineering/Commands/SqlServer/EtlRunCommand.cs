@@ -1,9 +1,10 @@
 ﻿using NBi.Core.Etl;
-using NBi.Extensibility.DataEngineering;
+using NBi.Core.Decoration.DataEngineering;
 using System;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using NBi.Extensibility.Decoration.DataEngineering;
 
 namespace NBi.Core.Decoration.DataEngineering
 {
@@ -18,8 +19,9 @@ namespace NBi.Core.Decoration.DataEngineering
         protected void Execute(IEtlArgs args)
         {
             var provider = new EtlRunnerProvider();
-            var etl = provider.Instantiate(args);
-            etl.Execute(); 
+            var factory = provider.Instantiate(args.Version);
+            var runner = factory.Instantiate(args);
+            runner.Execute(); 
         }
     }
 }

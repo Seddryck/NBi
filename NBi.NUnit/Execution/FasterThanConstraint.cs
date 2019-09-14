@@ -1,6 +1,6 @@
 ﻿using System;
 using NBi.Extensibility;
-using NBi.Extensibility.DataEngineering;
+using NBi.Extensibility.Decoration.DataEngineering;
 using NUnitCtr = NUnit.Framework.Constraints;
 
 namespace NBi.NUnit.Execution

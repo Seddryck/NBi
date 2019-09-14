@@ -219,14 +219,19 @@
     <Compile Include="Configuration\FailureReport\IFailureReportProfile.cs" />
     <Compile Include="Configuration\IFailureReportProfileConfiguration.cs" />
     <Compile Include="DataRowExtensions.cs" />
+    <Compile Include="Decoration\DataEngineering\Commands\SqlServer\BatchRunnerArgs.cs" />
+    <Compile Include="Decoration\DataEngineering\Commands\SqlServer\BatchRunnerProvider.cs" />
     <Compile Include="Decoration\DataEngineering\Commands\SqlServer\EtlRunCommand.cs" />
+    <Compile Include="Decoration\DataEngineering\Commands\SqlServer\IBatchRunCommand.cs" />
+    <Compile Include="Decoration\DataEngineering\Commands\SqlServer\IBatchRunCommandArgs.cs" />
+    <Compile Include="Decoration\DataEngineering\IDataEngineeringCommandArgs.cs" />
     <Compile Include="Decoration\DataEngineering\IEtlRunCommandArgs.cs" />
-    <Compile Include="Decoration\DataEngineering\IBatchRunCommandArgs.cs" />
     <Compile Include="Decoration\Grouping\Commands\SequentialCommand.cs" />
     <Compile Include="Decoration\Grouping\Commands\ParallelCommand.cs" />
     <Compile Include="Decoration\Grouping\IGroupCommandArgs.cs" />
     <Compile Include="Decoration\Grouping\IParallelCommandArgs.cs" />
     <Compile Include="Decoration\Grouping\ISequentialCommandArgs.cs" />
+    <Compile Include="Decoration\IDecorationCommandArgs.cs" />
     <Compile Include="Decoration\IDecorationConditionArgs.cs" />
     <Compile Include="Decoration\IO\Commands\DeleteExtensionCommand.cs" />
     <Compile Include="Decoration\IO\Commands\CopyExtensionCommand.cs" />
@@ -309,7 +314,6 @@
     <Compile Include="Analysis\Member\MembersCommand.cs" />
     <Compile Include="Assemblies\AssemblyManager.cs" />
     <Compile Include="Assemblies\TypeConverter.cs" />
-    <Compile Include="Decoration\DataEngineering\IDataEngineeringCommandArgs.cs" />
     <Compile Include="Decoration\DataEngineering\IDataEngineeringFactory.cs" />
     <Compile Include="Decoration\IDecorationCommand.cs" />
     <Compile Include="Decoration\DataEngineering\IResetCommandArgs.cs" />
@@ -332,7 +336,6 @@
     <Compile Include="Format\ICurrencyFormat.cs" />
     <Compile Include="Format\INumericFormat.cs" />
     <Compile Include="Format\RegexBuilder.cs" />
-    <Compile Include="Decoration\IDecorationCommandArgs.cs" />
     <Compile Include="IExecutable.cs" />
     <Compile Include="IGroupCommand.cs" />
     <Compile Include="Members\Predefined\BaseBuilder.cs" />
@@ -588,8 +591,6 @@
     <Compile Include="ListComparisonFormatter.cs" />
     <Compile Include="ListComparer.cs" />
     <Compile Include="Query\ListBuilder.cs" />
-    <Compile Include="ExternalDependencyNotFoundException.cs" />
-    <Compile Include="NBiException.cs" />
     <Compile Include="ResultSet\Column.cs" />
     <Compile Include="ResultSet\RowHelper.cs" />
     <Compile Include="Scalar\Comparer\BaseComparer.cs" />

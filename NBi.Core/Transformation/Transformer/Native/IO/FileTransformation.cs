@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
+using NBi.Extensibility;
 
 namespace NBi.Core.Transformation.Transformer.Native.IO
 {

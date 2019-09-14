@@ -5,10 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Extensibility.DataEngineering
+namespace NBi.Extensibility.Decoration.DataEngineering
 {
-    public interface IEtlRunner : IExecutable
-    {
-        new IEtlRunResult Execute();
-    }
+    
+    public interface IEtlRunResult : IExecutionResult { }
 }

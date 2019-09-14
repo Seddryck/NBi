@@ -9,7 +9,7 @@ namespace NBi.Extensibility
     public class ExternalDependencyNotFoundException : NBiException
     {
         public ExternalDependencyNotFoundException(string filename) 
-            : base ($"This test is in error because the following dependency has not been found '{Path.GetFullPath(filename)}'")
+            : base ($"This test is in error because the following dependency has not been found '{Path.GetFullPath(filename)}'.")
         { }
 
 

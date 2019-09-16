@@ -50,12 +50,12 @@ The example, here under, configures a value for a connection-string that will be
 {% highlight xml %}
 <settings>
     <default apply-to="everywhere">
-        <connectionString>My Connection String from Everywhere</connectionString>
+        <connection-string>My Connection String from Everywhere</connection-string>
         <parameter name="paramEverywhere">120</parameter>
         <parameter name="paramToOverride" sql-type="Int">60</parameter>
     </default>
     <default apply-to="system-under-test">
-        <connectionString>My Connection String</connectionString>
+        <connection-string>My Connection String</connection-string>
         <parameter name="paramToOverride" sql-type="varchar(10)">Alpha</parameter>
     </default>
 </settings>
@@ -66,11 +66,11 @@ In the following test, the values *Alpha*, *120* and *My Connection String* (def
 {% highlight xml %}
 <test name="My first test case" uid="0001">
   <system-under-test>
-    <execution>
+    <result-set>
       <query name="Select first product">
         SELECT * FROM Product Where FieldOne=@paramToOverride and FieldTwo<>@paramEverywhere;
       </query>
-    </execution>
+    </result-set>
   </system-under-test>
   <assert>
     ...
@@ -88,24 +88,24 @@ The sample here under creates two references named *first-ref* and *second-ref* 
 
 {% highlight xml %}
 <settings>
-    <reference name="first-ref">
-        <connectionString>My First Connection String</connectionString>
-    </reference>
-    <reference name="second-ref">
-        <connectionString>My Second Connection String</connectionString>
-    </reference>
+  <reference name="first-ref">
+    <connection-string>My First Connection String</connection-string>
+  </reference>
+  <reference name="second-ref">
+    <connection-string>My Second Connection String</connection-string>
+  </reference>
 </settings>
 <test name="My first test case" uid="0001">
-    <system-under-test>
-        <execution>
-            <query name="Select first product" connectionString="@second-ref">
-                SELECT TOP 2 * FROM Product;
-            </query>
-        </execution>
-    </system-under-test>
-    <assert>
+  <system-under-test>
+    <result-set>
+      <query name="Select first product" connection-string="@second-ref">
+        SELECT TOP 2 * FROM Product;
+      </query>
+    </result-set>
+  </system-under-test>
+  <assert>
     ...
-    </assert>
+  </assert>
 </test>
 {% endhighlight %}
 

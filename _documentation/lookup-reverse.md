@@ -19,13 +19,13 @@ The assertion is defined by the xml element *lookup-exists* and the attribute *r
 
 {% highlight xml %}
 <assert>
-    <lookup-exists reverse="true">
-        <join>
-            <using column="#0" type="text"/>
-        </join>
-        <result-set>
-            <query>...</query>
-        </result-set>
-    </lookup-exists>
+  <lookup-exists reverse="true">
+    <join>
+      <using column="#0" type="text"/>
+    </join>
+    <result-set>
+      <query>...</query>
+    </result-set>
+  </lookup-exists>
 </assert>
 {% endhighlight %}

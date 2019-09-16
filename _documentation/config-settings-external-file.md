@@ -28,12 +28,12 @@ This file is an example of an external file containing the xml element *settings
 
 {% highlight xml %}
 <?xml version="1.0" encoding="utf-8"?>
-<settings>
+<settings xmlns="http://NBi/TestSuite">
   <default apply-to="system-under-test">
-    <connectionString>My Sut Default Connection String</connectionString>
+    <connection-string>My Sut Default Connection String</connection-string>
   </default>
   <reference name="MyReference">
-    <connectionString>My Reference Connection String</connectionString>
+    <connection-string>My Reference Connection String</connection-string>
   </reference>
 </settings>
 {% endhighlight %}

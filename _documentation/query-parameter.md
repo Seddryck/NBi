@@ -19,13 +19,13 @@ In your test definition, in addition of the element *query*, you'll also need to
 
 {% highlight xml %}
 <query>
-	select * from Customer where CustomerKey=@CustKeyParam
-	<parameter
-		name="CustKeyParam"
-		sql-type="Int"
-	>
-		145
-	</parameter>
+  select * from Customer where CustomerKey=@CustKeyParam
+  <parameter
+    name="CustKeyParam"
+    sql-type="Int"
+  >
+    145
+  </parameter>
 </query>
 {% endhighlight %}
 
@@ -41,9 +41,9 @@ More precisely, NBi will execute a [sp_executesql](http://msdn.microsoft.com/en-
 With an **SqlClient connection (SQL)**, the attribute sql-type is optional but it's highly recommended to use it. It will save you from pitfalls with SQL Server trying to guess by itself the type of your parameters (and failing). When specifying the value of the sql-type, you'll need to provide the SQL type such as varchar(50) or int or bit (and not the corresponding C# type string, byte or boolean). For sql-types such as varchar or char or decimal the additional parameters (size, precision, ...) between brackets will also be considered by NBi.
 {% highlight xml %}
 <parameter
-	name="MyDate" sql-type="Decimal(10,3)"
+  name="MyDate" sql-type="Decimal(10,3)"
 >
-	100.42
+  100.42
 </parameter>
 {% endhighlight %}
 
@@ -52,9 +52,9 @@ With an **SqlClient connection (SQL)**, the attribute sql-type is optional but i
 To provide a value for a date parameter, we recommend the universal format (YYYY-MM-DD). Bellow the 26th of December 2013 is provided as a parameter value for the parameter @
 {% highlight xml %}
 <parameter
-	name="MyDate" sql-type="Date"
+  name="MyDate" sql-type="Date"
 >
-	2013-12-26
+  2013-12-26
 </parameter>
 {% endhighlight %}
 
@@ -64,32 +64,32 @@ With an **AdomdClient connection (DAX or MDX)**, you don't need to specify the s
 
 {% highlight xml %}
 <query>
-	select [Measures].members on 0,
+  select [Measures].members on 0,
        Filter(Customer.[Customer Geography].Country.members,
               Customer.[Customer Geography].CurrentMember.Name =
               @CountryName) on 1
     from [Adventure Works]
-	<parameter name="CountryName">
-		'United Kingdom'
-	</parameter>
+  <parameter name="CountryName">
+    'United Kingdom'
+  </parameter>
 </query>
 {% endhighlight %}
 
 To create a parameter that reference a member, set, or tuple, you would have to use a function such as StrToMember or StrToSet.
 {% highlight xml %}
 <query>
-	SELECT
-		NON EMPTY [Dim Unit].[All Units].[Category Name].Members ON 0
-	FROM
-		[MY CUBE]
-	WHERE
-		(StrToMember(@CompanyId),StrToMember(@Location))
-	<parameter name="CompanyId">
-		[Dim Company].&125
-	</parameter>
-	<parameter name="Location">
-		[Dim Location].[Country].[Canada]
-	</parameter>
+  SELECT
+    NON EMPTY [Dim Unit].[All Units].[Category Name].Members ON 0
+  FROM
+    [MY CUBE]
+  WHERE
+    (StrToMember(@CompanyId),StrToMember(@Location))
+  <parameter name="CompanyId">
+    [Dim Company].&125
+  </parameter>
+  <parameter name="Location">
+    [Dim Location].[Country].[Canada]
+  </parameter>
 </query>
 {% endhighlight %}
 
@@ -103,16 +103,16 @@ Within the code snippet here under, we're defining twice a *parameter* named *lo
 
 {% highlight xml %}
 <settings>
-	<default apply-to="system-under-test">
-		<parameter name="Location">
-			[Dim Location].[Country].[Canada]
-		</parameter>
-	</default>
-	<default apply-to="assert">
-		<parameter name="Location" sql-type="varchar(50)">
-			Canada
-		</parameter>
-	</default>
+  <default apply-to="system-under-test">
+    <parameter name="Location">
+      [Dim Location].[Country].[Canada]
+    </parameter>
+  </default>
+  <default apply-to="assert">
+    <parameter name="Location" sql-type="varchar(50)">
+      Canada
+    </parameter>
+  </default>
 </settings>
 {% endhighlight %}
 
@@ -126,16 +126,16 @@ If you want to specify that a parameter defined at the test-suite level must not
 
 {% highlight xml %}
 <settings>
-	<default apply-to="system-under-test">
-		<parameter name="Age" sql-type="int">10</parameter>
-	</default>
+  <default apply-to="system-under-test">
+    <parameter name="Age" sql-type="int">10</parameter>
+  </default>
 </settings>
 <test>
   <system-under-test>
     <query>
-	    SELECT ... FROM myCube WHERE (StrToMember(@Canada))
-  		<parameter name="Age" remove="true"/>
-			<parameter name="Name">[Dim Location].[Country].[Canada]</parameter>
+      SELECT ... FROM myCube WHERE (StrToMember(@Canada))
+      <parameter name="Age" remove="true"/>
+      <parameter name="Name">[Dim Location].[Country].[Canada]</parameter>
     </query>
   </system-under-test>
 </test>    

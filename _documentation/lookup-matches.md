@@ -25,18 +25,18 @@ The definition of the mapping between the columns of the two result-sets are def
 
 {% highlight xml %}
 <assert>
-    <lookup-matches>
-        <join>
-            <mapping candidate="DepartmentID" reference="Id" type="numeric"/>
-         </join>
-         <inclusion>
-            <mapping candidate="DepartmentName" reference="Name" type="text"/>
-        </inclusion>
-        <result-set>
-            <query>
-              select [DepartmentID] as Id, [Name] from [HumanResources].[Department]
-            </query>
-        </result-set>
-    </lookup-matches>
+  <lookup-matches>
+    <join>
+      <mapping candidate="DepartmentID" reference="Id" type="numeric"/>
+    </join>
+    <inclusion>
+      <mapping candidate="DepartmentName" reference="Name" type="text"/>
+    </inclusion>
+    <result-set>
+      <query>
+        select [DepartmentID] as Id, [Name] from [HumanResources].[Department]
+      </query>
+    </result-set>
+  </lookup-matches>
 </assert>
 {% endhighlight %}

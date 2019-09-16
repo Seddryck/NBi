@@ -49,7 +49,7 @@ The value of the scalar is identical the value of the variable. It could be a gl
 
 #### Inline transformations
 
-From time to time, you'll need to use a variable and slightly transform it to get what you really want. Defining additional variables, supporting these transformations, has a negative impact on readiness of your test-suite. You can achieve the same result with inline transformations. The list of transformations supported is defined at [this page](../transform-column#Native).
+From time to time, you'll need to use a variable and slightly transform it to get what you really want. Defining additional variables, supporting these transformations, has a negative impact on readiness of your test-suite. You can achieve the same result with inline transformations. The list of transformations supported is defined at [this page](../scalar-native-transformation).
 
 Inline transformations make usage of a pipe ```|``` to list them. They are applied from left to right and the result of the previous evaluation is always the input of the next evaluation.
 

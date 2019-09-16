@@ -61,13 +61,13 @@ In the case above, the variable *@myVar* will be transformed using the native tr
 
 #### Formatting
 
-A *text* scalar can be dynamically evaluated based on one or several variables and some literal parts. To enable this feature, you must precede the sclara value by a tilt ```~``` and mix static parts of the filename with dynamic parts. The dynamic parts must be contained between curly barces ```{}``` and start by the variable's name to consider.
+A *text* scalar can be dynamically evaluated based on one or several variables and some literal parts. To enable this feature, you must precede the scalar value by a tilt ```~``` and mix static parts of the filename with dynamic parts. The dynamic parts must be contained between curly braces ```{}``` and start by the variable's name to consider.
 
 {% highlight xml %}
-<parameter name="myParam">~File_{@myDate}.csv</parameter>
+<parameter name="myParam">~File_{@myYear}.csv</parameter>
 {% endhighlight %}
 
-Using the previous notation, if the value of *myDate* is *25th October 2018* then the filename *File_2018.csv* will be considered for loading the result-set.
+Using the previous notation, if the value of *myYear* is *2018* then the filename *File_2018.csv* will be considered for loading the result-set.
 
 A number of types support format strings, including *numeric* type (both [standard](https://docs.microsoft.com/en-us/dotnet/standard/base-types/standard-numeric-format-strings?view=netframework-4.8) and [custom](https://docs.microsoft.com/en-us/dotnet/standard/base-types/custom-numeric-format-strings?view=netframework-4.8) format strings), but also dateTime (both [standard](https://docs.microsoft.com/en-us/dotnet/standard/base-types/standard-date-and-time-format-strings?view=netframework-4.8) and [custom](https://docs.microsoft.com/en-us/dotnet/standard/base-types/custom-date-and-time-format-strings?view=netframework-4.8) format strings). This formatting must be specified after a column (```:```).
 

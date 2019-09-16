@@ -18,8 +18,8 @@ In the example, here under, the settings are defined in an external file named "
     <section name="nbi" type="NBi.NUnit.Runtime.NBiSection, NBi.NUnit.Runtime"/>
   </configSections>
   <nbi
-    testSuite=" MyFirstTestSuite\MyFirstTestSuite.nbits"
-    settings=" MyFirstTestSuite\MySettings.nbiset"
+    testSuite="MyFirstTestSuite\MyFirstTestSuite.nbits"
+    settings="MyFirstTestSuite\MySettings.nbiset"
   />
 </configuration>
 {% endhighlight %}

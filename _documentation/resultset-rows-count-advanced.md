@@ -32,7 +32,7 @@ This filter is defined by the means of *alias*, *expressions* and *predicates*. 
       <alias column-index="2">UnitPrice</alias>
       <expression name="TotalPriceWithVAT">UnitPrice*Quantity*1.21</variable>
       <predicate name="TotalPriceWithVAT">
-         <more-than or-equal="true">1000<less-than>
+         <more-than or-equal="true">1000<more-than>
       <predicate>
     </filter>
     ...

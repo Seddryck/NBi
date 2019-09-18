@@ -360,5 +360,37 @@ namespace NBi.Testing.Core.ResultSet.Lookup
             stopWatch.Stop();
             Assert.That(stopWatch.Elapsed.TotalSeconds, Is.LessThan(10));
         }
+
+        [Test]
+        [TestCase(1000)]
+        [TestCase(10000)]
+        [TestCase(100000)]
+        [TestCase(500000)]
+        [Retry(3)]
+        [Parallelizable(ParallelScope.Self)]
+        public void Execute_LargeVolumeChildAndReference_Fast(int maxItem)
+        {
+            var child = new DataTable();
+            var dtChild = child.Columns.Add("one");
+            for (int i = 0; i < maxItem; i++)
+            {
+                var dr = child.NewRow();
+                dr.SetField<object>(dtChild, i);
+                child.Rows.Add(dr);
+            }
+            child.AcceptChanges();
+            var reference = child.Copy();
+
+            var mapping = new ColumnMappingCollection
+            {
+                new ColumnMapping(new ColumnNameIdentifier("one"), new ColumnNameIdentifier("one"), ColumnType.Numeric)
+            };
+            var referencer = new LookupExistsAnalyzer(mapping);
+            var stopWatch = new Stopwatch();
+            stopWatch.Start();
+            referencer.Execute(child, reference);
+            stopWatch.Stop();
+            Assert.That(stopWatch.Elapsed.TotalSeconds, Is.LessThan(10));
+        }
     }
 }

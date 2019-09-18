@@ -73,18 +73,25 @@ namespace NBi.Core.ResultSet.Lookup
                     references.Add(keys);
             }
 
-            return references.ToList();
+            return references;
         }
 
         protected virtual LookupViolationCollection ExtractLookupViolation(DataTable table, CellRetriever keyRetriever, IEnumerable<KeyCollection> references)
         {
             var violations = new LookupExistsViolationCollection(Keys);
+            var stopWatch = new Stopwatch();
+            stopWatch.Start();
+            var i = 0;
 
             foreach (DataRow row in table.Rows)
             {
+                i++;
+                
                 var keys = keyRetriever.GetColumns(row);
                 if (!references.Contains(keys))
                     violations.Register(keys, row);
+                if (i % 1000 == 0)
+                    Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceInfo, $"Searching for {i} rows [{stopWatch.Elapsed:d'.'hh':'mm':'ss'.'fff'ms'}]");
             }
             return violations;
         }

@@ -5,6 +5,9 @@ using NBi.Core.ResultSet;
 using NUnit.Framework;
 using NBiRs = NBi.Core.ResultSet;
 using Moq;
+using System.Data;
+using Deedle;
+using System.Diagnostics;
 
 #endregion
 
@@ -84,6 +87,58 @@ namespace NBi.Testing.Core.ResultSet
 
             Assert.That(rs.Rows[0].ItemArray[0], Is.EqualTo("CY 2001"));
             Assert.That(rs.Rows[0].ItemArray[1], Is.EqualTo("1000"));
+        }
+
+        [Test]
+        [TestCase(100)]
+        [TestCase(1000)]
+        [TestCase(10000)]
+        [TestCase(100000)]
+        public void DataSetToDataFrame_FewRows_FastEnougth(int x)
+        {
+            var objects = new List<object>();
+            for (int i = 0; i < x; i++)
+                objects.Add(new object[] { i, i.ToString(), null, i * 2 });
+
+
+            var rs = new NBiRs.ResultSet();
+            rs.Load(objects.AsEnumerable().Cast<object[]>());
+            Assert.That(rs.Rows.Count, Is.EqualTo(x));
+
+            var stopWatch = new Stopwatch();
+            stopWatch.Start();
+            var frame = Frame.ReadReader(rs.Table.CreateDataReader());
+            stopWatch.Stop();
+            Debug.WriteLine(stopWatch.ElapsedMilliseconds);
+            Assert.That(frame.RowCount, Is.EqualTo(x));
+            Assert.That(stopWatch.ElapsedMilliseconds, Is.LessThan(5000));
+        }
+
+        [Test]
+        [TestCase(100)]
+        [TestCase(1000)]
+        [TestCase(10000)]
+        [TestCase(100000)]
+        public void DataFrameToDataSet_FewRows_FastEnougth(int x)
+        {
+            var objects = new List<object>();
+            for (int i = 0; i < x; i++)
+                objects.Add(new object[] { i, i.ToString(), null, i * 2 });
+
+
+            var rs = new NBiRs.ResultSet();
+            rs.Load(objects.AsEnumerable().Cast<object[]>());
+            Assert.That(rs.Rows.Count, Is.EqualTo(x));
+            var frame = Frame.ReadReader(rs.Table.CreateDataReader());
+            Assert.That(frame.RowCount, Is.EqualTo(x));
+
+
+            var stopWatch = new Stopwatch();
+            stopWatch.Start();
+            var dt = frame.ToDataTable(new string[] { "yo" });
+            stopWatch.Stop();
+            Assert.That(dt.Rows.Count, Is.EqualTo(x));
+            Assert.That(stopWatch.ElapsedMilliseconds, Is.LessThan(5000));
         }
 
     }

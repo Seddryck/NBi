@@ -254,6 +254,7 @@
     <Compile Include="Transformation\Transformer\Native\PathTest.cs" />
     <Compile Include="Transformation\Transformer\Native\TextTest.cs" />
     <Compile Include="Transformation\Transformer\NCalcTransformerTest.cs" />
+    <Compile Include="Variable\InstanceFactoryTest.cs" />
     <Compile Include="Variable\VariableFactoryTest.cs" />
     <Compile Include="Xml\XPathEngineTest.cs" />
   </ItemGroup>

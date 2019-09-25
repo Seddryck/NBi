@@ -812,6 +812,7 @@
     <Compile Include="Variable\Instantiation\Instance.cs" />
     <Compile Include="Variable\Instantiation\InstanceFactory.cs" />
     <Compile Include="Variable\InstanceVariable.cs" />
+    <Compile Include="Variable\Instantiation\DerivatedVariableInstanceArgs.cs" />
     <Compile Include="Variable\OverridenVariable.cs" />
     <Compile Include="Variable\Instantiation\SingleVariableInstanceArgs.cs" />
     <Compile Include="Variable\TestVariable.cs" />

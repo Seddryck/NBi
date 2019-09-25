@@ -64,5 +64,32 @@ namespace NBi.Testing.Core.Transformation.Transformer.Native
             var result = function.Evaluate(value);
             Assert.That(result, Is.EqualTo(expected));
         }
+
+
+        [Test]
+        [TestCase("20190317111223", "yyyyMMddhhmmss", "2019-03-17 11:12:23")]
+        [TestCase("2019-03-17 11:12:23", "yyyy-MM-dd hh:mm:ss", "2019-03-17 11:12:23")]
+        [TestCase("17-03-2019 11:12:23", "dd-MM-yyyy hh:mm:ss", "2019-03-17 11:12:23")]
+        [TestCase("2019-03-17T11:12:23", "yyyy-MM-ddThh:mm:ss", "2019-03-17 11:12:23")]
+        [TestCase("17/03/2019 11:12:23", "dd/MM/yyyy hh:mm:ss", "2019-03-17 11:12:23")]
+        [TestCase("17.03.2019 11.12.23", "dd.MM.yyyy hh.mm.ss", "2019-03-17 11:12:23")]
+        [TestCase("Wed, 25.09.19", "ddd, dd.MM.yy", "2019-09-25")]
+        [TestCase("Wednesday 25-SEP-19", "dddd dd-MMM-yy", "2019-09-25")]
+        public void Execute_TextToDateTime_Valid(string value, string format, DateTime expected)
+        {
+            var function = new TextToDateTime(format);
+            var result = function.Evaluate(value);
+            Assert.That(result, Is.EqualTo(expected));
+        }
+
+        [Test]
+        [TestCase("20190317111223", "yyyyMMddhhmmss", "fr-fr", "2019-03-17 11:12:23")]
+        [TestCase("mercredi 25-sept.-19", "dddd dd-MMM-yy", "fr-fr", "2019-09-25")]
+        public void Execute_TextToDateTimeWithCulture_Valid(string value, string format, string culture, DateTime expected)
+        {
+            var function = new TextToDateTime(format, culture);
+            var result = function.Evaluate(value);
+            Assert.That(result, Is.EqualTo(expected));
+        }
     }
 }

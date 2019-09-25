@@ -122,6 +122,8 @@ namespace NBi.Testing.Core.Transformation.Transformer
         [TestCase("text-to-without-diacritics")]
         [TestCase("text-to-token-count")]
         [TestCase("text-to-without-whitespaces")]
+        [TestCase("text-to-dateTime(yyyy.mm.dd hh:mm)")]
+        [TestCase("text-to-dateTime(dddd dd mm yyyy hh:mm, fr-fr)")]
         [TestCase("html-to-text")]
         [TestCase("date-to-age")]
         [TestCase("utc-to-local(Brussels)")]

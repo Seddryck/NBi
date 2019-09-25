@@ -1,6 +1,7 @@
 ﻿using NBi.Core.Scalar.Casting;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Text;
@@ -199,6 +200,20 @@ namespace NBi.Core.Transformation.Transformer.Native
                 return 0;
             }
         }
+    }
 
+    class TextToDateTime : AbstractTextTransformation
+    {
+        public string Format { get; }
+        public DateTimeFormatInfo Info { get; }
+
+        public TextToDateTime(string format)
+            =>  (Format, Info) = (format, CultureInfo.InvariantCulture.DateTimeFormat);
+
+        public TextToDateTime(string format, string culture)
+            => (Format, Info) = (format, new CultureInfo(culture).DateTimeFormat);
+
+        protected override object EvaluateString(string value)
+            => DateTime.ParseExact(value, Format, Info);    
     }
 }

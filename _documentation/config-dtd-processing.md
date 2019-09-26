@@ -12,13 +12,13 @@ By default, NBi doesn't execute DTD commands in the XML file describing the test
 {% highlight xml %}
 <?xml version="1.0" encoding="utf-8" ?>
 <configuration>
-    <configSections>
-        <section name="nbi" type="NBi.NUnit.Runtime.NBiSection, NBi.NUnit.Runtime"/>
-    </configSections>
-    <nbi
-        testSuite="..."
-        allowDtdProcessing="true"
-    />
+  <configSections>
+    <section name="nbi" type="NBi.NUnit.Runtime.NBiSection, NBi.NUnit.Runtime"/>
+  </configSections>
+  <nbi
+    testSuite="..."
+    allowDtdProcessing="true"
+  />
 </configuration>
 {% endhighlight %}
 

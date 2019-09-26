@@ -27,6 +27,11 @@ Some native transformations except parameters to operate. You must replace the i
 * ```text-to-trim```: removes blanks from the beginning and end of the cell.
 * ```text-to-length```: returns the length of the *text* value of the cell. If the cell is ```null``` or ```empty```, it returns 0.
 * ```text-to-token-count```: returns the count of tokens. A token is considered as one or more letter or digit or hyphen seperated by one or more whitespace. If the cell is ```null``` or ```empty``` or ```blank```, it returns 0.
+* ```text-to-first-chars(length)```: if the text is longer than the specified length, take the last characters.
+* ```text-to-last-chars(length)```: if the text is longer than the specified length, take the last characters.
+* ```text-to-pad-left(length, character)```: if the text is shorter than the specified length, add the specified character at the beginning of the text until the length of this text is equal to the expected length.
+* ```text-to-pad-left(length, character)```: if the text is shorter than the specified length, add the specified character at the end of the text until the length of this text is equal to the expected length.
+* ```text-to-dateTime(format)``` and ```text-to-dateTime(format, culture)``` returns a dateTime from the text value after parsing it with the *format* provided as argument. If the format includes day or month names, it could be useful to specify the *culture*.
 
 ## Numeric
 
@@ -65,8 +70,8 @@ Some native transformations except parameters to operate. You must replace the i
 * ```dateTime-to-set-time(timeSpan)```: Set the hours, minutes, second of a dateTime to the specified value without changing the date part. The timespan should be defined with the format *hh:mm:ss* such as ```07:00:00```.
 * ```dateTime-to-add(ts)```: add *ts* (a timeSpan) to the current value
 * ```dateTime-to-add(ts, times)```: add *ts* (a timeSpan) to the current value several times. If times is zero, return current value. *times* must be an integer value.
-* ```utc-to-local(TimeZone)```: returns the dateTime converted from UTC to the local time of the specified time zone
-* ```local-to-utc(TimeZone)```: returns the dateTime converted from the local time of the specified time zone to utc. If the local time was ambiguous (at the moment of the switch between summer and winter the same local time occurs twice) then the first occurance is selected.
+* ```utc-to-local(timeZone)```: returns the dateTime converted from UTC to the local time of the specified time zone
+* ```local-to-utc(timeZone)```: returns the dateTime converted from the local time of the specified time zone to utc. If the local time was ambiguous (at the moment of the switch between summer and winter the same local time occurs twice) then the first occurance is selected.
 
 For the last two transformations, the parameter is a valid TimeZone. User must specify the identification of a time zone (Romance Standard Time ...) or the name of one of the city listed in the display of a TimeZone (Brussels, Paris ...).
 

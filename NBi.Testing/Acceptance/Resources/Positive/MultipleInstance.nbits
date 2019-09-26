@@ -249,4 +249,32 @@
       </no-rows>
     </assert>
   </test>
+  <test name="Instances are defined through a single variable having some derivations" uid="0060">
+    <instance-settling>
+      <local-variable name="file" type="text">
+        <loop-file path="..\csv\" pattern="MyData*.csv"/>
+      </local-variable>
+      <derived-variable name="firstOfMonth" based-on="file" type="dateTime">
+        <script language="native">path-to-filename-without-extension | text-to-last-chars(7) | text-to-dateTime(yyyy_MM) | dateTime-to-first-of-month</script>
+      </derived-variable>
+      <derived-variable name="lastOfMonth" based-on="firstOfMonth" type="dateTime">
+        <script language="native">dateTime-to-last-of-month</script>
+      </derived-variable>
+    </instance-settling>
+    <system-under-test>
+      <resultSet file="~..\csv\{@file}"/>
+    </system-under-test>
+    <assert>
+      <all-rows>
+        <combination operator="and">
+          <predicate name="#0" type="dateTime">
+            <more-than or-equal="true">@firstOfMonth</more-than>
+          </predicate>
+          <predicate name="#0" type="dateTime">
+            <less-than or-equal="true">@lastOfMonth</less-than>
+          </predicate>
+        </combination>
+      </all-rows>
+    </assert>
+  </test>
 </testSuite>

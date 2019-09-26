@@ -1,5 +1,7 @@
 ﻿using NBi.Core.Injection;
+using NBi.Core.ResultSet;
 using NBi.Core.Sequence.Resolver;
+using NBi.Core.Transformation;
 using NBi.Core.Variable;
 using NBi.Core.Variable.Instantiation;
 using NBi.Xml;
@@ -69,16 +71,47 @@ namespace NBi.NUnit.Builder.Helper
                 argsBuilder.Build();
                 var factory = new SequenceResolverFactory(serviceLocator);
 
-                args = new SingleVariableInstanceArgs()
+                if (((obj as InstanceSettlingXml).DerivedVariables?.Count() ?? 0) == 0)
                 {
-                    Name = variable.Name,
-                    Resolver = factory.Instantiate(variable.Type, argsBuilder.GetArgs()),
-                    Categories = (obj as InstanceSettlingXml).Categories,
-                    Traits = (obj as InstanceSettlingXml).Traits.ToDictionary( x => x.Name, x => x.Value),
-                };
+                    args = new SingleVariableInstanceArgs()
+                    {
+                        Name = variable.Name,
+                        Resolver = factory.Instantiate(variable.Type, argsBuilder.GetArgs()),
+                        Categories = (obj as InstanceSettlingXml).Categories,
+                        Traits = (obj as InstanceSettlingXml).Traits.ToDictionary(x => x.Name, x => x.Value),
+                    };
+                }
+                else
+                {
+                    var derivationArgs = new Dictionary<string, DerivationArgs>();
+                    foreach (var derivation in (obj as InstanceSettlingXml).DerivedVariables)
+                    {
+                        var transformerArgs = new TransformaterArgs() { Language = derivation.Script.Language, Code = derivation.Script.Code };
+                        var transformerFactory = new TransformerFactory();
+                        var transformer = transformerFactory.Instantiate(transformerArgs);
+                        transformer.Initialize(derivation.Script.Code);
+                        derivationArgs.Add(derivation.Name, new DerivationArgs() { Source = derivation.BasedOn, Transformer = transformer });
+                    }
+
+                    args = new DerivedVariableInstanceArgs()
+                    {
+                        Name = variable.Name,
+                        Resolver = factory.Instantiate(variable.Type, argsBuilder.GetArgs()),
+                        Derivations = derivationArgs,
+                        Categories = (obj as InstanceSettlingXml).Categories,
+                        Traits = (obj as InstanceSettlingXml).Traits.ToDictionary(x => x.Name, x => x.Value),
+                    };
+                }
             }
         }
 
         public IInstanceArgs GetArgs() => args ?? throw new InvalidOperationException();
+
+        private class TransformaterArgs : ITransformationInfo
+        {
+            public ColumnType OriginalType { get; set; }
+            public LanguageType Language { get; set; }
+            public string Code { get; set; }
+        }
     }
 }

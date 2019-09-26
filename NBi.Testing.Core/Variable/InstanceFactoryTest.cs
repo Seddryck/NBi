@@ -15,7 +15,7 @@ namespace NBi.Testing.Core.Variable
     public class InstanceFactoryTest
     {
         [Test]
-        public void Instantiate_DerivatedFromMain_Success()
+        public void Instantiate_DerivedFromMain_Success()
         {
             var resolver = new Mock<ISequenceResolver>();
             resolver.Setup(x => x.Execute()).Returns(new[] { "BE_20190101", "BE_20190102", "BE_20190103", "BE_20190104", "BE_20190105" });
@@ -29,7 +29,7 @@ namespace NBi.Testing.Core.Variable
             var thirdTransformation = new NativeTransformer<string>();
             thirdTransformation.Initialize("dateTime-to-add(7)");
 
-            var args = new DerivatedVariableInstanceArgs()
+            var args = new DerivedVariableInstanceArgs()
             {
                 Name = "main",
                 Resolver = resolver.Object,

@@ -39,4 +39,39 @@
       </no-rows>
     </assert>
   </test>
+  <test name="Instance with derivations" uid="0002">
+    <instance-settling>
+      <local-variable name="file" type="text">
+        <loop-file path="..\csv\" pattern="MyData*.csv"/>
+      </local-variable>
+      <derived-variable name="date" type="dateTime" based-on="file">
+        <script language="native">
+          path-to-filename-without-extension | text-to-last-chars(8) | text-to-dateTime(yyyyMMdd) | dateTime-to-next-day
+        </script>
+      </derived-variable>
+      <derived-variable name="age" based-on="date">
+        <script language="native">
+          date-to-age
+        </script>
+      </derived-variable>
+    </instance-settling>
+    <system-under-test>
+      <resultSet file="@file">
+        <alteration>
+          <filter>
+            <predicate name="#2">
+              <starts-with not="true">@age</starts-with>
+            </predicate>
+          </filter>
+        </alteration>
+      </resultSet>
+    </system-under-test>
+    <assert>
+      <no-rows>
+        <predicate name="#1">
+          <more-than>@date</more-than>
+        </predicate>
+      </no-rows>
+    </assert>
+  </test>
 </testSuite>

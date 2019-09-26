@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace NBi.Core.Variable.Instantiation
 {
-    public class DerivatedVariableInstanceArgs : SingleVariableInstanceArgs
+    public class DerivedVariableInstanceArgs : SingleVariableInstanceArgs
     {
         public IDictionary<string, DerivationArgs> Derivations { get; set; }
     }

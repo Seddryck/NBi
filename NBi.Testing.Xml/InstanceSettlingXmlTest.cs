@@ -12,6 +12,8 @@ using System.Diagnostics;
 using NBi.Xml.Items;
 using System.Reflection;
 using NBi.Xml.Settings;
+using NBi.Core.Transformation;
+using NBi.Core.ResultSet;
 
 namespace NBi.Testing.Xml.Unit
 {
@@ -121,6 +123,77 @@ namespace NBi.Testing.Xml.Unit
                 Assert.That(content, Does.Contain("<instance-settling"));
                 Assert.That(content, Does.Contain("<category"));
                 Assert.That(content, Does.Contain("<trait"));
+            }
+        }
+
+        [Test]
+        public void Deserialize_SampleFileWithDerivations_DerivationsNotNull()
+        {
+            TestSuiteXml ts = DeserializeSample();
+            var test = ts.Tests[2] as TestXml;
+
+            // Check the properties of the object.
+            Assert.That(test.InstanceSettling.DerivedVariables, Is.Not.Null);
+            Assert.That(test.InstanceSettling.DerivedVariables.Count(), Is.EqualTo(2));
+            Assert.That(test.InstanceSettling.DerivedVariables[0].Name, Is.EqualTo("date"));
+            Assert.That(test.InstanceSettling.DerivedVariables[0].BasedOn, Is.EqualTo("file"));
+            Assert.That(test.InstanceSettling.DerivedVariables[0].ColumnType, Is.EqualTo(ColumnType.DateTime));
+            Assert.That(test.InstanceSettling.DerivedVariables[0].Script, Is.Not.Null);
+            Assert.That(test.InstanceSettling.DerivedVariables[0].Script.Language, Is.EqualTo(LanguageType.Native));
+            Assert.That(test.InstanceSettling.DerivedVariables[0].Script.Code, Is.Not.Null.Or.Empty);
+
+            Assert.That(test.InstanceSettling.DerivedVariables[1].Name, Is.EqualTo("age"));
+            Assert.That(test.InstanceSettling.DerivedVariables[1].BasedOn, Is.EqualTo("date"));
+            Assert.That(test.InstanceSettling.DerivedVariables[1].ColumnType, Is.EqualTo(ColumnType.Text));
+            Assert.That(test.InstanceSettling.DerivedVariables[1].Script, Is.Not.Null);
+            Assert.That(test.InstanceSettling.DerivedVariables[1].Script.Language, Is.EqualTo(LanguageType.Native));
+            Assert.That(test.InstanceSettling.DerivedVariables[1].Script.Code, Is.Not.Null.Or.Empty);
+        }
+
+
+        [Test]
+        public void Serialize_SampleFileWithDerivations_DerivationsCorrectlySerialized()
+        {
+            var test = new TestXml()
+            {
+                InstanceSettling = new InstanceSettlingXml()
+                {
+                    Variable = new InstanceVariableXml() { Name = "firstOfMonth" },
+                    DerivedVariables = new List<DerivedVariableXml>()
+                    {
+                        new DerivedVariableXml()
+                        {
+                            Name ="secondOfMonth", BasedOn = "firstOfMonth", ColumnType=ColumnType.DateTime,
+                            Script = new ScriptXml() { Language=LanguageType.Native, Code="date-to-next-day"}
+                        },
+                        new DerivedVariableXml()
+                        {
+                            Name ="age", BasedOn = "secondOfMonth", ColumnType=ColumnType.Numeric,
+                            Script = new ScriptXml() { Language=LanguageType.Native, Code="date-to-age"}
+                        },
+                    }
+                }
+            };
+
+            var serializer = new XmlSerializer(typeof(TestXml));
+            using (var stream = new MemoryStream())
+            {
+                using (var writer = new StreamWriter(stream, Encoding.UTF8))
+                {
+                    serializer.Serialize(writer, test);
+                    var content = Encoding.UTF8.GetString(stream.ToArray());
+
+                    Debug.WriteLine(content);
+
+                    Assert.That(content, Does.Contain("<instance-settling"));
+                    Assert.That(content, Does.Contain("<local-variable"));
+                    Assert.That(content, Does.Contain("<derived-variable"));
+                    Assert.That(content, Does.Contain("name=\"secondOfMonth\""));
+                    Assert.That(content, Does.Contain("based-on=\"firstOfMonth\""));
+                    Assert.That(content, Does.Contain("<script"));
+                    Assert.That(content, Does.Contain("date-to-next-day"));
+                    Assert.That(content, Does.Contain("date-to-age"));
+                }
             }
         }
     }

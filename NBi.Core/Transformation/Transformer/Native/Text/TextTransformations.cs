@@ -1,4 +1,5 @@
 ﻿using NBi.Core.Scalar.Casting;
+using NBi.Extensibility;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -214,6 +215,11 @@ namespace NBi.Core.Transformation.Transformer.Native
             => (Format, Info) = (format, new CultureInfo(culture).DateTimeFormat);
 
         protected override object EvaluateString(string value)
-            => DateTime.ParseExact(value, Format, Info);    
+        {
+            if (DateTime.TryParseExact(value, Format, Info, DateTimeStyles.None, out var dateTime))
+                return dateTime;
+
+            throw new NBiException($"Impossible to transform the value '{value}' into a date using the format '{Format}'");
+        }
     }
 }

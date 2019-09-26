@@ -677,6 +677,11 @@
       <xs:enumeration value="text-to-without-diacritics"/>
       <xs:enumeration value="text-to-token-count"/>
       <xs:enumeration value="text-to-without-whitespaces"/>
+      <xs:enumeration value="text-to-first-chars("/>
+      <xs:enumeration value="text-to-last-chars("/>
+      <xs:enumeration value="text-to-pad-left("/>
+      <xs:enumeration value="text-to-pad-right("/>
+      <xs:enumeration value="text-to-dateTime("/>
       <xs:enumeration value="html-to-text"/>
       <xs:enumeration value="date-to-age"/>
       <xs:enumeration value="utc-to-local("/>
@@ -1189,9 +1194,18 @@
   <xs:complexType name="instance-settling-type">
     <xs:sequence minOccurs="1" maxOccurs="1">
       <xs:element name="local-variable" type="local-variable-type" minOccurs="1" maxOccurs="1"/>
+      <xs:element name="derived-variable" type="derived-variable-type" minOccurs="0" maxOccurs="unbounded"/>
       <xs:element name="category" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
       <xs:element name="trait" type="trait-type" minOccurs="0" maxOccurs="unbounded"/>
     </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="derived-variable-type">
+    <xs:choice minOccurs="1" maxOccurs="1">
+      <xs:element name="script" type="script-type" minOccurs="1" maxOccurs="1"/>
+    </xs:choice>
+    <xs:attribute name="name" type="xs:string" use="required"/>
+    <xs:attribute name="type" type="column-type-enum" use="optional"/>
+    <xs:attribute name="based-on" type="xs:string" use="required"/>
   </xs:complexType>
   <xs:complexType name="sequence-type">
     <xs:choice minOccurs="1" maxOccurs="1">

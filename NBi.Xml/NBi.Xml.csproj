@@ -294,6 +294,7 @@
     <Compile Include="Systems\ExecutionXml.cs" />
     <Compile Include="TestSuiteXml.cs" />
     <Compile Include="Properties\ProjectAssemblyInfo.cs" />
+    <Compile Include="Variables\DerivedVariableXml.cs" />
     <Compile Include="Variables\InstanceVariableXml.cs" />
     <Compile Include="Variables\ScriptXml.cs" />
     <Compile Include="Variables\GlobalVariableXml.cs" />

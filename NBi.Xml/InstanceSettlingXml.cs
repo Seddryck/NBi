@@ -15,6 +15,9 @@ namespace NBi.Xml
         [XmlElement("local-variable")]
         public InstanceVariableXml Variable { get; set; }
 
+        [XmlElement("derived-variable")]
+        public List<DerivedVariableXml> DerivedVariables { get; set; } = new List<DerivedVariableXml>();
+
         [XmlElement("category")]
         public List<string> Categories { get; set; } = new List<string>();
 

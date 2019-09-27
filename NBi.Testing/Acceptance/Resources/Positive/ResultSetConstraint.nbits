@@ -495,6 +495,29 @@
         </equal-to>
       </assert>
     </test>
+    <test name="Result-set is the cartesian product of two sequences" uid="0130">
+      <system-under-test>
+        <result-set>
+          <sequence type="text">
+            <item>be</item>
+            <item>fr</item>
+          </sequence>
+        </result-set>
+      </system-under-test>
+      <assert>
+        <equal-to>
+          <column index="0" role="key" type="text"/>
+          <result-set>
+            <row>
+              <cell>be</cell>
+            </row>
+            <row>
+              <cell>fr</cell>
+            </row>
+          </result-set>
+        </equal-to>
+      </assert>
+    </test>
   </group>
   <group name="alterations">
     <test name="Filter with one predicate" uid="0201">
@@ -977,10 +1000,10 @@
       <system-under-test>
         <result-set>
           <query>
-            select 'A' as Key1, 'alpha' as Key2, 10 as Value 
-            union all select 'B', 'alpha', 30 
-            union all select 'B', 'alpha', 20 
-            union all select 'B', 'beta', 10 
+            select 'A' as Key1, 'alpha' as Key2, 10 as Value
+            union all select 'B', 'alpha', 30
+            union all select 'B', 'alpha', 20
+            union all select 'B', 'beta', 10
             union all select 'A', 'beta', 15
           </query>
           <alteration>

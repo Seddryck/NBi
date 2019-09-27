@@ -10,6 +10,7 @@ using NBi.Xml.Items.ResultSet.Combination;
 using NBi.Xml.Items.Xml;
 using NBi.Xml.Settings;
 using NBi.Xml.Systems;
+using NBi.Xml.Variables.Sequence;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -59,6 +60,8 @@ namespace NBi.NUnit.Builder.Helper
                 //Sequences combination
                 else if ((obj as ResultSetSystemXml).SequenceCombination != null)
                     args = BuildSequenceCombinationResolverArgs((obj as ResultSetSystemXml).SequenceCombination);
+                else if ((obj as ResultSetSystemXml).Sequence != null)
+                    args = BuildSequenceResolverArgs((obj as ResultSetSystemXml).Sequence);
                 //ResultSet (embedded)
                 else if ((obj as ResultSetSystemXml).Rows != null)
                     args = BuildEmbeddedResolverArgs((obj as ResultSetSystemXml).Content);
@@ -114,6 +117,20 @@ namespace NBi.NUnit.Builder.Helper
                 resolvers.Add(sequenceFactory.Instantiate(sequenceXml.Type, builder.GetArgs()));
             }
             return new SequenceCombinationResultSetResolverArgs(resolvers);
+        }
+
+        private ResultSetResolverArgs BuildSequenceResolverArgs(SequenceXml sequenceXml)
+        {
+            
+            var sequenceFactory = new SequenceResolverFactory(serviceLocator);
+            var builder = new SequenceResolverArgsBuilder(serviceLocator);
+            builder.Setup(settings);
+            builder.Setup(globalVariables);
+            builder.Setup(sequenceXml.Type);
+            builder.Setup((object)sequenceXml.SentinelLoop ?? sequenceXml.Items);
+            builder.Build();
+            var resolver = sequenceFactory.Instantiate(sequenceXml.Type, builder.GetArgs());
+            return new SequenceResultSetResolverArgs(resolver);
         }
 
         private void ParseFileInfo(string input, out string filename, out string parserName)

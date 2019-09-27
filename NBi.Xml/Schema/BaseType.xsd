@@ -1526,6 +1526,7 @@
         </xs:element>
         <xs:element name="query" minOccurs="0" maxOccurs="1" type="query-enhanced-type"/>
         <xs:element name="sequences-combination" minOccurs="0" maxOccurs="1" type="sequences-combination-type"/>
+        <xs:element name="sequence" minOccurs="0" maxOccurs="1" type="sequence-type"/>
         <xs:element name="file" minOccurs="0" maxOccurs="1" type="file-type"/>
       </xs:choice>
       <xs:element name="alteration" type="alteration-type" minOccurs="0" maxOccurs="1"/>

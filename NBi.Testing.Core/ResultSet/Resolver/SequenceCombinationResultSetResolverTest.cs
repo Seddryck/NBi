@@ -131,5 +131,26 @@ namespace NBi.Testing.Core.ResultSet.Resolver
             Assert.That(rs.Rows.Cast<DataRow>().Count(x => x.Field<string>(2) == "fr"), Is.EqualTo(6));
             Assert.That(rs.Rows.Cast<DataRow>().Count(x => x.Field<string>(2) == "be"), Is.EqualTo(6));
         }
+
+        [Test()]
+        public void Execute_UniqueSequence_CorrectResult()
+        {
+            var resolver = new SequenceCombinationResultSetResolver(
+                new SequenceResultSetResolverArgs(
+                    new ListSequenceResolver<decimal>(
+                        new ListSequenceResolverArgs(new[] {
+                            new LiteralScalarResolver<decimal>(1),
+                            new LiteralScalarResolver<decimal>(2),
+                        })
+                    )
+                )
+            );
+            var rs = resolver.Execute();
+
+            Assert.That(rs.Columns.Count, Is.EqualTo(1));
+            Assert.That(rs.Rows.Count, Is.EqualTo(2));
+            Assert.That(rs.Rows.Cast<DataRow>().Count(x => x.Field<decimal>(0) == 1), Is.EqualTo(1));
+            Assert.That(rs.Rows.Cast<DataRow>().Count(x => x.Field<decimal>(0) == 2), Is.EqualTo(1));
+        }
     }
 }

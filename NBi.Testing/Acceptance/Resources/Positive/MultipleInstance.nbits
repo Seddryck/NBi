@@ -17,7 +17,7 @@
       </local-variable>
     </instance-settling>
     <system-under-test>
-      <resultSet file="~..\csv\MyData_2016_0{@integer}.csv"/>
+      <result-set file="~..\csv\MyData_2016_0{@integer}.csv"/>
     </system-under-test>
     <assert>
       <no-rows>
@@ -34,7 +34,7 @@
       </local-variable>
     </instance-settling>
     <system-under-test>
-      <resultSet file="~..\csv\MyData_{@firstDayOfMonth:yyyy}_{@firstDayOfMonth:MM}.csv"/>
+      <result-set file="~..\csv\MyData_{@firstDayOfMonth:yyyy}_{@firstDayOfMonth:MM}.csv"/>
     </system-under-test>
     <assert>
       <no-rows>
@@ -51,7 +51,7 @@
       </local-variable>
     </instance-settling>
     <system-under-test>
-      <resultSet file="~..\csv\MyData_{@firstDayOfMonth:yyyy}_{@firstDayOfMonth|dateTime-to-previous-month:MM}.csv"/>
+      <result-set file="~..\csv\MyData_{@firstDayOfMonth:yyyy}_{@firstDayOfMonth|dateTime-to-previous-month:MM}.csv"/>
     </system-under-test>
     <assert>
       <no-rows>
@@ -68,7 +68,7 @@
       </local-variable>
     </instance-settling>
     <system-under-test>
-      <resultSet file="~..\csv\MyData_{@firstDayOfMonth:yyyy}_{@firstDayOfMonth:MM}.csv"/>
+      <result-set file="~..\csv\MyData_{@firstDayOfMonth:yyyy}_{@firstDayOfMonth:MM}.csv"/>
     </system-under-test>
     <assert>
       <no-rows>
@@ -85,7 +85,7 @@
       </local-variable>
     </instance-settling>
     <system-under-test>
-      <resultSet file="~..\csv\MyData_{@firstDayOfMonth:yyyy}_{@firstDayOfMonth:MM}.csv"/>
+      <result-set file="~..\csv\MyData_{@firstDayOfMonth:yyyy}_{@firstDayOfMonth:MM}.csv"/>
     </system-under-test>
     <assert>
       <no-rows>
@@ -127,7 +127,7 @@
       <trait name="Date">@firstDayOfMonth</trait>
     </instance-settling>
     <system-under-test>
-      <resultSet file="~..\csv\MyData_{@firstDayOfMonth:yyyy}_{@firstDayOfMonth:MM}.csv"/>
+      <result-set file="~..\csv\MyData_{@firstDayOfMonth:yyyy}_{@firstDayOfMonth:MM}.csv"/>
     </system-under-test>
     <assert>
       <no-rows>
@@ -174,7 +174,7 @@
       </local-variable>
     </instance-settling>
     <system-under-test>
-      <resultSet file="~..\csv\MyData_{@firstDayOfMonth:yyyy}_{@firstDayOfMonth:MM}.csv"/>
+      <result-set file="~..\csv\MyData_{@firstDayOfMonth:yyyy}_{@firstDayOfMonth:MM}.csv"/>
     </system-under-test>
     <assert>
       <no-rows>
@@ -196,7 +196,7 @@
       <exe-run path="." name="create-file.cmd" arguments="~&quot;Acceptance\Resources\Positive\temp files&quot; &quot;data-{@firstDayOfMonth:yyMM}.txt&quot; {@firstDayOfMonth:yyyy-MM-dd}" timeout-milliseconds="1000"/>
     </setup>
     <system-under-test>
-      <resultSet file="~temp files\data-{@firstDayOfMonth:yyMM}.txt"/>
+      <result-set file="~temp files\data-{@firstDayOfMonth:yyMM}.txt"/>
     </system-under-test>
     <assert>
       <all-rows>
@@ -222,7 +222,7 @@
       </combination>
     </instances>
     <system-under-test>
-      <resultSet file="~{@area}_{@firstDayOfMonth:yyyy}_{@firstDayOfMonth:MM}.csv"/>
+      <result-set file="~{@area}_{@firstDayOfMonth:yyyy}_{@firstDayOfMonth:MM}.csv"/>
     </system-under-test>
     <assert>
       <none-rows>
@@ -239,7 +239,7 @@
       </local-variable>
     </instance-settling>
     <system-under-test>
-      <resultSet file="~..\csv\{@file}"/>
+      <result-set file="~..\csv\{@file}"/>
     </system-under-test>
     <assert>
       <no-rows>
@@ -262,7 +262,7 @@
       </derived-variable>
     </instance-settling>
     <system-under-test>
-      <resultSet file="~..\csv\{@file}"/>
+      <result-set file="~..\csv\{@file}"/>
     </system-under-test>
     <assert>
       <all-rows>

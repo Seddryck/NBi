@@ -135,6 +135,21 @@ In the following definition, the two sequences contain 2 elements and 3 elements
 </result-set>
 {% endhighlight %}
 
+### Single sequence definition
+
+You can define a result-set as a single sequence. Naturally, the resulting result-set will have one column and the count of rows will be equal to the count of items in the sequence.
+
+{% highlight xml %}
+<result-set>
+  <sequence type="text">
+    <item>be</item>
+    <item>fr</item>
+  </sequence>
+</result-set>
+{% endhighlight %}
+
+In the example above, the result-set will have a unique column with two rows containing the values *be* and *fr*.
+
 ### Query-based definition
 
 Naturally, all the queries defined here under can take advantage of all features: [parameters](../query-parameter), [template-variables](../query-template), [timeout](../query-timeout).

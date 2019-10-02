@@ -25,9 +25,9 @@ namespace NBi.Core.Scalar.Presentation
             if (value.TimeOfDay.Ticks == 0)
                 return value.ToString("yyyy-MM-dd");
             else if (value.Millisecond == 0)
-                return value.ToString("yyyy-MM-dd hh:mm:ss");
+                return value.ToString("yyyy-MM-dd HH:mm:ss");
             else
-                return value.ToString("yyyy-MM-dd hh:mm:ss.fff");
+                return value.ToString("yyyy-MM-dd HH:mm:ss.fff");
         }
 
         

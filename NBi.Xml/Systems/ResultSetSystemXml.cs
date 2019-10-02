@@ -20,6 +20,7 @@ using NBi.Xml.Items.Alteration.Reshaping;
 using NBi.Xml.Items.Alteration.Projection;
 using NBi.Xml.Items.Alteration.Lookup;
 using NBi.Xml.Variables.Sequence;
+using NBi.Xml.Items.Xml;
 
 namespace NBi.Xml.Systems
 {
@@ -101,6 +102,9 @@ namespace NBi.Xml.Systems
 
         [XmlElement("sequence")]
         public virtual SequenceXml Sequence { get; set; }
+
+        [XmlElement("xml-source")]
+        public virtual XmlSourceXml XmlSource { get; set; }
 
         [XmlIgnore]
         public bool SequenceCombinationSpecified { get => SequenceCombination != null; set { } }

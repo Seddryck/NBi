@@ -1,29 +1,34 @@
-﻿using System;
+﻿using NBi.Core.Scalar.Resolver;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using NBi.Extensibility;
 
 namespace NBi.Core.Xml
 {
     public class XPathFileEngine : XPathEngine
     {
-        public string FilePath { get; private set; }
+        public string BasePath { get; }
+        public IScalarResolver<string> ResolverPath { get; }
 
-        public XPathFileEngine(string filePath, string from, IEnumerable<AbstractSelect> selects)
+        public XPathFileEngine(IScalarResolver<string> resolverPath, string basePath, string from, IEnumerable<AbstractSelect> selects)
             : base(from, selects)
         {
-            this.FilePath = filePath;
+            BasePath = basePath;
+            ResolverPath = resolverPath;
         }
 
         public override IEnumerable<object> Execute()
         {
-            if (!File.Exists(FilePath))
-                throw new InvalidOperationException(string.Format("File '{0}' doesn't exist!", FilePath));
+            var filePath = PathExtensions.CombineOrRoot(BasePath, string.Empty, ResolverPath.Execute());
+            if (!File.Exists(filePath))
+                throw new ExternalDependencyNotFoundException(filePath);
 
-            var doc = XDocument.Load(FilePath);
+            var doc = XDocument.Load(filePath);
             return Execute(doc);
         }
     }

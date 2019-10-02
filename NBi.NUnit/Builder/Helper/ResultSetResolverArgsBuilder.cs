@@ -62,6 +62,8 @@ namespace NBi.NUnit.Builder.Helper
                     args = BuildSequenceCombinationResolverArgs((obj as ResultSetSystemXml).SequenceCombination);
                 else if ((obj as ResultSetSystemXml).Sequence != null)
                     args = BuildSequenceResolverArgs((obj as ResultSetSystemXml).Sequence);
+                else if ((obj as ResultSetSystemXml).XmlSource != null)
+                    args = BuildXPathResolverArgs((obj as ResultSetSystemXml).XmlSource);
                 //ResultSet (embedded)
                 else if ((obj as ResultSetSystemXml).Rows != null)
                     args = BuildEmbeddedResolverArgs((obj as ResultSetSystemXml).Content);
@@ -185,9 +187,12 @@ namespace NBi.NUnit.Builder.Helper
             foreach (var select in xmlSource.XPath.Selects)
                 selects.Add(selectFactory.Instantiate(select.Value, select.Attribute, select.Evaluate));
 
+            var helper = new ScalarHelper(serviceLocator, settings, scope, globalVariables);
+            var resolverPath = helper.InstantiateResolver<string>(xmlSource.File.Path);
+
             XPathEngine engine = null;
             if (xmlSource.File != null)
-                engine = new XPathFileEngine(xmlSource.GetFile(), xmlSource.XPath.From.Value, selects);
+                engine = new XPathFileEngine(resolverPath, settings?.BasePath, xmlSource.XPath.From.Value, selects);
             else if (xmlSource.Url != null)
                 engine = new XPathUrlEngine(xmlSource.Url.Value, xmlSource.XPath.From.Value, selects);
 

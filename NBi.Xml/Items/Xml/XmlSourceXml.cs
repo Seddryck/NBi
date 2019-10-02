@@ -17,10 +17,5 @@ namespace NBi.Xml.Items.Xml
 
         [XmlElement("xpath")]
         public XPathXml XPath { get; set; }
-
-        public string GetFile()
-        {
-            return Settings.BasePath + File.Path;
-        }
     }
 }

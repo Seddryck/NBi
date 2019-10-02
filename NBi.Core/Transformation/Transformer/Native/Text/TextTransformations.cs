@@ -216,8 +216,8 @@ namespace NBi.Core.Transformation.Transformer.Native
 
         protected override object EvaluateString(string value)
         {
-            if (DateTime.TryParseExact(value, Format, Info, DateTimeStyles.None, out var dateTime))
-                return dateTime;
+            if (DateTime.TryParseExact(value, Format, Info, DateTimeStyles.RoundtripKind, out var dateTime))
+                return DateTime.SpecifyKind(dateTime, DateTimeKind.Unspecified);
 
             throw new NBiException($"Impossible to transform the value '{value}' into a date using the format '{Format}'");
         }

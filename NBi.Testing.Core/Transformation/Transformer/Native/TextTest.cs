@@ -75,11 +75,27 @@ namespace NBi.Testing.Core.Transformation.Transformer.Native
         [TestCase("17.03.2019 11.12.23", "dd.MM.yyyy hh.mm.ss", "2019-03-17 11:12:23")]
         [TestCase("Wed, 25.09.19", "ddd, dd.MM.yy", "2019-09-25")]
         [TestCase("Wednesday 25-SEP-19", "dddd dd-MMM-yy", "2019-09-25")]
+        [TestCase("2019-10-01T19:58Z", "yyyy-MM-ddTHH:mmZ", "2019-10-01 19:58:00")]
         public void Execute_TextToDateTime_Valid(string value, string format, DateTime expected)
         {
             var function = new TextToDateTime(format);
             var result = function.Evaluate(value);
             Assert.That(result, Is.EqualTo(expected));
+            Assert.That(((DateTime) result).Kind, Is.EqualTo(DateTimeKind.Unspecified));
+        }
+
+        [Test]
+        [TestCase("2019-11-01T19:58Z", "yyyy-MM-ddTHH:mmZ", "Brussels", "2019-11-01 20:58:00")]
+        [TestCase("2019-10-01T19:58Z", "yyyy-MM-ddTHH:mmZ", "Brussels", "2019-10-01 21:58:00")]
+        [TestCase("2019-10-01T19:58Z", "yyyy-MM-ddTHH:mmZ", "Moscow", "2019-10-01 22:58:00")]
+        [TestCase("2019-10-01T19:58Z", "yyyy-MM-ddTHH:mmZ", "Pacific Standard Time", "2019-10-01 12:58:00")]
+        public void Execute_TextToDateTimeAndUtcToLocal_Valid(string value, string format, string timeZone, DateTime expected)
+        {
+            var textToDateTime = new TextToDateTime(format);
+            var utcToLocal = new UtcToLocal(timeZone);
+            var result = utcToLocal.Evaluate(textToDateTime.Evaluate(value));
+            Assert.That(result, Is.EqualTo(expected));
+            Assert.That(((DateTime)result).Kind, Is.EqualTo(DateTimeKind.Unspecified));
         }
 
         [Test]

@@ -713,5 +713,23 @@ namespace NBi.Testing.Core.Transformation.Transformer
             var result = provider.Execute(new DateTime(2017, 12, 31, 21, 0, 0));
             Assert.That(result, Is.EqualTo(new DateTime(2018, 01, 01, 01, 0, 0)));
         }
+
+        [Test]
+        public void Execute_MultipleChains_Valid()
+        {
+            var code1 = $"path-to-filename-without-extension | text-to-dateTime(yyyyMMdd_HHmmss) | local-to-utc(Brussels)";
+            var provider1 = new NativeTransformer<string>();
+            provider1.Initialize(code1);
+
+            var result1 = provider1.Execute("20191001_141542.xml");
+            Assert.That(result1, Is.EqualTo(new DateTime(2019, 10, 01, 12, 15, 42)));
+
+            var code2 = $"dateTime-to-floor-minute | dateTime-to-add(00:30:00, -1)";
+            var provider2 = new NativeTransformer<DateTime>();
+            provider2.Initialize(code2);
+
+            var result2 = provider2.Execute(result1);
+            Assert.That(result2, Is.EqualTo(new DateTime(2019, 10, 01, 11, 45, 00)));
+        }
     }
 }

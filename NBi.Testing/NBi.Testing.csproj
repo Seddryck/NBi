@@ -503,6 +503,15 @@
     <EmbeddedResource Include="Acceptance\Resources\Positive\create-file.cmd">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
+    <EmbeddedResource Include="Acceptance\Resources\Csv\Info_20161001_154512.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Acceptance\Resources\Csv\Info_20161001_160013.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Acceptance\Resources\Csv\Info_20161001_161514.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
     <None Include="Acceptance\Resources\Positive\ExternalSettings.nbitset">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

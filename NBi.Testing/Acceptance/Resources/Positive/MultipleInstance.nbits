@@ -277,4 +277,92 @@
       </all-rows>
     </assert>
   </test>
+  <test name="Instances are defined through a single variable having some derivations" uid="0060">
+    <instance-settling>
+      <local-variable name="file" type="text">
+        <loop-file path="..\csv\" pattern="Info*_*.csv"/>
+      </local-variable>
+      <derived-variable name="timing" type="dateTime" based-on="file">
+        <script language="native">
+          path-to-filename-without-extension 
+          | text-to-last-chars(15)
+          | text-to-dateTime(yyyyMMdd_HHmmss)
+          | local-to-utc(Brussels)
+        </script>
+      </derived-variable>
+      <derived-variable name="start" type="dateTime" based-on="timing">
+        <script language="native">
+          dateTime-to-floor-minute 
+          | dateTime-to-add(00:30:00, -1)
+        </script>
+      </derived-variable>
+    </instance-settling>
+    <system-under-test>
+      <result-set file="~..\csv\{@file}"/>
+    </system-under-test>
+    <assert>
+      <lookup-exists reverse="true">
+        <join>
+          <using type="dateTime">#0</using>
+        </join>
+        <result-set>
+          <sequence type="dateTime">
+            <loop-sentinel seed="@start" terminal="@timing" step="00:15:00" interval="half-open"/>
+          </sequence>
+        </result-set>
+      </lookup-exists>
+    </assert>
+  </test>
+  <!--<test name="Instances are defined through a single variable having some derivations" uid="0060">
+    <instance-settling>
+      <local-variable name="file" type="text">
+        <loop-file path="..\csv\" pattern="*_*.xml"/>
+      </local-variable>
+      <derived-variable name="timing" type="dateTime" based-on="file">
+        <script language="native">
+          path-to-filename-without-extension
+          | text-to-dateTime(yyyyMMdd_HHmmss)
+          | local-to-utc(Brussels)
+        </script>
+      </derived-variable>
+      <derived-variable name="start" type="dateTime" based-on="timing">
+        <script language="native">
+          dateTime-to-floor-minute
+          | dateTime-to-add(00:30:00, -1)
+        </script>
+      </derived-variable>
+    </instance-settling>
+    <system-under-test>
+      <result-set>
+        <xml-source>
+          <file>~..\csv\{@file}</file>
+          <xpath>
+            <from>//TimeSeries/Period/Point</from>
+            <select>../timeInterval/start</select>
+            <select>position</select>
+            <select>quantity</select>
+          </xpath>
+        </xml-source>
+        <alteration>
+          <filter>
+            <predicate operand="#2" type="text">
+              <empty or-null="true" not="true"/>
+            </predicate>
+          </filter>
+        </alteration>
+      </result-set>
+    </system-under-test>
+    <assert>
+      <lookup-exists reverse="true">
+        <join>
+          <using type="dateTime">#0</using>
+        </join>
+        <result-set>
+          <sequence type="dateTime">
+            <loop-sentinel seed="@start" terminal="@start" step="01:00:00"/>
+          </sequence>
+        </result-set>
+      </lookup-exists>
+    </assert>
+  </test>-->
 </testSuite>

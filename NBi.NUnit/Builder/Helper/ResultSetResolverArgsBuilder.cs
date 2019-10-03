@@ -192,9 +192,9 @@ namespace NBi.NUnit.Builder.Helper
 
             XPathEngine engine = null;
             if (xmlSource.File != null)
-                engine = new XPathFileEngine(resolverPath, settings?.BasePath, xmlSource.XPath.From.Value, selects);
+                engine = new XPathFileEngine(resolverPath, settings?.BasePath, xmlSource.XPath.From.Value, selects, xmlSource.XPath.DefaultNamespacePrefix.Value);
             else if (xmlSource.Url != null)
-                engine = new XPathUrlEngine(xmlSource.Url.Value, xmlSource.XPath.From.Value, selects);
+                engine = new XPathUrlEngine(xmlSource.Url.Value, xmlSource.XPath.From.Value, selects, xmlSource.XPath.DefaultNamespacePrefix.Value);
 
             return new XPathResultSetResolverArgs(engine);
         }

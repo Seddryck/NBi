@@ -250,6 +250,7 @@
     <Compile Include="Items\Calculation\FilterXml.cs" />
     <Compile Include="Items\Calculation\ExpressionXml.cs" />
     <Compile Include="Items\Calculation\AliasXml.cs" />
+    <Compile Include="Items\Xml\DefaultNamespacePrefixXml.cs" />
     <Compile Include="Items\Xml\FromXml.cs" />
     <Compile Include="Items\Xml\SelectXml.cs" />
     <Compile Include="Items\Xml\XmlSourceXml.cs" />

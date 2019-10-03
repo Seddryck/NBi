@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
 using System.Xml.Linq;
 using System.Xml.XPath;
 using NBi.Core.ResultSet;
@@ -15,31 +16,37 @@ namespace NBi.Core.Xml
     {
         private readonly IEnumerable<AbstractSelect> selects;
         private readonly string from;
+        public string DefaultNamespacePrefix { get; }
 
-        public XPathEngine(string from, IEnumerable<AbstractSelect> selects)
+        public XPathEngine(string from, IEnumerable<AbstractSelect> selects, string defaultNamespacePrefix)
         {
             this.from = from;
             this.selects = selects;
+            DefaultNamespacePrefix = defaultNamespacePrefix;
         }
 
         public abstract IEnumerable<object> Execute();
 
         public IEnumerable<object> Execute(XDocument items)
         {
-            var result = from item in items.XPathSelectElements(@from)
-                         select GetObj(item);
+            var nsMgr = new XmlNamespaceManager(new NameTable());
+            if (!string.IsNullOrEmpty(DefaultNamespacePrefix))
+                nsMgr.AddNamespace(DefaultNamespacePrefix, items.Root.GetDefaultNamespace().NamespaceName);
+
+            var result = from item in items.XPathSelectElements(@from, nsMgr)
+                         select GetObj(item, nsMgr);
 
             return result;
         }
 
-        private object GetObj(XElement x)
+        private object GetObj(XElement x, IXmlNamespaceResolver ns)
         {
             var obj = new List<object>();
-            obj.AddRange(BuildXPaths(x, selects).ToArray());
+            obj.AddRange(BuildXPaths(x, ns, selects).ToArray());
             return obj;
         }
 
-        protected internal IEnumerable<object> BuildXPaths(XElement item, IEnumerable<AbstractSelect> selects)
+        protected internal IEnumerable<object> BuildXPaths(XElement item, IXmlNamespaceResolver ns, IEnumerable<AbstractSelect> selects)
         {
             foreach (var select in selects)
                 if (select is AttributeSelect)
@@ -48,7 +55,7 @@ namespace NBi.Core.Xml
                     yield return
                     (
                         (
-                            item.XPathSelectElement(attributeSelect.Path)
+                            item.XPathSelectElement(attributeSelect.Path, ns)
                             ?? new XElement("null", "(null)")
                         ).Attribute(attributeSelect.Attribute)
                         ?? new XAttribute("null", "(null)")
@@ -58,14 +65,14 @@ namespace NBi.Core.Xml
                 {
                     yield return
                     (
-                        item.XPathEvaluate(select.Path)
+                        item.XPathEvaluate(select.Path, ns)
                         ?? new XElement("null", "(null)")
                     );
                 }
                 else
                     yield return
                     (
-                        item.XPathSelectElement(select.Path)
+                        item.XPathSelectElement(select.Path, ns)
                         ?? new XElement("null", "(null)")
                     ).Value;
         }

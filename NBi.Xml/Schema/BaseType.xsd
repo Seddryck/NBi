@@ -758,6 +758,7 @@
   </xs:complexType>
   <xs:complexType name="xpath-type">
     <xs:sequence>
+      <xs:element name="default-namespace-prefix" minOccurs="0" maxOccurs="1" type="xs:string"/>
       <xs:element name="from" minOccurs="1" maxOccurs="1" type="xs:string"/>
       <xs:element name="select" minOccurs="1" maxOccurs="unbounded" type="select-type" />
     </xs:sequence>

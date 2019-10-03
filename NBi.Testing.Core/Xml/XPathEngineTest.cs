@@ -18,7 +18,7 @@ namespace NBi.Testing.Core.Xml
             private readonly StreamReader streamReader;
 
             public XPathStreamEngine(StreamReader streamReader, string from, IEnumerable<ElementSelect> selects)
-                : base(from,selects)
+                : base(from,selects, string.Empty)
             {
                 this.streamReader=streamReader;
             }

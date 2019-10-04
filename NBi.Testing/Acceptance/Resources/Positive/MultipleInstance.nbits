@@ -5,7 +5,7 @@
       <connectionString>Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly</connectionString>
     </default>
   </settings>
-  <!--<variables>
+  <variables>
     <variable name="firstDayOfCurrentMonth">
       <script language="c-sharp">new DateTime(2016, 3, 1)</script>
     </variable>
@@ -205,7 +205,7 @@
         </predicate>
       </all-rows>
     </assert>
-  </test>-->
+  </test>
   <!--<test name="Instances are defined through multiple variables" uid="0010">
     <instances>
       <combination>
@@ -232,7 +232,7 @@
       </none-rows>
     </assert>
   </test>-->
-  <!--<test name="Instances are defined through a single variable based on a list of files" uid="0050">
+  <test name="Instances are defined through a single variable based on a list of files" uid="0050">
     <instance-settling>
       <local-variable name="file" type="text">
         <loop-file path="..\csv\" pattern="MyData*.csv"/>
@@ -312,8 +312,8 @@
         </result-set>
       </lookup-exists>
     </assert>
-  </test>-->
-  <test name="Instances are defined through a single variable having some derivations" uid="0060">
+  </test>
+  <!--<test name="Instances are defined through a single variable having some derivations" uid="0060">
     <instance-settling>
       <local-variable name="file" type="text">
         <loop-file path="..\csv\" pattern="*_*.xml"/>
@@ -365,5 +365,5 @@
         </result-set>
       </lookup-exists>
     </assert>
-  </test>
+  </test>-->
 </testSuite>

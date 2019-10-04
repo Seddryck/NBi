@@ -293,7 +293,7 @@
     <EmbeddedResource Include="Report\Resources\SalesEmployees.rsd" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\PurchaseOrders.xml" />
+    <EmbeddedResource Include="Xml\Resources\PurchaseOrders.xml" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="ResultSet\Resources\ResultDataSet.xml" />
@@ -313,7 +313,12 @@
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Xml\Resources\PurchaseOrdersDefaultNamespace.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Xml\Resources\PurchaseOrdersManyNamespaces.xml" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

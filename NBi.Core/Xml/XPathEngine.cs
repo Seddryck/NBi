@@ -33,6 +33,11 @@ namespace NBi.Core.Xml
             if (!string.IsNullOrEmpty(DefaultNamespacePrefix))
                 nsMgr.AddNamespace(DefaultNamespacePrefix, items.Root.GetDefaultNamespace().NamespaceName);
 
+            var xmlNamespaces = ((IEnumerable<object>)items.XPathEvaluate(@"//namespace::*[not(. = ../../namespace::*)]")).Cast<XAttribute>();
+            foreach (var namespaceNode in xmlNamespaces)
+                if (namespaceNode.Name.LocalName != "xmlns")
+                    nsMgr.AddNamespace(namespaceNode.Name.LocalName, namespaceNode.Value);
+
             var result = from item in items.XPathSelectElements(@from, nsMgr)
                          select GetObj(item, nsMgr);
 

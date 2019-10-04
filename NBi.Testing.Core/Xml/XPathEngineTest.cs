@@ -1,4 +1,5 @@
-﻿using NBi.Core.Xml;
+﻿using NBi.Core.Scalar.Resolver;
+using NBi.Core.Xml;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
@@ -13,27 +14,34 @@ namespace NBi.Testing.Core.Xml
 {
     public class XPathStreamEngineTest
     {
-        private class XPathStreamEngine : XPathEngine
+        private class XPathStreamEngine : XPathFileEngine
         {
             private readonly StreamReader streamReader;
 
             public XPathStreamEngine(StreamReader streamReader, string from, IEnumerable<ElementSelect> selects)
-                : base(from, selects, string.Empty)
-            {
-                this.streamReader = streamReader;
-            }
+                : this(streamReader, from, selects, string.Empty, false)
+            { }
 
             public XPathStreamEngine(StreamReader streamReader, string from, IEnumerable<ElementSelect> selects, string prefix)
-                : base(from, selects, prefix)
-            {
-                this.streamReader = streamReader;
-            }
+                : this(streamReader, from, selects, prefix, false)
+            { }
 
-            public override IEnumerable<object> Execute()
-            {
-                var doc = XDocument.Load(streamReader);
-                return Execute(doc);
-            }
+            protected XPathStreamEngine(StreamReader streamReader, string from, IEnumerable<ElementSelect> selects, string prefix, bool ignoreDefaultNamespace)
+                : base(new LiteralScalarResolver<string>(string.Empty), string.Empty, from, selects, prefix, ignoreDefaultNamespace)
+                => this.streamReader = streamReader;
+
+            protected override TextReader GetTextReader(string filePath)
+                => streamReader;
+
+            protected override string EnsureFileExist()
+                => string.Empty;
+        }
+
+        private class XPathStreamIgnoreNamespaceEngine : XPathStreamEngine
+        {
+            public XPathStreamIgnoreNamespaceEngine(StreamReader streamReader, string from, IEnumerable<ElementSelect> selects, string prefix)
+                : base(streamReader, from, selects, prefix, true)
+                { }
         }
 
 
@@ -168,7 +176,7 @@ namespace NBi.Testing.Core.Xml
             {
                 var engine = new XPathStreamEngine(reader, from, selects);
                 var result = engine.Execute();
-                Assert.That((result.ElementAt(0) as IEnumerable<object>).ElementAt(0), Does.StartWith("Ellen Adams"));
+                Assert.That((result.ElementAt(0) as IEnumerable<object>).ElementAt(0), Does.Contain("Ellen Adams"));
                 Assert.That((result.ElementAt(0) as IEnumerable<object>).ElementAt(0), Does.Contain("Maple Street"));
             }
         }
@@ -242,6 +250,23 @@ namespace NBi.Testing.Core.Xml
         }
 
         [Test]
+        public void Execute_FromElementWithDefaultNamespaceAndIgnoreDefaultNamespace_ValueCorrect()
+        {
+            var from = "//PurchaseOrder/Items/Item/ProductName";
+            var selects = new List<ElementSelect>()
+            {
+                new ElementSelect(".")
+            };
+
+            using (var reader = GetResourceReader("PurchaseOrdersDefaultNamespace"))
+            {
+                var engine = new XPathStreamIgnoreNamespaceEngine(reader, from, selects, "prefix");
+                var result = engine.Execute();
+                Assert.That((result.ElementAt(0) as IEnumerable<object>).ElementAt(0), Is.EqualTo("Lawnmower"));
+            }
+        }
+
+        [Test]
         public void Execute_FromElementWithManyNamespaces_ValueCorrect()
         {
             var from = "//prefix:PurchaseOrder/adr:Address/prefix:Street";
@@ -253,6 +278,23 @@ namespace NBi.Testing.Core.Xml
             using (var reader = GetResourceReader("PurchaseOrdersManyNamespaces"))
             {
                 var engine = new XPathStreamEngine(reader, from, selects, "prefix");
+                var result = engine.Execute();
+                Assert.That((result.ElementAt(0) as IEnumerable<object>).ElementAt(0), Is.EqualTo("123 Maple Street"));
+            }
+        }
+
+        [Test]
+        public void Execute_FromElementWithManyNamespacesIgnoringDefaultNamespace_ValueCorrect()
+        {
+            var from = "//PurchaseOrder/Address/Street";
+            var selects = new List<ElementSelect>()
+            {
+                new ElementSelect(".")
+            };
+
+            using (var reader = GetResourceReader("PurchaseOrdersManyNamespaces"))
+            {
+                var engine = new XPathStreamIgnoreNamespaceEngine(reader, from, selects, "prefix");
                 var result = engine.Execute();
                 Assert.That((result.ElementAt(0) as IEnumerable<object>).ElementAt(0), Is.EqualTo("123 Maple Street"));
             }

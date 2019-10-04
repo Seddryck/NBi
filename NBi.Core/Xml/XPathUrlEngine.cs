@@ -14,7 +14,7 @@ namespace NBi.Core.Xml
         public string Url { get; private set; }
 
         public XPathUrlEngine(string url, string from, IEnumerable<AbstractSelect> selects, string defaultNamespacePrefix)
-            : base(from, selects, defaultNamespacePrefix)
+            : base(from, selects, defaultNamespacePrefix, false)
         {
             this.Url = url;
         }

@@ -829,6 +829,8 @@
     <Compile Include="Xml\AbstractSelect.cs" />
     <Compile Include="Xml\ElementSelect.cs" />
     <Compile Include="Xml\SelectFactory.cs" />
+    <Compile Include="Xml\XmlIgnoreNamespaceReader.cs" />
+    <Compile Include="Xml\XmlWrappingReader.cs" />
     <Compile Include="Xml\XPathEngine.cs" />
     <Compile Include="Xml\XPathUrlEngine.cs" />
     <Compile Include="Xml\XPathFileEngine.cs" />

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,6 +10,10 @@ namespace NBi.Xml.Items.Xml
 {
     public class XmlSourceXml : BaseItem
     {
+        [XmlAttribute("ignore-namespace")]
+        [DefaultValue(false)]
+        public bool IgnoreNamespace { get; set; } = false;
+
         [XmlElement("file")]
         public FileXml File { get; set; }
 

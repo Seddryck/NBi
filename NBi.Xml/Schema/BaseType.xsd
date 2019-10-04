@@ -771,6 +771,7 @@
       </xs:choice>
       <xs:element name="xpath" minOccurs="1" maxOccurs="1" type="xpath-type" />
     </xs:sequence>
+    <xs:attribute name="ignore-namespace" type="xs:boolean" use="optional" />
   </xs:complexType>
   <xs:complexType name="decoration-type">
     <xs:sequence minOccurs="1" maxOccurs="unbounded">

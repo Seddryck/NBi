@@ -17,12 +17,14 @@ namespace NBi.Core.Xml
         private readonly IEnumerable<AbstractSelect> selects;
         private readonly string from;
         public string DefaultNamespacePrefix { get; }
+        public bool IsIgnoreNamespace { get; }
 
-        public XPathEngine(string from, IEnumerable<AbstractSelect> selects, string defaultNamespacePrefix)
+        public XPathEngine(string from, IEnumerable<AbstractSelect> selects, string defaultNamespacePrefix, bool isIgnoreNamespace)
         {
             this.from = from;
             this.selects = selects;
             DefaultNamespacePrefix = defaultNamespacePrefix;
+            IsIgnoreNamespace = isIgnoreNamespace;
         }
 
         public abstract IEnumerable<object> Execute();

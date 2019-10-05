@@ -6,15 +6,19 @@ using NBi.Core.Query;
 using NBi.Core.Xml;
 using NBi.Core.Query.Resolver;
 using NBi.Core.Injection;
+using System.Reflection;
 
 namespace NBi.Core.Scalar.Resolver
 {
     public class ScalarResolverFactory
     {
         private readonly ServiceLocator serviceLocator;
+        private readonly MethodInfo instantiateHandler;
+
         public ScalarResolverFactory(ServiceLocator serviceLocator)
         {
             this.serviceLocator = serviceLocator;
+            instantiateHandler = GetType().GetMethods().Single(x => x.Name == nameof(Instantiate) && x.IsGenericMethod);
         }
 
         public IScalarResolver Instantiate(IScalarResolverArgs args)
@@ -25,6 +29,12 @@ namespace NBi.Core.Scalar.Resolver
                 default: return Instantiate<object>(args);
             }
         }
+
+        public IScalarResolver Instantiate(IScalarResolverArgs args, Type type)
+            => (instantiateHandler
+                .MakeGenericMethod(type)
+                .Invoke(this, new[] { args }))
+                as IScalarResolver;
 
         public IScalarResolver<T> Instantiate<T>(IScalarResolverArgs args)
         {

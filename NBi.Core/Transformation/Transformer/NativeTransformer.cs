@@ -1,6 +1,8 @@
 ﻿using Microsoft.CSharp;
+using NBi.Core.Injection;
 using NBi.Core.Scalar.Casting;
 using NBi.Core.Transformation.Transformer.Native;
+using NBi.Core.Variable;
 using System;
 using System.CodeDom.Compiler;
 using System.Collections.Generic;
@@ -14,18 +16,22 @@ namespace NBi.Core.Transformation.Transformer
 {
     class NativeTransformer<T> : ITransformer
     {
+        protected ServiceLocator ServiceLocator { get; }
+        protected IDictionary<string, ITestVariable> Variables { get; }
+
         private IList<INativeTransformation> Transformations { get; } = new List<INativeTransformation>();
         private bool IsInitialized { get; set; } = false;
 
-        public NativeTransformer()
-        { }
+        
+        public NativeTransformer(ServiceLocator serviceLocator, IDictionary<string, ITestVariable> variables)
+            => (ServiceLocator, Variables) = (serviceLocator, variables);
 
         public void Initialize(string code)
         {
             var functions = code.Split(new[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
             foreach (var function in functions)
             {
-                var transformation = new NativeTransformationFactory().Instantiate(function);
+                var transformation = new NativeTransformationFactory(ServiceLocator, Variables).Instantiate(function);
                 Transformations.Add(transformation);
             }
             IsInitialized = true;

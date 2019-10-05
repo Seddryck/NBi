@@ -49,6 +49,12 @@ namespace NBi.Testing.Core.ResultSet
             Assert.That(result, Is.EqualTo(rs));
         }
 
+        public class TransformationProviderMockable : TransformationProvider
+        {
+            public TransformationProviderMockable()
+                : base(new NBi.Core.Injection.ServiceLocator(), null) { }
+        }
+
         [Test]
         public void Execute_LoaderAndTransformer_TransformerCalledWithLoaderResult()
         {
@@ -59,7 +65,7 @@ namespace NBi.Testing.Core.ResultSet
             loaderStub.Setup(l => l.Execute()).Returns(rs);
             var loader = loaderStub.Object;
 
-            var transformerMock = new Mock<TransformationProvider>();
+            var transformerMock = new Mock<TransformationProviderMockable>();
             transformerMock.Setup(l => l.Transform(rs));
             var transformer = transformerMock.Object;
 
@@ -83,11 +89,11 @@ namespace NBi.Testing.Core.ResultSet
             loaderStub.Setup(l => l.Execute()).Returns(It.IsAny<NBi.Core.ResultSet.ResultSet>());
             var loader = loaderStub.Object;
 
-            var transformer1Stub = new Mock<TransformationProvider>();
+            var transformer1Stub = new Mock<TransformationProviderMockable>();
             transformer1Stub.Setup(l => l.Transform(It.IsAny<NBi.Core.ResultSet.ResultSet>())).Returns(rs);
             var transformer1 = transformer1Stub.Object;
 
-            var transformer2Mock = new Mock<TransformationProvider>();
+            var transformer2Mock = new Mock<TransformationProviderMockable>();
             transformer2Mock.Setup(l => l.Transform(It.IsAny<NBi.Core.ResultSet.ResultSet>()));
             var transformer2 = transformer2Mock.Object;
 

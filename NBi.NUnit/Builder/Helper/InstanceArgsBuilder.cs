@@ -87,7 +87,7 @@ namespace NBi.NUnit.Builder.Helper
                     foreach (var derivation in (obj as InstanceSettlingXml).DerivedVariables)
                     {
                         var transformerArgs = new TransformaterArgs() { Language = derivation.Script.Language, Code = derivation.Script.Code };
-                        var transformerFactory = new TransformerFactory();
+                        var transformerFactory = serviceLocator.GetTransformerFactory();
                         var transformer = transformerFactory.Instantiate(transformerArgs);
                         transformer.Initialize(derivation.Script.Code);
                         derivationArgs.Add(derivation.Name, new DerivationArgs() { Source = derivation.BasedOn, Transformer = transformer });

@@ -43,7 +43,7 @@ namespace NBi.NUnit.Builder
             if (ConstraintXml.Expressions != null)
                 expressions.AddRange(ConstraintXml.Expressions);
 
-            var factory = new ResultSetFilterFactory(Variables);
+            var factory = new ResultSetFilterFactory(ServiceLocator, Variables);
             if (ConstraintXml.Predication != null)
             {
                 var helper = new PredicateArgsBuilder(ServiceLocator, Variables);

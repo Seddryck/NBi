@@ -1,4 +1,6 @@
-﻿using NBi.Core.ResultSet;
+﻿using NBi.Core.Injection;
+using NBi.Core.ResultSet;
+using NBi.Core.Variable;
 using NBi.Extensibility;
 using System;
 using System.Collections.Generic;
@@ -15,10 +17,10 @@ namespace NBi.Core.Transformation
         private IDictionary<IColumnIdentifier, ITransformer> cacheTransformers;
         private readonly TransformerFactory factory;
 
-        public TransformationProvider()
+        public TransformationProvider(ServiceLocator serviceLocator, IDictionary<string, ITestVariable> variables)
         {
             cacheTransformers = new Dictionary<IColumnIdentifier, ITransformer>();
-            factory = new TransformerFactory();
+            factory = new TransformerFactory(serviceLocator, variables);
         }
 
         public void Add(IColumnIdentifier indentifier, ITransformationInfo transfo)

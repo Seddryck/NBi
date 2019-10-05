@@ -1,5 +1,8 @@
-﻿using NBi.Core.Transformation.Transformer.Native;
+﻿using NBi.Core.Injection;
+using NBi.Core.Scalar.Resolver;
+using NBi.Core.Transformation.Transformer.Native;
 using NBi.Core.Transformation.Transformer.Native.IO;
+using NBi.Core.Variable;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -11,14 +14,16 @@ namespace NBi.Core.Transformation.Transformer
 {
     public class NativeTransformationFactory
     {
-        protected string BasePath { get; }
-        public NativeTransformationFactory() : this(string.Empty) { }
-        public NativeTransformationFactory(string basePath) => BasePath = basePath;
+        protected ServiceLocator ServiceLocator { get; }
+        protected IDictionary<string, ITestVariable> Variables { get; }
+        public NativeTransformationFactory(ServiceLocator serviceLocator, IDictionary<string, ITestVariable> variables)
+            => (ServiceLocator, Variables) = (serviceLocator, variables);
+
         public INativeTransformation Instantiate(string code)
         {
             var textInfo = CultureInfo.InvariantCulture.TextInfo;
 
-            var parameters = code.Replace("(", ",")
+            var functionParameters = code.Replace("(", ",")
                 .Replace(")", ",").Trim()
                 .Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
                 .ToList().Skip(1).Select(x => x.Trim()).ToList();
@@ -38,9 +43,33 @@ namespace NBi.Core.Transformation.Transformer
                 throw new NotImplementedTransformationException(className);
 
             if (typeof(IBasePathTransformation).IsAssignableFrom(type))
-                parameters.Insert(0, BasePath);
+                functionParameters.Insert(0, ServiceLocator.BasePath);
 
-            return (INativeTransformation)Activator.CreateInstance(type, parameters.ToArray());
+            var ctor = type.GetConstructors().SingleOrDefault(x => x.GetParameters().Count() == functionParameters.Count());
+
+            if (ctor == null)
+                throw new MissingOrUnexpectedParametersTransformationException(className, functionParameters.Count());
+
+            var zip = ctor.GetParameters().Zip(functionParameters, (x, y) => new { x.ParameterType, Value = y });
+            var typedFunctionParameters = new List<object>();
+            var argsFactory = new ScalarResolverArgsFactory(ServiceLocator, Variables);
+            var factory = ServiceLocator.GetScalarResolverFactory();
+
+            foreach (var param in zip)
+            {
+                if (typeof(IScalarResolver).IsAssignableFrom(param.ParameterType))
+                {
+                    
+                    var scalarType = param.ParameterType.GenericTypeArguments[0];
+                    var args = argsFactory.Instantiate(param.Value);
+                    var resolver = factory.Instantiate(args, scalarType);
+                    typedFunctionParameters.Add(resolver);
+                }
+                else
+                    typedFunctionParameters.Add(param.Value);
+            }
+
+            return (INativeTransformation)ctor.Invoke(typedFunctionParameters.ToArray());
         }
     }
 }

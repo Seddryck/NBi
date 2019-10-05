@@ -13,16 +13,21 @@ using System.Text;
 using System.Threading.Tasks;
 using NBi.Core.Scalar.Format;
 using NBi.Core.FlatFile;
+using NBi.Core.Transformation.Transformer;
+using NBi.Core.Transformation;
 
 namespace NBi.Core.Injection
 {
     public class ServiceLocator
     {
         private readonly IKernel kernel;
+        private readonly ConfigurationModule config;
+        public string BasePath { get; private set; }
 
         public ServiceLocator()
         {
-            kernel = new StandardKernel(new ConfigurationModule(), new QueryModule());
+            config = new ConfigurationModule();
+            kernel = new StandardKernel(config, new QueryModule());
             kernel.Bind<ServiceLocator>().ToConstant(this).InSingletonScope();
         }
 
@@ -70,5 +75,19 @@ namespace NBi.Core.Injection
         {
             return kernel.Get<FormatterFactory>();
         }
+
+        public TransformerFactory GetTransformerFactory()
+        {
+            return kernel.Get<TransformerFactory>();
+        }
+
+        public void Dispose()
+        {
+            config?.Dispose();
+            kernel?.Dispose();
+        }
+
+        public void SetBasePath(string basePath)
+            => BasePath = basePath;
     }
 }

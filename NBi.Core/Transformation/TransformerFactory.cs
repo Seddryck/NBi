@@ -3,12 +3,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using NBi.Core.Injection;
 using NBi.Core.Transformation.Transformer;
+using NBi.Core.Variable;
 
 namespace NBi.Core.Transformation
 {
     public class TransformerFactory
     {
+        protected ServiceLocator ServiceLocator { get; }
+        protected IDictionary<string, ITestVariable> Variables { get; }
+
+        public TransformerFactory(ServiceLocator serviceLocator, IDictionary<string, ITestVariable> variables)
+            => (ServiceLocator, Variables) = (serviceLocator, variables);
+
         public ITransformer Instantiate(ITransformationInfo info)
         {
             if (info.Language == LanguageType.Format && (info.OriginalType == ResultSet.ColumnType.Boolean || info.OriginalType == ResultSet.ColumnType.Text))
@@ -56,7 +64,7 @@ namespace NBi.Core.Transformation
             }
 
             var provider = providerType.MakeGenericType(valueType);
-            var transformer = (ITransformer)Activator.CreateInstance(provider, new object[] { });
+            var transformer = (ITransformer)Activator.CreateInstance(provider, new object[] { ServiceLocator, Variables });
 
             return transformer;
         }

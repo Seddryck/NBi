@@ -1,4 +1,5 @@
 ﻿using NBi.Core.Scalar.Casting;
+using NBi.Core.Scalar.Resolver;
 using NBi.Extensibility;
 using System;
 using System.Collections.Generic;
@@ -18,7 +19,7 @@ namespace NBi.Core.Transformation.Transformer.Native
             switch (value)
             {
                 case null: return EvaluateNull();
-                case DBNull dbnull: return EvaluateNull();
+                case DBNull _: return EvaluateNull();
                 case decimal numeric: return EvaluateNumeric(numeric);
                 default: return EvaluateUncasted(value);
             }
@@ -61,78 +62,60 @@ namespace NBi.Core.Transformation.Transformer.Native
 
     class NumericToRound : AbstractNumericTransformation
     {
-        public int Digits { get; }
+        public IScalarResolver<int> Digits { get; }
 
-        public NumericToRound(string digits)
-        {
-            var caster = new NumericCaster();
-            var d = caster.Execute(digits);
-            Digits = Math.Truncate(d) == d ? Convert.ToInt32(Math.Truncate(d)) : throw new ArgumentException();
-        }
+        public NumericToRound(IScalarResolver<int> digits)
+            => Digits = digits;
 
-        protected override decimal EvaluateNumeric(decimal numeric) => Math.Round(numeric, Digits);
+        protected override decimal EvaluateNumeric(decimal numeric) => Math.Round(numeric, Digits.Execute());
     }
 
     class NumericToClip : AbstractNumericTransformation
     {
-        public decimal Min { get; }
-        public decimal Max { get; }
+        public IScalarResolver<decimal> Min { get; }
+        public IScalarResolver<decimal> Max { get; }
 
-        public NumericToClip(string min, string max)
-        {
-            var caster = new NumericCaster();
-            Min = caster.Execute(min);
-            Max = caster.Execute(max);
-        }
+        public NumericToClip(IScalarResolver<decimal> min, IScalarResolver<decimal> max)
+            => (Min, Max) = (min, max);
 
-        protected override decimal EvaluateNumeric(decimal numeric) => (numeric < Min) ? Min : (numeric > Max) ? Max : numeric;
+        protected override decimal EvaluateNumeric(decimal numeric) => (numeric < Min.Execute()) ? Min.Execute() : (numeric > Max.Execute()) ? Max.Execute() : numeric;
     }
 
     abstract class AbstractNumericArithmetic : AbstractNumericTransformation
     {
-        public decimal Value { get; }
+        public IScalarResolver<decimal> Value { get; }
 
-        public AbstractNumericArithmetic(string value)
-        {
-            var caster = new NumericCaster();
-            Value = caster.Execute(value);
-        }
+        public AbstractNumericArithmetic(IScalarResolver<decimal> value)
+            => Value = value;
     }
 
     class NumericToAdd : AbstractNumericArithmetic
     {
-        public int Times { get; }
+        public IScalarResolver<int> Times { get; }
 
-        public NumericToAdd(string value, string times)
-            : base(value)
-        {
-            var caster = new NumericCaster();
-            var tempTimes = caster.Execute(times);
-            Times = Convert.ToInt32(Math.Truncate(tempTimes));
-            if (Times != tempTimes)
-                throw new NBiException("The native transformation 'DateTimeToAddTimeSpan' is expecting a second parameter that has an integer value.");
-        }
+        public NumericToAdd(IScalarResolver<decimal> value, IScalarResolver<int> times)
+            : base(value) => Times = times;
 
-        public NumericToAdd(string value)
-            : this(value, 1.ToString()) { }
+        public NumericToAdd(IScalarResolver<decimal> value)
+            : this(value, new LiteralScalarResolver<int>(1)) { }
 
         protected override decimal EvaluateNumeric(decimal value)
-            => value + (Value * Times);
+            => value + (Value.Execute() * Times.Execute());
     }
     
     class NumericToIncrement : NumericToAdd
     {
         public NumericToIncrement()
-        : base(1.ToString()) { }
+        : base(new LiteralScalarResolver<decimal>(1)) { }
     }
 
     class NumericToMultiply : AbstractNumericArithmetic
     {
-        public NumericToMultiply(string value)
+        public NumericToMultiply(IScalarResolver<decimal> value)
             : base(value) { }
 
         protected override decimal EvaluateNumeric(decimal value)
-            => value * Value;
+            => value * Value.Execute();
     }
 
     class NumericToInvert : AbstractNumericTransformation

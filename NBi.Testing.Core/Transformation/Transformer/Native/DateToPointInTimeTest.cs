@@ -1,4 +1,5 @@
-﻿using NBi.Core.Transformation.Transformer;
+﻿using NBi.Core.Scalar.Resolver;
+using NBi.Core.Transformation.Transformer;
 using NBi.Core.Transformation.Transformer.Native;
 using NUnit.Framework;
 using System;
@@ -7,62 +8,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Testing.Core.Transformation.Transformer
+namespace NBi.Testing.Core.Transformation.Transformer.Native
 {
     [TestFixture]
     public class DateToPointInTimeTest
     {
-        [Test]
-        [TestCase("2018-02-01 00:00:00", "2018-02-01")]
-        [TestCase("2018-02-01 07:00:00", "2018-02-01")]
-        [TestCase("2018-02-12 07:00:00", "2018-02-01")]
-        public void Execute_DateTimeToFirstOfMonth_Valid(string value, DateTime expected)
-        {
-            var function = new DateTimeToFirstOfMonth();
-            var result = function.Evaluate(value);
-            Assert.That(result, Is.EqualTo(expected));
-        }
-
-        [Test]
-        [TestCase("2018-02-01 00:00:00", "2018-01-01")]
-        [TestCase("2018-02-01 07:00:00", "2018-01-01")]
-        [TestCase("2018-02-12 07:00:00", "2018-01-01")]
-        public void Execute_DateTimeToFirstOfYear_Valid(string value, DateTime expected)
-        {
-            var function = new DateTimeToFirstOfYear();
-            var result = function.Evaluate(value);
-            Assert.That(result, Is.EqualTo(expected));
-        }
-
-        [Test]
-        [TestCase("2018-02-01 00:00:00", "2018-02-28")]
-        [TestCase("2018-02-01 07:00:00", "2018-02-28")]
-        [TestCase("2018-02-12 07:00:00", "2018-02-28")]
-        public void Execute_DateTimeToLastOfMonth_Valid(string value, DateTime expected)
-        {
-            var function = new DateTimeToLastOfMonth();
-            var result = function.Evaluate(value);
-            Assert.That(result, Is.EqualTo(expected));
-        }
-
-        [Test]
-        [TestCase("2018-02-01 00:00:00", "2018-12-31")]
-        [TestCase("2018-02-01 07:00:00", "2018-12-31")]
-        [TestCase("2018-02-12 07:00:00", "2018-12-31")]
-        public void Execute_DateTimeToLastOfYear_Valid(string value, DateTime expected)
-        {
-            var function = new DateTimeToLastOfYear();
-            var result = function.Evaluate(value);
-            Assert.That(result, Is.EqualTo(expected));
-        }
-
         [Test]
         [TestCase("2019-03-11", "2019-03-11")]
         [TestCase("2019-02-11", "2019-03-01")]
         [TestCase("2019-04-11", "2019-03-31")]
         public void Execute_DateTimeToClip_Valid(object value, DateTime expected)
         {
-            var function = new DateTimeToClip("2019-03-01", "2019-03-31");
+            var function = new DateTimeToClip(new LiteralScalarResolver<DateTime>("2019-03-01"), new LiteralScalarResolver<DateTime>("2019-03-31"));
             var result = function.Evaluate(value);
             Assert.That(result, Is.EqualTo(expected));
         }
@@ -138,7 +95,7 @@ namespace NBi.Testing.Core.Transformation.Transformer
         [TestCase("2019-02-11 08:45:12", "07:13:11", "2019-02-11 07:13:11")]
         public void Execute_DateTimeToSetTime_Valid(object value, string instant, DateTime expected)
         {
-            var function = new DateTimeToSetTime(instant);
+            var function = new DateTimeToSetTime(new LiteralScalarResolver<string>(instant));
             var result = function.Evaluate(value);
             Assert.That(result, Is.EqualTo(expected));
         }
@@ -198,9 +155,146 @@ namespace NBi.Testing.Core.Transformation.Transformer
         [TestCase("2019-03-11 17:00:00", -1, "04:00:00", "2019-03-11 13:00:00")]
         public void Execute_DateTimeToAdd_Valid(object value, int times, string timeSpan, DateTime expected)
         {
-            var function = new DateTimeToAdd(timeSpan, times.ToString());
+            var function = new DateTimeToAdd(new LiteralScalarResolver<string>(timeSpan), new LiteralScalarResolver<int>(times));
             var result = function.Evaluate(value);
             Assert.That(result, Is.EqualTo(expected));
+        }
+
+        [TestCase(9, 8, 39)]
+        [TestCase(12, 28, 39)]
+        public void Execute_DateToAge_Min38(int month, int day, int age)
+        {
+            var function = new DateToAge();
+            var result = function.Evaluate(new DateTime(1978, month, day));
+            Assert.That(result, Is.AtLeast(age));
+        }
+
+        [Test]
+        [TestCase("2018-02-01 00:00:00", "2018-02-01 01:00:00")]
+        [TestCase("2018-08-01 00:00:00", "2018-08-01 02:00:00")]
+        public void Execute_UtcToLocalWithStandardName_Valid(object value, DateTime expected)
+        {
+            var function = new UtcToLocal(new LiteralScalarResolver<string>("Romance Standard Time"));
+            var result = function.Evaluate(value);
+            Assert.That(result, Is.EqualTo(expected));
+        }
+
+
+        [Test]
+        [TestCase("2018-02-01 00:00:00", "2018-02-01 01:00:00")]
+        [TestCase("2018-08-01 00:00:00", "2018-08-01 02:00:00")]
+        public void Execute_UtcToLocalWithCityName_Valid(object value, DateTime expected)
+        {
+            var function = new UtcToLocal(new LiteralScalarResolver<string>("Brussels"));
+            var result = function.Evaluate(value);
+            Assert.That(result, Is.EqualTo(expected));
+        }
+
+
+        [Test]
+        [TestCase("2018-02-01 03:00:00", "2018-02-01 02:00:00")]
+        [TestCase("2018-08-01 02:00:00", "2018-08-01 00:00:00")]
+        public void Execute_LocalToUtcWithStandardName_Valid(object value, DateTime expected)
+        {
+            var function = new LocalToUtc(new LiteralScalarResolver<string>("Romance Standard Time"));
+            var result = function.Evaluate(value);
+            Assert.That(result, Is.EqualTo(expected));
+        }
+
+        [Test]
+        [TestCase("2018-02-01 07:00:00", "2018-02-01 06:00:00")]
+        [TestCase("2018-08-01 01:00:00", "2018-07-31 23:00:00")]
+        public void Execute_LocalToUtcWithCityName_Valid(object value, DateTime expected)
+        {
+            var function = new LocalToUtc(new LiteralScalarResolver<string>("Brussels"));
+            var result = function.Evaluate(value);
+            Assert.That(result, Is.EqualTo(expected));
+        }
+
+        [Test]
+        [TestCase("2018-02-01 07:00:00")]
+        public void Execute_DateTimeToDate_Valid(object value)
+        {
+            var function = new DateTimeToDate();
+            var result = function.Evaluate(value);
+            Assert.That(result, Is.EqualTo(new DateTime(2018, 2, 1)));
+        }
+
+        [Test]
+        [TestCase("2018-02-01 07:00:00", "2018-02-01 07:00:00")]
+        [TestCase(null, "2001-01-01")]
+        [TestCase("", "2001-01-01")]
+        [TestCase("(null)", "2001-01-01")]
+        public void Execute_NullToDate_Valid(object value, DateTime expected)
+        {
+            var function = new NullToDate(new LiteralScalarResolver<DateTime>(new DateTime(2001, 1, 1)));
+            var result = function.Evaluate(value);
+            Assert.That(result, Is.EqualTo(expected));
+        }
+
+        [Test]
+        [TestCase("2018-02-01 00:00:00", "2018-02-01")]
+        [TestCase("2018-02-01 07:00:00", "2018-02-01")]
+        [TestCase("2018-02-12 07:00:00", "2018-02-01")]
+        [TestCase(null, null)]
+        [TestCase("(null)", null)]
+        public void Execute_DateTimeToFirstOfMonth_Valid(object value, DateTime expected)
+        {
+            var function = new DateTimeToFirstOfMonth();
+            var result = function.Evaluate(value);
+            if (expected == new DateTime(1, 1, 1))
+                Assert.That(result, Is.Null);
+            else
+                Assert.That(result, Is.EqualTo(expected));
+        }
+
+        [Test]
+        [TestCase("2018-02-01 00:00:00", "2018-01-01")]
+        [TestCase("2018-02-01 07:00:00", "2018-01-01")]
+        [TestCase("2018-02-12 07:00:00", "2018-01-01")]
+        [TestCase(null, null)]
+        [TestCase("(null)", null)]
+        public void Execute_DateTimeToFirstOfYear_Valid(object value, DateTime expected)
+        {
+            var function = new DateTimeToFirstOfYear();
+            var result = function.Evaluate(value);
+            if (expected == new DateTime(1, 1, 1))
+                Assert.That(result, Is.Null);
+            else
+                Assert.That(result, Is.EqualTo(expected));
+        }
+
+        [Test]
+        [TestCase("2018-02-01 00:00:00", "2018-02-28")]
+        [TestCase("2018-02-01 07:00:00", "2018-02-28")]
+        [TestCase("2018-02-12 07:00:00", "2018-02-28")]
+        [TestCase("2020-02-12 07:00:00", "2020-02-29")]
+        [TestCase(null, null)]
+        [TestCase("(null)", null)]
+        public void Execute_DateTimeToLastOfMonth_Valid(object value, DateTime expected)
+        {
+            var function = new DateTimeToLastOfMonth();
+            var result = function.Evaluate(value);
+            if (expected == new DateTime(1, 1, 1))
+                Assert.That(result, Is.Null);
+            else
+                Assert.That(result, Is.EqualTo(expected));
+        }
+
+        [Test]
+        [TestCase("2018-02-01 00:00:00", "2018-12-31")]
+        [TestCase("2018-02-01 07:00:00", "2018-12-31")]
+        [TestCase("2018-02-12 07:00:00", "2018-12-31")]
+        [TestCase(null, null)]
+        [TestCase("(null)", null)]
+        public void Execute_DateTimeToLastOfYear_Valid(object value, DateTime expected)
+        {
+            var function = new DateTimeToLastOfYear();
+            var result = function.Evaluate(value);
+            if (expected == new DateTime(1, 1, 1))
+                Assert.That(result, Is.Null);
+            else
+                Assert.That(result, Is.EqualTo(expected));
         }
     }
 }

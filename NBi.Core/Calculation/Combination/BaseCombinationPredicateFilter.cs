@@ -1,5 +1,6 @@
 ﻿using NBi.Core.Calculation.Predicate;
 using NBi.Core.Evaluate;
+using NBi.Core.Injection;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -15,8 +16,8 @@ namespace NBi.Core.Calculation.Predicate.Combination
 
         public abstract string Description { get; }
 
-        internal BaseCombinationPredicateFilter(IEnumerable<IColumnAlias> aliases, IEnumerable<IColumnExpression> expressions, IEnumerable<Predication> predications)
-            : base(aliases, expressions)
+        internal BaseCombinationPredicateFilter(ServiceLocator serviceLocator, IEnumerable<IColumnAlias> aliases, IEnumerable<IColumnExpression> expressions, IEnumerable<Predication> predications)
+            : base(serviceLocator, aliases, expressions)
         {
             this.predications = predications;
         }

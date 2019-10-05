@@ -45,7 +45,7 @@ namespace NBi.Core.Scalar.Format
 
         protected IScalarResolverArgs BuildArgs(string text)
         {
-            var factory = new ScalarResolverArgsFactory(serviceLocator, globalVariables, string.Empty);
+            var factory = new ScalarResolverArgsFactory(serviceLocator, globalVariables);
             return factory.Instantiate(text);
         }
 

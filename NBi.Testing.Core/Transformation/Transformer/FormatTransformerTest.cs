@@ -1,4 +1,6 @@
-﻿using NBi.Core.Transformation.Transformer;
+﻿using NBi.Core.Scalar.Resolver;
+using NBi.Core.Transformation.Transformer;
+using NBi.Core.Variable;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;

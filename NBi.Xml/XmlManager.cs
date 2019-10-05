@@ -45,7 +45,7 @@ namespace NBi.Xml
         public virtual void Load(string testSuiteFilename, string settingsFilename, bool isDtdProcessing)
         {
             //define the basePath
-            basePath = System.IO.Path.GetDirectoryName(testSuiteFilename) + Path.DirectorySeparatorChar;
+            basePath = Path.GetDirectoryName(testSuiteFilename) + Path.DirectorySeparatorChar;
 
             //ensure the file is existing
             if (!File.Exists(testSuiteFilename))
@@ -63,7 +63,7 @@ namespace NBi.Xml
             //Load the settings optionally define in another file or in the config file.
             if (!string.IsNullOrEmpty(settingsFilename))
             {
-                var fullPath = System.IO.Path.IsPathRooted(settingsFilename) ? settingsFilename : basePath + settingsFilename;
+                var fullPath = Path.IsPathRooted(settingsFilename) ? settingsFilename : basePath + settingsFilename;
                 var settings = LoadSettings(fullPath);
                 TestSuite.Settings = settings;
             }

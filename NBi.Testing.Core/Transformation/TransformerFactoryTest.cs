@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Moq;
 using NBi.Core.ResultSet;
+using NBi.Core.Injection;
 
 namespace NBi.Testing.Core.Transformation
 {
@@ -18,6 +19,7 @@ namespace NBi.Testing.Core.Transformation
         [TestCase(LanguageType.CSharp, typeof(CSharpTransformer<decimal>))]
         [TestCase(LanguageType.NCalc, typeof(NCalcTransformer<decimal>))]
         [TestCase(LanguageType.Format, typeof(FormatTransformer<decimal>))]
+        [TestCase(LanguageType.Native, typeof(NativeTransformer<decimal>))]
         public void Build_Language_Correct(LanguageType language, Type result)
         {
             var info = Mock.Of<ITransformationInfo>
@@ -26,7 +28,7 @@ namespace NBi.Testing.Core.Transformation
                     && i.OriginalType == ColumnType.Numeric
                     && i.Code == "value"   
             );
-            var factory = new TransformerFactory();
+            var factory = new TransformerFactory(new ServiceLocator(), null);
             var provider = factory.Instantiate(info);
 
             Assert.IsInstanceOf(result, provider);
@@ -45,7 +47,7 @@ namespace NBi.Testing.Core.Transformation
                     && i.OriginalType == originalType
                     && i.Code == "value"
             );
-            var factory = new TransformerFactory();
+            var factory = new TransformerFactory(new ServiceLocator(), null);
             var provider = factory.Instantiate(info);
 
             Assert.IsInstanceOf(result, provider);
@@ -64,7 +66,7 @@ namespace NBi.Testing.Core.Transformation
                     && i.OriginalType == columnType
                     && i.Code == "value"
             );
-            var factory = new TransformerFactory();
+            var factory = new TransformerFactory(new ServiceLocator(), null);
             Assert.Throws<InvalidOperationException>(delegate { factory.Instantiate(info); });
         }
 

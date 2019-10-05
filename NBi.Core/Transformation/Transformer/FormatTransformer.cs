@@ -1,5 +1,7 @@
 ﻿using Microsoft.CSharp;
+using NBi.Core.Injection;
 using NBi.Core.Scalar.Casting;
+using NBi.Core.Variable;
 using System;
 using System.CodeDom.Compiler;
 using System.Collections.Generic;
@@ -12,11 +14,13 @@ namespace NBi.Core.Transformation.Transformer
 {
     class FormatTransformer<T> : ITransformer
     {
+        private ServiceLocator ServiceLocator { get; }
+        protected IDictionary<string, ITestVariable> Variables { get; }
         private string method;
 
-        public FormatTransformer()
-        {
-        }
+        public FormatTransformer() : this(null, null) { }
+        public FormatTransformer(ServiceLocator serviceLocator, IDictionary<string, ITestVariable> variables)
+            => (ServiceLocator, Variables) = (serviceLocator, variables);
 
         public void Initialize(string code)
         {

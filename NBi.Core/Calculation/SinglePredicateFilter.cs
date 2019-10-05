@@ -1,5 +1,6 @@
 ﻿using NBi.Core.Calculation.Predicate;
 using NBi.Core.Evaluate;
+using NBi.Core.Injection;
 using NBi.Core.ResultSet;
 using System;
 using System.Collections.Generic;
@@ -16,8 +17,8 @@ namespace NBi.Core.Calculation
         private readonly IColumnIdentifier operand;
         private readonly Func<string> describeFunction;
 
-        public SinglePredicateFilter(IEnumerable<IColumnAlias> aliases, IEnumerable<IColumnExpression> expressions, IColumnIdentifier operand, Func<object, bool> implementation, Func<string> describeFunction)
-            : base(aliases, expressions)
+        public SinglePredicateFilter(ServiceLocator serviceLocator, IEnumerable<IColumnAlias> aliases, IEnumerable<IColumnExpression> expressions, IColumnIdentifier operand, Func<object, bool> implementation, Func<string> describeFunction)
+            : base(serviceLocator, aliases, expressions)
         {
             this.operand = operand;
             this.implementation = implementation;

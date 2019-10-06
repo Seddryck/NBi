@@ -38,7 +38,7 @@ namespace NBi.NUnit.Builder.Helper
 
         private IDecorationConditionArgs BuildCustomCondition(CustomConditionXml custom)
         {
-            var helper = new ScalarHelper(serviceLocator, variables);
+            var helper = new ScalarHelper(serviceLocator, new Context(variables));
 
             return new CustomConditionArgs(
                 helper.InstantiateResolver<string>(custom.AssemblyPath),
@@ -49,7 +49,7 @@ namespace NBi.NUnit.Builder.Helper
 
         private IDecorationConditionArgs BuildServiceRunning(ServiceRunningXml serviceRunning)
         {
-            var scalarHelper = new ScalarHelper(serviceLocator, variables);
+            var scalarHelper = new ScalarHelper(serviceLocator, new Context(variables));
             return new RunningArgs(
                 scalarHelper.InstantiateResolver<string>(serviceRunning.ServiceName)
                 , scalarHelper.InstantiateResolver<int>(serviceRunning.TimeOut)

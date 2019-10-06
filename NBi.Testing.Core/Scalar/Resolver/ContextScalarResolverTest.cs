@@ -21,7 +21,7 @@ namespace NBi.Testing.Core.Scalar.Resolver
             rs.Load(new[] { new object[] { "a", 1 }, new object[] { "b", 2 } });
             rs.Columns[0].ColumnName = "Foo";
 
-            var context = new Context();
+            var context = new Context(null);
             var args = new ContextScalarResolverArgs(context, new ColumnNameIdentifier("Foo"));
             var resolver = new ContextScalarResolver<string>(args);
 
@@ -35,7 +35,7 @@ namespace NBi.Testing.Core.Scalar.Resolver
             var rs = new NBi.Core.ResultSet.ResultSet();
             rs.Load(new[] { new object[] { "a", 1 }, new object[] { "b", 2 } });
 
-            var context = new Context();
+            var context = new Context(null);
             var args = new ContextScalarResolverArgs(context, new ColumnOrdinalIdentifier(0));
             var resolver = new ContextScalarResolver<string>(args);
 
@@ -50,7 +50,7 @@ namespace NBi.Testing.Core.Scalar.Resolver
             rs.Load(new[] { new object[] { "a", 1 }, new object[] { "b", 2 } });
             rs.Columns[0].ColumnName = "Foo";
 
-            var context = new Context();
+            var context = new Context(null);
             var args = new ContextScalarResolverArgs(context, new ColumnNameIdentifier("Foo"));
             var resolver = new ContextScalarResolver<string>(args);
 

@@ -28,19 +28,19 @@ namespace NBi.NUnit.Builder.Helper
         private object obj = null;
         private SettingsXml settings = null;
         private SettingsXml.DefaultScope scope = SettingsXml.DefaultScope.Everywhere;
-        private IDictionary<string, ITestVariable> globalVariables = new Dictionary<string, ITestVariable>();
+        private IDictionary<string, ITestVariable> Variables { get; set; } = new Dictionary<string, ITestVariable>();
         private ResultSetResolverArgs args = null;
 
-        private readonly ServiceLocator serviceLocator;
+        private ServiceLocator ServiceLocator { get; }
 
-        public ResultSetResolverArgsBuilder(ServiceLocator serviceLocator) => this.serviceLocator = serviceLocator;
+        public ResultSetResolverArgsBuilder(ServiceLocator serviceLocator) => this.ServiceLocator = serviceLocator;
 
-        public void Setup(object obj, SettingsXml settingsXml, SettingsXml.DefaultScope scope, IDictionary<string, ITestVariable> globalVariables)
+        public void Setup(object obj, SettingsXml settingsXml, SettingsXml.DefaultScope scope, IDictionary<string, ITestVariable> variables)
         {
             this.obj = obj;
             this.settings = settingsXml;
             this.scope = scope;
-            this.globalVariables = globalVariables;
+            this.Variables = variables;
             isSetup = true;
         }
 
@@ -106,10 +106,10 @@ namespace NBi.NUnit.Builder.Helper
         {
             var resolvers = new List<ISequenceResolver>();
 
-            var sequenceFactory = new SequenceResolverFactory(serviceLocator);
-            var builder = new SequenceResolverArgsBuilder(serviceLocator);
+            var sequenceFactory = new SequenceResolverFactory(ServiceLocator);
+            var builder = new SequenceResolverArgsBuilder(ServiceLocator);
             builder.Setup(settings);
-            builder.Setup(globalVariables);
+            builder.Setup(Variables);
 
             foreach (var sequenceXml in sequenceCombinationXml.Sequences)
             {
@@ -124,10 +124,10 @@ namespace NBi.NUnit.Builder.Helper
         private ResultSetResolverArgs BuildSequenceResolverArgs(SequenceXml sequenceXml)
         {
             
-            var sequenceFactory = new SequenceResolverFactory(serviceLocator);
-            var builder = new SequenceResolverArgsBuilder(serviceLocator);
+            var sequenceFactory = new SequenceResolverFactory(ServiceLocator);
+            var builder = new SequenceResolverArgsBuilder(ServiceLocator);
             builder.Setup(settings);
-            builder.Setup(globalVariables);
+            builder.Setup(Variables);
             builder.Setup(sequenceXml.Type);
             builder.Setup((object)sequenceXml.SentinelLoop ?? sequenceXml.Items);
             builder.Build();
@@ -151,8 +151,8 @@ namespace NBi.NUnit.Builder.Helper
         private ResultSetResolverArgs BuildQueryResolverArgs(QueryXml queryXml, SettingsXml.DefaultScope scope)
         {
             Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceVerbose, "ResultSet defined through a query.");
-            var argsBuilder = new QueryResolverArgsBuilder(serviceLocator);
-            argsBuilder.Setup(queryXml, settings, scope, globalVariables);
+            var argsBuilder = new QueryResolverArgsBuilder(ServiceLocator);
+            argsBuilder.Setup(queryXml, settings, scope, Variables);
             argsBuilder.Build();
             var argsQuery = argsBuilder.GetArgs();
 
@@ -163,16 +163,16 @@ namespace NBi.NUnit.Builder.Helper
         {
             Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceVerbose, $"ResultSet defined in an external flat file to be read with {(string.IsNullOrEmpty(fileMetadata.Parser?.Name) ? "the default CSV parser" : fileMetadata.Parser?.Name)}.");
 
-            var helper = new ScalarHelper(serviceLocator, settings, scope, globalVariables);
+            var helper = new ScalarHelper(ServiceLocator, settings, scope, new Context(Variables));
             var resolverPath = helper.InstantiateResolver<string>(fileMetadata.Path);
             if (fileMetadata.IfMissing == null)
                 return new FlatFileResultSetResolverArgs(resolverPath, settings?.BasePath, fileMetadata.Parser?.Name, settings?.CsvProfile);
 
-            var builder = new ResultSetResolverArgsBuilder(serviceLocator);
-            builder.Setup(fileMetadata.IfMissing, settings, scope, globalVariables);
+            var builder = new ResultSetResolverArgsBuilder(ServiceLocator);
+            builder.Setup(fileMetadata.IfMissing, settings, scope, Variables);
             builder.Build();
             var redirection = builder.GetArgs();
-            var factory = new ResultSetResolverFactory(serviceLocator);
+            var factory = new ResultSetResolverFactory(ServiceLocator);
             var resolver = factory.Instantiate(redirection);
 
             return new FlatFileResultSetResolverArgs(resolverPath, settings?.BasePath, fileMetadata.Parser?.Name, resolver, settings?.CsvProfile);
@@ -187,7 +187,7 @@ namespace NBi.NUnit.Builder.Helper
             foreach (var select in xmlSource.XPath.Selects)
                 selects.Add(selectFactory.Instantiate(select.Value, select.Attribute, select.Evaluate));
 
-            var helper = new ScalarHelper(serviceLocator, settings, scope, globalVariables);
+            var helper = new ScalarHelper(ServiceLocator, settings, scope, new Context(Variables));
             var resolverPath = helper.InstantiateResolver<string>(xmlSource.File.Path);
 
             XPathEngine engine = null;

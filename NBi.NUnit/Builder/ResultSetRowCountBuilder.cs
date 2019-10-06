@@ -99,7 +99,7 @@ namespace NBi.NUnit.Builder
 
         protected virtual DifferedConstraint BuildChildConstraint(ScalarReferencePredicateXml xml)
         {
-            var builder = new ScalarResolverArgsBuilder(ServiceLocator);
+            var builder = new ScalarResolverArgsBuilder(ServiceLocator, null);
 
             if (!string.IsNullOrEmpty(xml.Reference))
             {

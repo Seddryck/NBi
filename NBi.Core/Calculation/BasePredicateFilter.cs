@@ -4,6 +4,7 @@ using NBi.Core.Injection;
 using NBi.Core.ResultSet;
 using NBi.Core.Transformation;
 using NBi.Core.Transformation.Transformer;
+using NBi.Core.Variable;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -16,11 +17,12 @@ namespace NBi.Core.Calculation
     public abstract class BasePredicateFilter : IResultSetFilter
     {
         private ServiceLocator ServiceLocator { get; }
+        private Context Context { get; }
         protected readonly IEnumerable<IColumnExpression> expressions;
         protected readonly IEnumerable<IColumnAlias> aliases;
 
-        protected BasePredicateFilter(ServiceLocator serviceLocator, IEnumerable<IColumnAlias> aliases, IEnumerable<IColumnExpression> expressions)
-            => (ServiceLocator, this.aliases, this.expressions) = (serviceLocator, aliases, expressions);
+        protected BasePredicateFilter(ServiceLocator serviceLocator, Context context, IEnumerable<IColumnAlias> aliases, IEnumerable<IColumnExpression> expressions)
+            => (ServiceLocator, Context, this.aliases, this.expressions) = (serviceLocator, context, aliases, expressions);
 
         public ResultSet.ResultSet AntiApply(ResultSet.ResultSet rs)
         {
@@ -41,7 +43,8 @@ namespace NBi.Core.Calculation
 
             foreach (DataRow row in rs.Rows)
             {
-                if (onApply(RowApply(row)))
+                Context.Switch(row);
+                if (onApply(RowApply(Context)))
                 {
                     if (filteredRs.Rows.Count == 0 && filteredRs.Columns.Count != row.Table.Columns.Count)
                     {
@@ -59,53 +62,53 @@ namespace NBi.Core.Calculation
             return filteredRs;
         }
 
-        protected abstract bool RowApply(DataRow row);
-        public bool Execute(DataRow row) => RowApply(row);
+        protected abstract bool RowApply(Context context);
+        public bool Execute(Context context) => RowApply(context);
 
 
-        protected object GetValueFromRow(DataRow row, IColumnIdentifier identifier)
+        protected object GetValueFromRow(Context context, IColumnIdentifier identifier)
         {
             if (identifier is ColumnOrdinalIdentifier)
             {
                 var ordinal = (identifier as ColumnOrdinalIdentifier).Ordinal;
-                if (ordinal <= row.Table.Columns.Count)
-                    return row.ItemArray[ordinal];
+                if (ordinal <= context.CurrentRow.Table.Columns.Count)
+                    return context.CurrentRow.ItemArray[ordinal];
                 else
-                    throw new ArgumentException($"The variable of the predicate is identified as '{identifier.Label}' but the column in position '{ordinal}' doesn't exist. The dataset only contains {row.Table.Columns.Count} columns.");
+                    throw new ArgumentException($"The variable of the predicate is identified as '{identifier.Label}' but the column in position '{ordinal}' doesn't exist. The dataset only contains {context.CurrentRow.Table.Columns.Count} columns.");
             }
 
             var name = (identifier as ColumnNameIdentifier).Name;
             var alias = aliases.SingleOrDefault(x => string.Equals(x.Name, name, StringComparison.OrdinalIgnoreCase));
             if (alias != null)
-                return row.ItemArray[alias.Column];
+                return context.CurrentRow.ItemArray[alias.Column];
 
             var expression = expressions.SingleOrDefault(x => string.Equals(x.Name, name, StringComparison.OrdinalIgnoreCase));
             if (expression != null)
             {
-                var result = EvaluateExpression(expression, row);
+                var result = EvaluateExpression(expression, context);
                 var expColumnName = $"exp::{name}";
-                if (!row.Table.Columns.Contains(expColumnName))
+                if (!context.CurrentRow.Table.Columns.Contains(expColumnName))
                 {
                     var newColumn = new DataColumn(expColumnName, typeof(object));
-                    row.Table.Columns.Add(newColumn);
+                    context.CurrentRow.Table.Columns.Add(newColumn);
                 }
 
-                row[expColumnName] = result;
+                context.CurrentRow[expColumnName] = result;
                 return result;
             }
 
-            var column = row.Table.Columns.Cast<DataColumn>().SingleOrDefault(x => string.Equals(x.ColumnName, name, StringComparison.OrdinalIgnoreCase));
+            var column = context.CurrentRow.Table.Columns.Cast<DataColumn>().SingleOrDefault(x => string.Equals(x.ColumnName, name, StringComparison.OrdinalIgnoreCase));
             if (column != null)
-                return row[column.ColumnName];
+                return context.CurrentRow[column.ColumnName];
 
-            var existingNames = row.Table.Columns.Cast<DataColumn>().Select(x => x.ColumnName)
+            var existingNames = context.CurrentRow.Table.Columns.Cast<DataColumn>().Select(x => x.ColumnName)
                 .Union(aliases.Select(x => x.Name)
                 .Union(expressions.Select(x => x.Name)));
 
             throw new ArgumentException($"The value '{name}' is not recognized as a column position, a column name, a column alias or an expression. Possible arguments are: '{string.Join("', '", existingNames.ToArray())}'");
         }
 
-        protected object EvaluateExpression(IColumnExpression expression, DataRow row)
+        protected object EvaluateExpression(IColumnExpression expression, Context context)
         {
             if (expression.Language == LanguageType.NCalc)
             {
@@ -114,7 +117,7 @@ namespace NBi.Core.Calculation
 
                 exp.EvaluateParameter += delegate (string name, NCalc.ParameterArgs args)
                 {
-                    args.Result = GetValueFromRow(row, factory.Instantiate(name));
+                    args.Result = GetValueFromRow(context, factory.Instantiate(name));
                 };
 
                 return exp.Evaluate();
@@ -123,11 +126,11 @@ namespace NBi.Core.Calculation
             {
                 var parse = expression.Value.Split(new[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
                 var variable = new ColumnIdentifierFactory().Instantiate(parse.ElementAt(0));
-                var value = GetValueFromRow(row, variable);
+                var value = GetValueFromRow(context, variable);
 
                 foreach (var nativeFunction in parse.Skip(1))
                 {
-                    var factory = new NativeTransformationFactory(ServiceLocator, null);
+                    var factory = new NativeTransformationFactory(ServiceLocator, context);
                     var transformation = factory.Instantiate(nativeFunction);
                     value = transformation.Evaluate(value);
                 }

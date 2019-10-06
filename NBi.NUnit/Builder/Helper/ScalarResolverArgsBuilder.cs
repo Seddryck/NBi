@@ -30,10 +30,11 @@ namespace NBi.NUnit.Builder.Helper
         private IDictionary<string, ITestVariable> variables = new Dictionary<string, ITestVariable>();
         private IScalarResolverArgs args = null;
 
-        private readonly ServiceLocator serviceLocator;
+        private ServiceLocator ServiceLocator { get; }
+        private Context Context { get; }
 
-        public ScalarResolverArgsBuilder(ServiceLocator serviceLocator) 
-            => this.serviceLocator = serviceLocator;
+        public ScalarResolverArgsBuilder(ServiceLocator serviceLocator, Context context) 
+            => (ServiceLocator, Context) = (serviceLocator, context);
 
         public void Setup(object obj, IDictionary<string, ITestVariable> variables)
             => Setup(obj, null, SettingsXml.DefaultScope.Everywhere, variables);
@@ -58,13 +59,13 @@ namespace NBi.NUnit.Builder.Helper
                     args = new CSharpScalarResolverArgs(obj.Code);
                     break;
                 case QueryXml obj:
-                    var queryBuilder = new QueryResolverArgsBuilder(serviceLocator);
+                    var queryBuilder = new QueryResolverArgsBuilder(ServiceLocator);
                     queryBuilder.Setup(obj, settings, scope, variables);
                     queryBuilder.Build();
                     args = new QueryScalarResolverArgs(queryBuilder.GetArgs());
                     break;
                 case ProjectionOldXml obj:
-                    var resultSetBuilder = new ResultSetResolverArgsBuilder(serviceLocator);
+                    var resultSetBuilder = new ResultSetResolverArgsBuilder(ServiceLocator);
                     resultSetBuilder.Setup(obj.ResultSet, settings, scope, variables);
                     resultSetBuilder.Build();
                     args = new RowCountResultSetScalarResolverArgs(resultSetBuilder.GetArgs());
@@ -73,7 +74,7 @@ namespace NBi.NUnit.Builder.Helper
                     args = new EnvironmentScalarResolverArgs(obj.Name);
                     break;
                 default:
-                    var factory = new ScalarResolverArgsFactory(serviceLocator, variables);
+                    var factory = new ScalarResolverArgsFactory(ServiceLocator, new Context(variables));
                     args = factory.Instantiate(obj as string);
                     break;
             }

@@ -162,7 +162,7 @@ namespace NBi.NUnit.Builder.Helper
             {
                 var stringWithoutSpecialChars = parameterXml.StringValue.Replace("\r", "").Replace("\n", "").Replace("\t", "").Trim();
 
-                var builder = new ScalarResolverArgsBuilder(serviceLocator);
+                var builder = new ScalarResolverArgsBuilder(serviceLocator, null);
                 builder.Setup(stringWithoutSpecialChars, globalVariables);
                 builder.Build();
                 var args = builder.GetArgs();

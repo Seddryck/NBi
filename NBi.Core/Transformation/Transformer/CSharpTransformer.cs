@@ -15,12 +15,12 @@ namespace NBi.Core.Transformation.Transformer
     class CSharpTransformer<T> : ITransformer
     {
         private ServiceLocator ServiceLocator { get; }
-        protected IDictionary<string, ITestVariable> Variables { get; }
+        protected Context Context { get; }
         private MethodInfo method;
 
         public CSharpTransformer() : this(null, null) { }
-        public CSharpTransformer(ServiceLocator serviceLocator, IDictionary<string, ITestVariable> variables)
-            => (ServiceLocator, Variables) = (serviceLocator, variables);
+        public CSharpTransformer(ServiceLocator serviceLocator, Context context)
+            => (ServiceLocator, Context) = (serviceLocator, context);
 
         public void Initialize(string code)
         {
@@ -42,22 +42,20 @@ namespace NBi.Core.Transformation.Transformer
 
         private MethodInfo CreateFunction(string code, string type)
         {
-            string codeTemplate = @"
+            string codeTemplate = $@"
                 using System;
             
                 namespace NBi.Core.Transformation.Dynamic
                 {{                
                     public class TransformationClass
                     {{                
-                        public static object Function({1} value)
+                        public static object Function({type} value)
                         {{
-                            return {0};
+                            return {code};
                         }}
                     }}
                 }}
             ";
-
-            string finalCode = string.Format(codeTemplate, code, type);
 
             CSharpCodeProvider provider = new CSharpCodeProvider();
             CompilerParameters parameters = new CompilerParameters
@@ -66,7 +64,7 @@ namespace NBi.Core.Transformation.Transformer
                 GenerateExecutable = false
             };
 
-            CompilerResults results = provider.CompileAssemblyFromSource(parameters, finalCode);
+            CompilerResults results = provider.CompileAssemblyFromSource(parameters, codeTemplate);
 
             if (results.Errors.HasErrors)
             {
@@ -74,7 +72,7 @@ namespace NBi.Core.Transformation.Transformer
 
                 foreach (CompilerError error in results.Errors)
                 {
-                    sb.AppendLine(String.Format("Error ({0}): {1}", error.ErrorNumber, error.ErrorText));
+                    sb.AppendLine($"Error ({error.ErrorNumber}): {error.ErrorText}");
                 }
 
                 throw new InvalidOperationException(sb.ToString());

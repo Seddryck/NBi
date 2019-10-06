@@ -1,6 +1,7 @@
 ﻿using NBi.Core.Calculation.Predicate;
 using NBi.Core.Evaluate;
 using NBi.Core.Injection;
+using NBi.Core.Variable;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -14,17 +15,17 @@ namespace NBi.Core.Calculation.Predicate.Combination
     {
         public override string Description { get => "and"; }
 
-        public AndCombinationPredicateFilter(ServiceLocator serviceLocator, IEnumerable<IColumnAlias> aliases, IEnumerable<IColumnExpression> expressions, IEnumerable<Predication> predications)
-            : base(serviceLocator, aliases, expressions, predications)
+        public AndCombinationPredicateFilter(ServiceLocator serviceLocator, Context context, IEnumerable<IColumnAlias> aliases, IEnumerable<IColumnExpression> expressions, IEnumerable<Predication> predications)
+            : base(serviceLocator, context, aliases, expressions, predications)
         { }
 
-        protected override bool RowApply(DataRow row)
+        protected override bool RowApply(Context context)
         {
             var result = true;
             var enumerator = predications.GetEnumerator();
             while (enumerator.MoveNext() && result)
             {
-                var value = GetValueFromRow(row, enumerator.Current.Operand);
+                var value = GetValueFromRow(context, enumerator.Current.Operand);
                 result = enumerator.Current.Predicate.Execute(value);
             }
             return result;

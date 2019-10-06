@@ -45,7 +45,7 @@ namespace NBi.Testing.Core.Scalar.Resolver
         {
             using (var dt = new DataTable())
             {
-                var context = new Context();
+                var context = new Context(null);
                 context.Switch(dt.NewRow());
                 var args = new ContextScalarResolverArgs(context, new ColumnOrdinalIdentifier(0));
 

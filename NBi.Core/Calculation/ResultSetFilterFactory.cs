@@ -31,7 +31,7 @@ namespace NBi.Core.Calculation
             var factory = new PredicateFactory();
             var predicate = factory.Instantiate(predicationArgs.Predicate);
 
-            var pf = new SinglePredicateFilter(ServiceLocator, aliases, expressions, predicationArgs.Identifier, predicate.Execute, predicate.ToString);
+            var pf = new SinglePredicateFilter(ServiceLocator, new Context(null), aliases, expressions, predicationArgs.Identifier, predicate.Execute, predicate.ToString);
 
             return pf;
         }
@@ -53,11 +53,11 @@ namespace NBi.Core.Calculation
             switch (combinationOperator)
             {
                 case CombinationOperator.Or:
-                    return new OrCombinationPredicateFilter(ServiceLocator, aliases, expressions, predications);
+                    return new OrCombinationPredicateFilter(ServiceLocator, new Context(null), aliases, expressions, predications);
                 case CombinationOperator.XOr:
-                    return new XOrCombinationPredicateFilter(ServiceLocator, aliases, expressions, predications);
+                    return new XOrCombinationPredicateFilter(ServiceLocator, new Context(null), aliases, expressions, predications);
                 case CombinationOperator.And:
-                    return new AndCombinationPredicateFilter(ServiceLocator, aliases, expressions, predications);
+                    return new AndCombinationPredicateFilter(ServiceLocator, new Context(null), aliases, expressions, predications);
                 default:
                     throw new ArgumentOutOfRangeException(nameof(combinationOperator));
             }

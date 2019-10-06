@@ -210,6 +210,54 @@ More info about [shared-dataset](../docs/shared-dataset)
 <result-set>
 {% endhighlight %}
 
+### Xml source
+
+It's possible to define a result-set based on an xml file (or url) and an XPath expression. The latest will transform the hierarchical view (xml) into a flat view (result-set).
+
+To achieve this, you'll need to define the *file* or *url* information to locate the xml content.
+
+{% highlight xml %}
+<result-set>
+  <xml-source>
+    <file>..\xml\myFile.xml</file>
+    ...
+  <xml-source>
+<result-set>
+{% endhighlight %}
+
+or 
+
+{% highlight xml %}
+<result-set>
+  <xml-source>
+    <url>http://www.xml.com/myXml</url>
+    ...
+  <xml-source>
+<result-set>
+{% endhighlight %}
+
+The second part of the definition of the *xml-source* is to specify the XPath expression. This expression supports XPath 1.0. You'll have to define the level of expected information by the means of the *from* element. Based on this level, you can define the elements to select. You can achieve this by specifying one or more *select* elements and the relative path (relative to the *from* element) to the element. If you want to select an attribute, specify the name of the expected attribute in the *attribute* attribute.
+
+{% highlight xml %}
+<result-set>
+  <xml-source>
+    ...
+    <xpath>
+      <select>.</select>
+      <select attribute="myAttribute">.</select>
+    </xpath>
+  <xml-source>
+<result-set>
+{% endhighlight %}
+
+#### Namespaces management
+
+XPath 1.0 has a huge limitation and is not able to deal with default namespace without prefix. To work-around this limitation NBi supports two tricks.
+
+If the default namespace is the only namespace or if the intersection of two namespaces is empty, you can ask NBi to not take into account the namespaces at all by specifying the attribute *ignore-namespaces* at the level of the *xml-source*.
+
+For other cases, it's recommended to specify a prefix for the default namespace and use it in your XPath expression. To specify the prefix for the default namespace, you'll use the *default-namespace-attribute* at the level of the *xpath* element.
+
 ## Alterations
 
 You can also define an alteration to the result-set. For the moment, three kinds of alterations are supported by NBi:

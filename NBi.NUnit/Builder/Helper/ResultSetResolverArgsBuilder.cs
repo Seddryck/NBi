@@ -188,13 +188,16 @@ namespace NBi.NUnit.Builder.Helper
                 selects.Add(selectFactory.Instantiate(select.Value, select.Attribute, select.Evaluate));
 
             var helper = new ScalarHelper(serviceLocator, settings, scope, globalVariables);
-            var resolverPath = helper.InstantiateResolver<string>(xmlSource.File.Path);
+            
 
             XPathEngine engine = null;
             if (xmlSource.File != null)
-                engine = new XPathFileEngine(resolverPath, settings?.BasePath, xmlSource.XPath.From.Value, selects, xmlSource.XPath?.DefaultNamespacePrefix.Value, xmlSource.IgnoreNamespace);
+            {
+                var resolverPath = helper.InstantiateResolver<string>(xmlSource.File.Path);
+                engine = new XPathFileEngine(resolverPath, settings?.BasePath, xmlSource.XPath.From.Value, selects, xmlSource.XPath?.DefaultNamespacePrefix, xmlSource.IgnoreNamespace);
+            }
             else if (xmlSource.Url != null)
-                engine = new XPathUrlEngine(xmlSource.Url.Value, xmlSource.XPath.From.Value, selects, xmlSource.XPath.DefaultNamespacePrefix.Value);
+                engine = new XPathUrlEngine(xmlSource.Url.Value, xmlSource.XPath.From.Value, selects, xmlSource.XPath?.DefaultNamespacePrefix);
 
             return new XPathResultSetResolverArgs(engine);
         }

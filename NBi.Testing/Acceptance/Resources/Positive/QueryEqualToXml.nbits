@@ -7,7 +7,7 @@
   </settings>
   <test name="Purchase orders info" uid="0001">
     <system-under-test>
-      <execution>
+      <result-set>
         <query>
           select '99503', '872-AA', 'Mill Valley'
           union all select '99503', '926-AA', 'Mill Valley'
@@ -15,10 +15,10 @@
           union all select '99504', '898-AZ', 'Seattle'
           union all select '99504', '898-AM', 'Seattle'
         </query>
-      </execution>
+      </result-set>
     </system-under-test>
     <assert>
-      <equalTo>
+      <equal-to>
         <column index="0" role="value" type="text"/>
         <column index="1" role="key" type="text"/>
         <column index="2" role="value" type="text"/>
@@ -31,12 +31,69 @@
             <select>../../Address[@Type="Shipping"]/City</select>
           </xpath>
         </xml-source>
-      </equalTo>
+      </equal-to>
     </assert>
   </test>
-  <test name="Notes from Web" uid="0002">
+  <test name="Purchase orders info with default namespace" uid="0010">
     <system-under-test>
-      <execution>
+      <result-set>
+        <query>
+          select '99503', '872-AA', 'Mill Valley'
+          union all select '99503', '926-AA', 'Mill Valley'
+          union all select '99505', '456-NM', 'Buffalo'
+          union all select '99504', '898-AZ', 'Seattle'
+          union all select '99504', '898-AM', 'Seattle'
+        </query>
+      </result-set>
+    </system-under-test>
+    <assert>
+      <equal-to>
+        <column index="0" role="value" type="text"/>
+        <column index="1" role="key" type="text"/>
+        <column index="2" role="value" type="text"/>
+        <xml-source ignore-namespace="true">
+          <file>..\PurchaseOrdersDefaultNamespace.xml</file>
+          <xpath>
+            <from>//PurchaseOrder/Items/Item</from>
+            <select attribute="PurchaseOrderNumber">../..</select>
+            <select attribute="PartNumber">.</select>
+            <select>../../Address[@Type="Shipping"]/City</select>
+          </xpath>
+        </xml-source>
+      </equal-to>
+    </assert>
+  </test>
+  <test name="Purchase orders info with multiple namespaces including a default" uid="0020">
+    <system-under-test>
+      <result-set>
+        <xml-source>
+          <file>..\PurchaseOrdersManyNamespaces.xml</file>
+          <xpath default-namespace-prefix="pre">
+            <from>//pre:PurchaseOrder/adr:Address[@Type="Shipping"]</from>
+            <select>pre:Name</select>
+          </xpath>
+        </xml-source>
+      </result-set>
+    </system-under-test>
+    <assert>
+      <equal-to>
+        <result-set>
+          <row>
+            <cell>Ellen Adams</cell>
+          </row>
+          <row>
+            <cell>Cristian Osorio</cell>
+          </row>
+          <row>
+            <cell>Jessica Arnold</cell>
+          </row>
+        </result-set>
+      </equal-to>
+    </assert>
+  </test>
+  <test name="Notes from Web" uid="0100">
+    <system-under-test>
+      <result-set>
         <query>
           select 'Belgian Waffles', 5.95
           union all select 'Strawberry Belgian Waffles', 7.95
@@ -44,10 +101,10 @@
           union all select 'French Toast', 4.50
           union all select 'Homestyle Breakfast', 6.95
         </query>
-      </execution>
+      </result-set>
     </system-under-test>
     <assert>
-      <equalTo>
+      <equal-to>
         <column index="0" role="key" type="text"/>
         <column index="1" role="value" type="numeric"/>
         <xml-source>
@@ -58,7 +115,7 @@
             <select evaluate="true">substring-after(price, '$')</select>
           </xpath>
         </xml-source>
-      </equalTo>
+      </equal-to>
     </assert>
   </test>
 </testSuite>

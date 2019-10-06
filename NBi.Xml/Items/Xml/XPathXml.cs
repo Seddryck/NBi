@@ -9,8 +9,8 @@ namespace NBi.Xml.Items.Xml
 {
     public class XPathXml
     {
-        [XmlElement("default-namespace-prefix")]
-        public DefaultNamespacePrefixXml DefaultNamespacePrefix { get; set; }
+        [XmlAttribute("default-namespace-prefix")]
+        public string DefaultNamespacePrefix { get; set; }
         [XmlElement("from")]
         public FromXml From { get; set; }
         [XmlElement("select")]

@@ -210,6 +210,7 @@
     <Compile Include="Scalar\Presentation\DateTimePresenterTest.cs" />
     <Compile Include="Scalar\Presentation\NumericPresenterTest.cs" />
     <Compile Include="Scalar\Presentation\TextPresenterTest.cs" />
+    <Compile Include="Scalar\Resolver\ContextScalarResolverTest.cs" />
     <Compile Include="Scalar\Resolver\NCalcScalarResolverTest.cs" />
     <Compile Include="Scalar\Resolver\CSharpScalarResolverTest.cs" />
     <Compile Include="Scalar\Resolver\EnvironmentScalarResolverTest.cs" />

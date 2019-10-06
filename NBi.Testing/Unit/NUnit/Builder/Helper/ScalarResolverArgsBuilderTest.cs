@@ -16,7 +16,7 @@ namespace NBi.Testing.Unit.NUnit.Builder.Helper
         [Test]
         public void Build_VariableAndFunctions_FunctionScalarResolverArgs()
         {
-            var builder = new ScalarResolverArgsBuilder(new ServiceLocator());
+            var builder = new ScalarResolverArgsBuilder(new ServiceLocator(), null);
             builder.Setup("@myVar | text-to-trim | text-to-length", null);
             builder.Build();
             var args = builder.GetArgs();
@@ -32,7 +32,7 @@ namespace NBi.Testing.Unit.NUnit.Builder.Helper
         [Test]
         public void Build_Variable_GlobalVariableScalarResolverArgs()
         {
-            var builder = new ScalarResolverArgsBuilder(new ServiceLocator());
+            var builder = new ScalarResolverArgsBuilder(new ServiceLocator(), null);
             builder.Setup("@myVar", null);
             builder.Build();
             var args = builder.GetArgs();
@@ -42,7 +42,7 @@ namespace NBi.Testing.Unit.NUnit.Builder.Helper
         [Test]
         public void Build_LiteralAndFunctions_FunctionScalarResolverArgs()
         {
-            var builder = new ScalarResolverArgsBuilder(new ServiceLocator());
+            var builder = new ScalarResolverArgsBuilder(new ServiceLocator(), null);
             builder.Setup("2019-03-12 | dateTime-to-first-of-month", null);
             builder.Build();
             var args = builder.GetArgs();
@@ -58,7 +58,7 @@ namespace NBi.Testing.Unit.NUnit.Builder.Helper
         [Test]
         public void Build_Literal_LiteralResolverArgs()
         {
-            var builder = new ScalarResolverArgsBuilder(new ServiceLocator());
+            var builder = new ScalarResolverArgsBuilder(new ServiceLocator(), null);
             builder.Setup("2019-03-12", null);
             builder.Build();
             var args = builder.GetArgs();
@@ -68,7 +68,7 @@ namespace NBi.Testing.Unit.NUnit.Builder.Helper
         [Test]
         public void Build_FormatAndFunctions_FunctionScalarResolverArgs()
         {
-            var builder = new ScalarResolverArgsBuilder(new ServiceLocator());
+            var builder = new ScalarResolverArgsBuilder(new ServiceLocator(), null);
             builder.Setup("~First day of 2018 is a { @myVar: dddd} | text-to-length", null);
             builder.Build();
             var args = builder.GetArgs();
@@ -83,7 +83,7 @@ namespace NBi.Testing.Unit.NUnit.Builder.Helper
         [Test]
         public void Build_FormatIncludingFunctions_FunctionScalarResolverArgs()
         {
-            var builder = new ScalarResolverArgsBuilder(new ServiceLocator());
+            var builder = new ScalarResolverArgsBuilder(new ServiceLocator(), null);
             builder.Setup("~First day of 2018 is a { @myVar | dateTime-to-previous-month : dddd }", null);
             builder.Build();
             var args = builder.GetArgs();
@@ -93,7 +93,7 @@ namespace NBi.Testing.Unit.NUnit.Builder.Helper
         [Test]
         public void Build_Format_FormatResolverArgs()
         {
-            var builder = new ScalarResolverArgsBuilder(new ServiceLocator());
+            var builder = new ScalarResolverArgsBuilder(new ServiceLocator(), null);
             builder.Setup("~First day of 2018 is a { @myVar: dddd}", null);
             builder.Build();
             var args = builder.GetArgs();

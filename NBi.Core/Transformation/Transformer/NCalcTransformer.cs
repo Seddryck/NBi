@@ -15,12 +15,12 @@ namespace NBi.Core.Transformation.Transformer
     class NCalcTransformer<T> : ITransformer
     {
         private ServiceLocator ServiceLocator { get; }
-        protected IDictionary<string, ITestVariable> Variables { get; }
+        protected Context Context { get; }
         private NCalc.Expression method;
 
         public NCalcTransformer() : this(null, null) { }
-        public NCalcTransformer(ServiceLocator serviceLocator, IDictionary<string, ITestVariable> variables)
-            => (ServiceLocator, Variables) = (serviceLocator, variables);
+        public NCalcTransformer(ServiceLocator serviceLocator, Context context)
+            => (ServiceLocator, Context) = (serviceLocator, context);
 
         public void Initialize(string code)
         {

@@ -140,7 +140,7 @@ namespace NBi.NUnit.Builder.Helper
 
         private Alter InstantiateRename(RenamingXml renameXml)
         {
-            var helper = new ScalarHelper(ServiceLocator, Variables);
+            var helper = new ScalarHelper(ServiceLocator, new Context(Variables));
             var newName = helper.InstantiateResolver<string>(renameXml.NewName);
 
             var factory = new RenamingFactory();
@@ -151,7 +151,7 @@ namespace NBi.NUnit.Builder.Helper
         private Alter InstantiateTransform(TransformXml transformXml)
         {
             var identifierFactory = new ColumnIdentifierFactory();
-            var provider = new TransformationProvider(new ServiceLocator(), Variables);
+            var provider = new TransformationProvider(new ServiceLocator(), new Context(Variables));
             provider.Add(transformXml.Identifier, transformXml);
             return provider.Transform;
         }

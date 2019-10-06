@@ -15,12 +15,12 @@ namespace NBi.Core.Transformation.Transformer
     class FormatTransformer<T> : ITransformer
     {
         private ServiceLocator ServiceLocator { get; }
-        protected IDictionary<string, ITestVariable> Variables { get; }
+        protected Context Context { get; }
         private string method;
 
         public FormatTransformer() : this(null, null) { }
-        public FormatTransformer(ServiceLocator serviceLocator, IDictionary<string, ITestVariable> variables)
-            => (ServiceLocator, Variables) = (serviceLocator, variables);
+        public FormatTransformer(ServiceLocator serviceLocator, Context context)
+            => (ServiceLocator, Context) = (serviceLocator, context);
 
         public void Initialize(string code)
         {

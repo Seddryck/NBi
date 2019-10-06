@@ -3,6 +3,7 @@ using NBi.Core.Injection;
 using NBi.Core.ResultSet;
 using NBi.Core.Transformation;
 using NBi.Core.Transformation.Transformer.Native;
+using NBi.Core.Variable;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
@@ -30,7 +31,7 @@ namespace NBi.Testing.Core.Transformation
                     && t.Code == "value.Substring(0,1)"
                 );
 
-            var provider = new TransformationProvider(new ServiceLocator(), null);
+            var provider = new TransformationProvider(new ServiceLocator(), new Context(null));
             provider.Add(new ColumnOrdinalIdentifier(0), transformation);
             provider.Transform(resultSet);
 
@@ -52,7 +53,7 @@ namespace NBi.Testing.Core.Transformation
                     && t.Code == "value.Substring(0,1)"
                 );
 
-            var provider = new TransformationProvider(new ServiceLocator(), null);
+            var provider = new TransformationProvider(new ServiceLocator(), new Context(null));
             provider.Add(new ColumnOrdinalIdentifier(0), transformation);
             provider.Transform(resultSet);
 
@@ -72,11 +73,32 @@ namespace NBi.Testing.Core.Transformation
                     && t.Code == "text-to-trim"
                 );
 
-            var provider = new TransformationProvider(new ServiceLocator(), null);
+            var provider = new TransformationProvider(new ServiceLocator(), new Context(null));
             provider.Add(new ColumnOrdinalIdentifier(0), transformation);
             provider.Transform(resultSet);
 
             Assert.That(resultSet.Rows[0][0], Is.EqualTo("aaaa"));
+        }
+
+        [Test]
+        public void Transform_NativeTranformationFirstCharWithContext_Correct()
+        {
+            var resultSet = new NBi.Core.ResultSet.ResultSet();
+            resultSet.Load(new[] { new object[] { "123456789", 6 }, new object[] { "abcdefgh", 2 } });
+
+            var transformation = Mock.Of<ITransformationInfo>
+                (
+                    t => t.Language == LanguageType.Native
+                    && t.OriginalType == ColumnType.Text
+                    && t.Code == "text-to-first-chars(#1)"
+                );
+
+            var provider = new TransformationProvider(new ServiceLocator(), new Context(null));
+            provider.Add(new ColumnOrdinalIdentifier(0), transformation);
+            provider.Transform(resultSet);
+
+            Assert.That(resultSet.Rows[0][0], Is.EqualTo("123456"));
+            Assert.That(resultSet.Rows[1][0], Is.EqualTo("ab"));
         }
 
         [Test]
@@ -92,7 +114,7 @@ namespace NBi.Testing.Core.Transformation
                     && t.Code == "blank-to-null"
                 );
 
-            var provider = new TransformationProvider(new ServiceLocator(), null);
+            var provider = new TransformationProvider(new ServiceLocator(), new Context(null));
             provider.Add(new ColumnOrdinalIdentifier(0), transformation);
             provider.Transform(resultSet);
 
@@ -132,7 +154,7 @@ namespace NBi.Testing.Core.Transformation
                     && t.Code == "value.Month + (value.Year-2000)*12"
                 );
 
-            var provider = new TransformationProvider(new ServiceLocator(), null);
+            var provider = new TransformationProvider(new ServiceLocator(), new Context(null));
             provider.Add(new ColumnOrdinalIdentifier(0), transformation);
             provider.Transform(resultSet);
 

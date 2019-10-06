@@ -17,7 +17,7 @@ namespace NBi.Testing.Core.Transformation.Transformer
         [Test]
         public void Instantiate_ExistingWithoutParameter_CorrectType()
         {
-            var factory = new NativeTransformationFactory(new ServiceLocator(), null);
+            var factory = new NativeTransformationFactory(new ServiceLocator(), null);;
             var result = factory.Instantiate("dateTime-to-date");
             
             Assert.That(result, Is.AssignableTo<INativeTransformation>());
@@ -27,7 +27,7 @@ namespace NBi.Testing.Core.Transformation.Transformer
         [Test]
         public void Instantiate_ExistingWithoutParameterAndWhitespaces_CorrectType()
         {
-            var factory = new NativeTransformationFactory(new ServiceLocator(), null);
+            var factory = new NativeTransformationFactory(new ServiceLocator(), null);;
             var result = factory.Instantiate("\t\tdateTime-to-date\r\n");
 
             Assert.That(result, Is.AssignableTo<INativeTransformation>());
@@ -37,7 +37,7 @@ namespace NBi.Testing.Core.Transformation.Transformer
         [Test]
         public void Instantiate_ExistingWithParameter2_CorrectType()
         {
-            var factory = new NativeTransformationFactory(new ServiceLocator(), null);
+            var factory = new NativeTransformationFactory(new ServiceLocator(), null);;
             var result = factory.Instantiate("text-to-pad-right(6, *)");
 
             Assert.That(result, Is.AssignableTo<INativeTransformation>());
@@ -49,7 +49,7 @@ namespace NBi.Testing.Core.Transformation.Transformer
         [Test]
         public void Instantiate_ExistingWithParameter_CorrectType()
         {
-            var factory = new NativeTransformationFactory(new ServiceLocator(), null);
+            var factory = new NativeTransformationFactory(new ServiceLocator(), null);;
             var result = factory.Instantiate("utc-to-local(Brussels)");
 
             Assert.That(result, Is.AssignableTo<INativeTransformation>());
@@ -63,7 +63,7 @@ namespace NBi.Testing.Core.Transformation.Transformer
         [Test]
         public void Instantiate_ExistingWithParameterIncludingSpaces_CorrectType()
         {
-            var factory = new NativeTransformationFactory(new ServiceLocator(), null);
+            var factory = new NativeTransformationFactory(new ServiceLocator(), null);;
             var result = factory.Instantiate("utc-to-local( Romance Standard Time )");
 
             Assert.That(result, Is.AssignableTo<INativeTransformation>());
@@ -74,7 +74,7 @@ namespace NBi.Testing.Core.Transformation.Transformer
         [Test]
         public void Instantiate_ExistingWithParameterAndWhitespaces_CorrectType()
         {
-            var factory = new NativeTransformationFactory(new ServiceLocator(), null);
+            var factory = new NativeTransformationFactory(new ServiceLocator(), null);;
             var result = factory.Instantiate("\r\n\t\t\tutc-to-local(Brussels) \t\r\n");
 
             Assert.That(result, Is.AssignableTo<INativeTransformation>());
@@ -85,7 +85,7 @@ namespace NBi.Testing.Core.Transformation.Transformer
         [Test]
         public void Instantiate_ExistingWithParameters_CorrectType()
         {
-            var factory = new NativeTransformationFactory(new ServiceLocator(), null);
+            var factory = new NativeTransformationFactory(new ServiceLocator(), null);;
             var result = factory.Instantiate("numeric-to-clip(10, 2000)");
 
             Assert.That(result, Is.AssignableTo<INativeTransformation>());
@@ -97,7 +97,7 @@ namespace NBi.Testing.Core.Transformation.Transformer
         [Test]
         public void Instantiate_ExistingWithParametersAndWhitespaces_CorrectType()
         {
-            var factory = new NativeTransformationFactory(new ServiceLocator(), null);
+            var factory = new NativeTransformationFactory(new ServiceLocator(), null);;
             var result = factory.Instantiate("\r\n\t\t\tnumeric-to-clip(  10,   2000   )\t\t\t\r\n");
 
             Assert.That(result, Is.AssignableTo<INativeTransformation>());
@@ -109,7 +109,7 @@ namespace NBi.Testing.Core.Transformation.Transformer
         [Test]
         public void Instantiate_ExistingWithParametersAndSpaces_CorrectType()
         {
-            var factory = new NativeTransformationFactory(new ServiceLocator(), null);
+            var factory = new NativeTransformationFactory(new ServiceLocator(), null);;
             var result = factory.Instantiate("numeric-to-clip (10,   2000)");
 
             Assert.That(result, Is.AssignableTo<INativeTransformation>());
@@ -128,7 +128,7 @@ namespace NBi.Testing.Core.Transformation.Transformer
                 { "max", new GlobalVariable(new LiteralScalarResolver<decimal>(2000)) },
             };
 
-            var factory = new NativeTransformationFactory(new ServiceLocator(), variables);
+            var factory = new NativeTransformationFactory(new ServiceLocator(), new Context(variables));
             var result = factory.Instantiate("numeric-to-clip(@min, @max)");
 
             Assert.That(result, Is.AssignableTo<INativeTransformation>());
@@ -205,7 +205,7 @@ namespace NBi.Testing.Core.Transformation.Transformer
         [TestCase("file-to-update-dateTime-utc")]
         public void Instantiate_ExistingNativeTransformation_CorrectlyBuilt(string value)
         {
-            var factory = new NativeTransformationFactory(new ServiceLocator(), null);
+            var factory = new NativeTransformationFactory(new ServiceLocator(), null);;
             var result = factory.Instantiate(value);
 
             Assert.That(result, Is.AssignableTo<INativeTransformation>());

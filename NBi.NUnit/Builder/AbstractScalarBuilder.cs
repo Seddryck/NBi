@@ -26,7 +26,7 @@ namespace NBi.NUnit.Builder
             => SystemUnderTest = InstantiateSystemUnderTest(SystemUnderTestXml);
 
         protected virtual IScalarResolver<decimal> InstantiateSystemUnderTest(ScalarXml scalarXml)
-            => new ScalarHelper(ServiceLocator, scalarXml.Settings, SettingsXml.DefaultScope.SystemUnderTest, Variables).InstantiateResolver<decimal>(scalarXml);
+            => new ScalarHelper(ServiceLocator, scalarXml.Settings, SettingsXml.DefaultScope.SystemUnderTest, new Context(Variables)).InstantiateResolver<decimal>(scalarXml);
 
     }
 }

@@ -287,7 +287,7 @@ namespace NBi.NUnit.Runtime
                 }
                 else
                 {
-                    var builder = new ScalarResolverArgsBuilder(serviceLocator);
+                    var builder = new ScalarResolverArgsBuilder(serviceLocator, new Context(null));
                     
                     if (variable.Script != null)
                         builder.Setup(variable.Script, instances);
@@ -339,7 +339,7 @@ namespace NBi.NUnit.Runtime
                 // For each instance create a test-case
                 foreach (var instance in instances)
                 {
-                    var scalarHelper = new ScalarHelper(serviceLocator, instance.Variables);
+                    var scalarHelper = new ScalarHelper(serviceLocator, new Context(instance.Variables));
 
                     var testName = instance.IsDefault 
                         ? $"{test.GetName()}" 

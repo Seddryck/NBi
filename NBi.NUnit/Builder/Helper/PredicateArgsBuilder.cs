@@ -43,7 +43,7 @@ namespace NBi.NUnit.Builder.Helper
         }
 
         private IResolver BuildScalarReference(ColumnType columnType, ScalarReferencePredicateXml xml)
-            => new ScalarHelper(ServiceLocator, Variables).InstantiateResolver(columnType, xml.Reference);
+            => new ScalarHelper(ServiceLocator, new Context(Variables)).InstantiateResolver(columnType, xml.Reference);
 
         private IResolver BuildSequenceReference(ColumnType columnType, SequenceReferencePredicateXml xml)
             => new ListSequenceResolver<string>(xml.References);

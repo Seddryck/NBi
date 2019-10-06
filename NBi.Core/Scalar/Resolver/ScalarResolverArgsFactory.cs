@@ -1,4 +1,5 @@
 ﻿using NBi.Core.Injection;
+using NBi.Core.ResultSet;
 using NBi.Core.Transformation.Transformer;
 using NBi.Core.Transformation.Transformer.Native;
 using NBi.Core.Variable;
@@ -14,10 +15,10 @@ namespace NBi.Core.Scalar.Resolver
     public class ScalarResolverArgsFactory
     {
         private ServiceLocator ServiceLocator { get; }
-        private IDictionary<string, ITestVariable> Variables { get; }
+        private Context Context { get; }
 
-        public ScalarResolverArgsFactory(ServiceLocator serviceLocator, IDictionary<string, ITestVariable> variables)
-            => (ServiceLocator, Variables) = (serviceLocator, variables);
+        public ScalarResolverArgsFactory(ServiceLocator serviceLocator, Context context)
+            => (ServiceLocator, Context) = (serviceLocator, context);
 
         public IScalarResolverArgs Instantiate(string value)
         {
@@ -29,30 +30,36 @@ namespace NBi.Core.Scalar.Resolver
                 case null: return new LiteralScalarResolverArgs(string.Empty);
                 default:
                     var tokens = Regex.Matches(value, @"(?:(?:\{(?>[^{}]+|\{(?<subpart>)|\}(?<-subpart>))*(?(subpart)(?!))\})|[^|])+").Cast<Match>().Select(x => x.Value.Trim());
-                    var variable = tokens.First().Trim();
+                    var firstToken = tokens.First().Trim();
                     var prefix = tokens.First().Trim().ToCharArray()[0];
                     var suffix = tokens.Last().Trim().ToCharArray().Last();
                     var functions = tokens.Skip(1);
                     var factory = ServiceLocator.GetScalarResolverFactory();
                     IScalarResolverArgs args = null;
 
+                    var columnIdentifierFactory = new ColumnIdentifierFactory();
+
                     switch (prefix)
                     {
                         case '@':
-                            args = new GlobalVariableScalarResolverArgs(variable.Substring(1), Variables);
+                            args = new GlobalVariableScalarResolverArgs(firstToken.Substring(1), Context?.Variables);
                             break;
                         case '~':
-                            args = new FormatScalarResolverArgs(variable.Substring(1), Variables);
+                            args = new FormatScalarResolverArgs(firstToken.Substring(1), Context?.Variables);
+                            break;
+                        case '[' when suffix==']':
+                        case '#':
+                            args = new ContextScalarResolverArgs(Context, columnIdentifierFactory.Instantiate(firstToken));
                             break;
                         default:
-                            args = new LiteralScalarResolverArgs(variable);
+                            args = new LiteralScalarResolverArgs(firstToken);
                             break;
                     }
 
                     if (functions.Count() > 0)
                     {
                         var transformations = new List<INativeTransformation>();
-                        var nativeTransformationFactory = new NativeTransformationFactory(ServiceLocator, Variables);
+                        var nativeTransformationFactory = new NativeTransformationFactory(ServiceLocator, Context);
                         foreach (var function in functions)
                             transformations.Add(nativeTransformationFactory.Instantiate(function));
 

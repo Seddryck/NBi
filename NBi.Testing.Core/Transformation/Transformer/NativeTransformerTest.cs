@@ -19,7 +19,7 @@ namespace NBi.Testing.Core.Transformation.Transformer
         {
             var variables = new Dictionary<string, ITestVariable>() { { "length", new GlobalVariable(new LiteralScalarResolver<int>(6)) } };
             var code = "text-to-last-chars(@length)";
-            var provider = new NativeTransformer<string>(new ServiceLocator(), variables);
+            var provider = new NativeTransformer<string>(new ServiceLocator(), new Context(variables));
             provider.Initialize(code);
 
             var result = provider.Execute("123456789");

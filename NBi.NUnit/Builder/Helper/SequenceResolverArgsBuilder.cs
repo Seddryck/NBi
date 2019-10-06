@@ -33,7 +33,7 @@ namespace NBi.NUnit.Builder.Helper
 
         private object obj = null;
         private SettingsXml settings = null;
-        private IDictionary<string, ITestVariable> globalVariables = new Dictionary<string, ITestVariable>();
+        private IDictionary<string, ITestVariable> Variables { get; set; } = new Dictionary<string, ITestVariable>();
         private ISequenceResolverArgs args = null;
         private ColumnType columnType = ColumnType.Numeric;
 
@@ -62,7 +62,7 @@ namespace NBi.NUnit.Builder.Helper
 
         public void Setup(IDictionary<string, ITestVariable> globalVariables)
         {
-            this.globalVariables = globalVariables;
+            this.Variables = globalVariables;
         }
 
         public void Build()
@@ -92,7 +92,7 @@ namespace NBi.NUnit.Builder.Helper
             }
             else if (obj is List<string>)
             {
-                var helper = new ScalarHelper(serviceLocator, globalVariables);
+                var helper = new ScalarHelper(serviceLocator, new Context(Variables));
                 var resolvers = new List<IScalarResolver>();
                 foreach (var value in obj as List<string>)
                     resolvers.Add(helper.InstantiateResolver<string>(value));
@@ -107,7 +107,7 @@ namespace NBi.NUnit.Builder.Helper
         
         private ISequenceResolverArgs BuildSentinelLoopResolverArgs<T, U>(string seed, string terminal, string step, IntervalMode intervalMode)
         {
-            var helper = new ScalarHelper(serviceLocator, globalVariables);
+            var helper = new ScalarHelper(serviceLocator, new Context(Variables));
             
             var args = new SentinelLoopSequenceResolverArgs<T, U>(
                     helper.InstantiateResolver<T>(seed).Execute(),
@@ -120,7 +120,7 @@ namespace NBi.NUnit.Builder.Helper
         }
         private ISequenceResolverArgs BuildFileLoopResolverArgs(string path, string pattern)
         {
-            var helper = new ScalarHelper(serviceLocator, globalVariables);
+            var helper = new ScalarHelper(serviceLocator, new Context(Variables));
 
             var args = new FileLoopSequenceResolverArgs()
             {

@@ -65,7 +65,7 @@ namespace NBi.NUnit.Builder.Helper
 
         private IBatchRunCommandArgs BuildDataEngineeringBatchRun(SqlRunXml xml)
         {
-            var helper = new ScalarHelper(serviceLocator, variables);
+            var helper = new ScalarHelper(serviceLocator, new Context(variables));
             var args = new
             {
                 Name = helper.InstantiateResolver<string>(xml.Name),
@@ -79,7 +79,7 @@ namespace NBi.NUnit.Builder.Helper
 
         private IEtlRunCommandArgs BuildDataEngineeringEtlRun(EtlRunXml xml)
         {
-            var helper = new ScalarHelper(serviceLocator, variables);
+            var helper = new ScalarHelper(serviceLocator, new Context(variables));
             var args = new
             {
                 Name = helper.InstantiateResolver<string>(xml.Name),
@@ -91,7 +91,7 @@ namespace NBi.NUnit.Builder.Helper
 
         private IConnectionWaitCommandArgs BuildDataEngineeringConnectionWait(ConnectionWaitXml xml)
         {
-            var helper = new ScalarHelper(serviceLocator, variables);
+            var helper = new ScalarHelper(serviceLocator, new Context(variables));
             var args = new
             {
                 xml.ConnectionString,
@@ -101,7 +101,7 @@ namespace NBi.NUnit.Builder.Helper
         }
         private ILoadCommandArgs BuildDataEngineeringTableLoad(TableLoadXml xml)
         {
-            var helper = new ScalarHelper(serviceLocator, variables);
+            var helper = new ScalarHelper(serviceLocator, new Context(variables));
             var args = new
             {
                 TableName = helper.InstantiateResolver<string>(xml.TableName),
@@ -113,7 +113,7 @@ namespace NBi.NUnit.Builder.Helper
 
         private IResetCommandArgs BuildDataEngineeringTableReset(TableResetXml xml)
         {
-            var helper = new ScalarHelper(serviceLocator, variables);
+            var helper = new ScalarHelper(serviceLocator, new Context(variables));
             var args = new
             {
                 TableName = helper.InstantiateResolver<string>(xml.TableName),
@@ -124,7 +124,7 @@ namespace NBi.NUnit.Builder.Helper
 
         private IDeleteCommandArgs BuildIoDelete(FileDeleteXml xml)
         {
-            var helper = new ScalarHelper(serviceLocator, variables);
+            var helper = new ScalarHelper(serviceLocator, new Context(variables));
             var args = new
             {
                 Name = helper.InstantiateResolver<string>(xml.FileName),
@@ -135,7 +135,7 @@ namespace NBi.NUnit.Builder.Helper
         }
         private IDeletePatternCommandArgs BuildIoDeletePattern(FileDeletePatternXml xml)
         {
-            var helper = new ScalarHelper(serviceLocator, variables);
+            var helper = new ScalarHelper(serviceLocator, new Context(variables));
             var args = new
             {
                 Path = helper.InstantiateResolver<string>(xml.Path),
@@ -147,7 +147,7 @@ namespace NBi.NUnit.Builder.Helper
 
         private IDeleteExtensionCommandArgs BuildIoDeleteExtension(FileDeleteExtensionXml xml)
         {
-            var helper = new ScalarHelper(serviceLocator, variables);
+            var helper = new ScalarHelper(serviceLocator, new Context(variables));
             var args = new
             {
                 Path = helper.InstantiateResolver<string>(xml.Path),
@@ -159,7 +159,7 @@ namespace NBi.NUnit.Builder.Helper
 
         private ICopyCommandArgs BuildIoCopy(FileCopyXml xml)
         {
-            var helper = new ScalarHelper(serviceLocator, variables);
+            var helper = new ScalarHelper(serviceLocator, new Context(variables));
             var args = new
             {
                 SourceName = helper.InstantiateResolver<string>(xml.FileName),
@@ -173,7 +173,7 @@ namespace NBi.NUnit.Builder.Helper
 
         private ICopyPatternCommandArgs BuildIoCopyPattern(FileCopyPatternXml xml)
         {
-            var helper = new ScalarHelper(serviceLocator, variables);
+            var helper = new ScalarHelper(serviceLocator, new Context(variables));
             var args = new
             {
                 SourcePath = helper.InstantiateResolver<string>(xml.SourcePath),
@@ -186,7 +186,7 @@ namespace NBi.NUnit.Builder.Helper
 
         private ICopyExtensionCommandArgs BuildIoCopyExtension(FileCopyExtensionXml xml)
         {
-            var helper = new ScalarHelper(serviceLocator, variables);
+            var helper = new ScalarHelper(serviceLocator, new Context(variables));
             var args = new
             {
                 SourcePath = helper.InstantiateResolver<string>(xml.SourcePath),
@@ -199,7 +199,7 @@ namespace NBi.NUnit.Builder.Helper
 
         private IKillCommandArgs BuildProcessKill(ExeKillXml xml)
         {
-            var helper = new ScalarHelper(serviceLocator, variables);
+            var helper = new ScalarHelper(serviceLocator, new Context(variables));
             var args = new
             {
                 ProcessName = helper.InstantiateResolver<string>(xml.ProcessName),
@@ -209,7 +209,7 @@ namespace NBi.NUnit.Builder.Helper
 
         private IRunCommandArgs BuildProcessRun(ExeRunXml xml)
         {
-            var helper = new ScalarHelper(serviceLocator, variables);
+            var helper = new ScalarHelper(serviceLocator, new Context(variables));
             var args = new
             {
                 Name = helper.InstantiateResolver<string>(xml.Name),
@@ -223,7 +223,7 @@ namespace NBi.NUnit.Builder.Helper
 
         private IStartCommandArgs BuildProcessStart(ServiceStartXml xml)
         {
-            var helper = new ScalarHelper(serviceLocator, variables);
+            var helper = new ScalarHelper(serviceLocator, new Context(variables));
             var args = new
             {
                 ServiceName = helper.InstantiateResolver<string>(xml.ServiceName),
@@ -234,7 +234,7 @@ namespace NBi.NUnit.Builder.Helper
 
         private IStopCommandArgs BuildProcessStop(ServiceStopXml xml)
         {
-            var helper = new ScalarHelper(serviceLocator, variables);
+            var helper = new ScalarHelper(serviceLocator, new Context(variables));
             var args = new
             {
                 ServiceName = helper.InstantiateResolver<string>(xml.ServiceName),
@@ -245,7 +245,7 @@ namespace NBi.NUnit.Builder.Helper
 
         private IWaitCommandArgs BuildProcessWait(WaitXml xml)
         {
-            var helper = new ScalarHelper(serviceLocator, variables);
+            var helper = new ScalarHelper(serviceLocator, new Context(variables));
             var args = new
             {
                 MilliSeconds = helper.InstantiateResolver<int>(xml.MilliSeconds),
@@ -255,7 +255,7 @@ namespace NBi.NUnit.Builder.Helper
 
         private ICustomCommandArgs BuildProcessCustom(CustomCommandXml xml)
         {
-            var helper = new ScalarHelper(serviceLocator, variables);
+            var helper = new ScalarHelper(serviceLocator, new Context(variables));
             var args = new
             {
                 AssemblyPath = helper.InstantiateResolver<string>(xml.AssemblyPath),

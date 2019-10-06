@@ -57,7 +57,7 @@ namespace NBi.Testing.Unit.NUnit.ResultSetComparison
             predication.SetupGet(p => p.Identifier).Returns(new ColumnNameIdentifier("Value"));
             predication.SetupGet(p => p.Predicate).Returns(predicate.Object);
 
-            var factory = new ResultSetFilterFactory(null);
+            var factory = new ResultSetFilterFactory(null, null);
             var filter = factory.Instantiate
                 (
                     new List<IColumnAlias>() { alias }
@@ -89,7 +89,7 @@ namespace NBi.Testing.Unit.NUnit.ResultSetComparison
             predication.SetupGet(p => p.Identifier).Returns(new ColumnOrdinalIdentifier(1));
             predication.SetupGet(p => p.Predicate).Returns(predicate.Object);
 
-            var factory = new ResultSetFilterFactory(null);
+            var factory = new ResultSetFilterFactory(null, null);
             var filter = factory.Instantiate
                 (
                     new List<IColumnAlias>()
@@ -116,7 +116,7 @@ namespace NBi.Testing.Unit.NUnit.ResultSetComparison
             predication.SetupGet(p => p.Identifier).Returns(new ColumnOrdinalIdentifier(1));
             predication.SetupGet(p => p.Predicate).Returns(predicate.Object);
 
-            var factory = new ResultSetFilterFactory(null);
+            var factory = new ResultSetFilterFactory(null, null);
             var filter = factory.Instantiate
                 (
                     new List<IColumnAlias>()
@@ -143,7 +143,7 @@ namespace NBi.Testing.Unit.NUnit.ResultSetComparison
             predication.SetupGet(p => p.Identifier).Returns(new ColumnOrdinalIdentifier(1));
             predication.SetupGet(p => p.Predicate).Returns(predicate.Object);
 
-            var factory = new ResultSetFilterFactory(null);
+            var factory = new ResultSetFilterFactory(null, null);
             var filter = factory.Instantiate
                 (
                     new List<IColumnAlias>()
@@ -170,7 +170,7 @@ namespace NBi.Testing.Unit.NUnit.ResultSetComparison
             predication.SetupGet(p => p.Identifier).Returns(new ColumnOrdinalIdentifier(1));
             predication.SetupGet(p => p.Predicate).Returns(predicate.Object);
 
-            var factory = new ResultSetFilterFactory(null);
+            var factory = new ResultSetFilterFactory(null, null);
             var filter = factory.Instantiate
                 (
                     new List<IColumnAlias>()

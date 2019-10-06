@@ -1,5 +1,6 @@
 ﻿using NBi.Core.Calculation.Predicate;
 using NBi.Core.Evaluate;
+using NBi.Core.Injection;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -13,8 +14,8 @@ namespace NBi.Core.Calculation.Predicate.Combination
     {
         public override string Description { get => "or"; }
 
-        public XOrCombinationPredicateFilter(IEnumerable<IColumnAlias> aliases, IEnumerable<IColumnExpression> expressions, IEnumerable<Predication> predications)
-            : base(aliases, expressions, predications)
+        public XOrCombinationPredicateFilter(ServiceLocator serviceLocator, IEnumerable<IColumnAlias> aliases, IEnumerable<IColumnExpression> expressions, IEnumerable<Predication> predications)
+            : base(serviceLocator, aliases, expressions, predications)
         { }
 
         protected override bool RowApply(DataRow row)

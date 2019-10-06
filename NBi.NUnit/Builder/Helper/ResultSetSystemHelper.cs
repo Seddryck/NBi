@@ -37,24 +37,20 @@ namespace NBi.NUnit.Builder.Helper
 {
     class ResultSetSystemHelper
     {
-        private readonly ServiceLocator serviceLocator;
-        private SettingsXml.DefaultScope scope = SettingsXml.DefaultScope.Everywhere;
-        private readonly IDictionary<string, ITestVariable> variables;
+        protected ServiceLocator ServiceLocator { get; }
+        protected SettingsXml.DefaultScope Scope { get; } = SettingsXml.DefaultScope.Everywhere;
+        protected IDictionary<string, ITestVariable> Variables { get; }
 
         public ResultSetSystemHelper(ServiceLocator serviceLocator, SettingsXml.DefaultScope scope, IDictionary<string, ITestVariable> variables)
-        {
-            this.serviceLocator = serviceLocator;
-            this.scope = scope;
-            this.variables = variables;
-        }
+            => (ServiceLocator, Scope, Variables) = (serviceLocator, scope, variables);
 
         public IResultSetResolver InstantiateResolver(ResultSetSystemXml resultSetXml)
         {
-            var argsBuilder = new ResultSetResolverArgsBuilder(serviceLocator);
-            argsBuilder.Setup(resultSetXml, resultSetXml.Settings, scope, variables);
+            var argsBuilder = new ResultSetResolverArgsBuilder(ServiceLocator);
+            argsBuilder.Setup(resultSetXml, resultSetXml.Settings, Scope, Variables);
             argsBuilder.Build();
 
-            var factory = serviceLocator.GetResultSetResolverFactory();
+            var factory = ServiceLocator.GetResultSetResolverFactory();
             var resolver = factory.Instantiate(argsBuilder.GetArgs());
             return resolver;
         }
@@ -85,7 +81,7 @@ namespace NBi.NUnit.Builder.Helper
 
         private Alter InstantiateFilter(FilterXml filterXml)
         {
-            var factory = new ResultSetFilterFactory(variables);
+            var factory = new ResultSetFilterFactory(ServiceLocator, Variables);
 
             if (filterXml.Ranking == null)
             {
@@ -95,7 +91,7 @@ namespace NBi.NUnit.Builder.Helper
 
                 if (filterXml.Predication != null)
                 {
-                    var helper = new PredicateArgsBuilder(serviceLocator, variables);
+                    var helper = new PredicateArgsBuilder(ServiceLocator, Variables);
                     var args = helper.Execute(filterXml.Predication.ColumnType, filterXml.Predication.Predicate);
 
                     return factory.Instantiate
@@ -107,7 +103,7 @@ namespace NBi.NUnit.Builder.Helper
                 }
                 if (filterXml.Combination != null)
                 {
-                    var helper = new PredicateArgsBuilder(serviceLocator, variables);
+                    var helper = new PredicateArgsBuilder(ServiceLocator, Variables);
                     var predicationArgs = new List<PredicationArgs>();
                     foreach (var predication in filterXml.Combination.Predications)
                     {
@@ -144,7 +140,7 @@ namespace NBi.NUnit.Builder.Helper
 
         private Alter InstantiateRename(RenamingXml renameXml)
         {
-            var helper = new ScalarHelper(serviceLocator, variables);
+            var helper = new ScalarHelper(ServiceLocator, Variables);
             var newName = helper.InstantiateResolver<string>(renameXml.NewName);
 
             var factory = new RenamingFactory();
@@ -155,7 +151,7 @@ namespace NBi.NUnit.Builder.Helper
         private Alter InstantiateTransform(TransformXml transformXml)
         {
             var identifierFactory = new ColumnIdentifierFactory();
-            var provider = new TransformationProvider();
+            var provider = new TransformationProvider(new ServiceLocator(), Variables);
             provider.Add(transformXml.Identifier, transformXml);
             return provider.Transform;
         }

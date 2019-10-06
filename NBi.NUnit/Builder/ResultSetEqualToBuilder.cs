@@ -50,7 +50,7 @@ namespace NBi.NUnit.Builder
             BaseResultSetComparisonConstraint ctr = null;
 
             //Manage transformations
-            var transformationProvider = new TransformationProvider();
+            var transformationProvider = new TransformationProvider(ServiceLocator, Variables);
             foreach (var columnDef in ConstraintXml.ColumnsDef)
             {
                 if (columnDef.Transformation != null)

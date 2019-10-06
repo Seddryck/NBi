@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NBi.Core.Scalar.Resolver;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,15 +9,15 @@ namespace NBi.Core.Transformation.Transformer.Native
 {
     class UtcToLocal : AbstractDateTimeTransformation
     {
-        public string TimeZoneLabel { get; }
+        public IScalarResolver<string> TimeZoneLabel { get; }
 
-        public UtcToLocal(string timeZoneLabel)
+        public UtcToLocal(IScalarResolver<string> timeZoneLabel)
         {
             TimeZoneLabel = timeZoneLabel;
         }
 
         protected override object EvaluateDateTime(DateTime value) =>
-            TimeZoneInfo.ConvertTimeFromUtc(value, InstantiateTimeZoneInfo(TimeZoneLabel));
+            TimeZoneInfo.ConvertTimeFromUtc(value, InstantiateTimeZoneInfo(TimeZoneLabel.Execute()));
 
         protected TimeZoneInfo InstantiateTimeZoneInfo(string label)
         {
@@ -37,11 +38,11 @@ namespace NBi.Core.Transformation.Transformer.Native
 
     class LocalToUtc : UtcToLocal
     {
-        public LocalToUtc(string timeZoneLabel)
+        public LocalToUtc(IScalarResolver<string> timeZoneLabel)
             : base(timeZoneLabel)
         { }
 
         protected override object EvaluateDateTime(DateTime value) =>
-            TimeZoneInfo.ConvertTimeToUtc(value, InstantiateTimeZoneInfo(TimeZoneLabel));
+            TimeZoneInfo.ConvertTimeToUtc(value, InstantiateTimeZoneInfo(TimeZoneLabel.Execute()));
     }
 }

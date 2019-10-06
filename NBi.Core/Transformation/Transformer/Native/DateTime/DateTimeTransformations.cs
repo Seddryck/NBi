@@ -1,4 +1,5 @@
 ﻿using NBi.Core.Scalar.Casting;
+using NBi.Core.Scalar.Resolver;
 using NBi.Extensibility;
 using System;
 using System.Collections.Generic;
@@ -24,8 +25,8 @@ namespace NBi.Core.Transformation.Transformer.Native
 
         private object EvaluateUncasted(object value)
         {
-            if (value as string == "null")
-                EvaluateNull();
+            if (value as string == "(null)" || (value is string && string.IsNullOrEmpty(value as string)))
+                return EvaluateNull();
 
             var caster = new DateTimeCaster();
             var dateTime = caster.Execute(value);
@@ -107,49 +108,44 @@ namespace NBi.Core.Transformation.Transformer.Native
 
     class DateTimeToClip : AbstractDateTimeTransformation
     {
-        public DateTime Min { get; }
-        public DateTime Max { get; }
+        public IScalarResolver<DateTime> Min { get; }
+        public IScalarResolver<DateTime> Max { get; }
 
-        public DateTimeToClip(string min, string max)
-        {
-            var caster = new DateTimeCaster();
-            Min = caster.Execute(min);
-            Max = caster.Execute(max);
-        }
+        public DateTimeToClip(IScalarResolver<DateTime> min, IScalarResolver<DateTime> max)
+            => (Min, Max) = (min, max);
 
-        protected override object EvaluateDateTime(DateTime value) => (value < Min) ? Min : (value > Max) ? Max : value;
+        protected override object EvaluateDateTime(DateTime value)
+            => (value < Min.Execute()) ? Min.Execute() : (value > Max.Execute()) ? Max.Execute() : value;
     }
 
     class DateTimeToSetTime : AbstractDateTimeTransformation
     {
-        public TimeSpan Instant { get; }
+        public IScalarResolver<string> Instant { get; }
 
-        public DateTimeToSetTime(string instant)
-        {
-            Instant = TimeSpan.Parse(instant);
-        }
+        public DateTimeToSetTime(IScalarResolver<string> instant)
+            => Instant = instant;
 
         protected override object EvaluateDateTime(DateTime value)
-            => new DateTime(value.Year, value.Month, value.Day, Instant.Hours, Instant.Minutes, Instant.Seconds);
+        {
+            var time = TimeSpan.Parse(Instant.Execute());
+            return new DateTime(value.Year, value.Month, value.Day, time.Hours, time.Minutes, time.Seconds);
+        }
     }
 
     class NullToDate : AbstractDateTimeTransformation
     {
-        public DateTime Default { get; }
+        public IScalarResolver<DateTime> Default { get; }
 
-        public NullToDate(string dt)
-        {
-            var caster = new DateTimeCaster();
-            Default = caster.Execute(dt);
-        }
+        public NullToDate(IScalarResolver<DateTime> dt)
+            => Default = dt;
 
-        protected override object EvaluateNull() => Default;
+        protected override object EvaluateNull() => Default.Execute();
         protected override object EvaluateDateTime(DateTime value) => value;
     }
 
     class DateTimeToFloorHour : AbstractDateTimeTransformation
     {
-        protected override object EvaluateDateTime(DateTime value) 
+        protected override object EvaluateDateTime(DateTime value)
             => value.AddTicks(-1 * (value.Ticks % TimeSpan.TicksPerHour));
     }
 
@@ -173,23 +169,16 @@ namespace NBi.Core.Transformation.Transformer.Native
 
     class DateTimeToAdd : AbstractDateTimeTransformation
     {
-        public int Times { get; }
-        public TimeSpan TimeSpan { get; }
+        public IScalarResolver<int> Times { get; }
+        public IScalarResolver<string> TimeSpan { get; }
 
-        public DateTimeToAdd(string timeSpan, string times)
-        {
-            var tempTimes = new NumericCaster().Execute(times);
-            Times = Convert.ToInt32(Math.Truncate(tempTimes));
-            if (Times != tempTimes)
-                throw new NBiException("The native transformation 'DateTimeToAddTimeSpan' is expecting a second parameter that has an integer value.");
-                
-            TimeSpan = TimeSpan.Parse(timeSpan);
-        }
+        public DateTimeToAdd(IScalarResolver<string> timeSpan, IScalarResolver<int> times)
+            => (TimeSpan, Times) = (timeSpan, times);
 
-        public DateTimeToAdd(string timeSpan)
-            : this(timeSpan, 1.ToString()) { }
+        public DateTimeToAdd(IScalarResolver<string> timeSpan)
+            : this(timeSpan, new LiteralScalarResolver<int>(1)) { }
 
         protected override object EvaluateDateTime(DateTime value)
-            => value.AddTicks(TimeSpan.Ticks * Times);
+            => value.AddTicks(System.TimeSpan.Parse(TimeSpan.Execute()).Ticks * Times.Execute());
     }
 }

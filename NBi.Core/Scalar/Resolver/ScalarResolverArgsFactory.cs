@@ -15,10 +15,9 @@ namespace NBi.Core.Scalar.Resolver
     {
         private ServiceLocator ServiceLocator { get; }
         private IDictionary<string, ITestVariable> Variables { get; }
-        private string BasePath { get; }
 
-        public ScalarResolverArgsFactory(ServiceLocator serviceLocator, IDictionary<string, ITestVariable> variables, string basePath)
-            => (ServiceLocator, Variables, BasePath) = (serviceLocator, variables, basePath);
+        public ScalarResolverArgsFactory(ServiceLocator serviceLocator, IDictionary<string, ITestVariable> variables)
+            => (ServiceLocator, Variables) = (serviceLocator, variables);
 
         public IScalarResolverArgs Instantiate(string value)
         {
@@ -53,7 +52,7 @@ namespace NBi.Core.Scalar.Resolver
                     if (functions.Count() > 0)
                     {
                         var transformations = new List<INativeTransformation>();
-                        var nativeTransformationFactory = new NativeTransformationFactory(BasePath);
+                        var nativeTransformationFactory = new NativeTransformationFactory(ServiceLocator, Variables);
                         foreach (var function in functions)
                             transformations.Add(nativeTransformationFactory.Instantiate(function));
 

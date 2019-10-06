@@ -54,7 +54,7 @@ namespace NBi.NUnit.Builder
 
                 var value = EvaluatePotentialVariable(comparer.Reference.ToString().Replace(" ", ""));
 
-                var factory = new ResultSetFilterFactory(Variables);
+                var factory = new ResultSetFilterFactory(ServiceLocator, Variables);
                 if (filterXml.Predication != null)
                 {
                     var helper = new PredicateArgsBuilder(ServiceLocator, Variables);

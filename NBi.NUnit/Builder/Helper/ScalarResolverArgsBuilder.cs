@@ -73,7 +73,7 @@ namespace NBi.NUnit.Builder.Helper
                     args = new EnvironmentScalarResolverArgs(obj.Name);
                     break;
                 default:
-                    var factory = new ScalarResolverArgsFactory(serviceLocator, variables, settings.BasePath);
+                    var factory = new ScalarResolverArgsFactory(serviceLocator, variables);
                     args = factory.Instantiate(obj as string);
                     break;
             }

@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<testSuite name="Acceptance Testing: query equalTo Csv" xmlns="http://NBi/TestSuite">
+<testSuite name="Acceptance Testing: query equal-to Csv" xmlns="http://NBi/TestSuite">
   <settings>
     <default apply-to="everywhere">
       <connectionString>Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly</connectionString>
@@ -7,6 +7,9 @@
   </settings>
   <variables>
     <variable name="myVar">
+      <script>new DateTime(DateTime.Now.Year+1, 1, 1)</script>
+    </variable>
+    <variable name="prevcommon">
       <script>new DateTime(DateTime.Now.Year+1, 1, 1)</script>
     </variable>
     <variable name="common">
@@ -23,12 +26,12 @@
   </variables>
 	<test name="'Reseller Order Count' by year before 2006 (csv)" uid="0001">
 		<system-under-test>
-      <resultSet>
+      <result-set>
         <query>
           <parameter name="var">@myVar</parameter>
           select @var;
         </query>
-      </resultSet>
+      </result-set>
 		</system-under-test>
 		<assert>
       <all-rows>
@@ -40,54 +43,72 @@
 	</test>
   <test name="Usage of the same variable in Sut and Assert" uid="0010">
     <system-under-test>
-      <resultSet>
+      <result-set>
         <query>
           <parameter name="common">@common</parameter>
           select @common;
         </query>
-      </resultSet>
+      </result-set>
     </system-under-test>
     <assert>
-      <equalTo>
+      <equal-to>
         <column index="0" type="dateTime" role="key"/>
         <query>
           <parameter name="common">@common</parameter>
           select @common;
         </query>
-      </equalTo>
+      </equal-to>
     </assert>
   </test>
   <test name="Usage of a native transformation to a variable" uid="0020">
     <system-under-test>
-      <resultSet>
+      <result-set>
         <query>
           <parameter name="value" sql-type="DateTime">@januarySecond | dateTime-to-first-of-month</parameter>
           select @value;
         </query>
-      </resultSet>
+      </result-set>
     </system-under-test>
     <assert>
-      <equalTo>
+      <equal-to>
         <column index="0" type="dateTime" role="key"/>
         <query>
           select cast(YEAR(getdate()) as varchar(4)) + '-01-01';
         </query>
-      </equalTo>
+      </equal-to>
     </assert>
   </test>
   <test name="Two execution of the same variable returning a random value returns the same value" uid="0040">
     <system-under-test>
-      <resultSet>
+      <result-set>
         <query>
           <parameter name="var">@random</parameter>
           select @var;
         </query>
-      </resultSet>
+      </result-set>
     </system-under-test>
     <assert>
       <equal-to>
         <query>
           <parameter name="var">@random</parameter>
+          select @var;
+        </query>
+      </equal-to>
+    </assert>
+  </test>
+  <test name="Variables used in a native transformation" uid="0100">
+    <system-under-test>
+      <result-set>
+        <query>
+          <parameter name="var">@januarySecond | dateTime-to-clip(@prevcommon, @common)</parameter>
+          select @var;
+        </query>
+      </result-set>
+    </system-under-test>
+    <assert>
+      <equal-to>
+        <query>
+          <parameter name="var">@prevcommon</parameter>
           select @var;
         </query>
       </equal-to>

@@ -1,4 +1,5 @@
 ﻿using Moq;
+using NBi.Core.Injection;
 using NBi.Core.ResultSet;
 using NBi.Core.Transformation;
 using NBi.Core.Transformation.Transformer.Native;
@@ -25,11 +26,11 @@ namespace NBi.Testing.Core.Transformation
             var transformation = Mock.Of<ITransformationInfo>
                 (
                     t => t.Language == LanguageType.CSharp
-                    && t.OriginalType == NBi.Core.ResultSet.ColumnType.Text
+                    && t.OriginalType == ColumnType.Text
                     && t.Code == "value.Substring(0,1)"
                 );
 
-            var provider = new TransformationProvider();
+            var provider = new TransformationProvider(new ServiceLocator(), null);
             provider.Add(new ColumnOrdinalIdentifier(0), transformation);
             provider.Transform(resultSet);
 
@@ -47,11 +48,11 @@ namespace NBi.Testing.Core.Transformation
             var transformation = Mock.Of<ITransformationInfo>
                 (
                     t => t.Language == LanguageType.CSharp
-                    && t.OriginalType == NBi.Core.ResultSet.ColumnType.Text
+                    && t.OriginalType == ColumnType.Text
                     && t.Code == "value.Substring(0,1)"
                 );
 
-            var provider = new TransformationProvider();
+            var provider = new TransformationProvider(new ServiceLocator(), null);
             provider.Add(new ColumnOrdinalIdentifier(0), transformation);
             provider.Transform(resultSet);
 
@@ -67,11 +68,11 @@ namespace NBi.Testing.Core.Transformation
             var transformation = Mock.Of<ITransformationInfo>
                 (
                     t => t.Language == LanguageType.Native
-                    && t.OriginalType == NBi.Core.ResultSet.ColumnType.Text
+                    && t.OriginalType == ColumnType.Text
                     && t.Code == "text-to-trim"
                 );
 
-            var provider = new TransformationProvider();
+            var provider = new TransformationProvider(new ServiceLocator(), null);
             provider.Add(new ColumnOrdinalIdentifier(0), transformation);
             provider.Transform(resultSet);
 
@@ -87,11 +88,11 @@ namespace NBi.Testing.Core.Transformation
             var transformation = Mock.Of<ITransformationInfo>
                 (
                     t => t.Language == LanguageType.Native
-                    && t.OriginalType == NBi.Core.ResultSet.ColumnType.Text
+                    && t.OriginalType == ColumnType.Text
                     && t.Code == "blank-to-null"
                 );
 
-            var provider = new TransformationProvider();
+            var provider = new TransformationProvider(new ServiceLocator(), null);
             provider.Add(new ColumnOrdinalIdentifier(0), transformation);
             provider.Transform(resultSet);
 
@@ -108,11 +109,11 @@ namespace NBi.Testing.Core.Transformation
             var transformation = Mock.Of<ITransformationInfo>
                 (
                     t => t.Language == LanguageType.Native
-                    && t.OriginalType == NBi.Core.ResultSet.ColumnType.Text
+                    && t.OriginalType == ColumnType.Text
                     && t.Code == "unknown"
                 );
 
-            var provider = new TransformationProvider();
+            var provider = new TransformationProvider(new ServiceLocator(), null);
 
             Assert.Throws<NotImplementedTransformationException>(() => provider.Add(new ColumnOrdinalIdentifier(0), transformation));
         }
@@ -127,11 +128,11 @@ namespace NBi.Testing.Core.Transformation
             var transformation = Mock.Of<ITransformationInfo>
                 (
                     t => t.Language == LanguageType.CSharp
-                    && t.OriginalType == NBi.Core.ResultSet.ColumnType.DateTime
+                    && t.OriginalType == ColumnType.DateTime
                     && t.Code == "value.Month + (value.Year-2000)*12"
                 );
 
-            var provider = new TransformationProvider();
+            var provider = new TransformationProvider(new ServiceLocator(), null);
             provider.Add(new ColumnOrdinalIdentifier(0), transformation);
             provider.Transform(resultSet);
 

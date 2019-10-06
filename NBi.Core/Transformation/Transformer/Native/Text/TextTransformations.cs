@@ -1,4 +1,5 @@
 ﻿using NBi.Core.Scalar.Casting;
+using NBi.Core.Scalar.Resolver;
 using NBi.Extensibility;
 using System;
 using System.Collections.Generic;
@@ -49,7 +50,7 @@ namespace NBi.Core.Transformation.Transformer.Native
         protected virtual object EvaluateNull() => "(null)";
         protected virtual object EvaluateEmpty() => "(empty)";
         protected virtual object EvaluateBlank() => "(blank)";
-        protected virtual object EvaluateSpecial(string value) => value; 
+        protected virtual object EvaluateSpecial(string value) => value;
         protected abstract object EvaluateString(string value);
     }
 
@@ -75,60 +76,59 @@ namespace NBi.Core.Transformation.Transformer.Native
 
     abstract class AbstractTextLengthTransformation : AbstractTextTransformation
     {
-        public int Length { get; }
+        public IScalarResolver<int> Length { get; }
 
-        public AbstractTextLengthTransformation(string length)
-        {
-            var tempLength = new NumericCaster().Execute(length);
-            Length = Convert.ToInt32(Math.Truncate(tempLength));
-        }
+        public AbstractTextLengthTransformation(IScalarResolver<int> length)
+            => Length = length;
     }
 
     class TextToFirstChars : AbstractTextLengthTransformation
     {
-        public TextToFirstChars(string length)
+        public TextToFirstChars(IScalarResolver<int> length)
             : base(length) { }
 
-        protected override object EvaluateString(string value) => value.Length>=Length ? value.Substring(0, Length) : value ;
+        protected override object EvaluateString(string value) 
+            => value.Length >= Length.Execute() ? value.Substring(0, Length.Execute()) : value;
     }
 
     class TextToLastChars : AbstractTextLengthTransformation
     {
-        public TextToLastChars(string length)
+        public TextToLastChars(IScalarResolver<int> length)
             : base(length) { }
 
-        protected override object EvaluateString(string value) => value.Length >= Length ? value.Substring(value.Length-Length, Length) : value;
+        protected override object EvaluateString(string value) 
+            => value.Length >= Length.Execute() ? value.Substring(value.Length - Length.Execute(), Length.Execute()) : value;
     }
 
     abstract class AbstractTextPadTransformation : AbstractTextLengthTransformation
     {
-        public char Character { get; }
+        public IScalarResolver<char> Character { get; }
 
-        public AbstractTextPadTransformation(string length, string character)
+        public AbstractTextPadTransformation(IScalarResolver<int> length, IScalarResolver<char> character)
             : base(length)
-        {
-            Character = character[0];
-        }
+            => Character = character;
 
-        protected override object EvaluateEmpty() => new string(Character, Length);
-        protected override object EvaluateNull() => new string(Character, Length);
+        protected override object EvaluateEmpty() => new string(Character.Execute(), Length.Execute());
+        protected override object EvaluateNull() => new string(Character.Execute(), Length.Execute());
 
     }
 
     class TextToPadRight : AbstractTextPadTransformation
     {
-        public TextToPadRight(string length, string character)
+        public TextToPadRight(IScalarResolver<int> length, IScalarResolver<char> character)
             : base(length, character) { }
 
-        protected override object EvaluateString(string value) => value.Length >= Length ? value : value.PadRight(Length, Character);
+        protected override object EvaluateString(string value) 
+            => value.Length >= Length.Execute() ? value : value.PadRight(Length.Execute(), Character.Execute());
     }
 
     class TextToPadLeft : AbstractTextPadTransformation
     {
-        public TextToPadLeft(string length, string character)
+        public TextToPadLeft(IScalarResolver<int> length, IScalarResolver<char> character)
             : base(length, character) { }
 
-        protected override object EvaluateString(string value) => value.Length >= Length ? value : value.PadLeft(Length, Character);
+        protected override object EvaluateString(string value) 
+            => value.Length >= Length.Execute() ? value : value.PadLeft(Length.Execute(), Character.Execute());
     }
 
     class BlankToEmpty : AbstractTextTransformation
@@ -205,18 +205,20 @@ namespace NBi.Core.Transformation.Transformer.Native
 
     class TextToDateTime : AbstractTextTransformation
     {
-        public string Format { get; }
-        public DateTimeFormatInfo Info { get; }
+        public IScalarResolver<string> Format { get; }
+        public IScalarResolver<string> Culture { get; }
 
-        public TextToDateTime(string format)
-            =>  (Format, Info) = (format, CultureInfo.InvariantCulture.DateTimeFormat);
+        public TextToDateTime(IScalarResolver<string> format)
+            => (Format, Culture) = (format, new LiteralScalarResolver<string>(string.Empty));
 
-        public TextToDateTime(string format, string culture)
-            => (Format, Info) = (format, new CultureInfo(culture).DateTimeFormat);
+        public TextToDateTime(IScalarResolver<string> format, IScalarResolver<string> culture)
+            => (Format, Culture) = (format, culture);
 
         protected override object EvaluateString(string value)
         {
-            if (DateTime.TryParseExact(value, Format, Info, DateTimeStyles.RoundtripKind, out var dateTime))
+            var info = (string.IsNullOrEmpty(Culture.Execute()) ? CultureInfo.InvariantCulture : new CultureInfo(Culture.Execute())).DateTimeFormat;
+
+            if (DateTime.TryParseExact(value, Format.Execute(), info, DateTimeStyles.RoundtripKind, out var dateTime))
                 return DateTime.SpecifyKind(dateTime, DateTimeKind.Unspecified);
 
             throw new NBiException($"Impossible to transform the value '{value}' into a date using the format '{Format}'");

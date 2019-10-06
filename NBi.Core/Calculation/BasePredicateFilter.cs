@@ -1,5 +1,6 @@
 ﻿using NBi.Core.Calculation.Predicate;
 using NBi.Core.Evaluate;
+using NBi.Core.Injection;
 using NBi.Core.ResultSet;
 using NBi.Core.Transformation;
 using NBi.Core.Transformation.Transformer;
@@ -14,14 +15,12 @@ namespace NBi.Core.Calculation
 {
     public abstract class BasePredicateFilter : IResultSetFilter
     {
+        private ServiceLocator ServiceLocator { get; }
         protected readonly IEnumerable<IColumnExpression> expressions;
         protected readonly IEnumerable<IColumnAlias> aliases;
 
-        protected BasePredicateFilter(IEnumerable<IColumnAlias> aliases, IEnumerable<IColumnExpression> expressions)
-        {
-            this.aliases = aliases;
-            this.expressions = expressions;
-        }
+        protected BasePredicateFilter(ServiceLocator serviceLocator, IEnumerable<IColumnAlias> aliases, IEnumerable<IColumnExpression> expressions)
+            => (ServiceLocator, this.aliases, this.expressions) = (serviceLocator, aliases, expressions);
 
         public ResultSet.ResultSet AntiApply(ResultSet.ResultSet rs)
         {
@@ -128,9 +127,9 @@ namespace NBi.Core.Calculation
 
                 foreach (var nativeFunction in parse.Skip(1))
                 {
-                    var factory = new NativeTransformationFactory();
-                    var transformer = factory.Instantiate(nativeFunction);
-                    value = transformer.Evaluate(value);
+                    var factory = new NativeTransformationFactory(ServiceLocator, null);
+                    var transformation = factory.Instantiate(nativeFunction);
+                    value = transformation.Evaluate(value);
                 }
                 
                 return value;

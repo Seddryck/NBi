@@ -76,11 +76,6 @@ namespace NBi.Core.Injection
             return kernel.Get<FormatterFactory>();
         }
 
-        public TransformerFactory GetTransformerFactory()
-        {
-            return kernel.Get<TransformerFactory>();
-        }
-
         public void Dispose()
         {
             config?.Dispose();

@@ -17,19 +17,16 @@ namespace NBi.NUnit.Builder.Helper
 {
     public class InstanceArgsBuilder
     {
-        private readonly ServiceLocator serviceLocator;
-        private readonly IDictionary<string, ITestVariable> globalVariables;
+        private ServiceLocator ServiceLocator { get; }
+        private IDictionary<string, ITestVariable> Variables { get; }
 
         private bool isSetup = false;
         private object obj = null;
         private SettingsXml settings = SettingsXml.Empty;
         private IInstanceArgs args = null;
 
-        public InstanceArgsBuilder(ServiceLocator serviceLocator, IDictionary<string, ITestVariable> globalVariables)
-        {
-            this.serviceLocator = serviceLocator;
-            this.globalVariables = globalVariables;
-        }
+        public InstanceArgsBuilder(ServiceLocator serviceLocator, IDictionary<string, ITestVariable> variables)
+            => (ServiceLocator, Variables) = (serviceLocator, variables);
 
         public void Setup(SettingsXml settings)
         {
@@ -54,9 +51,9 @@ namespace NBi.NUnit.Builder.Helper
             {
                 var variable = (obj as InstanceSettlingXml).Variable;
 
-                var argsBuilder = new SequenceResolverArgsBuilder(serviceLocator);
+                var argsBuilder = new SequenceResolverArgsBuilder(ServiceLocator);
                 argsBuilder.Setup(settings);
-                argsBuilder.Setup(globalVariables);
+                argsBuilder.Setup(Variables);
                 argsBuilder.Setup(variable.Type);
 
                 if (variable.SentinelLoop != null)
@@ -69,7 +66,7 @@ namespace NBi.NUnit.Builder.Helper
                     throw new ArgumentOutOfRangeException();
 
                 argsBuilder.Build();
-                var factory = new SequenceResolverFactory(serviceLocator);
+                var factory = new SequenceResolverFactory(ServiceLocator);
 
                 if (((obj as InstanceSettlingXml).DerivedVariables?.Count() ?? 0) == 0)
                 {
@@ -87,7 +84,7 @@ namespace NBi.NUnit.Builder.Helper
                     foreach (var derivation in (obj as InstanceSettlingXml).DerivedVariables)
                     {
                         var transformerArgs = new TransformaterArgs() { Language = derivation.Script.Language, Code = derivation.Script.Code };
-                        var transformerFactory = serviceLocator.GetTransformerFactory();
+                        var transformerFactory = new TransformerFactory(ServiceLocator, Variables);
                         var transformer = transformerFactory.Instantiate(transformerArgs);
                         transformer.Initialize(derivation.Script.Code);
                         derivationArgs.Add(derivation.Name, new DerivationArgs() { Source = derivation.BasedOn, Transformer = transformer });

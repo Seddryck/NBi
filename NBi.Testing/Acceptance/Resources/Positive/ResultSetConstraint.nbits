@@ -24,6 +24,9 @@
     <variable name="year">
       <script language="c-sharp">new DateTime(2006, 1, 1)</script>
     </variable>
+    <variable name="length">
+      <script language="c-sharp">2+1</script>
+    </variable>
   </variables>
   <group name="asserts">
     <test name="Csv equal to embedded result-set" uid="0001">
@@ -808,7 +811,7 @@
         </equalTo>
       </assert>
     </test>
-    <test name="Transformations" uid="0230">
+    <test name="Transformations with C#" uid="0230">
       <system-under-test>
         <resultSet file="..\Csv\Orders.csv">
           <alteration>
@@ -861,7 +864,7 @@
         </equalTo>
       </assert>
     </test>
-    <test name="Transformations" uid="0231">
+    <test name="Transformations with native functions" uid="0231">
       <system-under-test>
         <resultSet>
           <query>
@@ -926,6 +929,46 @@
             </row>
           </result-set>
         </equalTo>
+      </assert>
+    </test>
+    <test name="Native transformations using variables" uid="0233">
+      <system-under-test>
+        <result-set>
+          <query>
+            select 'ABCDE', 'foo' 
+            union all select 'bcdef', 'bar' 
+            union all select null, ''
+          </query>
+          <alteration>
+            <transform column-index="0" language="native" original-type="text">
+              null-to-empty | text-to-upper | text-to-first-chars(2) | text-to-pad-right(@length, *)
+            </transform>
+          </alteration>
+        </result-set>
+      </system-under-test>
+      <assert>
+        <equal-to values-default-type="text">
+          <column index="0" type="text" role="key" />
+          <result-set>
+            <row>
+              <cell>ab*</cell>
+              <cell>foo</cell>
+            </row>
+            <row>
+              <cell>BC*</cell>
+              <cell>bar</cell>
+            </row>
+            <row>
+              <cell>(empty)</cell>
+              <cell>(empty)</cell>
+            </row>
+            <alteration>
+              <transform column-index="0" language="native" original-type="text">
+                text-to-upper| text-to-pad-right(@length, *)
+              </transform>
+            </alteration>
+          </result-set>
+        </equal-to>
       </assert>
     </test>
     <test name="Renamings" uid="0241">

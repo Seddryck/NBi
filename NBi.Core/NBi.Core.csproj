@@ -640,6 +640,8 @@
     <Compile Include="Query\Performance\PerformanceResult.cs" />
     <Compile Include="Analysis\Member\MemberResult.cs" />
     <Compile Include="Properties\ProjectAssemblyInfo.cs" />
+    <Compile Include="Scalar\Resolver\ContextScalarResolverArgs.cs" />
+    <Compile Include="Scalar\Resolver\ContextScalarResolver.cs" />
     <Compile Include="Scalar\Resolver\NCalcScalarResolver.cs" />
     <Compile Include="Scalar\Resolver\FormatScalarResolverArgs.cs" />
     <Compile Include="Scalar\Resolver\EnvironmentScalarResolverArgs.cs" />
@@ -807,6 +809,7 @@
     <Compile Include="Transformation\LanguageType.cs" />
     <Compile Include="Transformation\TransformerFactory.cs" />
     <Compile Include="Transformation\TransformationProvider.cs" />
+    <Compile Include="Variable\Context.cs" />
     <Compile Include="Variable\GlobalVariable.cs" />
     <Compile Include="Variable\Instantiation\DefaultInstanceArgs.cs" />
     <Compile Include="Variable\Instantiation\IInstanceArgs.cs" />

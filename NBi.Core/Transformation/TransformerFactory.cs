@@ -12,10 +12,10 @@ namespace NBi.Core.Transformation
     public class TransformerFactory
     {
         protected ServiceLocator ServiceLocator { get; }
-        protected IDictionary<string, ITestVariable> Variables { get; }
+        protected Context Context { get; }
 
-        public TransformerFactory(ServiceLocator serviceLocator, IDictionary<string, ITestVariable> variables)
-            => (ServiceLocator, Variables) = (serviceLocator, variables);
+        public TransformerFactory(ServiceLocator serviceLocator, Context context)
+            => (ServiceLocator, Context) = (serviceLocator, context);
 
         public ITransformer Instantiate(ITransformationInfo info)
         {
@@ -64,7 +64,7 @@ namespace NBi.Core.Transformation
             }
 
             var provider = providerType.MakeGenericType(valueType);
-            var transformer = (ITransformer)Activator.CreateInstance(provider, new object[] { ServiceLocator, Variables });
+            var transformer = (ITransformer)Activator.CreateInstance(provider, new object[] { ServiceLocator, Context });
 
             return transformer;
         }

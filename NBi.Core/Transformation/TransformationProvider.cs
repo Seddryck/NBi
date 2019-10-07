@@ -16,11 +16,13 @@ namespace NBi.Core.Transformation
     {
         private IDictionary<IColumnIdentifier, ITransformer> cacheTransformers;
         private readonly TransformerFactory factory;
+        private Context Context { get; }
 
-        public TransformationProvider(ServiceLocator serviceLocator, IDictionary<string, ITestVariable> variables)
+        public TransformationProvider(ServiceLocator serviceLocator, Context context)
         {
             cacheTransformers = new Dictionary<IColumnIdentifier, ITransformer>();
-            factory = new TransformerFactory(serviceLocator, variables);
+            factory = new TransformerFactory(serviceLocator, context);
+            Context = context;
         }
 
         public void Add(IColumnIdentifier indentifier, ITransformationInfo transfo)
@@ -46,13 +48,16 @@ namespace NBi.Core.Transformation
                 var originalName = resultSet.Table.Columns[ordinal].ColumnName;
 
                 foreach (DataRow row in resultSet.Table.Rows)
+                {
+                    Context.Switch(row);
                     row[newColumn.Ordinal] = transformer.Execute(row[ordinal]);
+                }
 
                 resultSet.Table.Columns.RemoveAt(ordinal);
                 newColumn.SetOrdinal(ordinal);
                 newColumn.ColumnName = originalName;
 
-                Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceInfo, string.Format("Time needed to transform column {0}: {1}", identifier.Label, DateTime.Now.Subtract(tsStart).ToString(@"d\d\.hh\h\:mm\m\:ss\s\ \+fff\m\s")));
+                Trace.WriteLineIf(NBiTraceSwitch.TraceInfo, string.Format("Time needed to transform column {0}: {1}", identifier.Label, DateTime.Now.Subtract(tsStart).ToString(@"d\d\.hh\h\:mm\m\:ss\s\ \+fff\m\s")));
             }
 
             return resultSet;

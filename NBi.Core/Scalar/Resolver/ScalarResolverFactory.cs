@@ -44,6 +44,8 @@ namespace NBi.Core.Scalar.Resolver
                     return new LiteralScalarResolver<T>(x);
                 case GlobalVariableScalarResolverArgs x:
                     return new GlobalVariableScalarResolver<T>(x);
+                case ContextScalarResolverArgs x:
+                    return new ContextScalarResolver<T>(x);
                 case QueryScalarResolverArgs x:
                     return new QueryScalarResolver<T>(x, serviceLocator);
                 case ProjectionResultSetScalarResolverArgs x:

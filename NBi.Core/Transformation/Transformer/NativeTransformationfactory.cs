@@ -15,9 +15,9 @@ namespace NBi.Core.Transformation.Transformer
     public class NativeTransformationFactory
     {
         protected ServiceLocator ServiceLocator { get; }
-        protected IDictionary<string, ITestVariable> Variables { get; }
-        public NativeTransformationFactory(ServiceLocator serviceLocator, IDictionary<string, ITestVariable> variables)
-            => (ServiceLocator, Variables) = (serviceLocator, variables);
+        protected Context Context { get; }
+        public NativeTransformationFactory(ServiceLocator serviceLocator, Context context)
+            => (ServiceLocator, Context) = (serviceLocator, context);
 
         public INativeTransformation Instantiate(string code)
         {
@@ -52,7 +52,7 @@ namespace NBi.Core.Transformation.Transformer
 
             var zip = ctor.GetParameters().Zip(functionParameters, (x, y) => new { x.ParameterType, Value = y });
             var typedFunctionParameters = new List<object>();
-            var argsFactory = new ScalarResolverArgsFactory(ServiceLocator, Variables);
+            var argsFactory = new ScalarResolverArgsFactory(ServiceLocator, Context);
             var factory = ServiceLocator.GetScalarResolverFactory();
 
             foreach (var param in zip)

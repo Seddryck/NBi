@@ -17,21 +17,21 @@ namespace NBi.Core.Transformation.Transformer
     class NativeTransformer<T> : ITransformer
     {
         protected ServiceLocator ServiceLocator { get; }
-        protected IDictionary<string, ITestVariable> Variables { get; }
+        protected Context Context { get; }
 
         private IList<INativeTransformation> Transformations { get; } = new List<INativeTransformation>();
         private bool IsInitialized { get; set; } = false;
 
         
-        public NativeTransformer(ServiceLocator serviceLocator, IDictionary<string, ITestVariable> variables)
-            => (ServiceLocator, Variables) = (serviceLocator, variables);
+        public NativeTransformer(ServiceLocator serviceLocator, Context context)
+            => (ServiceLocator, Context) = (serviceLocator, context);
 
         public void Initialize(string code)
         {
             var functions = code.Split(new[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
             foreach (var function in functions)
             {
-                var transformation = new NativeTransformationFactory(ServiceLocator, Variables).Instantiate(function);
+                var transformation = new NativeTransformationFactory(ServiceLocator, Context).Instantiate(function);
                 Transformations.Add(transformation);
             }
             IsInitialized = true;

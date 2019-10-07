@@ -287,18 +287,18 @@ namespace NBi.NUnit.Runtime
                 }
                 else
                 {
-                    var builder = new ScalarResolverArgsBuilder(serviceLocator);
+                    var builder = new ScalarResolverArgsBuilder(serviceLocator, new Context(instances));
                     
                     if (variable.Script != null)
-                        builder.Setup(variable.Script, instances);
+                        builder.Setup(variable.Script);
                     else if (variable.QueryScalar != null)
                     {
                         variable.QueryScalar.Settings = TestSuiteManager.TestSuite.Settings;
                         variable.QueryScalar.Default = TestSuiteManager.TestSuite.Settings.GetDefault(Xml.Settings.SettingsXml.DefaultScope.Variable);
-                        builder.Setup(variable.QueryScalar, variable.QueryScalar.Settings, Xml.Settings.SettingsXml.DefaultScope.Variable, instances);
+                        builder.Setup(variable.QueryScalar, variable.QueryScalar.Settings, Xml.Settings.SettingsXml.DefaultScope.Variable);
                     }
                     else if (variable.Environment != null)
-                        builder.Setup(variable.Environment, instances);
+                        builder.Setup(variable.Environment);
                     builder.Build();
                     var args = builder.GetArgs();
 
@@ -339,7 +339,7 @@ namespace NBi.NUnit.Runtime
                 // For each instance create a test-case
                 foreach (var instance in instances)
                 {
-                    var scalarHelper = new ScalarHelper(serviceLocator, instance.Variables);
+                    var scalarHelper = new ScalarHelper(serviceLocator, new Context(instance.Variables));
 
                     var testName = instance.IsDefault 
                         ? $"{test.GetName()}" 

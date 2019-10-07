@@ -19,6 +19,7 @@ using NBi.Core.Query.Resolver;
 using NBi.Core.ResultSet.Equivalence;
 using NBi.NUnit.Builder.Helper;
 using NBi.Xml.Settings;
+using NBi.Core.Variable;
 
 namespace NBi.NUnit.Builder
 {
@@ -50,7 +51,7 @@ namespace NBi.NUnit.Builder
             BaseResultSetComparisonConstraint ctr = null;
 
             //Manage transformations
-            var transformationProvider = new TransformationProvider(ServiceLocator, Variables);
+            var transformationProvider = new TransformationProvider(ServiceLocator, new Context(Variables));
             foreach (var columnDef in ConstraintXml.ColumnsDef)
             {
                 if (columnDef.Transformation != null)

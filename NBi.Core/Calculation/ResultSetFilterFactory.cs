@@ -18,10 +18,10 @@ namespace NBi.Core.Calculation
     public class ResultSetFilterFactory
     {
         private ServiceLocator ServiceLocator { get; }
-        private IDictionary<string, ITestVariable> Variables { get; }
+        private Context Context { get; }
 
-        public ResultSetFilterFactory(ServiceLocator serviceLocator, IDictionary<string, ITestVariable> variables)
-            => (ServiceLocator, Variables) = (serviceLocator, variables);
+        public ResultSetFilterFactory(ServiceLocator serviceLocator, Context context)
+            => (ServiceLocator, Context) = (serviceLocator, context);
 
         public IResultSetFilter Instantiate(IEnumerable<IColumnAlias> aliases, IEnumerable<IColumnExpression> expressions, PredicationArgs predicationArgs)
         {
@@ -31,7 +31,7 @@ namespace NBi.Core.Calculation
             var factory = new PredicateFactory();
             var predicate = factory.Instantiate(predicationArgs.Predicate);
 
-            var pf = new SinglePredicateFilter(ServiceLocator, aliases, expressions, predicationArgs.Identifier, predicate.Execute, predicate.ToString);
+            var pf = new SinglePredicateFilter(ServiceLocator, Context, aliases, expressions, predicationArgs.Identifier, predicate.Execute, predicate.ToString);
 
             return pf;
         }
@@ -53,11 +53,11 @@ namespace NBi.Core.Calculation
             switch (combinationOperator)
             {
                 case CombinationOperator.Or:
-                    return new OrCombinationPredicateFilter(ServiceLocator, aliases, expressions, predications);
+                    return new OrCombinationPredicateFilter(ServiceLocator, Context, aliases, expressions, predications);
                 case CombinationOperator.XOr:
-                    return new XOrCombinationPredicateFilter(ServiceLocator, aliases, expressions, predications);
+                    return new XOrCombinationPredicateFilter(ServiceLocator, Context, aliases, expressions, predications);
                 case CombinationOperator.And:
-                    return new AndCombinationPredicateFilter(ServiceLocator, aliases, expressions, predications);
+                    return new AndCombinationPredicateFilter(ServiceLocator, Context, aliases, expressions, predications);
                 default:
                     throw new ArgumentOutOfRangeException(nameof(combinationOperator));
             }

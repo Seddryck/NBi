@@ -13,6 +13,7 @@ using NBi.NUnit.Builder.Helper;
 using NBi.Core.Scalar.Resolver;
 using NBi.Core.Scalar;
 using NBi.Core.Calculation.Predicate;
+using NBi.Core.Variable;
 
 namespace NBi.NUnit.Builder
 {
@@ -54,10 +55,11 @@ namespace NBi.NUnit.Builder
 
                 var value = EvaluatePotentialVariable(comparer.Reference.ToString().Replace(" ", ""));
 
-                var factory = new ResultSetFilterFactory(ServiceLocator, Variables);
+                var context = new Context(Variables);
+                var factory = new ResultSetFilterFactory(ServiceLocator, context);
                 if (filterXml.Predication != null)
                 {
-                    var helper = new PredicateArgsBuilder(ServiceLocator, Variables);
+                    var helper = new PredicateArgsBuilder(ServiceLocator, context);
                     var args = helper.Execute(filterXml.Predication.ColumnType, filterXml.Predication.Predicate);
 
                     filter = factory.Instantiate
@@ -70,7 +72,7 @@ namespace NBi.NUnit.Builder
 
                 else if (filterXml.Combination != null)
                 {
-                    var helper = new PredicateArgsBuilder(ServiceLocator, Variables);
+                    var helper = new PredicateArgsBuilder(ServiceLocator, context);
                     var predicationArgs = new List<PredicationArgs>();
                     foreach (var predication in filterXml.Combination.Predications)
                     {
@@ -99,21 +101,21 @@ namespace NBi.NUnit.Builder
 
         protected virtual DifferedConstraint BuildChildConstraint(ScalarReferencePredicateXml xml)
         {
-            var builder = new ScalarResolverArgsBuilder(ServiceLocator);
+            var builder = new ScalarResolverArgsBuilder(ServiceLocator, new Context(Variables));
 
             if (!string.IsNullOrEmpty(xml.Reference))
             {
                 if (xml.Reference.Trim().EndsWith("%"))
-                    builder.Setup(xml.Reference.Trim().Substring(0, xml.Reference.Trim().IndexOf("%")), Variables);
+                    builder.Setup(xml.Reference.Trim().Substring(0, xml.Reference.Trim().IndexOf("%")));
                 else
-                    builder.Setup(xml.Reference, Variables);
+                    builder.Setup(xml.Reference);
             }
 
             if (xml.QueryScalar != null)
-                builder.Setup(xml.QueryScalar, ConstraintXml.Settings, Xml.Settings.SettingsXml.DefaultScope.Assert, Variables);
+                builder.Setup(xml.QueryScalar, ConstraintXml.Settings, Xml.Settings.SettingsXml.DefaultScope.Assert);
 
             if (xml.Projection != null)
-                builder.Setup(xml.Projection, ConstraintXml.Settings, Xml.Settings.SettingsXml.DefaultScope.Assert, Variables);
+                builder.Setup(xml.Projection, ConstraintXml.Settings, Xml.Settings.SettingsXml.DefaultScope.Assert);
 
             builder.Build();
             var args = builder.GetArgs();

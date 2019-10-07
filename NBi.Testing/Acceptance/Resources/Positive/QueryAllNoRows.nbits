@@ -715,6 +715,42 @@
       </all-rows>
     </assert>
   </test>
+  <test name="all-rows with dateTime informations using an expression based on native functions using a parameter coming from the context" uid="0140">
+    <system-under-test>
+      <execution>
+        <query
+					connectionString="Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly"
+				>
+          select '2019-10-01 06:00:00' as Ref, '07:00:00' as MaxTime, '2019-10-01 06:47:00' as Effective
+          union all select '2019-10-01 22:15:00', '23:00:00', '2019-10-01 22:42:00'
+          union all select '2019-10-02 02:45:00', '03:00:00', '2019-10-02 02:48:00'
+        </query>
+      </execution>
+    </system-under-test>
+    <assert>
+      <all-rows>
+        <expression name="deadLine">
+          <script language="native">
+            [Ref] | dateTime-to-set-time([MaxTime])
+          </script>
+        </expression>
+        <expression name="shortLine">
+          <script language="native">
+            [deadLine] | dateTime-to-add(01:00:00, -1)
+          </script>
+        </expression>
+        <combination operator="and">
+          <predicate name="deadLine" type="dateTime">
+            <more-than>[Effective]</more-than>
+          </predicate>
+          <predicate name="shortLine" type="dateTime">
+            <less-than>[Effective]</less-than>
+          </predicate>
+        </combination>
+        
+      </all-rows>
+    </assert>
+  </test>
   <test name="No-row with textual informations direct column name for predicate" uid="0011">
     <system-under-test>
       <execution>

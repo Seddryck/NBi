@@ -1,6 +1,7 @@
 ﻿using Moq;
 using NBi.Core.Injection;
 using NBi.Core.Query.Resolver;
+using NBi.Core.ResultSet;
 using NBi.Core.ResultSet.Resolver;
 using NBi.Core.Scalar.Resolver;
 using NBi.Core.Transformation.Transformer.Native;
@@ -37,6 +38,22 @@ namespace NBi.Testing.Core.Scalar.Resolver
             var resolver = factory.Instantiate(args);
 
             Assert.That(resolver, Is.TypeOf<GlobalVariableScalarResolver<object>>());
+        }
+
+        [Test]
+        public void Instantiate_ContextArgs_ContextResolver()
+        {
+            using (var dt = new DataTable())
+            {
+                var context = new Context(null);
+                context.Switch(dt.NewRow());
+                var args = new ContextScalarResolverArgs(context, new ColumnOrdinalIdentifier(0));
+
+                var factory = new ScalarResolverFactory(null);
+                var resolver = factory.Instantiate(args);
+
+                Assert.That(resolver, Is.TypeOf<ContextScalarResolver<object>>());
+            }
         }
 
         [Test]
@@ -131,7 +148,7 @@ namespace NBi.Testing.Core.Scalar.Resolver
         public void Instantiate_NCalcArgs_NcalcResolver()
         {
             using (var dt = new DataTable())
-            { 
+            {
                 var row = dt.NewRow();
                 var args = new NCalcScalarResolverArgs("a * b - 2", row);
 

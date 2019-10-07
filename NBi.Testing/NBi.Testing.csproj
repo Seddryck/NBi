@@ -512,6 +512,9 @@
     <EmbeddedResource Include="Acceptance\Resources\Csv\Info_20161001_161514.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
+    <EmbeddedResource Include="Acceptance\Resources\Csv\ResellerOrderCountByYearBefore2006bis.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
     <None Include="Acceptance\Resources\Positive\ExternalSettings.nbitset">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

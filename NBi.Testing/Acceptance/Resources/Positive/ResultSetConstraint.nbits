@@ -669,6 +669,36 @@
         </equalTo>
       </assert>
     </test>
+    <test name="Filter with one predicate having the reference defined based on the context of the row" uid="0206">
+      <system-under-test>
+        <resultSet file="..\Csv\ResellerOrderCountByYearBefore2006bis.csv">
+          <alteration>
+            <filter>
+              <predicate name="#1" type="numeric">
+                <less-than>#2</less-than>
+              </predicate>
+            </filter>
+            <project-away>
+              <column identifier="#2"/>
+            </project-away>
+          </alteration>
+        </resultSet>
+      </system-under-test>
+      <assert>
+        <equalTo>
+          <resultSet>
+            <row>
+              <cell>CY 2005</cell>
+              <cell>366</cell>
+            </row>
+            <row>
+              <cell>CY 2008</cell>
+              <cell>894</cell>
+            </row>
+          </resultSet>
+        </equalTo>
+      </assert>
+    </test>
     <test name="Filter with one ranking top" uid="0211">
       <system-under-test>
         <resultSet file="..\Csv\ResellerOrderCountByYearBefore2006.csv">
@@ -971,6 +1001,50 @@
         </equal-to>
       </assert>
     </test>
+    <test name="Native transformations using row context" uid="0234">
+      <system-under-test>
+        <result-set>
+          <query>
+            select 'ABCDE', 'foo', 3, '*'
+            union all select 'bc', 'bar', 4, '-'
+            union all select null, '', 2, '*'
+          </query>
+          <alteration>
+            <transform column-index="0" language="native" original-type="text">
+              null-to-empty | text-to-upper | text-to-first-chars(#2) | text-to-pad-right(#2, #3)
+            </transform>
+            <project-away>
+              <column identifier="#2"/>
+              <column identifier="#3"/>
+            </project-away>
+          </alteration>
+        </result-set>
+      </system-under-test>
+      <assert>
+        <equal-to values-default-type="text">
+          <column index="0" type="text" role="key" />
+          <result-set>
+            <row>
+              <cell>abc</cell>
+              <cell>foo</cell>
+            </row>
+            <row>
+              <cell>bc--</cell>
+              <cell>bar</cell>
+            </row>
+            <row>
+              <cell>(empty)</cell>
+              <cell>(empty)</cell>
+            </row>
+            <alteration>
+              <transform column-index="0" language="native" original-type="text">
+                text-to-upper| text-to-pad-right(2, *)
+              </transform>
+            </alteration>
+          </result-set>
+        </equal-to>
+      </assert>
+    </test>
     <test name="Renamings" uid="0241">
       <system-under-test>
         <result-set>
@@ -1039,6 +1113,50 @@
         </equal-to>
       </assert>
     </test>
+    <!--<test name="Extensions based on row context" uid="0252">
+      <system-under-test>
+        <result-set>
+          <query>
+            select '2019-10-07 22:00:00' as Timing, 0 as Shift, 100 as ValueCol
+            union all select '2019-10-07 22:00:00' as Timing, 1 as Shift, 120 as ValueCol
+          </query>
+          <alteration>
+            <extend identifier="[NewTime]">
+              <script language="native">[Timing] | dateTime-to-add(01:00:00, [Shift])</script>
+            </extend>
+            <project>
+              <column identifier="[NewTime]"/>
+              <column identifier="[ValueCol]"/>
+            </project>
+          </alteration>
+        </result-set>
+      </system-under-test>
+      <assert>
+        <equal-to>
+          <result-set>
+            <row>
+              <cell>2019-10-07 22:00:00</cell>
+              <cell>50</cell>
+              <cell>2</cell>
+            </row>
+            <row>
+              <cell>2019-10-07 23:00:00</cell>
+              <cell>40</cell>
+              <cell>3</cell>
+            </row>
+            <alteration>
+              <extend identifier="[NewValue]">
+                <script language="native">#1 | numeric-to-multiply(#2)</script>
+              </extend>
+              <project-away>
+                <column identifier="#1"/>
+                <column identifier="#2"/>
+              </project-away>
+            </alteration>
+          </result-set>
+        </equal-to>
+      </assert>
+    </test>-->
     <test name="Summarization on all columns" uid="0261">
       <system-under-test>
         <result-set>

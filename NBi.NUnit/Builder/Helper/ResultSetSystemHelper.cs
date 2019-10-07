@@ -81,7 +81,8 @@ namespace NBi.NUnit.Builder.Helper
 
         private Alter InstantiateFilter(FilterXml filterXml)
         {
-            var factory = new ResultSetFilterFactory(ServiceLocator, Variables);
+            var context = new Context(Variables);
+            var factory = new ResultSetFilterFactory(ServiceLocator, context);
 
             if (filterXml.Ranking == null)
             {
@@ -91,7 +92,7 @@ namespace NBi.NUnit.Builder.Helper
 
                 if (filterXml.Predication != null)
                 {
-                    var helper = new PredicateArgsBuilder(ServiceLocator, Variables);
+                    var helper = new PredicateArgsBuilder(ServiceLocator, context);
                     var args = helper.Execute(filterXml.Predication.ColumnType, filterXml.Predication.Predicate);
 
                     return factory.Instantiate
@@ -103,7 +104,7 @@ namespace NBi.NUnit.Builder.Helper
                 }
                 if (filterXml.Combination != null)
                 {
-                    var helper = new PredicateArgsBuilder(ServiceLocator, Variables);
+                    var helper = new PredicateArgsBuilder(ServiceLocator, context);
                     var predicationArgs = new List<PredicationArgs>();
                     foreach (var predication in filterXml.Combination.Predications)
                     {

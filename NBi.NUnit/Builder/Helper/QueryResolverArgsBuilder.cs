@@ -26,7 +26,7 @@ namespace NBi.NUnit.Builder.Helper
         private object obj = null;
         private SettingsXml settingsXml = null;
         private SettingsXml.DefaultScope scope = SettingsXml.DefaultScope.Everywhere;
-        private IDictionary<string, ITestVariable> globalVariables = null;
+        private IDictionary<string, ITestVariable> Variables { get; set; } = null;
         private BaseQueryResolverArgs args = null;
 
         public QueryResolverArgsBuilder(ServiceLocator serviceLocator)
@@ -34,21 +34,21 @@ namespace NBi.NUnit.Builder.Helper
             this.serviceLocator = serviceLocator;
         }
 
-        public void Setup(QueryXml queryXml, SettingsXml settingsXml, SettingsXml.DefaultScope scope, IDictionary<string, ITestVariable> globalVariables)
+        public void Setup(QueryXml queryXml, SettingsXml settingsXml, SettingsXml.DefaultScope scope, IDictionary<string, ITestVariable> variables)
         {
             this.obj = queryXml;
             this.settingsXml = settingsXml;
             this.scope = scope;
-            this.globalVariables = globalVariables;
+            Variables = variables;
             isSetup = true;
         }
 
-        public void Setup(ExecutableXml executableXml, SettingsXml settingsXml, IDictionary<string, ITestVariable> globalVariables)
+        public void Setup(ExecutableXml executableXml, SettingsXml settingsXml, IDictionary<string, ITestVariable> variables)
         {
             this.obj = executableXml;
             this.settingsXml = settingsXml;
             this.scope = SettingsXml.DefaultScope.SystemUnderTest;
-            this.globalVariables = globalVariables;
+            this.Variables = variables;
             isSetup = true;
         }
 
@@ -162,8 +162,8 @@ namespace NBi.NUnit.Builder.Helper
             {
                 var stringWithoutSpecialChars = parameterXml.StringValue.Replace("\r", "").Replace("\n", "").Replace("\t", "").Trim();
 
-                var builder = new ScalarResolverArgsBuilder(serviceLocator, null);
-                builder.Setup(stringWithoutSpecialChars, globalVariables);
+                var builder = new ScalarResolverArgsBuilder(serviceLocator, new Context(Variables));
+                builder.Setup(stringWithoutSpecialChars);
                 builder.Build();
                 var args = builder.GetArgs();
 

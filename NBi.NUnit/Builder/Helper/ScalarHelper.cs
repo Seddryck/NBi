@@ -43,7 +43,7 @@ namespace NBi.NUnit.Builder.Helper
         public IScalarResolver<T> InstantiateResolver<T>(ScalarXml scalarXml)
         {
             var argsBuilder = new ScalarResolverArgsBuilder(ServiceLocator, Context);
-            argsBuilder.Setup(scalarXml.BaseItem, scalarXml.Settings, Scope, Context.Variables);
+            argsBuilder.Setup(scalarXml.BaseItem, scalarXml.Settings, Scope);
             argsBuilder.Build();
 
             var factory = ServiceLocator.GetScalarResolverFactory();
@@ -55,7 +55,7 @@ namespace NBi.NUnit.Builder.Helper
         {
             var argsBuilder = new ScalarResolverArgsBuilder(ServiceLocator, Context);
 
-            argsBuilder.Setup(value, Context.Variables);
+            argsBuilder.Setup(value);
             argsBuilder.Build();
 
             var factory = ServiceLocator.GetScalarResolverFactory();
@@ -67,7 +67,7 @@ namespace NBi.NUnit.Builder.Helper
         {
             var argsBuilder = new ScalarResolverArgsBuilder(ServiceLocator, Context);
 
-            argsBuilder.Setup(value, Context.Variables);
+            argsBuilder.Setup(value);
             argsBuilder.Build();
             var args = argsBuilder.GetArgs();
 

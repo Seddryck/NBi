@@ -27,7 +27,6 @@ namespace NBi.NUnit.Builder.Helper
         private object obj = null;
         private SettingsXml settings = SettingsXml.Empty;
         private SettingsXml.DefaultScope scope = SettingsXml.DefaultScope.Everywhere;
-        private IDictionary<string, ITestVariable> variables = new Dictionary<string, ITestVariable>();
         private IScalarResolverArgs args = null;
 
         private ServiceLocator ServiceLocator { get; }
@@ -36,15 +35,14 @@ namespace NBi.NUnit.Builder.Helper
         public ScalarResolverArgsBuilder(ServiceLocator serviceLocator, Context context) 
             => (ServiceLocator, Context) = (serviceLocator, context);
 
-        public void Setup(object obj, IDictionary<string, ITestVariable> variables)
-            => Setup(obj, null, SettingsXml.DefaultScope.Everywhere, variables);
+        public void Setup(object obj)
+            => Setup(obj, null, SettingsXml.DefaultScope.Everywhere);
 
-        public void Setup(object obj, SettingsXml settings, SettingsXml.DefaultScope scope,IDictionary<string, ITestVariable> variables)
+        public void Setup(object obj, SettingsXml settings, SettingsXml.DefaultScope scope)
         {
             this.obj = obj;
             this.settings = settings ?? SettingsXml.Empty;
             this.scope = scope;
-            this.variables = variables ?? new Dictionary<string, ITestVariable>();
             isSetup = true;
         }
 
@@ -60,13 +58,13 @@ namespace NBi.NUnit.Builder.Helper
                     break;
                 case QueryXml obj:
                     var queryBuilder = new QueryResolverArgsBuilder(ServiceLocator);
-                    queryBuilder.Setup(obj, settings, scope, variables);
+                    queryBuilder.Setup(obj, settings, scope, Context.Variables);
                     queryBuilder.Build();
                     args = new QueryScalarResolverArgs(queryBuilder.GetArgs());
                     break;
                 case ProjectionOldXml obj:
                     var resultSetBuilder = new ResultSetResolverArgsBuilder(ServiceLocator);
-                    resultSetBuilder.Setup(obj.ResultSet, settings, scope, variables);
+                    resultSetBuilder.Setup(obj.ResultSet, settings, scope, Context.Variables);
                     resultSetBuilder.Build();
                     args = new RowCountResultSetScalarResolverArgs(resultSetBuilder.GetArgs());
                     break;
@@ -74,7 +72,7 @@ namespace NBi.NUnit.Builder.Helper
                     args = new EnvironmentScalarResolverArgs(obj.Name);
                     break;
                 default:
-                    var factory = new ScalarResolverArgsFactory(ServiceLocator, new Context(variables));
+                    var factory = new ScalarResolverArgsFactory(ServiceLocator, Context);
                     args = factory.Instantiate(obj as string);
                     break;
             }

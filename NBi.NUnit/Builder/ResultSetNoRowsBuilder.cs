@@ -10,6 +10,7 @@ using NBi.Core.Evaluate;
 using NBi.NUnit.Builder.Helper;
 using NBi.Core.Calculation.Predicate;
 using NBi.Core.ResultSet;
+using NBi.Core.Variable;
 
 namespace NBi.NUnit.Builder
 {
@@ -43,10 +44,11 @@ namespace NBi.NUnit.Builder
             if (ConstraintXml.Expressions != null)
                 expressions.AddRange(ConstraintXml.Expressions);
 
-            var factory = new ResultSetFilterFactory(ServiceLocator, Variables);
+            var context = new Context(Variables);
+            var factory = new ResultSetFilterFactory(ServiceLocator, context);
             if (ConstraintXml.Predication != null)
             {
-                var helper = new PredicateArgsBuilder(ServiceLocator, Variables);
+                var helper = new PredicateArgsBuilder(ServiceLocator, context);
                 var args = helper.Execute(ConstraintXml.Predication.ColumnType, ConstraintXml.Predication.Predicate);
 
                 return factory.Instantiate
@@ -58,7 +60,7 @@ namespace NBi.NUnit.Builder
             }
             else if (ConstraintXml.Combination != null)
             {
-                var helper = new PredicateArgsBuilder(ServiceLocator, Variables);
+                var helper = new PredicateArgsBuilder(ServiceLocator, context);
 
                 var predicationArgs = new List<PredicationArgs>();
                 foreach (var predicationXml in ConstraintXml.Combination.Predications)

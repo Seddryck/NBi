@@ -21,12 +21,12 @@ namespace NBi.NUnit.Builder.Helper
         private PredicateArgs Args { get; } = null;
 
         private SettingsXml Settings { get; } = SettingsXml.Empty;
-        private IDictionary<string, ITestVariable> Variables { get; } = new Dictionary<string, ITestVariable>();
+        private Context Context { get; }
 
         private ServiceLocator ServiceLocator { get; }
 
-        public PredicateArgsBuilder(ServiceLocator serviceLocator, IDictionary<string, ITestVariable> variables) 
-            => (ServiceLocator, Variables) = (serviceLocator, variables);
+        public PredicateArgsBuilder(ServiceLocator serviceLocator, Context context) 
+            => (ServiceLocator, Context) = (serviceLocator, context);
 
 
         public PredicateArgs Execute(ColumnType columnType, PredicateXml xml)
@@ -43,7 +43,7 @@ namespace NBi.NUnit.Builder.Helper
         }
 
         private IResolver BuildScalarReference(ColumnType columnType, ScalarReferencePredicateXml xml)
-            => new ScalarHelper(ServiceLocator, new Context(Variables)).InstantiateResolver(columnType, xml.Reference);
+            => new ScalarHelper(ServiceLocator, Context).InstantiateResolver(columnType, xml.Reference);
 
         private IResolver BuildSequenceReference(ColumnType columnType, SequenceReferencePredicateXml xml)
             => new ListSequenceResolver<string>(xml.References);

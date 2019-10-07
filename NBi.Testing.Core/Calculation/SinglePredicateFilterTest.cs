@@ -14,6 +14,7 @@ using NBi.Core.Transformation;
 using NBi.Core.Scalar.Resolver;
 using NBi.Core.Calculation.Predicate;
 using NBi.Core.Injection;
+using NBi.Core.Variable;
 
 namespace NBi.Testing.Core.Calculation
 {
@@ -44,7 +45,7 @@ namespace NBi.Testing.Core.Calculation
             predication.SetupGet(p => p.Identifier).Returns(new ColumnNameIdentifier("a"));
             predication.SetupGet(p => p.Predicate).Returns(predicate.Object);
 
-            var factory = new ResultSetFilterFactory(null, null);
+            var factory = new ResultSetFilterFactory(null, new Context(null));
             var filter = factory.Instantiate(aliases, new IColumnExpression[0], predication.Object);
             var result = filter.Apply(rs);
 
@@ -71,7 +72,7 @@ namespace NBi.Testing.Core.Calculation
             predication.SetupGet(p => p.Identifier).Returns(new ColumnOrdinalIdentifier(0));
             predication.SetupGet(p => p.Predicate).Returns(predicate.Object);
 
-            var factory = new ResultSetFilterFactory(null, null);
+            var factory = new ResultSetFilterFactory(null, new Context(null));
             var filter = factory.Instantiate(new IColumnAlias[0], new IColumnExpression[0], predication.Object);
             var result = filter.Apply(rs);
 
@@ -100,7 +101,7 @@ namespace NBi.Testing.Core.Calculation
             predication.SetupGet(p => p.Identifier).Returns(new ColumnNameIdentifier("first"));
             predication.SetupGet(p => p.Predicate).Returns(predicate.Object);
 
-            var factory = new ResultSetFilterFactory(null, null);
+            var factory = new ResultSetFilterFactory(null, new Context(null));
             var filter = factory.Instantiate(new IColumnAlias[0], new IColumnExpression[0], predication.Object);
             var result = filter.Apply(rs);
 
@@ -129,7 +130,7 @@ namespace NBi.Testing.Core.Calculation
             predication.SetupGet(p => p.Identifier).Returns(new ColumnNameIdentifier("FirSt"));
             predication.SetupGet(p => p.Predicate).Returns(predicate.Object);
 
-            var factory = new ResultSetFilterFactory(null, null);
+            var factory = new ResultSetFilterFactory(null, new Context(null));
             var filter = factory.Instantiate(new IColumnAlias[0], new IColumnExpression[0], predication.Object);
             var result = filter.Apply(rs);
 
@@ -162,7 +163,7 @@ namespace NBi.Testing.Core.Calculation
             predication.SetupGet(p => p.Identifier).Returns(new ColumnNameIdentifier("Unexisting"));
             predication.SetupGet(p => p.Predicate).Returns(predicate.Object);
 
-            var factory = new ResultSetFilterFactory(null, null);
+            var factory = new ResultSetFilterFactory(null, new Context(null));
             var filter = factory.Instantiate(new IColumnAlias[0], new IColumnExpression[0], predication.Object);
             var ex = Assert.Throws<ArgumentException>(() => filter.Apply(rs));
             Assert.That(ex.Message, Does.Contain("first"));
@@ -205,7 +206,7 @@ namespace NBi.Testing.Core.Calculation
             predication.SetupGet(p => p.Identifier).Returns(new ColumnNameIdentifier("d"));
             predication.SetupGet(p => p.Predicate).Returns(predicate.Object);
 
-            var factory = new ResultSetFilterFactory(null, null);
+            var factory = new ResultSetFilterFactory(null, new Context(null));
             var filter = factory.Instantiate(aliases, expressions, predication.Object);
             var result = filter.Apply(rs);
 
@@ -246,7 +247,7 @@ namespace NBi.Testing.Core.Calculation
             predication.SetupGet(p => p.Identifier).Returns(new ColumnNameIdentifier("d"));
             predication.SetupGet(p => p.Predicate).Returns(predicate.Object);
 
-            var factory = new ResultSetFilterFactory(null, null);
+            var factory = new ResultSetFilterFactory(null, new Context(null));
             var filter = factory.Instantiate(aliases, expressions, predication.Object);
             var result = filter.Apply(rs);
 
@@ -291,7 +292,7 @@ namespace NBi.Testing.Core.Calculation
             predication.SetupGet(p => p.Predicate).Returns(predicate.Object);
 
 
-            var factory = new ResultSetFilterFactory(new ServiceLocator(), null);
+            var factory = new ResultSetFilterFactory(new ServiceLocator(), new Context(null));
             var filter = factory.Instantiate(aliases, expressions, predication.Object);
             var result = filter.Apply(rs);
 

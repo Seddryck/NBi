@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<testSuite name="Acceptance Testing: query equalTo Csv" xmlns="http://NBi/TestSuite">
+<testSuite name="Acceptance Testing: query equal-to Csv" xmlns="http://NBi/TestSuite">
   <settings>
     <csv-profile field-separator="Tab" empty-cell="(null)" missing-cell="(empty)"/>
   </settings>
@@ -8,7 +8,7 @@
       <service-running name="MSOLAP$SQL2017"/>
     </condition>
 		<system-under-test>
-			<execution>
+      <result-set>
 				<query name="MDX Except" connectionString="Provider=MSOLAP.4;Data Source=(local)\SQL2017;Initial Catalog='Adventure Works DW 2012';localeidentifier=1049">
 					SELECT
 					[Measures].[Reseller Order Count] ON 0,
@@ -16,30 +16,75 @@
 					FROM
 					[Adventure Works]
 				</query>
-			</execution>
+			</result-set>
 		</system-under-test>
 		<assert>
-			<equalTo>
+			<equal-to>
 				<column index="0" role="key" type="text"/>
 				<column index="1" role="value" type="numeric"/>
-				<resultSet file="..\Csv\ResellerOrderCountByYearBefore2006WithProfile.csv"/>
-			</equalTo>
+        <result-set file="..\Csv\ResellerOrderCountByYearBefore2006WithProfile.csv"/>
+			</equal-to>
 		</assert>
 	</test>
   <test name="'Reseller Order Count' by year before 2006 (csv)" uid="0001">
     <system-under-test>
-      <execution>
+      <result-set>
         <query connectionString="Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly">
           SELECT [Key]=1,Val1='2',Val3=NULL,Val3='3'
           UNION
           SELECT [Key]=4,Val1=NULL,Val2='3',Val3=''
         </query>
-      </execution>
+      </result-set>
     </system-under-test>
     <assert>
-      <equalTo keys="first" behavior="multiple-rows" values="all-except-first" values-default-type="text">
-        <resultSet file="..\Csv\SampleData.csv"/>
-      </equalTo>
+      <equal-to keys="first" behavior="multiple-rows" values="all-except-first" values-default-type="text">
+        <result-set file="..\Csv\SampleData.csv"/>
+      </equal-to>
+    </assert>
+  </test>
+  <test name="'Reseller Order Count' by year before 2006 (csv)" uid="0001">
+    <system-under-test>
+      <result-set>
+        <row>
+          <cell>A</cell>
+          <cell>1</cell>
+        </row>
+        <row>
+          <cell>B</cell>
+          <cell>4</cell>
+        </row>
+        <row>
+          <cell>C</cell>
+          <cell>1</cell>
+        </row>
+        <alteration>
+          <lookup-replace>
+            <join>
+              <mapping candidate="#1" reference="#0" type="numeric"/>
+            </join>
+            <result-set file="..\Csv\SampleData.csv"/>
+            <replacement identifier="#1" type="numeric"/>
+          </lookup-replace>
+        </alteration>
+      </result-set>
+    </system-under-test>
+    <assert>
+      <equal-to keys="first">
+        <result-set>
+          <row>
+            <cell>A</cell>
+            <cell>2</cell>
+          </row>
+          <row>
+            <cell>B</cell>
+            <cell>(null)</cell>
+          </row>
+          <row>
+            <cell>C</cell>
+            <cell>2</cell>
+          </row>
+        </result-set>
+      </equal-to>
     </assert>
   </test>
 </testSuite>

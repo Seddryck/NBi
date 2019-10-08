@@ -14,10 +14,10 @@ namespace NBi.Core.ResultSet.Alteration.Lookup
         public ColumnMapping Mapping { get; set; }
         public IResultSetService Reference { get; set; }
         public IColumnIdentifier Replacement { get; set; }
-        public IMissingStrategy MissingStrategy { get; set; } = new FailureMissingStrategy();
+        public IMissingStrategy MissingStrategy { get; set; }
 
-        public LookupReplaceArgs( IResultSetService resultSet, ColumnMapping mapping, IColumnIdentifier replacement)
-            => (Reference, Mapping, Replacement) = (resultSet, mapping, replacement);
+        public LookupReplaceArgs(IResultSetService resultSet, ColumnMapping mapping, IColumnIdentifier replacement)
+            : this(resultSet, mapping, replacement, new FailureMissingStrategy()) { }
 
         public LookupReplaceArgs(IResultSetService resultSet, ColumnMapping mapping, IColumnIdentifier replacement, IMissingStrategy missingStrategy)
             => (Reference, Mapping, Replacement, MissingStrategy) = (resultSet, mapping, replacement, missingStrategy);

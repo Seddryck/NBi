@@ -73,7 +73,7 @@ namespace NBi.NUnit.Builder.Helper
                     case UnstackXml x: yield return InstantiateUnstack(x); break;
                     case ProjectAwayXml x: yield return InstantiateProjectAway(x); break;
                     case ProjectXml x: yield return InstantiateProject(x); break;
-                    case LookupReplaceXml x: yield return InstantiateLookupReplace(x); break;
+                    case LookupReplaceXml x: yield return InstantiateLookupReplace(x, resultSetXml.Settings); break;
                     default: throw new ArgumentException();
                 }
             }
@@ -210,11 +210,12 @@ namespace NBi.NUnit.Builder.Helper
             return project.Execute;
         }
 
-        private Alter InstantiateLookupReplace(LookupReplaceXml lookupReplaceXml)
+        private Alter InstantiateLookupReplace(LookupReplaceXml lookupReplaceXml, SettingsXml settingsXml)
         {
             var factory = new LookupFactory();
 
             var innerService = new ResultSetServiceBuilder();
+            lookupReplaceXml.ResultSet.Settings = settingsXml;
             innerService.Setup(InstantiateResolver(lookupReplaceXml.ResultSet));
             innerService.Setup(InstantiateAlterations(lookupReplaceXml.ResultSet));
 

@@ -1,4 +1,5 @@
 ﻿using NBi.Core.Scalar.Resolver;
+using NBi.Core.Transformation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,8 +12,9 @@ namespace NBi.Core.ResultSet.Alteration.Extension
     {
         public IColumnIdentifier NewColumn { get; set; }
         public string Code { get; set; }
+        public LanguageType Language { get; set; }
 
-        public ExtendArgs(IColumnIdentifier newColumn, string code)
-            => (NewColumn, Code) = (newColumn, code);
+        public ExtendArgs(IColumnIdentifier newColumn, string code, LanguageType language)
+            => (NewColumn, Code, Language) = (newColumn, code, language);
     }
 }

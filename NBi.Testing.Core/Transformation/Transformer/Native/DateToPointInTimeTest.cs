@@ -160,6 +160,18 @@ namespace NBi.Testing.Core.Transformation.Transformer.Native
             Assert.That(result, Is.EqualTo(expected));
         }
 
+        [Test]
+        [TestCase("2019-03-11 17:00:00", 0, "04:00:00", "2019-03-11 17:00:00")]
+        [TestCase("2019-03-11 17:00:00", 1, "04:00:00", "2019-03-11 13:00:00")]
+        [TestCase("2019-03-11 17:00:00", 5, "04:00:00", "2019-03-10 21:00:00")]
+        [TestCase("2019-03-11 17:00:00", -1, "04:00:00", "2019-03-11 21:00:00")]
+        public void Execute_DateTimeToSubtract_Valid(object value, int times, string timeSpan, DateTime expected)
+        {
+            var function = new DateTimeToSubtract(new LiteralScalarResolver<string>(timeSpan), new LiteralScalarResolver<int>(times));
+            var result = function.Evaluate(value);
+            Assert.That(result, Is.EqualTo(expected));
+        }
+
         [TestCase(9, 8, 39)]
         [TestCase(12, 28, 39)]
         public void Execute_DateToAge_Min38(int month, int day, int age)

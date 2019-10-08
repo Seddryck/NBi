@@ -102,10 +102,28 @@ namespace NBi.Core.Transformation.Transformer.Native
         protected override decimal EvaluateNumeric(decimal value)
             => value + (Value.Execute() * Times.Execute());
     }
-    
+
+    class NumericToSubtract : NumericToAdd
+    {
+        public NumericToSubtract(IScalarResolver<decimal> value, IScalarResolver<int> times)
+            : base(value, times) { }
+
+        public NumericToSubtract(IScalarResolver<decimal> value)
+            : base(value) { }
+
+        protected override decimal EvaluateNumeric(decimal value)
+            => value - (Value.Execute() * Times.Execute());
+    }
+
     class NumericToIncrement : NumericToAdd
     {
         public NumericToIncrement()
+        : base(new LiteralScalarResolver<decimal>(1)) { }
+    }
+
+    class NumericToDecrement : NumericToSubtract
+    {
+        public NumericToDecrement()
         : base(new LiteralScalarResolver<decimal>(1)) { }
     }
 

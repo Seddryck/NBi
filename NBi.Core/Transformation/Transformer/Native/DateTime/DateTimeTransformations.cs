@@ -181,4 +181,16 @@ namespace NBi.Core.Transformation.Transformer.Native
         protected override object EvaluateDateTime(DateTime value)
             => value.AddTicks(System.TimeSpan.Parse(TimeSpan.Execute()).Ticks * Times.Execute());
     }
+
+    class DateTimeToSubtract : DateTimeToAdd
+    {
+        public DateTimeToSubtract(IScalarResolver<string> timeSpan, IScalarResolver<int> times)
+            : base(timeSpan, times) { }
+
+        public DateTimeToSubtract(IScalarResolver<string> timeSpan)
+            : base(timeSpan) { }
+
+        protected override object EvaluateDateTime(DateTime value)
+            => value.AddTicks(System.TimeSpan.Parse(TimeSpan.Execute()).Ticks * Times.Execute() * -1);
+    }
 }

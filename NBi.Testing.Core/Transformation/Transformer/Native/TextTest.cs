@@ -261,6 +261,36 @@ namespace NBi.Testing.Core.Transformation.Transformer.Native
         }
 
         [Test]
+        [TestCase("123456789", 9, "(empty)")]
+        [TestCase("123456789", 10, "(empty)")]
+        [TestCase("123456789", 8, "9")]
+        [TestCase("123456789", 5, "6789")]
+        [TestCase("123456789", 0, "123456789")]
+        [TestCase("(null)", 3, "(null)")]
+        [TestCase("(empty)", 3, "(empty)")]
+        public void Execute_TextToSkipFirstChars_Valid(string value, int length, string expected)
+        {
+            var function = new TextToSkipFirstChars(new LiteralScalarResolver<int>(length));
+            var result = function.Evaluate(value);
+            Assert.That(result, Is.EqualTo(expected));
+        }
+
+        [Test]
+        [TestCase("123456789", 9, "(empty)")]
+        [TestCase("123456789", 10, "(empty)")]
+        [TestCase("123456789", 8, "1")]
+        [TestCase("123456789", 5, "1234")]
+        [TestCase("123456789", 0, "123456789")]
+        [TestCase("(null)", 3, "(null)")]
+        [TestCase("(empty)", 3, "(empty)")]
+        public void Execute_TextToSkipLastChars_Valid(string value, int length, string expected)
+        {
+            var function = new TextToSkipLastChars(new LiteralScalarResolver<int>(length));
+            var result = function.Evaluate(value);
+            Assert.That(result, Is.EqualTo(expected));
+        }
+
+        [Test]
         public void Execute_TextToLastCharsWithVariable_Valid()
         {
             var args = new GlobalVariableScalarResolverArgs("length", new Dictionary<string, ITestVariable>() { { "length", new GlobalVariable(new LiteralScalarResolver<int>(6) )} });

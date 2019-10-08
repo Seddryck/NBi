@@ -152,6 +152,8 @@ namespace NBi.Testing.Core.Transformation.Transformer
         [TestCase("text-to-length")]
         [TestCase("text-to-first-chars(3)")]
         [TestCase("text-to-last-chars(3)")]
+        [TestCase("text-to-skip-first-chars(3)")]
+        [TestCase("text-to-skip-last-chars(3)")]
         [TestCase("text-to-pad-right(3, *)")]
         [TestCase("text-to-pad-left(3, *)")]
         [TestCase("text-to-html")]

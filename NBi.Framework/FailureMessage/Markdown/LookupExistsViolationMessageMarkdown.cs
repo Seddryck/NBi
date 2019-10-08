@@ -23,17 +23,20 @@ namespace NBi.Framework.FailureMessage.Markdown
 
         protected override void RenderAnalysis(LookupViolationCollection violations, IEnumerable<ColumnMetadata> metadata, ISampler<DataRow> sampler, ColumnMappingCollection keyMappings, ColumnMappingCollection valueMappings, MarkdownContainer container)
         {
-            container.Append("Analysis".ToMarkdownHeader());
-            var state = violations.Values.Select(x => x.State).First();
-            container.Append(GetExplanationText(violations, state).ToMarkdownParagraph());
+            if (violations.Values.Any())
+            {
+                container.Append("Analysis".ToMarkdownHeader());
+                var state = violations.Values.Select(x => x.State).First();
+                container.Append(GetExplanationText(violations, state).ToMarkdownParagraph());
 
-            var rows = violations.Values.Where(x => x is LookupExistsViolationInformation)
-                        .Cast<LookupExistsViolationInformation>()
-                        .SelectMany(x => x.CandidateRows);
-            sampler.Build(rows);
+                var rows = violations.Values.Where(x => x is LookupExistsViolationInformation)
+                            .Cast<LookupExistsViolationInformation>()
+                            .SelectMany(x => x.CandidateRows);
+                sampler.Build(rows);
 
-            var tableHelper = new StandardTableHelperMarkdown(rows, metadata, sampler);
-            tableHelper.Render(container);
+                var tableHelper = new StandardTableHelperMarkdown(rows, metadata, sampler);
+                tableHelper.Render(container);
+            }
         }
     }
 }

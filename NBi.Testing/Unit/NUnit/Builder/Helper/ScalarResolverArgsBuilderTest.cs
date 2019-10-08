@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using NBi.Core.Injection;
 using NBi.Core.Transformation.Transformer.Native;
+using NBi.Core.Variable;
 
 namespace NBi.Testing.Unit.NUnit.Builder.Helper
 {
@@ -37,6 +38,37 @@ namespace NBi.Testing.Unit.NUnit.Builder.Helper
             builder.Build();
             var args = builder.GetArgs();
             Assert.That(args, Is.TypeOf<GlobalVariableScalarResolverArgs>());
+        }
+
+        [Test]
+        public void Build_ContextColumnName_ContextScalarResolverArgs()
+        {
+            var builder = new ScalarResolverArgsBuilder(new ServiceLocator(), new Context(null));
+            builder.Setup("[ColA]");
+            builder.Build();
+            var args = builder.GetArgs();
+            Assert.That(args, Is.TypeOf<ContextScalarResolverArgs>());
+        }
+
+        [Test]
+        public void Build_ContextColumnOrdinal_ContextScalarResolverArgs()
+        {
+            var builder = new ScalarResolverArgsBuilder(new ServiceLocator(), new Context(null));
+            builder.Setup("#12");
+            builder.Build();
+            var args = builder.GetArgs();
+            Assert.That(args, Is.TypeOf<ContextScalarResolverArgs>());
+        }
+
+        [Test]
+        public void Build_ContextColumnOrdinalFollowedByNativeTransformations_ContextScalarResolverArgs()
+        {
+            var builder = new ScalarResolverArgsBuilder(new ServiceLocator(), new Context(null));
+            builder.Setup("#12 | text-to-upper | text-to-first-chars([ColA])");
+            builder.Build();
+            var args = builder.GetArgs();
+            Assert.That(args, Is.TypeOf<FunctionScalarResolverArgs>());
+            Assert.That((args as FunctionScalarResolverArgs).Resolver, Is.AssignableFrom<ContextScalarResolver<object>>());
         }
 
         [Test]

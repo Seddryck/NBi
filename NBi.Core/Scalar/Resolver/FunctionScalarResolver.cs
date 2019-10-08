@@ -8,7 +8,7 @@ namespace NBi.Core.Scalar.Resolver
 {
     class FunctionScalarResolver<T> : IScalarResolver<T>
     {
-        private FunctionScalarResolverArgs Args { get; }
+        protected internal FunctionScalarResolverArgs Args { get; }
 
         public FunctionScalarResolver(FunctionScalarResolverArgs args) => Args = args;
 

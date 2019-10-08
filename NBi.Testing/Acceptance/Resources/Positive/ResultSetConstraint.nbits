@@ -699,6 +699,37 @@
         </equalTo>
       </assert>
     </test>
+    <test name="Filter with one predicate having the reference defined based on the context of the row and a native function" uid="0206">
+      <system-under-test>
+        <result-set file="..\Csv\ResellerOrderCountByYearBefore2006bis.csv">
+          <alteration>
+            <rename identifier="#2" new-name="myColumn"/>
+            <filter>
+              <predicate name="#1" type="numeric">
+                <less-than>[myColumn] | numeric-to-increment</less-than>
+              </predicate>
+            </filter>
+            <project-away>
+              <column identifier="#2"/>
+            </project-away>
+          </alteration>
+        </result-set>
+      </system-under-test>
+      <assert>
+        <equal-to>
+          <result-set>
+            <row>
+              <cell>CY 2005</cell>
+              <cell>366</cell>
+            </row>
+            <row>
+              <cell>CY 2008</cell>
+              <cell>894</cell>
+            </row>
+          </result-set>
+        </equal-to>
+      </assert>
+    </test>
     <test name="Filter with one ranking top" uid="0211">
       <system-under-test>
         <resultSet file="..\Csv\ResellerOrderCountByYearBefore2006.csv">
@@ -1006,7 +1037,7 @@
         <result-set>
           <query>
             select 'ABCDE', 'foo', 3, '*'
-            union all select 'bc', 'bar', 4, '-'
+            union all select 'bc', 'bar', 4, '#'
             union all select null, '', 2, '*'
           </query>
           <alteration>
@@ -1029,7 +1060,7 @@
               <cell>foo</cell>
             </row>
             <row>
-              <cell>bc--</cell>
+              <cell>bc##</cell>
               <cell>bar</cell>
             </row>
             <row>

@@ -26,11 +26,11 @@ namespace NBi.Testing.Core.Calculation
         {
             var service = new ObjectsResultSetResolver(
                 new ObjectsResultSetResolverArgs(
-                    new object[]
+                    new []
                     {
-                        new List<object>() { "(null)", 10, 100 },
-                        new List<object>() { "(empty)", 2, 75 },
-                        new List<object>() { "C", 5, 50 }
+                        new object[] { "(null)", 10, 100 },
+                        new object[] { "(empty)", 2, 75 },
+                        new object[] { "C", 5, 50 }
                     }));
 
             var rs = service.Execute();
@@ -57,11 +57,11 @@ namespace NBi.Testing.Core.Calculation
         {
             var service = new ObjectsResultSetResolver(
                 new ObjectsResultSetResolverArgs(
-                    new object[]
+                    new []
                     {
-                        new List<object>() { "(null)", 10, 100 },
-                        new List<object>() { "(empty)", 2, 75 },
-                        new List<object>() { "C", 5, 50 }
+                        new object[] { "(null)", 10, 100 },
+                        new object[] { "(empty)", 2, 75 },
+                        new object[] { "C", 5, 50 }
                     }));
             var rs = service.Execute();
 
@@ -85,11 +85,11 @@ namespace NBi.Testing.Core.Calculation
         {
             var service = new ObjectsResultSetResolver(
                 new ObjectsResultSetResolverArgs(
-                    new object[]
+                    new []
                     {
-                        new List<object>() { "(null)", 10, 100 },
-                        new List<object>() { "(empty)", 2, 75 },
-                        new List<object>() { "C", 5, 50 }
+                        new object[] { "(null)", 10, 100 },
+                        new object[] { "(empty)", 2, 75 },
+                        new object[] { "C", 5, 50 }
                     }));
             var rs = service.Execute();
             rs.Table.Columns[0].ColumnName = "first";
@@ -113,11 +113,11 @@ namespace NBi.Testing.Core.Calculation
         {
             var service = new ObjectsResultSetResolver(
                 new ObjectsResultSetResolverArgs(
-                    new object[]
+                    new []
                     {
-                        new List<object>() { "(null)", 10, 100 },
-                        new List<object>() { "(empty)", 2, 75 },
-                        new List<object>() { "C", 5, 50 }
+                        new object[] { "(null)", 10, 100 },
+                        new object[] { "(empty)", 2, 75 },
+                        new object[] { "C", 5, 50 }
                     }));
             var rs = service.Execute();
             rs.Table.Columns[0].ColumnName = "first";
@@ -143,11 +143,11 @@ namespace NBi.Testing.Core.Calculation
         {
             var service = new ObjectsResultSetResolver(
                 new ObjectsResultSetResolverArgs(
-                    new object[]
+                    new []
                     {
-                        new List<object>() { "(null)", 10, 100 },
-                        new List<object>() { "(empty)", 2, 75 },
-                        new List<object>() { "C", 5, 50 }
+                        new object[] { "(null)", 10, 100 },
+                        new object[] { "(empty)", 2, 75 },
+                        new object[] { "C", 5, 50 }
                     }));
             var rs = service.Execute();
             rs.Table.Columns[0].ColumnName = "first";
@@ -176,11 +176,11 @@ namespace NBi.Testing.Core.Calculation
         {
             var service = new ObjectsResultSetResolver(
                 new ObjectsResultSetResolverArgs(
-                    new object[]
+                    new []
                         {
-                            new List<object>() { 1, 10, 100 },
-                            new List<object>() { 2, 2, 75 },
-                            new List<object>() { 3, 5, 50 }
+                            new object[] { 1, 10, 100 },
+                            new object[] { 2, 2, 75 },
+                            new object[] { 3, 5, 50 }
                         }));
             var rs = service.Execute();
 
@@ -218,11 +218,11 @@ namespace NBi.Testing.Core.Calculation
         {
             var service = new ObjectsResultSetResolver(
                 new ObjectsResultSetResolverArgs(
-                    new object[]
+                    new []
                     {
-                        new List<object>() { 1, 10, 100 },
-                        new List<object>() { 2, 2, 75 },
-                        new List<object>() { 3, 5, 50 }
+                        new object[] { 1, 10, 100 },
+                        new object[] { 2, 2, 75 },
+                        new object[] { 3, 5, 50 }
                     }));
             var rs = service.Execute();
             rs.Table.Columns[2].ColumnName = "c1";
@@ -259,11 +259,11 @@ namespace NBi.Testing.Core.Calculation
         {
             var service = new ObjectsResultSetResolver(
                 new ObjectsResultSetResolverArgs(
-                    new object[]
+                    new []
                     {
-                        new List<object>() { new DateTime(2019, 10, 01, 8, 0, 0), 10, 100 },
-                        new List<object>() { new DateTime(2019, 10, 01, 23, 0, 0), 2, 75 },
-                        new List<object>() { new DateTime(2019, 10, 02, 05, 0, 0), 5, 50 }
+                        new object[] { new DateTime(2019, 10, 01, 8, 0, 0), 10, 100 },
+                        new object[] { new DateTime(2019, 10, 01, 23, 0, 0), 2, 75 },
+                        new object[] { new DateTime(2019, 10, 02, 05, 0, 0), 5, 50 }
                     }));
             var rs = service.Execute();
             rs.Table.Columns[0].ColumnName = "a";

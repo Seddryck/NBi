@@ -17,9 +17,6 @@ namespace NBi.NUnit.Builder.Helper
 {
     class PredicateArgsBuilder
     {
-        private bool IsSetup { get; } = false;
-        private PredicateArgs Args { get; } = null;
-
         private SettingsXml Settings { get; } = SettingsXml.Empty;
         private Context Context { get; }
 

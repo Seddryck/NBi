@@ -202,6 +202,7 @@
     <Compile Include="Integration\Core\Scalar\Resolver\QueryScalarResolverTest.cs" />
     <Compile Include="Integration\Core\DirectoryInfoExtensionsTest.cs" />
     <Compile Include="Unit\NUnit\Builder\Helper\ConnectionStringHelperTest.cs" />
+    <Compile Include="Unit\NUnit\Builder\Helper\PredicateArgsBuilderTest.cs" />
     <Compile Include="Unit\NUnit\Builder\Helper\ScalarResolverArgsBuilderTest.cs" />
     <Compile Include="Unit\NUnit\Builder\Helper\SetupHelperTest.cs" />
     <Compile Include="Unit\NUnit\Builder\ResultSetAllRowsBuilderTest.cs" />

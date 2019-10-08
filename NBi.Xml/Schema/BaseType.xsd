@@ -679,6 +679,8 @@
       <xs:enumeration value="text-to-without-whitespaces"/>
       <xs:enumeration value="text-to-first-chars("/>
       <xs:enumeration value="text-to-last-chars("/>
+      <xs:enumeration value="text-to-skip-first-chars("/>
+      <xs:enumeration value="text-to-skip-last-chars("/>
       <xs:enumeration value="text-to-pad-left("/>
       <xs:enumeration value="text-to-pad-right("/>
       <xs:enumeration value="text-to-dateTime("/>

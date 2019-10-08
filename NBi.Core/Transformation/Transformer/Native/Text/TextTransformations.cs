@@ -100,6 +100,24 @@ namespace NBi.Core.Transformation.Transformer.Native
             => value.Length >= Length.Execute() ? value.Substring(value.Length - Length.Execute(), Length.Execute()) : value;
     }
 
+    class TextToSkipFirstChars : AbstractTextLengthTransformation
+    {
+        public TextToSkipFirstChars(IScalarResolver<int> length)
+            : base(length) { }
+
+        protected override object EvaluateString(string value)
+            => value.Length <= Length.Execute() ? "(empty)" : value.Substring(Length.Execute(), value.Length-Length.Execute());
+    }
+
+    class TextToSkipLastChars : AbstractTextLengthTransformation
+    {
+        public TextToSkipLastChars(IScalarResolver<int> length)
+            : base(length) { }
+
+        protected override object EvaluateString(string value)
+            => value.Length <= Length.Execute() ? "(empty)" : value.Substring(0, value.Length - Length.Execute());
+    }
+
     abstract class AbstractTextPadTransformation : AbstractTextLengthTransformation
     {
         public IScalarResolver<char> Character { get; }

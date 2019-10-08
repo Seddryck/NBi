@@ -193,7 +193,7 @@ The second use-case is to define the reference as a the value of column for the 
 </assertion>
 {% endhighlight %}
 
-Finally when using any of the above possibilities (literal, variable or column's name), it's possible to add native transformations directly after the definition of the reference's value.
+Finally, when using any of the above possibilities (literal, variable or column's name), it's possible to add native transformations directly after the definition of the reference's value.
 
 {% highlight xml %}
 <assertion>

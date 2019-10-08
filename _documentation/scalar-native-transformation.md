@@ -83,8 +83,6 @@ The list of native transformations is available here under and is organized by t
 * ```utc-to-local(timeZone)```: returns the dateTime converted from UTC to the local time of the specified time zone
 * ```local-to-utc(timeZone)```: returns the dateTime converted from the local time of the specified time zone to utc. If the local time was ambiguous (at the moment of the switch between summer and winter the same local time occurs twice) then the first occurance is selected.
 
-
-
 ### Path and file transformations
 
 The following transformations will consider the location of the test-suite as the base path when facing a relative path.

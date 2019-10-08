@@ -20,13 +20,10 @@ At the moment, you can make usage of three different languages and a few ready-t
 
 These options support different purposes:
 
-*NCalc* is specifically dedicated to calculations on numerical values but also offers limited features for booleans and texts.
-
-*Format* is a quick way to transform a *dateTime* or *numeric* to a text representation taking into account culture specific formats (leading 0, 2 or 4 digits for years, coma or point for decimal spearator and many more).
-
-*C#* is there to support advanced transformations requiring a little bit more of code.
-
-*Native* is a collection of ready-to-go transformations for general purposes. It's especially useful around *null*, *empty*, *blank* and *text*
+* *NCalc* is specifically dedicated to calculations on numerical values but also offers limited features for booleans and texts.
+* *Format* is a quick way to transform a *dateTime* or *numeric* to a text representation taking into account culture specific formats (leading 0, 2 or 4 digits for years, coma or point for decimal spearator and many more).
+* *C#* is there to support advanced transformations requiring a little bit more of code.
+* *Native* is a collection of ready-to-go transformations for general purposes. It's especially useful around *null*, *empty*, *blank* and *text*. More information is available in the page for [native transformations](../scalar-native-transformation).
 
 | Language | source | destination
 | ----------------------------
@@ -38,6 +35,31 @@ These options support different purposes:
 Technically, the destination could be something else that the option(s) defined in the table above, but most of the time it has no added-value.
 
 The content of the cell is always casted on .NET based on the information provided into the attribute *original-type*
+
+You've two options to perform a transformation. The first is to do it classicaly in an alteration by defining a *transform* element.
+
+{% highlight xml %}
+<result-set>
+  ...
+  <alteration>
+    <transform identifier="[myCol]" language="native" original-type="text">
+      text-to-upper | text-to-first-chars(5)
+    </transform>
+  </alteration>
+</result-set>
+{% endhighlight %}
+
+The second option is deprecated and should be avoided as much as possible. It can safely be replaced by the previous notation. The idea of this notation was to specify the transformation in the column's definition of an *equal-to* assertion.
+
+{% highlight xml %}
+<assert>
+  <equal-to>
+    <column index="1" role="value" type="text">
+      <transform language="ncalc" original-type="numeric">value * 1.21</transform>
+    </column>
+  </equal-to>
+</assert>
+{% endhighlight %}
 
 ### NCalc
 
@@ -52,16 +74,17 @@ The exemple here under is transformating the content of two columns:
 * The second column is hosting a *numeric* that will be divided by 1000 before rounded with 2 digits.
 
 {% highlight xml %}
-<assert>
-  <equal-to>
-    <column index="1" role="value" type="text">
-      <transform language="ncalc" original-type="numeric">value * 1.21</transform>
-    </column>
-    <column index="2" role="value" type="text">
-      <transform language="ncalc" original-type="numeric">Round(value/1000, 2)</transform>
-    </column>
-  </equal-to>
-</assert>
+<result-set>
+  ...
+  <alteration>
+    <transform column="myCol" language="ncalc" original-type="numeric">
+      value * 1.21
+    </transform>
+    <transform column="myOtherCol" language="ncalc" original-type="numeric">
+      Round(value/1000, 2)
+    </transform>
+  </alteration>
+</result-set>
 {% endhighlight %}
 
 ### Format
@@ -75,19 +98,20 @@ The exemple here under is transformating the content of three columns:
 * The third column is hosting a *numeric* that will be converted to a currency representation but this time using k€ (thousand of euros, the cell content with be divided by 1000).
 
 {% highlight xml %}
-<assert>
-  <equal-to>
-    <column index="0" role="key" type="text">
-      <transform language="format" original-type="dateTime">yyyy.MM</transform>
-    </column>
-    <column index="1" role="value" type="text" culture="fr-fr">
-      <transform language="format" original-type="numeric">€000.00</transform>
-    </column>
-    <column index="2" role="value" type="text">
-      <transform language="format" original-type="numeric">k€000,</transform>
-    </column>
-  </equal-to>
-</assert>
+<result-set>
+  ...
+  <alteration>
+    <transform column="myCol" language="format" original-type="dateTime">
+      yyyy.MM
+    </transform>
+    <transform column-index="1" original-type="numeric" language="format" culture="fr-fr">
+      €000.00
+    </transform>
+    <transform column-index="2" original-type="numeric" language="format" culture="fr-fr">
+      k€000,
+    </transform>
+  </alteration>
+</result-set>
 {% endhighlight %}
 
 ### C-Sharp
@@ -103,25 +127,20 @@ The exemple here under is transformating the content of two columns:
 * The third column is hosting a *numeric* that will be divided by 1000 before rounded with 2 digits, then we'll add the symbols k€ in front of the result.
 
 {% highlight xml %}
-<assert>
-  <equal-to>
-    <column index="0" role="key" type="text">
-      <transform language="c-sharp" original-type="dateTime">
-        value.AddMonth(1).Year.ToString() + "." + (value.AddMonth(1).Month.ToString()
-      </transform>
-    </column>
-    <column index="1" role="value" type="text">
-      <transform language="c-sharp" original-type="numeric">
+<result-set>
+  ...
+  <alteration>
+    <transform column-index="0" language="c-sharp" original-type="dateTime">
+      value.AddMonth(1).Year.ToString() + "." + (value.AddMonth(1).Month.ToString()
+    </transform>
+    <transform column-index="1" language="c-sharp" original-type="numeric">
         Math.Abs(value * 1.21)
-      </transform>
-    </column>
-    <column index="2" role="value" type="text">
-      <transform language="c-sharp" original-type="numeric">
-        value < 5000 ? string.Format(€{0:##00.00}, value) : "k€" + Math.Round(value/1000, 2).ToString()
-      </transform>
-    </column>
-  </equal-to>
-</assert>
+    </transform>
+    <transform column-index="2" language="c-sharp" original-type="numeric">
+      value < 5000 ? string.Format(€{0:##00.00}, value) : "k€" + Math.Round(value/1000, 2).ToString()
+    </transform>
+  </alteration>
+</result-set>
 {% endhighlight %}
 
 ### Native
@@ -131,28 +150,12 @@ It's possible to define one or more straighforward [native transormations](../sc
 It's possible to chain the transformation but not apply a native transformation to the parameter of another native transformation. To chain transformation you must separate them by a pipe (```|```).
 
 {% highlight xml %}
-<assert>
-  <equal-to>
-    <column index="0" role="key" type="text">
-      <transform language="native" original-type="text">
-        text-to-trim | text-to-upper
-      </transform>
-    </column>
-    <column index="1" role="value" type="text">
-      <transform language="native" original-type="text">
-        empty-to-null
-      </transform>
-    </column>
-    <column index="2" role="value" type="text">
-      <transform language="native" original-type="text">
-        any-to-value
-      </transform>
-    </column>
-    <column index="3" role="value" type="dateTime">
-      <transform language="native" original-type="dateTime">
-        dateTime-to-clip(2010-01-01, 2019-12-31)
-      </transform>
-    </column>
-  </equal-to>
-</assert>
+<result-set>
+  ...
+  <alteration>
+    <transform identifier="[myCol]" language="native" original-type="text">
+      text-to-upper | text-to-first-chars(5)
+    </transform>
+  </alteration>
+</result-set>
 {% endhighlight %}

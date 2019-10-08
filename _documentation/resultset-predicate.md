@@ -7,7 +7,7 @@ permalink: /docs/resultset-predicate/
 ---
 A predicate is a condition that will be tested for each row of the result-set. If this condition is positively evaluated then the row will validate the predicate else not. Constraints such as *all-rows* or *no-rows* will check that respectively all and no rows are validating the predicate.
 
-# content of cells for each row
+# Content of cells for each row
 
 For this kind of test, you'll assert the value of one cell (or a combination of cells) of each row with a predicate (see bellow). This cell is named the *operand* and must be specified to the predicate by the means of the *operand* attribute. Before version 1.17, this attribute was named *name*, this notation is now deprecated.
 
@@ -94,8 +94,6 @@ It's possible to use an expression in an expression (nested expressions). The pr
 
 The predicate can be used with the previously defined assertions: *no-rows*, *all-rows*, *some-rows* and *single-row*. They supports many different operators, see the table here under for the full list.
 
-In addition to this operator, you must also define [the column or expression](../resultset-all-no-rows/) that you want to validate with this predicate. This indication is provided by identifying the column or the expression in the attribute *name*. Once again, you can use the three strategies described above to identify a column and for an expression, you can use its name.
-
 As most predicates are valid for different types, you must specify the type of the column or expression that will be tested. By default the type is set to *numeric* but you configure it to any other type.
 
 {% highlight xml %}
@@ -109,7 +107,7 @@ As most predicates are valid for different types, you must specify the type of t
 </assertion>
 {% endhighlight %}
 
-Each predicate is not valid for each data type. The list of possible combinaison is described here under.
+Each predicate is not valid for each data type. The list of possible combinaisons is described here under.
 
 | Predicate | Text | Numeric | DateTime | Boolean | Remarks
 |-------------|:----:|:----:|:----:|:----:|----:|
@@ -150,7 +148,9 @@ Each predicate is not valid for each data type. The list of possible combinaison
 
 ## Reference
 
-Some of the predicates, require to specify a *reference*. For example if you want to check that the content of a column is equal to 1000 then your *reference* is ```1000```. This value must be specified in the inner text of the predicate element.
+### Direct reference
+
+Some of the predicates require to specify a *reference*. For example, if you want to check that the content of a column is equal to 1000 then your *reference* is ```1000```. This value must be specified in the inner text of the *predicate* element.
 
 {% highlight xml %}
 <assertion>
@@ -163,7 +163,52 @@ Some of the predicates, require to specify a *reference*. For example if you wan
 </assertion>
 {% endhighlight %}
 
-The predicate *any-of* is not expecting a unique reference but a list of items as the reference. Use the xml element *item* to delimitate each item that you want to put in your reference.
+### Indirect references
+
+It's also possible to use an indirect reference. An indirect reference is not a literal value but to get the reference's value, you must take a look somewhere else.
+
+The first use-case is to define the reference as a variable. The usage of the ```@``` symbol specifies that this is not a static value but a reference to the value of a variable.
+
+{% highlight xml %}
+<assertion>
+    <all-rows>
+        ...
+        <predicate operand="Value">
+           <equal>@myVar</equal>
+        </predicate>
+    </all-rows>
+</assertion>
+{% endhighlight %}
+
+The second use-case is to define the reference as a the value of column for the current row. The usage of the ```[]``` symbols specifies that this is not a static value but a column's name where the usage of the ```#``` symbols indicates a column's ordinal.
+
+{% highlight xml %}
+<assertion>
+    <all-rows>
+        ...
+        <predicate operand="Value">
+           <equal>[myCol]</equal>
+        </predicate>
+    </all-rows>
+</assertion>
+{% endhighlight %}
+
+Finally when using any of the above possibilities (literal, variable or column's name), it's possible to add native transformations directly after the definition of the reference's value.
+
+{% highlight xml %}
+<assertion>
+    <all-rows>
+        ...
+        <predicate operand="Value">
+           <equal>[myCol] | text-to-upper | text-to-first-chars(@CountChar)</equal>
+        </predicate>
+    </all-rows>
+</assertion>
+{% endhighlight %}
+
+### Special cases
+
+The predicate *any-of* is not expecting a unique scalar reference but a list of items as the reference. Use the xml element *item* to delimitate each item that you want to put in your reference.
 
 {% highlight xml %}
 <assertion>
@@ -177,6 +222,19 @@ The predicate *any-of* is not expecting a unique reference but a list of items a
         </predicate>
     </all-rows>
 </assertion>
+
+The predicate *within-range* is not expecting a scalar reference but an interval. To define the interval use a mathematical notation with square brackets to specifies a closed, open or half-open interval
+
+{% highlight xml %}
+<assertion>
+    <all-rows>
+        ...
+        <predicate operand="value" type="numeric">
+           <within-range>[0;10]</within-range>
+        </predicate>
+    </all-rows>
+</assertion>
+
 {% endhighlight %}
 
 ## Case-sensitive

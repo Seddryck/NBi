@@ -5,19 +5,24 @@ prev_section: scalar-transform
 next_section: resultset-alteration
 permalink: /docs/scalar-native-transformation/
 ---
+## Functions
+
 The list of native transformations is available here under and is organized by type of input value.
 
-Some native transformations except parameters to operate. You must replace the information beween parenthesis with a string matching your expectation.
+### Special values
 
-## Text
-
-* ```blank-to-empty```: if the current content of the cell is ```blank``` (zero or many spaces) replace the content by ```(empty)```
-* ```blank-to-null```: if the current content of the cell is ```blank``` (zero or many spaces) replace the content by ```(null)```
-* ```empty-to-null```: if the current content of the cell is ```empty``` (length=0) replace the content by ```(null)```
 * ```null-to-empty```: if the current content of the cell is ```null``` replace the content by ```(empty)```
 * ```null-to-value```: if the current content of the cell is ```null``` replace the content by ```(value)```
 * ```any-to-any```: replaces the content of each cell by ```(any)```
 * ```value-to-value```: if the cell's value is not ```null``` will replace the content by ```(value)```
+* ```null-to-zero```: if the cell is ```null``` or ```empty``` or ```blank```, it replaces the content by ```0```.
+* ```null-to-date(dateTime)```: returns the original date if the value wasn't null or empty else returns the value specified as a parameter. ```dateTime``` must be expressed as string: ```2018-05-09```
+
+### Text
+
+* ```blank-to-empty```: if the current content of the cell is ```blank``` (zero or many spaces) replace the content by ```(empty)```
+* ```blank-to-null```: if the current content of the cell is ```blank``` (zero or many spaces) replace the content by ```(null)```
+* ```empty-to-null```: if the current content of the cell is ```empty``` (length=0) replace the content by ```(null)```
 * ```text-to-without-diacritics```: if the current cell's value contains any accents or diacritics, they are removed
 * ```text-to-without-whitespaces```: removes blanks from anywhere within the cell. If the cell is ```null```, it returns ```null``` but if ```empty``` or ```blank```, it returns ```empty```.
 * ```text-to-upper```: returns a copy of this text converted to uppercase
@@ -29,25 +34,29 @@ Some native transformations except parameters to operate. You must replace the i
 * ```text-to-token-count```: returns the count of tokens. A token is considered as one or more letter or digit or hyphen seperated by one or more whitespace. If the cell is ```null``` or ```empty``` or ```blank```, it returns 0.
 * ```text-to-first-chars(length)```: if the text is longer than the specified length, take the last characters.
 * ```text-to-last-chars(length)```: if the text is longer than the specified length, take the last characters.
+* ```text-to-skip-first-chars(length)```: returns the text except the *length* first characters. If the text's length is less than the specified length returns an empty string.
+* ```text-to-skip-last-chars(length)```: returns the text except the *length* last characters. If the text's length is less than the specified length returns an empty string.
 * ```text-to-pad-left(length, character)```: if the text is shorter than the specified length, add the specified character at the beginning of the text until the length of this text is equal to the expected length.
 * ```text-to-pad-left(length, character)```: if the text is shorter than the specified length, add the specified character at the end of the text until the length of this text is equal to the expected length.
 * ```text-to-dateTime(format)``` and ```text-to-dateTime(format, culture)``` returns a dateTime from the text value after parsing it with the *format* provided as argument. If the format includes day or month names, it could be useful to specify the *culture*.
 
-## Numeric
+### Numeric
 
-* ```null-to-zero```: if the cell is ```null``` or ```empty``` or ```blank```, it replaces the content by ```0```.
 * ```numeric-to-floor```: returns the largest integral value less than or equal to the specified number. If the cell is ```null``` or ```empty``` or ```blank```, it returns ```null```.
 * ```numeric-to-ceiling```: returns the smallest integral value greater than or equal to the specified number. If the cell is ```null``` or ```empty``` or ```blank```, it returns ```null```.
 * ```numeric-to-integer```: rounds a value to the nearest integer. If the cell is ```null``` or ```empty``` or ```blank```, it returns ```null```.
 * ```numeric-to-round(integer)```: rounds a value to the specified number of fractional digits.
 * ```numeric-to-clip(numeric, numeric)```: Clip a value such as if smaller than the first argument then it will return the first argument or if larger than the second argument then will return the second argument. If the original value is between the first and second argument then the original value is returned.
 * ```numeric-to-increment```: add 1 to the current value
+* ```numeric-to-decrement```: subtract 1 to the current value
 * ```numeric-to-add(incr)```: add *incr* to the current value
 * ```numeric-to-add(incr, times)```: add *incr* to the current value several *times*. If *times* is zero, return current value. *times* must be an integer value.
+* ```numeric-to-add(incr)```: subtract *incr* to the current value
+* ```numeric-to-add(incr, times)```: subtract *incr* to the current value several *times*. If *times* is zero, return current value. *times* must be an integer value.
 * ```numeric-to-multiply(factor)```: multiply the current value by *factor*
 * ```numeric-to-invert```: invert the current value (equivalent to *1/current value*)
 
-## DateTime
+### DateTime
 
 * ```date-to-age```: returns the age according to the *dateTime* value of the cell at the moment of execution of the test.
 * ```dateTime-to-date```: remove information about the time (equivalent to set the dateTime to midnight)
@@ -65,17 +74,18 @@ Some native transformations except parameters to operate. You must replace the i
 * ```dateTime-to-ceiling-hour```: returns a dateTime rounded up to the nearest boundary of an hour.
 * ```dateTime-to-floor-minute```: returns a dateTime rounded down to the nearest boundary of a minute.
 * ```dateTime-to-ceiling-minute```: returns a dateTime rounded up to the nearest boundary of a minute.
-* ```null-to-date(dateTime)```: returns the original date if the value wasn't null or empty else returns the value specified as a parameter. ```dateTime``` must be expressed as string: ```2018-05-09```
 * ```dateTime-to-clip(dateTime, dateTime)```: Clip a value such as if smaller than the first argument then it will return the first argument or if larger than the second argument then will return the second argument. If the original value is between the first and second argument then the original value is returned.
 * ```dateTime-to-set-time(timeSpan)```: Set the hours, minutes, second of a dateTime to the specified value without changing the date part. The timespan should be defined with the format *hh:mm:ss* such as ```07:00:00```.
 * ```dateTime-to-add(ts)```: add *ts* (a timeSpan) to the current value
 * ```dateTime-to-add(ts, times)```: add *ts* (a timeSpan) to the current value several times. If times is zero, return current value. *times* must be an integer value.
+* ```dateTime-to-subtract(ts)```: subtract *ts* (a timeSpan) to the current value
+* ```dateTime-to-subtract(ts, times)```: subtract *ts* (a timeSpan) to the current value several times. If times is zero, return current value. *times* must be an integer value.
 * ```utc-to-local(timeZone)```: returns the dateTime converted from UTC to the local time of the specified time zone
 * ```local-to-utc(timeZone)```: returns the dateTime converted from the local time of the specified time zone to utc. If the local time was ambiguous (at the moment of the switch between summer and winter the same local time occurs twice) then the first occurance is selected.
 
-For the last two transformations, the parameter is a valid TimeZone. User must specify the identification of a time zone (Romance Standard Time ...) or the name of one of the city listed in the display of a TimeZone (Brussels, Paris ...).
 
-## Path and file transformations
+
+### Path and file transformations
 
 The following transformations will consider the location of the test-suite as the base path when facing a relative path.
 
@@ -92,3 +102,23 @@ For these transformations, the input must corresponds to an existing file. If it
 * ```file-to-creation-dateTime-utc```: Gets the creation time, in coordinated universal time (UTC), of the file.
 * ```file-to-update-dateTime```: Gets the time that the current file was last written to.
 * ```file-to-update-dateTime-utc```: Gets the time, in coordinated universal time (UTC), that the current file was last written to.
+
+## Parameters
+
+Some native transformations except parameters to operate. You must replace the information beween parenthesis with a string matching your expectation.
+
+### Parameter's type
+
+* timeZone: represents a valid TimeZone. User must specify the identification of a time zone (Romance Standard Time ...) or the name of one of the city listed in the display of a TimeZone (Brussels, Paris ...).
+* timeSpan represents a duration expressed in days, hours, minutes, seconds. The format is ```d.HH:mm:ss``` where the count of day is facultative (```HH:mm:ss```)
+* dateTime represents a date and its time. The format is ```yyyy-MM-dd HH:mm:ss```
+* integer: represents a numeric value
+* character: represents a unique character
+
+### Parameter's value
+
+The easiest way to specify the parameter's value is to use the literal value and specify it directly such as in ```dateTime-to-subtract(00:15:00)```. Note that this value is not surrounded by quotes or double-quotes.
+
+It's also possible to define the parameteres value with a variable (global or instance). To achieve this, you'll need to use the variable's name prefixed by the ```@``` symbol such as in ```numeric-to-add(@incr)```.
+
+Finally, when the native transformation is applied in a contextual zone (usually in a result-set). You can also define it with a colmn's name or column's ordinal. The value will correspond to the value of this column for the current row evaluated: ```numeric-to-add([incr], #1)```.

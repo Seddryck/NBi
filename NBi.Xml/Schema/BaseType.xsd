@@ -1837,6 +1837,7 @@
           <xs:simpleType>
             <xs:restriction base="xs:string">
               <xs:enumeration value="ncalc"/>
+              <xs:enumeration value="native"/>
             </xs:restriction>
           </xs:simpleType>
         </xs:attribute>

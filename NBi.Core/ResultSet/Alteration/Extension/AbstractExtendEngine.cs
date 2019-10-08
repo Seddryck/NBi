@@ -1,4 +1,5 @@
-﻿using NBi.Core.Scalar.Resolver;
+﻿using NBi.Core.Injection;
+using NBi.Core.Scalar.Resolver;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -8,27 +9,23 @@ using System.Threading.Tasks;
 
 namespace NBi.Core.ResultSet.Alteration.Extension
 {
-    class ExtendEngine : IExtensionEngine
+    abstract class AbstractExtendEngine : IExtensionEngine
     {
-        private IColumnIdentifier NewColumn { get; }
-        private string Code { get; }
+        protected ServiceLocator ServiceLocator { get; }
+        protected IColumnIdentifier NewColumn { get; }
+        protected string Code { get; }
 
-        public ExtendEngine(IColumnIdentifier newColumn, string code)
-            => (NewColumn, Code) = (newColumn, code);
+        public AbstractExtendEngine(ServiceLocator serviceLocator, IColumnIdentifier newColumn, string code)
+            => (ServiceLocator, NewColumn, Code) = (serviceLocator, newColumn, code);
 
         public ResultSet Execute(ResultSet rs)
         {
             var ordinal = GetNewColumnOrdinal(NewColumn, rs.Table);
-
-            foreach (DataRow row in rs.Rows)
-            {
-                var args = new NCalcScalarResolverArgs(Code, row);
-                var resolver = new NCalcScalarResolver<object>(args);
-                row[ordinal] = resolver.Execute();
-            }
-            return rs;
+            return Execute(rs, ordinal);
         }
 
+        protected abstract ResultSet Execute(ResultSet rs, int ordinal);
+        
         private int GetNewColumnOrdinal(IColumnIdentifier newColumn, DataTable dt)
         {
             switch (newColumn)

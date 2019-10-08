@@ -1113,7 +1113,7 @@
         </equal-to>
       </assert>
     </test>
-    <!--<test name="Extensions based on row context" uid="0252">
+    <test name="Extensions based on row context" uid="0252">
       <system-under-test>
         <result-set>
           <query>
@@ -1133,6 +1133,7 @@
       </system-under-test>
       <assert>
         <equal-to>
+          <column index="0" role="key" type="dateTime"/>
           <result-set>
             <row>
               <cell>2019-10-07 22:00:00</cell>
@@ -1156,7 +1157,7 @@
           </result-set>
         </equal-to>
       </assert>
-    </test>-->
+    </test>
     <test name="Summarization on all columns" uid="0261">
       <system-under-test>
         <result-set>

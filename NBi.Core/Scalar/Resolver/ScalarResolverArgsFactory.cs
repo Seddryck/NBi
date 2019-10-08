@@ -47,7 +47,7 @@ namespace NBi.Core.Scalar.Resolver
                         case '~':
                             args = new FormatScalarResolverArgs(firstToken.Substring(1), Context?.Variables);
                             break;
-                        case '[' when suffix==']' && !tokens.Any(x => x.Contains(';')):
+                        case '[' when firstToken.ToCharArray().Last() == ']' && !firstToken.Contains(';'):
                         case '#':
                             args = new ContextScalarResolverArgs(Context, columnIdentifierFactory.Instantiate(firstToken));
                             break;

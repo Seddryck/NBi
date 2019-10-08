@@ -1,4 +1,5 @@
-﻿using NBi.Core.ResultSet;
+﻿using NBi.Core.Injection;
+using NBi.Core.ResultSet;
 using NBi.Core.ResultSet.Alteration.Extension;
 using NBi.Core.ResultSet.Resolver;
 using NBi.Core.Scalar.Resolver;
@@ -13,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace NBi.Testing.Core.ResultSet.Alteration.Extension
 {
-    public class ExtendEngineTest
+    public class NCalcExtendEngineTest
     {
         [Test]
         public void Execute_StandardRsColumnOrdinal_CorrectExtension()
@@ -22,7 +23,8 @@ namespace NBi.Testing.Core.ResultSet.Alteration.Extension
             var resolver = new ObjectsResultSetResolver(args);
             var rs = resolver.Execute();
 
-            var extender = new ExtendEngine(
+            var extender = new NCalcExtendEngine(
+                new ServiceLocator(),
                 new ColumnOrdinalIdentifier(3),
                 "[#1] * [#2]"
                 );
@@ -44,7 +46,8 @@ namespace NBi.Testing.Core.ResultSet.Alteration.Extension
             rs.Columns[1].ColumnName = "b";
             rs.Columns[2].ColumnName = "c";
 
-            var extender = new ExtendEngine(
+            var extender = new NCalcExtendEngine(
+                new ServiceLocator(),
                 new ColumnNameIdentifier("d"),
                 "[b] * [c]"
                 );
@@ -75,7 +78,8 @@ namespace NBi.Testing.Core.ResultSet.Alteration.Extension
 
             var stopWatch = new Stopwatch();
             stopWatch.Start();
-            var extender = new ExtendEngine(
+            var extender = new NCalcExtendEngine(
+                new ServiceLocator(),
                 new ColumnNameIdentifier("c"),
                 "[b] - [a] + Max(a,b) - Sin(a)"
                 );

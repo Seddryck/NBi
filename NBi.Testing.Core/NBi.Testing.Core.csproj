@@ -153,8 +153,9 @@
     <Compile Include="Resources\CustomConditionFalse.cs" />
     <Compile Include="Resources\CustomConditionTrue.cs" />
     <Compile Include="ResultSetManagerTest.cs" />
-    <Compile Include="ResultSet\Alteration\Extension\ExtendEngineTest.cs" />
-    <Compile Include="ResultSet\Alteration\Extension\RenamingFactoryTest.cs" />
+    <Compile Include="ResultSet\Alteration\Extension\NativeExtendEngineTest.cs" />
+    <Compile Include="ResultSet\Alteration\Extension\NCalcExtendEngineTest.cs" />
+    <Compile Include="ResultSet\Alteration\Extension\ExtensionFactoryTest.cs" />
     <Compile Include="ResultSet\Alteration\Lookup\LookupReplaceEngineTest.cs" />
     <Compile Include="ResultSet\Alteration\Projection\ProjectAwayEngineTest.cs" />
     <Compile Include="ResultSet\Alteration\Projection\ProjectEngineTest.cs" />

@@ -420,6 +420,8 @@
     <Compile Include="Report\ReportDataSetRequest.cs" />
     <Compile Include="Report\ReportingCommand.cs" />
     <Compile Include="ResultSet\Alteration\Alter.cs" />
+    <Compile Include="ResultSet\Alteration\Extension\NativeExtendEngine.cs" />
+    <Compile Include="ResultSet\Alteration\Extension\NCalcExtendEngine.cs" />
     <Compile Include="ResultSet\Alteration\Lookup\LookupReplaceArgs.cs" />
     <Compile Include="ResultSet\Alteration\Lookup\LookupReplaceEngine.cs" />
     <Compile Include="ResultSet\Alteration\Lookup\LookupFactory.cs" />
@@ -457,7 +459,7 @@
     <Compile Include="ResultSet\Alteration\Extension\ExtendArgs.cs" />
     <Compile Include="ResultSet\Alteration\Extension\IExtensionArgs.cs" />
     <Compile Include="ResultSet\Alteration\Extension\IExtensionEngine.cs" />
-    <Compile Include="ResultSet\Alteration\Extension\ExtendEngine.cs" />
+    <Compile Include="ResultSet\Alteration\Extension\AbstractExtendEngine.cs" />
     <Compile Include="ResultSet\Alteration\Extension\ExtensionFactory.cs" />
     <Compile Include="ResultSet\Alteration\Renaming\IRenamingArgs.cs" />
     <Compile Include="ResultSet\Alteration\Renaming\IRenamingEngine.cs" />

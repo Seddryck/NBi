@@ -747,7 +747,6 @@
             <less-than>[Effective]</less-than>
           </predicate>
         </combination>
-        
       </all-rows>
     </assert>
   </test>

@@ -176,11 +176,12 @@ namespace NBi.NUnit.Builder.Helper
 
         private Alter InstantiateExtend(ExtendXml extendXml)
         {
-            var factory = new ExtensionFactory();
+            var factory = new ExtensionFactory(ServiceLocator);
             var extender = factory.Instantiate(new ExtendArgs
                 (
                     extendXml.Identifier
                     , extendXml.Script?.Code ?? throw new ArgumentException("Script cannot be empty or null")
+                    , extendXml.Script.Language
                 ));
             return extender.Execute;
         }

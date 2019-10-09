@@ -78,7 +78,7 @@ If you want to load more than one extension, you'll probably have to merge the d
 
 When binding redirections is not correctly setup, you'll receive message such as
 
-{% highlight xml %}
+{% highlight %}
 An exception of type 'System.IO.FileLoadException' occurred in System.Net.Http.Formatting.dll but was not handled in user code
 Additional information: Could not load file or assembly 'Newtonsoft.Json, Version=6.0.2.16931, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed' or one of its dependencies. The located assembly's manifest definition does not match the assembly reference. (Exception from HRESULT: 0x80131040)
 {% endhighlight %}

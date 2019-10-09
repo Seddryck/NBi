@@ -49,7 +49,7 @@ If you want to perform a test on all members of this hierarchy, including *coutr
 </system-under-test>
 {% endhighlight %}
 
-Don't forget to specify the xml attribute *connectionString* to reach your cube. if you want you can also make usage of the [a default or reference connection-string](/docs/config-defaults-references).
+Don't forget to specify the xml attribute *connection-string* to reach your cube. if you want you can also make usage of the [a default or reference connection-string](/docs/config-defaults-references).
 
 {% highlight xml %}
 <system-under-test>
@@ -58,7 +58,7 @@ Don't forget to specify the xml attribute *connectionString* to reach your cube.
             caption="Customer Geography"
             dimension="Customer"
             perspective="Adventure Works"
-            connectionString="Provider=MSOLAP.4;Data Source=MyServer;
+            connection-string="Provider=MSOLAP.4;Data Source=MyServer;
                               Integrated Security=SSPI;Initial Catalog=MyCube;"
         />
     </members>

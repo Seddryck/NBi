@@ -23,7 +23,7 @@ The whole test will look like:
     <system-under-test>
         <structure>
     	    <measure caption="MyMeasure" measure-group="MyMeasureGroup" perspective="MyPerspective"
-        	connectionString="Provider=MSOLAP.4;Data Source=MyServer;Integrated Security=SSPI;Initial Catalog=MyCube;"/>
+        	connection-string="Provider=MSOLAP.4;Data Source=MyServer;Integrated Security=SSPI;Initial Catalog=MyCube;"/>
 	</structure>
     </system-under-test>
     <assert>
@@ -41,7 +41,7 @@ It's not possible to check that a display-folder for measures or hierarchies exi
     	    <measure caption="MyMeasure"
 		display-folder="MyDisplayFolder\SubFolder"
 		measure-group="MyMeasureGroup" perspective="MyPerspective"
-        	connectionString="Provider=MSOLAP.4;Data Source=MyServer;Integrated Security=SSPI;Initial Catalog=MyCube;"/>
+        	connection-string="Provider=MSOLAP.4;Data Source=MyServer;Integrated Security=SSPI;Initial Catalog=MyCube;"/>
 	</structure>
     </system-under-test>
     <assert>
@@ -57,7 +57,7 @@ If you want to specify that the measure (or hierarchy) should be in the root of 
     	    <measure caption="MyMeasure"
 		display-folder=""
 		measure-group="MyMeasureGroup" perspective="MyPerspective"
-        	connectionString="Provider=MSOLAP.4;Data Source=MyServer;Integrated Security=SSPI;Initial Catalog=MyCube;"/>
+        	connection-string="Provider=MSOLAP.4;Data Source=MyServer;Integrated Security=SSPI;Initial Catalog=MyCube;"/>
 	</structure>
     </system-under-test>
     <assert>

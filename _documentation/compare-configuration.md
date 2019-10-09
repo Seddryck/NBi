@@ -52,21 +52,21 @@ To specify that your column is a boolean column, just add the attribute *type* w
 ### Default behaviour
 By default, if nothing is specified, NBi will consider that all key columns are *text* and all value columns are *numeric*. 
 
-You can override this setting for value columns with the xml attribute *values-default-type* of the xml element *equalTo*. It lets you define the default type of your result-set. If your result-set contains lot of boolean, in place of specifying for each column that the type is boolean, you can simply define that the *values-default-type* is *boolean*. The possible option for this attribute are *text*, *numeric*, *dateTime*, *boolean*.
+You can override this setting for value columns with the xml attribute *values-default-type* of the xml element *equal-to*. It lets you define the default type of your result-set. If your result-set contains lot of boolean, in place of specifying for each column that the type is boolean, you can simply define that the *values-default-type* is *boolean*. The possible option for this attribute are *text*, *numeric*, *dateTime*, *boolean*.
 
 ## Specification column by column (index-based)
 
 If the attributes above are not enough to correctly define your settings, you can configure the role, type and tolerance of a specific column by adding an element *column*.
 
-NBi’s xml syntax  is to define *column* tags in your *equalTo* (or *subset-of* and *superset-of*) constraint:
+NBi’s xml syntax  is to define *column* tags in your *equal-to* (or *subset-of* and *superset-of*) constraint:
 
 {% highlight xml %}
 <assert>
-	<equalTo>
-		<column ... />
-		<column ... />
-		<resultSet ... />
-	</equalTo>
+  <equal-to>
+    <column ... />
+    <column ... />
+    <result-set ... />
+  </equal-to>
 </assert>
 {% endhighlight %}
 
@@ -83,10 +83,10 @@ Once the index is set, you must specify the role, the type and optionally the [t
 <column  index="1" role="ignore" />
 <column  index="2" role="value" type="numeric" tolerance="0.001" />
 <column  index="3"
-         role="value"
-         type="numeric"
-         rounding-style="floor"
-         rounding-step="1000"
+  role="value"
+  type="numeric"
+  rounding-style="floor"
+  rounding-step="1000"
 />
 {% endhighlight %}
 
@@ -106,10 +106,10 @@ Then, you must specify the role, the type and optionally the [tolerance or round
 <column  name="myKey" role="key" type="text"/>
 <column  index="myFirstValue" role="value" type="numeric" tolerance="0.001" />
 <column  index="mySecondValue"
-         role="value"
-         type="numeric"
-         rounding-style="floor"
-         rounding-step="1000"
+  role="value"
+  type="numeric"
+  rounding-style="floor"
+  rounding-step="1000"
 />
 {% endhighlight %}
 

@@ -164,7 +164,7 @@ Filters will let you remove some rows of the result-set based on the validation 
 For more info about the supported syntax check the page about [filters for row-count](../resultset-rows-count-advanced/#filter). For more info about the predicates supported, check the page about [predicates](../resultset-predicate).
 
 {% highlight xml %}
-<resultSet>
+<result-set>
   <query>
     ...
   <query>
@@ -175,7 +175,7 @@ For more info about the supported syntax check the page about [filters for row-c
       </predicate>
     </filter>
   </alteration>
-<resultSet>
+<result-set>
 {% endhighlight %}
 
 ## Converts
@@ -183,7 +183,7 @@ For more info about the supported syntax check the page about [filters for row-c
 This alteration is useful when you want to convert a column of type *text* to a *dateTime* or *numeric*. This kind of translation is usually transparent for the test-writer and is performed with the help of an implicit casting. But implicit castings are limited to a predefined culture! It means that the textual value *2017-01-06* will be translated to the equivalent dateTime value but the textual value *06.01.2017* (6th of January 2017 in japanese culture) can't be translated to a dateTime column with an implicit casting. To achieve this translation, you'll need to apply an explicit conversion.
 
 {% highlight xml %}
-<resultSet>
+<result-set>
   <query>
     ...
   <query>
@@ -192,7 +192,7 @@ This alteration is useful when you want to convert a column of type *text* to a 
        <text-to-date culture="jp-jp"/>
     </convert>
   </alteration>
-<resultSet>
+<result-set>
 {% endhighlight %}
 
 The column to convert can be defined by its position (to achieve this, precede the zero-based position by a *#*) or by its name.
@@ -215,7 +215,7 @@ The different possibilities for the conversion are
 This alteration is useful when you want to produces a table that aggregates the content of the input result-set.
 
 {% highlight xml %}
-<resultSet>
+<result-set>
   <query>
     select 'supplier X' as supplier, 'apple' as fruit, 10.2 as price, '2019-01-01' as priceDate
     union all 'supplier Y', 'apple' , 10.6, '2019-01-01'
@@ -232,7 +232,7 @@ This alteration is useful when you want to produces a table that aggregates the 
       </group-by>
     </summarize>
   </alteration>
-<resultSet>
+<result-set>
 {% endhighlight %}
 
 A result-set that shows the average price of each fruit from each supplier. There's a row in the output for each distinct combination of fruit and supplier. The output columns show the average price, fruit and supplier. All other input columns are ignored.
@@ -281,7 +281,7 @@ The remaining column will be used to fill the content of the newly created colum
       </group-by>
     </summarize>
   </alteration>
-<resultSet>
+<result-set>
 {% endhighlight %}
 
 This alteration Will result in the following result-set

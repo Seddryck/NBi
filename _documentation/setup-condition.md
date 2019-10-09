@@ -13,15 +13,15 @@ Note that the conditions are executed *before* the list of commands registered i
 
 {% highlight xml %}
 <test>
-	<condition>
-		...
-	</condition>
-	<setup>
-		...
-	</setup>
-	<system-under-test>
-		...
-	</system-under-test>
+  <condition>
+    ...
+  </condition>
+  <setup>
+    ...
+  </setup>
+  <system-under-test>
+    ...
+  </system-under-test>
 </test>
 {% endhighlight %}
 
@@ -39,7 +39,7 @@ If the service is not in the expected state, NBi will wait maximum the time set 
 
 {% highlight xml %}
 <condition>
-	<service-running name="MyService"/>
-	<service-running name="MyService2" timeout-milliseconds="1000"/>
+  <service-running name="MyService"/>
+  <service-running name="MyService2" timeout-milliseconds="1000"/>
 </condition>
 {% endhighlight %}

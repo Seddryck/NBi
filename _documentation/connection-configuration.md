@@ -100,16 +100,16 @@ When you’ve defined some references in your test-suite, you can use them in yo
 </test>
 <test name="'Reseller Order Count' by year before 2006 (csv) on 2012" uid="0001">
   <system-under-test>
-    <execution>
+    <result-set>
       <query connection-string="@second-ref">
        ...
       </query>
-    </execution>
+    </result-set>
   </system-under-test>
   <assert>
     <equal-to>
       <result-set file="ResellerOrderCountByYearBefore2006.csv"/>
-    </equalTo>
+    </equal-to>
   </assert>
 </test>
 {% endhighlight %}

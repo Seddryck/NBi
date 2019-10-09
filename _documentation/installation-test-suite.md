@@ -39,8 +39,8 @@ In the example, here under, we'll test that the results of two queries are equal
 First, we need to specify which kind of test we'll perform. Here we'll perform a test of *execution* (meaning that we'll execute a query or an etl). For this, we're using the xml element named *execution* inside the xml element
 {% highlight xml %}
 <system-under-test>
- <execution>
-  <query connectionString="...">
+ <result-set>
+  <query connection-string="...">
    <![CDATA[
    SELECT
     {[Measure].[MyMeasure]} ON 0,
@@ -48,18 +48,18 @@ First, we need to specify which kind of test we'll perform. Here we'll perform a
    FROM
     MyCube
    ]]>
- </execution>
+ </result-set>
 </system-under-test>
 {% endhighlight %}
 
 After the definition of the *system-under-test*, you need to define what will be asserted on this *system*. Here, we will assert that the result-set of this query is equivalent to the result-set of another query.
 {% highlight xml %}
 <assert>
- <equalTo>
-  <query connectionString="...">
+ <equal-to>
+  <query connection-string="...">
    SELECT MyHierarchy, MyMeasure FROM MyTable
   </query>
- </equalTo>
+ </equal-to>
 </assert>
 {% endhighlight %}
 
@@ -69,8 +69,8 @@ The full listing for this test is available here under:
 <testSuite name="My first test suite" xmlns="http://NBi/TestSuite">
  <test name="My first test">
   <system-under-test>
-   <execution>
-    <query connectionString="...">
+   <result-set>
+    <query connection-string="...">
      <![CDATA[
      SELECT
       {[Measure].[MyMeasure]} ON 0,
@@ -79,14 +79,14 @@ The full listing for this test is available here under:
       MyCube
      ]]>
     </query>
-   </execution>
+   </result-set>
   </system-under-test>
   <assert>
-   <equalTo>
-    <query connectionString="...">
+   <equal-to>
+    <query connection-string="...">
      SELECT MyHierarchy, MyMeasure FROM MyTable
     </query>
-   </equalTo>
+   </equal-to>
   </assert>
  </test>
 </testSuite>

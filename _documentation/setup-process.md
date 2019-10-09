@@ -26,7 +26,7 @@ An alternative, introduced in the version 1.13, is to wait until a connection is
 {% highlight xml %}
 <setup>
    <wait-connection
-      connectionString="@PowerBI"
+      connection-string="@PowerBI"
       max-timeout="100000"
    />
 </setup>

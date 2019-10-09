@@ -19,7 +19,7 @@ The assertion consists in an xml element named row-count.
 {% highlight xml %}
 <assert>
   <row-count>
-    ...
+  ...
   </row-count>
 </assert>
 {% endhighlight %}
@@ -27,18 +27,18 @@ The assertion consists in an xml element named row-count.
 In this element, you must also specify an the comparison that you want to apply _equal_, _more-than_ and _less-than_. You must also specify the reference to compare. 
 {% highlight xml %}
 <assert>
-    <row-count>
-         <less-than>10</less-than>
-    </row-count>
+  <row-count>
+     <less-than>10</less-than>
+  </row-count>
 </assert>
 {% endhighlight %}
 
 For the comparisons _more-than_ and _less-than_, you can slightly change the behavior by adding the attribute or-equal and setting its value to true.
 {% highlight xml %}
 <assert>
-    <row-count>
-         <less-than or-equal="true">10</less-than>
-    </row-count>
+  <row-count>
+     <less-than or-equal="true">10</less-than>
+  </row-count>
 </assert>
 {% endhighlight %}
 
@@ -49,14 +49,14 @@ It's possible to dynamically define the value that is used in the comparison. To
 {% highlight xml %}
 <variables>
    <variable name="maximum">
-      <script language="c-sharp">10*10*10</script>
+    <script language="c-sharp">10*10*10</script>
    </variable>
 </variables>
 
 <assert>
-    <row-count>
-         <less-than or-equal="true">@maximum</less-than>
-    </row-count>
+  <row-count>
+     <less-than or-equal="true">@maximum</less-than>
+  </row-count>
 </assert>
 {% endhighlight %}
 
@@ -65,7 +65,7 @@ Note that if this variable is a percentage it must be returned as a string (doub
 {% highlight xml %}
 <variables>
    <variable name="maximum">
-      <script language="c-sharp">"50%"</script>
+    <script language="c-sharp">"50%"</script>
    </variable>
 </variables>
 {% endhighlight %}
@@ -77,17 +77,17 @@ It's possible to compare the row-count of the first result-set defined in the sy
 {% highlight xml %}
 <row-count>
   <more-than or-equal="true">
-    <projection type="row-count">
-      <resultSet>
-        <query connectionString="@conn-Other">
-          <![CDATA[
-             select Age, *
-             from Employee
-              where Age=50
-          ]]>
-        </query>
-      </resultSet>
-    </projection>
+  <projection type="row-count">
+    <result-set>
+    <query connection-string="@conn-Other">
+      <![CDATA[
+       select Age, *
+       from Employee
+        where Age=50
+      ]]>
+    </query>
+    </result-set>
+  </projection>
   <more-than>
 </row-count>
 {% endhighlight %}
@@ -96,21 +96,21 @@ It's possible to compare the row-count of the first result-set defined in the sy
 {% highlight xml %}
 <test name="Count of SalesTerritory is less-than or equal to 3" uid="0001">
    <system-under-test>
-      <execution>
-        <query connectionString="Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly">
-          select
-            [Name], [CountryRegionCode]
-          from
-            [Sales].[SalesTerritory]
-          where
-            [Group]='Europe'
-        </query>
-      </execution>
+    <result-set>
+    <query connection-string="Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly">
+      select
+      [Name], [CountryRegionCode]
+      from
+      [Sales].[SalesTerritory]
+      where
+      [Group]='Europe'
+    </query>
+    </result-set>
    </system-under-test>
    <assert>
-      <row-count>
-        <less-than or-equal="true">3</less-than>
-      </row-count>
+    <row-count>
+    <less-than or-equal="true">3</less-than>
+    </row-count>
    </assert>
 </test>
 {% endhighlight %}

@@ -31,22 +31,22 @@ A whole example would be:
 
 {% highlight xml %}
 <test name="...">
-    <system-under-test>
-        <execution>
-            <query name="MDX" connectionString="...">
-                SELECT
-                    [Measures].[Reseller Order Count] ON 0,
-                    EXCEPT(
-                       {[Date].[Calendar Year].Children}
-                       ,{[Date].[Calendar Year].[CY 2006]}
-                    ) ON 1
-                FROM
-                    [Adventure Works]
-            </query>
-        </execution>
-    </system-under-test>
-    <assert>
-        <syntacticallyCorrect/>
-    </assert>
+  <system-under-test>
+    <result-set>
+      <query name="MDX" connectionString="...">
+        SELECT
+          [Measures].[Reseller Order Count] ON 0,
+          EXCEPT(
+             {[Date].[Calendar Year].Children}
+             ,{[Date].[Calendar Year].[CY 2006]}
+          ) ON 1
+        FROM
+          [Adventure Works]
+      </query>
+    </result-set>
+  </system-under-test>
+  <assert>
+    <syntacticallyCorrect/>
+  </assert>
 </test>
 {% endhighlight %}

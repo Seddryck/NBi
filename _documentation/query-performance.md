@@ -34,21 +34,21 @@ A full test, would be:
 {% highlight xml %}
 <test name="A fast MDX query">
   <system-under-test>
-    <execution>
-      <query connectionString="...">
-        SELECT
-          [Measures].[Reseller Order Count] ON 0,
-        EXCEPT(
-          {[Date].[Calendar Year].Children}
-          ,{[Date].[Calendar Year].[CY 2006]}
-        ) ON 1
-        FROM
-          [Adventure Works]
-      </query>
-    </execution>
+  <result-set>
+    <query connection-string="...">
+    SELECT
+      [Measures].[Reseller Order Count] ON 0,
+    EXCEPT(
+      {[Date].[Calendar Year].Children}
+      ,{[Date].[Calendar Year].[CY 2006]}
+    ) ON 1
+    FROM
+      [Adventure Works]
+    </query>
+  </result-set>
   </system-under-test>
   <assert>
-    <fasterThan max-time-milliSeconds="1000"/>
+  <fasterThan max-time-milliSeconds="1000"/>
   </assert>
 </test>
 {% endhighlight %}
@@ -66,25 +66,25 @@ This can be really embarrasing when you've some queries much slower than expecte
 
 {% highlight xml %}
 <test name="A fast MDX query">
-    <system-under-test>
-        <execution>
-            <query name="MDX" connectionString="...">
-                SELECT
-                    [Measures].[Reseller Order Count] ON 0,
-                    EXCEPT(
-                      {[Date].[Calendar Year].Children}
-                      ,{[Date].[Calendar Year].[CY 2006]}
-                    ) ON 1
-                FROM
-                    [Adventure Works]
-            </query>
-        </execution>
-     </system-under-test>
-     <assert>
-        <fasterThan
-            max-time-milliSeconds="1000"
-            timeOut-MilliSeconds="5000"
-        />
-     </assert>
+  <system-under-test>
+    <result-set>
+      <query name="MDX" connection-string="...">
+        SELECT
+          [Measures].[Reseller Order Count] ON 0,
+          EXCEPT(
+            {[Date].[Calendar Year].Children}
+            ,{[Date].[Calendar Year].[CY 2006]}
+          ) ON 1
+        FROM
+          [Adventure Works]
+      </query>
+    </result-set>
+   </system-under-test>
+   <assert>
+    <fasterThan
+      max-time-milliSeconds="1000"
+      timeOut-MilliSeconds="5000"
+    />
+   </assert>
 </test>
 {% endhighlight %}

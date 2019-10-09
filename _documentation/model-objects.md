@@ -84,11 +84,11 @@ or if the parameter is a *result* (true/false)
 | Measure-group | Mandatory | - | - |
 | Measure | Mandatory | Mandatory | Optional |
 
-Finally, the last information to be provided in the *system-under-test* is the connection string to reach your database or cube. This information is specified by the means of the Xml attribute named "connectionString".
+Finally, the last information to be provided in the *system-under-test* is the connection string to reach your database or cube. This information is specified by the means of the Xml attribute named "connection-string".
 {% highlight xml %}
 <structure>
     <measure caption="MyMeasure" measure-group="MyMeasureGroup" perspective="MyPerspective"
-        connectionString="Provider=MSOLAP.4;Data Source=MyServer;Integrated Security=SSPI;Initial Catalog=MyCube;"/>
+        connection-string="Provider=MSOLAP.4;Data Source=MyServer;Integrated Security=SSPI;Initial Catalog=MyCube;"/>
 </structure>
 {% endhighlight %}
 Usage of [defaults and references](/docs/config-defaults-references), offers some facilities for the end-users to define more effectively the connection strings for a *test-suite*.

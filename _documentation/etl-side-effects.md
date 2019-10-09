@@ -26,21 +26,21 @@ In the xml element named [*setup*](../setup-etl) you’ll need to define the etl
 Next, you’ll need to define your query on a table as a system-under-test
 {% highlight xml %}
 <system-under-test>
-  <execution>
+  <result-set>
     <query>
       select CurrencyCode, Name from [Sales].[Currency]
     </query>
-  </execution>
+  </result-set>
 </system-under-test>
 {% endhighlight %}
 
 And finally, you need to define your expected result-set:
 {% highlight xml %}
 <assert>
-  <equalTo keys="first">
+  <equal-to keys="first">
     <column index="1" type="text" role="value"/>
-    <resultSet file="C:\result.csv"/>
-  </equalTo>
+    <result-set file="C:\result.csv"/>
+  </equal-to>
 </assert>
 {% endhighlight %}
 
@@ -55,17 +55,17 @@ The whole sample would be:
     </etl-run>
   </setup>
   <system-under-test>
-    <execution>
+    <result-set>
       <query>
         select CurrencyCode, Name from [Sales].[Currency]
       </query>
-    </execution>
+    </result-set>
   </system-under-test>
   <assert>
-    <equalTo keys="first">
+    <equal-to keys="first">
       <column index="1" type="text" role="value"/>
-      <resultSet file="C:\data.csv"/>
-    </equalTo>
+      <result-set file="C:\data.csv"/>
+    </equal-to>
   </assert>
 </test>
 {% endhighlight %}

@@ -11,7 +11,7 @@ To test a Power BI Desktop solution, you'll need to provide a connection-string 
 <testSuite name="The Query TestSuite" xmlns="http://NBi/TestSuite">
 	<settings>
 		<default apply-to="system-under-test">
-			<connectionString>PBIX = My Solution</connectionString>
+			<connection-string>PBIX = My Solution</connection-string>
 		</default>
 	</settings>
 	<test name="...">
@@ -35,7 +35,7 @@ You can open you pbix file by the means of the [setup](../setup-cleanup) feature
       path="..\PowerBiDesktop\"
     />
     <connection-wait
-      connectionString="PBIX = Sales Analysis"
+      connection-string="PBIX = Sales Analysis"
       timeout-milliseconds ="60000"
     />
   </tasks>

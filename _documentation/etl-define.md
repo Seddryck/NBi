@@ -19,10 +19,10 @@ To achieve this, you’ll need to define your tested etl in the system-under-tes
 
 {% highlight xml %}
 <system-under-test>
-  <execution>
+  <result-set>
     <etl name="myPackage" >
     </etl>
-  </execution>
+  </result-set>
 </system-under-test>
 {% endhighlight %}
 

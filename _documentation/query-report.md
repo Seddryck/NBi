@@ -13,9 +13,9 @@ To extract the queries or stored procedures from a report, you've two options: c
 
 {% highlight xml %}
 <system-under-test>
-  <execution>
+  <result-set>
     <report ... />
-  </execution>
+  </result-set>
 </system-under-test>
 {% endhighlight %}
 
@@ -25,9 +25,9 @@ Before trying to define this attribute, you must understand that a report may co
 
 {% highlight xml %}
 <system-under-test>
-  <execution>
+  <result-set>
     <report dataset="SalesQuota" />
-  </execution>
+  </result-set>
 </system-under-test>
 {% endhighlight %}
 
@@ -43,10 +43,10 @@ To extract from a ReportingServer database, you must specify the *source* as the
 <report source="Data Source=(local)\SQL2012;Initial Catalog=ReportServer;Integrated Security=True;" .../>
 {% endhighlight %}
 
-Don't be confused with the attribute *connectionString* defining the database on which you will apply your query. This connection-string is optional and can be replaced by a *default* value or a *reference* specified in the *settings*.
+Don't be confused with the attribute *connection-string* defining the database on which you will apply your query. This connection-string is optional and can be replaced by a *default* value or a *reference* specified in the *settings*.
 
 {% highlight xml %}
-<report connectionString="..." />
+<report connection-string="..." />
 {% endhighlight %}
 
 Finally, you must define the report's name by the means of the attributes *path* and *name*. The *path* is referencing the folder and sub-folder of the report and *name* it's display name on the portal. Note that the leading and final slashes ("/") on the path are mandatory.
@@ -81,11 +81,11 @@ Since version 1.9, you can define in the *defaults* and *references* values for 
 
 ## Full sample
 
-The following code extracts the query from a report named *Store\*Contacts*, in directory */AdventureWorks 2012/* hosted on a ReportingServer database. The query is available in the dataset named *StoreContacts* and NBi applies a value of 300 to the parameter named *StoreID* when executing the query on a database with a connectionString referenced in the default settings applying to a system-under-test.
+The following code extracts the query from a report named *Store\*Contacts*, in directory */AdventureWorks 2012/* hosted on a ReportingServer database. The query is available in the dataset named *StoreContacts* and NBi applies a value of 300 to the parameter named *StoreID* when executing the query on a database with a connection-string referenced in the default settings applying to a system-under-test.
 
 {% highlight xml %}
 <system-under-test>
-  <execution>
+  <result-set>
     <report
       source="Data Source=(local)\SQL2012;Initial Catalog=ReportServer;Integrated Security=True;"
       path="/AdventureWorks 2012/"
@@ -94,6 +94,6 @@ The following code extracts the query from a report named *Store\*Contacts*, in 
     >
       <parameter name="StoreID">300</parameter>
     </report>
-  </execution>
+  </result-set>
 </system-under-test>
 {% endhighlight %}

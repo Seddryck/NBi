@@ -14,88 +14,88 @@ The code snippet, here under, makes usage of several groups and groups under gro
 {% highlight xml %}
 <?xml version="1.0" encoding="utf-8"?>
 <testSuite name="The TestSuite" xmlns="http://NBi/TestSuite">
-	<test name="My first test case" uid="0127">
-		<system-under-test>
-			<execution>
-				<query name="Select first product" connectionString="Data Source=.;Initial Cataloging;Integrated Security=True">
-					SELECT TOP 1 * FROM Product;
-				</query>
-			</execution>
-		</system-under-test>
-		<assert>
-			<syntacticallyCorrect />
-		</assert>
-	</test>
-	<test name="My second test case">
-		<category>Category 1</category>
-		<category>Category 2</category>
-		<system-under-test>
-			<execution>
-				<query name="Select all products" connectionString="Data Source=.;Initial Cataloging;Integrated Security=True">
-					SELECT * FROM Product;
-				</query>
-			</execution>
-		</system-under-test>
-		<assert>
-			<syntacticallyCorrect />
-		</assert>
-		<assert>
-			<fasterThan max-time-milliSeconds="5000" />
-		</assert>
-	</test>
-	<group name="My first tests' group">
-		<test name="My Mdx test case" uid="0001">
-			<system-under-test>
-				<execution>
-					<query file="SimpleMdx.Mdx" connectionString="Provider=MSOLAP.4;Data Source=localhost;Catalog=&quot;Finances Analysis&quot;;"/>
-				</execution>
-			</system-under-test>
-			<assert>
-				<equalTo>
-					<resultSet file="SimpleMdx.csv"></resultSet>
-				</equalTo>
-			</assert>
-		</test>
-		<test name="My Mdx against another Mdx" uid="0002">
-			<system-under-test>
-				<execution>
-					<query file="SimpleMdx.Mdx" connectionString="Provider=MSOLAP.4;Data Source=localhost;Catalog=&quot;Finances Analysis&quot;;"/>
-				</execution>
-			</system-under-test>
-			<assert>
-				<equalTo>
-					<query
-						file="SimpleMdxTwo.mdx"
-						connectionString="Provider=MSOLAP.4;Data Source=RemoteServer;Catalog=Finances;"
-					/>
-				</equalTo>
-			</assert>
-		</test>
-	</group>
-	<group name="My second tests' group">
-		<test name="the modifier 'Not' is available in assert Contain (Members)">
-			<system-under-test>
-				<members>
-					<level dimension="dimension" hierarchy="hierarchy" caption="level" perspective="Perspective" connectionString="ConnectionString"/>
-				</members>
-			</system-under-test>
-			<assert>
-				<contain not="true" caption="member"/>
-			</assert>
-		</test>
-		<group name="group in group">
-			<test name="the modifier 'Not' is available in assert Contain (Members)">
-				<system-under-test>
-					<members>
-						<level dimension="dimension" hierarchy="hierarchy" caption="level" perspective="Perspective" connectionString="ConnectionString"/>
-					</members>
-				</system-under-test>
-				<assert>
-					<contain not="true" caption="member"/>
-				</assert>
-			</test>
-		</group>
-	</group>
+  <test name="My first test case" uid="0127">
+    <system-under-test>
+      <result-set>
+        <query name="Select first product" connection-string="Data Source=.;Initial Cataloging;Integrated Security=True">
+          SELECT TOP 1 * FROM Product;
+        </query>
+      </result-set>
+    </system-under-test>
+    <assert>
+      <syntacticallyCorrect />
+    </assert>
+  </test>
+  <test name="My second test case">
+    <category>Category 1</category>
+    <category>Category 2</category>
+    <system-under-test>
+      <result-set>
+        <query name="Select all products" connection-string="Data Source=.;Initial Cataloging;Integrated Security=True">
+          SELECT * FROM Product;
+        </query>
+      </result-set>
+    </system-under-test>
+    <assert>
+      <syntacticallyCorrect />
+    </assert>
+    <assert>
+      <fasterThan max-time-milliSeconds="5000" />
+    </assert>
+  </test>
+  <group name="My first tests' group">
+    <test name="My Mdx test case" uid="0001">
+      <system-under-test>
+        <result-set>
+          <query file="SimpleMdx.Mdx" connection-string="Provider=MSOLAP.4;Data Source=localhost;Catalog=&quot;Finances Analysis&quot;;"/>
+        </result-set>
+      </system-under-test>
+      <assert>
+        <equal-to>
+          <result-set file="SimpleMdx.csv"></result-set>
+        </equal-to>
+      </assert>
+    </test>
+    <test name="My Mdx against another Mdx" uid="0002">
+      <system-under-test>
+        <result-set>
+          <query file="SimpleMdx.Mdx" connection-string="Provider=MSOLAP.4;Data Source=localhost;Catalog=&quot;Finances Analysis&quot;;"/>
+        </result-set>
+      </system-under-test>
+      <assert>
+        <equal-to>
+          <query
+            file="SimpleMdxTwo.mdx"
+            connection-string="Provider=MSOLAP.4;Data Source=RemoteServer;Catalog=Finances;"
+          />
+        </equal-to>
+      </assert>
+    </test>
+  </group>
+  <group name="My second tests' group">
+    <test name="the modifier 'Not' is available in assert Contain (Members)">
+      <system-under-test>
+        <members>
+          <level dimension="dimension" hierarchy="hierarchy" caption="level" perspective="Perspective" connection-string="ConnectionString"/>
+        </members>
+      </system-under-test>
+      <assert>
+        <contain not="true" caption="member"/>
+      </assert>
+    </test>
+    <group name="group in group">
+      <test name="the modifier 'Not' is available in assert Contain (Members)">
+        <system-under-test>
+          <members>
+            <level dimension="dimension" hierarchy="hierarchy" caption="level" perspective="Perspective" connection-string="ConnectionString"/>
+          </members>
+        </system-under-test>
+        <assert>
+          <contain not="true" caption="member"/>
+        </assert>
+      </test>
+    </group>
+  </group>
 </testSuite>
 {% endhighlight %}
 

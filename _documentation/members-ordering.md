@@ -10,9 +10,10 @@ If you're not familiar with the way to specify a test on members of a hierarchy 
 The assertion consists in a validation that members are displayed, on the client, in a specified order. To achieve this, you need to specify an assertion of type *order*, such as:
 {% highlight xml %}
 <test>
-    <assert>
-        <ordered/>
-    </assert>
+  ...
+  <assert>
+    <ordered/>
+  </assert>
 </test>
 {% endhighlight %}
 
@@ -33,17 +34,18 @@ The chosen option must be specified with the help of an xml attribute *rule*.
 **Important note**: if a member cannot be converted to a valid date or numeric, and you're applying a rule chronological or numerical, the test will **not fail**. The test will simply ignore the members that cannot be converted. This is not a bug but it's done by design. If NBi was failing a test when failing to convert a member, it'd mean that members such as "N/A" or "Unknown" in a numerical or date attribute will always break the test. It's probably not what you want.
 
 ## Specific order
+
 For some hierarchies or levels, you'll want to display the members in a specific order because you cannot simply use the predefined rules *alphabetical, chronological or numerical*. To define the expected order, you can make usage of xml elements *rule-definition* and *item*.
 
 {% highlight xml %}
 <ordered rule="specific">
-    <rule-definition>
-        <item>My First Item</item>
-        <item>My Second Item</item>
-        <item>My Third Item</item>
-        <item>My Fourth Item</item>
-        <item>My Last Item</item>
-    </rule-definition>
+  <rule-definition>
+    <item>My First Item</item>
+    <item>My Second Item</item>
+    <item>My Third Item</item>
+    <item>My Fourth Item</item>
+    <item>My Last Item</item>
+  </rule-definition>
 </ordered>
 {% endhighlight %}
 
@@ -53,8 +55,8 @@ Another option to define a sorted list of items, is to define a *one-column-quer
 
 {% highlight xml %}
 <ordered rule="specific">
-    <one-column-query>
-       select myColumn from myTable order by mySortColumn;
-    </one-column-query>
+  <one-column-query>
+    select myColumn from myTable order by mySortColumn;
+  </one-column-query>
 </ordered>
 {% endhighlight %}

@@ -76,7 +76,7 @@ It's always useful to define at one place the expected formats. For this you can
 {% highlight xml %}
 <settings>
     <default apply-to="system-under-test">
-      <connectionString>Provider=MSOLAP.4;Data Source=(local)\SQL2012;Initial Catalog='Adventure Works DW 2012';localeidentifier=1049</connectionString>
+      <connection-string>Provider=MSOLAP.4;Data Source=(local)\SQL2012;Initial Catalog='Adventure Works DW 2012';localeidentifier=1049</connection-string>
     </default>
     <reference name="Standard">
       <currency-format
@@ -107,7 +107,7 @@ This sample illustrate a query and the corresponding assertion for the format of
 {% highlight xml %}
 <test name="'Reseller Order Count' by year" uid="0001">  
   <system-under-test>  
-    <execution>  
+    <result-set>  
       <query>  
         SELECT  
           [Measures].[Amount] ON 0,  
@@ -115,7 +115,7 @@ This sample illustrate a query and the corresponding assertion for the format of
         FROM  
           [Adventure Works]  
        </query>  
-    </execution>  
+    </result-set>  
   </system-under-test>  
   <assert>  
     <matchPattern>  

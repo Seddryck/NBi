@@ -22,15 +22,15 @@ Let's start with the definition of your system-under-test. Since version 1.16 (a
 You must create an xml element named *execution* under the element *system-under-test*. Inside this element *execution*, you must create another xml element named *query*. You can specify a connection string to this query or rely on the [default connection string](/docs/config-connection-strings).
 {% highlight xml %}
 <system-under-test>
-  <execution>
-    <query connectionString="..."/>
-  </execution>
+  <result-set>
+    <query connection-string="..."/>
+  </result-set>
 </system-under-test>
 {% endhighlight %}
 
 This query can be specified directly inside the test suite.
 {% highlight xml %}
-<query connectionString="...">
+<query connection-string="...">
 <![CDATA[
   SELECT
     {[Measure].[MyMeasure]} ON 0,
@@ -44,20 +44,20 @@ Usage of tags <![CDATA[ and ]]> is not mandatory but highly recommended. This al
 
 An alternative is to reference your query from an **external file**
 {% highlight xml %}
-<query file="C:\myFile.sql" connectionString="..."/>
+<query file="C:\myFile.sql" connection-string="..."/>
 {% endhighlight %}
 
 ### CSV
-To define a CSV file as your system-under-test for a comprison to another result-set, you must use the element *resultSet* and its attribute *file*.
+To define a CSV file as your system-under-test for a comprison to another result-set, you must use the element *resul-set* and its attribute *file*.
 {% highlight xml %}
-<resultSet file="..\Csv\CountByYearBefore2006.csv"/>
+<result-set file="..\Csv\CountByYearBefore2006.csv"/>
 {% endhighlight %}
 
 ## Assert
 Once your system-under-test is defined, you'll need to specify what you want to assert. In this case, you'll want to compare your system-under-test with another result-set and check the equivalence of the two result-sets. This done by specifying an xml element _equalTo_:
 {% highlight xml %}
 <assert>
-  <equalTo />
+  <equal-to />
 </assert>
 {% endhighlight %}
 
@@ -65,21 +65,27 @@ Once your system-under-test is defined, you'll need to specify what you want to 
 
 The easiest way to define a result-set is to define it in the test. You must create a new xml element *row* for each row of the result-set. For each row, you must specify the expected values in different xml elements named *cell*.
 {% highlight xml %}
-<equalTo>
-  <resultSet>
-    <row><cell>First Member's value</cell><cell>100.05</cell></row>
-    <row><cell>Last Member's value</cell><cell>77.7</cell></row>
-  </resultSet>
-</equalTo>
+<equal-to>
+  <result-set>
+    <row>
+      <cell>First Member's value</cell>
+      <cell>100.05</cell>
+    </row>
+    <row>
+      <cell>Last Member's value</cell>
+      <cell>77.7</cell>
+    </row>
+  </result-set>
+</equal-to>
 {% endhighlight %}
 
 ### External CSV file
 
 You also have the opportunity to specify that a result-set is defined in an external file (useful for large result-sets)
 {% highlight xml %}
-<equalTo>
-  <resultSet file="C:\myResult.csv">
-</equalTo>
+<equal-to>
+  <result-set file="C:\myResult.csv" />
+</equal-to>
 {% endhighlight %}
 If needed, you can also specify an alternative [CSV profile](/docs/config-profile-csv) in the settings. Note that for the embedded result-set and for the external result-set, the *numeric values* must be written with an international format (a dot (".") to separate the integer part of the decimal part).
 
@@ -87,11 +93,11 @@ If needed, you can also specify an alternative [CSV profile](/docs/config-profil
 
 Finally, the third choice is to compare the result-set of the system-under-test to the result-set of another query. This can be useful to ensure a non-regression between two systems or to compare the data warehouse data and the corresponding olap data. To do this, the expression here under must be applied.
 {% highlight xml %}
-<equalTo>
-  <query connectionString="...">
+<equal-to>
+  <query connection-string="...">
     SELECT MyHierarchy, MyMeasure FROM MyTable
   </query>
-</equalTo>
+</equal-to>
 {% endhighlight %}
 
 ### Xml file
@@ -101,7 +107,7 @@ Finally, the third choice is to compare the result-set of the system-under-test 
 Once your source is identified, you'll need to apply a query on your xml file. NBi uses the [XQuery aka FLOWR][https://msdn.microsoft.com/en-us/library/ms190945.aspx] syntax. This syntax is really powerful and offers a lot of flexibility to convert an xml result-set into a table result-set. At this moment only the *from* and *select* elements are supported in this syntax. The *from* element defines the granularity of your result-set and the *select* elements defines the attributes or elements thatyou'll be returned. To return the attribute of an element add the attribute *attribute* with the name of the requested attribute in your *select* element.
 
 {% highlight xml %}
-<equalTo>
+<equal-to>
   <xml-source>
     <file>MyFile.xml</file>
     <xpath>
@@ -110,7 +116,7 @@ Once your source is identified, you'll need to apply a query on your xml file. N
       <select>//Path/Item/SubItem</select>
     </xpath>
   </xml-source>
-</equalTo>
+</equal-to>
 {% endhighlight %}
 
 ### Combination of sequences

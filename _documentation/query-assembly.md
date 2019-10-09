@@ -13,13 +13,13 @@ You need to define a *system-under-test* and inside the *execution* element, you
 
 {% highlight xml %}
 <system-under-test>
-  <execution>
+  <result-set>
     <assembly
       path="NBi.Testing.dll"
       class="NBi.Testing.Acceptance.Resources.AssemblyClass"
       method="GetSelectMdx"
     />
-  </execution>
+  </result-set>
 </system-under-test>
 {% endhighlight %}
 
@@ -28,7 +28,7 @@ If your method is expecting some parameters you can specify them in your test. T
 
 {% highlight xml %}
 <system-under-test>
-  <execution>
+  <result-set>
     <assembly
       path="NBi.Testing.dll"
       class="NBi.Testing.Acceptance.Resources.AssemblyClass"
@@ -36,7 +36,7 @@ If your method is expecting some parameters you can specify them in your test. T
     />
       <parameter name="calendarYear">CY 2004</parameter>
     </assembly>
-  </execution>
+  </result-set>
 </system-under-test>
 {% endhighlight %}
 

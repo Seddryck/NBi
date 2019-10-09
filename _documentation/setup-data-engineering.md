@@ -20,21 +20,21 @@ For all of them, The xml attribute named *name* expects the name of the impacted
 {% highlight xml %}
 <setup>
 	<table-reset  name="NewUsers"
-		connectionString="..."
+		connection-string="..."
 	/>
 	<table-load   name="NewUsers"
 		file ="NewUsers.csv"
-		connectionString="..."
+		connection-string="..."
 	/>
 </setup>
 {% endhighlight %}
 
-If you want, you can also reference a connection-string in the xml attribute named *connectionString*. If you want to avoid to repeat this connection-string within all your commands, you can create a default value for the *connectionString* in the [settings](/docs/config-connection-strings) at the top of your test-suite where the value for the xml attribute *apply-to* must be set *setup-cleanup*.
+If you want, you can also reference a connection-string in the xml attribute named *connection-string*. If you want to avoid to repeat this connection-string within all your commands, you can create a default value for the *connection-string* in the [settings](/docs/config-connection-strings) at the top of your test-suite where the value for the xml attribute *apply-to* must be set *setup-cleanup*.
 
 {% highlight xml %}
 <settings>
 	<default apply-to="setup-cleanup">
-		<connectionString>Data Source=(local)\SQL2012;Initial Catalog=AdventureWorksDW2012;Integrated Security=true</connectionString>
+		<connection-string>Data Source=(local)\SQL2012;Initial Catalog=AdventureWorksDW2012;Integrated Security=true</connection-string>
 	</default>
 </settings>
 {% endhighlight %}
@@ -45,14 +45,14 @@ If you want, you can also reference a connection-string in the xml attribute nam
 
 * _sql-run_: this command run a batch of sql commands on your Sql Server instance.
 
-The xml attribute named *name* expects the name of the file containing the Sql commands. The attribute *path* is the path for the folder containing this file. This path must be relative to the test-suite. The attribute *connectionString* lets you define the connection-string for the targeted database. This connection-string but me a SqlClient connection-string and cannot be an OleDb or ODBC connection-string (avoid provider or driver parameters).
+The xml attribute named *name* expects the name of the file containing the Sql commands. The attribute *path* is the path for the folder containing this file. This path must be relative to the test-suite. The attribute *connection-string* lets you define the connection-string for the targeted database. This connection-string but me a SqlClient connection-string and cannot be an OleDb or ODBC connection-string (avoid provider or driver parameters).
 
 {% highlight xml %}
 <setup>
   <sql-run
     name="MyCommands.Sql"
     path="SQL\"
-    connectionString="..."
+    connection-string="..."
   />
 </setup>
 {% endhighlight %}
@@ -77,12 +77,12 @@ Sample:
 
 ## Referencing a connection-string
 
-If you want, you can also reference a connection-string in the xml attributes named *connectionString*. Useful, to avoid to repeat this connection-string within all your commands, you can create a default value for the *connectionString* in the [settings](/docs/config-connection-strings) at the top of your test-suite where the value for the xml attribute *apply-to* must be set *setup-cleanup*.
+If you want, you can also reference a connection-string in the xml attributes named *connection-string*. Useful, to avoid to repeat this connection-string within all your commands, you can create a default value for the *connection-string* in the [settings](/docs/config-connection-strings) at the top of your test-suite where the value for the xml attribute *apply-to* must be set *setup-cleanup*.
 
 {% highlight xml %}
 <settings>
   <default apply-to="setup-cleanup">
-    <connectionString>Data Source=(local)\SQL2012;Initial Catalog=AdventureWorksDW2012;Integrated Security=true</connectionString>
+    <connection-string>Data Source=(local)\SQL2012;Initial Catalog=AdventureWorksDW2012;Integrated Security=true</connection-string>
   </default>
 </settings>
 {% endhighlight %}

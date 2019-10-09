@@ -13,9 +13,9 @@ In both cases, you need to specify the xml element *shared-dataset* in place of 
 
 {% highlight xml %}
 <system-under-test>
-  <execution>
+  <result-set>
     <shared-dataset ... />
-  </execution>
+  </result-set>
 </system-under-test>
 {% endhighlight %}
 

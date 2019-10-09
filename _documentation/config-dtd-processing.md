@@ -40,11 +40,11 @@ Then at the position you want to include your file you must precede the short-na
 <testSuite name="The TestSuite" xmlns="http://NBi/TestSuite">
   <test name="My first test case" uid="0001">
     <system-under-test>
-      <execution>
+      <result-set>
         <query name="Select first product" connectionString="Data Source=.;Initial Cataloging;Integrated Security=True">
           SELECT TOP 1 * FROM Product;
         </query>
-      </execution>
+      </result-set>
     </system-under-test>
     <assert>
       <syntacticallyCorrect />

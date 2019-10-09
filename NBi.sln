@@ -9,6 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NBi.Testing", "NBi.Testing\
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".project", ".project", "{DA70ECE5-216D-43A1-9E14-902E06050B8E}"
 	ProjectSection(SolutionItems) = preProject
+		appveyor.yml = appveyor.yml
 		AssemblyInfo.cs = AssemblyInfo.cs
 	EndProjectSection
 EndProject

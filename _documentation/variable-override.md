@@ -13,9 +13,9 @@ To enforce the value of one or more variables, you must enlist them in the *vari
 
 {% highlight xml %}
 <nbi ...>
-  <variables>
-    <add name="myDate" value="2013-12-01" type="DateTime"/>
-    <add name="myNum" value="187" type="Numeric"/>
-  </variables>
+   <variables>
+      <add name="myDate" value="2013-12-01" type="DateTime"/>
+      <add name="myNum" value="187" type="Numeric"/>
+   </variables>
 </nbi>
 {% endhighlight %}

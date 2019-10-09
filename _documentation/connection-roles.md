@@ -11,7 +11,7 @@ NBi supports this case by providing an xml attribute named *roles* on the xml el
 
 {% highlight xml %}
 <query ref="OlapQA" roles="minimal">
-  ...
+     ...
 <query>
 {% endhighlight %}
 

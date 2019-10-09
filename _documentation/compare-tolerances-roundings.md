@@ -18,20 +18,20 @@ If you apply a tolerance of 0.001 to a numeric column, two rows (with same keys)
 This is especially helpful in Business Intelligence when you need to compare two queries and you don’t bother about small differences. Another case in Business Intelligence is also when you customers give you some hints about values expected in reports, they are usually a bit imprecise.
 
 {% highlight xml %}
-<column index="2" tolerance="0.001" />
+<column  index="2" tolerance="0.001" />
 {% endhighlight %}
 
 It’s also possible to take some short-cuts and write directly in the *equalTo* tag the columns’ definition. This xml element has the following meaning: all columns are keys except the last one. This last column is a value column where a tolerance of 0.001 must applied.
 {% highlight xml %}
-<equal-to values="last" tolerance="0.001">
+<equalTo values="last" tolerance="0.001">
 {% endhighlight %}
 
 If you want you can combine both notations. The definition provided in an xml element named column has always the precedence to the tolerance provided the xml element named *equalTo*. It means that following notation (for a result-set with 6 columns):
 {% highlight xml %}
-<equal-to keys="all-except-last" tolerance="10">
-	<column index="2" role="ignore" />
-	<column index="3" tolerance="0.001" />
-</equal-to>
+<equalTo keys="all-except-last" tolerance="10">
+	<column  index="2" role="ignore" />
+	<column  index="3" tolerance="0.001" />
+</equalTo>
 {% endhighlight %}
 must be interpreted as: columns 0, 1 and 4 are keys, column 2 must be ignored, column 3 is a value with a tolerance of 0.001 and column 5 is also a value but with a tolerance of 10.
 
@@ -43,7 +43,7 @@ To illustrate this, if you've two rows with values of 40 and 100, an absolute to
 
 The xml syntax requires a % in the attribute *tolerance*.
 {% highlight xml %}
-<column index="3" role="value" type="numeric" tolerance="10%" />
+<column  index="3" role="value" type="numeric" tolerance="10%" />
 {% endhighlight %}
 
 ### Absolute and relative tolerance
@@ -51,25 +51,25 @@ The xml syntax requires a % in the attribute *tolerance*.
 Sometimes, you want to use a relative tolerance but you also want to bound thsi tolerance and express that this tolerance cannot be more (or less) than a specific value. It's possible to achieve this by specifying the value in percentage and also the bound (min or max) between brackets for the xml attribute *tolerance*.
 
 {% highlight xml %}
-<column index="3" role="value" type="numeric" tolerance="10% (min 0.001)" />
+<column  index="3" role="value" type="numeric" tolerance="10% (min 0.001)" />
 {% endhighlight %}
 
 ### One-sided tolerance
 Sometimes, you want to specify that the tolerance should only be applied on the right or on the left of the expected value. In this case, you must specify the symbols *+* or *-* before the percentage of the absolute value.
 
 {% highlight xml %}
-<column index="3" role="value" type="numeric" tolerance="+10%" />
+<column  index="3" role="value" type="numeric" tolerance="+10%" />
 {% endhighlight %}
 
 ## Tolerance for type "date and time"
 
 If you want to specify the tolerance for *dateTime* columns, you must express the tolerance in days, hours, minutes, seconds and milliseconds. The correct syntax for two days and an half is
 {% highlight xml %}
-<column index="3" role="value" type="dateTime" tolerance="2.12:00:00" />
+<column  index="3" role="value" type="dateTime" tolerance="2.12:00:00" />
 {% endhighlight %}
 If the tolerance must be set to 15 minutes, you will write:
 {% highlight xml %}
-<column index="3" role="value" type="dateTime" tolerance="00:15:00" />
+<column  index="3" role="value" type="dateTime" tolerance="00:15:00" />
 {% endhighlight %}
 
 At the moment only *absolute tolerance* is supported and its not possible to apply *one-sided tolerance*.
@@ -111,15 +111,10 @@ Use the attribute *tolerance* and specify the name of the algorithm and the thre
 If you wish, you can combine the different algorithms by seperating them with a comma. In this case you can't specify a numeric threshold but must rely on one of the three predefined values: *strong*, *normal* or *weak*.
 
 {% highlight xml %}
-<column 
-  index="1" 
-  role="value" 
-  type="text" 
-  tolerance="LongestCommonSubsequence, LongestCommonSubstring, OverlapCoefficient (weak)"
-/>
+<column index="1" role="value" type="text" tolerance="LongestCommonSubsequence, LongestCommonSubstring, OverlapCoefficient (weak)"/>
 {% endhighlight %}
 
-## Roundings
+# Roundings
 
 The roundings are another set of tools to express that two values are equal if they are close to each other. At the opposite of *tolerance*,  *rounding* is applied to both expected and actual values. If after the rounding's operation, the two values are strictly equal then the comparison will be positive (and else negative).
 
@@ -161,7 +156,7 @@ If the step is greater than 1, the rounding will be applied to the integer part 
 * with a _ceiling_ style : 10540
 
 {% highlight xml %}
-<column index="3" role="value" rounding-style="floor" rounding-step="20" />
+<column  index="3" role="value" rounding-style="floor" rounding-step="20" />
 {% endhighlight %}
 
 ### Date and time columns

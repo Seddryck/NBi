@@ -11,9 +11,9 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <summary>Extensibility points of NBi.</summary>
     <description>This package contains the interfaces to implement to extend NBi features. Testing framework (add-on to NUnit) for Business Intelligence. It supports the Microsoft Data platform (SQL Server Database engine, SSIS, SSAS, SSRS) but also MySQL, PostgreSQL and other solutions.</description>
-	<releaseNotes>Check the release notes at https://github.com/Seddryck/NBi/releases/v$version$</releaseNotes>
+    <releaseNotes>Check the release notes at https://github.com/Seddryck/NBi/releases/v$version$</releaseNotes>
     <copyright>Copyright 2013-$thisYear$</copyright>
     <tags>Test NBi SQL SSAS SSIS SSRS</tags>
-	<repository type="git" url="https://github.com/Seddryck/NBi.git"></repository>
+    <repository type="git" url="https://github.com/Seddryck/NBi.git"></repository>
   </metadata>
 </package>

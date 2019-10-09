@@ -18,8 +18,10 @@ after_build:
     .\.packages\package-NBi.ps1 $nuget_version
 test_script:
 - cmd: >-
-    nunit3-console NBi.Testing.GenbiL\bin\debug\NBi.Testing.GenbiL.dll --where "cat!=Acceptance and cat!=Olap and cat!=Etl and cat!=WindowsService and cat!=ReportServerDB and cat!=LocalSQL" --result=myresults.xml;format=AppVeyor
-        
+    nunit3-console NBi.Testing.Core\bin\debug\NBi.Testing.Core.dll NBi.Testing.Framework\bin\debug\NBi.Testing.Framework.dll NBi.Testing.GenbiL\bin\debug\NBi.Testing.GenbiL.dll NBi.Testing.Xml\bin\debug\NBi.Testing.Xml.dll  --where "cat!=Acceptance and cat!=Olap and cat!=Etl and cat!=WindowsService and cat!=ReportServerDB and cat!=LocalSQL" --result=myresults.xml;format=AppVeyor
+    
+    nunit-console-x86 NBi.Testing\bin\debug\NBi.Testing.dll /exclude:Olap,Etl,WindowsService,ReportServerDB,LocalSQL
+    
 artifacts:
 - path: NBi.NUnit.Runtime\bin\Debug
   name: Framework
@@ -52,4 +54,11 @@ deploy:
   api_key:
     secure: vmXLz/XAhXz3eNJPtg5mP78yhliNVtPy4ieiwuGD9Ym47b5CvdXLT0B4tr/VHDoX
   on:
-    branch: /^(develop|feature\/.+|hotfix\/.+)$/
+    branch: develop
+- provider: NuGet
+  server: https://nuget.pkg.github.com/Seddryck/index.json
+  username: Seddryck
+  api_key:
+    secure: vmXLz/XAhXz3eNJPtg5mP78yhliNVtPy4ieiwuGD9Ym47b5CvdXLT0B4tr/VHDoX
+  on:
+    APPVEYOR_REPO_TAG: true

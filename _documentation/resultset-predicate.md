@@ -13,9 +13,9 @@ For this kind of test, you'll assert the value of one cell (or a combination of 
 
 {% highlight xml %}
 <assertion>
-    <no-rows>
-        <predicate operand="myColumn"/>
-    </no-rows>
+  <no-rows>
+  <predicate operand="myColumn"/>
+  </no-rows>
 </assertion>
 {% endhighlight %}
 
@@ -27,10 +27,10 @@ To identify a column, you can refer to it by its name but you've more options:
 
 {% highlight xml %}
 <assertion>
-    <no-rows>
-        <alias column="1">MyColumnAlias</alias>
-        <predicate operand="MyColumnAlias"/>
-    </no-rows>
+  <no-rows>
+  <alias column="1">MyColumnAlias</alias>
+  <predicate operand="MyColumnAlias"/>
+  </no-rows>
 </assertion>
 {% endhighlight %}
 
@@ -49,14 +49,14 @@ In the example bellow, we've a *dateTime* value contained in the column named ``
 {% highlight xml %}
 <assertion>
   <all-rows>
-    <expression name="localTime">
-      <script language="native">
-        [myDateTime] 
-          | utc-to-local(Brussels) 
-          | dateTime-to-previous-day 
-          | dateTime-to-set-time(07:00:00)
-      </script>
-    </expression>
+  <expression name="localTime">
+  <script language="native">
+  [myDateTime] 
+    | utc-to-local(Brussels) 
+    | dateTime-to-previous-day 
+    | dateTime-to-set-time(07:00:00)
+  </script>
+  </expression>
   </all-rows>
 </assertion>
 {% endhighlight %}
@@ -71,9 +71,9 @@ In this kind of test, a cell can be used later in the *predicate* or in an *expr
 
 {% highlight xml %}
 <assertion>
-    <all-rows>
-        <expression name="TotalPriceWithVAT">UnitPrice * Quantity * 1.21</expression>
-    </all-rows>
+  <all-rows>
+  <expression name="TotalPriceWithVAT">UnitPrice * Quantity * 1.21</expression>
+  </all-rows>
 </assertion>
 {% endhighlight %}
 
@@ -83,10 +83,10 @@ It's possible to use an expression in an expression (nested expressions). The pr
 
 {% highlight xml %}
 <assertion>
-    <all-rows>
-        <expression name="TotalPrice">UnitPrice * Quantity</expression>
-        <expression name="TotalPriceWithVAT">TotalPrice * 1.21</expression>
-    </all-rows>
+  <all-rows>
+  <expression name="TotalPrice">UnitPrice * Quantity</expression>
+  <expression name="TotalPriceWithVAT">TotalPrice * 1.21</expression>
+  </all-rows>
 </assertion>
 {% endhighlight %}
 
@@ -98,12 +98,12 @@ As most predicates are valid for different types, you must specify the type of t
 
 {% highlight xml %}
 <assertion>
-    <all-rows>
-        ...
-        <predicate operand="FirstName" type="text">
-           ...
-        </predicate>
-    </all-rows>
+  <all-rows>
+  ...
+  <predicate operand="FirstName" type="text">
+     ...
+  </predicate>
+  </all-rows>
 </assertion>
 {% endhighlight %}
 
@@ -137,12 +137,12 @@ Each predicate is not valid for each data type. The list of possible combinaison
 
 {% highlight xml %}
 <assertion>
-    <all-rows>
-        ...
-        <predicate operand="FirstName" type="text">
-           <upper-case/>
-        </predicate>
-    </all-rows>
+  <all-rows>
+  ...
+  <predicate operand="FirstName" type="text">
+     <upper-case/>
+  </predicate>
+  </all-rows>
 </assertion>
 {% endhighlight %}
 
@@ -154,12 +154,12 @@ Some of the predicates require to specify a *reference*. For example, if you wan
 
 {% highlight xml %}
 <assertion>
-    <all-rows>
-        ...
-        <predicate operand="Value">
-           <equal>1000</equal>
-        </predicate>
-    </all-rows>
+  <all-rows>
+  ...
+  <predicate operand="Value">
+     <equal>1000</equal>
+  </predicate>
+  </all-rows>
 </assertion>
 {% endhighlight %}
 
@@ -171,12 +171,12 @@ The first use-case is to define the reference as a variable. The usage of the ``
 
 {% highlight xml %}
 <assertion>
-    <all-rows>
-        ...
-        <predicate operand="Value">
-           <equal>@myVar</equal>
-        </predicate>
-    </all-rows>
+  <all-rows>
+  ...
+  <predicate operand="Value">
+     <equal>@myVar</equal>
+  </predicate>
+  </all-rows>
 </assertion>
 {% endhighlight %}
 
@@ -184,12 +184,12 @@ The second use-case is to define the reference as a the value of column for the 
 
 {% highlight xml %}
 <assertion>
-    <all-rows>
-        ...
-        <predicate operand="Value">
-           <equal>[myCol]</equal>
-        </predicate>
-    </all-rows>
+  <all-rows>
+  ...
+  <predicate operand="Value">
+     <equal>[myCol]</equal>
+  </predicate>
+  </all-rows>
 </assertion>
 {% endhighlight %}
 
@@ -197,12 +197,12 @@ Finally, when using any of the above possibilities (literal, variable or column'
 
 {% highlight xml %}
 <assertion>
-    <all-rows>
-        ...
-        <predicate operand="Value">
-           <equal>[myCol] | text-to-upper | text-to-first-chars(@CountChar)</equal>
-        </predicate>
-    </all-rows>
+  <all-rows>
+  ...
+  <predicate operand="Value">
+     <equal>[myCol] | text-to-upper | text-to-first-chars(@CountChar)</equal>
+  </predicate>
+  </all-rows>
 </assertion>
 {% endhighlight %}
 
@@ -212,15 +212,15 @@ The predicate *any-of* is not expecting a unique scalar reference but a list of 
 
 {% highlight xml %}
 <assertion>
-    <all-rows>
-        ...
-        <predicate operand="FirstName" type="text">
-           <any-of>
-               <item>first</item>
-               <item>second</item>
-           </any-of>
-        </predicate>
-    </all-rows>
+  <all-rows>
+  ...
+  <predicate operand="FirstName" type="text">
+  <any-of>
+  <item>first</item>
+  <item>second</item>
+  </any-of>
+  </predicate>
+  </all-rows>
 </assertion>
 {% endhighlight %}
 
@@ -228,12 +228,12 @@ The predicate *within-range* is not expecting a scalar reference but an interval
 
 {% highlight xml %}
 <assertion>
-    <all-rows>
-        ...
-        <predicate operand="value" type="numeric">
-           <within-range>[0;10]</within-range>
-        </predicate>
-    </all-rows>
+  <all-rows>
+  ...
+  <predicate operand="value" type="numeric">
+  <within-range>[0;10]</within-range>
+  </predicate>
+  </all-rows>
 </assertion>
 {% endhighlight %}
 
@@ -243,12 +243,12 @@ The predicates *equal*, *more/less-than*, *starts/ends-with*, *contains*, *match
 
 {% highlight xml %}
 <assertion>
-    <all-rows>
-        ...
-        <predicate operand="FirstName" type="text">
-           <equal ignore-case="true">John</equal>
-        </predicate>
-    </all-rows>
+  <all-rows>
+    ...
+    <predicate operand="FirstName" type="text">
+      <equal ignore-case="true">John</equal>
+    </predicate>
+  </all-rows>
 </assertion>
 {% endhighlight %}
 
@@ -258,12 +258,12 @@ The following predicates are expecting a culture: *matches-numeric*, *matches-da
 
 {% highlight xml %}
 <assertion>
-    <all-rows>
-        ...
-        <predicate operand="birthDate" type="text">
-           <matches-date culture="fr-fr"/>
-        </predicate>
-    </all-rows>
+  <all-rows>
+    ...
+    <predicate operand="birthDate" type="text">
+      <matches-date culture="fr-fr"/>
+    </predicate>
+  </all-rows>
 </assertion>
 {% endhighlight %}
 
@@ -273,12 +273,12 @@ The predicate *modulo* is expecting a second operand (the divisor) that you can 
 
 {% highlight xml %}
 <assertion>
-    <all-rows>
-        ...
-        <predicate name="#0">
-          <modulo second-operand="15">0</modulo>
-        </predicate>
-    </all-rows>
+  <all-rows>
+    ...
+    <predicate name="#0">
+      <modulo second-operand="15">0</modulo>
+    </predicate>
+  </all-rows>
 </assertion>
 {% endhighlight %}
 
@@ -288,12 +288,12 @@ The two predicates *more-than* and *less-than* also supports the variant *or-equ
 
 {% highlight xml %}
 <assertion>
-    <all-rows>
-        ...
-        <predicate operand="TotalPriceWithVAT">
-           <more-than or-equal="true">1000<more-than>
-        </predicate>
-    </all-rows>
+  <all-rows>
+    ...
+    <predicate operand="TotalPriceWithVAT">
+       <more-than or-equal="true">1000<more-than>
+    </predicate>
+  </all-rows>
 </assertion>
 {% endhighlight %}
 
@@ -303,12 +303,12 @@ It could be useful to use the negation of a predicate. By specifying the attribu
 
 {% highlight xml %}
 <assertion>
-    <all-rows>
-        ...
-        <predicate operand="Name" type="text">
-           <lower-case not="true"/>
-        </predicate>
-    </all-rows>
+  <all-rows>
+    ...
+    <predicate operand="Name" type="text">
+       <lower-case not="true"/>
+    </predicate>
+  </all-rows>
 </assertion>
 {% endhighlight %}
 
@@ -321,18 +321,18 @@ Sometimes, the [reference](#reference) must be dynamic. One of the most famous e
 {% highlight xml %}
 <variables>
    <variable name="maxAmount">
-      <script language="c-sharp">10*10*10</script>
+     <script language="c-sharp">10*10*10</script>
    </variable>
 </variables>
 ...
 <assertion>
-    <all-rows>
-        <alias column-index="1">Quantity</alias>
-        <expression name="TotalPriceWithVAT">[UnitPrice] * Quantity * [#3]</expression>
-        <predicate name="TotalPriceWithVAT">
-           <more-than or-equal="true">@maxAmount<more-than>
-        <predicate>
-    </all-rows>
+  <all-rows>
+    <alias column-index="1">Quantity</alias>
+    <expression name="TotalPriceWithVAT">[UnitPrice] * Quantity * [#3]</expression>
+    <predicate name="TotalPriceWithVAT">
+      <more-than or-equal="true">@maxAmount<more-than>
+    <predicate>
+  </all-rows>
 </assertion>
 {% endhighlight %}
 
@@ -342,18 +342,18 @@ It's possible to combine predicates with one of the three operators *and*, *or* 
 
 {% highlight xml %}
 <assertion>
-    <all-rows>
-        <alias column-index="1">Quantity</alias>
-        <expression name="TotalPriceWithVAT">[UnitPrice] * Quantity * [#3]</expression>
-        <combination operator="or">
-            <predicate operand="TotalPriceWithVAT">
-                <more-than or-equal="true">@maxAmount<more-than>
-            <predicate>
-            <predicate operand="#0" type="text">
-                <upper-case/>
-            <predicate>
-        </combination>
-    </all-rows>
+  <all-rows>
+    <alias column-index="1">Quantity</alias>
+    <expression name="TotalPriceWithVAT">[UnitPrice] * Quantity * [#3]</expression>
+    <combination operator="or">
+      <predicate operand="TotalPriceWithVAT">
+        <more-than or-equal="true">@maxAmount<more-than>
+      <predicate>
+      <predicate operand="#0" type="text">
+        <upper-case/>
+      <predicate>
+    </combination>
+  </all-rows>
 </assertion>
 {% endhighlight %}
 

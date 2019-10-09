@@ -48,3 +48,10 @@ deploy:
     secure: +E89GuWTCkM1DpiRGoO3oRLIvLIjb8aPsHqNvga0ID/xdUx0cvDjI7XVdF12rmEm
   on:
     branch: /^(develop|feature\/.+|hotfix\/.+)$/
+- provider: NuGet
+  server: https://nuget.pkg.github.com/Seddryck/index.json
+  username: Seddryck
+  api_key:
+    secure: vmXLz/XAhXz3eNJPtg5mP78yhliNVtPy4ieiwuGD9Ym47b5CvdXLT0B4tr/VHDoX
+  on:
+    branch: /^(develop|feature\/.+|hotfix\/.+)$/

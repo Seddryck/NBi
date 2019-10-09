@@ -222,6 +222,7 @@ The predicate *any-of* is not expecting a unique scalar reference but a list of 
         </predicate>
     </all-rows>
 </assertion>
+{% endhighlight %}
 
 The predicate *within-range* is not expecting a scalar reference but an interval. To define the interval use a mathematical notation with square brackets to specifies a closed, open or half-open interval
 
@@ -234,7 +235,6 @@ The predicate *within-range* is not expecting a scalar reference but an interval
         </predicate>
     </all-rows>
 </assertion>
-
 {% endhighlight %}
 
 ## Case-sensitive

@@ -3,7 +3,7 @@ layout: automation
 title: Build a test-suite (Azure DevOps)
 prev_section: comments
 next_section: cicd-run-azuredevops
-permalink: /automation/comments/
+permalink: /automation/cicd-build-azuredevops/
 ---
 Using Azure DevOps Pipelines, it's possible to build your test-suite based on your genbiL file and other supporting files. This create a world of opportunity in terms of versioning of your test-suites.
 

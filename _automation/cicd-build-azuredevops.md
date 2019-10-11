@@ -1,6 +1,6 @@
 ---
 layout: automation
-title: Build a test-suite (Azure DevOps)
+title: Build a test-suite
 prev_section: comments
 next_section: cicd-run-azuredevops
 permalink: /automation/cicd-build-azuredevops/

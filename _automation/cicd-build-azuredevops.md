@@ -9,8 +9,7 @@ Using Azure DevOps Pipelines, it's possible to build your test-suite based on yo
 
 In the following step-by-step example, we'll connect to a directory at GitHub and build the test-suite defined in a file named *dictionary.genbiL* using the latest release of *Genbi.exe* available on [GitHub releases](https://github.com/seddryck/nbi/releases/latest).
 
-The GitHub repository containing the fake test-suite is available at https://github.com/seddryck/nbi.cicd.build
-The Azure DevOps Pipelines is available at https://seddryck.visualstudio.com/NBi.Cicd.Build/_build
+The GitHub repository containing the fake test-suite is available at <https://github.com/seddryck/nbi.cicd.build> and the Azure DevOps Pipelines is available at <https://seddryck.visualstudio.com/NBi.Cicd.Build/_build>.
 
 ## Setting up a new pipeline on Azure DevOps
 
@@ -133,4 +132,4 @@ Once the pipeline has completed, the artifact is available and can be downloaded
 
 ![download-artifact]({{ site.baseurl }}/img/automation/download-artifact.png)
 
-The full pipeline is available on GitHub at <https://github.com/Seddryck/NBi.Cicd.Build/blob/master/azure-pipelines.yml> and the result of this pipeline execution is visible at <https://seddryck.visualstudio.com/NBi.Cicd.Build/_build>
+The full script of the [pipeline](https://github.com/Seddryck/NBi.Cicd.Build/blob/master/azure-pipelines.yml) is available on GitHub and the result of this [pipeline execution](https://seddryck.visualstudio.com/NBi.Cicd.Build/_build) is also visible on Azure DevOps.

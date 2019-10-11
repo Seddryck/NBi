@@ -16,8 +16,8 @@
 
 - title: CICD integration
   docs:
-  - Build a test-suite
-  - Run a test-suite (Azure DevOps)
+  - cicd-build-azuredevops
+  - cicd-run-azuredevops
 
 - title: Test-cases management
   docs:

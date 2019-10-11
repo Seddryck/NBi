@@ -14,6 +14,11 @@
   - genbil
   - comments
 
+- title: CI/CD integration
+  docs:
+  - Build a test-suite (Azure DevOps)
+  - Run a test-suite (Azure DevOps)
+
 - title: Test-cases management
   docs:
   - cases-load

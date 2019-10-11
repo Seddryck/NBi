@@ -2,7 +2,7 @@
 layout: automation
 title: Comments in macro file
 prev_section: genbil
-next_section: cases-load
+next_section: cicd-build-azuredevops
 permalink: /automation/comments/
 ---
 It's possible to annotate a macro written in genbiL with some comments. Two styles of comments are supported: single-line comments and delimited comments.

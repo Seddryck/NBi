@@ -14,7 +14,7 @@
   - genbil
   - comments
 
-- title: CICD integration
+- title: CI/CD
   docs:
   - cicd-build-azuredevops
   - cicd-build-appveyor

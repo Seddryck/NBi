@@ -94,6 +94,6 @@ If later you update any file in this directory, it will also trigger the pipelin
 
 Once the *AppVeyor build* has completed, the artifact is available and can be downloaded or consummed by another build. Due to *AppVeyor* retention of the artifacts, this artifact will be deleted 6 months after its creation.
 
-![download-artifact-appveyor]({{ site.baseurl }}/img/automation/download-artifact-appveyor)
+![download-artifact-appveyor]({{ site.baseurl }}/img/automation/download-artifact-appveyor.png)
 
 The full [script of the AppVeyor Build](https://github.com/Seddryck/NBi.Cicd.Build/blob/master/appveyor.yml) is available on GitHub and the result of this [pipeline execution](https://ci.appveyor.com/project/Seddryck/nbi-cicd-build/history) is also visible on AppVeyor.

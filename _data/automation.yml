@@ -17,6 +17,7 @@
 - title: CICD integration
   docs:
   - cicd-build-azuredevops
+  - cicd-build-appveyor
   - cicd-run-azuredevops
 
 - title: Test-cases management

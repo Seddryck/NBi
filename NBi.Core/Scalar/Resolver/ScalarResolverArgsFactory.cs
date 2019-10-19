@@ -47,7 +47,7 @@ namespace NBi.Core.Scalar.Resolver
                         case '~':
                             args = new FormatScalarResolverArgs(firstToken.Substring(1), Context?.Variables);
                             break;
-                        case '[' when firstToken.ToCharArray().Last() == ']' && !firstToken.Contains(';'):
+                        case '[' when firstToken.ToCharArray().Last() == ']' && !firstToken.Contains(';') && MatchExternalBrakets(firstToken).Count==1:
                         case '#':
                             args = new ContextScalarResolverArgs(Context, columnIdentifierFactory.Instantiate(firstToken));
                             break;
@@ -68,6 +68,21 @@ namespace NBi.Core.Scalar.Resolver
                     else
                         return args;
             }
+        }
+
+        private MatchCollection MatchExternalBrakets(string value)
+        {
+            var regex = new Regex(@"
+                            \[                    # Match (
+                            (
+                                [^[\]]+            # all chars except ()
+                                | (?<Level>\[)    # or if ( then Level += 1
+                                | (?<-Level>\])   # or if ) then Level -= 1
+                            )+                    # Repeat (to go from inside to outside)
+                            (?(Level)(?!))        # zero-width negative lookahead assertion
+                            \]                    # Match )",
+                            RegexOptions.IgnorePatternWhitespace);
+            return regex.Matches(value);
         }
     }
 }

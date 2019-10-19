@@ -77,12 +77,47 @@ namespace NBi.Testing.Core.Scalar.Resolver
         }
 
         [Test]
-        public void Instantiate_LiteralWithGraves_LiteralResolverArgs()
+        public void Instantiate_ContextWithFormat_LiteralResolverArgs()
+        {
+            var factory = new ScalarResolverArgsFactory(new ServiceLocator(), null); ;
+            var args = factory.Instantiate("[~{@date:yyyy}]");
+            Assert.That(args, Is.TypeOf<ContextScalarResolverArgs>());
+        }
+
+        [Test]
+        public void Instantiate_LiteralWithGravesAndPipes_LiteralResolverArgs()
         {
             var factory = new ScalarResolverArgsFactory(new ServiceLocator(), null);;
             var args = factory.Instantiate("`a|b|c`");
             Assert.That(args, Is.TypeOf<LiteralScalarResolverArgs>());
             Assert.That((args as LiteralScalarResolverArgs).Object, Is.EqualTo("a|b|c"));
+        }
+
+        [Test]
+        public void Instantiate_LiteralWithGravesAndBrakets_LiteralResolverArgs()
+        {
+            var factory = new ScalarResolverArgsFactory(new ServiceLocator(), null); ;
+            var args = factory.Instantiate("`[a].[c]`");
+            Assert.That(args, Is.TypeOf<LiteralScalarResolverArgs>());
+            Assert.That((args as LiteralScalarResolverArgs).Object, Is.EqualTo("[a].[c]"));
+        }
+
+        [Test]
+        public void Instantiate_MDXParameter_LiteralResolverArgs()
+        {
+            var factory = new ScalarResolverArgsFactory(new ServiceLocator(), null); ;
+            var args = factory.Instantiate("[dimension].[hierarchy].[member]");
+            Assert.That(args, Is.TypeOf<LiteralScalarResolverArgs>());
+            Assert.That((args as LiteralScalarResolverArgs).Object, Is.EqualTo("[dimension].[hierarchy].[member]"));
+        }
+
+        [Test]
+        public void Instantiate_ColumnWithBrakets_ContextResolverArgs()
+        {
+            var factory = new ScalarResolverArgsFactory(new ServiceLocator(), null); ;
+            var args = factory.Instantiate("[[schema].[column]]");
+            Assert.That(args, Is.TypeOf<ContextScalarResolverArgs>());
+            Assert.That((args as ContextScalarResolverArgs).ColumnIdentifier.Label, Is.EqualTo("[[schema].[column]]"));
         }
     }
 }

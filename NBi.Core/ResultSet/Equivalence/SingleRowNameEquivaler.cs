@@ -7,14 +7,14 @@ using NBi.Core.ResultSet.Analyzer;
 
 namespace NBi.Core.ResultSet.Equivalence
 {
-    public class SingleRowEquivaler : OrdinalEquivaler
+    internal class SingleRowNameEquivaler : NameEquivaler
     {
-        private new SettingsSingleRowResultSet Settings
+        private new SettingsSingleRowNameResultSet  Settings
         {
-            get { return base.Settings as SettingsSingleRowResultSet; }
+            get { return base.Settings as SettingsSingleRowNameResultSet; }
         }
         
-        public SingleRowEquivaler(SettingsSingleRowResultSet settings)
+        public SingleRowNameEquivaler(SettingsSingleRowNameResultSet settings)
             : base(AnalyzersFactory.EqualTo(), settings)
         {}
 
@@ -47,12 +47,6 @@ namespace NBi.Core.ResultSet.Equivalence
             if (missingRows.Count == 0 && unexpectedRows.Count == 0)
             {
                 chrono = DateTime.Now;
-                var columnsCount = Math.Max(y.Table.Columns.Count, x.Table.Columns.Count);
-                if (Settings == null)
-                    BuildDefaultSettings(columnsCount);
-                else
-                    Settings.ApplyTo(columnsCount);
-
                 PreliminaryChecks(x.Table, y.Table);
                 Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceInfo, string.Format("Analyzing length and format of result-sets: [{0}]", DateTime.Now.Subtract(chrono).ToString(@"d\d\.hh\h\:mm\m\:ss\s\ \+fff\m\s")));
 
@@ -73,6 +67,5 @@ namespace NBi.Core.ResultSet.Equivalence
                 nonMatchingValueRows
                 );
         }
-        
     }
 }

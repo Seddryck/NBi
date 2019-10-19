@@ -171,7 +171,8 @@
     <Compile Include="ResultSet\Equivalence\SettingsEquivalerBuilderTest.cs" />
     <Compile Include="ResultSet\Equivalence\SettingsNameResultSetTest.cs" />
     <Compile Include="ResultSet\Equivalence\SettingsOrdinalResultSetTest.cs" />
-    <Compile Include="ResultSet\Equivalence\SingleRowEquivalerTest.cs" />
+    <Compile Include="ResultSet\Equivalence\SingleRowNameEquivalerTest.cs" />
+    <Compile Include="ResultSet\Equivalence\SingleRowOrdinalEquivalerTest.cs" />
     <Compile Include="ResultSet\JsonResultSetTest.cs" />
     <Compile Include="ResultSet\KeyCollectionTest.cs" />
     <Compile Include="ResultSet\Lookup\CellsRetrieverByNameTest.cs" />

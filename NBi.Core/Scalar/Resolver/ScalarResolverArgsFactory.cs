@@ -73,14 +73,14 @@ namespace NBi.Core.Scalar.Resolver
         private MatchCollection MatchExternalBrakets(string value)
         {
             var regex = new Regex(@"
-                            \[                    # Match (
+                            \[                    # Match [
                             (
-                                [^[\]]+            # all chars except ()
-                                | (?<Level>\[)    # or if ( then Level += 1
-                                | (?<-Level>\])   # or if ) then Level -= 1
+                                [^[\]]+           # all chars except []
+                                | (?<Level>\[)    # or if [ then Level += 1
+                                | (?<-Level>\])   # or if ] then Level -= 1
                             )+                    # Repeat (to go from inside to outside)
                             (?(Level)(?!))        # zero-width negative lookahead assertion
-                            \]                    # Match )",
+                            \]                    # Match ]",
                             RegexOptions.IgnorePatternWhitespace);
             return regex.Matches(value);
         }

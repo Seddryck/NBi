@@ -479,6 +479,7 @@
     <Compile Include="ResultSet\ColumnNameIdentifier.cs" />
     <Compile Include="ResultSet\ColumnRole.cs" />
     <Compile Include="ResultSet\ColumnType.cs" />
+    <Compile Include="ResultSet\Equivalence\SingleRowNameEquivaler.cs" />
     <Compile Include="ResultSet\Lookup\Behavior.cs" />
     <Compile Include="ResultSet\Combination\CartesianProductSequenceCombination.cs" />
     <Compile Include="ResultSet\Combination\SequenceCombinationOperation.cs" />
@@ -497,6 +498,8 @@
     <Compile Include="ResultSet\Resolver\SequenceResultSetResolverArgs.cs" />
     <Compile Include="ResultSet\Resolver\SequenceCombinationResultSetResolverArgs.cs" />
     <Compile Include="ResultSet\Resolver\SequenceCombinationResultSetResolver.cs" />
+    <Compile Include="ResultSet\SettingsSingleRowNameResultSet.cs" />
+    <Compile Include="ResultSet\ISettingsSingleRowResultSet .cs" />
     <Compile Include="Scalar\Casting\ImplicitCaster.cs" />
     <Compile Include="ResultSet\Lookup\Violation\LookupViolationCollection.cs" />
     <Compile Include="ResultSet\Lookup\Violation\LookupMatchesViolationRecord.cs" />
@@ -620,8 +623,8 @@
     <Compile Include="ResultSet\SettingsOrdinalResultSet.cs" />
     <Compile Include="ResultSet\SettingsNameResultSet.cs" />
     <Compile Include="ResultSet\Equivalence\SettingsEquivalerBuilder.cs" />
-    <Compile Include="ResultSet\SettingsSingleRowResultSet.cs" />
-    <Compile Include="ResultSet\Equivalence\SingleRowEquivaler.cs" />
+    <Compile Include="ResultSet\SettingsSingleRowOrdinalResultSet .cs" />
+    <Compile Include="ResultSet\Equivalence\SingleRowOrdinalEquivaler.cs" />
     <Compile Include="ResultSet\Equivalence\OrdinalEquivaler.cs" />
     <Compile Include="ResultSet\DataRowKeysComparer.cs" />
     <Compile Include="Scalar\Interval\NumericInterval.cs" />

@@ -11,20 +11,35 @@ namespace NBi.Core.ResultSet.Equivalence
     {
         public IEquivaler Instantiate(ISettingsResultSet settings, EquivalenceKind kind)
         {
-            if (settings is SettingsSingleRowResultSet)
-                return new SingleRowEquivaler(settings as SettingsSingleRowResultSet);
-            else
+            switch (settings)
             {
-                var factory = new AnalyzersFactory();
-                var analyzers = factory.Instantiate(kind);
-
-                if (settings is SettingsOrdinalResultSet)
-                    return new OrdinalEquivaler(analyzers, settings as SettingsOrdinalResultSet);
-
-                else if (settings is SettingsNameResultSet)
-                    return new NameEquivaler(analyzers, settings as SettingsNameResultSet);
+                case ISettingsSingleRowResultSet x: return InstantiateSingleRow(x);
+                case ISettingsResultSet x: return InstantiateMultipleRows(x, kind);
+                default: throw new ArgumentException();
             }
-            throw new ArgumentOutOfRangeException(nameof(settings));
+        }
+
+        public IEquivaler InstantiateSingleRow(ISettingsSingleRowResultSet settings)
+        {
+            switch (settings)
+            {
+                case SettingsSingleRowOrdinalResultSet x: return new SingleRowOrdinalEquivaler(x);
+                case SettingsSingleRowNameResultSet x: return new SingleRowNameEquivaler(x);
+                default: throw new ArgumentException();
+            }
+        }
+
+        public IEquivaler InstantiateMultipleRows(ISettingsResultSet settings, EquivalenceKind kind)
+        {
+            var factory = new AnalyzersFactory();
+            var analyzers = factory.Instantiate(kind);
+
+            switch (settings)
+            {
+                case SettingsOrdinalResultSet x: return new OrdinalEquivaler(analyzers, x);
+                case SettingsNameResultSet x: return new NameEquivaler(analyzers, x);
+                default: throw new ArgumentException();
+            }
         }
     }
 }

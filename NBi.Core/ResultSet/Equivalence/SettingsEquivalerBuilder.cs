@@ -73,7 +73,12 @@ namespace NBi.Core.ResultSet.Equivalence
             if (isMultipleRows)
                 base.BuildSettings(keysDefaultType, valuesDefaultType, defaultTolerance);
             else
-                settings = new SettingsSingleRowResultSet(valuesDefaultType, defaultTolerance, definitionColumns);
+            {
+                if (IsByName())
+                    settings = new SettingsSingleRowNameResultSet(valuesDefaultType, defaultTolerance, new ReadOnlyCollection<IColumnDefinition>(GetAllColumns(keysDefaultType, valuesDefaultType).ToList()));
+                else
+                    settings = new SettingsSingleRowOrdinalResultSet(valuesDefaultType, defaultTolerance, definitionColumns);
+            }
         }
     }
 }

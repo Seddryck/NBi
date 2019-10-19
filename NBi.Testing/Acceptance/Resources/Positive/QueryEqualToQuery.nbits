@@ -455,6 +455,25 @@
         </equalTo>
       </assert>
     </test>
+    <test name="Text, numeric, bool, dateTime, Text">
+      <system-under-test>
+        <execution>
+          <query>
+            select 'alpha' as 'A', '10.250' as 'B', 'true' as 'C', '2016-12-10' as 'D', 'beta' as 'E'
+          </query>
+        </execution>
+      </system-under-test>
+      <assert>
+        <equalTo behavior="single-row" values-default-type="text">
+          <column name="B" role="value" type="numeric"/>
+          <column name="C" role="value" type="boolean"/>
+          <column name="D" role="value" type="dateTime"/>
+          <query>
+            select 'alpha' as 'A', cast(10.25 as float) as 'B', cast(1 as bit) as 'C', cast('2016-12-10' as DateTime) as 'D', 'beta' as 'E'
+          </query>
+        </equalTo>
+      </assert>
+    </test>
   </group>
   <group name="Compare by name">
     <test name="equalTo definition">

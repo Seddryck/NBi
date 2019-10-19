@@ -115,19 +115,17 @@ namespace NBi.Core.ResultSet
         protected virtual void BuildSettings(ColumnType keysDefaultType, ColumnType valuesDefaultType, Tolerance defaultTolerance)
         {
             if (IsByName())
-            {
-                var allColumns =
-                    nameKeys.Select(x => new Column() { Identifier = new ColumnNameIdentifier(x), Role = ColumnRole.Key, Type = keysDefaultType })
-                    .Union(nameValues.Select(x => new Column() { Identifier = new ColumnNameIdentifier(x), Role = ColumnRole.Value, Type = valuesDefaultType })
-                    .Union(definitionColumns)
-                    );
-
-                settings = new SettingsNameResultSet(valuesDefaultType, defaultTolerance, allColumns);
-            }
+                settings = new SettingsNameResultSet(valuesDefaultType, defaultTolerance, GetAllColumns(keysDefaultType, valuesDefaultType));
             else
-            {
                 settings = new SettingsOrdinalResultSet(keysSet, valuesSet, valuesDefaultType, defaultTolerance, definitionColumns);
-            }
+        }
+
+        protected IEnumerable<IColumnDefinition> GetAllColumns(ColumnType keysDefaultType, ColumnType valuesDefaultType)
+        {
+            return nameKeys.Select(x => new Column() { Identifier = new ColumnNameIdentifier(x), Role = ColumnRole.Key, Type = keysDefaultType })
+                                .Union(nameValues.Select(x => new Column() { Identifier = new ColumnNameIdentifier(x), Role = ColumnRole.Value, Type = valuesDefaultType })
+                                .Union(definitionColumns)
+                                );
         }
 
         public ISettingsResultSet GetSettings()

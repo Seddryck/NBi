@@ -6,15 +6,15 @@ using NBi.Core.Scalar.Comparer;
 
 namespace NBi.Core.ResultSet
 {
-	public class SettingsSingleRowResultSet: SettingsOrdinalResultSet
-	{
+	public class SettingsSingleRowOrdinalResultSet : SettingsOrdinalResultSet, ISettingsSingleRowResultSet
+    {
         
-		public SettingsSingleRowResultSet(ColumnType valuesDefaultType, Tolerance defaultTolerance, IReadOnlyCollection<IColumnDefinition> columnsDef)
+		public SettingsSingleRowOrdinalResultSet (ColumnType valuesDefaultType, Tolerance defaultTolerance, IReadOnlyCollection<IColumnDefinition> columnsDef)
             : base(valuesDefaultType, defaultTolerance, columnsDef)
 		{
 		}
 
-        public SettingsSingleRowResultSet()
+        public SettingsSingleRowOrdinalResultSet ()
             : this(ColumnType.Numeric, null, null)
         {
         }

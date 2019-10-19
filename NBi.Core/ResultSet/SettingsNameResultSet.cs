@@ -124,10 +124,17 @@ namespace NBi.Core.ResultSet
             var col = ColumnsDef.FirstOrDefault(c => (c.Identifier as ColumnNameIdentifier)?.Name == name);
             if (col == null || !col.IsToleranceSpecified)
             {
-                if (IsNumeric(name))
+                if (GetColumnType(name)==ValuesDefaultType)
                     return DefaultTolerance;
                 else
-                    return DateTimeTolerance.None;
+                {
+                    if (IsNumeric(name))
+                        return NumericAbsoluteTolerance.None;
+                    else if (IsDateTime(name))
+                        return DateTimeTolerance.None;
+                    else
+                        return null;
+                }
             }
 
             return new ToleranceFactory().Instantiate(col);

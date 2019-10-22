@@ -24,8 +24,9 @@ namespace NBi.Core.ResultSet.Alteration.Reshaping
                     x => x != Args.Header.GetColumn(rs.Table)
                     && !Args.GroupBys.Select(y => y.Identifier.GetColumn(rs.Table)).Contains(x)
                 );
+            
 
-            var headerValues = new List<string>();
+            var headerValues = Args.EnforcedColumns.Select(x => x.Name).ToList();
             rs.Rows.Cast<DataRow>().ToList().ForEach(x => headerValues.Add(Args.Header.GetValue(x).ToString()));
             headerValues = headerValues.Distinct().ToList();
 

@@ -9,10 +9,14 @@ namespace NBi.Core.ResultSet.Alteration.Reshaping
 {
     public class UnstackArgs : IReshapingArgs
     {
-        public IEnumerable<IColumnDefinitionLight> GroupBys { get; set; }
         public IColumnIdentifier Header { get; set; }
+        public IEnumerable<IColumnDefinitionLight> GroupBys { get; set; }
+        public IEnumerable<ColumnNameIdentifier> EnforcedColumns { get; set; }
 
         public UnstackArgs(IColumnIdentifier header, IEnumerable<IColumnDefinitionLight> groupBys)
-            => (Header, GroupBys) = (header, groupBys);
+            : this(header, groupBys, new ColumnNameIdentifier[] { }) { }
+
+        public UnstackArgs(IColumnIdentifier header, IEnumerable<IColumnDefinitionLight> groupBys, IEnumerable<ColumnNameIdentifier> enforcedColumns)
+            => (Header, GroupBys, EnforcedColumns) = (header, groupBys, enforcedColumns);
     }
 }

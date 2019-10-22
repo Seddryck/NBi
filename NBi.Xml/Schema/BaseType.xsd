@@ -1607,6 +1607,7 @@
         <xs:complexType>
           <xs:sequence minOccurs="1" maxOccurs="1">
             <xs:element name="column" type="definition-column-base-type" minOccurs="1" maxOccurs="1"/>
+            <xs:element name="enforced-value" type="xs:string" minOccurs="0" maxOccurs="unbounded" />
           </xs:sequence>
         </xs:complexType>
       </xs:element>

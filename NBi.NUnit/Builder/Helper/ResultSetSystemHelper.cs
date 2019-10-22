@@ -191,8 +191,9 @@ namespace NBi.NUnit.Builder.Helper
             var factory = new ReshapingFactory();
             var header = unstackXml.Header.Column.Identifier;
             var groupBys = unstackXml.GroupBy?.Columns?.Cast<IColumnDefinitionLight>() ?? new List<IColumnDefinitionLight>();
+            var values = unstackXml.Header.EnforcedValues.Select(x => new ColumnNameIdentifier(x));
 
-            var reshaper = factory.Instantiate(new UnstackArgs(header, groupBys));
+            var reshaper = factory.Instantiate(new UnstackArgs(header, groupBys, values));
             return reshaper.Execute;
         }
 

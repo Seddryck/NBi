@@ -513,7 +513,14 @@ namespace NBi.Testing.Xml.Unit.Systems
                 {
                     new UnstackXml()
                     {
-                        Header = new HeaderXml() { Column = new ColumnDefinitionLightXml() { Identifier= new ColumnOrdinalIdentifier(2), Type= ColumnType.Text } },
+                        Header = new HeaderXml() 
+                        { 
+                            Column = new ColumnDefinitionLightXml() { Identifier= new ColumnOrdinalIdentifier(2), Type= ColumnType.Text },
+                            EnforcedValues = new List<string>()
+                            {
+                                "Alpha", "Beta"
+                            }
+                        },
                         GroupBy = new GroupByXml()
                         {
                             Columns = new List<ColumnDefinitionLightXml>()
@@ -521,7 +528,7 @@ namespace NBi.Testing.Xml.Unit.Systems
                                 new ColumnDefinitionLightXml() { Identifier= new ColumnOrdinalIdentifier(0), Type= ColumnType.Numeric },
                                 new ColumnDefinitionLightXml() { Identifier= new ColumnOrdinalIdentifier(1), Type= ColumnType.DateTime }
                             }
-                        }
+                        },
                     }
                 }
             };
@@ -535,6 +542,9 @@ namespace NBi.Testing.Xml.Unit.Systems
             Assert.That(xml, Does.Contain("<group-by>"));
             Assert.That(xml, Does.Contain("<column identifier=\"#0\" type=\"numeric\" />"));
             Assert.That(xml, Does.Contain("<column identifier=\"#1\" type=\"dateTime\" />"));
+            Assert.That(xml, Does.Contain("<enforced-value>"));
+            Assert.That(xml, Does.Contain(">Alpha<"));
+            Assert.That(xml, Does.Contain(">Beta<"));
         }
 
         [Test]

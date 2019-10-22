@@ -143,6 +143,78 @@ namespace NBi.Testing.Core.ResultSet.Alteration.Reshaping
         }
 
         [Test]
+        public void Execute_EnforcedColumnsThatWasNotExpected_ExpectedResultSet()
+        {
+            var resolver = new ObjectsResultSetResolver(
+                new ObjectsResultSetResolverArgs(
+                    new[] {
+                        new object[] { "alpha", "A", 1 },
+                        new object[] { "alpha", "B", 2 },
+                        new object[] { "beta", "A", 3 },
+                        new object[] { "beta", "B", 4 }
+                    }
+                ));
+            var rs = resolver.Execute();
+            rs.Columns[0].ColumnName = "keyColumn";
+            rs.Columns[1].ColumnName = "headerColumn";
+            rs.Columns[2].ColumnName = "valueColumn";
+
+            var args = new UnstackArgs(
+                    new ColumnNameIdentifier("headerColumn"),
+                    new List<IColumnDefinitionLight>()
+                    { Mock.Of<IColumnDefinitionLight>(x => x.Identifier == new ColumnNameIdentifier("keyColumn") && x.Type == ColumnType.Text) },
+                    new List<ColumnNameIdentifier>() {  new ColumnNameIdentifier("C") }
+                );
+
+            var unstack = new UnstackEngine(args);
+            var result = unstack.Execute(rs);
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result.Columns.Count, Is.EqualTo(4));
+            Assert.That(result.Columns.Cast<DataColumn>().Any(x => x.ColumnName == "keyColumn"));
+            Assert.That(result.Columns.Cast<DataColumn>().Any(x => x.ColumnName == "A"));
+            Assert.That(result.Columns.Cast<DataColumn>().Any(x => x.ColumnName == "B"));
+            Assert.That(result.Columns.Cast<DataColumn>().Any(x => x.ColumnName == "C"));
+            Assert.That(result.Rows.Count, Is.EqualTo(2));
+            Assert.That(result.Rows.Cast<DataRow>().Single(x => x["keyColumn"] as string == "alpha")["C"] == DBNull.Value);
+            Assert.That(result.Rows.Cast<DataRow>().Single(x => x["keyColumn"] as string == "alpha")["C"] == DBNull.Value);
+        }
+
+        [Test]
+        public void Execute_EnforcedColumnsThatWasAlreadyExpected_ExpectedResultSet()
+        {
+            var resolver = new ObjectsResultSetResolver(
+                new ObjectsResultSetResolverArgs(
+                    new[] {
+                        new object[] { "alpha", "A", 1 },
+                        new object[] { "alpha", "B", 2 },
+                        new object[] { "beta", "A", 3 },
+                        new object[] { "beta", "B", 4 }
+                    }
+                ));
+            var rs = resolver.Execute();
+            rs.Columns[0].ColumnName = "keyColumn";
+            rs.Columns[1].ColumnName = "headerColumn";
+            rs.Columns[2].ColumnName = "valueColumn";
+
+            var args = new UnstackArgs(
+                    new ColumnNameIdentifier("headerColumn"),
+                    new List<IColumnDefinitionLight>()
+                    { Mock.Of<IColumnDefinitionLight>(x => x.Identifier == new ColumnNameIdentifier("keyColumn") && x.Type == ColumnType.Text) },
+                    new List<ColumnNameIdentifier>() { new ColumnNameIdentifier("A"), new ColumnNameIdentifier("B") }
+                );
+
+            var unstack = new UnstackEngine(args);
+            var result = unstack.Execute(rs);
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result.Columns.Count, Is.EqualTo(3));
+            Assert.That(result.Columns.Cast<DataColumn>().Any(x => x.ColumnName == "keyColumn"));
+            Assert.That(result.Columns.Cast<DataColumn>().Any(x => x.ColumnName == "A"));
+            Assert.That(result.Columns.Cast<DataColumn>().Any(x => x.ColumnName == "B"));
+            Assert.That(result.Columns.Cast<DataColumn>().Count(x => x.ColumnName == "A") == 1);
+            Assert.That(result.Columns.Cast<DataColumn>().Count(x => x.ColumnName == "B") == 1);
+        }
+
+        [Test]
         [TestCase(100)]
         [TestCase(1000)]
         [TestCase(10000)]

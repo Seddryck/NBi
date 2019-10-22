@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace NBi.Core.ResultSet
 {
-    class ColumnNameIdentifier : IColumnIdentifier, IEquatable<ColumnNameIdentifier>
+    public class ColumnNameIdentifier : IColumnIdentifier, IEquatable<ColumnNameIdentifier>
     {
         public string Name { get; private set; }
         public string Label => $"[{Name}]";

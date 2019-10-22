@@ -12,5 +12,8 @@ namespace NBi.Xml.Items.Alteration.Reshaping
     {
         [XmlElement("column")]
         public ColumnDefinitionLightXml Column { get; set; }
+
+        [XmlElement("enforced-value")]
+        public List<string> EnforcedValues { get; set; } = new List<string>();
     }
 }

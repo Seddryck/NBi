@@ -26,5 +26,6 @@ namespace NBi.Xml.Items.Alteration.Reshaping
             get => GroupBy != GroupByXml.None;
             set { throw new NotImplementedException(); }
         }
+
     }
 }

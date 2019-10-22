@@ -1336,6 +1336,42 @@
         </equal-to>
       </assert>
     </test>
+    <test name="Unstacking owith enforced-values" uid="0271">
+      <system-under-test>
+        <result-set>
+          <query>
+            select 'A' as Key1, 'alpha' as Header, 10 as Value
+            union all select 'B', 'beta', 10
+            union all select 'A', 'beta', 15
+          </query>
+          <alteration>
+            <unstack>
+              <header>
+                <column identifier="Header"/>
+                <enforced-value>alpha</enforced-value>
+                <enforced-value>omega</enforced-value>
+              </header>
+              <group-by>
+                <column identifier="#0"/>
+              </group-by>
+            </unstack>
+          </alteration>
+        </result-set>
+      </system-under-test>
+      <assert>
+        <equal-to>
+          <column name="Key1" role="key" type="text"/>
+          <column name="alpha" role="value" type="numeric"/>
+          <column name="omega" role="value" type="numeric"/>
+          <result-set>
+            <query>
+              select 'A' as Key1, '10' as alpha, 15 as beta, null as omega
+              union all select 'B' as Key1, null as alpha, 15 as beta, null as omega
+            </query>
+          </result-set>
+        </equal-to>
+      </assert>
+    </test>
     <test name="Project on two fields" uid="0280">
       <system-under-test>
         <result-set>

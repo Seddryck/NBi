@@ -269,6 +269,8 @@ You can also define an alteration to the result-set. For the moment, three kinds
 * [filtering](../resultset-rows-count-advanced/#filters).
 * [convertions](../resultset-alteration/#converts)
 * [transformations](../transform-column/)
+* [summarize](../resultset-alteration/#summarize)
+* [reshaping](../resultset-alteration/#reshaping)
 
 {% highlight xml %}
 <result-set>

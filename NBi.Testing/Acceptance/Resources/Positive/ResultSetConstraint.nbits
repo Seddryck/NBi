@@ -1299,6 +1299,48 @@
         </equal-to>
       </assert>
     </test>
+    <test name="Chaining two summarizations" uid="0264">
+      <system-under-test>
+        <result-set>
+          <query>
+            select 'A' as Key1, '2019-01-01' as Key2, 10 as Value
+            union all select 'B', '2019-01-01', 30
+            union all select 'B', '2019-01-01', 20
+            union all select 'B', '2018-01-01', 10
+            union all select 'A', '2018-01-01', 15
+          </query>
+          <alteration>
+            <summarize>
+              <average column="[Value]" type="numeric"/>
+              <group-by>
+                <column identifier="Key2" type="text"/>
+                <column identifier="Key1" type="text"/>
+              </group-by>
+            </summarize>
+            <summarize>
+              <sum column="[Value]" type="numeric"/>
+              <group-by>
+                <column identifier="Key1" type="text"/>
+              </group-by>
+            </summarize>
+          </alteration>
+        </result-set>
+      </system-under-test>
+      <assert>
+        <equal-to>
+          <result-set>
+            <row>
+              <cell>A</cell>
+              <cell>25</cell>
+            </row>
+            <row>
+              <cell>B</cell>
+              <cell>35</cell>
+            </row>
+          </result-set>
+        </equal-to>
+      </assert>
+    </test>
     <test name="Unstacking on one key" uid="0270">
       <system-under-test>
         <result-set>

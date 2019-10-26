@@ -242,7 +242,7 @@
     <assert>
       <single-row>
         <predicate name="#1" type="text">
-          <equal>VN</equal>
+          <equal>FR</equal>
         </predicate>
       </single-row>
     </assert>

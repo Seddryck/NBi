@@ -55,16 +55,14 @@ namespace NBi.Testing.Unit.NUnit.Runtime
         [Test]
         public void GetOwnFilename_DefaultValue_ReturnNBiNUnitRuntimedll()
         {
-            var testSuite = new TestSuite();
-            var filename = testSuite.GetOwnFilename();
+            var filename = TestSuite.GetOwnFilename();
             Assert.That(filename, Is.EqualTo("NBi.NUnit.Runtime.dll"));
         }
 
         [Test]
         public void GetSelfFilename_DefaultValue_ReturnNBiNUnitRuntimedll()
         {
-            var testSuite = new TestSuite();
-            var name = testSuite.GetManifestName();
+            var name = TestSuite.GetManifestName();
             Assert.That(name, Is.EqualTo("NBi.NUnit.Runtime.dll"));
         }
 

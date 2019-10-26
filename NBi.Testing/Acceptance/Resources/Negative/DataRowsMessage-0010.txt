@@ -1,0 +1,62 @@
+﻿Execution of the query doesn't match the expected result 
+
+  Expected: 
+Result-set with 5 rows
+
+     #0 (Column1) | #1 (Column2)               
+     KEY (Text)   | VALUE (Numeric)  (+/- 0.01)
+     ------------ | --------------------------- 
+     CY 2005      | 366                        
+     CY 2006      | 1015                       
+     CY 2007      | 1521                       
+     CY 2008      | 894                        
+     CY 2009      | (null)                     
+
+
+  But was:  
+Result-set with 6 rows
+
+     #0 (Column1) | #1 (Column2)               
+     KEY (Text)   | VALUE (Numeric)  (+/- 0.01)
+     ------------ | --------------------------- 
+     CY 2003      | 155                        
+     CY 2004      | 1212                       
+     CY 2005      | 366                        
+     CY 2006      | 1015                       
+     CY 2008      | 1752                       
+     CY 2009      | (null)                     
+
+
+
+Unexpected rows:
+----------------
+
+Result-set with 2 rows
+
+     #0 (Column1) | #1 (Column2)               
+     KEY (Text)   | VALUE (Numeric)  (+/- 0.01)
+     ------------ | --------------------------- 
+     CY 2003      | 155                        
+     CY 2004      | 1212                       
+
+Missing rows:
+-------------
+
+Result-set with 1 row
+
+     #0 (Column1) | #1 (Column2)               
+     KEY (Text)   | VALUE (Numeric)  (+/- 0.01)
+     ------------ | --------------------------- 
+     CY 2007      | 1521                       
+
+
+Non matching value rows:
+------------------------
+
+Result-set with 1 row
+
+     #0 (Column1) | #1 (Column2)               
+     KEY (Text)   | VALUE (Numeric)  (+/- 0.01)
+     ------------ | --------------------------- 
+     CY 2008      | 1752 <> 894                
+

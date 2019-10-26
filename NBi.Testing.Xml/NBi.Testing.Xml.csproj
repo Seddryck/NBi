@@ -52,6 +52,8 @@
       <Link>Properties\AssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="BaseXmlTest.cs" />
+    <Compile Include="Constraints\SomeRowsXmlTest.cs" />
+    <Compile Include="Constraints\SingleRowXmlTest.cs" />
     <Compile Include="FileOnDisk.cs" />
     <Compile Include="Constraints\AllRowsXmlTest.cs" />
     <Compile Include="Constraints\ContainedInXmlTest.cs" />
@@ -402,6 +404,12 @@
       <Project>{3a9822b3-cce4-441b-9c3e-d52817a994ca}</Project>
       <Name>NBi.Xml</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\SingleRowXmlTestSuite.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\SomeRowsXmlTestSuite.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

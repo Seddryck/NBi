@@ -8,7 +8,7 @@
 			<connectionString>Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly</connectionString>
 		</default>
 	</settings>
-	<test name="'Reseller Order Count' by year before 2006" uid="0001">
+	<test name="'Reseller Order Count' by year before 2006" uid="0010">
 		<system-under-test>
 			<execution>
         <query>
@@ -35,4 +35,26 @@
 			</equalTo>
 		</assert>
 	</test>
+  <test name="All values are greater than 20" uid="0020">
+    <system-under-test>
+      <result-set>
+        <row>
+          <cell>5</cell>
+        </row>
+        <row>
+          <cell>15</cell>
+        </row>
+        <row>
+          <cell>25</cell>
+        </row>
+      </result-set>
+    </system-under-test>
+    <assert>
+      <all-rows>
+        <predicate operand="#0" type="numeric">
+          <more-than>20</more-than>
+        </predicate>
+      </all-rows>
+    </assert>
+  </test>
 </testSuite>

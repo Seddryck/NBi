@@ -780,6 +780,7 @@
     <EmbeddedResource Include="Acceptance\Resources\PurchaseOrdersManyNamespaces.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
+    <EmbeddedResource Include="Acceptance\Resources\Negative\DataRowsMessage-0020.txt" />
     <Content Include="Acceptance\Resources\Query\ResellerOrderCount.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -804,7 +805,7 @@
     </None>
     <EmbeddedResource Include="Acceptance\Resources\Negative\ItemsMessage-0002.txt" />
     <EmbeddedResource Include="Acceptance\Resources\Negative\ItemsMessage-0001.txt" />
-    <EmbeddedResource Include="Acceptance\Resources\Negative\DataRowsMessage-0001.txt" />
+    <EmbeddedResource Include="Acceptance\Resources\Negative\DataRowsMessage-0010.txt" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />

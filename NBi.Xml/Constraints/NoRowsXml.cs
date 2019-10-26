@@ -19,13 +19,7 @@ namespace NBi.Xml.Constraints
     public class NoRowsXml : AbstractConstraintXml
     {
         [XmlIgnore()]
-        public List<IColumnAlias> Aliases
-        {
-            get
-            {
-                return InternalAliases.ToList<IColumnAlias>();
-            }
-        }
+        public List<IColumnAlias> Aliases { get => InternalAliases.ToList<IColumnAlias>(); }
 
 
         [XmlElement("alias", Order = 1)]

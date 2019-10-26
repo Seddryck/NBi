@@ -114,6 +114,9 @@ namespace NBi.NUnit.Runtime
                 ExecuteSetup(test.Setup, allVariables);
                 foreach (var sut in test.Systems)
                 {
+                    if ((test?.Constraints.Count ?? 0) == 0)
+                        Trace.WriteLineIf(NBiTraceSwitch.TraceWarning, $"Test '{testName}' has no constraint. It will always result in a success.");
+                    
                     foreach (var ctr in test.Constraints)
                     {
                         var factory = new TestCaseFactory(Configuration, allVariables, serviceLocator);
@@ -447,10 +450,10 @@ namespace NBi.NUnit.Runtime
         }
 
 
-        protected internal string GetOwnFilename()
+        internal protected static string GetOwnFilename()
             => Path.GetFileName(System.Reflection.Assembly.GetAssembly(typeof(TestSuite)).Location);
 
-        protected internal string GetManifestName()
+        internal protected static string GetManifestName()
             => System.Reflection.Assembly.GetAssembly(typeof(TestSuite)).ManifestModule.Name;
     }
 }

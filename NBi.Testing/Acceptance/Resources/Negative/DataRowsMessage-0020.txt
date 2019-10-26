@@ -1,0 +1,23 @@
+﻿  Expected: all rows validate the predicate '#0 is more than 20.'. 
+  But was:  2 rows don't validate the predicate '#0 is more than 20.'.
+
+
+Actual result-set returned by the query:
+Result-set with 3 rows
+
+     #0 (Column0)
+     ------------ 
+     5           
+     15          
+     25          
+
+
+
+Rows not validating the predicate:
+Result-set with 2 rows
+
+     #0 (Column0)
+     ------------ 
+     5           
+     15          
+

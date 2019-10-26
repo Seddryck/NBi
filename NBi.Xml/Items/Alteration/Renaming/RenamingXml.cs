@@ -21,5 +21,15 @@ namespace NBi.Xml.Items.Alteration.Renaming
 
         [XmlAttribute("new-name")]
         public string NewName { get; set; }
+
+        [XmlElement("missing")]
+        public MissingColumnXml Missing { get; set; } = new MissingColumnXml { Behavior = MissingColumnBehavior.Failure };
+
+        [XmlIgnore()]
+        public bool MissingSpecified
+        {
+            get => Missing.Behavior != MissingColumnBehavior.Failure;
+            set { }
+        }
     }
 }

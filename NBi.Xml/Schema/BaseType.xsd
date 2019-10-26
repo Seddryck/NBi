@@ -1408,26 +1408,27 @@
   </xs:complexType>
   <xs:complexType name="lookup-replace-type">
     <xs:sequence>
-      <xs:element name="missing" type="missing-type" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="missing" minOccurs="0" maxOccurs="1">
+        <xs:complexType>
+          <xs:simpleContent>
+            <xs:extension base="xs:string">
+              <xs:attribute name="behavior">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:enumeration value="failure"/>
+                    <xs:enumeration value="original-value"/>
+                    <xs:enumeration value="default-value"/>
+                    <xs:enumeration value="discard-row"/>
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:attribute>
+            </xs:extension>
+          </xs:simpleContent>
+        </xs:complexType>
+      </xs:element>
       <xs:group ref="base-lookup-group"/>
       <xs:element name="replacement" type="definition-column-base-type" minOccurs="1" maxOccurs="1"/>
     </xs:sequence>
-  </xs:complexType>
-  <xs:complexType name="missing-type">
-    <xs:simpleContent>
-      <xs:extension base="xs:string">
-        <xs:attribute name="behavior">
-          <xs:simpleType>
-            <xs:restriction base="xs:string">
-              <xs:enumeration value="failure"/>
-              <xs:enumeration value="original-value"/>
-              <xs:enumeration value="default-value"/>
-              <xs:enumeration value="discard-row"/>
-            </xs:restriction>
-          </xs:simpleType>
-        </xs:attribute>
-      </xs:extension>
-    </xs:simpleContent>
   </xs:complexType>
   <xs:complexType name="join-type">
     <xs:sequence>
@@ -1592,6 +1593,24 @@
     </xs:sequence>
   </xs:complexType>
   <xs:complexType name="rename-type">
+    <xs:sequence>
+      <xs:element name="missing" minOccurs="0" maxOccurs="1">
+        <xs:complexType>
+          <xs:simpleContent>
+            <xs:extension base="xs:string">
+              <xs:attribute name="behavior">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:enumeration value="failure"/>
+                    <xs:enumeration value="skip"/>
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:attribute>
+            </xs:extension>
+          </xs:simpleContent>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
     <xs:attribute name="identifier" type="xs:string" use="required"/>
     <xs:attribute name="new-name" type="xs:string" use="required"/>
   </xs:complexType>

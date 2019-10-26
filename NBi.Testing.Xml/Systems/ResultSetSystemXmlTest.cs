@@ -608,7 +608,7 @@ namespace NBi.Testing.Xml.Unit.Systems
                 {
                     new LookupReplaceXml()
                     {
-                        Missing = new MissingXml() { Behavior=Behavior.DefaultValue, DefaultValue="(null)" },
+                        Missing = new NBi.Xml.Items.Alteration.Lookup.MissingXml() { Behavior= Behavior.DefaultValue, DefaultValue="(null)" },
                         Join = new JoinXml() { Usings = new List<ColumnUsingXml>() { new ColumnUsingXml() { Column = "#1" } } },
                         ResultSet = new ResultSetSystemXml(),
                         Replacement = new ColumnDefinitionLightXml() { Identifier = new ColumnNameIdentifier("foo") }
@@ -635,7 +635,7 @@ namespace NBi.Testing.Xml.Unit.Systems
                 {
                     new LookupReplaceXml()
                     {
-                        Missing = new MissingXml() { Behavior=Behavior.Failure },
+                        Missing = new NBi.Xml.Items.Alteration.Lookup.MissingXml() { Behavior= Behavior.Failure },
                     }
                 }
             };

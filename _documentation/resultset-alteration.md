@@ -69,6 +69,13 @@ In the following example, the first column is renamed *keyField* and the column 
 </result-set>
 {% endhighlight %}
 
+### Strategies for renamings
+
+You also have the possibility to define a *missing* strategy to specify the behaviour of the renaming alteration when the column cannot be found in the original result-set. By defaut the behaviour is *failure*.
+
+* ```failure```: The test executing this alteration will fail.
+* ```skip```: The alteration is skipped without failure and a warning is raised
+
 ## Extensions
 
 This alteration is useful when you want to create a new column based on the content of some other columns. 

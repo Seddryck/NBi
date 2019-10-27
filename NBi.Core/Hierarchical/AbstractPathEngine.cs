@@ -11,7 +11,7 @@ using System.Xml.XPath;
 using NBi.Core.Hierarchical;
 using NBi.Core.ResultSet;
 
-namespace NBi.Core.Hierarchical.Xml
+namespace NBi.Core.Hierarchical
 {
     public abstract class AbstractPathEngine
     {

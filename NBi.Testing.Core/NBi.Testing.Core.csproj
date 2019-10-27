@@ -125,6 +125,7 @@
     <Compile Include="FlatFile\CsvWriterTest.cs" />
     <Compile Include="FlatFile\FlatFileReaderfactoryTest.cs" />
     <Compile Include="Format\RegexBuilderTest.cs" />
+    <Compile Include="Hierarchical\Json\JsonPathEngineTest.cs" />
     <Compile Include="Injection\ServiceLocatorTest.cs" />
     <Compile Include="ListComparerTest.cs" />
     <Compile Include="ListComparisonFormatterTest.cs" />
@@ -321,6 +322,9 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Hierarchical\Xml\Resources\PurchaseOrdersManyNamespaces.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Hierarchical\Json\Resources\PurchaseOrders.json" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

@@ -1,5 +1,6 @@
-﻿using NBi.Core.Scalar.Resolver;
-using NBi.Core.Xml;
+﻿using NBi.Core.Hierarchical;
+using NBi.Core.Hierarchical.Xml;
+using NBi.Core.Scalar.Resolver;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
@@ -10,7 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
-namespace NBi.Testing.Core.Xml
+namespace NBi.Testing.Core.Hierarchical.Xml
 {
     public class XPathStreamEngineTest
     {
@@ -91,8 +92,6 @@ namespace NBi.Testing.Core.Xml
                 var result = engine.Execute();
                 Assert.That(result.Count, Is.EqualTo(rowCount));
             }
-
-
         }
 
         [Test]

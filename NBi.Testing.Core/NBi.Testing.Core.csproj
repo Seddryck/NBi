@@ -259,7 +259,7 @@
     <Compile Include="Transformation\Transformer\NCalcTransformerTest.cs" />
     <Compile Include="Variable\InstanceFactoryTest.cs" />
     <Compile Include="Variable\VariableFactoryTest.cs" />
-    <Compile Include="Xml\XPathEngineTest.cs" />
+    <Compile Include="Hierarchical\Xml\XPathEngineTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NBi.Core\NBi.Core.csproj">
@@ -296,7 +296,7 @@
     <EmbeddedResource Include="Report\Resources\SalesEmployees.rsd" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Xml\Resources\PurchaseOrders.xml" />
+    <EmbeddedResource Include="Hierarchical\Xml\Resources\PurchaseOrders.xml" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="ResultSet\Resources\ResultDataSet.xml" />
@@ -317,10 +317,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Xml\Resources\PurchaseOrdersDefaultNamespace.xml" />
+    <EmbeddedResource Include="Hierarchical\Xml\Resources\PurchaseOrdersDefaultNamespace.xml" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Xml\Resources\PurchaseOrdersManyNamespaces.xml" />
+    <EmbeddedResource Include="Hierarchical\Xml\Resources\PurchaseOrdersManyNamespaces.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

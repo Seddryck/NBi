@@ -3,7 +3,8 @@ using NBi.Core.ResultSet;
 using NBi.Core.ResultSet.Resolver;
 using NBi.Core.Sequence.Resolver;
 using NBi.Core.Variable;
-using NBi.Core.Xml;
+using NBi.Core.Hierarchical;
+using NBi.Core.Hierarchical.Xml;
 using NBi.Xml.Items;
 using NBi.Xml.Items.ResultSet;
 using NBi.Xml.Items.ResultSet.Combination;
@@ -183,7 +184,7 @@ namespace NBi.NUnit.Builder.Helper
             Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceVerbose, "ResultSet defined through an xml-source.");
 
             var selects = new List<AbstractSelect>();
-            var selectFactory = new SelectFactory();
+            var selectFactory = new HierarchicalSelectFactory();
             foreach (var select in xmlSource.XPath.Selects)
                 selects.Add(selectFactory.Instantiate(select.Value, select.Attribute, select.Evaluate));
 

@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
-namespace NBi.Core.Xml
+namespace NBi.Core.Hierarchical.Xml
 {
     public class XPathUrlEngine : XPathEngine
     {
@@ -15,9 +15,7 @@ namespace NBi.Core.Xml
 
         public XPathUrlEngine(string url, string from, IEnumerable<AbstractSelect> selects, string defaultNamespacePrefix)
             : base(from, selects, defaultNamespacePrefix, false)
-        {
-            this.Url = url;
-        }
+            => Url = url;
 
         public override IEnumerable<object> Execute()
         {

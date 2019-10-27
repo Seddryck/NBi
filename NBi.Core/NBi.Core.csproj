@@ -248,6 +248,7 @@
     <Compile Include="DirectoryInfoExtentions.cs" />
     <Compile Include="Etl\EtlRunnerProvider.cs" />
     <Compile Include="FlatFile\FlatFileReaderFactory.cs" />
+    <Compile Include="Hierarchical\AbstractPathEngine.cs" />
     <Compile Include="Injection\ConfigurationModule.cs" />
     <Compile Include="Injection\QueryModule.cs" />
     <Compile Include="Injection\ServiceLocator.cs" />
@@ -835,16 +836,16 @@
     <Compile Include="Decoration\Process\IRunningConditionArgs.cs" />
     <Compile Include="Decoration\Process\IStopCommandArgs.cs" />
     <Compile Include="Decoration\Process\IStartCommandArgs.cs" />
-    <Compile Include="Xml\EvaluateSelect.cs" />
-    <Compile Include="Xml\AttributeSelect.cs" />
-    <Compile Include="Xml\AbstractSelect.cs" />
-    <Compile Include="Xml\ElementSelect.cs" />
-    <Compile Include="Xml\SelectFactory.cs" />
-    <Compile Include="Xml\XmlIgnoreNamespaceReader.cs" />
-    <Compile Include="Xml\XmlWrappingReader.cs" />
-    <Compile Include="Xml\XPathEngine.cs" />
-    <Compile Include="Xml\XPathUrlEngine.cs" />
-    <Compile Include="Xml\XPathFileEngine.cs" />
+    <Compile Include="Hierarchical\EvaluateSelect.cs" />
+    <Compile Include="Hierarchical\AttributeSelect.cs" />
+    <Compile Include="Hierarchical\AbstractSelect.cs" />
+    <Compile Include="Hierarchical\ElementSelect.cs" />
+    <Compile Include="Hierarchical\HierarchicalSelectFactory.cs" />
+    <Compile Include="Hierarchical\Xml\XmlIgnoreNamespaceReader.cs" />
+    <Compile Include="Hierarchical\Xml\XmlWrappingReader.cs" />
+    <Compile Include="Hierarchical\Xml\XPathEngine.cs" />
+    <Compile Include="Hierarchical\Xml\XPathUrlEngine.cs" />
+    <Compile Include="Hierarchical\Xml\XPathFileEngine.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Query\Performance\CleanCache.xmla" />

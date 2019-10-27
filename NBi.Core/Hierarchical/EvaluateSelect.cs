@@ -4,13 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.Xml
+namespace NBi.Core.Hierarchical
 {
     public class EvaluateSelect: ElementSelect
     {
-        internal EvaluateSelect(string xpath)
-            : base(xpath)
-        {
-        }
+        internal EvaluateSelect(string path)
+            : base(path) { }
     }
 }

@@ -10,7 +10,7 @@ using NBi.Core.Scalar.Resolver;
 using NBi.Core.Sequence.Resolver;
 using NBi.Core.Sequence.Resolver.Loop;
 using NBi.Core.Variable;
-using NBi.Core.Xml;
+using NBi.Core.Hierarchical.Xml;
 using NBi.Xml.Items;
 using NBi.Xml.Items.ResultSet;
 using NBi.Xml.Items.Xml;

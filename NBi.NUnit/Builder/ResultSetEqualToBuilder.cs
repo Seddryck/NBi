@@ -10,7 +10,7 @@ using NBi.NUnit.ResultSetComparison;
 using NBi.Xml.Constraints;
 using NBi.Xml.Items;
 using NBi.Xml.Systems;
-using NBi.Core.Xml;
+using NBi.Core.Hierarchical.Xml;
 using NBi.Core.Transformation;
 using System.Data;
 using NBi.Core.ResultSet.Resolver;

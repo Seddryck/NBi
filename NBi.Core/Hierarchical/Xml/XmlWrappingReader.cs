@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Schema;
 
-namespace NBi.Core.Xml
+namespace NBi.Core.Hierarchical.Xml
 {
     class XmlWrappingReader : XmlReader, IXmlLineInfo
     {

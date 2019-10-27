@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
 
-namespace NBi.Core.Xml
+namespace NBi.Core.Hierarchical.Xml
 {
     class XmlIgnoreNamespaceReader : XmlWrappingReader
     {

@@ -8,26 +8,19 @@ using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Linq;
 using System.Xml.XPath;
+using NBi.Core.Hierarchical;
 using NBi.Core.ResultSet;
 
-namespace NBi.Core.Xml
+namespace NBi.Core.Hierarchical.Xml
 {
-    public abstract class XPathEngine
+    public abstract class XPathEngine : AbstractPathEngine
     {
-        private readonly IEnumerable<AbstractSelect> selects;
-        private readonly string from;
         public string DefaultNamespacePrefix { get; }
         public bool IsIgnoreNamespace { get; }
 
-        public XPathEngine(string from, IEnumerable<AbstractSelect> selects, string defaultNamespacePrefix, bool isIgnoreNamespace)
-        {
-            this.from = from;
-            this.selects = selects;
-            DefaultNamespacePrefix = defaultNamespacePrefix;
-            IsIgnoreNamespace = isIgnoreNamespace;
-        }
-
-        public abstract IEnumerable<object> Execute();
+        protected XPathEngine(string from, IEnumerable<AbstractSelect> selects, string defaultNamespacePrefix, bool isIgnoreNamespace)
+            : base(from, selects)
+            => (DefaultNamespacePrefix, IsIgnoreNamespace) = (defaultNamespacePrefix, isIgnoreNamespace);
 
         public IEnumerable<object> Execute(XDocument items)
         {
@@ -40,7 +33,7 @@ namespace NBi.Core.Xml
                 if (namespaceNode.Name.LocalName != "xmlns")
                     nsMgr.AddNamespace(namespaceNode.Name.LocalName, namespaceNode.Value);
 
-            var result = from item in items.XPathSelectElements(@from, nsMgr)
+            var result = from item in items.XPathSelectElements(From, nsMgr)
                          select GetObj(item, nsMgr);
 
             return result;
@@ -49,7 +42,7 @@ namespace NBi.Core.Xml
         private object GetObj(XElement x, IXmlNamespaceResolver ns)
         {
             var obj = new List<object>();
-            obj.AddRange(BuildXPaths(x, ns, selects).ToArray());
+            obj.AddRange(BuildXPaths(x, ns, Selects).ToArray());
             return obj;
         }
 

@@ -1,5 +1,5 @@
 ﻿using NBi.Core.Query;
-using NBi.Core.Xml;
+using NBi.Core.Hierarchical.Xml;
 using System;
 using System.Collections.Generic;
 using System.Data;

@@ -1104,6 +1104,38 @@
         </equal-to>
       </assert>
     </test>
+    <test name="Renamings with non-existing columns" uid="0242">
+      <system-under-test>
+        <result-set>
+          <query>
+            select 'a' as f0, null as f2, 'FOO' as f1 union all select 'B', 'qwarks', 'bar'
+          </query>
+          <alteration>
+            <rename identifier="[f0]" new-name="keyField"/>
+            <rename identifier="[f17]" new-name="foo">
+              <missing behavior="skip" />
+            </rename>
+          </alteration>
+        </result-set>
+      </system-under-test>
+      <assert>
+        <equal-to>
+          <column name="keyField" role="key" type="text"/>
+          <column name="f1" role="value" type="text"/>
+          <result-set>
+            <query connection-string="@ref1">
+              select 'a' as f0, 'FOO' as f1, null as f2 union all select 'B', 'bar', null
+            </query>
+            <alteration>
+              <rename identifier="[f0]" new-name="keyField"/>
+              <rename identifier="[f17]" new-name="foo">
+                <missing behavior="skip" />
+              </rename>
+            </alteration>
+          </result-set>
+        </equal-to>
+      </assert>
+    </test>
     <test name="Extensions" uid="0251">
       <system-under-test>
         <result-set>
@@ -1337,6 +1369,69 @@
               <cell>B</cell>
               <cell>35</cell>
             </row>
+          </result-set>
+        </equal-to>
+      </assert>
+    </test>
+    <test name="Complex chaining two summarizations" uid="0264">
+      <system-under-test>
+        <result-set>
+          <query>
+            select 'EAN1' as Ean, '2019-01-01 00:00:00' as UtcDateTime, 3 as Value, 'Wind Turbine - Off Shore' as ProductionType
+            union all select 'EAN1' as Ean, '2019-01-01 00:30:00' as UtcDateTime, 4 as Value   , 'Wind Turbine - Off Shore' as ProductionType
+            union all select 'EAN1' as Ean, '2019-01-01 01:00:00' as UtcDateTime, 10 as Value  , 'Wind Turbine - Off Shore' as ProductionType
+            union all select 'EAN1' as Ean, '2019-01-01 01:30:00' as UtcDateTime, 20 as Value  , 'Wind Turbine - Off Shore' as ProductionType
+            union all select 'EAN2' as Ean, '2019-01-01 00:00:00' as UtcDateTime, 6 as Value   , 'Wind Turbine - Off Shore' as ProductionType
+            union all select 'EAN2' as Ean, '2019-01-01 00:30:00' as UtcDateTime, 8 as Value   , 'Wind Turbine - Off Shore' as ProductionType
+            union all select 'EAN2' as Ean, '2019-01-01 01:00:00' as UtcDateTime, 10 as Value  , 'Wind Turbine - Off Shore' as ProductionType
+            union all select 'EAN2' as Ean, '2019-01-01 01:30:00' as UtcDateTime, 14 as Value  , 'Wind Turbine - Off Shore' as ProductionType
+          </query>
+          <alteration>
+            <transform language="native" original-type="dateTime" column="UtcDateTime">
+              dateTime-to-floor-hour
+            </transform>
+            <summarize>
+              <average column="[Value]" type="numeric"/>
+              <group-by>
+                <column identifier="Ean" type="text"/>
+                <column identifier="UtcDateTime" type="dateTime"/>
+                <column identifier="ProductionType" type="text"/>
+              </group-by>
+            </summarize>
+            <summarize>
+              <sum column="[Value]" type="numeric"/>
+              <group-by>
+                <column identifier="ProductionType" type="text"/>
+                <column identifier="UtcDateTime" type="dateTime"/>
+              </group-by>
+            </summarize>
+            <extend identifier="ActualGenerationOutput">
+              <script language="ncalc">
+                Round(Abs(Value), 0)
+              </script>
+            </extend>
+          </alteration>
+        </result-set>
+      </system-under-test>
+      <assert>
+        <equal-to>
+          <column name="UtcDateTime" role="key" type="dateTime" />
+          <column name="[ActualGenerationOutput]" role="value" type="numeric" tolerance="0.00" />
+          <result-set>
+            <row>
+              <cell>Wind Turbine - Off Shore</cell>
+              <cell>2019-01-01 00:00:00</cell>
+              <cell>10</cell>
+            </row>
+            <row>
+              <cell>Wind Turbine - Off Shore</cell>
+              <cell>2019-01-01 01:00:00</cell>
+              <cell>27</cell>
+            </row>
+            <alteration>
+              <rename identifier="#1" new-name="UtcDateTime"/>
+              <rename identifier="#2" new-name="ActualGenerationOutput"/>
+            </alteration>
           </result-set>
         </equal-to>
       </assert>

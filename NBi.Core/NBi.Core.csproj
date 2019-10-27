@@ -445,6 +445,9 @@
     <Compile Include="ResultSet\Alteration\Projection\Strategy\AllRowsStrategy.cs" />
     <Compile Include="ResultSet\Alteration\Projection\Strategy\IStrategy.cs" />
     <Compile Include="ResultSet\Alteration\Projection\Strategy\StrategyFactory.cs" />
+    <Compile Include="ResultSet\Alteration\Renaming\Strategies\Missing\FailureMissingColumnStrategy.cs" />
+    <Compile Include="ResultSet\Alteration\Renaming\Strategies\Missing\IMissingColumnStrategy.cs" />
+    <Compile Include="ResultSet\Alteration\Renaming\Strategies\Missing\SkipAlterationStrategy.cs" />
     <Compile Include="ResultSet\Alteration\Reshaping\IReshapingArgs.cs" />
     <Compile Include="ResultSet\Alteration\Reshaping\IReshapingEngine.cs" />
     <Compile Include="ResultSet\Alteration\Reshaping\ReshapingFactory.cs" />

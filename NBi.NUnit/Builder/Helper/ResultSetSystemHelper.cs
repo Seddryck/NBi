@@ -19,6 +19,7 @@ using System.Linq;
 using System.Collections.Generic;
 using NBi.Core.ResultSet.Alteration.Reshaping;
 using NBi.Xml.Items.Calculation;
+using alt = NBi.Xml.Items.Alteration;
 using NBi.Xml.Items.Alteration.Summarization;
 using NBi.Xml.Items.Alteration.Extension;
 using NBi.Xml.Items.Alteration.Reshaping;
@@ -32,6 +33,7 @@ using NBi.Core.ResultSet.Alteration.Lookup;
 using NBi.Xml.Items.ResultSet.Lookup;
 using NBi.Core.ResultSet.Lookup;
 using NBi.Core.ResultSet.Alteration.Lookup.Strategies.Missing;
+using NBi.Core.ResultSet.Alteration.Renaming.Strategies.Missing;
 
 namespace NBi.NUnit.Builder.Helper
 {
@@ -144,8 +146,19 @@ namespace NBi.NUnit.Builder.Helper
             var helper = new ScalarHelper(ServiceLocator, new Context(Variables));
             var newName = helper.InstantiateResolver<string>(renameXml.NewName);
 
+            IMissingColumnStrategy strategy = new FailureMissingColumnStrategy();
+            switch (renameXml.Missing.Behavior)
+            {
+                case alt.Renaming.MissingColumnBehavior.Skip:
+                    strategy = new SkipAlterationStrategy();
+                    break;
+                default:
+                    strategy = new FailureMissingColumnStrategy();
+                    break;
+            }
+
             var factory = new RenamingFactory();
-            var renamer = factory.Instantiate(new NewNameRenamingArgs(renameXml.Identifier, newName));
+            var renamer = factory.Instantiate(new NewNameRenamingArgs(renameXml.Identifier, newName, strategy));
             return renamer.Execute;
         }
 
@@ -223,13 +236,13 @@ namespace NBi.NUnit.Builder.Helper
             IMissingStrategy strategy = new FailureMissingStrategy();
             switch (lookupReplaceXml.Missing.Behavior)
             {
-                case Behavior.OriginalValue:
+                case alt.Lookup.Behavior.OriginalValue:
                     strategy = new OriginalValueMissingStrategy();
                     break;
-                case Behavior.DefaultValue:
+                case alt.Lookup.Behavior.DefaultValue:
                     strategy = new DefaultValueMissingStrategy(lookupReplaceXml.Missing.DefaultValue);
                     break;
-                case Behavior.DiscardRow:
+                case alt.Lookup.Behavior.DiscardRow:
                     strategy = new DiscardRowMissingStrategy();
                     break;
                 default:

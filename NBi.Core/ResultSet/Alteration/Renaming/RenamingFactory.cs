@@ -12,7 +12,7 @@ namespace NBi.Core.ResultSet.Alteration.Renaming
         {
             switch(args)
             {
-                case NewNameRenamingArgs x: return new NewNameRenamingEngine(x.OriginalIdentification, x.NewIdentification);
+                case NewNameRenamingArgs x: return new NewNameRenamingEngine(x.OriginalIdentification, x.NewIdentification, x.MissingColumnStrategy);
                 default: throw new ArgumentException();
             }
         }

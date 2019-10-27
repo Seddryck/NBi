@@ -9,7 +9,7 @@ using NBi.Core.Scalar.Comparer;
 using NBi.Xml.Items;
 using NBi.Xml.Items.ResultSet;
 using NBi.Xml.Settings;
-using NBi.Xml.Items.Xml;
+using NBi.Xml.Items.Hierarchical.Xml;
 using NBi.Core.ResultSet.Equivalence;
 using NBi.Core.Query.Client;
 using NBi.Xml.Systems;

@@ -5,9 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 
-namespace NBi.Xml.Items.Xml
+namespace NBi.Xml.Items.Hierarchical.Json
 {
-    public class DefaultNamespacePrefixXml
+    public class JsonFromXml
     {
         [XmlText]
         public string Value { get; set; }

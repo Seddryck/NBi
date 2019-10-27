@@ -13,7 +13,7 @@ using System.Xml.Linq;
 
 namespace NBi.Testing.Core.Hierarchical.Json
 {
-    public class JsonPathStreamEngineTest
+    public class JsonPathFileEngineTest
     {
         private class JsonPathStreamEngine : JsonPathFileEngine
         {

@@ -5,14 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 
-namespace NBi.Xml.Items.Xml
+namespace NBi.Xml.Items.Hierarchical.Json
 {
-    public class SelectXml
+    public class JsonSelectXml
     {
-        [XmlAttribute("evaluate")]
-        public bool Evaluate { get; set; }
-        [XmlAttribute("attribute")]
-        public string Attribute { get; set; }
         [XmlText]
         public string Value { get; set; }
     }

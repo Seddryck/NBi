@@ -176,6 +176,10 @@
     <Compile Include="Items\ColumnsXml.cs" />
     <Compile Include="Items\EtlBaseXml.cs" />
     <Compile Include="Items\Filters\IOwnerFilter.cs" />
+    <Compile Include="Items\Hierarchical\Json\JsonFromXml.cs" />
+    <Compile Include="Items\Hierarchical\Json\JsonSourceXml.cs" />
+    <Compile Include="Items\Hierarchical\Json\JsonPathXml.cs" />
+    <Compile Include="Items\Hierarchical\Json\JsonSelectXml.cs" />
     <Compile Include="Items\IfMissingXml.cs" />
     <Compile Include="Items\ParserXml.cs" />
     <Compile Include="Items\ProjectionOldXml.cs" />
@@ -251,11 +255,11 @@
     <Compile Include="Items\Calculation\FilterXml.cs" />
     <Compile Include="Items\Calculation\ExpressionXml.cs" />
     <Compile Include="Items\Calculation\AliasXml.cs" />
-    <Compile Include="Items\Xml\DefaultNamespacePrefixXml.cs" />
-    <Compile Include="Items\Xml\FromXml.cs" />
-    <Compile Include="Items\Xml\SelectXml.cs" />
-    <Compile Include="Items\Xml\XmlSourceXml.cs" />
-    <Compile Include="Items\Xml\XPathXml.cs" />
+    <Compile Include="Items\Hierarchical\Xml\DefaultNamespacePrefixXml.cs" />
+    <Compile Include="Items\Hierarchical\Xml\FromXml.cs" />
+    <Compile Include="Items\Hierarchical\Xml\SelectXml.cs" />
+    <Compile Include="Items\Hierarchical\Xml\XmlSourceXml.cs" />
+    <Compile Include="Items\Hierarchical\Xml\XPathXml.cs" />
     <Compile Include="LocalXmlUrlResolver.cs" />
     <Compile Include="SerializationOption\CData.cs" />
     <Compile Include="SerializationOption\ReadWriteAttributes.cs" />

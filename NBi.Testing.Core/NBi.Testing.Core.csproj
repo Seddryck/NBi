@@ -125,7 +125,8 @@
     <Compile Include="FlatFile\CsvWriterTest.cs" />
     <Compile Include="FlatFile\FlatFileReaderfactoryTest.cs" />
     <Compile Include="Format\RegexBuilderTest.cs" />
-    <Compile Include="Hierarchical\Json\JsonPathEngineTest.cs" />
+    <Compile Include="Hierarchical\Json\JsonPathUrlEngineTest.cs" />
+    <Compile Include="Hierarchical\Json\JsonPathFileEngineTest.cs" />
     <Compile Include="Injection\ServiceLocatorTest.cs" />
     <Compile Include="ListComparerTest.cs" />
     <Compile Include="ListComparisonFormatterTest.cs" />

@@ -768,6 +768,12 @@
     </xs:sequence>
     <xs:attribute name="default-namespace-prefix" use="optional" type="xs:string"/>
   </xs:complexType>
+  <xs:complexType name="json-path-type">
+    <xs:sequence>
+      <xs:element name="from" minOccurs="1" maxOccurs="1" type="xs:string"/>
+      <xs:element name="select" minOccurs="1" maxOccurs="unbounded" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
   <xs:complexType name="xml-source-type">
     <xs:sequence>
       <xs:choice>
@@ -777,6 +783,15 @@
       <xs:element name="xpath" minOccurs="1" maxOccurs="1" type="xpath-type" />
     </xs:sequence>
     <xs:attribute name="ignore-namespace" type="xs:boolean" use="optional" />
+  </xs:complexType>
+  <xs:complexType name="json-source-type">
+    <xs:sequence>
+      <xs:choice>
+        <xs:element name="file" minOccurs="1" maxOccurs="1" type="xs:string"/>
+        <xs:element name="url" minOccurs="1" maxOccurs="1" type="xs:string"/>
+      </xs:choice>
+      <xs:element name="json-path" minOccurs="1" maxOccurs="1" type="json-path-type" />
+    </xs:sequence>
   </xs:complexType>
   <xs:complexType name="decoration-type">
     <xs:sequence minOccurs="1" maxOccurs="unbounded">
@@ -1537,6 +1552,7 @@
         <xs:element name="sequence" minOccurs="0" maxOccurs="1" type="sequence-type"/>
         <xs:element name="file" minOccurs="0" maxOccurs="1" type="file-type"/>
         <xs:element name="xml-source" minOccurs="0" maxOccurs="1" type="xml-source-type" />
+        <xs:element name="json-source" type="json-source-type" minOccurs="0" maxOccurs="1"/>
       </xs:choice>
       <xs:element name="alteration" type="alteration-type" minOccurs="0" maxOccurs="1"/>
     </xs:sequence>

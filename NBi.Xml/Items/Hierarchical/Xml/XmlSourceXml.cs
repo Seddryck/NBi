@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 
-namespace NBi.Xml.Items.Xml
+namespace NBi.Xml.Items.Hierarchical.Xml
 {
     public class XmlSourceXml : BaseItem
     {

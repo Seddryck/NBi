@@ -1,0 +1,146 @@
+﻿{
+  "PurchaseOrders": [
+    {
+      "PurchaseOrderNumber": "99503",
+      "OrderDate": "1999-10-20",
+      "Address": [
+        {
+          "Name": "Ellen Adams",
+          "Street": "123 Maple Street",
+          "City": "Mill Valley",
+          "State": "CA",
+          "Zip": "10999",
+          "Country": "USA"
+        },
+        {
+          "Name": "Tai Yee",
+          "Street": "8 Oak Avenue",
+          "City": "Old Town",
+          "State": "PA",
+          "Zip": "95819",
+          "Country": "USA"
+        }
+      ],
+      "DeliveryNotes": "Please leave packages in shed by driveway.",
+      "Items": [
+        {
+          "PartNumber": "872-AA",
+          "ProductName": "Lawnmower",
+          "Quantity": 1,
+          "USPrice": 148.95,
+          "Comment": "Confirm this is electric"
+        },
+        {
+          "PartNumber": "926-AA",
+          "ProductName": "Baby Monitor",
+          "Quantity": 2,
+          "USPrice": 39.98,
+          "ShipDate": "1999-05-21"
+        }
+      ]
+    },
+    {
+      "PurchaseOrderNumber": "99505",
+      "OrderDate": "1999-10-22",
+      "Address": [
+        {
+          "Name": "Cristian Osorio",
+          "Street": "456 Main Street",
+          "City": "Buffalo",
+          "State": "NY",
+          "Zip": "98112",
+          "Country": "USA"
+        },
+        {
+          "Name": "Cristian Osorio",
+          "Street": "456 Main Street",
+          "City": "Buffalo",
+          "State": "NY",
+          "Zip": "98112",
+          "Country": "USA"
+        }
+      ],
+      "DeliveryNotes": "Please notify by email before shipping.",
+      "Items": [
+        {
+          "PartNumber": "456-NM",
+          "ProductName": "Power Supply",
+          "Quantity": 1,
+          "USPrice": 45.99
+        }
+      ]
+    },
+    {
+      "PurchaseOrderNumber": "99504",
+      "OrderDate": "1999-10-22",
+      "Address": [
+        {
+          "Name": "Jessica Arnold",
+          "Street": "4055 Madison Ave",
+          "City": "Seattle",
+          "State": "WA",
+          "Zip": "98112",
+          "Country": "USA"
+        },
+        {
+          "Name": "Jessica Arnold",
+          "Street": "4055 Madison Ave",
+          "City": "Buffalo",
+          "State": "NY",
+          "Zip": "98112",
+          "Country": "USA"
+        }
+      ],
+      "DeliveryNotes": "Please do not deliver on Saturday.",
+      "Items": [
+        {
+          "PartNumber": "898-AZ",
+          "ProductName": "Computer Keyboard",
+          "Quantity": 1,
+          "USPrice": 29.99
+        },
+        {
+          "PartNumber": "898-AM",
+          "ProductName": "Wireless Mouse",
+          "Quantity": 1,
+          "USPrice": 14.99
+        }
+      ]
+    },
+    {
+      "PONumber": "11223",
+      "Date": "2000-01-15",
+      "ShippingAddress": {
+        "Name": "Chris Preston",
+        "Street": "123 Main St.",
+        "City": "Seattle",
+        "State": "WA",
+        "Zip": "98113",
+        "Country": "USA"
+      },
+      "BillingAddress": {
+        "Name": "Chris Preston",
+        "Street": "123 Main St.",
+        "City": "Seattle",
+        "State": "WA",
+        "Zip": "98113",
+        "Country": "USA"
+      },
+      "DeliveryInstructions": "Ship only complete order.",
+      "Item": [
+        {
+          "PartNum": "LIT-01",
+          "ProductID": "Litware Networking Card",
+          "Qty": 1,
+          "Price": 20.99
+        },
+        {
+          "PartNum": "LIT-25",
+          "ProductID": "Litware 17in LCD Monitor",
+          "Qty": 1,
+          "Price": 199.99
+        }
+      ]
+    }
+  ]
+}

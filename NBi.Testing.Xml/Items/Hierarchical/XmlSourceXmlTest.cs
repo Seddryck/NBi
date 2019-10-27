@@ -2,14 +2,14 @@
 using System.Reflection;
 using NBi.Xml;
 using NBi.Xml.Items;
-using NBi.Xml.Items.Xml;
+using NBi.Xml.Items.Hierarchical.Xml;
 using NBi.Xml.Constraints;
 using NUnit.Framework;
 using System;
 
-namespace NBi.Testing.Xml.Unit.Items
+namespace NBi.Testing.Xml.Unit.Items.Hierarchical
 {
-    public class XmlSourceTest : BaseXmlTest
+    public class XmlSourceXmlTest : BaseXmlTest
     {
         [Test]
         public void Deserialize_SampleFile_XmlSource()

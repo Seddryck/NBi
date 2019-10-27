@@ -250,6 +250,7 @@
     <Compile Include="FlatFile\FlatFileReaderFactory.cs" />
     <Compile Include="Hierarchical\AbstractPathEngine.cs" />
     <Compile Include="Hierarchical\Json\JsonPathEngine.cs" />
+    <Compile Include="Hierarchical\Json\JsonPathUrlEngine.cs" />
     <Compile Include="Hierarchical\Json\JsonPathFileEngine.cs" />
     <Compile Include="Injection\ConfigurationModule.cs" />
     <Compile Include="Injection\QueryModule.cs" />

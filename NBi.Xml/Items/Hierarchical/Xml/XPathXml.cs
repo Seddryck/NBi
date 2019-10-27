@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 
-namespace NBi.Xml.Items.Xml
+namespace NBi.Xml.Items.Hierarchical.Xml
 {
     public class XPathXml
     {
@@ -14,12 +14,6 @@ namespace NBi.Xml.Items.Xml
         [XmlElement("from")]
         public FromXml From { get; set; }
         [XmlElement("select")]
-        public List<SelectXml> Selects { get; set; }
-
-        public XPathXml()
-        {
-            Selects = new List<SelectXml>();
-        }
-
+        public List<SelectXml> Selects { get; set; } = new List<SelectXml>();
     }
 }

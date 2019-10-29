@@ -86,6 +86,7 @@
       <Link>Properties\AssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="Analysis\Metadata\Adomd\MeasureGroupLinkedToDiscoveryCommandTest.cs" />
+    <Compile Include="Api\Rest\RestEngineTest.cs" />
     <Compile Include="Assemblies\AssemblyManagerTest.cs" />
     <Compile Include="Assemblies\CustomCommandFactoryTest.cs" />
     <Compile Include="Assemblies\CustomConditionFactoryTest.cs" />

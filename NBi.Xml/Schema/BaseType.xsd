@@ -779,16 +779,84 @@
       <xs:choice>
         <xs:element name="file" minOccurs="1" maxOccurs="1" type="xs:string"/>
         <xs:element name="url" minOccurs="1" maxOccurs="1" type="xs:string"/>
+        <xs:element name="rest" minOccurs="1" maxOccurs="1" type="rest-type"/>
       </xs:choice>
       <xs:element name="xpath" minOccurs="1" maxOccurs="1" type="xpath-type" />
     </xs:sequence>
     <xs:attribute name="ignore-namespace" type="xs:boolean" use="optional" />
+  </xs:complexType>
+  <xs:complexType name="rest-type">
+    <xs:sequence>
+      <xs:element name="authentication" minOccurs="0" maxOccurs="1" type="authentication-type"/>
+      <xs:element name="header" minOccurs="0" maxOccurs="unbounded" type="rest-header-type"/>
+      <xs:element name="path" minOccurs="0" maxOccurs="1" type="xs:string"/>
+      <xs:element name="segment" minOccurs="0" maxOccurs="unbounded" type="rest-segment-type"/>
+      <xs:element name="parameter" minOccurs="0" maxOccurs="unbounded" type="rest-parameter-type"/>
+    </xs:sequence>
+    <xs:attribute name="base-address" type="xs:string" use="required" />
+  </xs:complexType>
+  <xs:complexType name="authentication-type">
+    <xs:choice>
+      <xs:element name="anonymous" type="xs:string" fixed=""/>
+      <xs:element name="api-key">
+        <xs:complexType>
+          <xs:simpleContent>
+            <xs:extension base="xs:string">
+              <xs:attribute name="name" type="xs:string" use="optional"/>
+            </xs:extension>
+          </xs:simpleContent>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="http-basic">
+        <xs:complexType>
+          <xs:attribute name="username" type="xs:string" use="required"/>
+          <xs:attribute name="password" type="xs:string" use="required"/>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="ntml-current-user" type="xs:string" fixed=""/>
+      <xs:element name="ntml">
+        <xs:complexType>
+          <xs:attribute name="username" type="xs:string" use="required"/>
+          <xs:attribute name="password" type="xs:string" use="required"/>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="oauth2">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="access-token" type="xs:string" minOccurs="1" maxOccurs="1"/>
+          </xs:sequence>
+          <xs:attribute name="token-type" type="xs:string" use="optional"/>
+        </xs:complexType>
+      </xs:element>
+    </xs:choice>
+  </xs:complexType>
+  <xs:complexType name="rest-header-type">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute name="name" type="xs:string" use="required" />
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="rest-parameter-type">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute name="name" type="xs:string" use="required" />
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="rest-segment-type">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute name="name" type="xs:string" use="required" />
+      </xs:extension>
+    </xs:simpleContent>
   </xs:complexType>
   <xs:complexType name="json-source-type">
     <xs:sequence>
       <xs:choice>
         <xs:element name="file" minOccurs="1" maxOccurs="1" type="xs:string"/>
         <xs:element name="url" minOccurs="1" maxOccurs="1" type="xs:string"/>
+        <xs:element name="rest" minOccurs="1" maxOccurs="1" type="rest-type"/>
       </xs:choice>
       <xs:element name="json-path" minOccurs="1" maxOccurs="1" type="json-path-type" />
     </xs:sequence>

@@ -82,6 +82,7 @@
     <Compile Include="GroupXmlTest.cs" />
     <Compile Include="IgnoreXmlTest.cs" />
     <Compile Include="InstanceSettlingXmlTest.cs" />
+    <Compile Include="Items\Api\Rest\RestXmlTest.cs" />
     <Compile Include="Items\AssemblyXmlTest.cs" />
     <Compile Include="Items\Calculation\PredicateXmlTest.cs" />
     <Compile Include="Items\Calculation\RankingXmlTest.cs" />
@@ -414,6 +415,9 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\JsonSourceXmlTestSuite.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\RestXmlTestSuite.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

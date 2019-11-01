@@ -9,7 +9,7 @@ permalink: /release/
 	<h2>Current release</h2>
     <section class="btn-wrapper-download">
         <div>
-			<a id="downloadURL" href="https://github.com/Seddryck/NBi/releases/latest">
+			<a id="downloadFramework" href="https://github.com/Seddryck/NBi/releases/latest">
                  <span class="download-text" style="background:#5CCD00;
                         	background:-moz-linear-gradient(top,#feac80 0%,#fd5800 100%);
                         	background:-webkit-gradient(linear,left top,left bottom,color-stop(0%,#feac80),color-stop(100%,#fd5800));
@@ -35,6 +35,9 @@ permalink: /release/
 		</div>
 		<div>
 			Click <a href="https://github.com/Seddryck/NBi/releases/latest">here</a> to read the release notes.
+		</div>
+		<div>
+			Corresponding Genbi version is available <a id="downloadGenbi" href="https://github.com/Seddryck/NBi/releases/latest">here</a>.
 		</div>
 	</section>
 	<div>&nbsp;</div>
@@ -80,8 +83,11 @@ permalink: /release/
     function GetLatestReleaseInfo()
 	{
         $.getJSON("https://api.github.com/repos/Seddryck/NBi/releases/latest").done(function (release) {
-            var asset = release.assets[0];
-            var downloadURL = "https://github.com/Seddryck/NBi/releases/download/" + release.tag_name + "/" + asset.name;
+            var framework = release.assets[0];			
+            var downloadFramework = "https://github.com/Seddryck/NBi/releases/download/" + release.tag_name + "/" + framework.name;
+
+			var genbi = release.assets[1];
+			var downloadGenbi = "https://github.com/Seddryck/NBi/releases/download/" + release.tag_name + "/" + genbi.name;
 
             var downloadCount = 0;
             for (var i = 0; i < release.assets.length; i++) {
@@ -91,7 +97,8 @@ permalink: /release/
             }
             downloadCount +=  170 + 607 + 46 + 495 + 65 + 51 + 562 + 21 + 8 + 115 + 1488 + 250 + 7 + 5 + 49 + 1956;
             var releaseInfo = release.name + " downloaded " + downloadCount + " times.";
-            $("#downloadURL").attr("href", downloadURL);
+            $("#downloadFramework").attr("href", downloadFramework);
+			$("#downloadGenbi").attr("href", downloadGenbi);
             $("#downloadCount").text(downloadCount);
 			$("#releaseName").text(release.name);
 			$("#createdAt").text(release.created_at);
@@ -135,8 +142,8 @@ permalink: /release/
 				table.append('<tr>'
 								+ '<td>' + version + '</td>'
 								+ '<td>' + releaseDate + '</td>'
-								+ '<td><a href="' + downloadFramework + '"><i class="fa fa-cloud-download"></i></a></td>'
-								+ '<td><a href="' + downloadGenbi + '"><i class="fa fa-cloud-download"></i></a></td>'
+								+ '<td style="text-align:center"><a href="' + downloadFramework + '"><i class="fa fa-cloud-download"></i></a></td>'
+								+ '<td style="text-align:center"><a href="' + downloadGenbi + '"><i class="fa fa-cloud-download"></i></a></td>'
 								+ '<td><a href="' + releaseNote + '"><i class="fa fa-github"></i>&nbsp;&nbsp;Go to release notes</a></td>'
 								+ '</tr>'
 								);

@@ -8,22 +8,21 @@ using NBi.Extensibility.Query;
 
 namespace NBi.Core.Query.Execution
 {
-    /// <summary>
-    /// Engine wrapping the System.Data.SqlClient namespace for execution of NBi tests
-    /// <remarks>Instances of this class are built by the means of the <see>QueryEngineFactory</see></remarks>
-    /// </summary>
     internal abstract class DbCommandExecutionEngine : IExecutionEngine
     {
-        protected readonly IDbCommand command;
+        protected IDbCommand Command { get; }
         private readonly Stopwatch stopWatch = new Stopwatch();
-        protected internal TimeSpan CommandTimeout { get; internal set; }
+        public TimeSpan CommandTimeout 
+        { 
+            get => new TimeSpan(0, 0, Command.CommandTimeout); 
+            set => Command.CommandTimeout = Convert.ToInt32(Math.Ceiling(value.TotalSeconds)); 
+        }
         protected internal string ConnectionString { get; private set; }
 
         protected DbCommandExecutionEngine(IDbConnection connection, IDbCommand command)
         {
-            this.command = command;
-            this.CommandTimeout = new TimeSpan(0, 0, command.CommandTimeout);
-            this.ConnectionString = connection.ConnectionString;
+            Command = command;
+            ConnectionString = connection.ConnectionString;
         }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2100:Review SQL queries for security vulnerabilities")]
@@ -32,9 +31,9 @@ namespace NBi.Core.Query.Execution
             using (var connection = NewConnection())
             {
                 OpenConnection(connection);
-                InitializeCommand(command, CommandTimeout, command.Parameters, connection);
+                InitializeCommand(Command, CommandTimeout, Command.Parameters, connection);
                 StartWatch();
-                var ds = OnExecuteDataSet(command);
+                var ds = OnExecuteDataSet(Command);
                 StopWatch();
                 return ds;
             }
@@ -59,9 +58,9 @@ namespace NBi.Core.Query.Execution
             using (var connection = NewConnection())
             {
                 OpenConnection(connection);
-                InitializeCommand(command, CommandTimeout, command.Parameters, connection);
+                InitializeCommand(Command, CommandTimeout, Command.Parameters, connection);
                 StartWatch();
-                var value = OnExecuteScalar(command);
+                var value = OnExecuteScalar(Command);
                 StopWatch();
                 return value;
             }
@@ -83,9 +82,9 @@ namespace NBi.Core.Query.Execution
             using (var connection = NewConnection())
             {
                 OpenConnection(connection);
-                InitializeCommand(command, CommandTimeout, command.Parameters, connection);
+                InitializeCommand(Command, CommandTimeout, Command.Parameters, connection);
                 StartWatch();
-                var list = OnExecuteList<T>(command);
+                var list = OnExecuteList<T>(Command);
                 StopWatch();
                 return list;
             }
@@ -112,8 +111,9 @@ namespace NBi.Core.Query.Execution
             Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceVerbose, command.CommandText);
             command.Connection = connection;
             foreach (IDataParameter param in parameters)
-                Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceVerbose, string.Format("{0} => {1}", param.ParameterName, param.Value));
+                Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceVerbose, $"{param.ParameterName} => {param.Value}");
             command.CommandTimeout = Convert.ToInt32(commandTimeout.TotalSeconds);
+            Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceVerbose, $"Command timeout set to {command.CommandTimeout} second{(command.CommandTimeout>1 ? "s" : string.Empty)}");
         }
 
         protected abstract void HandleException(Exception ex, IDbCommand command);
@@ -122,10 +122,7 @@ namespace NBi.Core.Query.Execution
         protected internal abstract IDbConnection NewConnection();
         protected abstract IDataAdapter NewDataAdapter(IDbCommand command);
 
-        protected void StartWatch()
-        {
-            stopWatch.Restart();
-        }
+        protected void StartWatch() => stopWatch.Restart();
 
         protected void StopWatch()
         {
@@ -134,6 +131,6 @@ namespace NBi.Core.Query.Execution
         }
 
         protected internal TimeSpan Elapsed { get => stopWatch.Elapsed; }
-        
+
     }
 }

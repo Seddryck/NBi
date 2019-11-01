@@ -35,9 +35,9 @@ namespace NBi.Core.Query.Format
             using (var connection = NewConnection())
             {
                 OpenConnection(connection);
-                InitializeCommand(command, CommandTimeout, command.Parameters, connection);
+                InitializeCommand(Command, CommandTimeout, Command.Parameters, connection);
                 StartWatch();
-                var cs = OnExecuteCellSet(command as AdomdCommand);
+                var cs = OnExecuteCellSet(Command as AdomdCommand);
                 StopWatch();
                 return Parse(cs);
             }

@@ -17,16 +17,11 @@ namespace NBi.Core.Query.Client
         public Type UnderlyingSessionType => typeof(AdomdConnection);
 
         public AdomdClient(string connectionString)
-        {
-            ConnectionString = connectionString;
-        }
+            => ConnectionString = connectionString;
 
         public object CreateNew() => CreateConnection();
 
-        public Microsoft.AnalysisServices.AdomdClient.AdomdConnection CreateConnection()
-        {
-            return new Microsoft.AnalysisServices.AdomdClient.AdomdConnection(ConnectionString);
-        }
-
+        public AdomdConnection CreateConnection()
+            => new AdomdConnection(ConnectionString);
     }
 }

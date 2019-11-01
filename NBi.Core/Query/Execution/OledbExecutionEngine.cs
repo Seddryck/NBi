@@ -20,7 +20,7 @@ namespace NBi.Core.Query.Execution
         
         internal override void OpenConnection(IDbConnection connection)
         {
-            var connectionString = command.Connection.ConnectionString;
+            var connectionString = Command.Connection.ConnectionString;
             try
             { connection.ConnectionString = connectionString; }
             catch (ArgumentException ex)
@@ -31,7 +31,7 @@ namespace NBi.Core.Query.Execution
             catch (OleDbException ex)
             { throw new ConnectionException(ex, connectionString); }
 
-            command.Connection = connection;
+            Command.Connection = connection;
         }
 
         protected override void HandleException(Exception ex, IDbCommand command)

@@ -69,7 +69,7 @@ namespace NBi.NUnit.Builder.Helper
             var connectionString = new ConnectionStringHelper().Execute(queryXml, scope);
             var parameters = BuildParameters(queryXml.GetParameters());
             var templateVariables = queryXml.GetTemplateVariables();
-            var timeout = queryXml.Timeout;
+            var timeout = Convert.ToInt32(Math.Ceiling(queryXml.Timeout / 1000m)); //Timeout is expressed in milliseconds
 
             if (!string.IsNullOrEmpty(queryXml.InlineQuery))
                 args = new EmbeddedQueryResolverArgs(queryXml.InlineQuery

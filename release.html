@@ -34,17 +34,14 @@ permalink: /release/
 			This release has been published on <span id="createdAt"/>.
 		</div>
 		<div>
-			Click <a href="https://github.com/Seddryck/NBi/releases/latest">here</a> to read the release notes.
-		</div>
-		<div>
-			Corresponding Genbi version is available <a id="downloadGenbi" href="https://github.com/Seddryck/NBi/releases/latest">here</a>.
+			Click <a href="https://github.com/Seddryck/NBi/releases/latest">here</a> to read the release notes and download the corresponding Genbi version by clicking <a id="downloadGenbi" href="https://github.com/Seddryck/NBi/releases/latest">there</a>.
 		</div>
 	</section>
 	<div>&nbsp;</div>
 	<div>
 			<h2>Pre-releases</h2>
 			<p>This is a list of the the current pre-release development versions available for testing. Consider your needs carefully before using a version other than the current production versions. These are preview releases, and their use is not recommended in production settings. Please consider reporting any bugs in these versions.</p>
-			<p>Since version 1.15, beta versions are only available on a <a href="https://www.nuget.org/packages/NBi.Framework/">Nuget feed</a> and <a href="https://ci.appveyor.com/project/Seddryck/nbi/history">appVeyor</a> and are more frequent (at least one by feature). Only RC versions (if any) are available on GitHub.</p>
+			<p>Since version 1.15, beta versions are only available on a <a href="https://www.nuget.org/packages/NBi.Framework/">Nuget feed</a>, <a href="https://ci.appveyor.com/project/Seddryck/nbi/history">appVeyor</a> or <a href="https://seddryck.visualstudio.com/NBi/_build?definitionId=1&_a=summary&view=buildsHistory">Azure DevOps</a> and are more frequent (at least one build for each new feature). Only RC versions (if any) are available on GitHub.</p>
 			<table id="table_prerelease">
 				<thead>
 					<tr>
@@ -142,7 +139,7 @@ permalink: /release/
 				table.append('<tr>'
 								+ '<td>' + version + '</td>'
 								+ '<td>' + releaseDate + '</td>'
-								+ '<td style="text-align:center"><a href="' + downloadFramework + '"><i class="fa fa-cloud-download"></i></a></td>'
+								+ '<td style="text-align:center"><a href="' + downloadFramework + '"><i class="fa fa-cloud-download"></i>&nbsp;download</a></td>'
 								+ '<td style="text-align:center"><a href="' + downloadGenbi + '"><i class="fa fa-cloud-download"></i></a></td>'
 								+ '<td><a href="' + releaseNote + '"><i class="fa fa-github"></i>&nbsp;&nbsp;Go to release notes</a></td>'
 								+ '</tr>'

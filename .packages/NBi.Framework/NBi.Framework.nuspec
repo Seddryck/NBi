@@ -1,22 +1,25 @@
 <?xml version="1.0"?>
 <package >
-  <metadata>
+  <metadata minClientVersion="4.4">
     <id>NBi.Framework</id>
     <version>$version$</version>
     <authors>Seddryck</authors>
     <owners>Seddryck</owners>
     <license type="expression">Apache-2.0</license>
     <projectUrl>https://github.com/Seddryck/NBi</projectUrl>
-    <iconUrl>https://raw.githubusercontent.com/Seddryck/nbi/gh-pages/img/logo-2x.png</iconUrl>
+    <icon>images\logo-2x.png</icon>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <summary>This package contains the NBi framework and references all the dll to your project. This package is not intended to be directly used by end-users. Check the package NBi.VisualStudio, if you want to facilitate the usage of NBi from Visual Studio</summary>
-    <description>This package contains the NBi framework and references each dll to your project. This package is not intended to be directly used by end-users willing to create test-suites. Check the package NBi.VisualStudio, if you want to facilitate the usage of NBi from Visual StudioTesting framework (add-on to NUnit) for Business Intelligence. It supports the Microsoft Data platform (SQL Server Database engine, SSIS, SSAS, SSRS) but also MySQL, PostgreSQL and other solutions.</description>
+    <summary>This package contains the NBi framework and references each dll to your project. This package is not intended to be directly used by end-users willing to create test-suites. Check the package NBi.VisualStudio, if you want to facilitate the usage of NBi from Visual Studio.</summary>
+    <description>This package contains the NBi framework and references each dll to your project. This package is not intended to be directly used by end-users willing to create test-suites. Check the package NBi.VisualStudio, if you want to facilitate the usage of NBi from Visual Studio. NBi is a testing framework (add-on to NUnit) for Business Intelligence and Data Quality. It supports the Microsoft Data platform (SQL Server Database engine, SSIS, SSAS, SSRS) but also MySQL, PostgreSQL and other NoSQL solutions.</description>
     <releaseNotes>Check the release notes at https://github.com/Seddryck/NBi/releases/v$version$</releaseNotes>
     <copyright>Copyright 2013-$thisYear$</copyright>
     <tags>Test NBi SQL SSAS SSIS SSRS </tags>
-    <repository type="git" url="https://github.com/Seddryck/NBi.git"></repository>
+    <repository type="git" url="https://github.com/Seddryck/NBi.git" />
     <dependencies>
         $depList$
     </dependencies>
   </metadata>
+  <files>
+    <file src="..\..\logo-2x.png" target="images\" />
+  </files>
 </package>

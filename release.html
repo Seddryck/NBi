@@ -47,7 +47,8 @@ permalink: /release/
 					<tr>
 						<th>Version</th>
 						<th>Release date</th>
-						<th>Download</th>
+						<th>Framework</th>
+						<th>Genbi</th>
 						<th>Notes</th>
 					<tr>
 				</thead>
@@ -64,7 +65,8 @@ permalink: /release/
 					<tr>
 						<th>Version</th>
 						<th>Release date</th>
-						<th>Download</th>
+						<th>Framework</th>
+						<th>Genbi</th>
 						<th>Notes</th>
 					<tr>
 				</thead>
@@ -109,9 +111,13 @@ permalink: /release/
 				{
 					var version = release.name;
 					var releaseDate = release.created_at;
-					var downloadURL = "";
+					var downloadFramework = "";
+					var downloadGenbi = "";
 					if (release.assets.length>0) {
-						downloadURL = release.assets[0].browser_download_url;
+						downloadFramework = release.assets[0].browser_download_url;
+					}
+					if (release.assets.length>1) {
+						downloadGenbi = release.assets[1].browser_download_url;
 					}
 					var releaseNote = release.html_url;
 				}
@@ -129,7 +135,8 @@ permalink: /release/
 				table.append('<tr>'
 								+ '<td>' + version + '</td>'
 								+ '<td>' + releaseDate + '</td>'
-								+ '<td><a href="' + downloadURL + '"><i class="fa fa-cloud-download"></i>&nbsp;&nbsp;Download</a></td>'
+								+ '<td><a href="' + downloadFramework + '"><i class="fa fa-cloud-download"></i></a></td>'
+								+ '<td><a href="' + downloadGenbi + '"><i class="fa fa-cloud-download"></i></a></td>'
 								+ '<td><a href="' + releaseNote + '"><i class="fa fa-github"></i>&nbsp;&nbsp;Go to release notes</a></td>'
 								+ '</tr>'
 								);
@@ -138,6 +145,7 @@ permalink: /release/
 			{
 				$("#table_prerelease > tbody:last-child").append('<tr>'
 								+ '<td>No pre-release currently available</td>'
+								+ '<td> - </td>'
 								+ '<td> - </td>'
 								+ '<td> - </td>'
 								+ '<td> - </td>'

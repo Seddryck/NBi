@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NBi.Xml.Items.Api.Rest;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -19,6 +20,9 @@ namespace NBi.Xml.Items.Hierarchical.Xml
 
         [XmlElement("url")]
         public UrlXml Url { get; set; }
+
+        [XmlElement("rest")]
+        public RestXml Rest { get; set; }
 
         [XmlElement("xpath")]
         public XPathXml XPath { get; set; }

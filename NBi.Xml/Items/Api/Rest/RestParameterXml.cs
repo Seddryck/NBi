@@ -4,7 +4,7 @@ using System.Linq;
 using System.Xml.Serialization;
 using NBi.Core.Query;
 
-namespace NBi.Xml.Items
+namespace NBi.Xml.Items.Api.Rest
 {
     public class RestParameterXml
     {

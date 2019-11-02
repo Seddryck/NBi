@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace NBi.Core.Api.Authentication
 {
-    class NtlmUserPassword : IAuthentication
+    public class NtlmUserPassword : IAuthentication
     {
         public IScalarResolver<string> Username { get; }
         public IScalarResolver<string> Password { get; }

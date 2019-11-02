@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace NBi.Core.Api.Rest
 {
-    class SegmentRest
+    public class SegmentRest
     {
         public IScalarResolver<string> Name { get; }
         public IScalarResolver<string> Value { get; }

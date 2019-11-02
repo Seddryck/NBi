@@ -22,5 +22,8 @@ namespace NBi.Core.Hierarchical.Xml
             var doc = XDocument.Load(Url);
             return Execute(doc);
         }
+
+        protected override TextReader GetTextReader(string filePath)
+            => throw new NotImplementedException();
     }
 }

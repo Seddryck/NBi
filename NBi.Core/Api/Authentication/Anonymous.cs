@@ -7,7 +7,7 @@ using RestSharp.Authenticators;
 
 namespace NBi.Core.Api.Authentication
 {
-    class Anonymous : IAuthentication
+    public class Anonymous : IAuthentication
     {
         public IAuthenticator GetAuthenticator() => null;
     }

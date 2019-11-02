@@ -635,6 +635,37 @@
         </equal-to>
       </assert>
     </test>
+    <test name="Result-set is the json-source with rest api" uid="0162">
+      <system-under-test>
+        <result-set>
+          <json-source>
+            <rest base-address="https://api.publicapis.org/">
+              <path>entries</path>
+              <parameter name="category">animals</parameter>
+            </rest>
+            <json-path>
+              <from>$.entries[*]</from>
+              <select>$.API</select>
+              <select>$.Cors</select>
+            </json-path>
+          </json-source>
+        </result-set>
+      </system-under-test>
+      <assert>
+        <superset-of keys="first" values-default-type="text">
+          <result-set>
+            <row>
+              <cell>Cat Facts</cell>
+              <cell>no</cell>
+            </row>
+            <row>
+              <cell>RandomCat</cell>
+              <cell>yes</cell>
+            </row>
+          </result-set>
+        </superset-of>
+      </assert>
+    </test>
   </group>
   <group name="alterations">
     <test name="Filter with one predicate" uid="0201">

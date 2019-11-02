@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace NBi.Core.Api.Authentication
 {
-    class NtlmCurrentUser : IAuthentication
+    public class NtlmCurrentUser : IAuthentication
     {
         public NtlmCurrentUser()
         { }

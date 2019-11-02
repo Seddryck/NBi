@@ -39,17 +39,7 @@ namespace NBi.Core.Hierarchical.Xml
             return filePath;
         }
 
-        private XmlReader CreateReader(string filePath, bool isRemoveDefaultNamespace)
-        {
-            var settings = new XmlReaderSettings();
-            var streamReader = GetTextReader(filePath);
-            if (isRemoveDefaultNamespace)
-                return new XmlIgnoreNamespaceReader(streamReader, settings);
-            else
-                return XmlReader.Create(streamReader, settings);
-        }
-
-        protected virtual TextReader GetTextReader(string filePath)
+        protected override TextReader GetTextReader(string filePath)
             => new StreamReader(filePath);
     }
 }

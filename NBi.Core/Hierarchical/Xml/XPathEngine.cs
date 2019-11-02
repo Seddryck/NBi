@@ -76,5 +76,17 @@ namespace NBi.Core.Hierarchical.Xml
                         ?? new XElement("null", "(null)")
                     ).Value;
         }
+
+        protected XmlReader CreateReader(string filePath, bool isRemoveDefaultNamespace)
+        {
+            var settings = new XmlReaderSettings();
+            var streamReader = GetTextReader(filePath);
+            if (isRemoveDefaultNamespace)
+                return new XmlIgnoreNamespaceReader(streamReader, settings);
+            else
+                return XmlReader.Create(streamReader, settings);
+        }
+
+        protected abstract TextReader GetTextReader(string filePath);
     }
 }

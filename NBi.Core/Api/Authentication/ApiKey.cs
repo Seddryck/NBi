@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace NBi.Core.Api.Authentication
 {
-    class ApiKey
+    public class ApiKey : IAuthentication
     {
         public IScalarResolver<string> Name { get; }
         public IScalarResolver<string> Value { get; }

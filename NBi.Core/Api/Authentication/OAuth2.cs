@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace NBi.Core.Api.Authentication
 {
-    class OAuth2 : IAuthentication
+    public class OAuth2 : IAuthentication
     {
         public IScalarResolver<string> AccessToken { get; }
         public IScalarResolver<string> TokenType { get; }

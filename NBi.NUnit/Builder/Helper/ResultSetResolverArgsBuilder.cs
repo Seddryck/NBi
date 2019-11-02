@@ -21,6 +21,10 @@ using System.Text;
 using System.Threading.Tasks;
 using NBi.Xml.Items.Hierarchical.Json;
 using NBi.Core.Hierarchical.Json;
+using NBi.Core.Api.Rest;
+using NBi.Core.Api.Authentication;
+using NBi.Xml.Items.Api.Rest;
+using NBi.Xml.Items.Api.Authentication;
 
 namespace NBi.NUnit.Builder.Helper
 {
@@ -130,7 +134,7 @@ namespace NBi.NUnit.Builder.Helper
 
         private ResultSetResolverArgs BuildSequenceResolverArgs(SequenceXml sequenceXml)
         {
-            
+
             var sequenceFactory = new SequenceResolverFactory(ServiceLocator);
             var builder = new SequenceResolverArgsBuilder(ServiceLocator);
             builder.Setup(settings);
@@ -195,7 +199,7 @@ namespace NBi.NUnit.Builder.Helper
                 selects.Add(selectFactory.Instantiate(select.Value, select.Attribute, select.Evaluate));
 
             var helper = new ScalarHelper(ServiceLocator, settings, scope, new Context(Variables));
-            
+
 
             XPathEngine engine = null;
             if (xmlSource.File != null)
@@ -205,7 +209,11 @@ namespace NBi.NUnit.Builder.Helper
             }
             else if (xmlSource.Url != null)
                 engine = new XPathUrlEngine(xmlSource.Url.Value, xmlSource.XPath.From.Value, selects, xmlSource.XPath?.DefaultNamespacePrefix);
-
+            else if (xmlSource.Rest != null)
+            {
+                var restHelper = new RestHelper(ServiceLocator, settings, scope, Variables);
+                engine = new XPathRestEngine(restHelper.Execute(xmlSource.Rest), xmlSource.XPath.From.Value, selects, xmlSource.XPath?.DefaultNamespacePrefix);
+            }
             return new XPathResultSetResolverArgs(engine);
         }
 
@@ -231,6 +239,11 @@ namespace NBi.NUnit.Builder.Helper
             {
                 var resolverUrl = helper.InstantiateResolver<string>(jsonSource.Url.Value);
                 engine = new JsonPathUrlEngine(resolverUrl, jsonSource.JsonPath.From.Value, selects);
+            }
+            else if (jsonSource.Rest != null)
+            {
+                var restHelper = new RestHelper(ServiceLocator, settings, scope, Variables);
+                engine = new JsonPathRestEngine(restHelper.Execute(jsonSource.Rest), jsonSource.JsonPath.From.Value, selects);
             }
 
             return new XPathResultSetResolverArgs(engine);

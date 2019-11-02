@@ -4,12 +4,13 @@ using RestSharp;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace NBi.Core.Api.Rest
 {
-    class RestEngine
+    public class RestEngine
     {
         public IAuthentication Authentication { get; }
         public IScalarResolver<string> BaseUrl { get; }
@@ -23,6 +24,8 @@ namespace NBi.Core.Api.Rest
 
         public string Execute()
         {
+            ServicePointManager.SecurityProtocol =
+                SecurityProtocolType.Tls | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12;
             var baseUrl = BaseUrl.Execute();
             var client = new RestClient(baseUrl)
             {

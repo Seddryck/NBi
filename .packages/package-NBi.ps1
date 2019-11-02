@@ -33,6 +33,17 @@ $depList = $dependencies.Values -join [Environment]::NewLine + "`t`t"
 $thisYear = get-date -Format yyyy
 Write-Host "Setting copyright until $thisYear"
 
+$nugetVersion = nuget help | select -First 1
+Write-Host "Nuget's version: $nugetVersion"
+if ($nugetVersion -lt '5.3')
+{
+    $xpath = ('/package/metadata/icon')
+}
+else
+{
+    $xpath = ('/package/metadata/iconUrl')
+}
+
 #For NBi.Framework (dll)
 Write-Host "Packaging NBi.Framework"
 $lib = "$root\NBi.Framework\lib\net461\"
@@ -47,14 +58,17 @@ Copy-Item $root\..\NBi.Testing\bin\Debug\NBi.Testing.dll $lib
 
 Write-Host "Setting .nuspec version tag to $version"
 
-
-
 $content = (Get-Content $root\NBi.Framework\NBi.Framework.nuspec -Encoding UTF8) 
 $content = $content -replace '\$version\$',$version
 $content = $content -replace '\$thisYear\$',$thisYear
 $content = $content -replace '\$depList\$',$depList
 
-$content | Out-File $root\NBi.Framework\NBi.Framework.compiled.nuspec -Encoding UTF8
+$xml = New-Object -TypeName System.Xml.XmlDocument
+$xml.LoadXml($content)
+$iconNode = $xml.SelectSingleNode($xpath)
+$iconNode.ParentNode.RemoveChild($iconNode)
+
+$xml.OuterXml | Out-File $root\NBi.Framework\NBi.Framework.compiled.nuspec -Encoding UTF8
 
 & NuGet.exe pack $root\..\.packages\NBi.Framework\NBi.Framework.compiled.nuspec -Version $version -OutputDirectory $root\..\.nupkg
 Write-Host "Package for NBi.Framework is ready"
@@ -77,7 +91,12 @@ $content = $content -replace '\$version\$',$version
 $content = $content -replace '\$thisYear\$',$thisYear
 $content = $content -replace '\$depList\$',$depList
 
-$content | Out-File $root\NBi.Framework.Tools\NBi.Framework.Tools.compiled.nuspec -Encoding UTF8
+$xml = New-Object -TypeName System.Xml.XmlDocument
+$xml.LoadXml($content)
+$iconNode = $xml.SelectSingleNode($xpath)
+$iconNode.ParentNode.RemoveChild($iconNode)
+
+$xml.OuterXml | Out-File $root\NBi.Framework.Tools\NBi.Framework.Tools.compiled.nuspec -Encoding UTF8
 
 & NuGet.exe pack $root\..\.packages\NBi.Framework.Tools\NBi.Framework.Tools.compiled.nuspec -Version $version -OutputDirectory $root\..\.nupkg
 Write-Host "Package for NBi.Framework.Tools is ready"
@@ -99,7 +118,12 @@ $content = (Get-Content $root\NBi.Extensibility\NBi.Extensibility.nuspec -Encodi
 $content = $content -replace '\$version\$',$version
 $content = $content -replace '\$thisYear\$',$thisYear
 
-$content | Out-File $root\NBi.Extensibility\NBi.Extensibility.compiled.nuspec -Encoding UTF8
+$xml = New-Object -TypeName System.Xml.XmlDocument
+$xml.LoadXml($content)
+$iconNode = $xml.SelectSingleNode($xpath)
+$iconNode.ParentNode.RemoveChild($iconNode)
+
+$xml.OuterXml | Out-File $root\NBi.Extensibility\NBi.Extensibility.compiled.nuspec -Encoding UTF8
 
 & NuGet.exe pack $root\..\.packages\NBi.Extensibility\NBi.Extensibility.compiled.nuspec -Version $version -OutputDirectory $root\..\.nupkg
 Write-Host "Package for NBi.Extensibility is ready"

@@ -8,6 +8,7 @@
     <license type="expression">Apache-2.0</license>
     <projectUrl>https://github.com/Seddryck/NBi</projectUrl>
     <icon>images\logo-2x.png</icon>
+    <iconUrl>https://raw.githubusercontent.com/Seddryck/nbi/gh-pages/img/logo-2x.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <summary>Extensibility points of NBi.</summary>
     <description>This package contains the interfaces to implement to extend NBi features. NBi is a testing framework (add-on to NUnit) for Business Intelligence and Data Quality. It supports the Microsoft Data platform (SQL Server Database engine, SSIS, SSAS, SSRS) but also MySQL, PostgreSQL and other NoSQL solutions.</description>

@@ -201,9 +201,11 @@
     <Compile Include="Integration\Core\IO\Filtering\PatternRootFilterTest.cs" />
     <Compile Include="Integration\Core\Scalar\Resolver\QueryScalarResolverTest.cs" />
     <Compile Include="Integration\Core\DirectoryInfoExtensionsTest.cs" />
+    <Compile Include="Unit\NUnit\Builder\Helper\AnononymousXml.cs" />
     <Compile Include="Unit\NUnit\Builder\Helper\ConnectionStringHelperTest.cs" />
     <Compile Include="Unit\NUnit\Builder\Helper\PredicateArgsBuilderTest.cs" />
     <Compile Include="Unit\NUnit\Builder\Helper\ScalarResolverArgsBuilderTest.cs" />
+    <Compile Include="Unit\NUnit\Builder\Helper\RestHelperTest.cs" />
     <Compile Include="Unit\NUnit\Builder\Helper\SetupHelperTest.cs" />
     <Compile Include="Unit\NUnit\Builder\ResultSetAllRowsBuilderTest.cs" />
     <Compile Include="Unit\NUnit\Builder\ScalarScoreBuilderTest.cs" />
@@ -516,6 +518,9 @@
     <EmbeddedResource Include="Acceptance\Resources\Csv\ResellerOrderCountByYearBefore2006bis.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
+    <EmbeddedResource Include="Acceptance\Resources\Csv\PurchaseOrders.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
     <None Include="Acceptance\Resources\Positive\ExternalSettings.nbitset">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -781,6 +786,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="Acceptance\Resources\Negative\DataRowsMessage-0020.txt" />
+    <EmbeddedResource Include="Acceptance\Resources\Csv\PurchaseOrders.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
     <Content Include="Acceptance\Resources\Query\ResellerOrderCount.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

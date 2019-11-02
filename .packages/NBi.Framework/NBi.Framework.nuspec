@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <package >
-  <metadata minClientVersion="4.4">
+  <metadata>
     <id>NBi.Framework</id>
     <version>$version$</version>
     <authors>Seddryck</authors>

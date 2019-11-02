@@ -44,19 +44,19 @@ namespace NBi.Testing.Xml.Unit
             };
 
             var serializer = new XmlSerializer(typeof(TestXml));
-            var stream = new MemoryStream();
-            var writer = new StreamWriter(stream, Encoding.UTF8);
-            serializer.Serialize(writer, test);
-            var content = Encoding.UTF8.GetString(stream.ToArray());
-            writer.Close();
-            stream.Close();
+            using (var stream = new MemoryStream())
+            using (var writer = new StreamWriter(stream, Encoding.UTF8))
+            {
+                serializer.Serialize(writer, test);
+                var content = Encoding.UTF8.GetString(stream.ToArray());
 
-            Debug.WriteLine(content);
+                Debug.WriteLine(content);
 
-            Assert.That(content, Does.Contain("<instance-settling"));
-            Assert.That(content, Does.Contain("<local-variable"));
-            Assert.That(content, Does.Not.Contain("<category"));
-            Assert.That(content, Does.Not.Contain("<trait"));
+                Assert.That(content, Does.Contain("<instance-settling"));
+                Assert.That(content, Does.Contain("<local-variable"));
+                Assert.That(content, Does.Not.Contain("<category"));
+                Assert.That(content, Does.Not.Contain("<trait"));
+            }
         }
 
         [Test]
@@ -85,16 +85,16 @@ namespace NBi.Testing.Xml.Unit
             var test = new TestXml();
 
             var serializer = new XmlSerializer(typeof(TestXml));
-            var stream = new MemoryStream();
-            var writer = new StreamWriter(stream, Encoding.UTF8);
-            serializer.Serialize(writer, test);
-            var content = Encoding.UTF8.GetString(stream.ToArray());
-            writer.Close();
-            stream.Close();
+            using (var stream = new MemoryStream())
+            using (var writer = new StreamWriter(stream, Encoding.UTF8))
+            {
+                serializer.Serialize(writer, test);
+                var content = Encoding.UTF8.GetString(stream.ToArray());
 
-            Debug.WriteLine(content);
+                Debug.WriteLine(content);
 
-            Assert.That(content, Does.Not.Contain("<instance-settling"));
+                Assert.That(content, Does.Not.Contain("<instance-settling"));
+            }
         }
 
         [Test]
@@ -116,7 +116,6 @@ namespace NBi.Testing.Xml.Unit
             {
                 serializer.Serialize(writer, test);
                 var content = Encoding.UTF8.GetString(stream.ToArray());
-
 
                 Debug.WriteLine(content);
 

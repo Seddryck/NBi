@@ -33,7 +33,7 @@ $depList = $dependencies.Values -join [Environment]::NewLine + "`t`t"
 $thisYear = get-date -Format yyyy
 Write-Host "Setting copyright until $thisYear"
 
-$nugetVersion = nuget help | select -First 1
+$nugetVersion = (((nuget help | select -First 1).Split(':')) | select -Last 1).Trim()
 Write-Host "Nuget's version: $nugetVersion"
 if ($nugetVersion -lt '5.3')
 {
@@ -72,6 +72,7 @@ $xml.OuterXml | Out-File $root\NBi.Framework\NBi.Framework.compiled.nuspec -Enco
 
 & NuGet.exe pack $root\..\.packages\NBi.Framework\NBi.Framework.compiled.nuspec -Version $version -OutputDirectory $root\..\.nupkg
 Write-Host "Package for NBi.Framework is ready"
+
 
 #For NBi.Framework.Tools
 Write-Host "Packaging NBi.Framework.Tools"

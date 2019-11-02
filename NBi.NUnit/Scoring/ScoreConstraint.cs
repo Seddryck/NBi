@@ -8,7 +8,7 @@ using NBi.Core.ResultSet;
 using NUnitCtr = NUnit.Framework.Constraints;
 using NBi.Framework.FailureMessage;
 using NBi.Framework;
-using NBi.Core.Xml;
+using NBi.Core.Hierarchical.Xml;
 using NBi.Core.Transformation;
 using NBi.Core.ResultSet.Analyzer;
 using NBi.Core.ResultSet.Resolver;

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using NBi.Core.Query;
-using NBi.Core.Xml;
+using NBi.Core.Hierarchical.Xml;
 using NBi.Core.Query.Resolver;
 using NBi.Core.Injection;
 using NBi.Core.FlatFile;

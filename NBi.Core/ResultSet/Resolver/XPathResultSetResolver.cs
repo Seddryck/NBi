@@ -1,5 +1,5 @@
 ﻿using NBi.Core.Query;
-using NBi.Core.Xml;
+using NBi.Core.Hierarchical.Xml;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -11,16 +11,14 @@ namespace NBi.Core.ResultSet.Resolver
 {
     class XPathResultSetResolver : IResultSetResolver
     {
-        private readonly XPathResultSetResolverArgs args;
+        private XPathResultSetResolverArgs Args { get; }
 
         public XPathResultSetResolver(XPathResultSetResolverArgs args)
-        {
-            this.args = args;
-        }
+            => Args = args;
 
         public virtual ResultSet Execute()
         {
-            var objects = args.XPathEngine.Execute();
+            var objects = Args.XPathEngine.Execute();
 
             var helper = new ObjectsToRowsHelper();
             var rows = helper.Execute(objects);

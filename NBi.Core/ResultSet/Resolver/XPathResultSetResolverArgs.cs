@@ -1,21 +1,20 @@
 ﻿using NBi.Core.Query;
-using NBi.Core.Xml;
+using NBi.Core.Hierarchical.Xml;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using NBi.Core.Hierarchical;
 
 namespace NBi.Core.ResultSet.Resolver
 {
     public class XPathResultSetResolverArgs : ResultSetResolverArgs
     {
-        public XPathEngine XPathEngine { get; }
+        public AbstractPathEngine XPathEngine { get; }
 
-        public XPathResultSetResolverArgs(XPathEngine xpathEngine)
-        {
-            this.XPathEngine = xpathEngine;
-        }
+        public XPathResultSetResolverArgs(AbstractPathEngine xpathEngine)
+            => XPathEngine = xpathEngine;
     }
 }

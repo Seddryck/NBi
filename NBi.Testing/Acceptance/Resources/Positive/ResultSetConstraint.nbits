@@ -521,6 +521,151 @@
         </equal-to>
       </assert>
     </test>
+    <test name="Result-set is the xml-source" uid="0150">
+      <system-under-test>
+        <result-set>
+          <xml-source>
+            <file>..\Csv\PurchaseOrders.xml</file>
+            <xpath>
+              <from>//PurchaseOrder/Items/Item</from>
+              <select attribute="PurchaseOrderNumber">../..</select>
+              <select attribute="PartNumber">.</select>
+            </xpath>
+          </xml-source>
+        </result-set>
+      </system-under-test>
+      <assert>
+        <equal-to keys="all">
+          <result-set>
+            <row>
+              <cell>99503</cell>
+              <cell>872-AA</cell>
+            </row>
+            <row>
+              <cell>99503</cell>
+              <cell>926-AA</cell>
+            </row>
+            <row>
+              <cell>99505</cell>
+              <cell>456-NM</cell>
+            </row>
+            <row>
+              <cell>99504</cell>
+              <cell>898-AZ</cell>
+            </row>
+            <row>
+              <cell>99504</cell>
+              <cell>898-AM</cell>
+            </row>
+          </result-set>
+        </equal-to>
+      </assert>
+    </test>
+    <test name="Result-set is the json-source" uid="0160">
+      <system-under-test>
+        <result-set>
+          <json-source>
+            <file>..\Csv\PurchaseOrders.json</file>
+            <json-path>
+              <from>$.PurchaseOrders[*].Items[*]</from>
+              <select>!!.PurchaseOrderNumber</select>
+              <select>$.PartNumber</select>
+            </json-path>
+          </json-source>
+        </result-set>
+      </system-under-test>
+      <assert>
+        <equal-to keys="all">
+          <result-set>
+            <row>
+              <cell>99503</cell>
+              <cell>872-AA</cell>
+            </row>
+            <row>
+              <cell>99503</cell>
+              <cell>926-AA</cell>
+            </row>
+            <row>
+              <cell>99505</cell>
+              <cell>456-NM</cell>
+            </row>
+            <row>
+              <cell>99504</cell>
+              <cell>898-AZ</cell>
+            </row>
+            <row>
+              <cell>99504</cell>
+              <cell>898-AM</cell>
+            </row>
+          </result-set>
+        </equal-to>
+      </assert>
+    </test>
+    <test name="Result-set is the json-source with remote url" uid="0161">
+      <system-under-test>
+        <result-set>
+          <json-source>
+            <url>https://raw.githubusercontent.com/sitepoint-editors/json-examples/master/src/db.json</url>
+            <json-path>
+              <from>$.clients[*]</from>
+              <select>$.name</select>
+            </json-path>
+          </json-source>
+        </result-set>
+      </system-under-test>
+      <assert>
+        <equal-to keys="all">
+          <result-set>
+            <row>
+              <cell>Dunlap Hubbard</cell>
+            </row>
+            <row>
+              <cell>Kirsten Sellers</cell>
+            </row>
+            <row>
+              <cell>Acosta Robbins</cell>
+            </row>
+            <row>
+              <cell>Lawrence Morrison</cell>
+            </row>
+            <row>
+              <cell>Trudy Bennett</cell>
+            </row>
+          </result-set>
+        </equal-to>
+      </assert>
+    </test>
+    <test name="Result-set is the json-source with rest api" uid="0162">
+      <system-under-test>
+        <result-set>
+          <json-source>
+            <rest base-address="https://api.publicapis.org/">
+              <path>entries</path>
+              <parameter name="category">animals</parameter>
+            </rest>
+            <json-path>
+              <from>$.entries[*]</from>
+              <select>$.API</select>
+              <select>$.Cors</select>
+            </json-path>
+          </json-source>
+        </result-set>
+      </system-under-test>
+      <assert>
+        <superset-of keys="first" values-default-type="text">
+          <result-set>
+            <row>
+              <cell>Cat Facts</cell>
+              <cell>no</cell>
+            </row>
+            <row>
+              <cell>RandomCat</cell>
+              <cell>yes</cell>
+            </row>
+          </result-set>
+        </superset-of>
+      </assert>
+    </test>
   </group>
   <group name="alterations">
     <test name="Filter with one predicate" uid="0201">

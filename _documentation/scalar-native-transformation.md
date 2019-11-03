@@ -51,8 +51,8 @@ The list of native transformations is available here under and is organized by t
 * ```numeric-to-decrement```: subtract 1 to the current value
 * ```numeric-to-add(incr)```: add *incr* to the current value
 * ```numeric-to-add(incr, times)```: add *incr* to the current value several *times*. If *times* is zero, return current value. *times* must be an integer value.
-* ```numeric-to-add(incr)```: subtract *incr* to the current value
-* ```numeric-to-add(incr, times)```: subtract *incr* to the current value several *times*. If *times* is zero, return current value. *times* must be an integer value.
+* ```numeric-to-substract(incr)```: subtract *incr* to the current value
+* ```numeric-to-substract(incr, times)```: subtract *incr* to the current value several *times*. If *times* is zero, return current value. *times* must be an integer value.
 * ```numeric-to-multiply(factor)```: multiply the current value by *factor*
 * ```numeric-to-invert```: invert the current value (equivalent to *1/current value*)
 

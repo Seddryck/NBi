@@ -17,7 +17,7 @@ The main goal of this framework is to let users create tests with a declarative 
 
 **Dev. activity:** [![GitHub last commit](https://img.shields.io/github/last-commit/Seddryck/nbi.svg)](https://github.com/Seddryck/NBi/releases/latest)
 ![Still maintained](https://img.shields.io/maintenance/yes/2019.svg)
-![GitHub commits since tagged version](https://img.shields.io/github/commits-since/Seddryck/NBi/v1.20/develop)
+![GitHub commits since tagged version](https://img.shields.io/github/commits-since/Seddryck/NBi/v1.21/develop)
 ![GitHub commit activity](https://img.shields.io/github/commit-activity/y/Seddryck/NBi)
 
 **Continuous integration builds:** [![Build status](https://ci.appveyor.com/api/projects/status/t5m0hr57vnsdv0v7?svg=true)](https://ci.appveyor.com/project/Seddryck/nbi)

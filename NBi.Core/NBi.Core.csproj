@@ -134,13 +134,13 @@
     <Compile Include="Api\Rest\SegmentRest.cs" />
     <Compile Include="Api\Rest\RestEngine.cs" />
     <Compile Include="Api\Rest\ParameterRest.cs" />
-    <Compile Include="Assemblies\Decoration\AbstractCustomFactory.cs" />
+    <Compile Include="Assemblies\AbstractCustomFactory.cs" />
     <Compile Include="Assemblies\Decoration\CustomCommand.cs" />
     <Compile Include="Assemblies\Decoration\CustomCondition.cs" />
     <Compile Include="Assemblies\Decoration\CustomCommandFactory.cs" />
     <Compile Include="Assemblies\Decoration\CustomConditionFactory.cs" />
     <Compile Include="Assemblies\Decoration\ICustomCommandArgs.cs" />
-    <Compile Include="Assemblies\Decoration\ICustomArgs.cs" />
+    <Compile Include="Assemblies\ICustomArgs.cs" />
     <Compile Include="Assemblies\Decoration\ICustomConditionArgs.cs" />
     <Compile Include="AttributeExtensions.cs" />
     <Compile Include="Calculation\BaseRankingFilter.cs" />
@@ -671,6 +671,8 @@
     <Compile Include="Properties\ProjectAssemblyInfo.cs" />
     <Compile Include="Scalar\Resolver\ContextScalarResolverArgs.cs" />
     <Compile Include="Scalar\Resolver\ContextScalarResolver.cs" />
+    <Compile Include="Scalar\Resolver\CustomScalarResolverArgs.cs" />
+    <Compile Include="Scalar\Resolver\CustomScalarResolver.cs" />
     <Compile Include="Scalar\Resolver\NCalcScalarResolver.cs" />
     <Compile Include="Scalar\Resolver\FormatScalarResolverArgs.cs" />
     <Compile Include="Scalar\Resolver\EnvironmentScalarResolverArgs.cs" />

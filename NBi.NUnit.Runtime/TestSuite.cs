@@ -302,6 +302,8 @@ namespace NBi.NUnit.Runtime
                     }
                     else if (variable.Environment != null)
                         builder.Setup(variable.Environment);
+                    else if (variable.Custom != null)
+                        builder.Setup(variable.Custom);
                     builder.Build();
                     var args = builder.GetArgs();
 

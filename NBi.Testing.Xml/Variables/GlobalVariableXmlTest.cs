@@ -10,6 +10,7 @@ using System.Xml.Serialization;
 using System.IO;
 using System.Diagnostics;
 using NBi.Xml.Items;
+using NBi.Xml.Variables.Custom;
 
 namespace NBi.Testing.Xml.Unit.Variables
 {
@@ -160,6 +161,47 @@ namespace NBi.Testing.Xml.Unit.Variables
 
             Assert.That(content, Does.Not.Contain("<variables"));
             Assert.That(content, Does.Not.Contain("<variable"));
+        }
+
+        [Test]
+        public void Serialize_CustomEvaluation_CustomElement()
+        {
+            var testSuiteXml = new TestSuiteXml()
+            {
+                Variables = new List<GlobalVariableXml>
+                {
+                    new GlobalVariableXml
+                    {
+                        Name= "myVar",
+                        Custom = new CustomScalarXml
+                        {
+                            AssemblyPath = "AssemblyPath\\myAssembly.dll",
+                            TypeName = "@VarType",
+                            Parameters = new List<CustomScalarParameterXml>
+                            {
+                                new CustomScalarParameterXml{Name="myParam", StringValue="@VarParam"}
+                            }
+                        }
+                    }
+                }
+            };
+
+            var serializer = new XmlSerializer(typeof(TestSuiteXml));
+            using (var stream = new MemoryStream())
+            using (var writer = new StreamWriter(stream, Encoding.UTF8))
+            {
+                serializer.Serialize(writer, testSuiteXml);
+                var content = Encoding.UTF8.GetString(stream.ToArray());
+
+                Debug.WriteLine(content);
+
+                Assert.That(content, Does.Contain("<variable name=\"myVar\""));
+                Assert.That(content, Does.Contain("<custom"));
+                Assert.That(content, Does.Contain("assembly-path=\"AssemblyPath\\myAssembly.dll\""));
+                Assert.That(content, Does.Contain("type=\"@VarType\""));
+                Assert.That(content, Does.Contain("<parameter name=\"myParam\">"));
+                Assert.That(content, Does.Contain("@VarParam"));
+            }
         }
     }
 }

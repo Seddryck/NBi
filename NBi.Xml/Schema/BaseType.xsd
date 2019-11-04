@@ -520,31 +520,17 @@
   <xs:complexType name="condition-type">
     <xs:sequence minOccurs="1" maxOccurs="unbounded">
       <xs:element name="service-running" type="service-type" minOccurs="0" maxOccurs="unbounded"/>
-      <xs:element name="custom" type="custom-condition-type" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="custom" type="custom-type" minOccurs="0" maxOccurs="unbounded"/>
     </xs:sequence>
   </xs:complexType>
-  <xs:complexType name="custom-condition-type">
+  <xs:complexType name="custom-type">
     <xs:sequence>
-      <xs:element name="parameter" type="custom-condition-parameter-type" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="parameter" type="custom-parameter-type" minOccurs="0" maxOccurs="unbounded"/>
     </xs:sequence>
     <xs:attribute name="assembly-path" type="xs:string" use="required"/>
     <xs:attribute name="type" type="xs:string" use="required"/>
   </xs:complexType>
-  <xs:complexType name="custom-condition-parameter-type">
-    <xs:simpleContent>
-      <xs:extension base="xs:string">
-        <xs:attribute name="name" type="xs:string" use="required" />
-      </xs:extension>
-    </xs:simpleContent>
-  </xs:complexType>
-  <xs:complexType name="custom-command-type">
-    <xs:sequence>
-      <xs:element name="parameter" type="custom-command-parameter-type" minOccurs="0" maxOccurs="unbounded"/>
-    </xs:sequence>
-    <xs:attribute name="assembly-path" type="xs:string" use="required"/>
-    <xs:attribute name="type" type="xs:string" use="required"/>
-  </xs:complexType>
-  <xs:complexType name="custom-command-parameter-type">
+  <xs:complexType name="custom-parameter-type">
     <xs:simpleContent>
       <xs:extension base="xs:string">
         <xs:attribute name="name" type="xs:string" use="required" />
@@ -880,7 +866,7 @@
         <xs:element name="file-copy-extension" type="file-copy-extension-type" minOccurs="0" maxOccurs="unbounded"/>
         <xs:element name="file-copy-pattern" type="file-copy-pattern-type" minOccurs="0" maxOccurs="unbounded"/>
         <xs:element name="etl-run" type="etl-type" minOccurs="0" maxOccurs="unbounded"/>
-        <xs:element name="custom" type="custom-command-type" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:element name="custom" type="custom-type" minOccurs="0" maxOccurs="unbounded"/>
         <xs:element name="tasks" type="tasks-type" minOccurs="0" maxOccurs="unbounded"/>
       </xs:choice>
     </xs:sequence>
@@ -903,7 +889,7 @@
         <xs:element name="file-copy" type="file-copy-type" minOccurs="0" maxOccurs="unbounded"/>
         <xs:element name="file-copy-extension" type="file-copy-extension-type" minOccurs="0" maxOccurs="unbounded"/>
         <xs:element name="file-copy-pattern" type="file-copy-pattern-type" minOccurs="0" maxOccurs="unbounded"/>
-        <xs:element name="custom" type="custom-command-type" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:element name="custom" type="custom-type" minOccurs="0" maxOccurs="unbounded"/>
         <xs:element name="etl-run" type="etl-type" minOccurs="0" maxOccurs="unbounded"/>
       </xs:choice>
     </xs:sequence>
@@ -1919,6 +1905,7 @@
             <xs:element name="script" type="script-type"/>
             <xs:element name="query-scalar" type="query-scalar-type"/>
             <xs:element name="environment" type="environment-type"/>
+            <xs:element name="custom" type="custom-type"/>
           </xs:choice>
           <xs:attribute name="name" type="xs:string" use="required" />
         </xs:complexType>

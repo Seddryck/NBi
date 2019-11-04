@@ -260,6 +260,9 @@
     <Compile Include="Transformation\Transformer\Native\PathTest.cs" />
     <Compile Include="Transformation\Transformer\Native\TextTest.cs" />
     <Compile Include="Transformation\Transformer\NCalcTransformerTest.cs" />
+    <Compile Include="Scalar\Resolver\CustomScalarResolverTest.cs" />
+    <Compile Include="Scalar\Resolver\Resources\MyCustomClassWithParams.cs" />
+    <Compile Include="Scalar\Resolver\Resources\MyCustomClass.cs" />
     <Compile Include="Variable\InstanceFactoryTest.cs" />
     <Compile Include="Variable\VariableFactoryTest.cs" />
     <Compile Include="Hierarchical\Xml\XPathEngineTest.cs" />
@@ -328,6 +331,7 @@
   <ItemGroup>
     <EmbeddedResource Include="Hierarchical\Json\Resources\PurchaseOrders.json" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

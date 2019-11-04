@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.Assemblies.Decoration
+namespace NBi.Core.Assemblies
 {
     public interface ICustomArgs
     {

@@ -1,4 +1,5 @@
 ﻿using NBi.Xml.Items;
+using NBi.Xml.Variables.Custom;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,5 +23,7 @@ namespace NBi.Xml.Variables
         [XmlElement("environment")]
         public EnvironmentXml Environment { get; set; }
 
+        [XmlElement("custom")]
+        public CustomScalarXml Custom { get; set; }
     }
 }

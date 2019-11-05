@@ -227,12 +227,15 @@
     <Compile Include="Scalar\Resolver\ScalarResolverArgsFactoryTest.cs" />
     <Compile Include="Scalar\Resolver\ScalarResolverFactoryTest.cs" />
     <Compile Include="Scalar\ScalarComparerTest.cs" />
+    <Compile Include="Sequence\Resolver\CustomSequenceResolverTest.cs" />
     <Compile Include="Sequence\Resolver\ListSequenceResolverTest.cs" />
     <Compile Include="Sequence\Resolver\LoopSequenceResolverTest.cs" />
     <Compile Include="Sequence\Resolver\Loop\CountDateTimeLoopStrategyTest.cs" />
     <Compile Include="Sequence\Resolver\Loop\CountNumericLoopStrategyTest.cs" />
     <Compile Include="Sequence\Resolver\Loop\SentinelDateTimeLoopStrategyTest.cs" />
     <Compile Include="Sequence\Resolver\Loop\SentinelNumericLoopStrategyTest.cs" />
+    <Compile Include="Sequence\Resolver\Resources\MyCustomClass.cs" />
+    <Compile Include="Sequence\Resolver\Resources\MyCustomClassWithParams.cs" />
     <Compile Include="Sequence\Resolver\SequenceResolverFactoryTest.cs" />
     <Compile Include="Sequence\Transformation\Aggregation\AggregationFactoryTest.cs" />
     <Compile Include="Sequence\Transformation\Aggregation\Numeric\MaxTest.cs" />

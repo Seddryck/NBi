@@ -7,7 +7,7 @@ using System.Xml.Serialization;
 
 namespace NBi.Xml.Variables.Custom
 {
-    public class CustomScalarXml 
+    public class CustomXml 
     {
         [XmlAttribute("assembly-path")]
         public string AssemblyPath { get; set; }
@@ -16,6 +16,6 @@ namespace NBi.Xml.Variables.Custom
         public string TypeName { get; set; }
 
         [XmlElement("parameter")]
-        public List<CustomScalarParameterXml> Parameters { get; set; } = new List<CustomScalarParameterXml>();
+        public List<CustomParameterXml> Parameters { get; set; } = new List<CustomParameterXml>();
     }
 }

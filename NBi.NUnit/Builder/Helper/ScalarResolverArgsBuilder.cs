@@ -72,7 +72,7 @@ namespace NBi.NUnit.Builder.Helper
                 case EnvironmentXml obj:
                     args = new EnvironmentScalarResolverArgs(obj.Name);
                     break;
-                case CustomScalarXml obj:
+                case CustomXml obj:
                     var helper = new ScalarHelper(ServiceLocator, Context);
                     args = new CustomScalarResolverArgs(
                             helper.InstantiateResolver<string>(obj.AssemblyPath),

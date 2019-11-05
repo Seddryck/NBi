@@ -24,6 +24,6 @@ namespace NBi.Xml.Variables
         public EnvironmentXml Environment { get; set; }
 
         [XmlElement("custom")]
-        public CustomScalarXml Custom { get; set; }
+        public CustomXml Custom { get; set; }
     }
 }

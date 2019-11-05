@@ -173,13 +173,13 @@ namespace NBi.Testing.Xml.Unit.Variables
                     new GlobalVariableXml
                     {
                         Name= "myVar",
-                        Custom = new CustomScalarXml
+                        Custom = new CustomXml
                         {
                             AssemblyPath = "AssemblyPath\\myAssembly.dll",
                             TypeName = "@VarType",
-                            Parameters = new List<CustomScalarParameterXml>
+                            Parameters = new List<CustomParameterXml>
                             {
-                                new CustomScalarParameterXml{Name="myParam", StringValue="@VarParam"}
+                                new CustomParameterXml{Name="myParam", StringValue="@VarParam"}
                             }
                         }
                     }

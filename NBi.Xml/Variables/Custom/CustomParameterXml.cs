@@ -7,7 +7,7 @@ using System.Xml.Serialization;
 
 namespace NBi.Xml.Variables.Custom
 {
-    public class CustomScalarParameterXml
+    public class CustomParameterXml
     {
         [XmlAttribute("name")]
         public string Name { get; set; }

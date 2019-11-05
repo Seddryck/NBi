@@ -709,6 +709,8 @@
     <Compile Include="Scalar\Resolver\IScalarResolverArgs.cs" />
     <Compile Include="Scalar\Resolver\ScalarResolverFactory.cs" />
     <Compile Include="Scalar\ScalarComparer.cs" />
+    <Compile Include="Sequence\Resolver\CustomSequenceResolver.cs" />
+    <Compile Include="Sequence\Resolver\CustomSequenceResolverArgs.cs" />
     <Compile Include="Sequence\Resolver\FileLoopSequenceResolver.cs" />
     <Compile Include="Sequence\Resolver\FileLoopSequenceResolverArgs.cs" />
     <Compile Include="IO\Filtering\UpdateDateTimeFilter.cs" />

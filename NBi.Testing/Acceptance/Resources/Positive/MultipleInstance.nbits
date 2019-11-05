@@ -284,7 +284,7 @@
       </local-variable>
       <derived-variable name="timing" type="dateTime" based-on="file">
         <script language="native">
-          path-to-filename-without-extension 
+          path-to-filename-without-extension
           | text-to-last-chars(15)
           | text-to-dateTime(yyyyMMdd_HHmmss)
           | local-to-utc(Brussels)
@@ -292,7 +292,7 @@
       </derived-variable>
       <derived-variable name="start" type="dateTime" based-on="timing">
         <script language="native">
-          dateTime-to-floor-minute 
+          dateTime-to-floor-minute
           | dateTime-to-add(00:30:00, -1)
         </script>
       </derived-variable>
@@ -366,4 +366,21 @@
       </lookup-exists>
     </assert>
   </test>-->
+  <test name="Instances are defined through a custom" uid="0060">
+    <instance-settling>
+      <local-variable name="month" type="dateTime">
+        <custom assembly-path="NBi.Testing.dll" type="CustomSequenceMonths"/>
+      </local-variable>
+    </instance-settling>
+    <system-under-test>
+      <result-set file="~..\csv\MyData_{@month:yyyy}_{@month:MM}"/>
+    </system-under-test>
+    <assert>
+      <no-rows>
+        <predicate name="#0">
+          <null/>
+        </predicate>
+      </no-rows>
+    </assert>
+  </test>
 </testSuite>

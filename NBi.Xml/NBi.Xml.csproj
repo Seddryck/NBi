@@ -313,8 +313,8 @@
     <Compile Include="Systems\ExecutionXml.cs" />
     <Compile Include="TestSuiteXml.cs" />
     <Compile Include="Properties\ProjectAssemblyInfo.cs" />
-    <Compile Include="Variables\Custom\CustomScalarParameterXml.cs" />
-    <Compile Include="Variables\Custom\CustomScalarXml.cs" />
+    <Compile Include="Variables\Custom\CustomParameterXml.cs" />
+    <Compile Include="Variables\Custom\CustomXml.cs" />
     <Compile Include="Variables\DerivedVariableXml.cs" />
     <Compile Include="Variables\InstanceVariableXml.cs" />
     <Compile Include="Variables\ScriptXml.cs" />

@@ -1288,6 +1288,7 @@
       <xs:element name="loop-sentinel" type="loop-sentinel-type"/>
       <xs:element name="loop-file" type="loop-file-type"/>
       <xs:element name="item" type="xs:string" minOccurs="1" maxOccurs="unbounded"/>
+      <xs:element name="custom" type="custom-type" />
     </xs:choice>
     <xs:attribute name="name" type="xs:string"/>
     <xs:attribute name="type" type="column-type-enum"/>

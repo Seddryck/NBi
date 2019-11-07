@@ -771,7 +771,7 @@
   <xs:complexType name="xml-source-type">
     <xs:sequence>
       <xs:choice>
-        <xs:element name="file" minOccurs="1" maxOccurs="1" type="xs:string"/>
+        <xs:element name="file" minOccurs="1" maxOccurs="1" type="file-compatible-type"/>
         <xs:element name="url" minOccurs="1" maxOccurs="1" type="xs:string"/>
       </xs:choice>
       <xs:element name="xpath" minOccurs="1" maxOccurs="1" type="xpath-type" />
@@ -1557,6 +1557,13 @@
   <xs:complexType name="file-type">
     <xs:sequence>
       <xs:element name="path" minOccurs="1" maxOccurs="1" type="xs:string"/>
+      <xs:element name="parser" minOccurs="0" maxOccurs="1" type="parser-type"/>
+      <xs:element name="if-missing" minOccurs="0" maxOccurs="1" type="if-missing-type"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="file-compatible-type" mixed="true">
+    <xs:sequence>
+      <xs:element name="path" minOccurs="0" maxOccurs="1" type="xs:string"/>
       <xs:element name="parser" minOccurs="0" maxOccurs="1" type="parser-type"/>
       <xs:element name="if-missing" minOccurs="0" maxOccurs="1" type="if-missing-type"/>
     </xs:sequence>

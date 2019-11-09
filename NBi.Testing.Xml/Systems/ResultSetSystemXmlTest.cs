@@ -416,7 +416,7 @@ namespace NBi.Testing.Xml.Unit.Systems
             Assert.That(rs.Empty, Is.TypeOf<EmptyResultSetXml>());
             var empty = rs.Empty as EmptyResultSetXml;
 
-            Assert.That(empty.ColumnCount, Is.EqualTo(4));
+            Assert.That(empty.ColumnCount, Is.EqualTo("4"));
             Assert.That(empty.Columns, Has.Count.EqualTo(2));
 
             Assert.That(empty.Columns.Any(x => x.Identifier.Label == "[myFirstColumn]"));

@@ -137,6 +137,9 @@ namespace NBi.Xml.Systems
             set {}
         }
 
+        [XmlElement("if-unavailable")]
+        public virtual IfUnavailableXml IfUnavailable { get; set; }
+
         public override ICollection<string> GetAutoCategories()
         {
             return new List<string>() { "Result-set" };

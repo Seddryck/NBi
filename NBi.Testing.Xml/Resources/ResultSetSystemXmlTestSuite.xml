@@ -321,4 +321,30 @@
       </equal-to>
     </assert>
   </test>
+  <test name="Result-set has an if-unavailable" uid="0019">
+    <system-under-test>
+      <result-set>
+        <xml-source>
+          <file>
+            <path>xmlSource.xml</path>
+          </file>
+          <xpath>
+            <from>//element</from>
+            <select>/name</select>
+            <select>/value</select>
+          </xpath>
+        </xml-source>
+        <if-unavailable>
+          <result-set>
+            <empty column-count="2"/>
+          </result-set>
+        </if-unavailable>
+      </result-set>
+    </system-under-test>
+    <assert>
+      <equal-to>
+        <result-set file="..\Csv\ResellerOrderCountByYearBefore2006.csv"/>
+      </equal-to>
+    </assert>
+  </test>
 </testSuite>

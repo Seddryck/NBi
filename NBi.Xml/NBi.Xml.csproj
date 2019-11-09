@@ -199,6 +199,7 @@
     <Compile Include="Items\QueryScalarXml.cs" />
     <Compile Include="Items\ResultSet\Combination\SequenceCombinationXml.cs" />
     <Compile Include="Items\ResultSet\EmptyResultSetXml.cs" />
+    <Compile Include="Items\ResultSet\IfUnavailableXml.cs" />
     <Compile Include="Items\ResultSet\Lookup\ColumnUsingXml.cs" />
     <Compile Include="Items\ResultSet\Lookup\ColumnMappingXml.cs" />
     <Compile Include="Items\ResultSet\Lookup\InclusionXml.cs" />

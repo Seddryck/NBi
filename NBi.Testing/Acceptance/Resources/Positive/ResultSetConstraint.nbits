@@ -498,7 +498,7 @@
         </equal-to>
       </assert>
     </test>
-    <test name="Result-set is the cartesian product of two sequences" uid="0130">
+    <test name="Result-set is a unique sequence" uid="0140">
       <system-under-test>
         <result-set>
           <sequence type="text">
@@ -556,6 +556,39 @@
             <row>
               <cell>99504</cell>
               <cell>898-AM</cell>
+            </row>
+          </result-set>
+        </equal-to>
+      </assert>
+    </test>
+    <test name="Result-set is the xml-source but file is not available" uid="0151">
+      <system-under-test>
+        <result-set>
+          <xml-source>
+            <file>..\Csv\NonExisting.xml</file>
+            <xpath>
+              <from>//PurchaseOrder/Items/Item</from>
+              <select attribute="Country">../..</select>
+            </xpath>
+          </xml-source>
+          <if-unavailable>
+            <result-set>
+              <sequence type="text">
+                <item>be</item>
+                <item>fr</item>
+              </sequence>
+            </result-set>
+          </if-unavailable>
+        </result-set>
+      </system-under-test>
+      <assert>
+        <equal-to keys="all">
+          <result-set>
+            <row>
+              <cell>fr</cell>
+            </row>
+            <row>
+              <cell>be</cell>
             </row>
           </result-set>
         </equal-to>

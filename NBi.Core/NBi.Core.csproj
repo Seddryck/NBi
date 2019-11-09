@@ -519,6 +519,11 @@
     <Compile Include="ResultSet\Lookup\Violation\LookupMatchesViolationComposite.cs" />
     <Compile Include="ResultSet\Alteration\Projection\ProjectEngine.cs" />
     <Compile Include="ResultSet\Alteration\Projection\ProjectAwayEngine.cs" />
+    <Compile Include="ResultSet\Resolver\EmptyResultSetResolverArgs.cs" />
+    <Compile Include="ResultSet\Resolver\EmptyResultSetResolver.cs" />
+    <Compile Include="ResultSet\Resolver\IfUnavailableResultSetResolverArgs.cs" />
+    <Compile Include="ResultSet\Resolver\IfUnavailableResultSetResolver.cs" />
+    <Compile Include="ResultSet\Resolver\ResultSetUnavailableException.cs" />
     <Compile Include="ResultSet\Resolver\SequenceResultSetResolverArgs.cs" />
     <Compile Include="ResultSet\Resolver\SequenceCombinationResultSetResolverArgs.cs" />
     <Compile Include="ResultSet\Resolver\SequenceCombinationResultSetResolver.cs" />

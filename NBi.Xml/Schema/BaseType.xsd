@@ -1608,10 +1608,23 @@
         <xs:element name="file" minOccurs="0" maxOccurs="1" type="file-type"/>
         <xs:element name="xml-source" minOccurs="0" maxOccurs="1" type="xml-source-type" />
         <xs:element name="json-source" type="json-source-type" minOccurs="0" maxOccurs="1"/>
+        <xs:element name="empty" type="empty-result-set-type" minOccurs="0" maxOccurs="1"/>
       </xs:choice>
       <xs:element name="alteration" type="alteration-type" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="if-unavailable" type="if-unavailable-type" minOccurs="0" maxOccurs="1"/>
     </xs:sequence>
     <xs:attribute name="file" type="xs:string" use="optional" />
+  </xs:complexType>
+  <xs:complexType name="if-unavailable-type">
+    <xs:sequence>
+      <xs:element name="result-set" type="result-set-type" minOccurs="1" maxOccurs="1"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="empty-result-set-type">
+    <xs:sequence>
+      <xs:element name="column" type="definition-column-base-type" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+    <xs:attribute name="column-count" type="xs:positiveInteger" use="optional" />
   </xs:complexType>
   <xs:complexType name="sequences-combination-type">
     <xs:sequence>

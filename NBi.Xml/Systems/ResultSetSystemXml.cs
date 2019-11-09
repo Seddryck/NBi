@@ -110,6 +110,9 @@ namespace NBi.Xml.Systems
         [XmlElement("json-source")]
         public virtual JsonSourceXml JsonSource { get; set; }
 
+        [XmlElement("empty")]
+        public virtual EmptyResultSetXml Empty { get; set; }
+
         [XmlIgnore]
         public bool SequenceCombinationSpecified { get => SequenceCombination != null; set { } }
 
@@ -133,6 +136,9 @@ namespace NBi.Xml.Systems
             get => (Alterations?.Count ?? 0) > 0;
             set {}
         }
+
+        [XmlElement("if-unavailable")]
+        public virtual IfUnavailableXml IfUnavailable { get; set; }
 
         public override ICollection<string> GetAutoCategories()
         {

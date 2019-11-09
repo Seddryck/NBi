@@ -110,6 +110,9 @@ namespace NBi.Xml.Systems
         [XmlElement("json-source")]
         public virtual JsonSourceXml JsonSource { get; set; }
 
+        [XmlElement("empty")]
+        public virtual EmptyResultSetXml Empty { get; set; }
+
         [XmlIgnore]
         public bool SequenceCombinationSpecified { get => SequenceCombination != null; set { } }
 

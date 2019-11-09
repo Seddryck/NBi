@@ -73,6 +73,8 @@ namespace NBi.NUnit.Builder.Helper
                     args = BuildXPathResolverArgs((obj as ResultSetSystemXml).XmlSource);
                 else if ((obj as ResultSetSystemXml).JsonSource != null)
                     args = BuildJsonPathResolverArgs((obj as ResultSetSystemXml).JsonSource);
+                else if ((obj as ResultSetSystemXml).Empty != null)
+                    args = BuildEmptyResolverArgs((obj as ResultSetSystemXml).Empty);
                 //ResultSet (embedded)
                 else if ((obj as ResultSetSystemXml).Rows != null)
                     args = BuildEmbeddedResolverArgs((obj as ResultSetSystemXml).Content);
@@ -247,6 +249,20 @@ namespace NBi.NUnit.Builder.Helper
             }
 
             return new XPathResultSetResolverArgs(engine);
+        }
+
+        private ResultSetResolverArgs BuildEmptyResolverArgs(EmptyResultSetXml empty)
+        {
+            var scalarHelper = new ScalarHelper(ServiceLocator, settings, scope, new Context(Variables));
+
+            if (empty.Columns.Count > 0 && !string.IsNullOrEmpty(empty.ColumnCount))
+                return new EmptyResultSetResolverArgs(empty.Columns.Select(x => x.Identifier as ColumnNameIdentifier), scalarHelper.InstantiateResolver<int>(empty.ColumnCount));
+            else if (empty.Columns.Count > 0)
+                return new EmptyResultSetResolverArgs(empty.Columns.Select(x => x.Identifier as ColumnNameIdentifier));
+            else if (!string.IsNullOrEmpty(empty.ColumnCount))
+                return new EmptyResultSetResolverArgs(scalarHelper.InstantiateResolver<int>(empty.ColumnCount));
+            else
+                throw new ArgumentNullException();
         }
 
         public ResultSetResolverArgs GetArgs() => args;

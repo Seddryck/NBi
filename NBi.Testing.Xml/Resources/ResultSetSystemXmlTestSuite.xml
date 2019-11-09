@@ -306,4 +306,19 @@
       </equal-to>
     </assert>
   </test>
+  <test name="Result-set is an empty result-set" uid="0018">
+    <system-under-test>
+      <result-set>
+        <empty column-count="4">
+          <column identifier="myFirstColumn"/>
+          <column identifier="mySecondColumn"/>
+        </empty>
+      </result-set>
+    </system-under-test>
+    <assert>
+      <equal-to>
+        <result-set file="..\Csv\ResellerOrderCountByYearBefore2006.csv"/>
+      </equal-to>
+    </assert>
+  </test>
 </testSuite>

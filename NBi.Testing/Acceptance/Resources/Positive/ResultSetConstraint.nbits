@@ -666,6 +666,59 @@
         </superset-of>
       </assert>
     </test>
+    <test name="Result-set is an empty result-set" uid="0170">
+      <system-under-test>
+        <result-set>
+          <empty>
+            <column identifier="Year"/>
+            <column identifier="Value"/>
+          </empty>
+        </result-set>
+      </system-under-test>
+      <assert>
+        <equal-to>
+          <column name="Year" role="key" type="text"/>
+          <column name="Value" role="value" type="numeric"/>
+          <result-set>
+            <file>
+              <path>..\Csv\ResellerOrderCountByYearBefore2006.csv</path>
+            </file>
+            <alteration>
+              <rename identifier="#0" new-name="Year"/>
+              <rename identifier="#1" new-name="Value"/>
+              <filter>
+                <predicate operand="[Value]">
+                  <more-than>10000</more-than>
+                </predicate>
+              </filter>
+            </alteration>
+          </result-set>
+        </equal-to>
+      </assert>
+    </test>
+    <test name="Result-set is an empty result-set with column-count defined" uid="0171">
+      <system-under-test>
+        <result-set>
+          <empty column-count="2"/>
+        </result-set>
+      </system-under-test>
+      <assert>
+        <equal-to>
+          <result-set>
+            <file>
+              <path>..\Csv\ResellerOrderCountByYearBefore2006.csv</path>
+            </file>
+            <alteration>
+              <filter>
+                <predicate operand="#1">
+                  <more-than>10000</more-than>
+                </predicate>
+              </filter>
+            </alteration>
+          </result-set>
+        </equal-to>
+      </assert>
+    </test>
   </group>
   <group name="alterations">
     <test name="Filter with one predicate" uid="0201">

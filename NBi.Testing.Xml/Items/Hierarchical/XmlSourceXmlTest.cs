@@ -40,6 +40,21 @@ namespace NBi.Testing.Xml.Unit.Items.Hierarchical
         }
 
         [Test]
+        public void Deserialize_SampleFileWithPath_File()
+        {
+            int testNr = 1;
+
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            TestSuiteXml ts = DeserializeSample();
+
+            // Check the properties of the object.
+            var xmlSource = (ts.Tests[testNr].Constraints[0]).BaseItem as XmlSourceXml;
+            Assert.That(xmlSource.File, Is.TypeOf<FileXml>());
+            Assert.That(xmlSource.File.Path, Is.Not.Empty.And.Not.Null);
+            Assert.That(xmlSource.File.Path, Is.EqualTo("Myfile.csv"));
+        }
+
+        [Test]
         public void Serialize_File_PathIsSet()
         {
             var root = new XmlSourceXml()

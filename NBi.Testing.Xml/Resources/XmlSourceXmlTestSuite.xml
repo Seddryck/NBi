@@ -19,4 +19,25 @@
       </equalTo>
     </assert>
 	</test>
+  <test name="My first test case" uid="0002">
+    <system-under-test>
+      <execution>
+        <query>select * from table</query>
+      </execution>
+    </system-under-test>
+    <assert>
+      <equalTo>
+        <xml-source>
+          <file>
+            <path>Myfile.csv</path>
+          </file>
+          <xpath>
+            <from>//Path</from>
+            <select attribute="Id">//Path/Item</select>
+            <select>//Path/Item/SubItem</select>
+          </xpath>
+        </xml-source>
+      </equalTo>
+    </assert>
+  </test>
 </testSuite>

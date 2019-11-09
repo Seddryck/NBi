@@ -198,6 +198,8 @@
     <Compile Include="Items\ProjectionOldXml.cs" />
     <Compile Include="Items\QueryScalarXml.cs" />
     <Compile Include="Items\ResultSet\Combination\SequenceCombinationXml.cs" />
+    <Compile Include="Items\ResultSet\EmptyResultSetXml.cs" />
+    <Compile Include="Items\ResultSet\IfUnavailableXml.cs" />
     <Compile Include="Items\ResultSet\Lookup\ColumnUsingXml.cs" />
     <Compile Include="Items\ResultSet\Lookup\ColumnMappingXml.cs" />
     <Compile Include="Items\ResultSet\Lookup\InclusionXml.cs" />
@@ -313,6 +315,8 @@
     <Compile Include="Systems\ExecutionXml.cs" />
     <Compile Include="TestSuiteXml.cs" />
     <Compile Include="Properties\ProjectAssemblyInfo.cs" />
+    <Compile Include="Variables\Custom\CustomParameterXml.cs" />
+    <Compile Include="Variables\Custom\CustomXml.cs" />
     <Compile Include="Variables\DerivedVariableXml.cs" />
     <Compile Include="Variables\InstanceVariableXml.cs" />
     <Compile Include="Variables\ScriptXml.cs" />

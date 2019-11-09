@@ -7,6 +7,7 @@ using NBi.Core.Sequence.Resolver;
 using NBi.Core.Sequence.Resolver.Loop;
 using NBi.Core.Variable;
 using NBi.Xml.Settings;
+using NBi.Xml.Variables.Custom;
 using NBi.Xml.Variables.Sequence;
 using System;
 using System.Collections.Generic;
@@ -61,37 +62,42 @@ namespace NBi.NUnit.Builder.Helper
             if (!isSetup)
                 throw new InvalidOperationException();
 
-            if (obj is SentinelLoopXml)
+            var helper = new ScalarHelper(serviceLocator, new Context(Variables));
+            switch (obj)
             {
-                var loop = obj as SentinelLoopXml;
-                switch (columnType)
-                {
-                    case ColumnType.Numeric:
-                        args = BuildSentinelLoopResolverArgs<decimal,decimal>(loop.Seed, loop.Terminal, loop.Step, loop.IntervalMode);
-                        break;
-                    case ColumnType.DateTime:
-                        args = BuildSentinelLoopResolverArgs<DateTime,IDuration>(loop.Seed, loop.Terminal, loop.Step, loop.IntervalMode);
-                        break;
-                    default:
-                        throw new ArgumentOutOfRangeException();
-                }
+                case SentinelLoopXml loop:
+                    switch (columnType)
+                    {
+                        case ColumnType.Numeric:
+                            args = BuildSentinelLoopResolverArgs<decimal, decimal>(loop.Seed, loop.Terminal, loop.Step, loop.IntervalMode);
+                            break;
+                        case ColumnType.DateTime:
+                            args = BuildSentinelLoopResolverArgs<DateTime, IDuration>(loop.Seed, loop.Terminal, loop.Step, loop.IntervalMode);
+                            break;
+                        default:
+                            throw new ArgumentOutOfRangeException();
+                    }
+                    break;
+                case FileLoopXml loop:
+                    args = BuildFileLoopResolverArgs(loop.Path, loop.Pattern);
+                    break;
+                case CustomXml obj:
+                    args = new CustomSequenceResolverArgs(
+                            helper.InstantiateResolver<string>(obj.AssemblyPath),
+                            helper.InstantiateResolver<string>(obj.TypeName),
+                            obj.Parameters.Select(x => new { x.Name, ScalarResolver = (IScalarResolver)helper.InstantiateResolver<string>(x.StringValue) })
+                            .ToDictionary(x => x.Name, y => y.ScalarResolver)
+                        );
+                    break;
+                case List<string> list:
+                    var resolvers = new List<IScalarResolver>();
+                    foreach (var value in list)
+                        resolvers.Add(helper.InstantiateResolver<string>(value));
+                    args = new ListSequenceResolverArgs(resolvers);
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
-            else if (obj is FileLoopXml)
-            {
-                var loop = obj as FileLoopXml;
-                args = BuildFileLoopResolverArgs(loop.Path, loop.Pattern);
-            }
-            else if (obj is List<string>)
-            {
-                var helper = new ScalarHelper(serviceLocator, new Context(Variables));
-                var resolvers = new List<IScalarResolver>();
-                foreach (var value in obj as List<string>)
-                    resolvers.Add(helper.InstantiateResolver<string>(value));
-                args = new ListSequenceResolverArgs(resolvers);
-            }
-
-            if (args == null)
-                throw new ArgumentException();
         }
 
         public ISequenceResolverArgs GetArgs() => args ?? throw new InvalidOperationException();

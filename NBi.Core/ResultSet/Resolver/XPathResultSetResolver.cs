@@ -6,6 +6,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using NBi.Extensibility;
 
 namespace NBi.Core.ResultSet.Resolver
 {
@@ -18,14 +19,21 @@ namespace NBi.Core.ResultSet.Resolver
 
         public virtual ResultSet Execute()
         {
-            var objects = Args.XPathEngine.Execute();
+            try
+            { 
+                var objects = Args.XPathEngine.Execute();
 
-            var helper = new ObjectsToRowsHelper();
-            var rows = helper.Execute(objects);
+                var helper = new ObjectsToRowsHelper();
+                var rows = helper.Execute(objects);
 
-            var rs = new ResultSet();
-            rs.Load(rows);
-            return rs;
+                var rs = new ResultSet();
+                rs.Load(rows);
+                return rs;
+            }
+            catch (NBiException ex)
+            {
+                throw new ResultSetUnavailableException(ex);
+            }
         }
     }
 }

@@ -56,62 +56,70 @@ namespace NBi.NUnit.Builder.Helper
             if (!isSetup)
                 throw new InvalidOperationException();
 
-            if (obj is ResultSetSystemXml)
+            switch (obj)
             {
-                //ResultSet (external flat file)
-                if (!(obj as ResultSetSystemXml)?.File?.IsEmpty() ?? false)
-                    args = BuildFlatFileResultSetResolverArgs((obj as ResultSetSystemXml).File);
-                //Query
-                else if ((obj as ResultSetSystemXml).Query != null)
-                    args = BuildQueryResolverArgs((obj as ResultSetSystemXml).Query, scope);
-                //Sequences combination
-                else if ((obj as ResultSetSystemXml).SequenceCombination != null)
-                    args = BuildSequenceCombinationResolverArgs((obj as ResultSetSystemXml).SequenceCombination);
-                else if ((obj as ResultSetSystemXml).Sequence != null)
-                    args = BuildSequenceResolverArgs((obj as ResultSetSystemXml).Sequence);
-                else if ((obj as ResultSetSystemXml).XmlSource != null)
-                    args = BuildXPathResolverArgs((obj as ResultSetSystemXml).XmlSource);
-                else if ((obj as ResultSetSystemXml).JsonSource != null)
-                    args = BuildJsonPathResolverArgs((obj as ResultSetSystemXml).JsonSource);
-                //ResultSet (embedded)
-                else if ((obj as ResultSetSystemXml).Rows != null)
-                    args = BuildEmbeddedResolverArgs((obj as ResultSetSystemXml).Content);
+                case ResultSetSystemXml x: args = BuildResultSetSystemXml(x); break;
+                case ResultSetXml x: args = BuildResultSetXml(x); break;
+                case IfMissingXml x when !(x?.File?.IsEmpty() ?? false): args = BuildFlatFileResultSetResolverArgs(x.File); break;
+                case QueryXml x: args = BuildQueryResolverArgs(x, scope); break;
+                case XmlSourceXml x: args = BuildXPathResolverArgs(x); break;
+                case JsonSourceXml x: args = BuildJsonPathResolverArgs(x); break;
+                default: throw new ArgumentException();
             }
-
-            if (obj is IfMissingXml)
-            {
-                //ResultSet (external flat file)
-                if (!(obj as IfMissingXml)?.File?.IsEmpty() ?? false)
-                    args = BuildFlatFileResultSetResolverArgs((obj as IfMissingXml).File);
-            }
-
-            if (obj is ResultSetXml)
-            {
-                //ResultSet (external flat file)
-                if (!string.IsNullOrEmpty((obj as ResultSetXml).File))
-                {
-                    ParseFileInfo((obj as ResultSetXml).File, out var filename, out var parserName);
-                    if (string.IsNullOrEmpty(parserName))
-                        args = BuildFlatFileResultSetResolverArgs(new FileXml() { Path = filename });
-                    else
-                        args = BuildFlatFileResultSetResolverArgs(new FileXml() { Path = filename, Parser = new ParserXml() { Name = parserName } });
-                }
-                //ResultSet (embedded)
-                else if ((obj as ResultSetXml).Rows != null)
-                    args = BuildEmbeddedResolverArgs((obj as ResultSetXml).Content);
-            }
-
-            if (obj is QueryXml)
-                args = BuildQueryResolverArgs((obj as QueryXml), scope);
-
-            if (obj is XmlSourceXml)
-                args = BuildXPathResolverArgs((obj as XmlSourceXml));
-            if (obj is JsonSourceXml)
-                args = BuildJsonPathResolverArgs((obj as JsonSourceXml));
-
-            if (args == null)
-                throw new ArgumentException();
         }
+
+        private ResultSetResolverArgs BuildResultSetSystemXml(ResultSetSystemXml xml)
+        {
+            if (xml?.IfUnavailable?.ResultSet != null)
+                return BuildIfUnavaibleResultSetResolverArgs(BuildInternalResultSetSystemXml(xml), BuildResultSetSystemXml(xml.IfUnavailable.ResultSet));
+            else
+                return BuildInternalResultSetSystemXml(xml);
+        }
+
+        private ResultSetResolverArgs BuildInternalResultSetSystemXml(ResultSetSystemXml xml)
+        {
+            //ResultSet (external flat file)
+            if (!xml?.File?.IsEmpty() ?? false)
+                return BuildFlatFileResultSetResolverArgs(xml.File);
+            //Query
+            else if (xml.Query != null)
+                return BuildQueryResolverArgs(xml.Query, scope);
+            //Sequences combination
+            else if (xml.SequenceCombination != null)
+                return BuildSequenceCombinationResolverArgs(xml.SequenceCombination);
+            else if (xml.Sequence != null)
+                return BuildSequenceResolverArgs(xml.Sequence);
+            else if (xml.XmlSource != null)
+                return BuildXPathResolverArgs(xml.XmlSource);
+            else if (xml.JsonSource != null)
+                return BuildJsonPathResolverArgs(xml.JsonSource);
+            else if (xml.Empty != null)
+                return BuildEmptyResolverArgs(xml.Empty);
+            //ResultSet (embedded)
+            else if (xml.Rows != null)
+                return BuildEmbeddedResolverArgs(xml.Content);
+
+            throw new ArgumentException();
+        }
+
+        private ResultSetResolverArgs BuildResultSetXml(ResultSetXml xml)
+        {
+            //ResultSet (external flat file)
+            if (!string.IsNullOrEmpty(xml.File))
+            {
+                ParseFileInfo(xml.File, out var filename, out var parserName);
+                if (string.IsNullOrEmpty(parserName))
+                    return BuildFlatFileResultSetResolverArgs(new FileXml() { Path = filename });
+                else
+                    return BuildFlatFileResultSetResolverArgs(new FileXml() { Path = filename, Parser = new ParserXml() { Name = parserName } });
+            }
+            //ResultSet (embedded)
+            else if (xml.Rows != null)
+                return BuildEmbeddedResolverArgs(xml.Content);
+
+            throw new ArgumentException();
+        }
+
 
         private ResultSetResolverArgs BuildSequenceCombinationResolverArgs(SequenceCombinationXml sequenceCombinationXml)
         {
@@ -200,7 +208,6 @@ namespace NBi.NUnit.Builder.Helper
 
             var helper = new ScalarHelper(ServiceLocator, settings, scope, new Context(Variables));
 
-
             XPathEngine engine = null;
             if (xmlSource.File != null)
             {
@@ -247,6 +254,28 @@ namespace NBi.NUnit.Builder.Helper
             }
 
             return new XPathResultSetResolverArgs(engine);
+        }
+
+        private ResultSetResolverArgs BuildEmptyResolverArgs(EmptyResultSetXml empty)
+        {
+            var scalarHelper = new ScalarHelper(ServiceLocator, settings, scope, new Context(Variables));
+
+            if (empty.Columns.Count > 0 && !string.IsNullOrEmpty(empty.ColumnCount))
+                return new EmptyResultSetResolverArgs(empty.Columns.Select(x => x.Identifier as ColumnNameIdentifier), scalarHelper.InstantiateResolver<int>(empty.ColumnCount));
+            else if (empty.Columns.Count > 0)
+                return new EmptyResultSetResolverArgs(empty.Columns.Select(x => x.Identifier as ColumnNameIdentifier));
+            else if (!string.IsNullOrEmpty(empty.ColumnCount))
+                return new EmptyResultSetResolverArgs(scalarHelper.InstantiateResolver<int>(empty.ColumnCount));
+            else
+                throw new ArgumentNullException();
+        }
+
+        private ResultSetResolverArgs BuildIfUnavaibleResultSetResolverArgs(ResultSetResolverArgs primaryArgs, ResultSetResolverArgs secondaryArgs)
+        {
+            var factory = ServiceLocator.GetResultSetResolverFactory();
+            var primary = factory.Instantiate(primaryArgs);
+            var secondary = factory.Instantiate(secondaryArgs);
+            return new IfUnavailableResultSetResolverArgs(primary, secondary);
         }
 
         public ResultSetResolverArgs GetArgs() => args;

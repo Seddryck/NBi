@@ -11,6 +11,7 @@ using NBi.Xml.Items.ResultSet;
 using NBi.Xml.Settings;
 using NBi.Xml.Systems;
 using NBi.Xml.Variables;
+using NBi.Xml.Variables.Custom;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -70,6 +71,15 @@ namespace NBi.NUnit.Builder.Helper
                     break;
                 case EnvironmentXml obj:
                     args = new EnvironmentScalarResolverArgs(obj.Name);
+                    break;
+                case CustomXml obj:
+                    var helper = new ScalarHelper(ServiceLocator, Context);
+                    args = new CustomScalarResolverArgs(
+                            helper.InstantiateResolver<string>(obj.AssemblyPath),
+                            helper.InstantiateResolver<string>(obj.TypeName),
+                            obj.Parameters.Select(x => new { x.Name, ScalarResolver = (IScalarResolver)helper.InstantiateResolver<string>(x.StringValue)})
+                            .ToDictionary(x => x.Name, y => y.ScalarResolver)
+                        );
                     break;
                 default:
                     var factory = new ScalarResolverArgsFactory(ServiceLocator, Context);

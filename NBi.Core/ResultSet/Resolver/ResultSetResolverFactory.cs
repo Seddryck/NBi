@@ -37,7 +37,9 @@ namespace NBi.Core.ResultSet.Resolver
                 case XPathResultSetResolverArgs x: return new XPathResultSetResolver(x);
                 case ObjectsResultSetResolverArgs x: return new ObjectsResultSetResolver(x);
                 case SequenceCombinationResultSetResolverArgs x: return new SequenceCombinationResultSetResolver(x);
-                default: throw new ArgumentOutOfRangeException($"Type '{args.GetType().Name}' is not expected when building a ResultSet");
+                case EmptyResultSetResolverArgs x: return new EmptyResultSetResolver(x);
+                case IfUnavailableResultSetResolverArgs x: return new IfUnavailableResultSetResolver(x);
+                default: throw new ArgumentOutOfRangeException($"Type '{args.GetType().Name}' is not expected when building a result-set");
             }
         }
     }

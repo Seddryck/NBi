@@ -135,6 +135,8 @@
     <Compile Include="Acceptance\Resources\CustomCommand.cs" />
     <Compile Include="Acceptance\Resources\CustomConditionFalse.cs" />
     <Compile Include="Acceptance\Resources\CustomConditionTrue.cs" />
+    <Compile Include="Acceptance\Resources\CustomSequenceMonths.cs" />
+    <Compile Include="Acceptance\Resources\CustomVariableDaysBetween.cs" />
     <Compile Include="Acceptance\Resources\TsvReader.cs" />
     <Compile Include="Acceptance\RuntimeOverrider.cs" />
     <Compile Include="Acceptance\TestSuiteOverrider.cs" />

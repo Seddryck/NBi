@@ -9,7 +9,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.Assemblies.Decoration
+namespace NBi.Core.Assemblies
 {
     public class AbstractCustomFactory<T> where T:class
     {
@@ -28,7 +28,7 @@ namespace NBi.Core.Assemblies.Decoration
             catch (TypeNotExistingException)
             { throw new NBiException($"The assembly '{assembly.FullName}' doesn't contain any type named '{args.TypeName}'. This type was describe in the test as a {CustomKind}."); }
             catch (TypeNotImplementingInterfaceException)
-            { throw new NBiException($"The type '{typeName}' of the assembly '{assembly.FullName}' is not implementing the interface '{typeof(ICustomCommand).Name}' but is used as a {CustomKind}."); }
+            { throw new NBiException($"The type '{typeName}' of the assembly '{assembly.FullName}' is not implementing the interface '{typeof(T).Name}' but is used as a {CustomKind}."); }
             catch (NoConstructorFoundException)
             { throw new NBiException($"The type '{typeName}' of the assembly '{assembly.FullName}' has no constructor matching with the {parameters.Count()} parameter{(parameters.Count() > 1 ? "s" : string.Empty)} that {(parameters.Count() > 1 ? "were" : "was")} provided."); }
         }
@@ -60,7 +60,7 @@ namespace NBi.Core.Assemblies.Decoration
         }
 
         protected internal IReadOnlyDictionary<string, object> GetParameters(IReadOnlyDictionary<string, IScalarResolver> parameters)
-            => parameters?.Select(x => new KeyValuePair<string, object>(x.Key, x.Value.Execute()))
+            => parameters?.Select(x => new { x.Key, Value = x.Value.Execute() })
                     .ToDictionary(x => x.Key, y => y.Value);
 
         protected internal T Instantiate(Type customCommandType, IReadOnlyDictionary<string, object> parameters)

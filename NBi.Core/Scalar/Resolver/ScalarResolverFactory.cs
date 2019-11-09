@@ -56,6 +56,8 @@ namespace NBi.Core.Scalar.Resolver
                     return new NCalcScalarResolver<T>(x);
                 case EnvironmentScalarResolverArgs x:
                     return new EnvironmentScalarResolver<T>(x);
+                case CustomScalarResolverArgs x:
+                    return new CustomScalarResolver<T>(x);
                 case FormatScalarResolverArgs x:
                     return typeof(T) == typeof(string) ? (IScalarResolver<T>)new FormatScalarResolver(x, serviceLocator) : throw new ArgumentException("You cannot instantiate a FormatScalarResolver that is not a string.");
                 case FunctionScalarResolverArgs x:

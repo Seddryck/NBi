@@ -26,9 +26,10 @@ namespace NBi.Core.Sequence.Resolver
                 case FileLoopSequenceResolverArgs fileArgs: return (ISequenceResolver<T>)new FileLoopSequenceResolver(fileArgs);
                 case ILoopSequenceResolverArgs loopArgs:
                     {
-                        var strategy = MapStrategy<T>(args as ILoopSequenceResolverArgs);
+                        var strategy = MapStrategy<T>(loopArgs);
                         return new LoopSequenceResolver<T>(strategy);
                     }
+                case FilterSequenceResolverArgs filterArgs: return new FilterSequenceResolver<T>(filterArgs);
                 default:
                     throw new ArgumentOutOfRangeException($"Type '{args.GetType().Name}' is not expected when building a Scalar");
             }

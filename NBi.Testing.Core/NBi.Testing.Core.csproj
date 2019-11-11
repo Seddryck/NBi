@@ -230,6 +230,7 @@
     <Compile Include="Scalar\Resolver\ScalarResolverFactoryTest.cs" />
     <Compile Include="Scalar\ScalarComparerTest.cs" />
     <Compile Include="Sequence\Resolver\CustomSequenceResolverTest.cs" />
+    <Compile Include="Sequence\Resolver\FilterSequenceResolverTest.cs" />
     <Compile Include="Sequence\Resolver\ListSequenceResolverTest.cs" />
     <Compile Include="Sequence\Resolver\LoopSequenceResolverTest.cs" />
     <Compile Include="Sequence\Resolver\Loop\CountDateTimeLoopStrategyTest.cs" />

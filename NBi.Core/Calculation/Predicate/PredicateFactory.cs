@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace NBi.Core.Calculation.Predicate
 {
-    class PredicateFactory
+    public class PredicateFactory
     {
         private IPredicate Instantiate(ComparerType comparerType, ColumnType columnType, bool not, IResolver reference, string culture, StringComparison stringComparison, object secondOperand)
         {

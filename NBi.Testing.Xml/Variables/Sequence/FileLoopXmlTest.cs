@@ -13,6 +13,7 @@ using NBi.Xml.Items;
 using System.Reflection;
 using NBi.Core.ResultSet;
 using NBi.Xml.Variables.Sequence;
+using NBi.Core.Calculation;
 
 namespace NBi.Testing.Xml.Unit.Variables.Sequence
 {
@@ -39,6 +40,18 @@ namespace NBi.Testing.Xml.Unit.Variables.Sequence
             // Check the properties of the object.
             Assert.That(variable.FileLoop.Path, Is.EqualTo(@"C:\Temp\"));
             Assert.That(variable.FileLoop.Pattern, Is.EqualTo("foo-*.txt"));
+        }
+
+
+        [Test]
+        public void Deserialize_SampleFile_FilterCorrectly()
+        {
+            TestSuiteXml ts = DeserializeSample();
+            var localVariable = ts.Tests[1].InstanceSettling.Variable as InstanceVariableXml;
+
+            // Check the properties of the object.
+            Assert.That(localVariable.Filter.Predication.Operand, Is.EqualTo(@"value | file-to-size(C:\Temp\)"));
+            Assert.That(localVariable.Filter.Predication.Predicate.ComparerType, Is.EqualTo(ComparerType.MoreThan));
         }
 
         [Test]

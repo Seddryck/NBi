@@ -1,4 +1,5 @@
 ﻿using NBi.Core.ResultSet;
+using NBi.Xml.Items.Calculation;
 using NBi.Xml.Variables.Sequence;
 using System;
 using System.Collections.Generic;

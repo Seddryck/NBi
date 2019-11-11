@@ -1297,7 +1297,11 @@
   </xs:complexType>
   <xs:complexType name="local-variable-type">
     <xs:complexContent>
-      <xs:extension base="sequence-type"/>
+      <xs:extension base="sequence-type">
+        <xs:sequence>
+          <xs:element name="filter" type="filter-light-type" minOccurs="0" maxOccurs="1"/>
+        </xs:sequence>
+      </xs:extension>
     </xs:complexContent>
   </xs:complexType>
   <xs:complexType name="loop-sentinel-type">
@@ -1404,6 +1408,13 @@
       </xs:simpleType>
     </xs:attribute>
     <xs:attribute name="not" type="xs:boolean" use="optional"/>
+  </xs:complexType>
+  <xs:complexType name="filter-light-type">
+    <xs:choice minOccurs="1" maxOccurs="1">
+      <xs:choice>
+        <xs:element name="predicate" type="predicate-type" minOccurs="0" maxOccurs="1"/>
+      </xs:choice>
+    </xs:choice>
   </xs:complexType>
   <xs:complexType name="filter-base-type">
     <xs:choice minOccurs="1" maxOccurs="1">

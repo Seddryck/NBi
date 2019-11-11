@@ -2,6 +2,8 @@
 using NBi.Core.IO.Filtering;
 using NBi.Core.Scalar.Resolver;
 using NBi.Core.Sequence.Resolver;
+using NBi.Core.Transformation.Transformer;
+using NBi.Core.Transformation.Transformer.Native.IO;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
@@ -33,7 +35,31 @@ namespace NBi.Testing.Integration.Core.Sequence.Resolver
         }
 
         [Test]
-        public void Execute_PatternCreation_CorrectCount()
+        public void Execute_Pattern_CorrectCount()
+        {
+            var files = new[] { "bar-0.txt", "foo-0.txt", "foo-1.txt", "foo-01.txt", "foo-0.csv" };
+            foreach (var file in files)
+                File.AppendAllText(Path.Combine(DirectoryName, file), ".");
+
+            var resolver = new FileLoopSequenceResolver
+            (
+                new FileLoopSequenceResolverArgs()
+                {
+                    Path = DirectoryName,
+                    Filters = new List<IFileFilter> { new PatternRootFilter("foo-*.txt") },
+                }
+            );
+
+            var result = resolver.Execute();
+            Assert.That(result.Count(), Is.EqualTo(3));
+            Assert.That(result, Has.Member($"foo-01.txt"));
+            Assert.That(result, Has.Member($"foo-1.txt"));
+            Assert.That(result, Has.Member($"foo-0.txt"));
+        }
+
+
+        [Test]
+        public void Execute_PatternWithCreationFilter_CorrectCount()
         {
             var files = new[] { "bar-0.txt", "foo-0.txt", "foo-1.txt", "foo-01.txt", "foo-0.csv" };
             foreach (var file in files)
@@ -44,23 +70,27 @@ namespace NBi.Testing.Integration.Core.Sequence.Resolver
             File.SetCreationTime(Path.Combine(DirectoryName, "foo-01.txt"), DateTime.Now.AddDays(-1));
             File.SetLastWriteTime(Path.Combine(DirectoryName, "foo-01.txt"), DateTime.Now.AddDays(-1));
 
-            var resolver = new FileLoopSequenceResolver
+            var resolver = new FilterSequenceResolver<string>
             (
-                new FileLoopSequenceResolverArgs()
-                {
-                    Path = DirectoryName,
-                    Filters = new List<IFileFilter>()
-                    {
-                        new PatternRootFilter("foo-*.txt"),
-                        new CreationDateTimeFilter(new DateTimeMoreThan(false, new LiteralScalarResolver<DateTime>(DateTime.Now.AddDays(-2))), false),
-                    }
-                }
+                new FilterSequenceResolverArgs
+                (
+                    new FileLoopSequenceResolver
+                    (
+                        new FileLoopSequenceResolverArgs()
+                        {
+                            Path = DirectoryName,
+                            Filters = new List<IFileFilter> { new PatternRootFilter("foo-*.txt") },
+                        }
+                    ),
+                    new DateTimeMoreThanOrEqual(false, new LiteralScalarResolver<DateTime>(DateTime.Now.AddDays(-2))),
+                    new NativeTransformer<string>(null, null, new FileToCreationDateTime(DirectoryName))
+                )
             );
 
             var result = resolver.Execute();
             Assert.That(result.Count(), Is.EqualTo(2));
-            Assert.That(result, Has.Member("foo-01.txt"));
-            Assert.That(result, Has.Member("foo-1.txt"));
+            Assert.That(result, Has.Member($"foo-01.txt"));
+            Assert.That(result, Has.Member($"foo-1.txt"));
         }
     }
 }

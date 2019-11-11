@@ -658,6 +658,8 @@
       <xs:enumeration value="text-to-trim"/>
       <xs:enumeration value="text-to-upper"/>
       <xs:enumeration value="text-to-lower"/>
+      <xs:enumeration value="text-to-prefix("/>
+      <xs:enumeration value="text-to-suffix("/>
       <xs:enumeration value="text-to-length"/>
       <xs:enumeration value="text-to-html"/>
       <xs:enumeration value="text-to-without-diacritics"/>

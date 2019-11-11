@@ -83,13 +83,14 @@ namespace NBi.Testing.Core.Scalar.Resolver.Resources
 {
     public class MyCustomClass : ISequenceResolver
     {
-        private int Foo { get; }
-        private DateTime Bar { get; }
+      private int Foo { get; }
+      private DateTime Bar { get; }
 
-        public MyCustomClass(DateTime bar, int foo)
-            => (Bar, Foo) = (bar, foo);
+      public MyCustomClass(DateTime bar, int foo)
+        => (Bar, Foo) = (bar, foo);
 
-      public IList Execute() => new DateTime[] { Bar.AddDays(-Foo), Bar.AddDays(Foo) }.ToList();
+      public IList Execute() 
+        => new DateTime[] { Bar.AddDays(-Foo), Bar.AddDays(Foo) }.ToList();
 
       object IResolver.Execute() => Execute();
     }
@@ -111,7 +112,10 @@ In the example here under, the *loop-file* will define all the files matching th
 <sequence name="myVar"/>
   <loop-file path="..\csv\" pattern="MyData*.csv"/>
   <filter>
-    <predicate operand="text-to-prefix(..\csv\) | file-to-update-dateTime" type="dateTime">
+    <predicate 
+       operand="text-to-prefix(..\csv\) | file-to-update-dateTime"
+       type="dateTime"
+    >
       <more-than>@TenDaysAgo<more-than>
     </predicate>
   </filter>

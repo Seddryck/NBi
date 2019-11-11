@@ -68,6 +68,40 @@ In this example, the variable named *myVar* is set to the value of the environme
 </variable>
 {% endhighlight %}
 
+## Custom variable
+
+This solution retrieves the value from an external C# assembly. This assembly must contain one or more types implementing the interface *IScalarResolver*.
+
+In this example, the variable named *myVar* is set to the value returned by the type *MyCustomClass* of the assembly *myassembly.dll* when executing the method *Execute()* . Optionaly, you can pass some parameters to the type *MyType* when instantiating it. In this example, the class *MyCustomClass* has a constructor accepting two parameters (*foo*, *bar*).
+
+{% highlight xml %}
+<variable name="myVar"/>
+  <custom assembly="myAssembly.dll" type="MyCustomClass">
+    <parameter name="bar">10</parameter>
+    <parameter name="foo">@myValue</parameter>
+  </custom>
+</variable>
+{% endhighlight %}
+
+{% highlight csharp %}
+using NBi.Core.Scalar.Resolver;
+using System;
+
+namespace NBi.Testing.Core.Scalar.Resolver.Resources
+{
+    public class MyCustomClass : IScalarResolver
+    {
+        private int Foo { get; }
+        private DateTime Bar { get; }
+
+        public MyCustomClass(DateTime bar, int foo)
+            => (Bar, Foo) = (bar, foo);
+
+        public object Execute() => Bar.AddDays(Foo);
+    }
+}
+{% endhighlight %}
+
 ## Usage
 
 In this first release, you can't use the variables at many places. the usage is strictly limited to the following places:

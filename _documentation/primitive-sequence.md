@@ -54,8 +54,66 @@ Expl:
 
 ### File loops
 
-It's possible to define a file loop to get the name of all the files within a directory and for which the filename matches a given pattern. The elements are composed of the filename and the extension.
+It's possible to define a file loop to get the name of all the files within a directory and for which the filename matches a given pattern. The elements of the sequence returned by a *loop-file* are composed of the filename and the extension.
 
 {% highlight xml %}
 <loop-file path="..\csv\" pattern="MyData*.csv"/>
+{% endhighlight %}
+
+### Custom sequence
+
+This solution retrieves the values from an external C# assembly. This assembly must contain one or more types implementing the interface *ISequenceResolver*.
+
+In this example, the sequence named *myVar* is set to the values returned by the type *MyCustomClass* of the assembly *myassembly.dll* when executing the method *Execute()* . Optionaly, you can pass some parameters to the type *MyType* when instantiating it. In this example, the class *MyCustomClass* has a constructor accepting two parameters (*foo*, *bar*).
+
+{% highlight xml %}
+<sequence name="myVar"/>
+  <custom assembly="myAssembly.dll" type="MyCustomClass">
+    <parameter name="bar">10</parameter>
+    <parameter name="foo">@myValue</parameter>
+  </custom>
+</sequence>
+{% endhighlight %}
+
+{% highlight csharp %}
+using NBi.Core.Scalar.Resolver;
+using System;
+
+namespace NBi.Testing.Core.Scalar.Resolver.Resources
+{
+    public class MyCustomClass : ISequenceResolver
+    {
+        private int Foo { get; }
+        private DateTime Bar { get; }
+
+        public MyCustomClass(DateTime bar, int foo)
+            => (Bar, Foo) = (bar, foo);
+
+      public IList Execute() => new DateTime[] { Bar.AddDays(-Foo), Bar.AddDays(Foo) }.ToList();
+
+      object IResolver.Execute() => Execute();
+    }
+}
+{% endhighlight %}
+
+## Filtering
+
+From time to times, it's useful to perform an additional filtering to remove a few values. Typically when using *loop-file*, you'll remove files with a size less than a few bytes or updated more than 10 days ago.
+
+To achieve this, you'll define a *filter* implementing a [predicate](../resultset-predicate/#list-of-predicates
+). The predicate will be applied to each of the values contained in the sequence. Each value will be hold if the predicate is successful and will be removed in case of failure to validate the predicate.
+
+The attribute *operand* is containing the native transformations that will be applied to each value of the sequence. If no transformation is expected, you must specify the value *value* for the *operand*.
+
+In the example here under, the *loop-file* will define all the files matching the pattern *MyData*.csv* in the directory *..\csv*. Then a filter will be applied to only hold the files that have been updated less than 10 days ago (defined in a variable *@TenDaysAgo*). Keep in mind that *loo-file* doesn't return the full path but just the filename with the extension so you'll have to rebuild the full path before applying a native transformation such as *file-to-update-dateTime*. Note also that the predicate is of type *dateTime* in that case and not *text*. This is because the predicate will compare two *dateTime* and not a *dateTime* and a *text*.
+
+{% highlight xml %}
+<sequence name="myVar"/>
+  <loop-file path="..\csv\" pattern="MyData*.csv"/>
+  <filter>
+    <predicate operand="text-to-prefix(..\csv\) | file-to-update-dateTime" type="dateTime">
+      <more-than>@TenDaysAgo<more-than>
+    </predicate>
+  </filter>
+</sequence>
 {% endhighlight %}

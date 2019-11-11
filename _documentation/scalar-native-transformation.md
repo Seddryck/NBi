@@ -31,7 +31,9 @@ The list of native transformations is available here under and is organized by t
 * ```text-to-html```: encodes the content to html
 * ```text-to-trim```: removes blanks from the beginning and end of the cell.
 * ```text-to-length```: returns the length of the *text* value of the cell. If the cell is ```null``` or ```empty```, it returns 0.
-* ```text-to-token-count```: returns the count of tokens. A token is considered as one or more letter or digit or hyphen seperated by one or more whitespace. If the cell is ```null``` or ```empty``` or ```blank```, it returns 0.
+* ```text-to-token-count```: returns the count of tokens. A token is considered as one or more letter or digit or hyphen seperated by one or more whitespace. If the current value is ```null``` or ```empty``` or ```blank```, it returns 0.
+* ```text-to-prefix(string)```: Append the value of *string* before the current value. If the current value is ```null```, the result will be ```null```.
+* ```text-to-suffix(string)```: Append the value of *string* after the current value. If the current value is ```null```, the result will be ```null```.
 * ```text-to-first-chars(length)```: if the text is longer than the specified length, take the last characters.
 * ```text-to-last-chars(length)```: if the text is longer than the specified length, take the last characters.
 * ```text-to-skip-first-chars(length)```: returns the text except the *length* first characters. If the text's length is less than the specified length returns an empty string.

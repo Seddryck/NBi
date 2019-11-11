@@ -720,14 +720,10 @@
     <Compile Include="Sequence\Resolver\CustomSequenceResolverArgs.cs" />
     <Compile Include="Sequence\Resolver\FileLoopSequenceResolver.cs" />
     <Compile Include="Sequence\Resolver\FileLoopSequenceResolverArgs.cs" />
-    <Compile Include="IO\Filtering\UpdateDateTimeFilter.cs" />
-    <Compile Include="IO\Filtering\IPropertyFilter.cs" />
     <Compile Include="IO\Filtering\IRootFileFilter.cs" />
     <Compile Include="IO\Filtering\IFileFilter.cs" />
     <Compile Include="IO\Filtering\NullRootFilter.cs" />
     <Compile Include="IO\Filtering\PatternRootFilter.cs" />
-    <Compile Include="IO\Filtering\CreationDateTimeFilter.cs" />
-    <Compile Include="IO\Filtering\SizeFilter.cs" />
     <Compile Include="Sequence\Resolver\ILoopSequenceResolverArgs.cs" />
     <Compile Include="Sequence\Resolver\LoopSequenceResolver.cs" />
     <Compile Include="Sequence\Resolver\CountLoopSequenceResolverArgs.cs" />

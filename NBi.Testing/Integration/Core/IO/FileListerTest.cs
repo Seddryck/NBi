@@ -39,21 +39,14 @@ namespace NBi.Testing.Integration.Core.IO.Filtering
             foreach (var file in files)
                 File.AppendAllText(Path.Combine(DirectoryName, file), ".");
 
-            File.SetCreationTime(Path.Combine(DirectoryName, "foo-0.txt"), DateTime.Now.AddDays(-3));
-            File.SetLastWriteTime(Path.Combine(DirectoryName, "foo-0.txt"), DateTime.Now.AddDays(-1));
-            File.SetCreationTime(Path.Combine(DirectoryName, "foo-01.txt"), DateTime.Now.AddDays(-1));
-            File.SetLastWriteTime(Path.Combine(DirectoryName, "foo-01.txt"), DateTime.Now.AddDays(-1));
-
             var fileLister = new FileLister(DirectoryName);
             var filters = new List<IFileFilter>()
             {
                 new PatternRootFilter("foo-*.txt"),
-                new CreationDateTimeFilter(new DateTimeMoreThan(false, new LiteralScalarResolver<DateTime>(DateTime.Now.AddDays(-2))), false),
-                new UpdateDateTimeFilter(new DateTimeMoreThan(false, new LiteralScalarResolver<DateTime>(DateTime.Now.AddHours(-1))), false),
             };
 
             var dir = new DirectoryInfo(DirectoryName);
-            Assert.That(fileLister.Execute(filters).Count(), Is.EqualTo(1));
+            Assert.That(fileLister.Execute(filters).Count(), Is.EqualTo(3));
         }
     }
 }

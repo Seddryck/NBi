@@ -22,9 +22,16 @@ namespace NBi.Core.Transformation.Transformer
         private IList<INativeTransformation> Transformations { get; } = new List<INativeTransformation>();
         private bool IsInitialized { get; set; } = false;
 
-        
+
         public NativeTransformer(ServiceLocator serviceLocator, Context context)
             => (ServiceLocator, Context) = (serviceLocator, context);
+
+        public NativeTransformer(ServiceLocator serviceLocator, Context context, INativeTransformation transformation)
+        :this (serviceLocator, context)
+        {
+            Transformations.Add(transformation);
+            IsInitialized = true;
+        }
 
         public void Initialize(string code)
         {
@@ -48,7 +55,7 @@ namespace NBi.Core.Transformation.Transformer
             object typedValue;
             if (value == null || value == DBNull.Value || value as string == "(null)")
                 typedValue = null;
-            else if ((typeof(T)!=typeof(string)) && (value is string) && ((string.IsNullOrEmpty(value as string) || value as string == "(empty)")))
+            else if ((typeof(T) != typeof(string)) && (value is string) && ((string.IsNullOrEmpty(value as string) || value as string == "(empty)")))
                 typedValue = null;
             else
                 typedValue = caster.Execute(value);
@@ -60,5 +67,6 @@ namespace NBi.Core.Transformation.Transformer
 
             return transformedValue;
         }
+
     }
 }

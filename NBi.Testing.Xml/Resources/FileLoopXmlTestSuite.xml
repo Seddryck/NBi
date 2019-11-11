@@ -22,4 +22,26 @@
       </no-rows>
     </assert>
   </test>
+  <test name="Instances are defined through a filtered file-loop" uid="0001">
+    <instance-settling>
+      <local-variable name="file" type="text">
+        <loop-file path="C:\Temp\" pattern="bar-*.txt"/>
+        <filter>
+          <predicate operand="value | file-to-size(C:\Temp\)">
+            <more-than>5000</more-than>
+          </predicate>
+        </filter>
+      </local-variable>
+    </instance-settling>
+    <system-under-test>
+      <resultSet file="~C:\Temp\{@file}"/>
+    </system-under-test>
+    <assert>
+      <no-rows>
+        <predicate name="#1">
+          <null/>
+        </predicate>
+      </no-rows>
+    </assert>
+  </test>
 </testSuite>

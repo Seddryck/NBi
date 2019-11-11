@@ -13,13 +13,8 @@ using System.Xml.Serialization;
 
 namespace NBi.Xml.Items.Calculation
 {
-    public class PredicationXml
+    public class PredicationXml : BasePredicationXml
     { 
-        public PredicationXml()
-        {
-            ColumnType = ColumnType.Numeric;
-        }
-
         [XmlIgnore()]
         [XmlAttribute("column-index")]
         [Obsolete("Deprecated. Use operand in place of column-index")]
@@ -43,11 +38,21 @@ namespace NBi.Xml.Items.Calculation
         [XmlIgnore()]
         public string Name { get => Operand.Label; set => Operand=new ColumnIdentifierFactory().Instantiate(value); }
 
+        
+    }
+
+    public abstract class BasePredicationXml
+    {
+        public BasePredicationXml()
+        {
+            ColumnType = ColumnType.Numeric;
+        }
+
         [DefaultValue(ColumnType.Numeric)]
         [XmlAttribute("type")]
         public ColumnType ColumnType { get; set; }
 
-        [XmlElement(Type = typeof(LessThanXml), ElementName ="less-than")]
+        [XmlElement(Type = typeof(LessThanXml), ElementName = "less-than")]
         [XmlElement(Type = typeof(MoreThanXml), ElementName = "more-than")]
         [XmlElement(Type = typeof(EqualXml), ElementName = "equal")]
         [XmlElement(Type = typeof(NullXml), ElementName = "null")]
@@ -72,4 +77,5 @@ namespace NBi.Xml.Items.Calculation
         [XmlElement(Type = typeof(FalseXml), ElementName = "false")]
         public PredicateXml Predicate { get; set; }
     }
+        
 }

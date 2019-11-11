@@ -233,6 +233,30 @@ namespace NBi.Testing.Core.Transformation.Transformer.Native
         }
 
         [Test]
+        [TestCase("123456789", "abc", "abc123456789")]
+        [TestCase("(null)", "abc", "(null)")]
+        [TestCase("(empty)", "abc", "abc")]
+        [TestCase("(blank)", "abc", "abc")]
+        public void Execute_TextToPrefix_Valid(string value, string prefix, string expected)
+        {
+            var function = new TextToPrefix(new LiteralScalarResolver<string>(prefix));
+            var result = function.Evaluate(value);
+            Assert.That(result, Is.EqualTo(expected));
+        }
+
+        [Test]
+        [TestCase("123456789", "abc", "123456789abc")]
+        [TestCase("(null)", "abc", "(null)")]
+        [TestCase("(empty)", "abc", "abc")]
+        [TestCase("(blank)", "abc", "abc")]
+        public void Execute_TextToSuffix_Valid(string value, string suffix, string expected)
+        {
+            var function = new TextToSuffix(new LiteralScalarResolver<string>(suffix));
+            var result = function.Evaluate(value);
+            Assert.That(result, Is.EqualTo(expected));
+        }
+
+        [Test]
         [TestCase("123456789", 9, "123456789")]
         [TestCase("123456789", 10, "123456789")]
         [TestCase("123456789", 8, "12345678")]

@@ -31,5 +31,11 @@ namespace NBi.Xml.Variables.Sequence
 
         [XmlIgnore]
         public bool ItemsSpecified { get => Items.Count > 0; set { } }
+
+        [XmlElement("filter")]
+        public FilterSequenceXml Filter { get; set; } = null;
+
+        [XmlIgnore]
+        public bool FilterSpecified { get => Filter != null; set { } }
     }
 }

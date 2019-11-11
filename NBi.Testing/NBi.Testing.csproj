@@ -152,9 +152,6 @@
     <Compile Include="Integration\Core\Decoration\IO\Commands\CopyExtensionCommandTest.cs" />
     <Compile Include="Integration\Core\Decoration\Process\Commands\WaitCommandTest.cs" />
     <Compile Include="Integration\Core\Decoration\Process\Commands\StopCommandTest.cs" />
-    <Compile Include="Integration\Core\IO\Filtering\SizeFilterTest.cs" />
-    <Compile Include="Integration\Core\IO\Filtering\UpdateDateTimeFilterTest.cs" />
-    <Compile Include="Integration\Core\IO\Filtering\CreationDateTimeFilterTest.cs" />
     <Compile Include="Integration\Core\IO\Filtering\NullRootFilterTest.cs" />
     <Compile Include="Integration\Core\IO\FileListerTest.cs" />
     <Compile Include="Integration\Core\Query\Command\AdomdCommandFactoryTest.cs" />
@@ -521,6 +518,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="Acceptance\Resources\Csv\PurchaseOrders.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Acceptance\Resources\Csv\MyEmpty.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <None Include="Acceptance\Resources\Positive\ExternalSettings.nbitset">

@@ -14,6 +14,7 @@ using NBi.Core.ResultSet.Resolver;
 using NBi.Core.Scalar.Resolver;
 using NBi.Core.Calculation.Predicate;
 using NBi.Core.Variable;
+using NBi.Core.ResultSet.Filtering;
 
 namespace NBi.Testing.Unit.NUnit.ResultSetComparison
 {
@@ -57,12 +58,11 @@ namespace NBi.Testing.Unit.NUnit.ResultSetComparison
             predication.SetupGet(p => p.Identifier).Returns(new ColumnNameIdentifier("Value"));
             predication.SetupGet(p => p.Predicate).Returns(predicate.Object);
 
-            var factory = new ResultSetFilterFactory(null, new Context(null));
+            var factory = new ResultSetFilterFactory(null);
             var filter = factory.Instantiate
-                (
-                    new List<IColumnAlias>() { alias }
-                    , new List<IColumnExpression>() { }
-                    , predication.Object
+                ( 
+                    predication.Object
+                    , new Context(null, new List<IColumnAlias>() { alias }, Array.Empty<IColumnExpression>())
                 );
 
             var rowCount = new AllRowsConstraint(filter);
@@ -89,12 +89,11 @@ namespace NBi.Testing.Unit.NUnit.ResultSetComparison
             predication.SetupGet(p => p.Identifier).Returns(new ColumnOrdinalIdentifier(1));
             predication.SetupGet(p => p.Predicate).Returns(predicate.Object);
 
-            var factory = new ResultSetFilterFactory(null, new Context(null));
+            var factory = new ResultSetFilterFactory(null);
             var filter = factory.Instantiate
                 (
-                    new List<IColumnAlias>()
-                    , new List<IColumnExpression>()
-                    , predication.Object
+                    predication.Object
+                    , Context.None
                 );
 
             var singleRowCtr = new AllRowsConstraint(filter);
@@ -116,12 +115,11 @@ namespace NBi.Testing.Unit.NUnit.ResultSetComparison
             predication.SetupGet(p => p.Identifier).Returns(new ColumnOrdinalIdentifier(1));
             predication.SetupGet(p => p.Predicate).Returns(predicate.Object);
 
-            var factory = new ResultSetFilterFactory(null, new Context(null));
+            var factory = new ResultSetFilterFactory(null);
             var filter = factory.Instantiate
                 (
-                    new List<IColumnAlias>()
-                    , new List<IColumnExpression>()
-                    , predication.Object
+                    predication.Object
+                    , Context.None
                 );
 
             var singleRowCtr = new AllRowsConstraint(filter);
@@ -143,12 +141,11 @@ namespace NBi.Testing.Unit.NUnit.ResultSetComparison
             predication.SetupGet(p => p.Identifier).Returns(new ColumnOrdinalIdentifier(1));
             predication.SetupGet(p => p.Predicate).Returns(predicate.Object);
 
-            var factory = new ResultSetFilterFactory(null, new Context(null));
+            var factory = new ResultSetFilterFactory(null);
             var filter = factory.Instantiate
                 (
-                    new List<IColumnAlias>()
-                    , new List<IColumnExpression>()
-                    , predication.Object
+                    predication.Object
+                    , Context.None
                 );
 
             var singleRowCtr = new AllRowsConstraint(filter);
@@ -170,12 +167,11 @@ namespace NBi.Testing.Unit.NUnit.ResultSetComparison
             predication.SetupGet(p => p.Identifier).Returns(new ColumnOrdinalIdentifier(1));
             predication.SetupGet(p => p.Predicate).Returns(predicate.Object);
 
-            var factory = new ResultSetFilterFactory(null, new Context(null));
+            var factory = new ResultSetFilterFactory(null);
             var filter = factory.Instantiate
                 (
-                    new List<IColumnAlias>()
-                    , new List<IColumnExpression>()
-                    , predication.Object
+                    predication.Object
+                    , Context.None
                 );
 
             var singleRowCtr = new AllRowsConstraint(filter);

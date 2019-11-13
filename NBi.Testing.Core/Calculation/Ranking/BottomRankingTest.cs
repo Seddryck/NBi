@@ -5,6 +5,7 @@ using NBi.Core.Calculation.Ranking;
 using NBi.Core.Evaluate;
 using NBi.Core.ResultSet;
 using NBi.Core.ResultSet.Resolver;
+using NBi.Core.Variable;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;

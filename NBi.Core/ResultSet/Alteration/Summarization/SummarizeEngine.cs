@@ -41,7 +41,7 @@ namespace NBi.Core.ResultSet.Alteration.Summarization
                     aggregations.Add(factory.Instantiate(aggregation));
                 }
 
-                var groupbyFactory = new ByColumnGroupingFactory();
+                var groupbyFactory = new GroupByFactory();
                 var groupbyEngine = groupbyFactory.Instantiate(Args.GroupBys);
                 var groups = groupbyEngine.Execute(rs);
                 foreach (var group in groups)

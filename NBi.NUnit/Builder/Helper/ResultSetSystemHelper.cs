@@ -34,6 +34,7 @@ using NBi.Xml.Items.ResultSet.Lookup;
 using NBi.Core.ResultSet.Lookup;
 using NBi.Core.ResultSet.Alteration.Lookup.Strategies.Missing;
 using NBi.Core.ResultSet.Alteration.Renaming.Strategies.Missing;
+using NBi.Core.ResultSet.Filtering;
 
 namespace NBi.NUnit.Builder.Helper
 {
@@ -84,7 +85,7 @@ namespace NBi.NUnit.Builder.Helper
         private Alter InstantiateFilter(FilterXml filterXml)
         {
             var context = new Context(Variables);
-            var factory = new ResultSetFilterFactory(ServiceLocator, context);
+            var factory = new ResultSetFilterFactory(ServiceLocator);
 
             if (filterXml.Ranking == null)
             {
@@ -99,9 +100,8 @@ namespace NBi.NUnit.Builder.Helper
 
                     return factory.Instantiate
                                 (
-                                    filterXml.Aliases
-                                    , expressions
-                                    , new PredicationArgs(filterXml.Predication.Operand, args)
+                                    new PredicationArgs(filterXml.Predication.Operand, args)
+                                    , context
                                 ).Apply;
                 }
                 if (filterXml.Combination != null)
@@ -116,10 +116,9 @@ namespace NBi.NUnit.Builder.Helper
 
                     return factory.Instantiate
                                 (
-                                    filterXml.Aliases
-                                    , expressions
-                                    , filterXml.Combination.Operator
+                                    filterXml.Combination.Operator
                                     , predicationArgs
+                                    , context
                                 ).Apply;
                 }
                 throw new ArgumentException();

@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using NBi.Core.ResultSet;
 
-namespace NBi.Core.Calculation.Grouping
+namespace NBi.Core.Calculation.Grouping.ColumnBased
 {
     class NameByColumnGrouping : AbstractByColumnGrouping
     {

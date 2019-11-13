@@ -8,7 +8,7 @@ using NBi.Core.ResultSet;
 
 namespace NBi.Core.Calculation.Grouping
 {
-    public interface IByColumnGrouping
+    public interface IGroupBy
     {
         IDictionary<KeyCollection, DataTable> Execute(ResultSet.ResultSet resultSet);
     }

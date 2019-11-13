@@ -14,6 +14,7 @@ using NBi.Core.Scalar.Resolver;
 using NBi.Core.Scalar;
 using NBi.Core.Calculation.Predicate;
 using NBi.Core.Variable;
+using NBi.Core.ResultSet.Filtering;
 
 namespace NBi.NUnit.Builder
 {
@@ -55,8 +56,8 @@ namespace NBi.NUnit.Builder
 
                 var value = EvaluatePotentialVariable(comparer.Reference.ToString().Replace(" ", ""));
 
-                var context = new Context(Variables);
-                var factory = new ResultSetFilterFactory(ServiceLocator, context);
+                var context = new Context(Variables, filterXml.Aliases, expressions);
+                var factory = new ResultSetFilterFactory(ServiceLocator);
                 if (filterXml.Predication != null)
                 {
                     var helper = new PredicateArgsBuilder(ServiceLocator, context);
@@ -64,9 +65,8 @@ namespace NBi.NUnit.Builder
 
                     filter = factory.Instantiate
                                 (
-                                    filterXml.Aliases
-                                    , expressions
-                                    , new PredicationArgs(filterXml.Predication.Operand, args)
+                                    new PredicationArgs(filterXml.Predication.Operand, args)
+                                    , context
                                 );
                 }
 
@@ -82,10 +82,9 @@ namespace NBi.NUnit.Builder
 
                     filter = factory.Instantiate
                                 (
-                                    filterXml.Aliases
-                                    , expressions
-                                    , filterXml.Combination.Operator
+                                    filterXml.Combination.Operator
                                     , predicationArgs
+                                    , context
                                 );
                 }
                 if ((value is string & (value as string).EndsWith("%")))

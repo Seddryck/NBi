@@ -1,4 +1,5 @@
 ﻿using NBi.Core.Calculation.Grouping;
+using NBi.Core.Calculation.Grouping.ColumnBased;
 using NBi.Core.ResultSet;
 using NBi.Core.ResultSet.Resolver;
 using NBi.Core.Scalar.Comparer;
@@ -10,9 +11,9 @@ using System.Text;
 using System.Threading.Tasks;
 using static NBi.Core.ResultSet.SettingsOrdinalResultSet;
 
-namespace NBi.Testing.Core.Calculation.Grouping
+namespace NBi.Testing.Core.Calculation.Grouping.ColumnBased
 {
-    public class NameByColumnGroupingTest
+    public class OrdinalByColumnGroupingTest
     {
         [Test]
         public void Execute_SingleColumn_TwoGroups()
@@ -20,14 +21,9 @@ namespace NBi.Testing.Core.Calculation.Grouping
             var args = new ObjectsResultSetResolverArgs(new[] { new object[] { "alpha", 1 }, new object[] { "alpha", 2 }, new object[] { "beta", 3 }, new object[] { "alpha", 4 } });
             var resolver = new ObjectsResultSetResolver(args);
             var rs = resolver.Execute();
-            rs.Columns[0].ColumnName = "first";
 
-            var settings = new SettingsNameResultSet(new List<IColumnDefinition>()
-                {
-                    new Column() { Identifier = new ColumnNameIdentifier("first"), Role = ColumnRole.Key, Type = ColumnType.Text },
-                }
-            );
-            var grouping = new NameByColumnGrouping(settings);
+            var settings = new SettingsOrdinalResultSet(KeysChoice.First, ValuesChoice.None, NumericAbsoluteTolerance.None);
+            var grouping = new OrdinalByColumnGrouping(settings);
 
             var result = grouping.Execute(rs);
             Assert.That(result, Has.Count.EqualTo(2));
@@ -41,16 +37,9 @@ namespace NBi.Testing.Core.Calculation.Grouping
             var args = new ObjectsResultSetResolverArgs(new[] { new object[] { "alpha", "1", 10 }, new object[] { "alpha", "1", 20 }, new object[] { "beta", "2", 30 }, new object[] { "alpha", "2", 40 } });
             var resolver = new ObjectsResultSetResolver(args);
             var rs = resolver.Execute();
-            rs.Columns[0].ColumnName = "first";
-            rs.Columns[1].ColumnName = "second";
 
-            var settings = new SettingsNameResultSet(new List<IColumnDefinition>()
-                {
-                    new Column() { Identifier = new ColumnNameIdentifier("first"), Role = ColumnRole.Key, Type = ColumnType.Text },
-                    new Column() { Identifier = new ColumnNameIdentifier("second"), Role = ColumnRole.Key, Type = ColumnType.Text },
-                }
-            );
-            var grouping = new NameByColumnGrouping(settings);
+            var settings = new SettingsOrdinalResultSet(KeysChoice.AllExpectLast, ValuesChoice.None, NumericAbsoluteTolerance.None);
+            var grouping = new OrdinalByColumnGrouping(settings);
 
             var result = grouping.Execute(rs);
             Assert.That(result, Has.Count.EqualTo(3));
@@ -65,17 +54,14 @@ namespace NBi.Testing.Core.Calculation.Grouping
             var args = new ObjectsResultSetResolverArgs(new[] { new object[] { "alpha", 1d, 10 }, new object[] { "alpha", 1, 20 }, new object[] { "beta", 2, 30 }, new object[] { "alpha", 2, 40 } });
             var resolver = new ObjectsResultSetResolver(args);
             var rs = resolver.Execute();
-            rs.Columns[0].ColumnName = "first";
-            rs.Columns[1].ColumnName = "second";
-            rs.Columns[1].SetOrdinal(0);
 
-            var settings = new SettingsNameResultSet(new List<IColumnDefinition>()
+            var settings = new SettingsOrdinalResultSet(new List<IColumnDefinition>()
                 {
-                    new Column() { Identifier = new ColumnNameIdentifier("first"), Role = ColumnRole.Key, Type = ColumnType.Text },
-                    new Column() { Identifier = new ColumnNameIdentifier("second"), Role = ColumnRole.Key, Type = ColumnType.Numeric },
+                    new Column() { Identifier = new ColumnOrdinalIdentifier(0), Role = ColumnRole.Key, Type = ColumnType.Text },
+                    new Column() { Identifier = new ColumnOrdinalIdentifier(1), Role = ColumnRole.Key, Type = ColumnType.Numeric },
                 }
             );
-            var grouping = new NameByColumnGrouping(settings);
+            var grouping = new OrdinalByColumnGrouping(settings);
 
             var result = grouping.Execute(rs);
             Assert.That(result, Has.Count.EqualTo(3));

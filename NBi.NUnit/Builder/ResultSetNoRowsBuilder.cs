@@ -11,6 +11,7 @@ using NBi.NUnit.Builder.Helper;
 using NBi.Core.Calculation.Predicate;
 using NBi.Core.ResultSet;
 using NBi.Core.Variable;
+using NBi.Core.ResultSet.Filtering;
 
 namespace NBi.NUnit.Builder
 {
@@ -40,12 +41,8 @@ namespace NBi.NUnit.Builder
 
         protected IResultSetFilter InstantiateFilter()
         {
-            var expressions = new List<IColumnExpression>();
-            if (ConstraintXml.Expressions != null)
-                expressions.AddRange(ConstraintXml.Expressions);
-
-            var context = new Context(Variables);
-            var factory = new ResultSetFilterFactory(ServiceLocator, context);
+            var context = new Context(Variables, ConstraintXml.Aliases, ConstraintXml.Expressions);
+            var factory = new ResultSetFilterFactory(ServiceLocator);
             if (ConstraintXml.Predication != null)
             {
                 var helper = new PredicateArgsBuilder(ServiceLocator, context);
@@ -53,9 +50,8 @@ namespace NBi.NUnit.Builder
 
                 return factory.Instantiate
                             (
-                                ConstraintXml.Aliases
-                                , expressions
-                                , new PredicationArgs(ConstraintXml.Predication.Operand, args)
+                                new PredicationArgs(ConstraintXml.Predication.Operand, args)
+                                , context
                             );
             }
             else if (ConstraintXml.Combination != null)
@@ -71,10 +67,9 @@ namespace NBi.NUnit.Builder
 
                 return factory.Instantiate
                             (
-                                ConstraintXml.Aliases
-                                , expressions
-                                , ConstraintXml.Combination.Operator
+                                ConstraintXml.Combination.Operator
                                 , predicationArgs
+                                , context
                             );
             }
             else

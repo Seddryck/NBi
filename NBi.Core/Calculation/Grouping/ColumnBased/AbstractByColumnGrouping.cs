@@ -8,9 +8,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.Calculation.Grouping
+namespace NBi.Core.Calculation.Grouping.ColumnBased
 {
-    public abstract class AbstractByColumnGrouping : IByColumnGrouping
+    public abstract class AbstractByColumnGrouping : IGroupBy
     {
         protected ISettingsResultSet Settings { get; }
 
@@ -22,7 +22,7 @@ namespace NBi.Core.Calculation.Grouping
         public IDictionary<KeyCollection, DataTable> Execute(ResultSet.ResultSet resultSet)
         {
             var stopWatch = new Stopwatch();
-            var dico = new Dictionary<KeyCollection, DataTable>();
+            var dico = new Dictionary<KeyCollection, DataTable>(new KeyCollectionEqualityComparer());
             var keyComparer = BuildDataRowsKeyComparer(resultSet.Table);
 
             stopWatch.Start();
@@ -33,8 +33,7 @@ namespace NBi.Core.Calculation.Grouping
                     dico.Add(key, row.Table.Clone());
                 dico[key].ImportRow(row);
             }
-            Trace.WriteLineIf(NBiTraceSwitch.TraceInfo, string.Format("Building rows' groups: {0} [{1}]", dico.Count, stopWatch.Elapsed.ToString(@"d\d\.hh\h\:mm\m\:ss\s\ \+fff\m\s")));
-
+            Trace.WriteLineIf(NBiTraceSwitch.TraceInfo, $"Building rows' groups: {dico.Count} [{stopWatch.Elapsed.ToString(@"d\d\.hh\h\:mm\m\:ss\s\ \+fff\m\s")})]");
             return dico;
         }
 

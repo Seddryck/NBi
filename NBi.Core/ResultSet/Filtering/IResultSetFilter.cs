@@ -1,16 +1,16 @@
-﻿using System;
+﻿using NBi.Core.Variable;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using RS = NBi.Core.ResultSet;
 
-namespace NBi.Core.Calculation
+namespace NBi.Core.ResultSet.Filtering
 {
     public interface IResultSetFilter
     {
-        RS.ResultSet Apply(RS.ResultSet rs);
-        RS.ResultSet AntiApply(RS.ResultSet rs);
+        ResultSet Apply(ResultSet rs);
+        ResultSet AntiApply(ResultSet rs);
 
         string Describe();
     }

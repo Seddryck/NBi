@@ -1,9 +1,12 @@
 ﻿using NBi.Core.Calculation;
 using NBi.Core.Calculation.Grouping;
+using NBi.Core.Calculation.Grouping.ColumnBased;
 using NBi.Core.Calculation.Ranking;
 using NBi.Core.ResultSet;
+using NBi.Core.ResultSet.Filtering;
 using NBi.Core.ResultSet.Resolver;
 using NBi.Core.Scalar.Comparer;
+using NBi.Core.Variable;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
@@ -13,9 +16,9 @@ using System.Text;
 using System.Threading.Tasks;
 using static NBi.Core.ResultSet.SettingsOrdinalResultSet;
 
-namespace NBi.Testing.Core.Calculation
+namespace NBi.Testing.Core.ResultSet.Filtering
 {
-    public class FilterGroupByFilterTest
+    public class GroupByFilterTest
     {
         [Test]
         public void Execute_Top2OneKey_ResultSetReduced()
@@ -29,7 +32,7 @@ namespace NBi.Testing.Core.Calculation
 
             var filter = new TopRanking(2, new ColumnOrdinalIdentifier(1), ColumnType.Numeric);
 
-            var rankingByGroup = new FilterGroupByFilter(filter, grouping);
+            var rankingByGroup = new GroupByFilter(filter, grouping);
 
             var result = rankingByGroup.Apply(rs);
             Assert.That(result.Table.Rows, Has.Count.EqualTo(3));
@@ -46,7 +49,7 @@ namespace NBi.Testing.Core.Calculation
 
             var filter = new TopRanking(2, new ColumnOrdinalIdentifier(1), ColumnType.Numeric);
 
-            var rankingByGroup = new FilterGroupByFilter(filter, new NoneGrouping());
+            var rankingByGroup = new GroupByFilter(filter, new NoneGrouping());
 
             var result = rankingByGroup.Apply(rs);
             Assert.That(result.Table.Rows, Has.Count.EqualTo(2));

@@ -14,59 +14,14 @@ using System.Threading.Tasks;
 
 namespace NBi.Core.Calculation
 {
-    public abstract class BasePredicateFilter : IResultSetFilter
+    public class RowValueExtractor
     {
         private ServiceLocator ServiceLocator { get; }
-        private Context Context { get; }
-        protected readonly IEnumerable<IColumnExpression> expressions;
-        protected readonly IEnumerable<IColumnAlias> aliases;
 
-        protected BasePredicateFilter(ServiceLocator serviceLocator, Context context, IEnumerable<IColumnAlias> aliases, IEnumerable<IColumnExpression> expressions)
-            => (ServiceLocator, Context, this.aliases, this.expressions) = (serviceLocator, context, aliases, expressions);
+        public RowValueExtractor(ServiceLocator serviceLocator)
+            => (ServiceLocator) = (serviceLocator);
 
-        public ResultSet.ResultSet AntiApply(ResultSet.ResultSet rs)
-        {
-            return Apply(rs, (x => !x));
-        }
-
-        public ResultSet.ResultSet Apply(ResultSet.ResultSet rs)
-        {
-            return Apply(rs, (x => x));
-        }
-
-        protected ResultSet.ResultSet Apply(ResultSet.ResultSet rs, Func<bool, bool> onApply)
-        {
-            var filteredRs = new ResultSet.ResultSet();
-            var table = rs.Table.Clone();
-            filteredRs.Load(table);
-            filteredRs.Table.Clear();
-
-            foreach (DataRow row in rs.Rows)
-            {
-                Context.Switch(row);
-                if (onApply(RowApply(Context)))
-                {
-                    if (filteredRs.Rows.Count == 0 && filteredRs.Columns.Count != row.Table.Columns.Count)
-                    {
-                        foreach (DataColumn column in row.Table.Columns)
-                        {
-                            if (!filteredRs.Columns.Cast<DataColumn>().Any(x => x.ColumnName == column.ColumnName))
-                                filteredRs.Columns.Add(column.ColumnName, typeof(object));
-                        }
-                    }
-                    filteredRs.Table.ImportRow(row);
-                }
-            }
-
-            filteredRs.Table.AcceptChanges();
-            return filteredRs;
-        }
-
-        protected abstract bool RowApply(Context context);
-        public bool Execute(Context context) => RowApply(context);
-
-
-        protected object GetValueFromRow(Context context, IColumnIdentifier identifier)
+        public object Execute(Context context, IColumnIdentifier identifier)
         {
             if (identifier is ColumnOrdinalIdentifier)
             {
@@ -78,11 +33,11 @@ namespace NBi.Core.Calculation
             }
 
             var name = (identifier as ColumnNameIdentifier).Name;
-            var alias = aliases.SingleOrDefault(x => string.Equals(x.Name, name, StringComparison.OrdinalIgnoreCase));
+            var alias = context.Aliases?.SingleOrDefault(x => string.Equals(x.Name, name, StringComparison.OrdinalIgnoreCase));
             if (alias != null)
                 return context.CurrentRow.ItemArray[alias.Column];
 
-            var expression = expressions.SingleOrDefault(x => string.Equals(x.Name, name, StringComparison.OrdinalIgnoreCase));
+            var expression = context.Expressions?.SingleOrDefault(x => string.Equals(x.Name, name, StringComparison.OrdinalIgnoreCase));
             if (expression != null)
             {
                 var result = EvaluateExpression(expression, context);
@@ -102,8 +57,8 @@ namespace NBi.Core.Calculation
                 return context.CurrentRow[column.ColumnName];
 
             var existingNames = context.CurrentRow.Table.Columns.Cast<DataColumn>().Select(x => x.ColumnName)
-                .Union(aliases.Select(x => x.Name)
-                .Union(expressions.Select(x => x.Name)));
+                .Union(context.Aliases.Select(x => x.Name)
+                .Union(context.Expressions.Select(x => x.Name)));
 
             throw new ArgumentException($"The value '{name}' is not recognized as a column position, a column name, a column alias or an expression. Possible arguments are: '{string.Join("', '", existingNames.ToArray())}'");
         }
@@ -117,7 +72,7 @@ namespace NBi.Core.Calculation
 
                 exp.EvaluateParameter += delegate (string name, NCalc.ParameterArgs args)
                 {
-                    args.Result = GetValueFromRow(context, factory.Instantiate(name));
+                    args.Result = Execute(context, factory.Instantiate(name));
                 };
 
                 return exp.Evaluate();
@@ -126,7 +81,7 @@ namespace NBi.Core.Calculation
             {
                 var parse = expression.Value.Split(new[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
                 var variable = new ColumnIdentifierFactory().Instantiate(parse.ElementAt(0));
-                var value = GetValueFromRow(context, variable);
+                var value = Execute(context, variable);
 
                 foreach (var nativeFunction in parse.Skip(1))
                 {
@@ -140,8 +95,6 @@ namespace NBi.Core.Calculation
             else
                 throw new ArgumentOutOfRangeException($"The language {expression.Language} is not supported during the evaluation of an expression.");
         }
-
-        public abstract string Describe();
 
         private class TransformationInfo : ITransformationInfo
         {

@@ -8,13 +8,13 @@ using NBi.Core.ResultSet;
 
 namespace NBi.Core.Calculation.Grouping
 {
-    sealed class NoneGrouping : IByColumnGrouping
+    sealed class NoneGrouping : IGroupBy
     {
         public IDictionary<KeyCollection, DataTable> Execute(ResultSet.ResultSet resultSet)
         {
             return new Dictionary<KeyCollection, DataTable>()
             {
-                { new KeyCollection(new object[]{ }), resultSet.Table }
+                { new KeyCollection(Array.Empty<object>()), resultSet.Table }
             };
         }
     }

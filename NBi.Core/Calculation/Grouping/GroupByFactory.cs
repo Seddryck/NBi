@@ -1,4 +1,5 @@
-﻿using NBi.Core.ResultSet;
+﻿using NBi.Core.Calculation.Grouping.ColumnBased;
+using NBi.Core.ResultSet;
 using NBi.Core.ResultSet.Equivalence;
 using NBi.Core.Scalar.Comparer;
 using NBi.Core.Transformation;
@@ -11,11 +12,11 @@ using static NBi.Core.ResultSet.SettingsOrdinalResultSet;
 
 namespace NBi.Core.Calculation.Grouping
 {
-    public class ByColumnGroupingFactory
+    public class GroupByFactory
     {
-        public IByColumnGrouping None() => new NoneGrouping();
+        public IGroupBy None() => new NoneGrouping();
 
-        public IByColumnGrouping Instantiate(IEnumerable<IColumnDefinitionLight> columns)
+        public IGroupBy Instantiate(IEnumerable<IColumnDefinitionLight> columns)
         {
             if ((columns?.Count() ?? 0) == 0)
                 return new NoneGrouping();

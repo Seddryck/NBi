@@ -47,7 +47,7 @@ namespace NBi.Core.ResultSet.Alteration.Reshaping
                         dataTable.Columns.Add(new DataColumn(namingStrategy.Execute(headerValue, valueColumn.ColumnName), typeof(object)));
 
 
-                var groupbyFactory = new ByColumnGroupingFactory();
+                var groupbyFactory = new GroupByFactory();
                 var groupbyEngine = groupbyFactory.Instantiate(Args.GroupBys);
                 var groups = groupbyEngine.Execute(rs);
                 foreach (var group in groups)

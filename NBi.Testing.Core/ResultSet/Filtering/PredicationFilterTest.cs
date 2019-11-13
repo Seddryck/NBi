@@ -13,10 +13,11 @@ using NBi.Core.ResultSet.Resolver;
 using NBi.Core.Scalar.Resolver;
 using NBi.Core.Calculation.Predicate;
 using NBi.Core.Variable;
+using NBi.Core.ResultSet.Filtering;
 
-namespace NBi.Testing.Core.Calculation
+namespace NBi.Testing.Core.ResultSet.Filtering
 {
-    public class CombinationPredicateFilterTest
+    public class PredicationFilterTest
     {
 
         [Test]
@@ -52,10 +53,10 @@ namespace NBi.Testing.Core.Calculation
             var predication2 = new Mock<PredicationArgs>();
             predication2.SetupGet(p => p.Identifier).Returns(new ColumnOrdinalIdentifier(1));
             predication2.SetupGet(p => p.Predicate).Returns(predicate2.Object);
-            
 
-            var factory = new ResultSetFilterFactory(null, new Context(null));
-            var filter = factory.Instantiate(aliases, new IColumnExpression[0], CombinationOperator.And , new[] { predication1.Object, predication2.Object });
+
+            var factory = new ResultSetFilterFactory(null);
+            var filter = factory.Instantiate(CombinationOperator.And, new[] { predication1.Object, predication2.Object }, new Context(null, aliases, Array.Empty<IColumnExpression>()));
             var result = filter.Apply(rs);
 
             Assert.That(result.Rows, Has.Count.EqualTo(2));
@@ -96,8 +97,8 @@ namespace NBi.Testing.Core.Calculation
             predication2.SetupGet(p => p.Identifier).Returns(new ColumnOrdinalIdentifier(0));
             predication2.SetupGet(p => p.Predicate).Returns(predicate2.Object);
 
-            var factory = new ResultSetFilterFactory(null, new Context(null));
-            var filter = factory.Instantiate(aliases, new IColumnExpression[0], CombinationOperator.And, new[] { predication1.Object, predication2.Object });
+            var factory = new ResultSetFilterFactory(null);
+            var filter = factory.Instantiate(CombinationOperator.And, new[] { predication1.Object, predication2.Object }, new Context(null, aliases, Array.Empty<IColumnExpression>()));
             var result = filter.Apply(rs);
 
             Assert.That(result.Rows, Has.Count.EqualTo(1));
@@ -135,10 +136,10 @@ namespace NBi.Testing.Core.Calculation
             var predication2 = new Mock<PredicationArgs>();
             predication2.SetupGet(p => p.Identifier).Returns(new ColumnOrdinalIdentifier(1));
             predication2.SetupGet(p => p.Predicate).Returns(predicate2.Object);
-            
 
-            var factory = new ResultSetFilterFactory(null, new Context(null));
-            var filter = factory.Instantiate(aliases, new IColumnExpression[0], CombinationOperator.Or, new[] { predication1.Object, predication2.Object });
+
+            var factory = new ResultSetFilterFactory(null);
+            var filter = factory.Instantiate(CombinationOperator.Or, new[] { predication1.Object, predication2.Object }, new Context(null, aliases, Array.Empty<IColumnExpression>()));
             var result = filter.Apply(rs);
 
             Assert.That(result.Rows, Has.Count.EqualTo(4));
@@ -177,8 +178,8 @@ namespace NBi.Testing.Core.Calculation
             predication2.SetupGet(p => p.Identifier).Returns(new ColumnOrdinalIdentifier(0));
             predication2.SetupGet(p => p.Predicate).Returns(predicate2.Object);
 
-            var factory = new ResultSetFilterFactory(null, new Context(null));
-            var filter = factory.Instantiate(aliases, new IColumnExpression[0], CombinationOperator.Or, new[] { predication1.Object, predication2.Object });
+            var factory = new ResultSetFilterFactory(null);
+            var filter = factory.Instantiate(CombinationOperator.Or, new[] { predication1.Object, predication2.Object }, new Context(null, aliases, Array.Empty<IColumnExpression>()));
             var result = filter.Apply(rs);
 
             Assert.That(result.Rows, Has.Count.EqualTo(3));
@@ -217,8 +218,8 @@ namespace NBi.Testing.Core.Calculation
             predication2.SetupGet(p => p.Identifier).Returns(new ColumnOrdinalIdentifier(1));
             predication2.SetupGet(p => p.Predicate).Returns(predicate1.Object);
 
-            var factory = new ResultSetFilterFactory(null, new Context(null));
-            var filter = factory.Instantiate(aliases, new IColumnExpression[0], CombinationOperator.XOr, new[] { predication1.Object, predication2.Object });
+            var factory = new ResultSetFilterFactory(null);
+            var filter = factory.Instantiate(CombinationOperator.XOr, new[] { predication1.Object, predication2.Object }, new Context(null, aliases, Array.Empty<IColumnExpression>()));
             var result = filter.Apply(rs);
 
             Assert.That(result.Rows, Has.Count.EqualTo(3));

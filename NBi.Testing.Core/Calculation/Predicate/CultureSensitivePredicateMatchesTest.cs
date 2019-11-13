@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Testing.Core.Calculation
+namespace NBi.Testing.Core.Calculation.Predicate
 {
     public class CultureSensitivePredicateMatchesTest
     {

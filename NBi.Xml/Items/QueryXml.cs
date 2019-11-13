@@ -26,6 +26,10 @@ namespace NBi.Xml.Items
                 settings = value;
                 if (Assembly != null)
                     Assembly.Settings = value;
+                if (Report != null)
+                    Report.Settings = value;
+                if (SharedDataset != null)
+                    SharedDataset.Settings = value;
             }
         }
 

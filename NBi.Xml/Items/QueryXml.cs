@@ -8,15 +8,31 @@ using System.Xml.Serialization;
 using NBi.Core;
 using NBi.Core.Query.Client;
 using NBi.Xml.SerializationOption;
+using NBi.Xml.Settings;
 
 namespace NBi.Xml.Items
 {
     public class QueryXml : QueryableXml
     {
-        
+        [XmlIgnore()]
+        private SettingsXml settings;
+
+        [XmlIgnore()]
+        public override SettingsXml Settings
+        {
+            get => settings;
+            set
+            {
+                settings = value;
+                if (Assembly != null)
+                    Assembly.Settings = value;
+            }
+        }
+
+
         [XmlAttribute("file")]
         public string File { get; set; }
-        
+
         [XmlAttribute("connectionString-ref")]
         public string ConnectionStringReference { get; set; }
 

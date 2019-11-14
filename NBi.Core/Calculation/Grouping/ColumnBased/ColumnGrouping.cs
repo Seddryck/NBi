@@ -1,4 +1,5 @@
 ﻿using NBi.Core.ResultSet;
+using NBi.Core.Variable;
 using NBi.Extensibility;
 using System;
 using System.Collections.Generic;
@@ -10,14 +11,13 @@ using System.Threading.Tasks;
 
 namespace NBi.Core.Calculation.Grouping.ColumnBased
 {
-    public abstract class AbstractByColumnGrouping : IGroupBy
+    public abstract class ColumnGrouping : IGroupBy
     {
         protected ISettingsResultSet Settings { get; }
+        protected Context Context { get; }
 
-        public AbstractByColumnGrouping(ISettingsResultSet settings)
-        {
-            Settings = settings;
-        }
+        protected ColumnGrouping(ISettingsResultSet settings, Context context)
+            => (Settings, Context) = (settings, context);
 
         public IDictionary<KeyCollection, DataTable> Execute(ResultSet.ResultSet resultSet)
         {
@@ -28,6 +28,7 @@ namespace NBi.Core.Calculation.Grouping.ColumnBased
             stopWatch.Start();
             foreach (DataRow row in resultSet.Rows)
             {
+                Context.Switch(row);
                 var key = keyComparer.GetKeys(row);
                 if (!dico.ContainsKey(key))
                     dico.Add(key, row.Table.Clone());

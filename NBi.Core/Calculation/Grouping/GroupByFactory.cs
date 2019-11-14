@@ -1,8 +1,11 @@
-﻿using NBi.Core.Calculation.Grouping.ColumnBased;
+﻿using NBi.Core.Calculation.Grouping.CaseBased;
+using NBi.Core.Calculation.Grouping.ColumnBased;
+using NBi.Core.Calculation.Predication;
 using NBi.Core.ResultSet;
 using NBi.Core.ResultSet.Equivalence;
 using NBi.Core.Scalar.Comparer;
 using NBi.Core.Transformation;
+using NBi.Core.Variable;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,9 +17,19 @@ namespace NBi.Core.Calculation.Grouping
 {
     public class GroupByFactory
     {
-        public IGroupBy None() => new NoneGrouping();
+        public static IGroupBy None() => new NoneGrouping();
 
-        public IGroupBy Instantiate(IEnumerable<IColumnDefinitionLight> columns)
+        public IGroupBy Instantiate(IGroupByArgs args)
+        {
+            switch (args)
+            {
+                case ColumnGroupByArgs x: return Instantiate(x.Columns, x.Context);
+                case CaseGroupByArgs x: return new CaseGrouping(x.Cases, x.Context);
+                default: throw new ArgumentOutOfRangeException();
+            }
+        }
+
+        private IGroupBy Instantiate(IEnumerable<IColumnDefinitionLight> columns, Context context)
         {
             if ((columns?.Count() ?? 0) == 0)
                 return new NoneGrouping();
@@ -39,10 +52,10 @@ namespace NBi.Core.Calculation.Grouping
 
             var settings = builder.GetSettings();
             if (settings is SettingsOrdinalResultSet)
-                return new OrdinalByColumnGrouping(settings as SettingsOrdinalResultSet);
+                return new OrdinalColumnGrouping(settings as SettingsOrdinalResultSet, context);
 
             else if (settings is SettingsNameResultSet)
-                return new NameByColumnGrouping(settings as SettingsNameResultSet);
+                return new NameColumnGrouping(settings as SettingsNameResultSet, context);
 
             throw new ArgumentOutOfRangeException(nameof(settings));
         }

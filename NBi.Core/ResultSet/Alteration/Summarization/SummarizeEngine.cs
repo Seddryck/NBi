@@ -1,6 +1,8 @@
 ﻿using NBi.Core.Calculation.Grouping;
+using NBi.Core.Calculation.Grouping.ColumnBased;
 using NBi.Core.Scalar.Resolver;
 using NBi.Core.Sequence.Transformation.Aggregation;
+using NBi.Core.Variable;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -42,7 +44,7 @@ namespace NBi.Core.ResultSet.Alteration.Summarization
                 }
 
                 var groupbyFactory = new GroupByFactory();
-                var groupbyEngine = groupbyFactory.Instantiate(Args.GroupBys);
+                var groupbyEngine = groupbyFactory.Instantiate(new ColumnGroupByArgs(Args.GroupBys, Context.None));
                 var groups = groupbyEngine.Execute(rs);
                 foreach (var group in groups)
                 {

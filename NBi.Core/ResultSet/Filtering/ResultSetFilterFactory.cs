@@ -1,5 +1,6 @@
 ﻿using NBi.Core.Calculation;
 using NBi.Core.Calculation.Grouping;
+using NBi.Core.Calculation.Grouping.ColumnBased;
 using NBi.Core.Calculation.Predicate;
 using NBi.Core.Calculation.Predicate.Combination;
 using NBi.Core.Calculation.Predication;
@@ -65,7 +66,8 @@ namespace NBi.Core.ResultSet.Filtering
         public IResultSetFilter Instantiate(IRankingInfo rankingInfo, IEnumerable<IColumnDefinitionLight> columns)
         {
             var groupingFactory = new GroupByFactory();
-            var grouping = groupingFactory.Instantiate(columns);
+            var groupingArgs = new ColumnGroupByArgs(columns, Context.None);
+            var grouping = groupingFactory.Instantiate(groupingArgs);
 
             var rankingFactory = new RankingFactory();
             var ranking = rankingFactory.Instantiate(rankingInfo);

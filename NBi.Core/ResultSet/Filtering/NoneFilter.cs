@@ -10,19 +10,12 @@ namespace NBi.Core.ResultSet.Filtering
     class NoneFilter : IResultSetFilter
     {
         public ResultSet Apply(ResultSet rs)
-        {
-            if (rs == null)
-                throw new ArgumentNullException();
-            return rs;
-        }
+            => rs ?? throw new ArgumentNullException();
 
         public ResultSet AntiApply(ResultSet rs)
         {
-            if (rs == null)
-                throw new ArgumentNullException();
-
+            var table = rs?.Table?.Clone() ?? throw new ArgumentNullException();
             var filteredRs = new ResultSet();
-            var table = rs.Table.Clone();
             filteredRs.Load(table);
             return filteredRs;
         }

@@ -28,7 +28,7 @@ namespace NBi.Testing.Core.ResultSet.Filtering
             var rs = resolver.Execute();
 
             var settings = new SettingsOrdinalResultSet(KeysChoice.First, ValuesChoice.None, NumericAbsoluteTolerance.None);
-            var grouping = new OrdinalByColumnGrouping(settings);
+            var grouping = new OrdinalColumnGrouping(settings, Context.None);
 
             var filter = new TopRanking(2, new ColumnOrdinalIdentifier(1), ColumnType.Numeric);
 

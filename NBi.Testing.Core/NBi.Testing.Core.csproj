@@ -102,14 +102,15 @@
     <Compile Include="Assemblies\Resource\Klass.cs" />
     <Compile Include="Assemblies\Resource\StaticKlass.cs" />
     <Compile Include="Assemblies\TypeConverterTest.cs" />
+    <Compile Include="Calculation\Grouping\CaseBased\CaseGroupingTest.cs" />
     <Compile Include="Calculation\Predication\AndCombinationPredicationTest.cs" />
     <Compile Include="Calculation\Predication\OrCombinationPredicationTest.cs" />
     <Compile Include="Calculation\Predication\XOrCombinationPredicationTest.cs" />
     <Compile Include="ResultSet\Filtering\PredicationFilterTest.cs" />
     <Compile Include="Calculation\Predicate\CultureSensitivePredicateMatchesTest.cs" />
     <Compile Include="ResultSet\Filtering\GroupByFilterTest.cs" />
-    <Compile Include="Calculation\Grouping\ColumnBased\NameByColumnGroupingTest.cs" />
-    <Compile Include="Calculation\Grouping\ColumnBased\OrdinalByColumnGroupingTest.cs" />
+    <Compile Include="Calculation\Grouping\ColumnBased\NameColumnGroupingTest.cs" />
+    <Compile Include="Calculation\Grouping\ColumnBased\OrdinalColumnGroupingTest.cs" />
     <Compile Include="Calculation\Predicate\Numeric\NumericModuloTest.cs" />
     <Compile Include="Calculation\Predicate\PredicateReferenceTest.cs" />
     <Compile Include="Calculation\Predicate\PredicateWithoutReferenceTest.cs" />

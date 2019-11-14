@@ -5,15 +5,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using NBi.Core.ResultSet;
+using NBi.Core.Variable;
 
 namespace NBi.Core.Calculation.Grouping.ColumnBased
 {
-    class OrdinalByColumnGrouping : AbstractByColumnGrouping
+    class OrdinalColumnGrouping : ColumnGrouping
     {
         protected new SettingsOrdinalResultSet Settings { get => base.Settings as SettingsOrdinalResultSet; }
 
-        public OrdinalByColumnGrouping(SettingsOrdinalResultSet settings)
-            : base(settings) { }
+        public OrdinalColumnGrouping(SettingsOrdinalResultSet settings, Context context)
+            : base(settings, context) { }
 
         protected override DataRowKeysComparer BuildDataRowsKeyComparer(DataTable x)
             => new DataRowKeysComparerByOrdinal(Settings, x.Columns.Count);

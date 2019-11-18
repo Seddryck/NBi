@@ -5,7 +5,7 @@ prev_section: config-traces-debugging
 next_section: variable-override
 permalink: /docs/variable-define/
 ---
-Version 1.17 has introduced the notion of *variable*. A variable is a scalar-value (a unique value, not a list of a result-set) that can be reused in different places of your test-suites. another big advantage of variables is that they are evaluated during the test-suite execution. Suppose that you have a query expecting a date as a parameter and that you want to specify the current date: without a variable, it's not possible!
+A variable is a scalar-value (a unique value, not a list of a result-set) that can be reused in different places of your test-suites. Another big advantage of variables is that they are evaluated during the test-suite execution. Suppose that you have a query expecting a date as a parameter and that you want to specify the current date: without a variable, it's not possible! A variable is only evaluated once: after it has been evaluated, the value is cached and never updated.
 
 # Definition
 
@@ -44,7 +44,7 @@ In this example, the variable named *FirstOfCurrentMonth* is set to the value re
 
 ## Query engine
 
-This engine evaluates a query and returns the first cell of the first row returned by this query. In order to specify this engine use the element *query-scalar* and specify. Then you'll be able to specify a query with the different methods available in the [NBi syntax 2.0 to define a query](../docs/syntax-2-0).
+This engine evaluates a query and returns the first cell of the first row returned by this query. In order to specify this engine use the element *query-scalar* and specify. Then you'll be able to specify a query with the different methods available in the [NBi syntax 2.0 to define a query](../syntax-2-0).
 
 In this example, the variable named *CurrencyCode* is set to the single value returned by the query here under:
 
@@ -104,14 +104,22 @@ namespace NBi.Testing.Core.Scalar.Resolver.Resources
 
 ## Usage
 
-In this first release, you can't use the variables at many places. the usage is strictly limited to the following places:
+You can't use the variables at all places. The usage is limited to the following places:
 
-* *[Parameter](..docs/query-parameter)* (of a query)
-* In the [comparisons (*equal*, *more-than*, *less-than*)](../docs/resultset-rows-count) for a *row-count*
-* In the operators of [predicates](../docs/resultset-predicate) of the assertions *row-count*, *all-rows*, *no-rows*, *some-rows* and *single-row*
+* [Parameter](../query-parameter)* (of a query)
+* In the [comparisons (*equal*, *more-than*, *less-than*)](../resultset-rows-count) for a *row-count*
+* In the operators of [predicates](../resultset-predicate) of the assertions *row-count*, *all-rows*, *no-rows*, *some-rows* and *single-row*
+* In the [empty](../primitive-result-set/#empty) and [flat file](../primitive-result-set/#external-definition) definitions of a result-set
+* In the [json-source](../primitive-result-set/#json-source) and [xml-source](../primitive-result-set/#xml-source) elements
+* In the [rest-api](../primitive-result-set/#rest-api) attributes
+* In the [renaming](../resultset-alteration/#renamings) alteration
+* In the [data engineering](../setup-data-engineering/), [IO](../setup-io/) and [process](../setup-process/) tasks
+* In the [list](../primitive-sequence/#list-of-values) elements of a sequence
+* In [native transformations](../scalar-native-transformation/)
+* In the definition of [custom scalars](#custom-scalar) and [custom sequences](../primitive-sequence/#custom-sequence/)
 
 If you've other places, where you think that a variable would be helpful, report it by creating an [issue](http://github.com/Seddryck/nbi/issues)
 
 ## Notes about the future of variables
 
-Variables will be extented in the next releases. The goal is to let you define them at different places (*groups* and perhaps *tests*). The goal is also to evaluate them only when needed (execution) and not during the load of the test-suite (currently depending of the place where the variable is used). A variable should not be evaluated twice, once it has been evaluated, the value will be cached. In these early releases, relying on these features is hazardous.
+Variables will be extented in the next releases. The goal is to let you define them at different places (*groups* and perhaps *tests*) and use them at more places.

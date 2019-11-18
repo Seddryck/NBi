@@ -106,7 +106,7 @@ namespace NBi.Testing.Core.Scalar.Resolver.Resources
 
 You can't use the variables at all places. The usage is limited to the following places:
 
-* [Parameter](../query-parameter)* (of a query)
+* [Parameter](../query-parameters) of a query
 * In the [comparisons (*equal*, *more-than*, *less-than*)](../resultset-rows-count) for a *row-count*
 * In the operators of [predicates](../resultset-predicate) of the assertions *row-count*, *all-rows*, *no-rows*, *some-rows* and *single-row*
 * In the [empty](../primitive-result-set/#empty) and [flat file](../primitive-result-set/#external-definition) definitions of a result-set

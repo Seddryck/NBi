@@ -12,7 +12,7 @@ using System.Xml.Serialization;
 
 namespace NBi.Xml.Items.Calculation
 {
-    public class CombinationPredicateXml
+    public class CombinationPredicationXml : AbstractPredicationXml
     {
         [XmlAttribute("operator")]
         public CombinationOperator Operator { get; set; }
@@ -22,6 +22,6 @@ namespace NBi.Xml.Items.Calculation
         public bool Not { get; set; }
 
         [XmlElement("predicate")]
-        public List<PredicationXml> Predications { get; set; }
+        public List<SinglePredicationXml> Predications { get; set; }
     }
 }

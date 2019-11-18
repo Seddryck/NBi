@@ -23,7 +23,7 @@ namespace NBi.Core.Calculation.Grouping
         {
             switch (args)
             {
-                case NoneGroupByArgs x: return None();
+                case NoneGroupByArgs _: return None();
                 case ColumnGroupByArgs x: return Instantiate(x.Columns, x.Context);
                 case CaseGroupByArgs x: return new CaseGrouping(x.Cases, x.Context);
                 default: throw new ArgumentOutOfRangeException();

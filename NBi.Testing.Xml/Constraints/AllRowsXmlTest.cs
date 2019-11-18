@@ -305,7 +305,7 @@ namespace NBi.Testing.Xml.Unit.Constraints
                 new AliasXml() {Column = 1, Name="Col1"},
                 new AliasXml() {Column = 0, Name="Col2"}
             },
-                Predication = new PredicationXml()
+                Predication = new SinglePredicationXml()
             };
 #pragma warning restore 0618
 
@@ -328,7 +328,7 @@ namespace NBi.Testing.Xml.Unit.Constraints
         {
             var allRowsXml = new AllRowsXml
             {
-                Predication = new PredicationXml()
+                Predication = new SinglePredicationXml()
                 {
                     Predicate = new AnyOfXml()
                     {
@@ -423,7 +423,7 @@ namespace NBi.Testing.Xml.Unit.Constraints
                     }
                 },
 
-                Predication = new PredicationXml()
+                Predication = new SinglePredicationXml()
                 {
                     Operand = new ColumnNameIdentifier("calculate"),
                     ColumnType = ColumnType.Numeric,
@@ -464,7 +464,7 @@ namespace NBi.Testing.Xml.Unit.Constraints
                     }
                 },
 
-                Predication = new PredicationXml()
+                Predication = new SinglePredicationXml()
                 {
                     Operand = new ColumnNameIdentifier("calculate"),
                     ColumnType = ColumnType.Numeric,
@@ -503,7 +503,7 @@ namespace NBi.Testing.Xml.Unit.Constraints
                     }
                 },
 
-                Predication = new PredicationXml()
+                Predication = new SinglePredicationXml()
                 {
                     Operand = new ColumnNameIdentifier("calculate"),
                     ColumnType = ColumnType.Numeric,
@@ -542,7 +542,7 @@ namespace NBi.Testing.Xml.Unit.Constraints
                     }
                 },
 
-                Predication = new PredicationXml()
+                Predication = new SinglePredicationXml()
                 {
                     Operand = new ColumnNameIdentifier("calculate"),
                     ColumnType = ColumnType.Numeric,
@@ -571,7 +571,7 @@ namespace NBi.Testing.Xml.Unit.Constraints
         [Test]
         public void Serialize_MatchesRegex_WithCDATA()
         {
-            var root = new PredicationXml()
+            var root = new SinglePredicationXml()
             {
                 Predicate = new MatchesRegexXml { Reference = "<|>|&" }
             };
@@ -591,12 +591,12 @@ namespace NBi.Testing.Xml.Unit.Constraints
         [Test]
         public void Deserialize_MatchesRegex_WithCDATA()
         {
-            var xml = "<PredicationXml xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\"><matches-regex><![CDATA[<|>|&]]></matches-regex></PredicationXml>";
+            var xml = "<SinglePredicationXml xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\"><matches-regex><![CDATA[<|>|&]]></matches-regex></SinglePredicationXml>";
             var manager = new XmlManager();
             var overrides = new ReadOnlyAttributes();
             overrides.Build();
-            var objectData = manager.XmlDeserializeTo<PredicationXml>(xml, overrides);
-            Assert.That(objectData, Is.TypeOf<PredicationXml>());
+            var objectData = manager.XmlDeserializeTo<SinglePredicationXml>(xml, overrides);
+            Assert.That(objectData, Is.TypeOf<SinglePredicationXml>());
             Assert.That(objectData, Is.Not.Null);
             Assert.That(objectData.Predicate, Is.TypeOf<MatchesRegexXml>());
             var predicate = objectData.Predicate as MatchesRegexXml;
@@ -607,12 +607,12 @@ namespace NBi.Testing.Xml.Unit.Constraints
         [Test]
         public void Deserialize_MatchesRegex_WithoutCDATA()
         {
-            var xml = "<PredicationXml xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\"><matches-regex>&lt;|&gt;|&amp;</matches-regex></PredicationXml>";
+            var xml = "<SinglePredicationXml xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\"><matches-regex>&lt;|&gt;|&amp;</matches-regex></SinglePredicationXml>";
             var manager = new XmlManager();
             var overrides = new ReadOnlyAttributes();
             overrides.Build();
-            var objectData = manager.XmlDeserializeTo<PredicationXml>(xml, overrides);
-            Assert.That(objectData, Is.TypeOf<PredicationXml>());
+            var objectData = manager.XmlDeserializeTo<SinglePredicationXml>(xml, overrides);
+            Assert.That(objectData, Is.TypeOf<SinglePredicationXml>());
             Assert.That(objectData, Is.Not.Null);
             Assert.That(objectData.Predicate, Is.TypeOf<MatchesRegexXml>());
             var predicate = objectData.Predicate as MatchesRegexXml;
@@ -623,7 +623,7 @@ namespace NBi.Testing.Xml.Unit.Constraints
         [Test]
         public void Serialize_Equal_WithoutCDATAButWithZero()
         {
-            var root = new PredicationXml()
+            var root = new SinglePredicationXml()
             {
                 Predicate = new EqualXml() { Reference = "0" }
             };
@@ -641,12 +641,12 @@ namespace NBi.Testing.Xml.Unit.Constraints
         [Test]
         public void Deserialize_Equal_WithCDATA()
         {
-            var xml = "<PredicationXml xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\"><equal><![CDATA[<|>|&]]></equal></PredicationXml>";
+            var xml = "<SinglePredicationXml xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\"><equal><![CDATA[<|>|&]]></equal></SinglePredicationXml>";
             var manager = new XmlManager();
             var overrides = new ReadOnlyAttributes();
             overrides.Build();
-            var objectData = manager.XmlDeserializeTo<PredicationXml>(xml, overrides);
-            Assert.That(objectData, Is.TypeOf<PredicationXml>());
+            var objectData = manager.XmlDeserializeTo<SinglePredicationXml>(xml, overrides);
+            Assert.That(objectData, Is.TypeOf<SinglePredicationXml>());
             Assert.That(objectData, Is.Not.Null);
             Assert.That(objectData.Predicate, Is.TypeOf<EqualXml>());
             var predicate = objectData.Predicate as EqualXml;
@@ -657,12 +657,12 @@ namespace NBi.Testing.Xml.Unit.Constraints
         [Test]
         public void Deserialize_Equal_WithoutCDATA()
         {
-            var xml = "<PredicationXml xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\"><equal>&lt;|&gt;|&amp;</equal></PredicationXml>";
+            var xml = "<SinglePredicationXml xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\"><equal>&lt;|&gt;|&amp;</equal></SinglePredicationXml>";
             var manager = new XmlManager();
             var overrides = new ReadOnlyAttributes();
             overrides.Build();
-            var objectData = manager.XmlDeserializeTo<PredicationXml>(xml, overrides);
-            Assert.That(objectData, Is.TypeOf<PredicationXml>());
+            var objectData = manager.XmlDeserializeTo<SinglePredicationXml>(xml, overrides);
+            Assert.That(objectData, Is.TypeOf<SinglePredicationXml>());
             Assert.That(objectData, Is.Not.Null);
             Assert.That(objectData.Predicate, Is.TypeOf<EqualXml>());
             var predicate = objectData.Predicate as EqualXml;

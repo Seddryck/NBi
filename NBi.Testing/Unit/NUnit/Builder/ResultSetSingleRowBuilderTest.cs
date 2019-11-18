@@ -67,7 +67,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
 
             var ctrXml = new SingleRowXml
             {
-                Predication = new PredicationXml()
+                Predication = new SinglePredicationXml()
                 {
                     Predicate = new MoreThanXml() { Reference = "100" },
                     Operand = new ColumnOrdinalIdentifier(0)
@@ -97,7 +97,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
 
             var ctrXml = new SingleRowXml
             {
-                Predication = new PredicationXml()
+                Predication = new SinglePredicationXml()
                 {
                     Predicate = new MoreThanXml() { Reference = "@year" },
                     Operand = new ColumnOrdinalIdentifier(0)
@@ -133,7 +133,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
 
             var ctrXml = new SingleRowXml
             {
-                Predication = new PredicationXml()
+                Predication = new SinglePredicationXml()
                 {
                     Predicate = new MoreThanXml() { Reference = "@year" },
                     Operand = new ColumnOrdinalIdentifier(0)
@@ -171,7 +171,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
 
             var ctrXml = new SingleRowXml
             {
-                Predication = new PredicationXml()
+                Predication = new SinglePredicationXml()
                 {
                     Predicate = new MoreThanXml() { Reference = "100" },
                     Operand = new ColumnOrdinalIdentifier(0)
@@ -196,7 +196,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
 
             var ctrXml = new SingleRowXml
             {
-                Predication = new PredicationXml()
+                Predication = new SinglePredicationXml()
                 {
                     Predicate = new MoreThanXml() { Reference = "100" },
                     Operand = new ColumnOrdinalIdentifier(0)

@@ -35,6 +35,11 @@ using NBi.Core.ResultSet.Lookup;
 using NBi.Core.ResultSet.Alteration.Lookup.Strategies.Missing;
 using NBi.Core.ResultSet.Alteration.Renaming.Strategies.Missing;
 using NBi.Core.ResultSet.Filtering;
+using NBi.Core.Calculation.Grouping;
+using NBi.Xml.Items.Calculation.Grouping;
+using NBi.Core.Calculation.Grouping.ColumnBased;
+using NBi.Core.Calculation.Grouping.CaseBased;
+using NBi.Core.Calculation.Predication;
 
 namespace NBi.NUnit.Builder.Helper
 {
@@ -125,11 +130,41 @@ namespace NBi.NUnit.Builder.Helper
             }
             else
             {
-                return factory.Instantiate(
-                    filterXml.Ranking,
-                    filterXml.Ranking?.GroupBy?.Columns
-                    ).Apply;
+                var groupByArgs = BuildGroupByArgs(filterXml.Ranking.GroupBy, context);
+                var groupByFactory = new GroupByFactory();
+                var groupBy = groupByFactory.Instantiate(groupByArgs);
+
+                var rankingGroupByArgs = new RankingGroupByArgs(groupBy, filterXml.Ranking.Option, filterXml.Ranking.Count, filterXml.Ranking.Operand, filterXml.Ranking.Type);
+                return factory.Instantiate(rankingGroupByArgs, context).Apply;
             }
+        }
+
+        private IGroupByArgs BuildGroupByArgs(GroupByXml xml, Context context)
+        {
+            if (xml == null)
+                return new NoneGroupByArgs();
+            if ((xml?.Columns?.Count ?? 0) > 0)
+                return new ColumnGroupByArgs(xml.Columns, context);
+            if ((xml?.Cases?.Count ?? 0) > 0)
+            {
+                var builder = new PredicateArgsBuilder(ServiceLocator, context);
+                var predications = new List<IPredication>();
+                foreach (var caseXml in xml.Cases)
+                {
+                    if (caseXml.Predication is SinglePredicationXml)
+                    {
+                        var predicationXml = (caseXml.Predication) as SinglePredicationXml;
+                        var args = builder.Execute(predicationXml.ColumnType, predicationXml.Predicate);
+                        var predicate = new PredicateFactory().Instantiate(args);
+                        var predicationFactory = new PredicationFactory();
+                        predications.Add(predicationFactory.Instantiate(predicate, predicationXml.Operand));
+
+                    }
+                }
+
+                return new CaseGroupByArgs(predications, context);
+            }
+            throw new ArgumentOutOfRangeException();
         }
 
         private Alter InstantiateConvert(ConvertXml convertXml)

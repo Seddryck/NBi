@@ -12,5 +12,8 @@ namespace NBi.Core.Calculation.Grouping.CaseBased
     {
         public IEnumerable<IPredication> Cases { get; set; }
         public Context Context { get; set; }
+
+        public CaseGroupByArgs(IEnumerable<IPredication> cases, Context context)
+            => (Cases, Context) = (cases, context);
     }
 }

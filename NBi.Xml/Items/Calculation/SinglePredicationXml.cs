@@ -13,7 +13,7 @@ using System.Xml.Serialization;
 
 namespace NBi.Xml.Items.Calculation
 {
-    public class PredicationXml : BasePredicationXml
+    public class SinglePredicationXml : BasePredicationXml
     { 
         [XmlIgnore()]
         [XmlAttribute("column-index")]
@@ -41,7 +41,7 @@ namespace NBi.Xml.Items.Calculation
         
     }
 
-    public abstract class BasePredicationXml
+    public abstract class BasePredicationXml : AbstractPredicationXml
     {
         public BasePredicationXml()
         {

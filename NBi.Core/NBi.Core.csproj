@@ -148,6 +148,9 @@
     <Compile Include="Calculation\Grouping\CaseBased\CaseGroupByArgs.cs" />
     <Compile Include="Calculation\Grouping\ColumnBased\ColumnGroupByArgs.cs" />
     <Compile Include="Calculation\Grouping\IGroupByArgs.cs" />
+    <Compile Include="Calculation\Grouping\NoneGroupByArgs.cs" />
+    <Compile Include="ResultSet\Filtering\PredicationArgs.cs" />
+    <Compile Include="ResultSet\Filtering\IFilteringArgs.cs" />
     <Compile Include="Calculation\Predication\AndCombinationPredication.cs" />
     <Compile Include="Calculation\Predication\IPredication.cs" />
     <Compile Include="Calculation\Predication\PredicationFactory.cs" />
@@ -163,8 +166,10 @@
     <Compile Include="Calculation\Grouping\ColumnBased\OrdinalColumnGrouping.cs" />
     <Compile Include="Calculation\Predication\BaseCombinationPredication.cs" />
     <Compile Include="Calculation\Predication\OrCombinationPredication.cs" />
+    <Compile Include="Calculation\Ranking\RankingArgs.cs" />
     <Compile Include="Calculation\RowValueExtractor.cs" />
     <Compile Include="Calculation\Predicate\PredicateArgs.cs" />
+    <Compile Include="ResultSet\Filtering\RankingGroupByArgs.cs" />
     <Compile Include="ResultSet\Filtering\ResultSetFilterFactory.cs" />
     <Compile Include="Calculation\Predicate\AbstractPredicate.cs" />
     <Compile Include="Calculation\Predicate\AbstractPredicateReference.cs" />

@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace NBi.Core.Calculation.Predication
 {
-    class PredicationFactory
+    public class PredicationFactory
     {
         public IPredication Instantiate(IPredicate predicate, IColumnIdentifier operand)
             => new SinglePredication(predicate, operand);

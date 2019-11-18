@@ -36,6 +36,6 @@ namespace NBi.Core.ResultSet.Filtering
             => throw new NotImplementedException();
 
         public string Describe()
-            => throw new NotImplementedException();
+            => $"{Filter.Describe()} after grouping by {GroupBy.ToString()}";
     }
 }

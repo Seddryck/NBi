@@ -1,5 +1,6 @@
 ﻿using NBi.Core.Calculation;
 using NBi.Core.Calculation.Grouping;
+using NBi.Core.Calculation.Grouping.CaseBased;
 using NBi.Core.Calculation.Grouping.ColumnBased;
 using NBi.Core.Calculation.Predicate;
 using NBi.Core.Calculation.Predicate.Combination;
@@ -25,7 +26,17 @@ namespace NBi.Core.ResultSet.Filtering
         public ResultSetFilterFactory(ServiceLocator serviceLocator)
             => (ServiceLocator) = (serviceLocator);
 
-        public IResultSetFilter Instantiate(PredicationArgs predicationArgs, Context context)
+        public IResultSetFilter Instantiate(IFilteringArgs filteringArgs, Context context)
+        {
+            switch (filteringArgs)
+            {
+                case PredicationArgs args: return InstantiatePredication(args, context);
+                case RankingGroupByArgs args: return InstantiateRanking(args, context);
+                default: throw new ArgumentOutOfRangeException();
+            }
+        }
+
+        private IResultSetFilter InstantiatePredication(PredicationArgs predicationArgs, Context context)
         {
             if (predicationArgs.Identifier == null)
                 throw new ArgumentException("You must specify an operand for a predication. The operand is the column or alias or expression on which the predicate will be evaluated.");
@@ -38,6 +49,12 @@ namespace NBi.Core.ResultSet.Filtering
 
             var filter = new PredicationFilter(predication, context);
             return filter;
+        }
+
+        private IResultSetFilter InstantiateRanking(RankingGroupByArgs args, Context context)
+        {
+            var ranking = new RankingFactory().Instantiate(args);
+            return new GroupByFilter(ranking, args.GroupBy);
         }
 
         public IResultSetFilter Instantiate(CombinationOperator combinationOperator, IEnumerable<PredicationArgs> predicationArgs, Context context)
@@ -60,19 +77,6 @@ namespace NBi.Core.ResultSet.Filtering
             var predication = predicationFactory.Instantiate(predications, combinationOperator);
             var filter = new PredicationFilter(predication, context);
             return filter;
-        }
-
-
-        public IResultSetFilter Instantiate(IRankingInfo rankingInfo, IEnumerable<IColumnDefinitionLight> columns)
-        {
-            var groupingFactory = new GroupByFactory();
-            var groupingArgs = new ColumnGroupByArgs(columns, Context.None);
-            var grouping = groupingFactory.Instantiate(groupingArgs);
-
-            var rankingFactory = new RankingFactory();
-            var ranking = rankingFactory.Instantiate(rankingInfo);
-
-            return new GroupByFilter(ranking, grouping);
         }
     }
 }

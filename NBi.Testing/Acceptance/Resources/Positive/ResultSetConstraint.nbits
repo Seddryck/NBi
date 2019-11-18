@@ -29,7 +29,7 @@
     </variable>
   </variables>
   <group name="asserts">
-    <test name="Csv equal to embedded result-set" uid="0001">
+    <!--<test name="Csv equal to embedded result-set" uid="0001">
       <system-under-test>
         <resultSet file="..\Csv\ResellerOrderCountByYearBefore2006.csv"/>
       </system-under-test>
@@ -386,7 +386,7 @@
         </all-rows>
       </assert>
     </test>
-    <!--<test name="Query from assembly" uid="0106">
+    --><!--<test name="Query from assembly" uid="0106">
       <system-under-test>
         <resultSet>
           <query>
@@ -401,7 +401,7 @@
           <resultSet file="..\Csv\ResellerOrderCountByYearBefore2006.csv"/>
         </equalTo>
       </assert>
-    </test>-->
+    </test>--><!--
     <test name="Query from report" uid="0107">
       <condition>
         <service-running name="MSSQL$SQL2017"/>
@@ -980,8 +980,8 @@
           </predicate>
         </all-rows>
       </assert>
-    </test>
-    <test name="Filter with one ranking bottom" uid="0212">
+    </test>-->
+    <!--<test name="Filter with one ranking bottom" uid="0212">
       <system-under-test>
         <resultSet file="..\Csv\Orders.csv">
           <alteration>
@@ -1003,8 +1003,64 @@
           </predicate>
         </all-rows>
       </assert>
+    </test>-->
+    <test name="Filter with group-by case" uid="0213">
+      <system-under-test>
+        <result-set file="..\Csv\Orders.csv">
+          <alteration>
+            <filter>
+              <ranking operand="#3">
+                <bottom/>
+                <group-by>
+                  <case>
+                    <predicate operand="#2" type="text">
+                      <equal>CUST0003</equal>
+                    </predicate>
+                  </case>
+                  <case>
+                    <predicate operand="#3" type="numeric">
+                      <more-than or-equal="true">100</more-than>
+                    </predicate>
+                  </case>
+                  <case>
+                    <predicate operand="#2" type="text">
+                      <equal>CUST0001</equal>
+                    </predicate>
+                  </case>
+                </group-by>
+              </ranking>
+            </filter>
+            <project>
+              <column identifier="#2" />
+              <column identifier="#3" />
+            </project>
+          </alteration>
+        </result-set>
+      </system-under-test>
+      <assert>
+        <equal-to keys="all">
+          <result-set>
+            <row>
+              <cell>CUST0001</cell>
+              <cell>80</cell>
+            </row>
+            <row>
+              <cell>CUST0001</cell>
+              <cell>100</cell>
+            </row>
+            <row>
+              <cell>CUST0002</cell>
+              <cell>80</cell>
+            </row>
+            <row>
+              <cell>CUST0003</cell>
+              <cell>55</cell>
+            </row>
+          </result-set>
+        </equal-to>
+      </assert>
     </test>
-    <test name="Conversion with text-to-date" uid="0221">
+    <!--<test name="Conversion with text-to-date" uid="0221">
       <system-under-test>
         <resultSet file="..\Csv\Orders.csv">
           <alteration>
@@ -1956,6 +2012,6 @@
           </result-set>
         </equal-to>
       </assert>
-    </test>
+    </test>-->
   </group>
 </testSuite>

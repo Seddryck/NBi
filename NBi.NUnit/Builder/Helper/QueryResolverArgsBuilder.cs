@@ -66,6 +66,7 @@ namespace NBi.NUnit.Builder.Helper
 
         protected void Build(QueryXml queryXml)
         {
+            queryXml.Settings = settingsXml;
             var connectionString = new ConnectionStringHelper().Execute(queryXml, scope);
             var parameters = BuildParameters(queryXml.GetParameters());
             var templateVariables = queryXml.GetTemplateVariables();

@@ -4,6 +4,9 @@
     <default apply-to="system-under-test">
       <connection-string>Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly</connection-string>
     </default>
+    <default apply-to="assert">
+      <connection-string>Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly</connection-string>
+    </default>
   </settings>
   <variables>
     <variable name="Three">
@@ -319,9 +322,7 @@
         <less-than>
           <projection type="row-count">
             <result-set>
-              <query 
-					      connection-string="Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly"
-				      >
+              <query>
                 select
                 [Name], [CountryRegionCode]
                 from
@@ -353,9 +354,7 @@
         <less-than>
           <projection type="row-count">
             <result-set>
-              <query
-					      connection-string="Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly"
-				      >
+              <query>
                 select
                 [Name], [CountryRegionCode]
                 from
@@ -385,9 +384,7 @@
     <assert>
       <row-count>
         <more-than>
-          <query-scalar
-            connection-string="Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly"
-				      >
+          <query-scalar>
             select
              count(*)
             from

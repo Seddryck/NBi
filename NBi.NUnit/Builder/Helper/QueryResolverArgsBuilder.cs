@@ -24,9 +24,9 @@ namespace NBi.NUnit.Builder.Helper
         private readonly ServiceLocator serviceLocator;
 
         private object obj = null;
-        private SettingsXml settingsXml = null;
-        private SettingsXml.DefaultScope scope = SettingsXml.DefaultScope.Everywhere;
-        private IDictionary<string, ITestVariable> Variables { get; set; } = null;
+        protected SettingsXml Settings { get; private set; } = SettingsXml.Empty;
+        protected SettingsXml.DefaultScope Scope { get; private set; } = SettingsXml.DefaultScope.Everywhere;
+        protected IDictionary<string, ITestVariable> Variables { get; private set; } = new Dictionary<string, ITestVariable>();
         private BaseQueryResolverArgs args = null;
 
         public QueryResolverArgsBuilder(ServiceLocator serviceLocator)
@@ -36,19 +36,19 @@ namespace NBi.NUnit.Builder.Helper
 
         public void Setup(QueryXml queryXml, SettingsXml settingsXml, SettingsXml.DefaultScope scope, IDictionary<string, ITestVariable> variables)
         {
-            this.obj = queryXml;
-            this.settingsXml = settingsXml;
-            this.scope = scope;
+            obj = queryXml;
+            Settings = settingsXml ?? SettingsXml.Empty;
+            Scope = scope;
             Variables = variables;
             isSetup = true;
         }
 
         public void Setup(ExecutableXml executableXml, SettingsXml settingsXml, IDictionary<string, ITestVariable> variables)
         {
-            this.obj = executableXml;
-            this.settingsXml = settingsXml;
-            this.scope = SettingsXml.DefaultScope.SystemUnderTest;
-            this.Variables = variables;
+            obj = executableXml;
+            Settings = settingsXml ?? SettingsXml.Empty;
+            Scope = SettingsXml.DefaultScope.SystemUnderTest;
+            Variables = variables;
             isSetup = true;
         }
 
@@ -66,7 +66,8 @@ namespace NBi.NUnit.Builder.Helper
 
         protected void Build(QueryXml queryXml)
         {
-            var connectionString = new ConnectionStringHelper().Execute(queryXml, scope);
+            queryXml.Settings = Settings;
+            var connectionString = new ConnectionStringHelper().Execute(queryXml, Scope);
             var parameters = BuildParameters(queryXml.GetParameters());
             var templateVariables = queryXml.GetTemplateVariables();
             var timeout = Convert.ToInt32(Math.Ceiling(queryXml.Timeout / 1000m)); //Timeout is expressed in milliseconds
@@ -77,7 +78,7 @@ namespace NBi.NUnit.Builder.Helper
 
             else if (!string.IsNullOrEmpty(queryXml.File))
             {
-                var file = GetFullPath(settingsXml?.BasePath, queryXml.File);
+                var file = GetFullPath(Settings?.BasePath, queryXml.File);
 
                 args = new ExternalFileQueryResolverArgs(file
                     , connectionString, parameters, templateVariables, new TimeSpan(0, 0, timeout));
@@ -110,7 +111,7 @@ namespace NBi.NUnit.Builder.Helper
 
         private BaseQueryResolverArgs Build(ReportXml xml, string connectionString, IEnumerable<IQueryParameter> parameters, IEnumerable<IQueryTemplateVariable> templateVariables, TimeSpan timeout)
         {
-            var path = string.IsNullOrEmpty(xml.Source) ? settingsXml.BasePath + xml.Path : xml.Path;
+            var path = string.IsNullOrEmpty(xml.Source) ? Settings.BasePath + xml.Path : xml.Path;
 
             return new ReportDataSetQueryResolverArgs(
                 xml.Source, path, xml.Name, xml.Dataset
@@ -119,7 +120,7 @@ namespace NBi.NUnit.Builder.Helper
 
         private BaseQueryResolverArgs Build(SharedDatasetXml xml, string connectionString, IEnumerable<IQueryParameter> parameters, IEnumerable<IQueryTemplateVariable> templateVariables, TimeSpan timeout)
         {
-            var path = string.IsNullOrEmpty(xml.Source) ? settingsXml.BasePath + xml.Path : xml.Path;
+            var path = string.IsNullOrEmpty(xml.Source) ? Settings.BasePath + xml.Path : xml.Path;
 
             return new SharedDataSetQueryResolverArgs(
                 xml.Source, path, xml.Name
@@ -132,7 +133,7 @@ namespace NBi.NUnit.Builder.Helper
                 Build(executableXml as QueryXml);
             else
             {
-                var connectionString = new ConnectionStringHelper().Execute(executableXml, scope);
+                var connectionString = new ConnectionStringHelper().Execute(executableXml, Scope);
 
                 var queryableXml = executableXml as QueryableXml;
                 var parameters = BuildParameters(queryableXml.GetParameters());

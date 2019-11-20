@@ -131,9 +131,9 @@
         <unique-rows/>
       </assert>
     </test>
-    <test name="return 4 rows" uid="0007">
+    <test name="return 4 rows" uid="00070">
       <system-under-test>
-        <resultSet file="..\Csv\ResellerOrderCountByYearBefore2006.csv"/>
+        <result-set file="..\Csv\ResellerOrderCountByYearBefore2006.csv"/>
       </system-under-test>
       <assert>
         <row-count>

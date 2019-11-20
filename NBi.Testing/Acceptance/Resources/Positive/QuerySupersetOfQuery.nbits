@@ -10,7 +10,7 @@
   </settings>
   <test name="'Reseller Order Count' by year between 2005 and 2009, check correctness of expected rows" uid="0001">
     <system-under-test>
-      <execution>
+      <result-set>
         <query>
           SELECT 'CY 2005', 366.0
           UNION ALL SELECT 'CY 2006', 1015.0
@@ -18,7 +18,7 @@
           UNION ALL SELECT 'CY 2008', 894.0
           UNION ALL SELECT 'CY 2009', NULL
         </query>
-      </execution>
+      </result-set>
     </system-under-test>
     <assert>
       <superset-of>

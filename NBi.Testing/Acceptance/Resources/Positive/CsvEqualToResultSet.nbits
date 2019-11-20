@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<testSuite name="Acceptance Testing: query equalTo Csv" xmlns="http://NBi/TestSuite">
+<testSuite name="Acceptance Testing: query equal-to Csv" xmlns="http://NBi/TestSuite">
   <variables>
     <variable name="guid">
       <script language="c-sharp">Guid.NewGuid().ToString()</script>
@@ -7,13 +7,13 @@
   </variables>
 	<test name="'Reseller Order Count' by year before 2006 (csv)" uid="0000">
 		<system-under-test>
-      <resultSet file="..\Csv\ResellerOrderCountByYearBefore2006.csv"/>
+      <result-set file="..\Csv\ResellerOrderCountByYearBefore2006.csv"/>
 		</system-under-test>
 		<assert>
-			<equalTo>
+			<equal-to>
 				<column index="0" role="key" type="text"/>
 				<column index="1" role="value" type="numeric"/>
-        <resultSet>
+        <result-set>
           <row>
             <cell>CY 2005</cell>
             <cell>366</cell>
@@ -30,8 +30,8 @@
             <cell>CY 2008</cell>
             <cell>894</cell>
           </row>
-        </resultSet>
-			</equalTo>
+        </result-set>
+			</equal-to>
 		</assert>
 	</test>
   <test name="'Reseller Order Count' by year before 2006 (csv) on a copy of the file" uid="0010">
@@ -39,13 +39,13 @@
       <file-copy name="ResellerOrderCountByYearBefore2006.csv" path="~..\Csv\{@guid}\" source-path="..\Csv\" />
     </setup>
     <system-under-test>
-      <resultSet file="~..\Csv\{@guid}\ResellerOrderCountByYearBefore2006.csv"/>
+      <result-set file="~..\Csv\{@guid}\ResellerOrderCountByYearBefore2006.csv"/>
     </system-under-test>
     <assert>
-      <equalTo>
+      <equal-to>
         <column index="0" role="key" type="text"/>
         <column index="1" role="value" type="numeric"/>
-        <resultSet>
+        <result-set>
           <row>
             <cell>CY 2005</cell>
             <cell>366</cell>
@@ -62,8 +62,8 @@
             <cell>CY 2008</cell>
             <cell>894</cell>
           </row>
-        </resultSet>
-      </equalTo>
+        </result-set>
+      </equal-to>
     </assert>
     <cleanup>
       <file-delete name="ResellerOrderCountByYearBefore2006.csv" path="~..\Csv\{@guid}\"/>
@@ -80,13 +80,13 @@
       <file-copy name="ResellerOrderCountByYearBefore2006.csv" path="~..\Csv\{@guid}-{@direction}\" source-path="..\Csv\" />
     </setup>
     <system-under-test>
-      <resultSet file="~..\Csv\{@guid}-{@direction}\ResellerOrderCountByYearBefore2006.csv"/>
+      <result-set file="~..\Csv\{@guid}-{@direction}\ResellerOrderCountByYearBefore2006.csv"/>
     </system-under-test>
     <assert>
-      <equalTo>
+      <equal-to>
         <column index="0" role="key" type="text"/>
         <column index="1" role="value" type="numeric"/>
-        <resultSet>
+        <result-set>
           <row>
             <cell>CY 2005</cell>
             <cell>366</cell>
@@ -103,8 +103,8 @@
             <cell>CY 2008</cell>
             <cell>894</cell>
           </row>
-        </resultSet>
-      </equalTo>
+        </result-set>
+      </equal-to>
     </assert>
     <cleanup>
       <file-delete name="ResellerOrderCountByYearBefore2006.csv" path="~..\Csv\{@guid}-{@direction}\"/>
@@ -121,13 +121,13 @@
       <file-copy-pattern pattern="ResellerOrder*.csv" destination-path="~..\Csv\{@guid}-{@direction}\" source-path="..\Csv\" />
     </setup>
     <system-under-test>
-      <resultSet file="~..\Csv\{@guid}-{@direction}\ResellerOrderCountByYearBefore2006.csv"/>
+      <result-set file="~..\Csv\{@guid}-{@direction}\ResellerOrderCountByYearBefore2006.csv"/>
     </system-under-test>
     <assert>
-      <equalTo>
+      <equal-to>
         <column index="0" role="key" type="text"/>
         <column index="1" role="value" type="numeric"/>
-        <resultSet>
+        <result-set>
           <row>
             <cell>CY 2005</cell>
             <cell>366</cell>
@@ -144,8 +144,8 @@
             <cell>CY 2008</cell>
             <cell>894</cell>
           </row>
-        </resultSet>
-      </equalTo>
+        </result-set>
+      </equal-to>
     </assert>
     <cleanup>
       <file-delete name="ResellerOrderCountByYearBefore2006.csv" path="~..\Csv\{@guid}-{@direction}\"/>
@@ -162,13 +162,13 @@
       <file-copy-extension extension=".csv" destination-path="~..\Csv\{@guid}-{@direction}\" source-path="..\Csv\" />
     </setup>
     <system-under-test>
-      <resultSet file="~..\Csv\{@guid}-{@direction}\ResellerOrderCountByYearBefore2006.csv"/>
+      <result-set file="~..\Csv\{@guid}-{@direction}\ResellerOrderCountByYearBefore2006.csv"/>
     </system-under-test>
     <assert>
-      <equalTo>
+      <equal-to>
         <column index="0" role="key" type="text"/>
         <column index="1" role="value" type="numeric"/>
-        <resultSet>
+        <result-set>
           <row>
             <cell>CY 2005</cell>
             <cell>366</cell>
@@ -185,8 +185,8 @@
             <cell>CY 2008</cell>
             <cell>894</cell>
           </row>
-        </resultSet>
-      </equalTo>
+        </result-set>
+      </equal-to>
     </assert>
     <cleanup>
       <file-delete name="ResellerOrderCountByYearBefore2006.csv" path="~..\Csv\{@guid}-{@direction}\"/>

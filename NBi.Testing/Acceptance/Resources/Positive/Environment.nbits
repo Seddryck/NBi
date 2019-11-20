@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<testSuite name="Acceptance Testing: query equalTo Csv" xmlns="http://NBi/TestSuite">
+<testSuite name="Acceptance Testing: query equal-to Csv" xmlns="http://NBi/TestSuite">
   <settings>
     <default apply-to="system-under-test">
       <connectionString>Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly</connectionString>
@@ -22,54 +22,54 @@
   </variables>
 	<test name="Get content of environment variable into a test variable" uid="0001">
 		<system-under-test>
-      <resultSet>
+      <result-set>
         <query>
           <parameter name="var">@myEnvVar</parameter>
           select @var;
         </query>
-      </resultSet>
+      </result-set>
 		</system-under-test>
 		<assert>
-      <equalTo behavior="single-row">
+      <equal-to behavior="single-row">
         <column index="0" type="dateTime" role="value"/>
-        <resultSet>
+        <result-set>
           <row>
             <cell>2015-01-01</cell>
           </row>
-        </resultSet>
-      </equalTo>
+        </result-set>
+      </equal-to>
 		</assert>
 	</test>
   <test name="Get content of environment variable for the connection string (from default)" uid="0002">
     <system-under-test>
-      <resultSet>
+      <result-set>
         <query>
           select 2812;
         </query>
-      </resultSet>
+      </result-set>
     </system-under-test>
     <assert>
-      <equalTo behavior="single-row">
+      <equal-to behavior="single-row">
         <query>
           select 2812;
         </query>
-      </equalTo>
+      </equal-to>
     </assert>
   </test>
   <test name="Get content of environment variable for the connection string (from reference)" uid="0002">
     <system-under-test>
-      <resultSet>
+      <result-set>
         <query>
           select 2812;
         </query>
-      </resultSet>
+      </result-set>
     </system-under-test>
     <assert>
-      <equalTo behavior="single-row">
+      <equal-to behavior="single-row">
         <query connectionString="@refConnStr">
           select 2812;
         </query>
-      </equalTo>
+      </equal-to>
     </assert>
   </test>
 </testSuite>

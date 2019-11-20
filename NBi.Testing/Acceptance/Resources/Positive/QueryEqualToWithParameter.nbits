@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<testSuite name="Acceptance Testing: query equalTo with parameters" xmlns="http://NBi/TestSuite">
+<testSuite name="Acceptance Testing: query equal-to with parameters" xmlns="http://NBi/TestSuite">
   <settings>
     <default apply-to="everywhere">
       <connection-string>Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly</connection-string>
@@ -23,32 +23,32 @@
     </system-under-test>
     <assert>
       <equal-to>
-        <resultSet>
+        <result-set>
           <row>
             <cell>1</cell>
           </row>
-        </resultSet>
+        </result-set>
       </equal-to>
     </assert>
   </test>
   <test name="Using a parameter referring to a variable">
     <system-under-test>
-      <resultSet>
+      <result-set>
         <query>
           <![CDATA[select CurrencyCode, Name from [Sales].[Currency] where CurrencyCode=@CurrencyCode]]>
           <parameter name="@CurrencyCode">@CurrencyCodeVariable</parameter>
         </query>
-      </resultSet>
+      </result-set>
     </system-under-test>
     <assert>
-      <equalTo keys="all">
-        <resultSet>
+      <equal-to keys="all">
+        <result-set>
           <row>
             <cell>CAD</cell>
             <cell>Canadian Dollar</cell>
           </row>
-        </resultSet>
-      </equalTo>
+        </result-set>
+      </equal-to>
     </assert>
   </test>
 </testSuite>

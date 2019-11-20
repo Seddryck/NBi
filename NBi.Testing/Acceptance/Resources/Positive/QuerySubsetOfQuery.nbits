@@ -10,12 +10,12 @@
   </settings>
   <test name="'Reseller Order Count' by year for 2006 and 2007 are return by the query" uid="0001">
     <system-under-test>
-      <execution>
+      <result-set>
         <query>
           SELECT 'CY 2006', 1015.0
           UNION ALL SELECT 'CY 2007', 1521.0
         </query>
-      </execution>
+      </result-set>
     </system-under-test>
     <assert>
       <subset-of>

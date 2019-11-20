@@ -1,11 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<testSuite name="Acceptance Testing: query equalTo ResultSet" xmlns="http://NBi/TestSuite">
+<testSuite name="Acceptance Testing: query equal-to ResultSet" xmlns="http://NBi/TestSuite">
   <test name="'Reseller Orders' count, year by year, between 2005 and 2008 on an Excel file" uid="0001">
     <condition>
       <service-running name="MSOLAP$SQL2017"/>
     </condition>
     <system-under-test>
-      <execution>
+      <result-set>
         <query
                connectionString="Provider=Microsoft.ACE.OLEDB.12.0;Data Source=Acceptance\Resources\Positive\OrderCountByYear.xlsx;Extended Properties=&quot;Excel 12.0 Xml;HDR=YES&quot;"
                name="Excel query"
@@ -16,11 +16,11 @@
           FROM
           [Sheet1$B3:C7]
         </query>
-      </execution>
+      </result-set>
     </system-under-test>           
     <assert>
-      <equalTo>
-        <resultSet>
+      <equal-to>
+        <result-set>
           <row>
             <cell>CY 2005</cell>
             <cell>366</cell>
@@ -37,8 +37,8 @@
             <cell>CY 2008</cell>
             <cell>894</cell>
           </row>
-        </resultSet>
-      </equalTo>
+        </result-set>
+      </equal-to>
     </assert>
   </test>
 </testSuite>

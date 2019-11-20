@@ -14,6 +14,7 @@ using NBi.Core.Scalar.Resolver;
 using NBi.Core.Scalar;
 using NBi.Core.Calculation.Predicate;
 using NBi.Core.Variable;
+using NBi.Xml.Settings;
 
 namespace NBi.NUnit.Builder
 {
@@ -22,9 +23,7 @@ namespace NBi.NUnit.Builder
         protected RowCountXml ConstraintXml { get; set; }
 
         public ResultSetRowCountBuilder()
-        {
-
-        }
+        { }
 
         protected override void SpecificSetup(AbstractSystemUnderTestXml sutXml, AbstractConstraintXml ctrXml)
         {
@@ -112,10 +111,10 @@ namespace NBi.NUnit.Builder
             }
 
             if (xml.QueryScalar != null)
-                builder.Setup(xml.QueryScalar, ConstraintXml.Settings, Xml.Settings.SettingsXml.DefaultScope.Assert);
+                builder.Setup(xml.QueryScalar, ConstraintXml.Settings, SettingsXml.DefaultScope.Assert);
 
             if (xml.Projection != null)
-                builder.Setup(xml.Projection, ConstraintXml.Settings, Xml.Settings.SettingsXml.DefaultScope.Assert);
+                builder.Setup(xml.Projection, ConstraintXml.Settings, SettingsXml.DefaultScope.Assert);
 
             builder.Build();
             var args = builder.GetArgs();

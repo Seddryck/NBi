@@ -9,7 +9,7 @@
     </condition>
 		<system-under-test>
       <result-set>
-				<query name="MDX Except" connectionString="Provider=MSOLAP.4;Data Source=(local)\SQL2017;Initial Catalog='Adventure Works DW 2012';localeidentifier=1049">
+				<query connection-string="Provider=MSOLAP.4;Data Source=(local)\SQL2017;Initial Catalog='Adventure Works DW 2012';localeidentifier=1049">
 					SELECT
 					[Measures].[Reseller Order Count] ON 0,
 					{[Date].[Calendar Year].[CY 2005]:[Date].[Calendar Year].[CY 2008]} ON 1
@@ -29,7 +29,7 @@
   <test name="'Reseller Order Count' by year before 2006 (csv)" uid="0001">
     <system-under-test>
       <result-set>
-        <query connectionString="Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly">
+        <query connection-string="Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly">
           SELECT [Key]=1,Val1='2',Val3=NULL,Val3='3'
           UNION
           SELECT [Key]=4,Val1=NULL,Val2='3',Val3=''

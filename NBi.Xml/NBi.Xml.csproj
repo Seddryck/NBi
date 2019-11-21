@@ -150,6 +150,7 @@
     <Compile Include="GroupXml.cs" />
     <Compile Include="InheritanceTestXml.cs" />
     <Compile Include="InstanceSettlingXml.cs" />
+    <Compile Include="Items\AbstractPredicationXml.cs" />
     <Compile Include="Items\Alteration\AlterationXml.cs" />
     <Compile Include="Items\Alteration\Conversion\AbstractConverterXml.cs" />
     <Compile Include="Items\Alteration\Conversion\ConvertXml.cs" />
@@ -180,7 +181,8 @@
     <Compile Include="Items\Api\Rest\RestHeaderXml.cs" />
     <Compile Include="Items\Api\Rest\RestParameterXml.cs" />
     <Compile Include="Items\Api\Rest\RestXml.cs" />
-    <Compile Include="Items\Calculation\CombinationPredicateXml.cs" />
+    <Compile Include="Items\Calculation\CombinationPredicationXml.cs" />
+    <Compile Include="Items\Calculation\Grouping\CaseXml.cs" />
     <Compile Include="Items\EnvironmentXml.cs" />
     <Compile Include="Items\Calculation\Grouping\GroupByXml.cs" />
     <Compile Include="Items\Calculation\Ranking\BaseRankXml.cs" />
@@ -266,7 +268,7 @@
     <Compile Include="Items\AbstractMembersItem.cs" />
     <Compile Include="Items\BaseItem.cs" />
     <Compile Include="Items\QueryXml.cs" />
-    <Compile Include="Items\Calculation\PredicationXml.cs" />
+    <Compile Include="Items\Calculation\SinglePredicationXml.cs" />
     <Compile Include="Items\Calculation\FilterXml.cs" />
     <Compile Include="Items\Calculation\ExpressionXml.cs" />
     <Compile Include="Items\Calculation\AliasXml.cs" />

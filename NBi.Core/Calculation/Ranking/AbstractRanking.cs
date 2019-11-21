@@ -50,7 +50,7 @@ namespace NBi.Core.Calculation.Ranking
 
         protected virtual bool RowCompare(ScoredObject oldObj, ScoredObject newObj)
         {
-            switch (columnType)
+            switch (ColumnType)
             {
                 case ColumnType.Text: return RowCompare<string>(oldObj, newObj);
                 case ColumnType.Numeric: return RowCompare<decimal>(oldObj, newObj);
@@ -65,7 +65,7 @@ namespace NBi.Core.Calculation.Ranking
             var factory = new PredicateFactory();
             var predicateArgs = new ReferencePredicateArgs()
             {
-                ColumnType = columnType,
+                ColumnType = ColumnType,
                 ComparerType = GetComparerType(),
                 Reference = new LiteralScalarResolver<T>(oldObj.Score)
             };

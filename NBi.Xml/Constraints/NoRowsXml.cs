@@ -46,10 +46,10 @@ namespace NBi.Xml.Constraints
         private List<AliasXml> internalAliases;
 
         [XmlElement("predicate", Order = 4)]
-        public PredicationXml Predication { get; set; }
+        public SinglePredicationXml Predication { get; set; }
 
         [XmlElement("combination", Order = 5)]
-        public CombinationPredicateXml Combination { get; set; }
+        public CombinationPredicationXml Combination { get; set; }
 
         public NoRowsXml()
         {

@@ -198,5 +198,41 @@ namespace NBi.Testing.Xml.Unit.Items.Calculation
             Assert.That(content, Does.Contain("bar"));
             Assert.That(content, Does.Not.Contain("text"));
         }
+
+        [Test]
+        public void Deserialize_RankingWithCases_CaseGrouping()
+        {
+            int testNr = 2;
+
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            TestSuiteXml ts = DeserializeSample();
+
+            Assert.That(ts.Tests[testNr].Systems[0], Is.TypeOf<ResultSetSystemXml>());
+            var alterations = (ts.Tests[testNr].Systems[0] as ResultSetSystemXml).Alterations;
+            var filter = alterations[0] as FilterXml;
+            Assert.That(filter, Is.Not.Null);
+            Assert.That(filter.Ranking.GroupBy, Is.Not.Null);
+            Assert.That(filter.Ranking.GroupBy.Cases, Is.Not.Null);
+            Assert.That(filter.Ranking.GroupBy.Cases.Count, Is.EqualTo(2));
+        }
+
+        [Test]
+        public void Deserialize_RankingWithCases_PredicateOrCombination()
+        {
+            int testNr = 2;
+
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            TestSuiteXml ts = DeserializeSample();
+
+            Assert.That(ts.Tests[testNr].Systems[0], Is.TypeOf<ResultSetSystemXml>());
+            var alterations = (ts.Tests[testNr].Systems[0] as ResultSetSystemXml).Alterations;
+            var filter = alterations[0] as FilterXml;
+            Assert.That(filter, Is.Not.Null);
+            Assert.That(filter.Ranking.GroupBy.Cases[0].Predication, Is.Not.Null);
+            Assert.That(filter.Ranking.GroupBy.Cases[0].Predication, Is.TypeOf<SinglePredicationXml>());
+            Assert.That(filter.Ranking.GroupBy.Cases[1].Predication, Is.Not.Null);
+            Assert.That(filter.Ranking.GroupBy.Cases[1].Predication, Is.TypeOf<CombinationPredicationXml>());
+        }
+
     }
 }

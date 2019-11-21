@@ -1453,9 +1453,20 @@
     <xs:attribute name="count" type="xs:positiveInteger" use="optional"/>
   </xs:complexType>
   <xs:complexType name="group-by-type">
-    <xs:sequence minOccurs="1" maxOccurs="unbounded">
-      <xs:element name="column" type="definition-column-base-type" minOccurs="0" maxOccurs="unbounded"/>
-    </xs:sequence>
+    <xs:choice>
+      <xs:sequence minOccurs="1" maxOccurs="unbounded">
+        <xs:element name="column" type="definition-column-base-type" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+      <xs:sequence minOccurs="1" maxOccurs="unbounded">
+        <xs:element name="case" type="group-by-case-type"/>
+      </xs:sequence>
+    </xs:choice>
+  </xs:complexType>
+  <xs:complexType name ="group-by-case-type">
+    <xs:choice>
+      <xs:element name="predicate" type="predicate-type"/>
+      <xs:element name="combination" type="combination-predicate-type"/>
+    </xs:choice>
   </xs:complexType>
   <xs:complexType name="unique-rows-type">
     <xs:sequence minOccurs="0" maxOccurs="unbounded">

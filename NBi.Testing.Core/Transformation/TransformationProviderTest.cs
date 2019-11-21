@@ -31,7 +31,7 @@ namespace NBi.Testing.Core.Transformation
                     && t.Code == "value.Substring(0,1)"
                 );
 
-            var provider = new TransformationProvider(new ServiceLocator(), new Context(null));
+            var provider = new TransformationProvider(new ServiceLocator(), Context.None);
             provider.Add(new ColumnOrdinalIdentifier(0), transformation);
             provider.Transform(resultSet);
 
@@ -53,7 +53,7 @@ namespace NBi.Testing.Core.Transformation
                     && t.Code == "value.Substring(0,1)"
                 );
 
-            var provider = new TransformationProvider(new ServiceLocator(), new Context(null));
+            var provider = new TransformationProvider(new ServiceLocator(), Context.None);
             provider.Add(new ColumnOrdinalIdentifier(0), transformation);
             provider.Transform(resultSet);
 
@@ -73,7 +73,7 @@ namespace NBi.Testing.Core.Transformation
                     && t.Code == "text-to-trim"
                 );
 
-            var provider = new TransformationProvider(new ServiceLocator(), new Context(null));
+            var provider = new TransformationProvider(new ServiceLocator(), Context.None);
             provider.Add(new ColumnOrdinalIdentifier(0), transformation);
             provider.Transform(resultSet);
 
@@ -93,7 +93,7 @@ namespace NBi.Testing.Core.Transformation
                     && t.Code == "text-to-first-chars(#1)"
                 );
 
-            var provider = new TransformationProvider(new ServiceLocator(), new Context(null));
+            var provider = new TransformationProvider(new ServiceLocator(), Context.None);
             provider.Add(new ColumnOrdinalIdentifier(0), transformation);
             provider.Transform(resultSet);
 
@@ -114,7 +114,7 @@ namespace NBi.Testing.Core.Transformation
                     && t.Code == "blank-to-null"
                 );
 
-            var provider = new TransformationProvider(new ServiceLocator(), new Context(null));
+            var provider = new TransformationProvider(new ServiceLocator(), Context.None);
             provider.Add(new ColumnOrdinalIdentifier(0), transformation);
             provider.Transform(resultSet);
 
@@ -154,7 +154,7 @@ namespace NBi.Testing.Core.Transformation
                     && t.Code == "value.Month + (value.Year-2000)*12"
                 );
 
-            var provider = new TransformationProvider(new ServiceLocator(), new Context(null));
+            var provider = new TransformationProvider(new ServiceLocator(), Context.None);
             provider.Add(new ColumnOrdinalIdentifier(0), transformation);
             provider.Transform(resultSet);
 

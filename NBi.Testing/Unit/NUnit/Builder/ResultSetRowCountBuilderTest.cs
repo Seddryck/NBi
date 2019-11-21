@@ -95,7 +95,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
                 Filter = new FilterXml()
             };
             ctrXml.Filter.InternalAliases.Add(new AliasXml());
-            ctrXml.Filter.Predication = new PredicationXml() { Predicate = new NullXml(), Operand = new ColumnNameIdentifier("myColumn") };
+            ctrXml.Filter.Predication = new SinglePredicationXml() { Predicate = new NullXml(), Operand = new ColumnNameIdentifier("myColumn") };
 
             var builder = new ResultSetRowCountBuilder();
             builder.Setup(sutXml, ctrXml, null, null, new ServiceLocator());
@@ -124,7 +124,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
                 Filter = new FilterXml()
                 {
                     InternalAliases = new List<AliasXml>() { new AliasXml()},
-                    Predication = new PredicationXml() { Predicate = new NullXml(), Operand = new ColumnNameIdentifier("myColumn") }
+                    Predication = new SinglePredicationXml() { Predicate = new NullXml(), Operand = new ColumnNameIdentifier("myColumn") }
                 }
             };
 

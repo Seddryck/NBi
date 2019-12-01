@@ -49,14 +49,14 @@ In the example bellow, we've a *dateTime* value contained in the column named ``
 {% highlight xml %}
 <assertion>
   <all-rows>
-  <expression name="localTime">
-  <script language="native">
-  [myDateTime] 
-    | utc-to-local(Brussels) 
-    | dateTime-to-previous-day 
-    | dateTime-to-set-time(07:00:00)
-  </script>
-  </expression>
+    <expression name="localTime">
+      <script language="native">
+        [myDateTime] 
+          | utc-to-local(Brussels) 
+          | dateTime-to-previous-day 
+          | dateTime-to-set-time(07:00:00)
+      </script>
+    </expression>
   </all-rows>
 </assertion>
 {% endhighlight %}
@@ -72,7 +72,19 @@ In this kind of test, a cell can be used later in the *predicate* or in an *expr
 {% highlight xml %}
 <assertion>
   <all-rows>
-  <expression name="TotalPriceWithVAT">UnitPrice * Quantity * 1.21</expression>
+    <expression name="TotalPriceWithVAT">UnitPrice * Quantity * 1.21</expression>
+  </all-rows>
+</assertion>
+{% endhighlight %}
+
+### Using a variable to create a new value
+
+In addition to columns, you can also use variables when using an expressison based on NCalc. To achieve this, you must surround the variable's name with square brackets.
+
+{% highlight xml %}
+<assertion>
+  <all-rows>
+    <expression name="TotalPriceWithVAT">UnitPrice * Quantity * [@myTaxLevel]</expression>
   </all-rows>
 </assertion>
 {% endhighlight %}

@@ -72,7 +72,9 @@ namespace NBi.Core.Calculation
 
                 exp.EvaluateParameter += delegate (string name, NCalc.ParameterArgs args)
                 {
-                    args.Result = Execute(context, factory.Instantiate(name));
+                    args.Result = name.StartsWith("@")
+                        ? context.Variables[name.Substring(1, name.Length-1)].GetValue()
+                        : Execute(context, factory.Instantiate(name));
                 };
 
                 return exp.Evaluate();

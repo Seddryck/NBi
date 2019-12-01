@@ -60,6 +60,21 @@ It's possible to define a file loop to get the name of all the files within a di
 <loop-file path="..\csv\" pattern="MyData*.csv"/>
 {% endhighlight %}
 
+### Query-based definition
+
+This solution retrieves the values from a the result of the execution of a query.
+
+In this example, the sequence named *myVar* is set to the values returned by the query defined in the element *query-sequence*. If the query returns more than one column , the first column is considered. All the possibilities offered by the standard *query* element is available. For mor information on how to define a query, take a look in the [result-set definition](../primitive-result-set/#Query-based-definition) documentation.
+
+{% highlight xml %}
+<sequence name="myVar">
+  <query-sequence connection-string="...">
+    select [myColumn] from [myTable] where [myFilterColumn]=@filter;
+    <parameter name="filter">myFilterValue</parameter>
+  </query-sequence>
+</sequence>
+{% endhighlight %}
+
 ### Custom sequence
 
 This solution retrieves the values from an external C# assembly. This assembly must contain one or more types implementing the interface *ISequenceResolver*.
@@ -67,7 +82,7 @@ This solution retrieves the values from an external C# assembly. This assembly m
 In this example, the sequence named *myVar* is set to the values returned by the type *MyCustomClass* of the assembly *myassembly.dll* when executing the method *Execute()* . Optionaly, you can pass some parameters to the type *MyType* when instantiating it. In this example, the class *MyCustomClass* has a constructor accepting two parameters (*foo*, *bar*).
 
 {% highlight xml %}
-<sequence name="myVar"/>
+<sequence name="myVar">
   <custom assembly="myAssembly.dll" type="MyCustomClass">
     <parameter name="bar">10</parameter>
     <parameter name="foo">@myValue</parameter>

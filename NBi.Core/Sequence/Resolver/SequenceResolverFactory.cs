@@ -12,17 +12,17 @@ namespace NBi.Core.Sequence.Resolver
 {
     public class SequenceResolverFactory
     {
-        private readonly ServiceLocator serviceLocator;
+        private ServiceLocator ServiceLocator { get; }
         public SequenceResolverFactory(ServiceLocator serviceLocator)
-        {
-            this.serviceLocator = serviceLocator;
-        }
-
+            => ServiceLocator = serviceLocator;
+        
         internal ISequenceResolver<T> Instantiate<T>(ISequenceResolverArgs args)
         {
             switch (args)
             {
+                case QuerySequenceResolverArgs queryArgs: return new QuerySequenceResolver<T>(queryArgs, ServiceLocator);
                 case ListSequenceResolverArgs listArgs: return new ListSequenceResolver<T>(listArgs);
+                case CustomSequenceResolverArgs customArgs: return new CustomSequenceResolver<T>(customArgs);
                 case FileLoopSequenceResolverArgs fileArgs: return (ISequenceResolver<T>)new FileLoopSequenceResolver(fileArgs);
                 case ILoopSequenceResolverArgs loopArgs:
                     {
@@ -31,7 +31,7 @@ namespace NBi.Core.Sequence.Resolver
                     }
                 case FilterSequenceResolverArgs filterArgs: return new FilterSequenceResolver<T>(filterArgs);
                 default:
-                    throw new ArgumentOutOfRangeException($"Type '{args.GetType().Name}' is not expected when building a Scalar");
+                    throw new ArgumentOutOfRangeException($"Type '{args.GetType().Name}' is not expected when building a Sequence");
             }
         }
 

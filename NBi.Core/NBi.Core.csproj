@@ -149,6 +149,9 @@
     <Compile Include="Calculation\Grouping\ColumnBased\ColumnGroupByArgs.cs" />
     <Compile Include="Calculation\Grouping\IGroupByArgs.cs" />
     <Compile Include="Calculation\Grouping\NoneGroupByArgs.cs" />
+    <Compile Include="Decoration\IO\Commands\FolderExistsCondition.cs" />
+    <Compile Include="Decoration\IO\FolderExistsConditionArgs.cs" />
+    <Compile Include="Decoration\IO\IIoConditionArgs.cs" />
     <Compile Include="ResultSet\Filtering\PredicationArgs.cs" />
     <Compile Include="ResultSet\Filtering\IFilteringArgs.cs" />
     <Compile Include="Calculation\Predication\AndCombinationPredication.cs" />
@@ -744,6 +747,8 @@
     <Compile Include="Sequence\Resolver\Loop\IntervalMode.cs" />
     <Compile Include="Sequence\Resolver\Loop\SentinelHalfOpenNumericLoopStrategy.cs" />
     <Compile Include="Sequence\Resolver\Loop\SentinelHalfOpenDateTimeLoopStrategy.cs" />
+    <Compile Include="Sequence\Resolver\QuerySequenceResolver.cs" />
+    <Compile Include="Sequence\Resolver\QuerySequenceResolverArgs.cs" />
     <Compile Include="Sequence\Resolver\SentinelLoopSequenceResolverArgs.cs" />
     <Compile Include="Sequence\Resolver\Loop\CountDateTimeLoopStrategy.cs" />
     <Compile Include="Sequence\Resolver\Loop\SentinelCloseDateTimeLoopStrategy.cs" />

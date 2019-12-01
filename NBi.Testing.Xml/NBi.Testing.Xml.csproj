@@ -118,6 +118,7 @@
     <Compile Include="TraitXmlTest.cs" />
     <Compile Include="Variables\GlobalVariableXmlTest.cs" />
     <Compile Include="Variables\LocalVariableXmlTest.cs" />
+    <Compile Include="Variables\Sequence\QuerySequenceXmlTest.cs" />
     <Compile Include="Variables\Sequence\FileLoopXmlTest.cs" />
     <Compile Include="Variables\Sequence\SentinelLoopXmlTest.cs" />
     <Compile Include="XmlManagerTest.cs" />
@@ -418,6 +419,9 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\RestXmlTestSuite.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\QuerySequenceXmlTestSuite.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

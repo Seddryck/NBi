@@ -299,7 +299,7 @@
       </all-rows>
     </assert>
   </test>
-  <test name="Instances are defined through a single variable having some derivations" uid="0060">
+  <test name="Instances are defined through a single variable having some derivations" uid="0061">
     <instance-settling>
       <local-variable name="file" type="text">
         <loop-file path="..\csv\" pattern="Info*_*.csv"/>
@@ -388,14 +388,33 @@
       </lookup-exists>
     </assert>
   </test>-->
-  <test name="Instances are defined through a custom" uid="0060">
+  <test name="Instances are defined through a custom" uid="0070">
     <instance-settling>
       <local-variable name="month" type="dateTime">
         <custom assembly-path="NBi.Testing.dll" type="CustomSequenceMonths"/>
       </local-variable>
     </instance-settling>
     <system-under-test>
-      <result-set file="~..\csv\MyData_{@month:yyyy}_{@month:MM}"/>
+      <result-set file="~..\csv\MyData_{@month:yyyy}_{@month:MM}.csv"/>
+    </system-under-test>
+    <assert>
+      <no-rows>
+        <predicate name="#0">
+          <null/>
+        </predicate>
+      </no-rows>
+    </assert>
+  </test>
+  <test name="Instances are defined through a query" uid="0080">
+    <instance-settling>
+      <local-variable name="month" type="dateTime">
+        <query-sequence connection-string="Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly">
+          select '2016-01-01' union all select '2016-02-01' union all select '2016-03-01'
+        </query-sequence>
+      </local-variable>
+    </instance-settling>
+    <system-under-test>
+      <result-set file="~..\csv\MyData_{@month:yyyy}_{@month:MM}.csv"/>
     </system-under-test>
     <assert>
       <no-rows>

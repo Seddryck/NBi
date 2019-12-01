@@ -747,6 +747,8 @@
     <Compile Include="Sequence\Resolver\Loop\IntervalMode.cs" />
     <Compile Include="Sequence\Resolver\Loop\SentinelHalfOpenNumericLoopStrategy.cs" />
     <Compile Include="Sequence\Resolver\Loop\SentinelHalfOpenDateTimeLoopStrategy.cs" />
+    <Compile Include="Sequence\Resolver\QuerySequenceResolver.cs" />
+    <Compile Include="Sequence\Resolver\QuerySequenceResolverArgs.cs" />
     <Compile Include="Sequence\Resolver\SentinelLoopSequenceResolverArgs.cs" />
     <Compile Include="Sequence\Resolver\Loop\CountDateTimeLoopStrategy.cs" />
     <Compile Include="Sequence\Resolver\Loop\SentinelCloseDateTimeLoopStrategy.cs" />

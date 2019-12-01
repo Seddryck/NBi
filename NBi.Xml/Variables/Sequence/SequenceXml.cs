@@ -1,4 +1,5 @@
 ﻿using NBi.Core.ResultSet;
+using NBi.Xml.Items;
 using NBi.Xml.Variables.Custom;
 using System;
 using System.Collections.Generic;
@@ -22,6 +23,9 @@ namespace NBi.Xml.Variables.Sequence
 
         [XmlElement("item")]
         public List<string> Items { get; set; } = new List<string>();
+
+        [XmlElement("query-sequence")]
+        public QueryXml Query { get; set; }
 
         [XmlElement("loop-file")]
         public FileLoopXml FileLoop { get; set; }

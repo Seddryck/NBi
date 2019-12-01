@@ -43,7 +43,7 @@ namespace NBi.Core.Query
                 throw new ArgumentException($"Unable to find the attribute SupportedCommandType for the type{(invalidTypes.Count>1 ? "s" : string.Empty)}: '{string.Join(@"', '", invalidTypes)}'.");
         }
 
-        public T Instantiate(IQuery query)
+        public virtual T Instantiate(IQuery query)
         {
             var session = sessionFactory.Instantiate(query.ConnectionString);
             var cmd = commandFactory.Instantiate(session, query);

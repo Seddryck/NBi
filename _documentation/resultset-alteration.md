@@ -78,11 +78,11 @@ You also have the possibility to define a *missing* strategy to specify the beha
 
 ## Extensions
 
-This alteration is useful when you want to create a new column based on the content of some other columns. 
+This alteration is useful when you want to create a new column based on the content of some other columns.
 
 You'll have to identify the newly created column by its name or by its position in the result-set. When using an ordinal identifier the newly created column will be available at the expected position. If the expected position is unreachable (less columns that expected), the alteration will put the new column as the latest column. In case of a name identifier, if the newly created column has the same name than an existing column this column will be replaced.
 
-The definition of the content of the new column is performed with the help of the *NCalc* language using column identifications (ordinal or names) as input parameters of the NCalc function. 
+The definition of the content of the new column is performed with the help of the *NCalc* language using column identifications (ordinal or names) or variables as input parameters of the NCalc function.
 
 In the following example, two new columns are created. The first one will be positioned as the first column (due to the identifier #0) and the second one will be added at the end of the result-set and named *myNewColumn*.
 
@@ -93,7 +93,7 @@ In the following example, two new columns are created. The first one will be pos
   </query>
   <alteration>
     <extend identifier="#0">
-       <script language="ncalc">[#1] * Max([#2], [#3])</script>
+       <script language="ncalc">[#1] * Max([#2], [#3]) - [@myNumericVariable]</script>
     </extend>
     <extend identifier="[myNewColumn]">
        <script language="ncalc">[colA] * Max(ColB, ColC)</script>
@@ -102,7 +102,7 @@ In the following example, two new columns are created. The first one will be pos
 </result-set>
 {% endhighlight %}
 
-Another engine supported is the [native transformations](../scalar-native-transformation). You can also use column's name or ordinal and variables to define the initial value of the functions' parameters.
+Another engine supported is the [native transformations](../scalar-native-transformation). You can also use column's name or ordinal and variables, as initial value or as native transformation parameters, to define the initial value of the functions' parameters.
 
 {% highlight xml %}
 <result-set>
@@ -115,6 +115,9 @@ Another engine supported is the [native transformations](../scalar-native-transf
     </extend>
     <extend identifier="[myNewColumn]">
       <script language="native">[ColD] | text-to-upper | text-to-pad-left(@Count, [ColE])</script>
+    </extend>
+    <extend identifier="[myNewColumn2]">
+      <script language="native">@MyNumericVariable | numeric-to-clip(0, [ColC])</script>
     </extend>
   </alteration>
 </result-set>

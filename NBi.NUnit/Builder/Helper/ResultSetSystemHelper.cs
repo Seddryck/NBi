@@ -223,7 +223,7 @@ namespace NBi.NUnit.Builder.Helper
 
         private Alter InstantiateExtend(ExtendXml extendXml)
         {
-            var factory = new ExtensionFactory(ServiceLocator);
+            var factory = new ExtensionFactory(ServiceLocator, new Context(Variables));
             var extender = factory.Instantiate(new ExtendArgs
                 (
                     extendXml.Identifier

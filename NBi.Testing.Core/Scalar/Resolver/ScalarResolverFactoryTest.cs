@@ -147,16 +147,13 @@ namespace NBi.Testing.Core.Scalar.Resolver
         [Test]
         public void Instantiate_NCalcArgs_NcalcResolver()
         {
-            using (var dt = new DataTable())
-            {
-                var row = dt.NewRow();
-                var args = new NCalcScalarResolverArgs("a * b - 2", row);
+            var context = new Context(null);
+            var args = new NCalcScalarResolverArgs("a * b - 2", context);
 
-                var factory = new ScalarResolverFactory(null);
-                var resolver = factory.Instantiate(args);
+            var factory = new ScalarResolverFactory(null);
+            var resolver = factory.Instantiate(args);
 
-                Assert.That(resolver, Is.TypeOf<NCalcScalarResolver<object>>());
-            }
+            Assert.That(resolver, Is.TypeOf<NCalcScalarResolver<object>>());
         }
     }
 }

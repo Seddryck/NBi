@@ -25,7 +25,9 @@ namespace NBi.Core.Scalar.Resolver
 
             exp.EvaluateParameter += delegate (string name, NCalc.ParameterArgs args)
             {
-                args.Result = GetValueFromRow(Args.Row, factory.Instantiate(name));
+                args.Result = name.StartsWith("@")
+                    ? Args.Context.Variables[name.Substring(1, name.Length - 1)].GetValue()
+                    : GetValueFromRow(Args.Context.CurrentRow, factory.Instantiate(name));
             };
 
             var rawValue = exp.Evaluate();

@@ -27,9 +27,19 @@
     <variable name="length">
       <script language="c-sharp">2+1</script>
     </variable>
+    <variable name="timing">
+      <script language="c-sharp">
+        new DateTime(2019,10,07,22,00,00)
+      </script>
+    </variable>
+    <variable name="factor">
+      <script language="c-sharp">
+        1+1
+      </script>
+    </variable>
   </variables>
   <group name="asserts">
-    <!--<test name="Csv equal to embedded result-set" uid="0001">
+    <test name="Csv equal to embedded result-set" uid="0001">
       <system-under-test>
         <resultSet file="..\Csv\ResellerOrderCountByYearBefore2006.csv"/>
       </system-under-test>
@@ -980,8 +990,8 @@
           </predicate>
         </all-rows>
       </assert>
-    </test>-->
-    <!--<test name="Filter with one ranking bottom" uid="0212">
+    </test>
+    <test name="Filter with one ranking bottom" uid="0212">
       <system-under-test>
         <resultSet file="..\Csv\Orders.csv">
           <alteration>
@@ -1003,7 +1013,7 @@
           </predicate>
         </all-rows>
       </assert>
-    </test>-->
+    </test>
     <test name="Filter with group-by case" uid="0213">
       <system-under-test>
         <result-set file="..\Csv\Orders.csv">
@@ -1060,7 +1070,7 @@
         </equal-to>
       </assert>
     </test>
-    <!--<test name="Conversion with text-to-date" uid="0221">
+    <test name="Conversion with text-to-date" uid="0221">
       <system-under-test>
         <resultSet file="..\Csv\Orders.csv">
           <alteration>
@@ -1283,8 +1293,8 @@
       <system-under-test>
         <result-set>
           <query>
-            select 'ABCDE', 'foo' 
-            union all select 'bcdef', 'bar' 
+            select 'ABCDE', 'foo'
+            union all select 'bcdef', 'bar'
             union all select null, ''
           </query>
           <alteration>
@@ -1502,6 +1512,48 @@
               <project-away>
                 <column identifier="#1"/>
                 <column identifier="#2"/>
+              </project-away>
+            </alteration>
+          </result-set>
+        </equal-to>
+      </assert>
+    </test>
+    <test name="Extensions based on variables" uid="0253">
+      <system-under-test>
+        <result-set>
+          <query>
+            select 0 as Shift, 100 as ValueCol
+            union all select 1 as Shift, 120 as ValueCol
+          </query>
+          <alteration>
+            <extend identifier="[NewTime]">
+              <script language="native">@timing | dateTime-to-add(01:00:00, [Shift])</script>
+            </extend>
+            <project>
+              <column identifier="[NewTime]"/>
+              <column identifier="[ValueCol]"/>
+            </project>
+          </alteration>
+        </result-set>
+      </system-under-test>
+      <assert>
+        <equal-to>
+          <column index="0" role="key" type="dateTime"/>
+          <result-set>
+            <row>
+              <cell>2019-10-07 22:00:00</cell>
+              <cell>50</cell>
+            </row>
+            <row>
+              <cell>2019-10-07 23:00:00</cell>
+              <cell>60</cell>
+            </row>
+            <alteration>
+              <extend identifier="[NewValue]">
+                <script language="ncalc">[@factor] * [#1]</script>
+              </extend>
+              <project-away>
+                <column identifier="#1"/>
               </project-away>
             </alteration>
           </result-set>
@@ -2012,6 +2064,6 @@
           </result-set>
         </equal-to>
       </assert>
-    </test>-->
+    </test>
   </group>
 </testSuite>

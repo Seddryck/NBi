@@ -102,7 +102,7 @@ In the following example, two new columns are created. The first one will be pos
 </result-set>
 {% endhighlight %}
 
-Another engine supported is the [native transformations](../scalar-native-transformation). You can also use column's name or ordinal and variables, as initial value or as native transformation parameters, to define the initial value of the functions' parameters.
+Another engine supported is the [native transformations](../scalar-native-transformation) engine. You can use column's name (or ordinal) and variables to define the initial value and to define native transformations' parameters.
 
 {% highlight xml %}
 <result-set>

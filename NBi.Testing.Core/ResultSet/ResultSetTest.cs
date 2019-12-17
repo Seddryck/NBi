@@ -62,20 +62,20 @@ namespace NBi.Testing.Core.ResultSet
             var objects = new List<IRow> {
                 Mock.Of<IRow> (
                     x => x.Cells == new List<ICell> {
-                        Mock.Of<ICell>( y=> y.Value == "CY 2001"),
-                        Mock.Of<ICell>( y=> y.Value == "1000") }
+                        Mock.Of<ICell>(y => (string)(y.Value) == "CY 2001"),
+                        Mock.Of<ICell>(y => (decimal)(y.Value) == 1000) }
                     )
                 ,
                 Mock.Of<IRow>(
                     x => x.Cells == new List<ICell> {
-                        Mock.Of<ICell>(y=> y.Value == "CY 2002"),
-                        Mock.Of<ICell>(y => y.Value == "10.4") }
+                        Mock.Of<ICell>(y => (string)(y.Value) == "CY 2002"),
+                        Mock.Of<ICell>(y => (decimal)(y.Value) == 10.4m) }
                     )
                 ,
                 Mock.Of<IRow>(
                    x => x.Cells == new List<ICell> {
-                        Mock.Of<ICell> ( y=> y.Value == "CY 2003"),
-                        Mock.Of<ICell>(y => y.Value == "200") }
+                        Mock.Of<ICell>(y => (string)(y.Value) == "CY 2003"),
+                        Mock.Of<ICell>(y => (decimal)(y.Value) == 200) }
                     )
             };
 
@@ -86,7 +86,9 @@ namespace NBi.Testing.Core.ResultSet
             Assert.That(rs.Rows.Count, Is.EqualTo(3));
 
             Assert.That(rs.Rows[0].ItemArray[0], Is.EqualTo("CY 2001"));
-            Assert.That(rs.Rows[0].ItemArray[1], Is.EqualTo("1000"));
+            Assert.That(rs.Rows[0].ItemArray[1], Is.EqualTo(1000));
+            Assert.That(rs.Rows[1].ItemArray[0], Is.EqualTo("CY 2002"));
+            Assert.That(rs.Rows[1].ItemArray[1], Is.EqualTo(10.4));
         }
 
         [Test]

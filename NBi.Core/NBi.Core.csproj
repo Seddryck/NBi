@@ -552,6 +552,7 @@
     <Compile Include="ResultSet\Lookup\Violation\LookupViolationInformation.cs" />
     <Compile Include="ResultSet\Lookup\Violation\LookupMatchesViolationData.cs" />
     <Compile Include="ResultSet\Lookup\Violation\RowViolationState.cs" />
+    <Compile Include="Scalar\Casting\UntypedCaster.cs" />
     <Compile Include="Scalar\Comparer\CellComparer.cs" />
     <Compile Include="Scalar\Comparer\ComparerFactory.cs" />
     <Compile Include="Report\DatabaseReportingParser.cs" />

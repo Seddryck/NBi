@@ -26,6 +26,7 @@ namespace NBi.Testing.Core.Scalar.Resolver
         }
 
         [Test]
+        [Culture("en-us")]
         public void Execute_VariableWithNativeTransformation_CorrectEvaluation()
         {
             var globalVariables = new Dictionary<string, ITestVariable>()
@@ -40,6 +41,7 @@ namespace NBi.Testing.Core.Scalar.Resolver
         }
 
         [Test]
+        [Culture("en-us")]
         public void Execute_VariableWithTwoNativeTransformations_CorrectEvaluation()
         {
             var globalVariables = new Dictionary<string, ITestVariable>()

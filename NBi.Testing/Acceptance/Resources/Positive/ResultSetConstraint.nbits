@@ -1981,6 +1981,49 @@
         </equal-to>
       </assert>
     </test>
+    <test name="alteration with replacement of a text value by a numeric value"  uid="0291">
+      <system-under-test>
+        <result-set>
+          <row>
+            <cell>39.500</cell>
+            <cell>8.200</cell>
+          </row>
+        </result-set>
+      </system-under-test>
+      <assert>
+        <equal-to behavior="single-row" values-default-type="numeric">
+          <result-set>
+            <row>
+              <cell>2018-10-01</cell>
+              <cell>8.200</cell>
+            </row>
+            <alteration>
+              <lookup-replace>
+                <missing behavior="default-value">0</missing>
+                <join>
+                  <mapping candidate="#0" reference="#0" />
+                </join>
+                <result-set>
+                  <row>
+                    <cell>2018-10-01</cell>
+                    <cell>39.500</cell>
+                  </row>
+                  <alteration>
+                    <summarize>
+                      <sum column="#1" type="numeric" />
+                      <group-by>
+                        <column identifier="#0" />
+                      </group-by>
+                    </summarize>
+                  </alteration>
+                </result-set>
+                <replacement identifier="#1" />
+              </lookup-replace>
+            </alteration>
+          </result-set>
+        </equal-to>
+      </assert>
+    </test>
     <test name="Transform, lookup-replace, summarize, unstack, extend, project" uid="0300">
       <system-under-test>
         <result-set>

@@ -14,14 +14,14 @@ namespace NBi.Core.Scalar.Casting
                 return (string)value;
             
             if (value is DateTime)
-                return ((DateTime)value).ToString("yyyy-MM-dd hh:mm:ss");
+                return ((DateTime)value).ToString("yyyy-MM-dd HH:mm:ss");
 
             if (value is bool)
                 return (bool)value ? "True" : "False";
             
             var numericCaster = new NumericCaster();
             if (numericCaster.IsStrictlyValid(value))
-                return Convert.ToDouble(value).ToString(new CultureFactory().Invariant.NumberFormat);
+                return Convert.ToDecimal(value).ToString(new CultureFactory().Invariant.NumberFormat);
 
             return value.ToString();
         }

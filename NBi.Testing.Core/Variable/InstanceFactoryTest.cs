@@ -16,6 +16,7 @@ namespace NBi.Testing.Core.Variable
     public class InstanceFactoryTest
     {
         [Test]
+        [SetCulture("en-us")]
         public void Instantiate_DerivedFromMain_Success()
         {
             var resolver = new Mock<ISequenceResolver>();

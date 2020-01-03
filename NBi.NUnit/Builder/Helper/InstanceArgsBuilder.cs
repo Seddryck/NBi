@@ -63,7 +63,11 @@ namespace NBi.NUnit.Builder.Helper
                     argsBuilder.Setup(variable.SentinelLoop);
                 else if (variable.FileLoop != null)
                     argsBuilder.Setup(variable.FileLoop);
-                else if (variable.Items != null)
+                else if (variable.Custom != null)
+                    argsBuilder.Setup(variable.Custom);
+                else if (variable.Query != null)
+                    argsBuilder.Setup(variable.Query);
+                else if (variable.Items != null && variable.Items.Count>0)
                     argsBuilder.Setup(variable.Items);
                 else
                     throw new ArgumentOutOfRangeException();

@@ -9,6 +9,8 @@ using NUnitCtr = NUnit.Framework.Constraints;
 using NBi.Framework.FailureMessage.Markdown;
 using NBi.Framework;
 using NBi.Core.Configuration.FailureReport;
+using NBi.Core.ResultSet.Filtering;
+using NBi.Core.Variable;
 
 namespace NBi.NUnit.Query
 {
@@ -38,7 +40,7 @@ namespace NBi.NUnit.Query
         
         protected override bool doMatch(ResultSet actual)
         {
-            actualResultSet = (ResultSet)actual;
+            actualResultSet = actual;
             filterResultSet = filterFunction(actualResultSet);
             return Matches(filterResultSet.Rows.Count);
         }

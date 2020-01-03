@@ -8,14 +8,14 @@ namespace NBi.Core.Calculation.Ranking
 {
     public class RankingFactory
     {
-        public AbstractRanking Instantiate(IRankingInfo info)
+        public AbstractRanking Instantiate(RankingArgs args)
         {
-            switch (info.Option)
+            switch (args.Option)
             {
                 case RankingOption.Top:
-                    return new TopRanking(info.Count, info.Operand, info.Type);
+                    return new TopRanking(args.Count, args.Operand, args.Type);
                 case RankingOption.Bottom:
-                    return new BottomRanking(info.Count, info.Operand, info.Type);
+                    return new BottomRanking(args.Count, args.Operand, args.Type);
                 default:
                     throw new ArgumentOutOfRangeException();
             }

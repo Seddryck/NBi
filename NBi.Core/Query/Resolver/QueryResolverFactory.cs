@@ -16,7 +16,7 @@ namespace NBi.Core.Query.Resolver
             this.serviceLocator = serviceLocator;
         }
 
-        public IQueryResolver Instantiate(BaseQueryResolverArgs args)
+        public virtual IQueryResolver Instantiate(BaseQueryResolverArgs args)
         {
             if (args is AssemblyQueryResolverArgs)
                 return new AssemblyQueryResolver((AssemblyQueryResolverArgs)args);

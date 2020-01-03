@@ -46,10 +46,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Antlr3.Runtime, Version=3.5.0.2, Culture=neutral, PublicKeyToken=eb42632606e9261f, processorArchitecture=MSIL">
-      <HintPath>..\packages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
+      <HintPath>..\packages\Antlr3.Runtime.3.5.1\lib\net40-client\Antlr3.Runtime.dll</HintPath>
     </Reference>
-    <Reference Include="Antlr4.StringTemplate, Version=4.0.6.9004, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Antlr4.StringTemplate.4.0.6.9004\lib\net35\Antlr4.StringTemplate.dll</HintPath>
+    <Reference Include="Antlr4.StringTemplate, Version=4.0.7.0, Culture=neutral, PublicKeyToken=eb42632606e9261f, processorArchitecture=MSIL">
+      <HintPath>..\packages\StringTemplate4.4.0.8\lib\net35-client\Antlr4.StringTemplate.dll</HintPath>
     </Reference>
     <Reference Include="Deedle, Version=2.0.4.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Deedle.2.0.4\lib\net45\Deedle.dll</HintPath>
@@ -145,20 +145,35 @@
     <Compile Include="AttributeExtensions.cs" />
     <Compile Include="Calculation\BaseRankingFilter.cs" />
     <Compile Include="Calculation\CombinationOperator.cs" />
-    <Compile Include="Calculation\Combination\AndCombinationPredicateFilter.cs" />
-    <Compile Include="Calculation\Combination\XOrCombinationPredicateFilter.cs" />
+    <Compile Include="Calculation\Grouping\CaseBased\CaseGroupByArgs.cs" />
+    <Compile Include="Calculation\Grouping\ColumnBased\ColumnGroupByArgs.cs" />
+    <Compile Include="Calculation\Grouping\IGroupByArgs.cs" />
+    <Compile Include="Calculation\Grouping\NoneGroupByArgs.cs" />
+    <Compile Include="Decoration\IO\Commands\FolderExistsCondition.cs" />
+    <Compile Include="Decoration\IO\FolderExistsConditionArgs.cs" />
+    <Compile Include="Decoration\IO\IIoConditionArgs.cs" />
+    <Compile Include="ResultSet\Filtering\PredicationArgs.cs" />
+    <Compile Include="ResultSet\Filtering\IFilteringArgs.cs" />
+    <Compile Include="Calculation\Predication\AndCombinationPredication.cs" />
+    <Compile Include="Calculation\Predication\IPredication.cs" />
+    <Compile Include="Calculation\Predication\PredicationFactory.cs" />
+    <Compile Include="Calculation\Predication\SinglePredication.cs" />
+    <Compile Include="Calculation\Predication\XOrCombinationPredication.cs" />
     <Compile Include="Calculation\ComparerType.cs" />
-    <Compile Include="Calculation\Grouping\AbstractByColumnGrouping.cs" />
-    <Compile Include="Calculation\Grouping\ByColumnGroupingFactory.cs" />
+    <Compile Include="Calculation\Grouping\ColumnBased\ColumnGrouping.cs" />
+    <Compile Include="Calculation\Grouping\GroupByFactory.cs" />
+    <Compile Include="Calculation\Grouping\CaseBased\CaseGrouping.cs" />
     <Compile Include="Calculation\Grouping\NoneGrouping.cs" />
-    <Compile Include="Calculation\Grouping\IByColumnGrouping.cs" />
-    <Compile Include="Calculation\Grouping\NameByColumnGrouping.cs" />
-    <Compile Include="Calculation\Grouping\OrdinalByColumnGrouping.cs" />
-    <Compile Include="Calculation\Combination\BaseCombinationPredicateFilter.cs" />
-    <Compile Include="Calculation\Combination\OrCombinationPredicateFilter.cs" />
-    <Compile Include="Calculation\BasePredicateFilter.cs" />
+    <Compile Include="Calculation\Grouping\IGroupBy.cs" />
+    <Compile Include="Calculation\Grouping\ColumnBased\NameColumnGrouping.cs" />
+    <Compile Include="Calculation\Grouping\ColumnBased\OrdinalColumnGrouping.cs" />
+    <Compile Include="Calculation\Predication\BaseCombinationPredication.cs" />
+    <Compile Include="Calculation\Predication\OrCombinationPredication.cs" />
+    <Compile Include="Calculation\Ranking\RankingArgs.cs" />
+    <Compile Include="Calculation\RowValueExtractor.cs" />
     <Compile Include="Calculation\Predicate\PredicateArgs.cs" />
-    <Compile Include="Calculation\ResultSetFilterFactory.cs" />
+    <Compile Include="ResultSet\Filtering\RankingGroupByArgs.cs" />
+    <Compile Include="ResultSet\Filtering\ResultSetFilterFactory.cs" />
     <Compile Include="Calculation\Predicate\AbstractPredicate.cs" />
     <Compile Include="Calculation\Predicate\AbstractPredicateReference.cs" />
     <Compile Include="Calculation\Predicate\Boolean\BooleanFalse.cs" />
@@ -210,7 +225,7 @@
     <Compile Include="Calculation\Predicate\Text\TextEqual.cs" />
     <Compile Include="Calculation\Predicate\IPredicate.cs" />
     <Compile Include="Calculation\Predicate\Text\TextMatchesNumeric.cs" />
-    <Compile Include="Calculation\FilterGroupByFilter.cs" />
+    <Compile Include="ResultSet\Filtering\GroupByFilter.cs" />
     <Compile Include="Calculation\Ranking\AbstractRanking.cs" />
     <Compile Include="Calculation\Ranking\BottomRanking.cs" />
     <Compile Include="Calculation\Ranking\IRankingInfo.cs" />
@@ -220,10 +235,9 @@
     <Compile Include="Calculation\Ranking\Scoring\DataRowScorer.cs" />
     <Compile Include="Calculation\Ranking\Scoring\ScoredObject.cs" />
     <Compile Include="Calculation\Ranking\TopRanking.cs" />
-    <Compile Include="Calculation\SinglePredicateFilter.cs" />
-    <Compile Include="Calculation\ResultSetFilter.cs" />
-    <Compile Include="Calculation\IResultSetFilter.cs" />
-    <Compile Include="Calculation\NoneFilter.cs" />
+    <Compile Include="ResultSet\Filtering\ResultSetFilter.cs" />
+    <Compile Include="ResultSet\Filtering\IResultSetFilter.cs" />
+    <Compile Include="ResultSet\Filtering\NoneFilter.cs" />
     <Compile Include="Configuration\Extension\ExtensionAnalyzer.cs" />
     <Compile Include="Configuration\FailureReport\FailureReportFormat.cs" />
     <Compile Include="Configuration\FailureReport\FailureReportMode.cs" />
@@ -504,6 +518,9 @@
     <Compile Include="ResultSet\ColumnRole.cs" />
     <Compile Include="ResultSet\ColumnType.cs" />
     <Compile Include="ResultSet\Equivalence\SingleRowNameEquivaler.cs" />
+    <Compile Include="ResultSet\Filtering\BaseFilter.cs" />
+    <Compile Include="ResultSet\Filtering\PredicationFilter.cs" />
+    <Compile Include="ResultSet\KeyCollectionEqualityComparer.cs" />
     <Compile Include="ResultSet\Lookup\Behavior.cs" />
     <Compile Include="ResultSet\Combination\CartesianProductSequenceCombination.cs" />
     <Compile Include="ResultSet\Combination\SequenceCombinationOperation.cs" />
@@ -730,6 +747,8 @@
     <Compile Include="Sequence\Resolver\Loop\IntervalMode.cs" />
     <Compile Include="Sequence\Resolver\Loop\SentinelHalfOpenNumericLoopStrategy.cs" />
     <Compile Include="Sequence\Resolver\Loop\SentinelHalfOpenDateTimeLoopStrategy.cs" />
+    <Compile Include="Sequence\Resolver\QuerySequenceResolver.cs" />
+    <Compile Include="Sequence\Resolver\QuerySequenceResolverArgs.cs" />
     <Compile Include="Sequence\Resolver\SentinelLoopSequenceResolverArgs.cs" />
     <Compile Include="Sequence\Resolver\Loop\CountDateTimeLoopStrategy.cs" />
     <Compile Include="Sequence\Resolver\Loop\SentinelCloseDateTimeLoopStrategy.cs" />

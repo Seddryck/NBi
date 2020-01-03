@@ -1,4 +1,5 @@
 ﻿using NBi.Core.ResultSet;
+using NBi.Core.ResultSet.Filtering;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -32,16 +33,5 @@ namespace NBi.Core.Calculation.Predicate
     public class CultureSensitivePredicateArgs : PredicateArgs
     {
         public virtual string Culture { get; set; }
-    }
-
-    public class PredicationArgs
-    {
-        public PredicationArgs() { }
-
-        public PredicationArgs(IColumnIdentifier identifier, PredicateArgs predicate)
-            => (Identifier, Predicate) = (identifier, predicate);
-
-        public virtual PredicateArgs Predicate { get; set; }
-        public virtual IColumnIdentifier Identifier { get; set; }
     }
 }

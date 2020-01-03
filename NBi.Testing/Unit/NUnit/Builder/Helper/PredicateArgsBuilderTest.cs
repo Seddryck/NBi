@@ -23,7 +23,7 @@ namespace NBi.Testing.Unit.NUnit.Builder.Helper
                 Reference = "#12 | text-to-upper | text-to-first-chars([ColA])"
             };
 
-            var builder = new PredicateArgsBuilder(new ServiceLocator(), new Context(null));
+            var builder = new PredicateArgsBuilder(new ServiceLocator(), Context.None);
             var args = builder.Execute(Core.ResultSet.ColumnType.Text, predicateXml);
             Assert.That(args, Is.AssignableTo<ReferencePredicateArgs>());
 

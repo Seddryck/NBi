@@ -22,6 +22,11 @@
         DateTime.Now.AddDays(-2)
       </script>
     </variable>
+    <variable name="myVar">
+      <script language="c-sharp">
+        20
+      </script>
+    </variable>
   </variables>
   <test name="All-rows is doing the job for numeric info" uid="0001">
     <system-under-test>
@@ -638,7 +643,7 @@
       </all-rows>
     </assert>
   </test>
-  <test name="No-row with numeric informations mixing expression, column name, column index and variable" uid="0010">
+  <test name="No-row with numeric informations mixing expression, column name, column index and alias" uid="0010">
     <system-under-test>
       <result-set>
         <query
@@ -660,7 +665,28 @@
       </no-rows>
     </assert>
   </test>
-  <test name="No-row with numeric informations using multiple expressions" uid="0010">
+  <test name="No-row with numeric informations mixing expression, column name, column index and variable" uid="0011">
+    <system-under-test>
+      <result-set>
+        <query
+					connection-string="Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly"
+				>
+          select 10 as 'A' ,11 as 'B', 12 as 'C'
+          union all select 5,6,7
+          union all select 7,8,9
+        </query>
+      </result-set>
+    </system-under-test>
+    <assert>
+      <no-rows>
+        <expression name="TotalDue">[@myVar] * [#0] * [C]</expression>
+        <predicate name="TotalDue">
+          <more-than>10000</more-than>
+        </predicate>
+      </no-rows>
+    </assert>
+  </test>
+  <test name="No-row with numeric informations using multiple expressions" uid="0012">
     <system-under-test>
       <result-set>
         <query

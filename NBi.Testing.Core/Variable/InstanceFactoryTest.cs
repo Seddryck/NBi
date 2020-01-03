@@ -27,7 +27,7 @@ namespace NBi.Testing.Core.Variable
             var secondTransformation = new NativeTransformer<string>(new ServiceLocator(), null);;
             secondTransformation.Initialize("text-to-last-chars(8) | text-to-dateTime(yyyyMMdd)");
 
-            var thirdTransformation = new NativeTransformer<string>(new ServiceLocator(), null);;
+            var thirdTransformation = new NativeTransformer<DateTime>(new ServiceLocator(), null);;
             thirdTransformation.Initialize("dateTime-to-add(7)");
 
             var args = new DerivedVariableInstanceArgs()

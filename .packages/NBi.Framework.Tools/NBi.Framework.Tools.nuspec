@@ -22,5 +22,6 @@
   </metadata>
   <files>
     <file src="..\..\logo-2x.png" target="images\" />
+    <file src="tools\*.*" target="tools\" />
   </files>
 </package>

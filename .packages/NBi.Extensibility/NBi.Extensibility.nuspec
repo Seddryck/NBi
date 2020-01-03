@@ -16,8 +16,12 @@
     <copyright>Copyright 2013-$thisYear$</copyright>
     <tags>Test NBi SQL SSAS SSIS SSRS</tags>
     <repository type="git" url="https://github.com/Seddryck/NBi.git"></repository>
+    <dependencies>
+        <group targetFramework=".NETFramework4.6.1" />
+    </dependencies>
   </metadata>
   <files>
     <file src="..\..\logo-2x.png" target="images\" />
+    <file src="lib\**\*.*" target="lib\" />
   </files>
 </package>

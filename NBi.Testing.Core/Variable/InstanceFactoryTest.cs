@@ -16,7 +16,6 @@ namespace NBi.Testing.Core.Variable
     public class InstanceFactoryTest
     {
         [Test]
-        [SetCulture("en-us")]
         public void Instantiate_DerivedFromMain_Success()
         {
             var resolver = new Mock<ISequenceResolver>();
@@ -28,7 +27,7 @@ namespace NBi.Testing.Core.Variable
             var secondTransformation = new NativeTransformer<string>(new ServiceLocator(), null);;
             secondTransformation.Initialize("text-to-last-chars(8) | text-to-dateTime(yyyyMMdd)");
 
-            var thirdTransformation = new NativeTransformer<string>(new ServiceLocator(), null);;
+            var thirdTransformation = new NativeTransformer<DateTime>(new ServiceLocator(), null);;
             thirdTransformation.Initialize("dateTime-to-add(7)");
 
             var args = new DerivedVariableInstanceArgs()

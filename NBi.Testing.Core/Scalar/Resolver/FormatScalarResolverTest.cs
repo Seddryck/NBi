@@ -37,11 +37,25 @@ namespace NBi.Testing.Core.Scalar.Resolver
             var resolver = new FormatScalarResolver(args, new ServiceLocator());
             var text = resolver.Execute();
             Console.WriteLine(text);
-            Assert.That(text, Is.EqualTo($"First of May was a {new DateTime(2019, 5, 1):dddd}"));
+            Assert.That(text, Is.EqualTo($"First of May was a Wednesday"));
         }
 
         [Test]
-        [SetCulture("en-us")]
+        [SetCulture("fr-fr")]
+        public void Execute_VariableWithNativeTransformation_IndependantOfLocalCulture()
+        {
+            var globalVariables = new Dictionary<string, ITestVariable>()
+            {
+                { "myVar" , new GlobalVariable(new CSharpScalarResolver<object>( new CSharpScalarResolverArgs("new DateTime(2019, 6, 1)"))) },
+            };
+            var args = new FormatScalarResolverArgs("First of May was a {@myVar | dateTime-to-previous-month:dddd}", globalVariables);
+            var resolver = new FormatScalarResolver(args, new ServiceLocator());
+            var text = resolver.Execute();
+            Console.WriteLine(text);
+            Assert.That(text, Is.EqualTo($"First of May was a Wednesday"));
+        }
+
+        [Test]
         public void Execute_VariableWithTwoNativeTransformations_CorrectEvaluation()
         {
             var globalVariables = new Dictionary<string, ITestVariable>()
@@ -52,7 +66,7 @@ namespace NBi.Testing.Core.Scalar.Resolver
             var resolver = new FormatScalarResolver(args, new ServiceLocator());
             var text = resolver.Execute();
             Console.WriteLine(text);
-            Assert.That(text, Is.EqualTo($"First day of the month before was a {new DateTime(2019, 5, 1):dddd}"));
+            Assert.That(text, Is.EqualTo($"First day of the month before was a Wednesday"));
         }
 
         [Test]

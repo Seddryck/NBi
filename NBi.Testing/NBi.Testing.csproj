@@ -150,6 +150,8 @@
     <Compile Include="Integration\Core\Decoration\IO\Commands\DeleteExtensionCommandTest.cs" />
     <Compile Include="Integration\Core\Decoration\IO\Commands\CopyPatternCommandTest.cs" />
     <Compile Include="Integration\Core\Decoration\IO\Commands\CopyExtensionCommandTest.cs" />
+    <Compile Include="Integration\Core\Decoration\IO\Conditions\FileExistsConditionTest.cs" />
+    <Compile Include="Integration\Core\Decoration\IO\Conditions\FolderExistsConditionTest.cs" />
     <Compile Include="Integration\Core\Decoration\Process\Commands\WaitCommandTest.cs" />
     <Compile Include="Integration\Core\Decoration\Process\Commands\StopCommandTest.cs" />
     <Compile Include="Integration\Core\IO\Filtering\NullRootFilterTest.cs" />

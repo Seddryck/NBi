@@ -149,7 +149,9 @@
     <Compile Include="Calculation\Grouping\ColumnBased\ColumnGroupByArgs.cs" />
     <Compile Include="Calculation\Grouping\IGroupByArgs.cs" />
     <Compile Include="Calculation\Grouping\NoneGroupByArgs.cs" />
-    <Compile Include="Decoration\IO\Commands\FolderExistsCondition.cs" />
+    <Compile Include="Decoration\IO\Conditions\FileExistsCondition.cs" />
+    <Compile Include="Decoration\IO\Conditions\FolderExistsCondition.cs" />
+    <Compile Include="Decoration\IO\FileExistsConditionArgs.cs" />
     <Compile Include="Decoration\IO\FolderExistsConditionArgs.cs" />
     <Compile Include="Decoration\IO\IIoConditionArgs.cs" />
     <Compile Include="ResultSet\Filtering\PredicationArgs.cs" />

@@ -31,7 +31,7 @@ namespace NBi.NUnit.Builder.Helper
             switch (condition)
             {
                 case CustomConditionXml custom: return BuildCustomCondition(custom);
-                case ServiceRunningXml serviceRunning: return BuildServiceRunning(serviceRunning);
+                case ServiceRunningConditionXml serviceRunning: return BuildServiceRunning(serviceRunning);
                 default: throw new ArgumentOutOfRangeException();
             }
         }
@@ -47,7 +47,7 @@ namespace NBi.NUnit.Builder.Helper
             );
         }
 
-        private IDecorationConditionArgs BuildServiceRunning(ServiceRunningXml serviceRunning)
+        private IDecorationConditionArgs BuildServiceRunning(ServiceRunningConditionXml serviceRunning)
         {
             var scalarHelper = new ScalarHelper(serviceLocator, new Context(variables));
             return new RunningArgs(

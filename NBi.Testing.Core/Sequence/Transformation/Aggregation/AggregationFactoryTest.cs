@@ -1,4 +1,5 @@
 ﻿using NBi.Core.ResultSet;
+using NBi.Core.Scalar.Resolver;
 using NBi.Core.Sequence.Transformation.Aggregation;
 using NBi.Core.Sequence.Transformation.Aggregation.Function;
 using NBi.Core.Sequence.Transformation.Aggregation.Strategy;
@@ -23,9 +24,18 @@ namespace NBi.Testing.Unit.Core.Sequence.Transformation.Aggregation
         public void Instantiate_ColumnTypeandAggregationFunction_CorrectAggregation(ColumnType columnType, AggregationFunctionType function, Type expectedType)
         {
             var factory = new AggregationFactory();
-            var aggregation = factory.Instantiate(columnType, function, new IAggregationStrategy[] {});
+            var aggregation = factory.Instantiate(columnType, function, Array.Empty<IScalarResolver>(), Array.Empty<IAggregationStrategy>());
             Assert.That(aggregation, Is.Not.Null);
             Assert.That(aggregation.Function, Is.TypeOf(expectedType));
+        }
+
+        [Test]
+        public void Instantiate_ConcantenationText_CorrectAggregation()
+        {
+            var factory = new AggregationFactory();
+            var aggregation = factory.Instantiate(ColumnType.Text, AggregationFunctionType.Concatenation, new List<IScalarResolver> { new LiteralScalarResolver<string>("+")}.ToArray(), Array.Empty<IAggregationStrategy>());
+            Assert.That(aggregation, Is.Not.Null);
+            Assert.That(aggregation.Function, Is.TypeOf<ConcatenationText>());
         }
 
         [TestCase(ColumnType.DateTime, AggregationFunctionType.Sum)]
@@ -33,7 +43,7 @@ namespace NBi.Testing.Unit.Core.Sequence.Transformation.Aggregation
         public void Instantiate_ColumnTypeAndAggregationFunction_CorrectAggregation(ColumnType columnType, AggregationFunctionType function)
         {
             var factory = new AggregationFactory();
-            Assert.Throws<ArgumentException>( () => factory.Instantiate(columnType, function, new IAggregationStrategy[] { }));
+            Assert.Throws<ArgumentException>( () => factory.Instantiate(columnType, function, Array.Empty<IScalarResolver>(), Array.Empty<IAggregationStrategy>()));
         }
     }
 }

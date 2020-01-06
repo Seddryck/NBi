@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace NBi.Core.Sequence.Transformation.Aggregation.Function
 {
-    abstract class Max<T> : BaseNumericAggregation<T>
+    abstract class Max<T> : BaseAggregation<T>
     {
         public Max(ICaster<T> caster) : base(caster)
         { }

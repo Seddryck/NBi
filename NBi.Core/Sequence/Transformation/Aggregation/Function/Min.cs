@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace NBi.Core.Sequence.Transformation.Aggregation.Function
 {
-    abstract class Min<T> : BaseNumericAggregation<T>
+    abstract class Min<T> : BaseAggregation<T>
     {
         public Min(ICaster<T> caster) : base(caster)
         { }

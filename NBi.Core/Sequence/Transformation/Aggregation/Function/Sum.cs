@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace NBi.Core.Sequence.Transformation.Aggregation.Function
 {
-    abstract class Sum<T> : BaseNumericAggregation<T>
+    abstract class Sum<T> : BaseAggregation<T>
     {
         public Sum(ICaster<T> caster) : base(caster)
         { }

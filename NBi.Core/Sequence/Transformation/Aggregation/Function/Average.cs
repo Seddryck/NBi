@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace NBi.Core.Sequence.Transformation.Aggregation.Function
 {
-    abstract class Average<T> : BaseNumericAggregation<T>
+    abstract class Average<T> : BaseAggregation<T>
     {
         public Average(ICaster<T> caster) : base(caster)
         { }

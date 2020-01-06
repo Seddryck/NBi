@@ -528,7 +528,7 @@ namespace NBi.Testing.Xml.Unit.Systems
         [TestCase(typeof(AverageXml), "average")]
         [TestCase(typeof(MaxXml), "max")]
         [TestCase(typeof(MinXml), "min")]
-        public void Serialize_Sum_Correct(Type aggregationType, string serialization)
+        public void Serialize_SimpleAggregation_Correct(Type aggregationType, string serialization)
         {
             var root = new SummarizeXml()
             {
@@ -542,6 +542,24 @@ namespace NBi.Testing.Xml.Unit.Systems
             Console.WriteLine(xml);
             Assert.That(xml, Does.Contain($"<{serialization}"));
             Assert.That(xml, Does.Contain("dateTime"));
+        }
+
+        [Test]
+        public void Serialize_Concatenation_Correct()
+        {
+            var root = new SummarizeXml()
+            {
+                Aggregation = new ConcatenationXml() { Separator="+" }
+            };
+            root.Aggregation.ColumnType = ColumnType.Text;
+            root.Aggregation.Identifier = new ColumnOrdinalIdentifier(2);
+
+            var manager = new XmlManager();
+            var xml = manager.XmlSerializeFrom(root);
+            Console.WriteLine(xml);
+            Assert.That(xml, Does.Contain($"<concatenation"));
+            Assert.That(xml, Does.Contain("text"));
+            Assert.That(xml, Does.Contain("separator=\"+\""));
         }
 
         [Test]

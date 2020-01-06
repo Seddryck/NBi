@@ -1,4 +1,6 @@
-﻿using NBi.Core.Sequence.Transformation.Aggregation;
+﻿using NBi.Core.ResultSet;
+using NBi.Core.Scalar.Casting;
+using NBi.Core.Sequence.Transformation.Aggregation;
 using System;
 using System.Collections.Generic;
 using System.Linq;

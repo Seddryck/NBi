@@ -739,6 +739,7 @@
         <xs:element name="average" type="aggregation-type" minOccurs="0" maxOccurs="1"/>
         <xs:element name="max" type="aggregation-type" minOccurs="0" maxOccurs="1"/>
         <xs:element name="min" type="aggregation-type" minOccurs="0" maxOccurs="1"/>
+        <xs:element name="concatenation" type="concatenation-type" minOccurs="0" maxOccurs="1"/>
       </xs:choice>
       <xs:element name="group-by" type="group-by-type" minOccurs="0" maxOccurs="1"/>
     </xs:sequence>
@@ -750,6 +751,13 @@
         <xs:attribute name="type" type="column-type-enum" use="required" />
         <xs:attribute name="if-empty-series" use="optional" />
         <xs:attribute name="if-missing-values" use="optional" />
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="concatenation-type">
+    <xs:simpleContent>
+      <xs:extension base="aggregation-type">
+        <xs:attribute name="separator" use="required"/>
       </xs:extension>
     </xs:simpleContent>
   </xs:complexType>

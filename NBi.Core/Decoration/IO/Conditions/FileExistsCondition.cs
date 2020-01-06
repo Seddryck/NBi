@@ -13,7 +13,7 @@ namespace NBi.Core.Decoration.IO.Conditions
     {
         private FileExistsConditionArgs Args { get; }
 
-        public string Message => throw new NotImplementedException();
+        public string Message { get; private set; }
 
         public FileExistsCondition(FileExistsConditionArgs args) => Args = args;
 
@@ -21,21 +21,21 @@ namespace NBi.Core.Decoration.IO.Conditions
         {
             var fullPath = PathExtensions.CombineOrRoot(Args.BasePath, Args.FolderName.Execute(), Args.FileName.Execute());
 
-            var conditions = new List<Func<string, bool>>() { ExistsCondition };
+            var conditions = new List<Func<string, (bool, string)>>() { ExistsCondition };
             if (Args.NotEmpty.Execute())
                 conditions.Add(IsNotEmptyCondition);
 
             var result = true;
             var enumerator = conditions.GetEnumerator();
             while (result && enumerator.MoveNext())
-                result = enumerator.Current.Invoke(fullPath);
+                (result, Message) = enumerator.Current.Invoke(fullPath);
             return result;
         }
 
-        protected bool ExistsCondition(string fullPath)
-            => File.Exists(fullPath);
+        protected (bool, string) ExistsCondition(string fullPath)
+            => (File.Exists(fullPath), $"The file '{fullPath}' doesn't exists.");
 
-        protected bool IsNotEmptyCondition(string fullPath)
-            => new FileInfo(fullPath).Length > 0;
+        protected (bool, string) IsNotEmptyCondition(string fullPath)
+            => (new FileInfo(fullPath).Length > 0, $"The file '{fullPath}' has a size of 0 byte.");
     }
 }

@@ -15,7 +15,7 @@ namespace NBi.Core.Sequence.Transformation.Aggregation
         public IList<IScalarResolver> Parameters { get; } = new List<IScalarResolver>();
         public IList<IAggregationStrategy> Strategies { get; } = new List<IAggregationStrategy>();
 
-        public AggregationArgs(AggregationFunctionType function, ColumnType columnType)
-            => (ColumnType, Function) = (columnType, function);
+        public AggregationArgs(AggregationFunctionType function, ColumnType columnType, IList<IScalarResolver> parameters)
+            => (ColumnType, Function, Parameters) = (columnType, function, parameters ?? new List<IScalarResolver>());
     }
 }

@@ -17,7 +17,7 @@ namespace NBi.Core.Sequence.Transformation.Aggregation
     {
         public Aggregation Instantiate(ColumnType columnType, AggregationFunctionType function, IScalarResolver[] parameters, IAggregationStrategy[] strategies)
         {
-            var missingValue = (IMissingValueStrategy)(strategies.SingleOrDefault(x => x is IMissingValueStrategy) ?? new DropStrategy());
+            var missingValue = (IMissingValueStrategy)(strategies.SingleOrDefault(x => x is IMissingValueStrategy) ?? new DropStrategy(columnType));
             var emptySeries = (IEmptySeriesStrategy)(strategies.SingleOrDefault(x => x is IEmptySeriesStrategy) ?? new ReturnDefaultStrategy(columnType));
 
             var @namespace = $"{this.GetType().Namespace}.Function.";

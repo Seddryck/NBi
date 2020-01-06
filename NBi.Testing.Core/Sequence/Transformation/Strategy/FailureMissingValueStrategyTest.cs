@@ -1,4 +1,5 @@
-﻿using NBi.Core.Sequence.Transformation.Aggregation.Strategy;
+﻿using NBi.Core.ResultSet;
+using NBi.Core.Sequence.Transformation.Aggregation.Strategy;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
@@ -14,7 +15,7 @@ namespace NBi.Testing.Unit.Core.Sequence.Transformation.Strategy
         public void Execute_NoSpecialValue_NoException()
         {
             var list = new List<object>() { 1, 3, 5 };
-            var strategy = new FailureMissingValueStrategy();
+            var strategy = new FailureMissingValueStrategy(ColumnType.Numeric);
             Assert.DoesNotThrow(() => strategy.Execute(list));
         }
 
@@ -22,7 +23,7 @@ namespace NBi.Testing.Unit.Core.Sequence.Transformation.Strategy
         public void Execute_NoSpecialValue_SameValues()
         {
             var list = new List<object>() { 1, 3, 5 };
-            var strategy = new FailureMissingValueStrategy();
+            var strategy = new FailureMissingValueStrategy(ColumnType.Numeric);
             var result = strategy.Execute(list);
             Assert.That(result, Has.Member(1));
             Assert.That(result, Has.Member(3));
@@ -33,7 +34,7 @@ namespace NBi.Testing.Unit.Core.Sequence.Transformation.Strategy
         public void Execute_Blank_BlankDropped()
         {
             var list = new List<object>() { 1, "(blank)", 3, 5 };
-            var strategy = new FailureMissingValueStrategy();
+            var strategy = new FailureMissingValueStrategy(ColumnType.Numeric);
             Assert.Throws<ArgumentException>(() => strategy.Execute(list));
         }
 
@@ -41,7 +42,7 @@ namespace NBi.Testing.Unit.Core.Sequence.Transformation.Strategy
         public void Execute_Null_NullDropped()
         {
             var list = new List<object>() { 1, 3, 5, null };
-            var strategy = new FailureMissingValueStrategy();
+            var strategy = new FailureMissingValueStrategy(ColumnType.Numeric);
             Assert.Throws<ArgumentException>(() => strategy.Execute(list));
         }
     }

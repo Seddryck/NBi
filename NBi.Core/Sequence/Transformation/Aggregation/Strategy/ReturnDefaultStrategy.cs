@@ -12,17 +12,15 @@ namespace NBi.Core.Sequence.Transformation.Aggregation.Strategy
         private object DefaultValue { get; }
 
         public ReturnDefaultStrategy(object defaultValue) => DefaultValue = defaultValue;
-        internal ReturnDefaultStrategy(ColumnType columnType)
-            : this(DefaultValueByColumnType(columnType)) { }
 
-        private static object DefaultValueByColumnType(ColumnType columnType)
+        internal static ReturnDefaultStrategy Instantiate(ColumnType columnType)
         {
             switch (columnType)
             {
-                case ColumnType.Text: return string.Empty;
-                case ColumnType.Numeric: return 0;
-                case ColumnType.DateTime: return new DateTime(1900, 1, 1);
-                case ColumnType.Boolean: return false;
+                case ColumnType.Text: return new ReturnDefaultStrategy(string.Empty);
+                case ColumnType.Numeric: return new ReturnDefaultStrategy(0);
+                case ColumnType.DateTime: return new ReturnDefaultStrategy(new DateTime(1900, 1, 1));
+                case ColumnType.Boolean: return new ReturnDefaultStrategy(false);
                 default: throw new ArgumentOutOfRangeException();
             }
         }

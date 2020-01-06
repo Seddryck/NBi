@@ -43,3 +43,16 @@ If the service is not in the expected state, NBi will wait maximum the time set 
   <service-running name="MyService2" timeout-milliseconds="1000"/>
 </condition>
 {% endhighlight %}
+
+### File or folder exist
+
+These conditions will validate if the specified file (or the folder) exists. if it's not the case then the test will not be run and the condition will report the missing file (or folder). For both options, you must specify a path and the name (of the file or the folder).
+
+It's possible to add a variant by specifying the attribute *not-empty* to true. In case of a file, the additional condition is that this file can't have a size of 0 byte. When a folder is asserted, this folder must at least contain one file.
+
+{% highlight xml %}
+<condition>
+  <file-exists path="." name="MyFile.txt"/>
+  <folder-exists path="Folder\" name="MySybFolder" not-empty="true"/>
+</condition>
+{% endhighlight %}

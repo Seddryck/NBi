@@ -154,6 +154,7 @@
     <Compile Include="Decoration\IO\FileExistsConditionArgs.cs" />
     <Compile Include="Decoration\IO\FolderExistsConditionArgs.cs" />
     <Compile Include="Decoration\IO\IIoConditionArgs.cs" />
+    <Compile Include="Decoration\Process\IoConditionFactory.cs" />
     <Compile Include="ResultSet\Filtering\PredicationArgs.cs" />
     <Compile Include="ResultSet\Filtering\IFilteringArgs.cs" />
     <Compile Include="Calculation\Predication\AndCombinationPredication.cs" />

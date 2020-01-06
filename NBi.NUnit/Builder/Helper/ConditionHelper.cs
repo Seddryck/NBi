@@ -1,6 +1,7 @@
 ﻿using NBi.Core;
 using NBi.Core.Assemblies.Decoration;
 using NBi.Core.Decoration;
+using NBi.Core.Decoration.IO;
 using NBi.Core.Decoration.Process;
 using NBi.Core.Injection;
 using NBi.Core.Scalar.Resolver;
@@ -32,6 +33,8 @@ namespace NBi.NUnit.Builder.Helper
             {
                 case CustomConditionXml custom: return BuildCustomCondition(custom);
                 case ServiceRunningConditionXml serviceRunning: return BuildServiceRunning(serviceRunning);
+                case FileExistsConditionXml fileExists: return BuildFileExists(fileExists);
+                case FolderExistsConditionXml folderExists: return BuildFolderExists(folderExists);
                 default: throw new ArgumentOutOfRangeException();
             }
         }
@@ -53,6 +56,28 @@ namespace NBi.NUnit.Builder.Helper
             return new RunningArgs(
                 scalarHelper.InstantiateResolver<string>(serviceRunning.ServiceName)
                 , scalarHelper.InstantiateResolver<int>(serviceRunning.TimeOut)
+            );
+        }
+
+        private IDecorationConditionArgs BuildFileExists(FileExistsConditionXml fileExists)
+        {
+            var scalarHelper = new ScalarHelper(serviceLocator, new Context(variables));
+            return new FileExistsConditionArgs(
+                serviceLocator.BasePath
+                , scalarHelper.InstantiateResolver<string>(fileExists.Path)
+                , scalarHelper.InstantiateResolver<string>(fileExists.Name)
+                , scalarHelper.InstantiateResolver<bool>(fileExists.NotEmpty)
+            );
+        }
+
+        private IDecorationConditionArgs BuildFolderExists(FolderExistsConditionXml folderExists)
+        {
+            var scalarHelper = new ScalarHelper(serviceLocator, new Context(variables));
+            return new FolderExistsConditionArgs(
+                serviceLocator.BasePath
+                , scalarHelper.InstantiateResolver<string>(folderExists.Path)
+                , scalarHelper.InstantiateResolver<string>(folderExists.Name)
+                , scalarHelper.InstantiateResolver<bool>(folderExists.NotEmpty)
             );
         }
 

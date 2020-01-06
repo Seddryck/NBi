@@ -133,7 +133,9 @@
     <Compile Include="Decoration\Condition\CustomConditionParameterXml.cs" />
     <Compile Include="Decoration\Condition\DecorationConditionXml.cs" />
     <Compile Include="Decoration\Condition\CustomConditionXml.cs" />
-    <Compile Include="Decoration\Condition\ServiceRunningXml.cs" />
+    <Compile Include="Decoration\Condition\FolderExistsConditionXml.cs" />
+    <Compile Include="Decoration\Condition\FileExistsConditionXml.cs" />
+    <Compile Include="Decoration\Condition\ServiceRunningConditionXml.cs" />
     <Compile Include="Decoration\CleanupXml.cs" />
     <Compile Include="Decoration\Command\DataManipulationAbstractXml.cs" />
     <Compile Include="Decoration\Command\EtlRunXml.cs" />

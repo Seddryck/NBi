@@ -102,7 +102,7 @@ In the following example, two new columns are created. The first one will be pos
 </result-set>
 {% endhighlight %}
 
-Another engine supported is the [native transformations](../scalar-native-transformation) engine. You can use column's name (or ordinal) and variables to define the initial value and to define native transformations' parameters.
+Another engine supported is the [native transformations](../scalar-native-transformation). You can also use column's name or ordinal and variables, as initial value or as native transformation parameters, to define the initial value of the functions' parameters.
 
 {% highlight xml %}
 <result-set>
@@ -251,14 +251,19 @@ A result-set that shows the average price of each fruit from each supplier. Ther
 |-----|-----|-----
 |Apple|Supplier X| 10.45
 |Apple|Supplier Y| 10.6
-|Orange|Supplier Y| 10.7 
+|Orange|Supplier Y| 10.7
 
 The different aggregations supported are
 
-* average
-* sum
-* min
-* max
+|aggregation|Numeric|DateTime|Text
+|-----|-----|-----|-----
+|min|Yes|Yes|No
+|max|Yes|Yes|No
+|average|Yes|No|No
+|sum|Yes|No|No
+|concatenation|No|No|Yes
+
+Note that the aggregation *concatenation* is expecting an xml attribute *separator* defining the characters to place between two instances to concatenate.
 
 ## Reshaping
 

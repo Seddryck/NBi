@@ -169,6 +169,8 @@ You also have the possibility to define a *missing* strategy to specify the beha
 
 ## Filters
 
+### filter with predicate
+
 Filters will let you remove some rows of the result-set based on the validation of one or more predicates. If more than one filter is specified, they will be applied one after the other and so will logically combine with an *and* operator.
 
 For more info about the supported syntax check the page about [filters for row-count](../resultset-rows-count-advanced/#filter). For more info about the predicates supported, check the page about [predicates](../resultset-predicate).
@@ -186,6 +188,64 @@ For more info about the supported syntax check the page about [filters for row-c
     </filter>
   </alteration>
 <result-set>
+{% endhighlight %}
+
+### filter with ranking
+
+It's also possible to filter a result-set based by only selecting the first/last rows of the result-set or of a group of rows within the result-set.
+
+To apply a filter with ranking, you must specify the xml element *ranking* containing the element *top* or *bottom*. These two elements can be overriden with the xml attribute *count* to specify that you want to return more than one row.
+
+The following example will return the two last rows of the whole result-set.
+
+{% highlight xml %}
+<alteration>
+  <filter>
+    <ranking>
+      <bottom count="2"/>
+    </ranking>
+  </filter>
+</alteration>
+{% endhighlight %}
+
+It's possible to create sub-groups of rows and only hold the first/last rows of these groups. To achieve this add a *group-by* element in the *ranking* element. You've two ways to define how to create groups. The first option, is to group rows sharing the same values of a set of columns (identical to SQL clause *group by*).
+
+{% highlight xml %}
+<alteration>
+  <filter>
+    <ranking>
+      <bottom count="2"/>
+      <group-by>
+        <column identifier="#0" type="numeric"/>
+        <column identifier="[country]" type="text">
+      </group-by>
+    </ranking>
+  </filter>
+</alteration>
+{% endhighlight %}
+
+Another option group rows is to group them depending on the evaluation of a predicate. For each group of row, you must define a predicate that will be evaluated for each row. Each definition of a group is handled by a xml element *case* containing an xml element *predicate*. As soon as an evaluation is positive for one of the group, the row is added to this group! The evaluation are always evaluated from the first definition of the group to the last. It means that if a group has a broad definition that could include elements of another group, this broad group should be defined at the bottom of the cases.
+
+{% highlight xml %}
+<alteration>
+  <filter>
+    <ranking>
+      <bottom count="2"/>
+      <group-by>
+        <case>
+          <predicate operand="#2" type="text">
+            <equal>CUST0003</equal>
+          </predicate>
+        </case>
+        <case>
+          <predicate operand="#3" type="numeric">
+            <more-than or-equal="true">100</more-than>
+          </predicate>
+        </case>
+      </group-by>
+    </ranking>
+  </filter>
+</alteration>
 {% endhighlight %}
 
 ## Converts

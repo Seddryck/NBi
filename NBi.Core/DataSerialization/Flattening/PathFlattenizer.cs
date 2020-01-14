@@ -10,15 +10,16 @@ using System.Xml.Linq;
 using System.Xml.XPath;
 using NBi.Core.DataSerialization;
 using NBi.Core.ResultSet;
+using NBi.Core.Scalar.Resolver;
 
 namespace NBi.Core.DataSerialization.Flattening
 {
     public abstract class PathFlattenizer : IDataSerializationFlattenizer
     {
         protected IEnumerable<IPathSelect> Selects { get; }
-        protected string From { get; }
+        protected IScalarResolver<string> From { get; }
 
-        protected PathFlattenizer(string from, IEnumerable<IPathSelect> selects)
+        protected PathFlattenizer(IScalarResolver<string> from, IEnumerable<IPathSelect> selects)
             => (From, Selects) = (from, selects);
 
         public abstract IEnumerable<object> Execute(TextReader textReader);

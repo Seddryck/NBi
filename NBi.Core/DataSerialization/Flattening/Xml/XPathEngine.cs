@@ -10,6 +10,7 @@ using System.Xml.Linq;
 using System.Xml.XPath;
 using NBi.Core.DataSerialization;
 using NBi.Core.ResultSet;
+using NBi.Core.Scalar.Resolver;
 
 namespace NBi.Core.DataSerialization.Flattening.Xml
 {
@@ -18,7 +19,7 @@ namespace NBi.Core.DataSerialization.Flattening.Xml
         public string DefaultNamespacePrefix { get; }
         public bool IsIgnoreNamespace { get; }
 
-        public XPathEngine(string from, IEnumerable<IPathSelect> selects, string defaultNamespacePrefix, bool isIgnoreNamespace)
+        public XPathEngine(IScalarResolver<string> from, IEnumerable<IPathSelect> selects, string defaultNamespacePrefix, bool isIgnoreNamespace)
             : base(from, selects)
             => (DefaultNamespacePrefix, IsIgnoreNamespace) = (defaultNamespacePrefix, isIgnoreNamespace);
 
@@ -35,7 +36,7 @@ namespace NBi.Core.DataSerialization.Flattening.Xml
                 if (namespaceNode.Name.LocalName != "xmlns")
                     nsMgr.AddNamespace(namespaceNode.Name.LocalName, namespaceNode.Value);
 
-            var result = from item in items.XPathSelectElements(From, nsMgr)
+            var result = from item in items.XPathSelectElements(From.Execute(), nsMgr)
                          select GetObj(item, nsMgr);
 
             return result;
@@ -57,7 +58,7 @@ namespace NBi.Core.DataSerialization.Flattening.Xml
                     yield return
                     (
                         (
-                            item.XPathSelectElement(attributeSelect.Path, ns)
+                            item.XPathSelectElement(attributeSelect.Path.Execute(), ns)
                             ?? new XElement("null", "(null)")
                         ).Attribute(attributeSelect.Attribute)
                         ?? new XAttribute("null", "(null)")
@@ -67,14 +68,14 @@ namespace NBi.Core.DataSerialization.Flattening.Xml
                 {
                     yield return
                     (
-                        item.XPathEvaluate(select.Path, ns)
+                        item.XPathEvaluate(select.Path.Execute(), ns)
                         ?? new XElement("null", "(null)")
                     );
                 }
                 else
                     yield return
                     (
-                        item.XPathSelectElement(select.Path, ns)
+                        item.XPathSelectElement(select.Path.Execute(), ns)
                         ?? new XElement("null", "(null)")
                     ).Value;
         }

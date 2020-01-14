@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NBi.Core.Scalar.Resolver;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,7 +11,7 @@ namespace NBi.Core.DataSerialization.Flattening
     {
         public string Attribute { get; }
 
-        internal AttributeSelect(string path, string attribute)
+        internal AttributeSelect(IScalarResolver<string> path, string attribute)
             : base(path)
             => Attribute = attribute;
     }

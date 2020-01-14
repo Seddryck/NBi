@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using NBi.Core.Scalar.Resolver;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
@@ -12,13 +13,13 @@ namespace NBi.Core.DataSerialization.Flattening.Json
 {
     class JsonPathEngine : PathFlattenizer, IDataSerializationFlattenizer
     {
-        public JsonPathEngine(string from, IEnumerable<IPathSelect> selects)
+        public JsonPathEngine(IScalarResolver<string> from, IEnumerable<IPathSelect> selects)
             : base(from, selects) { }
 
         public override IEnumerable<object> Execute(TextReader textReader)
         {
             var json = JToken.ReadFrom(new JsonTextReader(textReader));
-            var result = from item in json.SelectTokens(From)
+            var result = from item in json.SelectTokens(From.Execute())
                          select GetObj(item);
             return result;
         }
@@ -34,7 +35,7 @@ namespace NBi.Core.DataSerialization.Flattening.Json
         {
             foreach (var select in selects)
             {
-                var path = select.Path.Trim();
+                var path = select.Path.Execute().Trim();
                 var root = item;
                 if (path.StartsWith("!"))
                 {

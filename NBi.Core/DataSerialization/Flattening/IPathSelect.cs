@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NBi.Core.Scalar.Resolver;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +9,6 @@ namespace NBi.Core.DataSerialization.Flattening
 {
     public interface IPathSelect
     {
-        string Path { get; }
+        IScalarResolver<string> Path { get; }
     }
 }

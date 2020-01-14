@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NBi.Core.Scalar.Resolver;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,9 +9,9 @@ namespace NBi.Core.DataSerialization.Flattening
 {
     public class ElementSelect : IPathSelect
     {
-        public string Path { get; }
+        public IScalarResolver<string> Path { get; }
 
-        internal ElementSelect(string path)
+        internal ElementSelect(IScalarResolver<string> path)
             => Path = path;
     }
 }

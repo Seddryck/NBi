@@ -9,7 +9,7 @@ namespace NBi.Core.DataSerialization.Flattening.Xml
 {
     public class XPathArgs : IFlattenizerArgs
     {
-        public string From { get; set; }
+        public IScalarResolver<string> From { get; set; }
         public IEnumerable<IPathSelect> Selects { get; set; } = new List<IPathSelect>();
         public string DefaultNamespacePrefix { get; set; }
         public bool IsIgnoreNamespace { get; set; } = false;

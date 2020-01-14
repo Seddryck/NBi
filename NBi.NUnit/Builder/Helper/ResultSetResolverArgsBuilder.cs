@@ -224,10 +224,10 @@ namespace NBi.NUnit.Builder.Helper
             var selects = new List<IPathSelect>();
             var selectFactory = new PathFlattenizerFactory();
             foreach (var select in xmlSource.XPath.Selects)
-                selects.Add(selectFactory.Instantiate(select.Value, select.Attribute, select.Evaluate));
+                selects.Add(selectFactory.Instantiate(helper.InstantiateResolver<string>(select.Value), select.Attribute, select.Evaluate));
             var flattenizer = new XPathArgs
             {
-                From = xmlSource.XPath.From.Value,
+                From = helper.InstantiateResolver<string>(xmlSource.XPath.From.Value),
                 Selects = selects,
                 DefaultNamespacePrefix = xmlSource.XPath?.DefaultNamespacePrefix,
                 IsIgnoreNamespace = xmlSource.IgnoreNamespace
@@ -261,10 +261,10 @@ namespace NBi.NUnit.Builder.Helper
             var selects = new List<IPathSelect>();
             var selectFactory = new PathFlattenizerFactory();
             foreach (var select in jsonSource.JsonPath.Selects)
-                selects.Add(selectFactory.Instantiate(select.Value, string.Empty, false));
+                selects.Add(selectFactory.Instantiate(helper.InstantiateResolver<string>(select.Value), string.Empty, false));
             var flattenizer = new JsonPathArgs
             {
-                From = jsonSource.JsonPath.From.Value,
+                From = helper.InstantiateResolver<string>(jsonSource.JsonPath.From.Value),
                 Selects = selects,
             };
 

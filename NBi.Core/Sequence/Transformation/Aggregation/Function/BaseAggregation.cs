@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace NBi.Core.Sequence.Transformation.Aggregation.Function
 {
-    abstract class BaseNumericAggregation<T> : IAggregationFunction
+    abstract class BaseAggregation<T> : IAggregationFunction
     {
         protected ICaster<T> Caster { get; }
 
-        public BaseNumericAggregation(ICaster<T> caster) => Caster = caster;
+        public BaseAggregation(ICaster<T> caster) => Caster = caster;
 
         public object Execute(IEnumerable<object> values)
         {

@@ -206,13 +206,16 @@ namespace NBi.NUnit.Builder.Helper
 
         private Alter InstantiateSummarize(SummarizeXml summarizeXml)
         {
+            var scalarHelper = new ScalarHelper(ServiceLocator, null);
+
             var factory = new SummarizationFactory();
             var aggregations = new List<ColumnAggregationArgs>()
                     {
                         new ColumnAggregationArgs(
                             summarizeXml.Aggregation.Identifier,
                             summarizeXml.Aggregation.Function,
-                            summarizeXml.Aggregation.ColumnType
+                            summarizeXml.Aggregation.ColumnType,
+                            summarizeXml.Aggregation.Parameters.Select(x => scalarHelper.InstantiateResolver(summarizeXml.Aggregation.ColumnType, x)).ToList()
                         )
                     };
             var groupBys = summarizeXml.GroupBy?.Columns?.Cast<IColumnDefinitionLight>() ?? new List<IColumnDefinitionLight>();

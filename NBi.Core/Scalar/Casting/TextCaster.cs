@@ -18,8 +18,18 @@ namespace NBi.Core.Scalar.Casting
 
         object ICaster.Execute(object value) => Execute(value);
 
-        public bool IsValid(object value)
+        public bool IsValid(object value) => true;
+        public bool IsStrictlyValid(object value)
         {
+            if (value == null)
+                return false;
+
+            if (value == DBNull.Value)
+                return false;
+
+            if (value is string && ((string) value) == "(null)")
+                return false;
+            
             return true;
         }
     }

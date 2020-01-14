@@ -12,5 +12,6 @@ namespace NBi.Core.Sequence.Transformation.Aggregation
         Sum,
         Max,
         Min,
+        Concatenation,
     }
 }

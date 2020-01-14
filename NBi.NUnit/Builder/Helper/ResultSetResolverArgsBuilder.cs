@@ -3,8 +3,7 @@ using NBi.Core.ResultSet;
 using NBi.Core.ResultSet.Resolver;
 using NBi.Core.Sequence.Resolver;
 using NBi.Core.Variable;
-using NBi.Core.Hierarchical;
-using NBi.Core.Hierarchical.Xml;
+using NBi.Core.DataSerialization;
 using NBi.Xml.Items;
 using NBi.Xml.Items.ResultSet;
 using NBi.Xml.Items.ResultSet.Combination;
@@ -20,11 +19,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using NBi.Xml.Items.Hierarchical.Json;
-using NBi.Core.Hierarchical.Json;
 using NBi.Core.Api.Rest;
 using NBi.Core.Api.Authentication;
 using NBi.Xml.Items.Api.Rest;
 using NBi.Xml.Items.Api.Authentication;
+using NBi.Core.DataSerialization.Flattening;
+using NBi.Core.DataSerialization.Flattening.Xml;
+using NBi.Core.DataSerialization.Reader;
+using NBi.Core.DataSerialization.Flattening.Json;
 
 namespace NBi.NUnit.Builder.Helper
 {
@@ -200,60 +202,73 @@ namespace NBi.NUnit.Builder.Helper
         private ResultSetResolverArgs BuildXPathResolverArgs(XmlSourceXml xmlSource)
         {
             Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceVerbose, "ResultSet defined through an xml-source.");
-
-            var selects = new List<AbstractSelect>();
-            var selectFactory = new HierarchicalSelectFactory();
-            foreach (var select in xmlSource.XPath.Selects)
-                selects.Add(selectFactory.Instantiate(select.Value, select.Attribute, select.Evaluate));
-
             var helper = new ScalarHelper(ServiceLocator, settings, scope, new Context(Variables));
 
-            XPathEngine engine = null;
+            IReaderArgs reader = null;
             if (xmlSource.File != null)
             {
                 var resolverPath = helper.InstantiateResolver<string>(xmlSource.File.Path);
-                engine = new XPathFileEngine(resolverPath, settings?.BasePath, xmlSource.XPath.From.Value, selects, xmlSource.XPath?.DefaultNamespacePrefix, xmlSource.IgnoreNamespace);
+                reader = new FileReaderArgs(settings?.BasePath, resolverPath);
             }
             else if (xmlSource.Url != null)
-                engine = new XPathUrlEngine(xmlSource.Url.Value, xmlSource.XPath.From.Value, selects, xmlSource.XPath?.DefaultNamespacePrefix);
+            {
+                var resolverUrl = helper.InstantiateResolver<string>(xmlSource.Url.Value);
+                reader = new UrlReaderArgs(resolverUrl);
+            }
             else if (xmlSource.Rest != null)
             {
                 var restHelper = new RestHelper(ServiceLocator, settings, scope, Variables);
-                engine = new XPathRestEngine(restHelper.Execute(xmlSource.Rest), xmlSource.XPath.From.Value, selects, xmlSource.XPath?.DefaultNamespacePrefix);
+                reader = new RestReaderArgs(restHelper.Execute(xmlSource.Rest));
             }
-            return new XPathResultSetResolverArgs(engine);
+
+            var selects = new List<IPathSelect>();
+            var selectFactory = new PathFlattenizerFactory();
+            foreach (var select in xmlSource.XPath.Selects)
+                selects.Add(selectFactory.Instantiate(helper.InstantiateResolver<string>(select.Value), select.Attribute, select.Evaluate));
+            var flattenizer = new XPathArgs
+            {
+                From = helper.InstantiateResolver<string>(xmlSource.XPath.From.Value),
+                Selects = selects,
+                DefaultNamespacePrefix = xmlSource.XPath?.DefaultNamespacePrefix,
+                IsIgnoreNamespace = xmlSource.IgnoreNamespace
+            };
+
+            return new DataSerializationResultSetResolverArgs(reader, flattenizer);
         }
 
         private ResultSetResolverArgs BuildJsonPathResolverArgs(JsonSourceXml jsonSource)
         {
             Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceVerbose, "ResultSet defined through an json-source.");
-
-            var selects = new List<AbstractSelect>();
-            var selectFactory = new HierarchicalSelectFactory();
-            foreach (var select in jsonSource.JsonPath.Selects)
-                selects.Add(selectFactory.Instantiate(select.Value, null, false));
-
             var helper = new ScalarHelper(ServiceLocator, settings, scope, new Context(Variables));
 
-
-            JsonPathEngine engine = null;
+            IReaderArgs reader = null;
             if (jsonSource.File != null)
             {
                 var resolverPath = helper.InstantiateResolver<string>(jsonSource.File.Path);
-                engine = new JsonPathFileEngine(resolverPath, settings?.BasePath, jsonSource.JsonPath.From.Value, selects);
+                reader = new FileReaderArgs(settings?.BasePath, resolverPath);
             }
             else if (jsonSource.Url != null)
             {
                 var resolverUrl = helper.InstantiateResolver<string>(jsonSource.Url.Value);
-                engine = new JsonPathUrlEngine(resolverUrl, jsonSource.JsonPath.From.Value, selects);
+                reader = new UrlReaderArgs(resolverUrl);
             }
             else if (jsonSource.Rest != null)
             {
                 var restHelper = new RestHelper(ServiceLocator, settings, scope, Variables);
-                engine = new JsonPathRestEngine(restHelper.Execute(jsonSource.Rest), jsonSource.JsonPath.From.Value, selects);
+                reader = new RestReaderArgs(restHelper.Execute(jsonSource.Rest));
             }
 
-            return new XPathResultSetResolverArgs(engine);
+            var selects = new List<IPathSelect>();
+            var selectFactory = new PathFlattenizerFactory();
+            foreach (var select in jsonSource.JsonPath.Selects)
+                selects.Add(selectFactory.Instantiate(helper.InstantiateResolver<string>(select.Value), string.Empty, false));
+            var flattenizer = new JsonPathArgs
+            {
+                From = helper.InstantiateResolver<string>(jsonSource.JsonPath.From.Value),
+                Selects = selects,
+            };
+
+            return new DataSerializationResultSetResolverArgs(reader, flattenizer);
         }
 
         private ResultSetResolverArgs BuildEmptyResolverArgs(EmptyResultSetXml empty)

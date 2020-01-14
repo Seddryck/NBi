@@ -37,6 +37,24 @@
         1+1
       </script>
     </variable>
+    <variable name="csvFileName">
+      <script language="c-sharp">"PurchaseOrders"</script>
+    </variable>
+    <variable name="one">
+      <script language="c-sharp">
+        2-1
+      </script>
+    </variable>
+    <variable name="purchaseOrderDate">
+      <script language="c-sharp">
+        new DateTime(1999, 10, 22)
+      </script>
+    </variable>
+    <variable name="point">
+      <script language="c-sharp">
+        "."
+      </script>
+    </variable>
   </variables>
   <group name="asserts">
     <test name="Csv equal to embedded result-set" uid="0001">
@@ -604,6 +622,78 @@
         </equal-to>
       </assert>
     </test>
+    <test name="Result-set is the xml-source with a dynamic file name" uid="0152">
+      <system-under-test>
+        <result-set>
+          <xml-source>
+            <file>~..\Csv\{@csvFileName}.xml</file>
+            <xpath>
+              <from>//PurchaseOrder/Items/Item</from>
+              <select attribute="PurchaseOrderNumber">../..</select>
+              <select attribute="PartNumber">.</select>
+            </xpath>
+          </xml-source>
+        </result-set>
+      </system-under-test>
+      <assert>
+        <equal-to keys="all">
+          <result-set>
+            <row>
+              <cell>99503</cell>
+              <cell>872-AA</cell>
+            </row>
+            <row>
+              <cell>99503</cell>
+              <cell>926-AA</cell>
+            </row>
+            <row>
+              <cell>99505</cell>
+              <cell>456-NM</cell>
+            </row>
+            <row>
+              <cell>99504</cell>
+              <cell>898-AZ</cell>
+            </row>
+            <row>
+              <cell>99504</cell>
+              <cell>898-AM</cell>
+            </row>
+          </result-set>
+        </equal-to>
+      </assert>
+    </test>
+    <test name="Result-set is the xml-source with a dynamic file name and a variable in the from and select" uid="0153">
+      <system-under-test>
+        <result-set>
+          <xml-source>
+            <file>..\Csv\PurchaseOrders.xml</file>
+            <xpath>
+              <from>~//PurchaseOrder[@OrderDate="{@purchaseOrderDate:yyyy-MM-dd}"]/Items/Item</from>
+              <select attribute="PurchaseOrderNumber">../..</select>
+              <select attribute="PartNumber">@point</select>
+            </xpath>
+          </xml-source>
+        </result-set>
+      </system-under-test>
+      <assert>
+        <equal-to keys="all">
+          <result-set>
+            <row>
+              <cell>99505</cell>
+              <cell>456-NM</cell>
+            </row>
+            <row>
+              <cell>99504</cell>
+              <cell>898-AZ</cell>
+            </row>
+            <row>
+              <cell>99504</cell>
+              <cell>898-AM</cell>
+            </row>
+          </result-set>
+        </equal-to>
+      </assert>
+    </test>
     <test name="Result-set is the json-source" uid="0160">
       <system-under-test>
         <result-set>
@@ -707,6 +797,33 @@
             </row>
           </result-set>
         </superset-of>
+      </assert>
+    </test>
+    <test name="Result-set is the json-source with rest api and variables" uid="0162">
+      <system-under-test>
+        <result-set>
+          <json-source>
+            <rest base-address="https://api.publicapis.org/">
+              <path>entries</path>
+              <parameter name="category">animals</parameter>
+            </rest>
+            <json-path>
+              <from>~$.entries[{@one}]</from>
+              <select>$.API</select>
+              <select>$.Cors</select>
+            </json-path>
+          </json-source>
+        </result-set>
+      </system-under-test>
+      <assert>
+        <equal-to keys="first" values-default-type="text">
+          <result-set>
+            <row>
+              <cell>Cats</cell>
+              <cell>unknown</cell>
+            </row>
+          </result-set>
+        </equal-to>
       </assert>
     </test>
     <test name="Result-set is an empty result-set" uid="0170">
@@ -1643,7 +1760,42 @@
         </equal-to>
       </assert>
     </test>
-    <test name="Summarization on no column" uid="0263">
+    <test name="Summarization of concatenation" uid="0263">
+      <system-under-test>
+        <result-set>
+          <query>
+            select 'A' as Key1, 'alpha' as Value
+            union all select 'B', 'foo'
+            union all select 'B', 'bar'
+            union all select 'A', 'beta'
+            union all select 'A', 'gamma'
+          </query>
+          <alteration>
+            <summarize>
+              <concatenation column="[Value]" type="text" separator="+"/>
+              <group-by>
+                <column identifier="Key1" type="text"/>
+              </group-by>
+            </summarize>
+          </alteration>
+        </result-set>
+      </system-under-test>
+      <assert>
+        <equal-to values-default-type="text">
+          <result-set>
+            <row>
+              <cell>A</cell>
+              <cell>alpha+beta+gamma</cell>
+            </row>
+            <row>
+              <cell>B</cell>
+              <cell>foo+bar</cell>
+            </row>
+          </result-set>
+        </equal-to>
+      </assert>
+    </test>
+    <test name="Summarization on no column" uid="0264">
       <system-under-test>
         <result-set>
           <query>
@@ -1670,7 +1822,7 @@
         </equal-to>
       </assert>
     </test>
-    <test name="Chaining two summarizations" uid="0264">
+    <test name="Chaining two summarizations" uid="0265">
       <system-under-test>
         <result-set>
           <query>
@@ -1712,7 +1864,7 @@
         </equal-to>
       </assert>
     </test>
-    <test name="Complex chaining two summarizations" uid="0264">
+    <test name="Complex chaining two summarizations" uid="0266">
       <system-under-test>
         <result-set>
           <query>

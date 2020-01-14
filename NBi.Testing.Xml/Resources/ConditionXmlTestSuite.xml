@@ -11,14 +11,14 @@
 			<service-running name="MyService2" timeout-milliseconds="1000"/>
 		</condition>
 		<system-under-test>
-			<execution>
+			<result-set>
 				<query>
 					select * from [NewUsers]
 				</query>
-			</execution>
+			</result-set>
 		</system-under-test>
 		<assert>
-			<equalTo>
+			<equal-to>
 				<resultSet>
 					<row>
 						<cell>Nikola Tesla</cell>
@@ -54,7 +54,7 @@
 						<cell>Leonhard Euler</cell>
 					</row>
 				</resultSet>
-			</equalTo>
+			</equal-to>
 		</assert>
 		<cleanup>
 			<table-reset name="NewUsers"
@@ -69,18 +69,48 @@
       </custom>
     </condition>
     <system-under-test>
-      <execution>
+      <result-set>
         <query>select * from [NewUsers]</query>
-      </execution>
+      </result-set>
     </system-under-test>
     <assert>
-      <equalTo>
+      <equal-to>
         <query>select * from noWhere</query>
-      </equalTo>
+      </equal-to>
     </assert>
     <cleanup>
       <table-reset name="NewUsers"
 					connectionString="Data Source=(local)\SQL2017;Initial Catalog=AdventureWorks2012;Integrated Security=true"/>
     </cleanup>
+  </test>
+  <test name="decoration with folder condition">
+    <condition>
+      <folder-exists path="..\" name="MyFolder" />
+    </condition>
+    <system-under-test>
+      <result-set>
+        <query>select * from [NewUsers]</query>
+      </result-set>
+    </system-under-test>
+    <assert>
+      <equal-to>
+        <query>select * from noWhere</query>
+      </equal-to>
+    </assert>
+  </test>
+  <test name="decoration with file condition">
+    <condition>
+      <file-exists path="..\" name="MyFile.txt" not-empty="true"/>
+    </condition>
+    <system-under-test>
+      <result-set>
+        <query>select * from [NewUsers]</query>
+      </result-set>
+    </system-under-test>
+    <assert>
+      <equal-to>
+        <query>select * from noWhere</query>
+      </equal-to>
+    </assert>
   </test>
 </testSuite>

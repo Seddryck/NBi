@@ -20,6 +20,7 @@ using NBi.Core.Assemblies.Decoration;
 using System.Reflection;
 using NBi.Extensibility.Decoration;
 using NBi.Extensibility.Decoration.DataEngineering;
+using NBi.Core.Decoration.IO.Conditions;
 
 namespace NBi.Testing.Core.Decoration.DataEngineering
 {
@@ -119,6 +120,8 @@ namespace NBi.Testing.Core.Decoration.DataEngineering
             switch (type)
             {
                 case Type x when x == typeof(IRunningConditionArgs): return Mock.Of<IRunningConditionArgs>();
+                case Type x when x == typeof(FolderExistsConditionArgs): return new FolderExistsConditionArgs(string.Empty, null, null, null);
+                case Type x when x == typeof(FileExistsConditionArgs): return new FileExistsConditionArgs (string.Empty, null, null, null);
                 case Type x when x == typeof(ICustomConditionArgs): return Mock.Of<ICustomConditionArgs>
                         (
                             y => y.AssemblyPath == new LiteralScalarResolver<string>($@"{FileOnDisk.GetDirectoryPath()}\NBi.Testing.Core.dll")
@@ -130,6 +133,8 @@ namespace NBi.Testing.Core.Decoration.DataEngineering
 
         [Test]
         [TestCase(typeof(IRunningConditionArgs), typeof(RunningCondition))]
+        [TestCase(typeof(FolderExistsConditionArgs), typeof(FolderExistsCondition))]
+        [TestCase(typeof(FileExistsConditionArgs), typeof(FileExistsCondition))]
         [TestCase(typeof(ICustomConditionArgs), typeof(CustomCondition))]
         public void Get_IDecorationConditionArgs_CorrectCondition(Type argsType, Type conditionType)
         {

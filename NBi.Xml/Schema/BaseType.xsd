@@ -520,6 +520,8 @@
   <xs:complexType name="condition-type">
     <xs:sequence minOccurs="1" maxOccurs="unbounded">
       <xs:element name="service-running" type="service-type" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="file-exists" type="file-exists-type" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="folder-exists" type="folder-exists-type" minOccurs="0" maxOccurs="unbounded"/>
       <xs:element name="custom" type="custom-type" minOccurs="0" maxOccurs="unbounded"/>
     </xs:sequence>
   </xs:complexType>
@@ -536,6 +538,16 @@
         <xs:attribute name="name" type="xs:string" use="required" />
       </xs:extension>
     </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="file-exists-type">
+    <xs:attribute name="path" type="xs:string" use="required"/>
+    <xs:attribute name="name" type="xs:string" use="required"/>
+    <xs:attribute name="not-empty" type="xs:boolean" use="optional"/>
+  </xs:complexType>
+  <xs:complexType name="folder-exists-type">
+    <xs:attribute name="path" type="xs:string" use="required"/>
+    <xs:attribute name="name" type="xs:string" use="required"/>
+    <xs:attribute name="not-empty" type="xs:boolean" use="optional"/>
   </xs:complexType>
   <xs:complexType name="shared-dataset-light-type">
     <xs:attribute name="source" type="xs:string"/>
@@ -727,6 +739,7 @@
         <xs:element name="average" type="aggregation-type" minOccurs="0" maxOccurs="1"/>
         <xs:element name="max" type="aggregation-type" minOccurs="0" maxOccurs="1"/>
         <xs:element name="min" type="aggregation-type" minOccurs="0" maxOccurs="1"/>
+        <xs:element name="concatenation" type="concatenation-type" minOccurs="0" maxOccurs="1"/>
       </xs:choice>
       <xs:element name="group-by" type="group-by-type" minOccurs="0" maxOccurs="1"/>
     </xs:sequence>
@@ -738,6 +751,13 @@
         <xs:attribute name="type" type="column-type-enum" use="required" />
         <xs:attribute name="if-empty-series" use="optional" />
         <xs:attribute name="if-missing-values" use="optional" />
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="concatenation-type">
+    <xs:simpleContent>
+      <xs:extension base="aggregation-type">
+        <xs:attribute name="separator" use="required"/>
       </xs:extension>
     </xs:simpleContent>
   </xs:complexType>

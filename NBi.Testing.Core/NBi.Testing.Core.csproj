@@ -132,8 +132,7 @@
     <Compile Include="FlatFile\CsvWriterTest.cs" />
     <Compile Include="FlatFile\FlatFileReaderfactoryTest.cs" />
     <Compile Include="Format\RegexBuilderTest.cs" />
-    <Compile Include="Hierarchical\Json\JsonPathUrlEngineTest.cs" />
-    <Compile Include="Hierarchical\Json\JsonPathFileEngineTest.cs" />
+    <Compile Include="DataSerialization\Flattenizer\JsonPathEngineTest.cs" />
     <Compile Include="Injection\ServiceLocatorTest.cs" />
     <Compile Include="ListComparerTest.cs" />
     <Compile Include="ListComparisonFormatterTest.cs" />
@@ -279,7 +278,7 @@
     <Compile Include="Scalar\Resolver\Resources\MyCustomClass.cs" />
     <Compile Include="Variable\InstanceFactoryTest.cs" />
     <Compile Include="Variable\VariableFactoryTest.cs" />
-    <Compile Include="Hierarchical\Xml\XPathEngineTest.cs" />
+    <Compile Include="DataSerialization\Flattenizer\XPathEngineTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NBi.Core\NBi.Core.csproj">
@@ -316,7 +315,7 @@
     <EmbeddedResource Include="Report\Resources\SalesEmployees.rsd" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Hierarchical\Xml\Resources\PurchaseOrders.xml" />
+    <EmbeddedResource Include="DataSerialization\Flattenizer\Resources\PurchaseOrders.xml" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="ResultSet\Resources\ResultDataSet.xml" />
@@ -337,13 +336,13 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Hierarchical\Xml\Resources\PurchaseOrdersDefaultNamespace.xml" />
+    <EmbeddedResource Include="DataSerialization\Flattenizer\Resources\PurchaseOrdersDefaultNamespace.xml" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Hierarchical\Xml\Resources\PurchaseOrdersManyNamespaces.xml" />
+    <EmbeddedResource Include="DataSerialization\Flattenizer\Resources\PurchaseOrdersManyNamespaces.xml" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Hierarchical\Json\Resources\PurchaseOrders.json" />
+    <EmbeddedResource Include="DataSerialization\Flattenizer\Resources\PurchaseOrders.json" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

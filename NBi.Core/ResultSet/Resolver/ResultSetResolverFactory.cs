@@ -2,9 +2,6 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using NBi.Core.Query;
-using NBi.Core.Hierarchical.Xml;
-using NBi.Core.Query.Resolver;
 using NBi.Core.Injection;
 using NBi.Core.FlatFile;
 
@@ -34,7 +31,7 @@ namespace NBi.Core.ResultSet.Resolver
                 case RowsResultSetResolverArgs x: return new RowsResultSetResolver(x);
                 case QueryResultSetResolverArgs x: return new QueryResultSetResolver(x, serviceLocator);
                 case FlatFileResultSetResolverArgs x: return new FlatFileResultSetResolver(x, serviceLocator);
-                case XPathResultSetResolverArgs x: return new XPathResultSetResolver(x);
+                case DataSerializationResultSetResolverArgs x: return new DataSerializationResultSetResolver(x);
                 case ObjectsResultSetResolverArgs x: return new ObjectsResultSetResolver(x);
                 case SequenceCombinationResultSetResolverArgs x: return new SequenceCombinationResultSetResolver(x);
                 case EmptyResultSetResolverArgs x: return new EmptyResultSetResolver(x);

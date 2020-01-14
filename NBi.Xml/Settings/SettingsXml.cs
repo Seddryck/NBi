@@ -116,11 +116,11 @@ namespace NBi.Xml.Settings
                 if (!string.IsNullOrEmpty(def.ConnectionString.Inline) && def.ConnectionString.Inline.StartsWith("@"))
                 {
                     if (connectionStrings.Count == 0)
-                        throw new ArgumentOutOfRangeException(string.Format("No connectionString is provided through the config file. The default connection string stipulated in nbits file is trying to reference a connection string named '{0}'", def.ConnectionString));
+                        throw new ArgumentOutOfRangeException($"No connection-string is provided through the config file. The default connection string stipulated in the nbits file is trying to reference a connection string named '{def.ConnectionString.Inline}'");
 
                     var key = connectionStrings.AllKeys.SingleOrDefault(k => k == def.ConnectionString.Inline.Substring(1) || k == def.ConnectionString.Inline);
                     if (string.IsNullOrEmpty(key))
-                        throw new ArgumentOutOfRangeException(string.Format("Some connectionStrings are provided through the config file but the default connection string is trying to reference a connection string named '{0}' which has not been found.", def.ConnectionString));
+                        throw new ArgumentOutOfRangeException($"Some connection-strings are provided through the config file but the default connection string is trying to reference a connection string named '{def.ConnectionString.Inline}' which has not been found.");
 
                     def.ConnectionString.Inline = connectionStrings.Get(key);
                 }

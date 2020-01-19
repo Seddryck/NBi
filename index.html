@@ -127,7 +127,7 @@ layout: default
                   });
                   
                   var downloadCount = 1956; //Codeplex
-                  $.getJSON("https://api-v2v3search-0.nuget.org/query?q=NBi.Framework").done(function (json) {
+                  $.getJSON("https://api-v2v3search-0.nuget.org/query?q=NBi.").done(function (json) {
                       for (i in json.data) {
                           downloadCount += json.data[i].totalDownloads;
                       }

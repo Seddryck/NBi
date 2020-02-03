@@ -62,5 +62,6 @@ namespace NBi.GenbiL.Parser
         public static readonly Parser<string> Left = Parse.IgnoreCase("Left").Text().Token();
         public static readonly Parser<string> Right = Parse.IgnoreCase("Right").Text().Token();
         public static readonly Parser<string> All = Parse.IgnoreCase("All").Text().Token();
+        public static readonly Parser<string> Optional = Parse.IgnoreCase("Optional").Text().Token();
     }
 }

@@ -29,6 +29,18 @@ namespace NBi.GenbiL.Parser
                 select new LoadCaseFromFileAction(filename)
         );
 
+        readonly static Parser<ICaseAction> caseLoadOptionalFileParser =
+        (
+                from load in Keyword.Load
+                from optional in Keyword.Optional
+                from loadType in loadTypeFileParser
+                from filename in Grammar.QuotedTextual
+                from with in Keyword.With
+                from columns in Keyword.Columns.Or(Keyword.Column)
+                from columnNames in Grammar.QuotedRecordSequence
+                select new LoadOptionalCaseFromFileAction(filename, columnNames)
+        );
+
         readonly static Parser<ICaseAction> caseLoadQueryFileParser =
         (
                 from load in Keyword.Load
@@ -50,7 +62,7 @@ namespace NBi.GenbiL.Parser
         );
 
         readonly static Parser<ICaseAction> caseLoadParser =
-            caseLoadFileParser.Or(caseLoadQueryFileParser).Or(caseLoadQueryParser);
+            caseLoadFileParser.Or(caseLoadOptionalFileParser).Or(caseLoadQueryFileParser).Or(caseLoadQueryParser);
 
         readonly static Parser<ICaseAction> caseRemoveParser =
         (
@@ -104,6 +116,7 @@ namespace NBi.GenbiL.Parser
                 from text in Grammar.ExtendedQuotedRecordSequence
                 select new FilterCaseAction(variableName, @operator, text, negation.IsDefined)
         );
+
 
         readonly static Parser<ICaseAction> caseScopeParser =
         (

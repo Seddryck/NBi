@@ -34,7 +34,7 @@ namespace NBi.Testing.Core.Calculation.Ranking
             var filteredRs = ranking.Apply(rs);
 
             Assert.That(filteredRs.Rows.Count, Is.EqualTo(1));
-            Assert.That(filteredRs.Rows[0].ItemArray[0], Is.EqualTo(index.ToString()));
+            Assert.That(filteredRs.Rows[0].ItemArray[0], Is.EqualTo(index));
             Assert.That(filteredRs.Rows[0].ItemArray[1], Is.EqualTo(values.Min()));
         }
 
@@ -55,9 +55,9 @@ namespace NBi.Testing.Core.Calculation.Ranking
             var filteredRs = ranking.Apply(rs);
 
             Assert.That(filteredRs.Rows.Count, Is.EqualTo(2));
-            Assert.That(filteredRs.Rows[0].ItemArray[0], Is.EqualTo(index[0].ToString()));
+            Assert.That(filteredRs.Rows[0].ItemArray[0], Is.EqualTo(index[0]));
             Assert.That(filteredRs.Rows[0].ItemArray[1], Is.EqualTo(values.Min()));
-            Assert.That(filteredRs.Rows[1].ItemArray[0], Is.EqualTo(index[1].ToString()));
+            Assert.That(filteredRs.Rows[1].ItemArray[0], Is.EqualTo(index[1]));
             Assert.That(filteredRs.Rows[1].ItemArray[1], Is.EqualTo(values.Except(Enumerable.Repeat(values.Min(), 1)).Min()));
         }
 
@@ -76,11 +76,11 @@ namespace NBi.Testing.Core.Calculation.Ranking
             var filteredRs = ranking.Apply(rs);
 
             Assert.That(filteredRs.Rows.Count, Is.EqualTo(values.Count()));
-            Assert.That(filteredRs.Rows[0].ItemArray[0], Is.EqualTo(index[0].ToString()));
+            Assert.That(filteredRs.Rows[0].ItemArray[0], Is.EqualTo(index[0]));
             Assert.That(filteredRs.Rows[0].ItemArray[1], Is.EqualTo(values.Min()));
-            Assert.That(filteredRs.Rows[1].ItemArray[0], Is.EqualTo(index[1].ToString()));
+            Assert.That(filteredRs.Rows[1].ItemArray[0], Is.EqualTo(index[1]));
             Assert.That(filteredRs.Rows[1].ItemArray[1], Is.EqualTo(values.Except(Enumerable.Repeat(values.Min(), 1)).Min()));
-            Assert.That(filteredRs.Rows[values.Count() - 1].ItemArray[0], Is.EqualTo(index[2].ToString()));
+            Assert.That(filteredRs.Rows[values.Count() - 1].ItemArray[0], Is.EqualTo(index[2]));
             Assert.That(filteredRs.Rows[values.Count() - 1].ItemArray[1], Is.EqualTo(values.Max()));
         }
 
@@ -101,7 +101,7 @@ namespace NBi.Testing.Core.Calculation.Ranking
             var filteredRs = ranking.Apply(rs);
 
             Assert.That(filteredRs.Rows.Count, Is.EqualTo(1));
-            Assert.That(filteredRs.Rows[0].ItemArray[0], Is.EqualTo(index.ToString()));
+            Assert.That(filteredRs.Rows[0].ItemArray[0], Is.EqualTo(index));
             Assert.That(filteredRs.Rows[0].ItemArray[1], Is.EqualTo(values.Min()));
         }
 
@@ -123,7 +123,7 @@ namespace NBi.Testing.Core.Calculation.Ranking
             var filteredRs = ranking.Apply(rs);
 
             Assert.That(filteredRs.Rows.Count, Is.EqualTo(1));
-            Assert.That(filteredRs.Rows[0].ItemArray[0], Is.EqualTo(index.ToString()));
+            Assert.That(filteredRs.Rows[0].ItemArray[0], Is.EqualTo(index));
             Assert.That(filteredRs.Rows[0].ItemArray[1], Is.EqualTo("125"));
         }
 

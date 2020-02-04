@@ -27,6 +27,34 @@
     <variable name="length">
       <script language="c-sharp">2+1</script>
     </variable>
+    <variable name="timing">
+      <script language="c-sharp">
+        new DateTime(2019,10,07,22,00,00)
+      </script>
+    </variable>
+    <variable name="factor">
+      <script language="c-sharp">
+        1+1
+      </script>
+    </variable>
+    <variable name="csvFileName">
+      <script language="c-sharp">"PurchaseOrders"</script>
+    </variable>
+    <variable name="one">
+      <script language="c-sharp">
+        2-1
+      </script>
+    </variable>
+    <variable name="purchaseOrderDate">
+      <script language="c-sharp">
+        new DateTime(1999, 10, 22)
+      </script>
+    </variable>
+    <variable name="point">
+      <script language="c-sharp">
+        "."
+      </script>
+    </variable>
   </variables>
   <group name="asserts">
     <test name="Csv equal to embedded result-set" uid="0001">
@@ -498,7 +526,7 @@
         </equal-to>
       </assert>
     </test>
-    <test name="Result-set is the cartesian product of two sequences" uid="0130">
+    <test name="Result-set is a unique sequence" uid="0140">
       <system-under-test>
         <result-set>
           <sequence type="text">
@@ -517,6 +545,336 @@
             <row>
               <cell>fr</cell>
             </row>
+          </result-set>
+        </equal-to>
+      </assert>
+    </test>
+    <test name="Result-set is the xml-source" uid="0150">
+      <system-under-test>
+        <result-set>
+          <xml-source>
+            <file>..\Csv\PurchaseOrders.xml</file>
+            <xpath>
+              <from>//PurchaseOrder/Items/Item</from>
+              <select attribute="PurchaseOrderNumber">../..</select>
+              <select attribute="PartNumber">.</select>
+            </xpath>
+          </xml-source>
+        </result-set>
+      </system-under-test>
+      <assert>
+        <equal-to keys="all">
+          <result-set>
+            <row>
+              <cell>99503</cell>
+              <cell>872-AA</cell>
+            </row>
+            <row>
+              <cell>99503</cell>
+              <cell>926-AA</cell>
+            </row>
+            <row>
+              <cell>99505</cell>
+              <cell>456-NM</cell>
+            </row>
+            <row>
+              <cell>99504</cell>
+              <cell>898-AZ</cell>
+            </row>
+            <row>
+              <cell>99504</cell>
+              <cell>898-AM</cell>
+            </row>
+          </result-set>
+        </equal-to>
+      </assert>
+    </test>
+    <test name="Result-set is the xml-source but file is not available" uid="0151">
+      <system-under-test>
+        <result-set>
+          <xml-source>
+            <file>..\Csv\NonExisting.xml</file>
+            <xpath>
+              <from>//PurchaseOrder/Items/Item</from>
+              <select attribute="Country">../..</select>
+            </xpath>
+          </xml-source>
+          <if-unavailable>
+            <result-set>
+              <sequence type="text">
+                <item>be</item>
+                <item>fr</item>
+              </sequence>
+            </result-set>
+          </if-unavailable>
+        </result-set>
+      </system-under-test>
+      <assert>
+        <equal-to keys="all">
+          <result-set>
+            <row>
+              <cell>fr</cell>
+            </row>
+            <row>
+              <cell>be</cell>
+            </row>
+          </result-set>
+        </equal-to>
+      </assert>
+    </test>
+    <test name="Result-set is the xml-source with a dynamic file name" uid="0152">
+      <system-under-test>
+        <result-set>
+          <xml-source>
+            <file>~..\Csv\{@csvFileName}.xml</file>
+            <xpath>
+              <from>//PurchaseOrder/Items/Item</from>
+              <select attribute="PurchaseOrderNumber">../..</select>
+              <select attribute="PartNumber">.</select>
+            </xpath>
+          </xml-source>
+        </result-set>
+      </system-under-test>
+      <assert>
+        <equal-to keys="all">
+          <result-set>
+            <row>
+              <cell>99503</cell>
+              <cell>872-AA</cell>
+            </row>
+            <row>
+              <cell>99503</cell>
+              <cell>926-AA</cell>
+            </row>
+            <row>
+              <cell>99505</cell>
+              <cell>456-NM</cell>
+            </row>
+            <row>
+              <cell>99504</cell>
+              <cell>898-AZ</cell>
+            </row>
+            <row>
+              <cell>99504</cell>
+              <cell>898-AM</cell>
+            </row>
+          </result-set>
+        </equal-to>
+      </assert>
+    </test>
+    <test name="Result-set is the xml-source with a dynamic file name and a variable in the from and select" uid="0153">
+      <system-under-test>
+        <result-set>
+          <xml-source>
+            <file>..\Csv\PurchaseOrders.xml</file>
+            <xpath>
+              <from>~//PurchaseOrder[@OrderDate="{@purchaseOrderDate:yyyy-MM-dd}"]/Items/Item</from>
+              <select attribute="PurchaseOrderNumber">../..</select>
+              <select attribute="PartNumber">@point</select>
+            </xpath>
+          </xml-source>
+        </result-set>
+      </system-under-test>
+      <assert>
+        <equal-to keys="all">
+          <result-set>
+            <row>
+              <cell>99505</cell>
+              <cell>456-NM</cell>
+            </row>
+            <row>
+              <cell>99504</cell>
+              <cell>898-AZ</cell>
+            </row>
+            <row>
+              <cell>99504</cell>
+              <cell>898-AM</cell>
+            </row>
+          </result-set>
+        </equal-to>
+      </assert>
+    </test>
+    <test name="Result-set is the json-source" uid="0160">
+      <system-under-test>
+        <result-set>
+          <json-source>
+            <file>..\Csv\PurchaseOrders.json</file>
+            <json-path>
+              <from>$.PurchaseOrders[*].Items[*]</from>
+              <select>!!.PurchaseOrderNumber</select>
+              <select>$.PartNumber</select>
+            </json-path>
+          </json-source>
+        </result-set>
+      </system-under-test>
+      <assert>
+        <equal-to keys="all">
+          <result-set>
+            <row>
+              <cell>99503</cell>
+              <cell>872-AA</cell>
+            </row>
+            <row>
+              <cell>99503</cell>
+              <cell>926-AA</cell>
+            </row>
+            <row>
+              <cell>99505</cell>
+              <cell>456-NM</cell>
+            </row>
+            <row>
+              <cell>99504</cell>
+              <cell>898-AZ</cell>
+            </row>
+            <row>
+              <cell>99504</cell>
+              <cell>898-AM</cell>
+            </row>
+          </result-set>
+        </equal-to>
+      </assert>
+    </test>
+    <test name="Result-set is the json-source with remote url" uid="0161">
+      <system-under-test>
+        <result-set>
+          <json-source>
+            <url>https://raw.githubusercontent.com/sitepoint-editors/json-examples/master/src/db.json</url>
+            <json-path>
+              <from>$.clients[*]</from>
+              <select>$.name</select>
+            </json-path>
+          </json-source>
+        </result-set>
+      </system-under-test>
+      <assert>
+        <equal-to keys="all">
+          <result-set>
+            <row>
+              <cell>Dunlap Hubbard</cell>
+            </row>
+            <row>
+              <cell>Kirsten Sellers</cell>
+            </row>
+            <row>
+              <cell>Acosta Robbins</cell>
+            </row>
+            <row>
+              <cell>Lawrence Morrison</cell>
+            </row>
+            <row>
+              <cell>Trudy Bennett</cell>
+            </row>
+          </result-set>
+        </equal-to>
+      </assert>
+    </test>
+    <test name="Result-set is the json-source with rest api" uid="0162">
+      <system-under-test>
+        <result-set>
+          <json-source>
+            <rest base-address="https://api.publicapis.org/">
+              <path>entries</path>
+              <parameter name="category">animals</parameter>
+            </rest>
+            <json-path>
+              <from>$.entries[*]</from>
+              <select>$.API</select>
+              <select>$.Cors</select>
+            </json-path>
+          </json-source>
+        </result-set>
+      </system-under-test>
+      <assert>
+        <superset-of keys="first" values-default-type="text">
+          <result-set>
+            <row>
+              <cell>Cat Facts</cell>
+              <cell>no</cell>
+            </row>
+            <row>
+              <cell>RandomCat</cell>
+              <cell>yes</cell>
+            </row>
+          </result-set>
+        </superset-of>
+      </assert>
+    </test>
+    <test name="Result-set is the json-source with rest api and variables" uid="0162">
+      <system-under-test>
+        <result-set>
+          <json-source>
+            <rest base-address="https://api.publicapis.org/">
+              <path>entries</path>
+              <parameter name="category">animals</parameter>
+            </rest>
+            <json-path>
+              <from>~$.entries[{@one}]</from>
+              <select>$.API</select>
+              <select>$.Cors</select>
+            </json-path>
+          </json-source>
+        </result-set>
+      </system-under-test>
+      <assert>
+        <equal-to keys="first" values-default-type="text">
+          <result-set>
+            <row>
+              <cell>Cats</cell>
+              <cell>unknown</cell>
+            </row>
+          </result-set>
+        </equal-to>
+      </assert>
+    </test>
+    <test name="Result-set is an empty result-set" uid="0170">
+      <system-under-test>
+        <result-set>
+          <empty>
+            <column identifier="Year"/>
+            <column identifier="Value"/>
+          </empty>
+        </result-set>
+      </system-under-test>
+      <assert>
+        <equal-to>
+          <column name="Year" role="key" type="text"/>
+          <column name="Value" role="value" type="numeric"/>
+          <result-set>
+            <file>
+              <path>..\Csv\ResellerOrderCountByYearBefore2006.csv</path>
+            </file>
+            <alteration>
+              <rename identifier="#0" new-name="Year"/>
+              <rename identifier="#1" new-name="Value"/>
+              <filter>
+                <predicate operand="[Value]">
+                  <more-than>10000</more-than>
+                </predicate>
+              </filter>
+            </alteration>
+          </result-set>
+        </equal-to>
+      </assert>
+    </test>
+    <test name="Result-set is an empty result-set with column-count defined" uid="0171">
+      <system-under-test>
+        <result-set>
+          <empty column-count="2"/>
+        </result-set>
+      </system-under-test>
+      <assert>
+        <equal-to>
+          <result-set>
+            <file>
+              <path>..\Csv\ResellerOrderCountByYearBefore2006.csv</path>
+            </file>
+            <alteration>
+              <filter>
+                <predicate operand="#1">
+                  <more-than>10000</more-than>
+                </predicate>
+              </filter>
+            </alteration>
           </result-set>
         </equal-to>
       </assert>
@@ -773,6 +1131,62 @@
         </all-rows>
       </assert>
     </test>
+    <test name="Filter with group-by case" uid="0213">
+      <system-under-test>
+        <result-set file="..\Csv\Orders.csv">
+          <alteration>
+            <filter>
+              <ranking operand="#3">
+                <bottom/>
+                <group-by>
+                  <case>
+                    <predicate operand="#2" type="text">
+                      <equal>CUST0003</equal>
+                    </predicate>
+                  </case>
+                  <case>
+                    <predicate operand="#3" type="numeric">
+                      <more-than or-equal="true">100</more-than>
+                    </predicate>
+                  </case>
+                  <case>
+                    <predicate operand="#2" type="text">
+                      <equal>CUST0001</equal>
+                    </predicate>
+                  </case>
+                </group-by>
+              </ranking>
+            </filter>
+            <project>
+              <column identifier="#2" />
+              <column identifier="#3" />
+            </project>
+          </alteration>
+        </result-set>
+      </system-under-test>
+      <assert>
+        <equal-to keys="all">
+          <result-set>
+            <row>
+              <cell>CUST0001</cell>
+              <cell>80</cell>
+            </row>
+            <row>
+              <cell>CUST0001</cell>
+              <cell>100</cell>
+            </row>
+            <row>
+              <cell>CUST0002</cell>
+              <cell>80</cell>
+            </row>
+            <row>
+              <cell>CUST0003</cell>
+              <cell>55</cell>
+            </row>
+          </result-set>
+        </equal-to>
+      </assert>
+    </test>
     <test name="Conversion with text-to-date" uid="0221">
       <system-under-test>
         <resultSet file="..\Csv\Orders.csv">
@@ -996,8 +1410,8 @@
       <system-under-test>
         <result-set>
           <query>
-            select 'ABCDE', 'foo' 
-            union all select 'bcdef', 'bar' 
+            select 'ABCDE', 'foo'
+            union all select 'bcdef', 'bar'
             union all select null, ''
           </query>
           <alteration>
@@ -1221,6 +1635,48 @@
         </equal-to>
       </assert>
     </test>
+    <test name="Extensions based on variables" uid="0253">
+      <system-under-test>
+        <result-set>
+          <query>
+            select 0 as Shift, 100 as ValueCol
+            union all select 1 as Shift, 120 as ValueCol
+          </query>
+          <alteration>
+            <extend identifier="[NewTime]">
+              <script language="native">@timing | dateTime-to-add(01:00:00, [Shift])</script>
+            </extend>
+            <project>
+              <column identifier="[NewTime]"/>
+              <column identifier="[ValueCol]"/>
+            </project>
+          </alteration>
+        </result-set>
+      </system-under-test>
+      <assert>
+        <equal-to>
+          <column index="0" role="key" type="dateTime"/>
+          <result-set>
+            <row>
+              <cell>2019-10-07 22:00:00</cell>
+              <cell>50</cell>
+            </row>
+            <row>
+              <cell>2019-10-07 23:00:00</cell>
+              <cell>60</cell>
+            </row>
+            <alteration>
+              <extend identifier="[NewValue]">
+                <script language="ncalc">[@factor] * [#1]</script>
+              </extend>
+              <project-away>
+                <column identifier="#1"/>
+              </project-away>
+            </alteration>
+          </result-set>
+        </equal-to>
+      </assert>
+    </test>
     <test name="Summarization on all columns" uid="0261">
       <system-under-test>
         <result-set>
@@ -1304,7 +1760,42 @@
         </equal-to>
       </assert>
     </test>
-    <test name="Summarization on no column" uid="0263">
+    <test name="Summarization of concatenation" uid="0263">
+      <system-under-test>
+        <result-set>
+          <query>
+            select 'A' as Key1, 'alpha' as Value
+            union all select 'B', 'foo'
+            union all select 'B', 'bar'
+            union all select 'A', 'beta'
+            union all select 'A', 'gamma'
+          </query>
+          <alteration>
+            <summarize>
+              <concatenation column="[Value]" type="text" separator="+"/>
+              <group-by>
+                <column identifier="Key1" type="text"/>
+              </group-by>
+            </summarize>
+          </alteration>
+        </result-set>
+      </system-under-test>
+      <assert>
+        <equal-to values-default-type="text">
+          <result-set>
+            <row>
+              <cell>A</cell>
+              <cell>alpha+beta+gamma</cell>
+            </row>
+            <row>
+              <cell>B</cell>
+              <cell>foo+bar</cell>
+            </row>
+          </result-set>
+        </equal-to>
+      </assert>
+    </test>
+    <test name="Summarization on no column" uid="0264">
       <system-under-test>
         <result-set>
           <query>
@@ -1331,7 +1822,7 @@
         </equal-to>
       </assert>
     </test>
-    <test name="Chaining two summarizations" uid="0264">
+    <test name="Chaining two summarizations" uid="0265">
       <system-under-test>
         <result-set>
           <query>
@@ -1373,7 +1864,7 @@
         </equal-to>
       </assert>
     </test>
-    <test name="Complex chaining two summarizations" uid="0264">
+    <test name="Complex chaining two summarizations" uid="0266">
       <system-under-test>
         <result-set>
           <query>
@@ -1638,6 +2129,49 @@
               <cell>C</cell>
               <cell>Bar</cell>
             </row>
+          </result-set>
+        </equal-to>
+      </assert>
+    </test>
+    <test name="alteration with replacement of a text value by a numeric value"  uid="0291">
+      <system-under-test>
+        <result-set>
+          <row>
+            <cell>39.500</cell>
+            <cell>8.200</cell>
+          </row>
+        </result-set>
+      </system-under-test>
+      <assert>
+        <equal-to behavior="single-row" values-default-type="numeric">
+          <result-set>
+            <row>
+              <cell>2018-10-01</cell>
+              <cell>8.200</cell>
+            </row>
+            <alteration>
+              <lookup-replace>
+                <missing behavior="default-value">0</missing>
+                <join>
+                  <mapping candidate="#0" reference="#0" />
+                </join>
+                <result-set>
+                  <row>
+                    <cell>2018-10-01</cell>
+                    <cell>39.500</cell>
+                  </row>
+                  <alteration>
+                    <summarize>
+                      <sum column="#1" type="numeric" />
+                      <group-by>
+                        <column identifier="#0" />
+                      </group-by>
+                    </summarize>
+                  </alteration>
+                </result-set>
+                <replacement identifier="#1" />
+              </lookup-replace>
+            </alteration>
           </result-set>
         </equal-to>
       </assert>

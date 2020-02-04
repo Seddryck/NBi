@@ -40,6 +40,9 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net461\System.ValueTuple.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -82,6 +85,7 @@
     <Compile Include="GroupXmlTest.cs" />
     <Compile Include="IgnoreXmlTest.cs" />
     <Compile Include="InstanceSettlingXmlTest.cs" />
+    <Compile Include="Items\Api\Rest\RestXmlTest.cs" />
     <Compile Include="Items\AssemblyXmlTest.cs" />
     <Compile Include="Items\Calculation\PredicateXmlTest.cs" />
     <Compile Include="Items\Calculation\RankingXmlTest.cs" />
@@ -89,6 +93,7 @@
     <Compile Include="Items\EtlXmlTest.cs" />
     <Compile Include="Items\FileXmlTest.cs" />
     <Compile Include="Items\FormatXmlTest.cs" />
+    <Compile Include="Items\Hierarchical\JsonSourceXmlTest.cs" />
     <Compile Include="Items\HierarchiesXmlTest.cs" />
     <Compile Include="Items\HierarchyXmlTest.cs" />
     <Compile Include="Items\MeasureXmlTest.cs" />
@@ -103,7 +108,7 @@
     <Compile Include="Items\SharedDatasetXmlTest.cs" />
     <Compile Include="Items\TablesXmlTest.cs" />
     <Compile Include="Items\TableXmlTest.cs" />
-    <Compile Include="Items\XmlSourceTest.cs" />
+    <Compile Include="Items\Hierarchical\XmlSourceXmlTest.cs" />
     <Compile Include="Properties\ProjectAssemblyInfo.cs" />
     <Compile Include="Settings\CsvProfileXmlTest.cs" />
     <Compile Include="Settings\SettingsXmlTest.cs" />
@@ -116,6 +121,7 @@
     <Compile Include="TraitXmlTest.cs" />
     <Compile Include="Variables\GlobalVariableXmlTest.cs" />
     <Compile Include="Variables\LocalVariableXmlTest.cs" />
+    <Compile Include="Variables\Sequence\QuerySequenceXmlTest.cs" />
     <Compile Include="Variables\Sequence\FileLoopXmlTest.cs" />
     <Compile Include="Variables\Sequence\SentinelLoopXmlTest.cs" />
     <Compile Include="XmlManagerTest.cs" />
@@ -393,7 +399,7 @@
     <EmbeddedResource Include="Resources\XmlManagerSample.xml" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\XmlSourceTestSuite.xml" />
+    <EmbeddedResource Include="Resources\XmlSourceXmlTestSuite.xml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NBi.Core\NBi.Core.csproj">
@@ -410,6 +416,15 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\SomeRowsXmlTestSuite.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\JsonSourceXmlTestSuite.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\RestXmlTestSuite.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\QuerySequenceXmlTestSuite.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

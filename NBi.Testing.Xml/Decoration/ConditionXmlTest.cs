@@ -47,14 +47,14 @@ namespace NBi.Testing.Xml.Unit.Decoration
             TestSuiteXml ts = DeserializeSample();
 
             // Check the properties of the object.
-            Assert.That(ts.Tests[testNr].Condition.Predicates[0], Is.TypeOf<ServiceRunningXml>());
-            var check = ts.Tests[testNr].Condition.Predicates[0] as ServiceRunningXml;
+            Assert.That(ts.Tests[testNr].Condition.Predicates[0], Is.TypeOf<ServiceRunningConditionXml>());
+            var check = ts.Tests[testNr].Condition.Predicates[0] as ServiceRunningConditionXml;
             Assert.That(check.TimeOut, Is.EqualTo("5000")); //Default value
             Assert.That(check.ServiceName, Is.EqualTo("MyService")); 
 
             // Check the properties of the object.
-            Assert.That(ts.Tests[testNr].Condition.Predicates[1], Is.TypeOf<ServiceRunningXml>());
-            var check2 = ts.Tests[testNr].Condition.Predicates[1] as ServiceRunningXml;
+            Assert.That(ts.Tests[testNr].Condition.Predicates[1], Is.TypeOf<ServiceRunningConditionXml>());
+            var check2 = ts.Tests[testNr].Condition.Predicates[1] as ServiceRunningConditionXml;
             Assert.That(check2.TimeOut, Is.EqualTo("1000")); //Value Specified
             Assert.That(check2.ServiceName, Is.EqualTo("MyService2")); 
         }
@@ -126,6 +126,88 @@ namespace NBi.Testing.Xml.Unit.Decoration
             var xml = manager.XmlSerializeFrom(root);
             Console.WriteLine(xml);
             Assert.That(xml, Does.Contain("<parameter name=\"firstParam\">myValue</parameter>"));
+        }
+
+        [Test]
+        public void Deserialize_SampleFile_FolderExists()
+        {
+            int testNr = 2;
+
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            var ts = DeserializeSample();
+
+            // Check the properties of the object.
+            Assert.That(ts.Tests[testNr].Condition.Predicates[0], Is.TypeOf<FolderExistsConditionXml>());
+            var condition = ts.Tests[testNr].Condition.Predicates[0] as FolderExistsConditionXml;
+            Assert.That(condition.Path, Is.EqualTo(@"..\"));
+            Assert.That(condition.Name, Is.EqualTo("MyFolder"));
+            Assert.That(condition.NotEmpty, Is.False);
+        }
+
+        [Test]
+        public void Serialize_FolderExists_Correct()
+        {
+            var root = new ConditionXml()
+            {
+                Predicates = new List<DecorationConditionXml>()
+                {
+                    new FolderExistsConditionXml()
+                    {
+                        Path = ".",
+                        Name = "myFolderName",
+                        NotEmpty = false
+                    }
+                }
+            };
+
+            var manager = new XmlManager();
+            var xml = manager.XmlSerializeFrom(root);
+            Console.WriteLine(xml);
+            Assert.That(xml, Does.Contain("<folder-exists "));
+            Assert.That(xml, Does.Contain("path=\".\""));
+            Assert.That(xml, Does.Contain("name=\"myFolderName\""));
+            Assert.That(xml, Does.Not.Contain("not-empty"));
+        }
+
+        [Test]
+        public void Deserialize_SampleFile_FileExists()
+        {
+            int testNr = 3;
+
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            var ts = DeserializeSample();
+
+            // Check the properties of the object.
+            Assert.That(ts.Tests[testNr].Condition.Predicates[0], Is.TypeOf<FileExistsConditionXml>());
+            var condition = ts.Tests[testNr].Condition.Predicates[0] as FileExistsConditionXml;
+            Assert.That(condition.Path, Is.EqualTo(@"..\"));
+            Assert.That(condition.Name, Is.EqualTo("MyFile.txt"));
+            Assert.That(condition.NotEmpty, Is.True);
+        }
+
+        [Test]
+        public void Serialize_FileExists_Correct()
+        {
+            var root = new ConditionXml()
+            {
+                Predicates = new List<DecorationConditionXml>()
+                {
+                    new FileExistsConditionXml()
+                    {
+                        Path = "Folder\\",
+                        Name = "myFileName.txt",
+                        NotEmpty = true
+                    }
+                }
+            };
+
+            var manager = new XmlManager();
+            var xml = manager.XmlSerializeFrom(root);
+            Console.WriteLine(xml);
+            Assert.That(xml, Does.Contain("<file-exists "));
+            Assert.That(xml, Does.Contain("path=\"Folder\\\""));
+            Assert.That(xml, Does.Contain("name=\"myFileName.txt\""));
+            Assert.That(xml, Does.Contain("not-empty=\"true\""));
         }
     }
 }

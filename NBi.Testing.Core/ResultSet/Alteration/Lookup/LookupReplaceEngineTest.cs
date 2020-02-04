@@ -55,6 +55,43 @@ namespace NBi.Testing.Core.ResultSet.Alteration.Lookup
         }
 
         [Test]
+        public void Execute_AllLookupFoundSwitchingFromTextToNumeric_CorrectReplacement()
+        {
+            var candidate = new ObjectsResultSetResolver(
+                new ObjectsResultSetResolverArgs(
+                    new[] {
+                        new object[] { 1, "A", 100 },
+                        new object[] { 2, "B", 101 },
+                        new object[] { 3, "A", 125 },
+                        new object[] { 4, "B", 155 }
+                    }
+                )).Execute();
+
+            var reference = new ResultSetService(
+                new ObjectsResultSetResolver(
+                    new ObjectsResultSetResolverArgs(
+                        new[] {
+                            new object[] { "A", 10.2 },
+                            new object[] { "B", 21.1 },
+                        }
+                )).Execute, null);
+
+            var engine = new LookupReplaceEngine(
+                    new LookupReplaceArgs(
+                        reference,
+                        new ColumnMapping(new ColumnOrdinalIdentifier(1), new ColumnOrdinalIdentifier(0), ColumnType.Text),
+                        new ColumnOrdinalIdentifier(1)
+                ));
+
+            var result = engine.Execute(candidate);
+            Assert.That(result.Columns.Count, Is.EqualTo(3));
+            Assert.That(result.Rows.Count, Is.EqualTo(4));
+            Assert.That(result.Rows.Cast<DataRow>().Select(x => x[1]).Distinct(), Does.Contain(10.2));
+            Assert.That(result.Rows.Cast<DataRow>().Select(x => x[1]).Distinct(), Does.Contain(21.1));
+            Assert.That(result.Rows.Cast<DataRow>().Select(x => Convert.ToDecimal(x[1])).Where(x => x != 10.2m && x != 21.1m), Is.Empty);
+        }
+
+        [Test]
         public void ExecuteWithFailureStretegy_OneLookupMissing_ExceptionThrown()
         {
             var candidate = new ObjectsResultSetResolver(

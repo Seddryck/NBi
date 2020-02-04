@@ -28,7 +28,7 @@
         <service-running name="MSSQL$SQL2017"/>
       </condition>
       <system-under-test>
-        <execution>
+        <result-set>
           <query>
             select
             [Name]
@@ -42,12 +42,12 @@
             where
             [Id] in (1,2)
           </query>
-        </execution>
+        </result-set>
       </system-under-test>
       <assert>
-        <equalTo>
+        <equal-to>
           <column index="1" type="text" role="value"/>
-          <resultSet>
+          <result-set>
             <row>
               <cell>Nikola Tesla</cell>
               <cell>1859-07-10</cell>
@@ -56,8 +56,8 @@
               <cell>Leonardo Da Vinci</cell>
               <cell>1456-04-15</cell>
             </row>
-          </resultSet>
-        </equalTo>
+          </result-set>
+        </equal-to>
       </assert>
       <cleanup>
         <table-reset name="Users"/>
@@ -68,23 +68,23 @@
         <service-running name="MSSQL$SQL2017"/>
       </condition>
       <system-under-test>
-        <execution>
+        <result-set>
           <query>
             select
             count(*)
             from
             [KeyDates]
           </query>
-        </execution>
+        </result-set>
       </system-under-test>
       <assert>
-        <equalTo>
-          <resultSet>
+        <equal-to>
+          <result-set>
             <row>
               <cell>3</cell>
             </row>
-          </resultSet>
-        </equalTo>
+          </result-set>
+        </equal-to>
       </assert>
     </test>
   </group>
@@ -102,11 +102,11 @@
       </system-under-test>
       <assert>
         <equal-to>
-          <resultSet>
+          <result-set>
             <row>
               <cell>OK</cell>
             </row>
-          </resultSet>
+          </result-set>
         </equal-to>
       </assert>
     </test>
@@ -123,11 +123,11 @@
       </system-under-test>
       <assert>
         <equal-to>
-          <resultSet>
+          <result-set>
             <row>
               <cell>OK</cell>
             </row>
-          </resultSet>
+          </result-set>
         </equal-to>
       </assert>
     </test>
@@ -144,11 +144,11 @@
       </system-under-test>
       <assert>
         <equal-to>
-          <resultSet>
+          <result-set>
             <row>
               <cell>OK</cell>
             </row>
-          </resultSet>
+          </result-set>
         </equal-to>
       </assert>
     </test>

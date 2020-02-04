@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<testSuite name="Acceptance Testing: query equalTo ResultSet" xmlns="http://NBi/TestSuite">
+<testSuite name="Acceptance Testing: query equal-to ResultSet" xmlns="http://NBi/TestSuite">
   <settings>
     <default apply-to="system-under-test">
       <connectionString>Provider=MSOLAP.4;Data Source=(local)\SQL2017;Initial Catalog='Adventure Works DW 2012';localeidentifier=1049</connectionString>
@@ -13,7 +13,7 @@
       <service-running name="MSOLAP$SQL2017"/>
     </condition>
     <system-under-test>
-      <execution>
+      <result-set>
         <query name="MDX Except">
           SELECT
           [Measures].[Reseller Order Count] ON 0,
@@ -21,11 +21,11 @@
           FROM
           [Adventure Works]
         </query>
-      </execution>
+      </result-set>
     </system-under-test>
     <assert>
-      <equalTo>
-        <resultSet>
+      <equal-to>
+        <result-set>
           <row>
             <cell>CY 2005</cell>
             <cell>366</cell>
@@ -42,8 +42,8 @@
             <cell>CY 2008</cell>
             <cell>894</cell>
           </row>
-        </resultSet>
-      </equalTo>
+        </result-set>
+      </equal-to>
     </assert>
   </test>
   <test name="'Reseller Orders' count, year by year, between 2005 and 2008 with a tolerance of 5%" uid="0002">
@@ -51,7 +51,7 @@
       <service-running name="MSOLAP$SQL2017"/>
     </condition>
     <system-under-test>
-      <execution>
+      <result-set>
         <query name="MDX Except">
           SELECT
           [Measures].[Reseller Order Count] ON 0,
@@ -59,12 +59,12 @@
           FROM
           [Adventure Works]
         </query>
-      </execution>
+      </result-set>
     </system-under-test>
     <assert>
-      <equalTo>
+      <equal-to>
         <column index="1" role="value" type="numeric" tolerance="5%"/>
-        <resultSet>
+        <result-set>
           <row>
             <cell>CY 2005</cell>
             <cell>350</cell>
@@ -81,8 +81,8 @@
             <cell>CY 2008</cell>
             <cell>900</cell>
           </row>
-        </resultSet>
-      </equalTo>
+        </result-set>
+      </equal-to>
     </assert>
   </test>
   <test name="'Reseller Orders' count, year by year, between 2005 and 2008 with a rounding by step of 100" uid="0003">
@@ -90,7 +90,7 @@
       <service-running name="MSOLAP$SQL2017"/>
     </condition>
     <system-under-test>
-      <execution>
+      <result-set>
         <query name="MDX Except">
           SELECT
           [Measures].[Reseller Order Count] ON 0,
@@ -98,12 +98,12 @@
           FROM
           [Adventure Works]
         </query>
-      </execution>
+      </result-set>
     </system-under-test>
     <assert>
-      <equalTo>
+      <equal-to>
         <column index="1" role="value" type="numeric" rounding-style="floor" rounding-step="100"/>
-        <resultSet>
+        <result-set>
           <row>
             <cell>CY 2005</cell>
             <cell>300</cell>
@@ -120,8 +120,8 @@
             <cell>CY 2008</cell>
             <cell>800</cell>
           </row>
-        </resultSet>
-      </equalTo>
+        </result-set>
+      </equal-to>
     </assert>
   </test>
   <test name="'Reseller Orders' count, year by year, between 2005 and 2008 with intervals" uid="0003">
@@ -129,7 +129,7 @@
       <service-running name="MSOLAP$SQL2017"/>
     </condition>
     <system-under-test>
-      <execution>
+      <result-set>
         <query name="MDX Except">
           SELECT
           [Measures].[Reseller Order Count] ON 0,
@@ -137,12 +137,12 @@
           FROM
           [Adventure Works]
         </query>
-      </execution>
+      </result-set>
     </system-under-test>
     <assert>
-      <equalTo>
+      <equal-to>
         <column index="1" role="value" type="numeric" tolerance="10"/>
-        <resultSet>
+        <result-set>
           <row>
             <cell>CY 2005</cell>
             <cell>[-INF;372[</cell>
@@ -159,8 +159,8 @@
             <cell>CY 2008</cell>
             <cell>894</cell>
           </row>
-        </resultSet>
-      </equalTo>
+        </result-set>
+      </equal-to>
     </assert>
   </test>
   <test name="'Reseller Orders' count, year by year, between 2005 and 2008 with intervals generic" uid="0003">
@@ -168,7 +168,7 @@
       <service-running name="MSOLAP$SQL2017"/>
     </condition>
     <system-under-test>
-      <execution>
+      <result-set>
         <query name="MDX Except">
           SELECT
           [Measures].[Reseller Order Count] ON 0,
@@ -176,12 +176,12 @@
           FROM
           [Adventure Works]
         </query>
-      </execution>
+      </result-set>
     </system-under-test>
     <assert>
-      <equalTo>
+      <equal-to>
         <column index="1" role="value" type="numeric" tolerance="10"/>
-        <resultSet>
+        <result-set>
           <row>
             <cell>CY 2005</cell>
             <cell>360</cell>
@@ -198,13 +198,13 @@
             <cell>CY 2008</cell>
             <cell>(absolutely-positive)</cell>
           </row>
-        </resultSet>
-      </equalTo>
+        </result-set>
+      </equal-to>
     </assert>
   </test>
   <test name="Tolerance for dateTime fields" uid="0003">
     <system-under-test>
-      <execution>
+      <result-set>
         <query name="Get two dates" connectionString="@SqlAdvenureWorks2012">
           SELECT
           'Id-1'
@@ -214,12 +214,12 @@
           'Id-2'
           , cast('2013-11-22 23:00:00' as datetime)
         </query>
-      </execution>
+      </result-set>
     </system-under-test>
     <assert>
-      <equalTo>
+      <equal-to>
         <column index="1" role="value" type="dateTime" tolerance="01:00:00"/>
-        <resultSet>
+        <result-set>
           <row>
             <cell>Id-1</cell>
             <cell>2013-11-21 23:00:00</cell>
@@ -228,8 +228,8 @@
             <cell>Id-2</cell>
             <cell>2013-11-23</cell>
           </row>
-        </resultSet>
-      </equalTo>
+        </result-set>
+      </equal-to>
     </assert>
   </test>
   <test name="DAX Query with one column">
@@ -237,7 +237,7 @@
       <service-running name="MSOLAP$SQL2017TABULAR"/>
     </condition>
     <system-under-test>
-      <execution>
+      <result-set>
         <query
 					connectionString="Provider=MSOLAP.4;Data Source=(local)\SQL2017TABULAR;Initial Catalog='AdventureWorks Tabular Model SQL 2012';localeidentifier=1033"
 				>
@@ -246,11 +246,11 @@
           VALUES('Product Subcategory'[Product Subcategory Name]),
           'Product Category'[Product Category Name] = "Bikes")
         </query>
-      </execution>
+      </result-set>
     </system-under-test>
     <assert>
-      <equalTo keys="first">
-        <resultSet>
+      <equal-to keys="first">
+        <result-set>
           <row>
             <cell>Mountain Bikes</cell>
           </row>
@@ -260,8 +260,8 @@
           <row>
             <cell>Touring Bikes</cell>
           </row>
-        </resultSet>
-      </equalTo>
+        </result-set>
+      </equal-to>
     </assert>
   </test>
   <test name="DAX Query with two columns">
@@ -269,7 +269,7 @@
       <service-running name="MSOLAP$SQL2017TABULAR"/>
     </condition>
     <system-under-test>
-      <execution>
+      <result-set>
         <query
 					connectionString="Provider=MSOLAP.4;Data Source=(local)\SQL2017TABULAR;Initial Catalog='AdventureWorks Tabular Model SQL 2012';localeidentifier=1033"
 				>
@@ -279,22 +279,22 @@
           "MaxOrderDate", max('Internet Sales'[OrderDateKey]) )
           )
         </query>
-      </execution>
+      </result-set>
     </system-under-test>
     <assert>
-      <equalTo keys="all">
-        <resultSet>
+      <equal-to keys="all">
+        <result-set>
           <row>
             <cell>20050701</cell>
             <cell>20080731</cell>
           </row>
-        </resultSet>
-      </equalTo>
+        </result-set>
+      </equal-to>
     </assert>
   </test>
   <test name="SQL Without Parameters">
     <system-under-test>
-      <execution>
+      <result-set>
         <query
 					connectionString="Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly"
 				>
@@ -305,11 +305,11 @@
           where
           [Group]='Europe'
         </query>
-      </execution>
+      </result-set>
     </system-under-test>
     <assert>
-      <equalTo keys="all">
-        <resultSet>
+      <equal-to keys="all">
+        <result-set>
           <row>
             <cell>France</cell>
             <cell>FR</cell>
@@ -322,13 +322,13 @@
             <cell>United Kingdom</cell>
             <cell>GB</cell>
           </row>
-        </resultSet>
-      </equalTo>
+        </result-set>
+      </equal-to>
     </assert>
   </test>
   <test name="SQL With Parameters">
     <system-under-test>
-      <execution>
+      <result-set>
         <query
 					connectionString="Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly"
 				>
@@ -340,11 +340,11 @@
           [Group]=@Area
           <parameter name="@Area">Europe</parameter>
         </query>
-      </execution>
+      </result-set>
     </system-under-test>
     <assert>
-      <equalTo keys="all">
-        <resultSet>
+      <equal-to keys="all">
+        <result-set>
           <row>
             <cell>France</cell>
             <cell>FR</cell>
@@ -357,13 +357,13 @@
             <cell>United Kingdom</cell>
             <cell>GB</cell>
           </row>
-        </resultSet>
-      </equalTo>
+        </result-set>
+      </equal-to>
     </assert>
   </test>
   <test name="SQL With templates variables">
     <system-under-test>
-      <execution>
+      <result-set>
         <query
 					connectionString="Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly"
 				>
@@ -374,11 +374,11 @@
           [Group]='Europe'
           <variable name="cube_name"> from [Sales].[SalesTerritory] </variable>
         </query>
-      </execution>
+      </result-set>
     </system-under-test>
     <assert>
-      <equalTo keys="all">
-        <resultSet>
+      <equal-to keys="all">
+        <result-set>
           <row>
             <cell>France</cell>
             <cell>FR</cell>
@@ -391,25 +391,25 @@
             <cell>United Kingdom</cell>
             <cell>GB</cell>
           </row>
-        </resultSet>
-      </equalTo>
+        </result-set>
+      </equal-to>
     </assert>
   </test>
   <test name="SQL With dates as Keys">
     <system-under-test>
-      <execution>
+      <result-set>
         <query
 		connectionString="Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly"
 	>
           select cast ('2015-12-16' as date), 412.25
           union all select cast ('2015-12-17' as date), 725.0
         </query>
-      </execution>
+      </result-set>
     </system-under-test>
     <assert>
-      <equalTo keys="first">
+      <equal-to keys="first">
         <column index="0" type="dateTime" role="key"/>
-        <resultSet>
+        <result-set>
           <row>
             <cell>2015-12-16</cell>
             <cell>412.250</cell>
@@ -418,13 +418,13 @@
             <cell>2015-12-17</cell>
             <cell>725</cell>
           </row>
-        </resultSet>
-      </equalTo>
+        </result-set>
+      </equal-to>
     </assert>
   </test>
   <test name="Key with textual values">
     <system-under-test>
-      <execution>
+      <result-set>
         <query
 		connectionString="Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly"
 	>
@@ -442,11 +442,11 @@
           , 'Smiljan'
           , 'Croatia'
         </query>
-      </execution>
+      </result-set>
     </system-under-test>
     <assert>
-      <equalTo keys="first" values-default-type="text">
-        <resultSet>
+      <equal-to keys="first" values-default-type="text">
+        <result-set>
           <row>
             <cell>Nikola Tesla</cell>
             <cell>Electrical engineering</cell>
@@ -461,13 +461,13 @@
             <cell>Toronto</cell>
             <cell>Canada</cell>
           </row>
-        </resultSet>
-      </equalTo>
+        </result-set>
+      </equal-to>
     </assert>
   </test>
   <test name="Negative facts with tolerance">
     <system-under-test>
-      <execution>
+      <result-set>
         <query
 		connectionString="Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly"
 	>
@@ -481,11 +481,11 @@
           ,  '−211'
           ,  '−195.77'
         </query>
-      </execution>
+      </result-set>
     </system-under-test>
     <assert>
-      <equalTo keys="first" tolerance="2%">
-        <resultSet>
+      <equal-to keys="first" tolerance="2%">
+        <result-set>
           <row>
             <cell>Water</cell>
             <cell>-0.4</cell>
@@ -496,13 +496,13 @@
             <cell>-210</cell>
             <cell>-195.79</cell>
           </row>
-        </resultSet>
-      </equalTo>
+        </result-set>
+      </equal-to>
     </assert>
   </test>
   <test name="Facts with Bounded Tolerance">
     <system-under-test>
-      <execution>
+      <result-set>
         <query
 		connectionString="Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly"
 	>
@@ -511,20 +511,20 @@
           , 101.8
           , -0.4
         </query>
-      </execution>
+      </result-set>
     </system-under-test>
     <assert>
-      <equalTo>
+      <equal-to>
         <column index="1" role="value" type="numeric" tolerance="1% (min 2)"/>
         <column index="2" role="value" type="numeric" tolerance="1% (min 0.75)"/>
-        <resultSet>
+        <result-set>
           <row>
             <cell>Water</cell>
             <cell>100</cell>
             <cell>-1</cell>
           </row>
-        </resultSet>
-      </equalTo>
+        </result-set>
+      </equal-to>
     </assert>
   </test>
   <test name="Compare sales amount for all territories group">
@@ -532,7 +532,7 @@
       <service-running name="MSOLAP$SQL2017"/>
     </condition>
     <system-under-test>
-      <execution>
+      <result-set>
         <query>
           select
           [Measures].[Internet Sales Amount] on 0
@@ -540,11 +540,11 @@
           from
           [Adventure Works]
         </query>
-      </execution>
+      </result-set>
     </system-under-test>
     <assert>
-      <equalTo tolerance="1">
-        <resultSet>
+      <equal-to tolerance="1">
+        <result-set>
           <row>
             <cell>Europe</cell>
             <cell>8930042</cell>
@@ -561,8 +561,8 @@
             <cell>NA</cell>
             <cell>(any)</cell>
           </row>
-        </resultSet>
-      </equalTo>
+        </result-set>
+      </equal-to>
     </assert>
   </test>
 </testSuite>

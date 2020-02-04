@@ -4,6 +4,7 @@ namespace NBi.Core.ResultSet
 {
     public enum ColumnType
     {
+        Untyped = -1,
         [XmlEnum(Name = "text")]
         Text = 0,
         [XmlEnum(Name = "numeric")]

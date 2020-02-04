@@ -5,6 +5,7 @@ using NUnitFwk = NUnit.Framework;
 using NBi.Core.ResultSet;
 using System.Data;
 using NBi.Core.Calculation;
+using NBi.Core.ResultSet.Filtering;
 
 namespace NBi.NUnit.Query
 {

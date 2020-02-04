@@ -77,6 +77,7 @@ namespace NBi.Testing.Acceptance.GenbiL
             Assert.That(content, Does.Contain("<query connection-string=\"@tst\" timeout-milliSeconds=\"10000\">"));
             Assert.That(content, Does.Contain("<query connection-string=\"@tst\" timeout-milliSeconds=\"5000\">"));
             Assert.That(content, Does.Contain("<equal-to>"));
+            Assert.That(content, Does.Contain("<if-unavailable>"));
             Assert.That(content, Does.Contain("TC02"));
         }
     }

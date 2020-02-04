@@ -43,7 +43,7 @@ namespace NBi.Testing.Unit.NUnit.Builder.Helper
         [Test]
         public void Build_ContextColumnName_ContextScalarResolverArgs()
         {
-            var builder = new ScalarResolverArgsBuilder(new ServiceLocator(), new Context(null));
+            var builder = new ScalarResolverArgsBuilder(new ServiceLocator(), Context.None);
             builder.Setup("[ColA]");
             builder.Build();
             var args = builder.GetArgs();
@@ -53,7 +53,7 @@ namespace NBi.Testing.Unit.NUnit.Builder.Helper
         [Test]
         public void Build_ContextColumnOrdinal_ContextScalarResolverArgs()
         {
-            var builder = new ScalarResolverArgsBuilder(new ServiceLocator(), new Context(null));
+            var builder = new ScalarResolverArgsBuilder(new ServiceLocator(), Context.None);
             builder.Setup("#12");
             builder.Build();
             var args = builder.GetArgs();
@@ -63,7 +63,7 @@ namespace NBi.Testing.Unit.NUnit.Builder.Helper
         [Test]
         public void Build_ContextColumnOrdinalFollowedByNativeTransformations_ContextScalarResolverArgs()
         {
-            var builder = new ScalarResolverArgsBuilder(new ServiceLocator(), new Context(null));
+            var builder = new ScalarResolverArgsBuilder(new ServiceLocator(), Context.None);
             builder.Setup("#12 | text-to-upper | text-to-first-chars([ColA])");
             builder.Build();
             var args = builder.GetArgs();

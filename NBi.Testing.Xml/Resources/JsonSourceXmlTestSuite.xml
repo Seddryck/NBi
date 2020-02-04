@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<testSuite name="XmlSource" xmlns="http://NBi/TestSuite">
+  <test name="My first test case" uid="0001">
+    <system-under-test>
+      <result-set>
+        <query>select * from table</query>
+      </result-set>
+    </system-under-test>
+    <assert>
+      <equal-to>
+        <result-set>
+          <json-source>
+            <file>Myfile.json</file>
+            <json-path>
+              <from>$.Path[*]</from>
+              <select>$.Item.SubItem[*].Quantity</select>
+              <select>!.Number</select>
+            </json-path>
+          </json-source>
+        </result-set>
+      </equal-to>
+    </assert>
+  </test>
+</testSuite>

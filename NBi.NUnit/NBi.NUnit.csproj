@@ -79,6 +79,7 @@
     <Compile Include="Builder\AbstractStructureBuilder.cs" />
     <Compile Include="Builder\AbstractExecutionNonQueryBuilder.cs" />
     <Compile Include="Builder\Helper\ConnectionStringHelper.cs" />
+    <Compile Include="Builder\Helper\RestHelper.cs" />
     <Compile Include="Builder\Helper\SetupHelper.cs" />
     <Compile Include="Builder\Helper\ConditionHelper.cs" />
     <Compile Include="Builder\Helper\InstanceArgsBuilder.cs" />
@@ -188,7 +189,7 @@
       <Name>NBi.Framework</Name>
     </ProjectReference>
     <ProjectReference Include="..\NBi.Xml\NBi.Xml.csproj">
-      <Project>{3A9822B3-CCE4-441B-9C3E-D52817A994CA}</Project>
+      <Project>{3a9822b3-cce4-441b-9c3e-d52817a994ca}</Project>
       <Name>NBi.Xml</Name>
     </ProjectReference>
   </ItemGroup>

@@ -401,6 +401,46 @@ namespace NBi.Testing.Xml.Unit.Systems
         }
 
         [Test]
+        public void Deserialize_SampleFile_EmptyResultSet()
+        {
+            int testNr = 18;
+
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            var ts = DeserializeSample();
+
+            // Check the properties of the object.
+            Assert.That(ts.Tests[testNr].Systems[0], Is.AssignableTo<ResultSetSystemXml>());
+            var rs = ts.Tests[testNr].Systems[0] as ResultSetSystemXml;
+
+            Assert.That(rs.Empty, Is.Not.Null);
+            Assert.That(rs.Empty, Is.TypeOf<EmptyResultSetXml>());
+            var empty = rs.Empty as EmptyResultSetXml;
+
+            Assert.That(empty.ColumnCount, Is.EqualTo("4"));
+            Assert.That(empty.Columns, Has.Count.EqualTo(2));
+
+            Assert.That(empty.Columns.Any(x => x.Identifier.Label == "[myFirstColumn]"));
+            Assert.That(empty.Columns.Any(x => x.Identifier.Label == "[mySecondColumn]"));
+        }
+
+        [Test]
+        public void Deserialize_SampleFile_IfUnavailable()
+        {
+            int testNr = 19;
+
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            var ts = DeserializeSample();
+
+            // Check the properties of the object.
+            Assert.That(ts.Tests[testNr].Systems[0], Is.AssignableTo<ResultSetSystemXml>());
+            var rs = ts.Tests[testNr].Systems[0] as ResultSetSystemXml;
+
+            Assert.That(rs.IfUnavailable, Is.Not.Null);
+            Assert.That(rs.IfUnavailable.ResultSet, Is.Not.Null);
+            Assert.That(rs.IfUnavailable.ResultSet.Empty, Is.Not.Null);
+        }
+
+        [Test]
         public void Serialize_FileAndParser_Correct()
         {
             var root = new ResultSetSystemXml()
@@ -469,7 +509,7 @@ namespace NBi.Testing.Xml.Unit.Systems
             {
                 File = new FileXml() { Path = @"C:\Temp\foo.txt" },
                 Alterations = new List<AlterationXml>()
-                { 
+                {
                     new RenamingXml()
                         { Identifier= new ColumnOrdinalIdentifier(5), NewName = "myNewName" }
                 }
@@ -488,7 +528,7 @@ namespace NBi.Testing.Xml.Unit.Systems
         [TestCase(typeof(AverageXml), "average")]
         [TestCase(typeof(MaxXml), "max")]
         [TestCase(typeof(MinXml), "min")]
-        public void Serialize_Sum_Correct(Type aggregationType, string serialization)
+        public void Serialize_SimpleAggregation_Correct(Type aggregationType, string serialization)
         {
             var root = new SummarizeXml()
             {
@@ -505,6 +545,24 @@ namespace NBi.Testing.Xml.Unit.Systems
         }
 
         [Test]
+        public void Serialize_Concatenation_Correct()
+        {
+            var root = new SummarizeXml()
+            {
+                Aggregation = new ConcatenationXml() { Separator="+" }
+            };
+            root.Aggregation.ColumnType = ColumnType.Text;
+            root.Aggregation.Identifier = new ColumnOrdinalIdentifier(2);
+
+            var manager = new XmlManager();
+            var xml = manager.XmlSerializeFrom(root);
+            Console.WriteLine(xml);
+            Assert.That(xml, Does.Contain($"<concatenation"));
+            Assert.That(xml, Does.Contain("text"));
+            Assert.That(xml, Does.Contain("separator=\"+\""));
+        }
+
+        [Test]
         public void Serialize_Unstack_Correct()
         {
             var root = new ResultSetSystemXml()
@@ -513,8 +571,8 @@ namespace NBi.Testing.Xml.Unit.Systems
                 {
                     new UnstackXml()
                     {
-                        Header = new HeaderXml() 
-                        { 
+                        Header = new HeaderXml()
+                        {
                             Column = new ColumnDefinitionLightXml() { Identifier= new ColumnOrdinalIdentifier(2), Type= ColumnType.Text },
                             EnforcedValues = new List<string>()
                             {
@@ -635,7 +693,7 @@ namespace NBi.Testing.Xml.Unit.Systems
                 {
                     new LookupReplaceXml()
                     {
-                        Missing = new NBi.Xml.Items.Alteration.Lookup.MissingXml() { Behavior= Behavior.Failure },
+                        Missing = new MissingXml() { Behavior= Behavior.Failure },
                     }
                 }
             };
@@ -664,6 +722,64 @@ namespace NBi.Testing.Xml.Unit.Systems
             Assert.That(xml, Does.Contain("<sequence"));
             Assert.That(xml, Does.Contain("<item>A</item>"));
             Assert.That(xml, Does.Contain("<item>B</item>"));
+        }
+
+        [Test]
+        public void Serialize_EmptyWithoutColumnCount_Correct()
+        {
+            var root = new ResultSetSystemXml()
+            {
+                Empty = new EmptyResultSetXml()
+                {
+                    Columns = new List<ColumnDefinitionLightXml>
+                    {
+                        new ColumnDefinitionLightXml {Identifier = new ColumnNameIdentifier("myFirstColumn")},
+                        new ColumnDefinitionLightXml {Identifier = new ColumnNameIdentifier("mySecondColumn")}
+                    }
+                }
+            };
+
+            var manager = new XmlManager();
+            var xml = manager.XmlSerializeFrom(root);
+            Console.WriteLine(xml);
+            Assert.That(xml, Does.Contain("<empty>"));
+            Assert.That(xml, Does.Contain("<column identifier=\"[myFirstColumn]\" />"));
+            Assert.That(xml, Does.Contain("<column identifier=\"[mySecondColumn]\" />"));
+            Assert.That(xml, Does.Not.Contain("column-count"));
+        }
+
+        [Test]
+        public void Serialize_EmptyWithoutColumns_Correct()
+        {
+            var root = new ResultSetSystemXml()
+            {
+                Empty = new EmptyResultSetXml { ColumnCount = "4" }
+            };
+
+            var manager = new XmlManager();
+            var xml = manager.XmlSerializeFrom(root);
+            Console.WriteLine(xml);
+            Assert.That(xml, Does.Contain("<empty"));
+            Assert.That(xml, Does.Contain("column-count=\"4\""));
+            Assert.That(xml, Does.Not.Contain("<column"));
+        }
+
+
+        [Test]
+        public void Serialize_IfUnavailable_Correct()
+        {
+            var root = new ResultSetSystemXml()
+            {
+                IfUnavailable = new IfUnavailableXml
+                    { ResultSet = new ResultSetSystemXml { Empty = new EmptyResultSetXml { ColumnCount = "2" } } }
+            };
+
+            var manager = new XmlManager();
+            var xml = manager.XmlSerializeFrom(root);
+            Console.WriteLine(xml);
+            Assert.That(xml, Does.Contain("<if-unavailable"));
+            Assert.That(xml, Does.Contain("<result-set"));
+            Assert.That(xml, Does.Contain("<empty"));
         }
     }
 }

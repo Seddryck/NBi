@@ -44,13 +44,13 @@ namespace NBi.Xml.Items.Calculation
         public ExpressionXml Expression { get; set; }
 
         [XmlElement("predicate")]
-        public PredicationXml Predication { get; set; }
+        public SinglePredicationXml Predication { get; set; }
 
         [XmlElement("ranking")]
         public RankingXml Ranking { get; set; }
 
         [XmlElement("combination")]
-        public CombinationPredicateXml Combination { get; set; }
+        public CombinationPredicationXml Combination { get; set; }
 
         //[XmlElement("ranking")]
         //public RankingXml Ranking { get; set; }

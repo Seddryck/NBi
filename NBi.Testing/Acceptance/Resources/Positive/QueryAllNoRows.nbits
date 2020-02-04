@@ -2,10 +2,10 @@
 <testSuite name="Acceptance Testing: query equalTo Csv" xmlns="http://NBi/TestSuite">
   <settings>
     <default apply-to="system-under-test">
-      <connectionString>Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly</connectionString>
+      <connection-string>Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly</connection-string>
     </default>
     <default apply-to="variable">
-      <connectionString>Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly</connectionString>
+      <connection-string>Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly</connection-string>
     </default>
   </settings>
   <variables>
@@ -22,10 +22,15 @@
         DateTime.Now.AddDays(-2)
       </script>
     </variable>
+    <variable name="myVar">
+      <script language="c-sharp">
+        20
+      </script>
+    </variable>
   </variables>
   <test name="All-rows is doing the job for numeric info" uid="0001">
     <system-under-test>
-      <execution>
+      <result-set>
         <query>
           select
           OrderDate
@@ -35,7 +40,7 @@
           group by
           OrderDate
         </query>
-      </execution>
+      </result-set>
     </system-under-test>
     <assert>
       <all-rows>
@@ -48,7 +53,7 @@
   </test>
   <test name="All-rows is doing the job with within-range" uid="0001">
     <system-under-test>
-      <execution>
+      <result-set>
         <query>
           select
           OrderDate
@@ -58,7 +63,7 @@
           group by
           OrderDate
         </query>
-      </execution>
+      </result-set>
     </system-under-test>
     <assert>
       <all-rows>
@@ -71,14 +76,14 @@
   </test>
   <test name="All-rows also works for textual information" uid="0001">
     <system-under-test>
-      <execution>
+      <result-set>
         <query>
           select
           [Name], [CountryRegionCode]
           from
           [Sales].[SalesTerritory]
         </query>
-      </execution>
+      </result-set>
     </system-under-test>
     <assert>
       <all-rows>
@@ -91,7 +96,7 @@
   </test>
   <test name="No-row with numeric information" uid="0001">
     <system-under-test>
-      <execution>
+      <result-set>
         <query>
           select
           OrderDate
@@ -101,7 +106,7 @@
           group by
           OrderDate
         </query>
-      </execution>
+      </result-set>
     </system-under-test>
     <assert>
       <no-rows>
@@ -114,7 +119,7 @@
   </test>
   <test name="No-row with combination of numeric information" uid="0001">
     <system-under-test>
-      <execution>
+      <result-set>
         <query>
           select
           OrderDate
@@ -124,7 +129,7 @@
           group by
           OrderDate
         </query>
-      </execution>
+      </result-set>
     </system-under-test>
     <assert>
       <no-rows>
@@ -141,13 +146,13 @@
   </test>
   <test name="All-rows with or-combination of numeric information and null" uid="0102">
     <system-under-test>
-      <execution>
+      <result-set>
         <query>
           select '2015-10-09', 60
           union all select '2015-10-10', null
           union all select '2015-10-11', 75
         </query>
-      </execution>
+      </result-set>
     </system-under-test>
     <assert>
       <all-rows>
@@ -164,14 +169,14 @@
   </test>
   <test name="Single-row with and-combination of numeric information and null" uid="0102">
     <system-under-test>
-      <execution>
+      <result-set>
         <query>
           select '2015-10-09', 60
           union all select '2015-10-10', null
           union all select '2015-10-11', 75
           union all select '2015-10-12', 110
         </query>
-      </execution>
+      </result-set>
     </system-under-test>
     <assert>
       <single-row>
@@ -188,14 +193,14 @@
   </test>
   <test name="No-row also works for textual information" uid="0001">
     <system-under-test>
-      <execution>
+      <result-set>
         <query>
           select
           [Name], [CountryRegionCode]
           from
           [Sales].[SalesTerritory]
         </query>
-      </execution>
+      </result-set>
     </system-under-test>
     <assert>
       <no-rows>
@@ -208,7 +213,7 @@
   </test>
   <test name="Some-rows with numeric information" uid="0005">
     <system-under-test>
-      <execution>
+      <result-set>
         <query>
           select
           OrderDate
@@ -218,7 +223,7 @@
           group by
           OrderDate
         </query>
-      </execution>
+      </result-set>
     </system-under-test>
     <assert>
       <some-rows>
@@ -230,14 +235,14 @@
   </test>
   <test name="Single-row also works for textual information" uid="0006">
     <system-under-test>
-      <execution>
+      <result-set>
         <query>
           select
           [Name], [CountryRegionCode]
           from
           [Sales].[SalesTerritory]
         </query>
-      </execution>
+      </result-set>
     </system-under-test>
     <assert>
       <single-row>
@@ -249,11 +254,11 @@
   </test>
   <test name="With Predicate StartsWith" uid="0002">
     <system-under-test>
-      <execution>
+      <result-set>
         <query name="Select first departments">
           select [Name] from [HumanResources].[Department] where Name like 'E%' order by Name
         </query>
-      </execution>
+      </result-set>
     </system-under-test>
     <assert>
       <all-rows>
@@ -266,11 +271,11 @@
   </test>
   <test name="With Predicate EndsWith" uid="0003">
     <system-under-test>
-      <execution>
+      <result-set>
         <query name="Select first departments">
           select [Name] from [HumanResources].[Department] where Name like '%e' order by Name
         </query>
-      </execution>
+      </result-set>
     </system-under-test>
     <assert>
       <all-rows>
@@ -283,11 +288,11 @@
   </test>
   <test name="With Predicate contains" uid="0004">
     <system-under-test>
-      <execution>
+      <result-set>
         <query name="Select first departments">
           select [Name] from [HumanResources].[Department] where Name like '%en%' order by Name
         </query>
-      </execution>
+      </result-set>
     </system-under-test>
     <assert>
       <all-rows>
@@ -300,11 +305,11 @@
   </test>
   <test name="With Predicate match-regex" uid="0004">
     <system-under-test>
-      <execution>
+      <result-set>
         <query name="Select first departments">
           select [Name] from [HumanResources].[Department]
         </query>
-      </execution>
+      </result-set>
     </system-under-test>
     <assert>
       <all-rows>
@@ -317,11 +322,11 @@
   </test>
   <test name="With Predicate NOT lower case" uid="00050">
     <system-under-test>
-      <execution>
+      <result-set>
         <query name="Select first departments">
           select [Name] from [HumanResources].[Department]
         </query>
-      </execution>
+      </result-set>
     </system-under-test>
     <assert>
       <all-rows>
@@ -334,14 +339,14 @@
   </test>
   <test name="With Predicate is NOT on-the-hour" uid="00051">
     <system-under-test>
-      <execution>
+      <result-set>
         <query>
           select cast('2015-05-12 14:00:10' as datetime2)
           union all select cast('2017-04-12 12:10:00' as datetime2)
           union all select cast('2012-09-12 1:04:00' as datetime2)
           union all select cast('2013-05-01 00:00:01' as datetime2)
         </query>
-      </execution>
+      </result-set>
     </system-under-test>
     <assert>
       <all-rows>
@@ -353,11 +358,11 @@
   </test>
   <test name="With Predicate is NOT modulo" uid="00052">
     <system-under-test>
-      <execution>
+      <result-set>
         <query>
           select 16 union all select 46 union all select 12 union all select 33
         </query>
-      </execution>
+      </result-set>
     </system-under-test>
     <assert>
       <all-rows>
@@ -369,11 +374,11 @@
   </test>
   <test name="With Predicate is NOT equal" uid="00053">
     <system-under-test>
-      <execution>
+      <result-set>
         <query>
           select 'User' union all select 'Developer' union all select 'Power user' union all select 'User'
         </query>
-      </execution>
+      </result-set>
     </system-under-test>
     <assert>
       <all-rows>
@@ -385,11 +390,11 @@
   </test>
   <test name="With Predicate is NOT any-of" uid="00054">
     <system-under-test>
-      <execution>
+      <result-set>
         <query>
           select 'Paris' union all select 'Brussels' union all select 'Toronto' union all select 'Madrid'
         </query>
-      </execution>
+      </result-set>
     </system-under-test>
     <assert>
       <all-rows>
@@ -405,11 +410,11 @@
   </test>
   <test name="With Predicate is lower case" uid="0006">
     <system-under-test>
-      <execution>
+      <result-set>
         <query name="Select first departments">
           select lower([Name]) from [HumanResources].[Department]
         </query>
-      </execution>
+      </result-set>
     </system-under-test>
     <assert>
       <all-rows>
@@ -422,11 +427,11 @@
   </test>
   <test name="With Predicate is upper-case" uid="0007">
     <system-under-test>
-      <execution>
+      <result-set>
         <query name="Select first departments">
           select upper([Name]) from [HumanResources].[Department]
         </query>
-      </execution>
+      </result-set>
     </system-under-test>
     <assert>
       <all-rows>
@@ -439,11 +444,11 @@
   </test>
   <test name="With Predicate is modulo" uid="00070">
     <system-under-test>
-      <execution>
+      <result-set>
         <query>
           select 15 union all select 45 union all select 60 union all select 30
         </query>
-      </execution>
+      </result-set>
     </system-under-test>
     <assert>
       <all-rows>
@@ -455,14 +460,14 @@
   </test>
   <test name="With Predicate is on-the-hour" uid="00071">
     <system-under-test>
-      <execution>
+      <result-set>
         <query>
           select cast('2015-05-12 14:00:00' as datetime2)
           union all select cast('2017-04-12 12:00:00' as datetime2)
           union all select cast('2012-09-12 1:00:00' as datetime2)
           union all select cast('2013-05-01 00:00:00' as datetime2)
         </query>
-      </execution>
+      </result-set>
     </system-under-test>
     <assert>
       <all-rows>
@@ -474,11 +479,11 @@
   </test>
   <test name="With Predicate matches numeric" uid="00072">
     <system-under-test>
-      <execution>
+      <result-set>
         <query>
           select '15' union all select '45.1'
         </query>
-      </execution>
+      </result-set>
     </system-under-test>
     <assert>
       <all-rows>
@@ -490,12 +495,12 @@
   </test>
   <test name="With Predicate matches-date" uid="00073">
     <system-under-test>
-      <execution>
+      <result-set>
         <query>
           select '2015-12-05'
           union all select '2015-12-25'
         </query>
-      </execution>
+      </result-set>
     </system-under-test>
     <assert>
       <all-rows>
@@ -507,12 +512,12 @@
   </test>
   <test name="With Predicate matches-date and french culture" uid="00074">
     <system-under-test>
-      <execution>
+      <result-set>
         <query>
           select '25/12/2015'
           union all select '05/12/2015'
         </query>
-      </execution>
+      </result-set>
     </system-under-test>
     <assert>
       <all-rows>
@@ -524,12 +529,12 @@
   </test>
   <test name="With Predicate matches-date and french culture" uid="00075">
     <system-under-test>
-      <execution>
+      <result-set>
         <query>
           select 'Paris', 'France'
           union all select 'Brussels', 'Belgium'
         </query>
-      </execution>
+      </result-set>
     </system-under-test>
     <assert>
       <all-rows>
@@ -545,12 +550,12 @@
   </test>
   <test name="Use a c-sharp variable for the predicate with an integer" uid="00080">
     <system-under-test>
-      <execution>
+      <result-set>
         <query>
           select year(getdate()) as 'A'
           union all select year(getdate())-1
         </query>
-      </execution>
+      </result-set>
     </system-under-test>
     <assert>
       <all-rows>
@@ -580,12 +585,12 @@
   </test>
   <test name="Use a query-scalar variable for the predicate" uid="00082">
     <system-under-test>
-      <execution>
+      <result-set>
         <query>
           select year(getdate()) as 'A'
           union all select year(getdate())-1
         </query>
-      </execution>
+      </result-set>
     </system-under-test>
     <assert>
       <all-rows>
@@ -598,13 +603,13 @@
   </test>
   <test name="Use a variable and combine predicates" uid="00083">
     <system-under-test>
-      <execution>
+      <result-set>
         <query>
           select year(getdate()) as 'A', 'alpha' as 'B'
           union all select year(getdate())-1, 'BETA' as 'C'
           union all select year(getdate())+1, 'GAMMA' as 'C'
         </query>
-      </execution>
+      </result-set>
     </system-under-test>
     <assert>
       <all-rows>
@@ -622,12 +627,12 @@
   </test>
   <test name="Switch between type for variable" uid="0009">
     <system-under-test>
-      <execution>
+      <result-set>
         <query>
           select cast(year(getdate())+1 as varchar(4)) + 'XYZ' as 'A'
           union all select cast(year(getdate())+1 as varchar(4)) + 'ABC' as 'A'
         </query>
-      </execution>
+      </result-set>
     </system-under-test>
     <assert>
       <all-rows>
@@ -638,17 +643,17 @@
       </all-rows>
     </assert>
   </test>
-  <test name="No-row with numeric informations mixing expression, column name, column index and variable" uid="0010">
+  <test name="No-row with numeric informations mixing expression, column name, column index and alias" uid="0010">
     <system-under-test>
-      <execution>
+      <result-set>
         <query
-					connectionString="Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly"
+					connection-string="Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly"
 				>
           select 10 as 'A' ,11 as 'B', 12 as 'C'
           union all select 5,6,7
           union all select 7,8,9
         </query>
-      </execution>
+      </result-set>
     </system-under-test>
     <assert>
       <no-rows>
@@ -660,17 +665,38 @@
       </no-rows>
     </assert>
   </test>
-  <test name="No-row with numeric informations using multiple expressions" uid="0010">
+  <test name="No-row with numeric informations mixing expression, column name, column index and variable" uid="0011">
     <system-under-test>
-      <execution>
+      <result-set>
         <query
-					connectionString="Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly"
+					connection-string="Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly"
 				>
           select 10 as 'A' ,11 as 'B', 12 as 'C'
           union all select 5,6,7
           union all select 7,8,9
         </query>
-      </execution>
+      </result-set>
+    </system-under-test>
+    <assert>
+      <no-rows>
+        <expression name="TotalDue">[@myVar] * [#0] * [C]</expression>
+        <predicate name="TotalDue">
+          <more-than>10000</more-than>
+        </predicate>
+      </no-rows>
+    </assert>
+  </test>
+  <test name="No-row with numeric informations using multiple expressions" uid="0012">
+    <system-under-test>
+      <result-set>
+        <query
+					connection-string="Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly"
+				>
+          select 10 as 'A' ,11 as 'B', 12 as 'C'
+          union all select 5,6,7
+          union all select 7,8,9
+        </query>
+      </result-set>
     </system-under-test>
     <assert>
       <no-rows>
@@ -684,15 +710,15 @@
   </test>
   <test name="all-rows with dateTime informations using an expression based on native functions" uid="0140">
     <system-under-test>
-      <execution>
+      <result-set>
         <query
-					connectionString="Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly"
+					connection-string="Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly"
 				>
           select '2019-10-01 06:00:00' as A, '2019-09-30 04:47:00' as 'B', 12 as 'C'
           union all select '2019-10-01 23:00:00', '2019-10-01 04:42:00' as 'B',7
           union all select '2019-10-02 02:00:00', '2019-10-01 04:42:00' as 'B',9
         </query>
-      </execution>
+      </result-set>
     </system-under-test>
     <assert>
       <all-rows>
@@ -717,15 +743,15 @@
   </test>
   <test name="all-rows with dateTime informations using an expression based on native functions using a parameter coming from the context" uid="0140">
     <system-under-test>
-      <execution>
+      <result-set>
         <query
-					connectionString="Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly"
+					connection-string="Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly"
 				>
           select '2019-10-01 06:00:00' as Ref, '07:00:00' as MaxTime, '2019-10-01 06:47:00' as Effective
           union all select '2019-10-01 22:15:00', '23:00:00', '2019-10-01 22:42:00'
           union all select '2019-10-02 02:45:00', '03:00:00', '2019-10-02 02:48:00'
         </query>
-      </execution>
+      </result-set>
     </system-under-test>
     <assert>
       <all-rows>
@@ -752,15 +778,15 @@
   </test>
   <test name="No-row with textual informations direct column name for predicate" uid="0011">
     <system-under-test>
-      <execution>
+      <result-set>
         <query
-					connectionString="Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly"
+					connection-string="Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly"
 				>
           select 'A' as 'Col1'
           union all select 'B'
           union all select 'C'
         </query>
-      </execution>
+      </result-set>
     </system-under-test>
     <assert>
       <no-rows>

@@ -149,6 +149,8 @@ namespace NBi.Testing.Core.Transformation.Transformer
         [TestCase("text-to-trim")]
         [TestCase("text-to-upper")]
         [TestCase("text-to-lower")]
+        [TestCase("text-to-suffix(abc)")]
+        [TestCase("text-to-prefix(abc)")]
         [TestCase("text-to-length")]
         [TestCase("text-to-first-chars(3)")]
         [TestCase("text-to-last-chars(3)")]

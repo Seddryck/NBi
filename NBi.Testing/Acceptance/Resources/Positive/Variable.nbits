@@ -23,6 +23,12 @@
         select cast(RAND() as varchar(40))
       </query-scalar>
     </variable>
+    <variable name="daysBetween">
+      <custom assembly-path="NBi.Testing.dll" type="CustomVariableDaysBetween">
+        <parameter name="from">@januarySecond</parameter>
+        <parameter name="to">@prevcommon</parameter>
+      </custom>
+    </variable>
   </variables>
 	<test name="'Reseller Order Count' by year before 2006 (csv)" uid="0001">
 		<system-under-test>
@@ -112,6 +118,28 @@
           select @var;
         </query>
       </equal-to>
+    </assert>
+  </test>
+  <test name="Custom variable using variables as parameters" uid="0100">
+    <system-under-test>
+      <result-set>
+        <query>
+          <parameter name="var">@daysBetween</parameter>
+          select @var;
+        </query>
+      </result-set>
+    </system-under-test>
+    <assert>
+      <all-rows>
+        <combination operator="and">
+          <predicate operand="#0">
+            <more-than>360</more-than>
+          </predicate>
+          <predicate operand="#0">
+            <less-than>370</less-than>
+          </predicate>
+        </combination>
+      </all-rows>
     </assert>
   </test>
 </testSuite>

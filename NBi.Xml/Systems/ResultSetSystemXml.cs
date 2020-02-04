@@ -20,7 +20,8 @@ using NBi.Xml.Items.Alteration.Reshaping;
 using NBi.Xml.Items.Alteration.Projection;
 using NBi.Xml.Items.Alteration.Lookup;
 using NBi.Xml.Variables.Sequence;
-using NBi.Xml.Items.Xml;
+using NBi.Xml.Items.Hierarchical.Xml;
+using NBi.Xml.Items.Hierarchical.Json;
 
 namespace NBi.Xml.Systems
 {
@@ -106,6 +107,12 @@ namespace NBi.Xml.Systems
         [XmlElement("xml-source")]
         public virtual XmlSourceXml XmlSource { get; set; }
 
+        [XmlElement("json-source")]
+        public virtual JsonSourceXml JsonSource { get; set; }
+
+        [XmlElement("empty")]
+        public virtual EmptyResultSetXml Empty { get; set; }
+
         [XmlIgnore]
         public bool SequenceCombinationSpecified { get => SequenceCombination != null; set { } }
 
@@ -129,6 +136,9 @@ namespace NBi.Xml.Systems
             get => (Alterations?.Count ?? 0) > 0;
             set {}
         }
+
+        [XmlElement("if-unavailable")]
+        public virtual IfUnavailableXml IfUnavailable { get; set; }
 
         public override ICollection<string> GetAutoCategories()
         {

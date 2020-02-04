@@ -12,6 +12,7 @@ using System.Diagnostics;
 using NBi.Xml.Items;
 using System.Reflection;
 using NBi.Core.ResultSet;
+using NBi.Xml.Variables.Custom;
 
 namespace NBi.Testing.Xml.Unit.Variables
 {
@@ -113,6 +114,48 @@ namespace NBi.Testing.Xml.Unit.Variables
                 Assert.That(content, Does.Contain(">Summer<"));
                 Assert.That(content, Does.Contain(">Fall<"));
                 Assert.That(content, Does.Contain(">Winter<"));
+            }
+        }
+
+        [Test]
+        public void Serialize_Custom_CustomCorrectlySerialized()
+        {
+            var root = new InstanceSettlingXml()
+            {
+                Variable = new InstanceVariableXml()
+                {
+                    Name = "season",
+                    Type = ColumnType.Text,
+                    Custom = new CustomXml
+                    {
+                        AssemblyPath = "AssemblyPath\\myAssembly.dll",
+                        TypeName = "@VarType",
+                        Parameters = new List<CustomParameterXml>
+                            {
+                                new CustomParameterXml{Name="myParam", StringValue="@VarParam"}
+                            }
+                    }
+                }
+            };
+
+            var serializer = new XmlSerializer(root.GetType());
+            using (var stream = new MemoryStream())
+            using (var writer = new StreamWriter(stream, Encoding.UTF8))
+            {
+                serializer.Serialize(writer, root);
+                var content = Encoding.UTF8.GetString(stream.ToArray());
+
+                Debug.WriteLine(content);
+
+                Assert.That(content, Does.Contain("<local-variable"));
+                Assert.That(content, Does.Contain("name=\"season\""));
+                Assert.That(content, Does.Contain("type=\"text\""));
+                Assert.That(content, Does.Not.Contain("loop"));
+                Assert.That(content, Does.Contain("<custom"));
+                Assert.That(content, Does.Contain("assembly-path=\"AssemblyPath\\myAssembly.dll\""));
+                Assert.That(content, Does.Contain("type=\"@VarType\""));
+                Assert.That(content, Does.Contain("<parameter name=\"myParam\">"));
+                Assert.That(content, Does.Contain("@VarParam"));
             }
         }
     }

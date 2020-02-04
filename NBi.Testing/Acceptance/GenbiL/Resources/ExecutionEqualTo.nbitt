@@ -8,6 +8,11 @@
       $query$
       ]]>
       </query>
+      <if-unavailable>
+        <result-set>
+          <empty column-count="2"/>
+        </result-set>
+      </if-unavailable>
     </result-set>
   </system-under-test>
   <assert>

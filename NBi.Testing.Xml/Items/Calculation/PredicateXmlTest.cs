@@ -66,7 +66,7 @@ namespace NBi.Testing.Xml.Unit.Items.Calculation
         {
             var allRowsXml = new AllRowsXml
             {
-                Predication = new PredicationXml()
+                Predication = new SinglePredicationXml()
                 {
                     Operand = new ColumnOrdinalIdentifier(1),
                     Predicate = new FalseXml()
@@ -92,7 +92,7 @@ namespace NBi.Testing.Xml.Unit.Items.Calculation
         {
             var allRowsXml = new AllRowsXml
             {
-                Predication = new PredicationXml()
+                Predication = new SinglePredicationXml()
                 {
                     Operand = new ColumnOrdinalIdentifier(1),
                     Predicate = new ModuloXml() { SecondOperand = "10", Reference = "5" }

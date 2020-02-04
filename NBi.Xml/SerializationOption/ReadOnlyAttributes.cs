@@ -33,7 +33,7 @@ namespace NBi.Xml.SerializationOption
             AddAsAttribute((ConnectionWaitXml c) => c.SpecificConnectionStringOld, "connectionString");
             AddAsAttribute((DataManipulationAbstractXml x) => x.SpecificConnectionStringOld, "connectionString");
             AddAsAttribute((SqlRunXml x) => x.SpecificConnectionStringOld, "connectionString");
-            AddAsAttribute((PredicationXml p) => p.Name, "name");
+            AddAsAttribute((SinglePredicationXml p) => p.Name, "name");
             AddAsAttribute((ResultSetSystemXml r) => r.FilePath, "file");
 
             AddAsElement((NoRowsXml c) => c.InternalAliasesOld, "variable", 2);
@@ -44,7 +44,7 @@ namespace NBi.Xml.SerializationOption
 
             AddAsText((FileXml x) => x.Value);
 
-            AddToElements((PredicationXml p) => p.Predicate, "within-list", typeof(WithinListXml));
+            AddToElements((SinglePredicationXml p) => p.Predicate, "within-list", typeof(WithinListXml));
 
             AddToElements((ProjectionOldXml x) => x.ResultSetOld, "resultSet", typeof(ResultSetSystemXml));
             AddToElements((LookupExistsXml x) => x.ResultSetOld, "resultSet", typeof(ResultSetSystemXml));

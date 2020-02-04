@@ -97,7 +97,7 @@ namespace NBi.Core.Query.Execution
             {
                 var dr = command.ExecuteReader();
                 while (dr.Read())
-                    list.Add((T)dr.GetValue(0));
+                    list.Add((T)Convert.ChangeType(dr.GetValue(0), typeof(T)));
             }
             catch (Exception ex)
             { HandleException(ex, command); }

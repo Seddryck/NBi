@@ -520,36 +520,34 @@
   <xs:complexType name="condition-type">
     <xs:sequence minOccurs="1" maxOccurs="unbounded">
       <xs:element name="service-running" type="service-type" minOccurs="0" maxOccurs="unbounded"/>
-      <xs:element name="custom" type="custom-condition-type" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="file-exists" type="file-exists-type" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="folder-exists" type="folder-exists-type" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="custom" type="custom-type" minOccurs="0" maxOccurs="unbounded"/>
     </xs:sequence>
   </xs:complexType>
-  <xs:complexType name="custom-condition-type">
+  <xs:complexType name="custom-type">
     <xs:sequence>
-      <xs:element name="parameter" type="custom-condition-parameter-type" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="parameter" type="custom-parameter-type" minOccurs="0" maxOccurs="unbounded"/>
     </xs:sequence>
     <xs:attribute name="assembly-path" type="xs:string" use="required"/>
     <xs:attribute name="type" type="xs:string" use="required"/>
   </xs:complexType>
-  <xs:complexType name="custom-condition-parameter-type">
+  <xs:complexType name="custom-parameter-type">
     <xs:simpleContent>
       <xs:extension base="xs:string">
         <xs:attribute name="name" type="xs:string" use="required" />
       </xs:extension>
     </xs:simpleContent>
   </xs:complexType>
-  <xs:complexType name="custom-command-type">
-    <xs:sequence>
-      <xs:element name="parameter" type="custom-command-parameter-type" minOccurs="0" maxOccurs="unbounded"/>
-    </xs:sequence>
-    <xs:attribute name="assembly-path" type="xs:string" use="required"/>
-    <xs:attribute name="type" type="xs:string" use="required"/>
+  <xs:complexType name="file-exists-type">
+    <xs:attribute name="path" type="xs:string" use="required"/>
+    <xs:attribute name="name" type="xs:string" use="required"/>
+    <xs:attribute name="not-empty" type="xs:boolean" use="optional"/>
   </xs:complexType>
-  <xs:complexType name="custom-command-parameter-type">
-    <xs:simpleContent>
-      <xs:extension base="xs:string">
-        <xs:attribute name="name" type="xs:string" use="required" />
-      </xs:extension>
-    </xs:simpleContent>
+  <xs:complexType name="folder-exists-type">
+    <xs:attribute name="path" type="xs:string" use="required"/>
+    <xs:attribute name="name" type="xs:string" use="required"/>
+    <xs:attribute name="not-empty" type="xs:boolean" use="optional"/>
   </xs:complexType>
   <xs:complexType name="shared-dataset-light-type">
     <xs:attribute name="source" type="xs:string"/>
@@ -672,6 +670,8 @@
       <xs:enumeration value="text-to-trim"/>
       <xs:enumeration value="text-to-upper"/>
       <xs:enumeration value="text-to-lower"/>
+      <xs:enumeration value="text-to-prefix("/>
+      <xs:enumeration value="text-to-suffix("/>
       <xs:enumeration value="text-to-length"/>
       <xs:enumeration value="text-to-html"/>
       <xs:enumeration value="text-to-without-diacritics"/>
@@ -739,6 +739,7 @@
         <xs:element name="average" type="aggregation-type" minOccurs="0" maxOccurs="1"/>
         <xs:element name="max" type="aggregation-type" minOccurs="0" maxOccurs="1"/>
         <xs:element name="min" type="aggregation-type" minOccurs="0" maxOccurs="1"/>
+        <xs:element name="concatenation" type="concatenation-type" minOccurs="0" maxOccurs="1"/>
       </xs:choice>
       <xs:element name="group-by" type="group-by-type" minOccurs="0" maxOccurs="1"/>
     </xs:sequence>
@@ -750,6 +751,13 @@
         <xs:attribute name="type" type="column-type-enum" use="required" />
         <xs:attribute name="if-empty-series" use="optional" />
         <xs:attribute name="if-missing-values" use="optional" />
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="concatenation-type">
+    <xs:simpleContent>
+      <xs:extension base="aggregation-type">
+        <xs:attribute name="separator" use="required"/>
       </xs:extension>
     </xs:simpleContent>
   </xs:complexType>
@@ -768,15 +776,98 @@
     </xs:sequence>
     <xs:attribute name="default-namespace-prefix" use="optional" type="xs:string"/>
   </xs:complexType>
+  <xs:complexType name="json-path-type">
+    <xs:sequence>
+      <xs:element name="from" minOccurs="1" maxOccurs="1" type="xs:string"/>
+      <xs:element name="select" minOccurs="1" maxOccurs="unbounded" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
   <xs:complexType name="xml-source-type">
     <xs:sequence>
       <xs:choice>
         <xs:element name="file" minOccurs="1" maxOccurs="1" type="file-compatible-type"/>
         <xs:element name="url" minOccurs="1" maxOccurs="1" type="xs:string"/>
+        <xs:element name="rest" minOccurs="1" maxOccurs="1" type="rest-type"/>
       </xs:choice>
       <xs:element name="xpath" minOccurs="1" maxOccurs="1" type="xpath-type" />
     </xs:sequence>
     <xs:attribute name="ignore-namespace" type="xs:boolean" use="optional" />
+  </xs:complexType>
+  <xs:complexType name="rest-type">
+    <xs:sequence>
+      <xs:element name="authentication" minOccurs="0" maxOccurs="1" type="authentication-type"/>
+      <xs:element name="header" minOccurs="0" maxOccurs="unbounded" type="rest-header-type"/>
+      <xs:element name="path" minOccurs="0" maxOccurs="1" type="xs:string"/>
+      <xs:element name="segment" minOccurs="0" maxOccurs="unbounded" type="rest-segment-type"/>
+      <xs:element name="parameter" minOccurs="0" maxOccurs="unbounded" type="rest-parameter-type"/>
+    </xs:sequence>
+    <xs:attribute name="base-address" type="xs:string" use="required" />
+  </xs:complexType>
+  <xs:complexType name="authentication-type">
+    <xs:choice>
+      <xs:element name="anonymous" type="xs:string" fixed=""/>
+      <xs:element name="api-key">
+        <xs:complexType>
+          <xs:simpleContent>
+            <xs:extension base="xs:string">
+              <xs:attribute name="name" type="xs:string" use="optional"/>
+            </xs:extension>
+          </xs:simpleContent>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="http-basic">
+        <xs:complexType>
+          <xs:attribute name="username" type="xs:string" use="required"/>
+          <xs:attribute name="password" type="xs:string" use="required"/>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="ntml-current-user" type="xs:string" fixed=""/>
+      <xs:element name="ntml">
+        <xs:complexType>
+          <xs:attribute name="username" type="xs:string" use="required"/>
+          <xs:attribute name="password" type="xs:string" use="required"/>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="oauth2">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="access-token" type="xs:string" minOccurs="1" maxOccurs="1"/>
+          </xs:sequence>
+          <xs:attribute name="token-type" type="xs:string" use="optional"/>
+        </xs:complexType>
+      </xs:element>
+    </xs:choice>
+  </xs:complexType>
+  <xs:complexType name="rest-header-type">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute name="name" type="xs:string" use="required" />
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="rest-parameter-type">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute name="name" type="xs:string" use="required" />
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="rest-segment-type">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute name="name" type="xs:string" use="required" />
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="json-source-type">
+    <xs:sequence>
+      <xs:choice>
+        <xs:element name="file" minOccurs="1" maxOccurs="1" type="xs:string"/>
+        <xs:element name="url" minOccurs="1" maxOccurs="1" type="xs:string"/>
+        <xs:element name="rest" minOccurs="1" maxOccurs="1" type="rest-type"/>
+      </xs:choice>
+      <xs:element name="json-path" minOccurs="1" maxOccurs="1" type="json-path-type" />
+    </xs:sequence>
   </xs:complexType>
   <xs:complexType name="decoration-type">
     <xs:sequence minOccurs="1" maxOccurs="unbounded">
@@ -797,7 +888,7 @@
         <xs:element name="file-copy-extension" type="file-copy-extension-type" minOccurs="0" maxOccurs="unbounded"/>
         <xs:element name="file-copy-pattern" type="file-copy-pattern-type" minOccurs="0" maxOccurs="unbounded"/>
         <xs:element name="etl-run" type="etl-type" minOccurs="0" maxOccurs="unbounded"/>
-        <xs:element name="custom" type="custom-command-type" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:element name="custom" type="custom-type" minOccurs="0" maxOccurs="unbounded"/>
         <xs:element name="tasks" type="tasks-type" minOccurs="0" maxOccurs="unbounded"/>
       </xs:choice>
     </xs:sequence>
@@ -820,7 +911,7 @@
         <xs:element name="file-copy" type="file-copy-type" minOccurs="0" maxOccurs="unbounded"/>
         <xs:element name="file-copy-extension" type="file-copy-extension-type" minOccurs="0" maxOccurs="unbounded"/>
         <xs:element name="file-copy-pattern" type="file-copy-pattern-type" minOccurs="0" maxOccurs="unbounded"/>
-        <xs:element name="custom" type="custom-command-type" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:element name="custom" type="custom-type" minOccurs="0" maxOccurs="unbounded"/>
         <xs:element name="etl-run" type="etl-type" minOccurs="0" maxOccurs="unbounded"/>
       </xs:choice>
     </xs:sequence>
@@ -1218,14 +1309,20 @@
     <xs:choice minOccurs="1" maxOccurs="1">
       <xs:element name="loop-sentinel" type="loop-sentinel-type"/>
       <xs:element name="loop-file" type="loop-file-type"/>
+      <xs:element name="query-sequence" type="query-type"/>
       <xs:element name="item" type="xs:string" minOccurs="1" maxOccurs="unbounded"/>
+      <xs:element name="custom" type="custom-type" />
     </xs:choice>
     <xs:attribute name="name" type="xs:string"/>
     <xs:attribute name="type" type="column-type-enum"/>
   </xs:complexType>
   <xs:complexType name="local-variable-type">
     <xs:complexContent>
-      <xs:extension base="sequence-type"/>
+      <xs:extension base="sequence-type">
+        <xs:sequence>
+          <xs:element name="filter" type="filter-light-type" minOccurs="0" maxOccurs="1"/>
+        </xs:sequence>
+      </xs:extension>
     </xs:complexContent>
   </xs:complexType>
   <xs:complexType name="loop-sentinel-type">
@@ -1333,6 +1430,13 @@
     </xs:attribute>
     <xs:attribute name="not" type="xs:boolean" use="optional"/>
   </xs:complexType>
+  <xs:complexType name="filter-light-type">
+    <xs:choice minOccurs="1" maxOccurs="1">
+      <xs:choice>
+        <xs:element name="predicate" type="predicate-type" minOccurs="0" maxOccurs="1"/>
+      </xs:choice>
+    </xs:choice>
+  </xs:complexType>
   <xs:complexType name="filter-base-type">
     <xs:choice minOccurs="1" maxOccurs="1">
       <xs:sequence minOccurs="0" maxOccurs="unbounded">
@@ -1370,9 +1474,20 @@
     <xs:attribute name="count" type="xs:positiveInteger" use="optional"/>
   </xs:complexType>
   <xs:complexType name="group-by-type">
-    <xs:sequence minOccurs="1" maxOccurs="unbounded">
-      <xs:element name="column" type="definition-column-base-type" minOccurs="0" maxOccurs="unbounded"/>
-    </xs:sequence>
+    <xs:choice>
+      <xs:sequence minOccurs="1" maxOccurs="unbounded">
+        <xs:element name="column" type="definition-column-base-type" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+      <xs:sequence minOccurs="1" maxOccurs="unbounded">
+        <xs:element name="case" type="group-by-case-type"/>
+      </xs:sequence>
+    </xs:choice>
+  </xs:complexType>
+  <xs:complexType name ="group-by-case-type">
+    <xs:choice>
+      <xs:element name="predicate" type="predicate-type"/>
+      <xs:element name="combination" type="combination-predicate-type"/>
+    </xs:choice>
   </xs:complexType>
   <xs:complexType name="unique-rows-type">
     <xs:sequence minOccurs="0" maxOccurs="unbounded">
@@ -1537,10 +1652,24 @@
         <xs:element name="sequence" minOccurs="0" maxOccurs="1" type="sequence-type"/>
         <xs:element name="file" minOccurs="0" maxOccurs="1" type="file-type"/>
         <xs:element name="xml-source" minOccurs="0" maxOccurs="1" type="xml-source-type" />
+        <xs:element name="json-source" type="json-source-type" minOccurs="0" maxOccurs="1"/>
+        <xs:element name="empty" type="empty-result-set-type" minOccurs="0" maxOccurs="1"/>
       </xs:choice>
       <xs:element name="alteration" type="alteration-type" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="if-unavailable" type="if-unavailable-type" minOccurs="0" maxOccurs="1"/>
     </xs:sequence>
     <xs:attribute name="file" type="xs:string" use="optional" />
+  </xs:complexType>
+  <xs:complexType name="if-unavailable-type">
+    <xs:sequence>
+      <xs:element name="result-set" type="result-set-type" minOccurs="1" maxOccurs="1"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="empty-result-set-type">
+    <xs:sequence>
+      <xs:element name="column" type="definition-column-base-type" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+    <xs:attribute name="column-count" type="xs:positiveInteger" use="optional" />
   </xs:complexType>
   <xs:complexType name="sequences-combination-type">
     <xs:sequence>
@@ -1842,6 +1971,7 @@
             <xs:element name="script" type="script-type"/>
             <xs:element name="query-scalar" type="query-scalar-type"/>
             <xs:element name="environment" type="environment-type"/>
+            <xs:element name="custom" type="custom-type"/>
           </xs:choice>
           <xs:attribute name="name" type="xs:string" use="required" />
         </xs:complexType>

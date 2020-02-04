@@ -1,5 +1,6 @@
 ﻿using NBi.Core.Injection;
 using NBi.Core.Scalar.Resolver;
+using NBi.Core.Variable;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -12,11 +13,12 @@ namespace NBi.Core.ResultSet.Alteration.Extension
     abstract class AbstractExtendEngine : IExtensionEngine
     {
         protected ServiceLocator ServiceLocator { get; }
+        protected Context Context { get; }
         protected IColumnIdentifier NewColumn { get; }
         protected string Code { get; }
 
-        public AbstractExtendEngine(ServiceLocator serviceLocator, IColumnIdentifier newColumn, string code)
-            => (ServiceLocator, NewColumn, Code) = (serviceLocator, newColumn, code);
+        public AbstractExtendEngine(ServiceLocator serviceLocator, Context context, IColumnIdentifier newColumn, string code)
+            => (ServiceLocator, Context, NewColumn, Code) = (serviceLocator, context, newColumn, code);
 
         public ResultSet Execute(ResultSet rs)
         {

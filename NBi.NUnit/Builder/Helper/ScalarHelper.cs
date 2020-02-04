@@ -63,6 +63,12 @@ namespace NBi.NUnit.Builder.Helper
             return resolver;
         }
 
+        public IScalarResolver<T> InstantiateResolver<T>(bool value)
+            => InstantiateResolver<T>(value.ToString());
+
+        public IScalarResolver<T> InstantiateResolver<T>(int value)
+            => InstantiateResolver<T>(value.ToString(System.Globalization.CultureInfo.InvariantCulture.NumberFormat));
+
         public IScalarResolver InstantiateResolver(ColumnType columnType, string value)
         {
             var argsBuilder = new ScalarResolverArgsBuilder(ServiceLocator, Context);

@@ -24,6 +24,19 @@ namespace NBi.Testing.GenbiL.Parser
         }
 
         [Test]
+        public void SentenceParser_CaseLoadOptionalFileString_ValidCaseLoadOptionalSentence()
+        {
+            var input = "case load optional file 'filename.csv' with columns 'foo', 'bar';";
+            var result = Case.Parser.Parse(input);
+
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.InstanceOf<LoadOptionalCaseFromFileAction>());
+            Assert.That(((LoadOptionalCaseFromFileAction)result).Filename, Is.EqualTo("filename.csv"));
+            Assert.That(((LoadOptionalCaseFromFileAction)result).ColumnNames, Does.Contain("foo"));
+            Assert.That(((LoadOptionalCaseFromFileAction)result).ColumnNames, Does.Contain("bar"));
+        }
+
+        [Test]
         public void SentenceParser_CaseLoadQueryFileString_ValidCaseLoadSentence()
         {
             var input = "case load query 'filename.sql' on 'connStr';";

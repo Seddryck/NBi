@@ -1,21 +1,14 @@
-﻿using NBi.Core;
-using NBi.Core.Injection;
+﻿using NBi.Core.Injection;
 using NBi.Core.IO.Filtering;
-using NBi.Core.Query;
-using NBi.Core.Query.Resolver;
 using NBi.Core.ResultSet;
-using NBi.Core.ResultSet.Resolver;
 using NBi.Core.Scalar.Duration;
 using NBi.Core.Scalar.Resolver;
 using NBi.Core.Sequence.Resolver;
 using NBi.Core.Sequence.Resolver.Loop;
 using NBi.Core.Variable;
-using NBi.Core.Xml;
 using NBi.Xml.Items;
-using NBi.Xml.Items.ResultSet;
-using NBi.Xml.Items.Xml;
 using NBi.Xml.Settings;
-using NBi.Xml.Systems;
+using NBi.Xml.Variables.Custom;
 using NBi.Xml.Variables.Sequence;
 using System;
 using System.Collections.Generic;
@@ -34,15 +27,14 @@ namespace NBi.NUnit.Builder.Helper
         private object obj = null;
         private SettingsXml settings = null;
         private IDictionary<string, ITestVariable> Variables { get; set; } = new Dictionary<string, ITestVariable>();
-        private ISequenceResolverArgs args = null;
+        private SettingsXml.DefaultScope Scope { get; } = SettingsXml.DefaultScope.Everywhere;
+        private ISequenceResolverArgs Args { get; set; } = null;
         private ColumnType columnType = ColumnType.Numeric;
 
-        private readonly ServiceLocator serviceLocator;
+        private ServiceLocator ServiceLocator { get; }
 
         public SequenceResolverArgsBuilder(ServiceLocator serviceLocator)
-        {
-            this.serviceLocator = serviceLocator;
-        }
+            => ServiceLocator = serviceLocator;
 
         public void Setup(object obj)
         {
@@ -70,44 +62,55 @@ namespace NBi.NUnit.Builder.Helper
             if (!isSetup)
                 throw new InvalidOperationException();
 
-            if (obj is SentinelLoopXml)
+            var helper = new ScalarHelper(ServiceLocator, new Context(Variables));
+            switch (obj)
             {
-                var loop = obj as SentinelLoopXml;
-                switch (columnType)
-                {
-                    case ColumnType.Numeric:
-                        args = BuildSentinelLoopResolverArgs<decimal,decimal>(loop.Seed, loop.Terminal, loop.Step, loop.IntervalMode);
-                        break;
-                    case ColumnType.DateTime:
-                        args = BuildSentinelLoopResolverArgs<DateTime,IDuration>(loop.Seed, loop.Terminal, loop.Step, loop.IntervalMode);
-                        break;
-                    default:
-                        throw new ArgumentOutOfRangeException();
-                }
+                case SentinelLoopXml loop:
+                    switch (columnType)
+                    {
+                        case ColumnType.Numeric:
+                            Args = BuildSentinelLoopResolverArgs<decimal, decimal>(loop.Seed, loop.Terminal, loop.Step, loop.IntervalMode);
+                            break;
+                        case ColumnType.DateTime:
+                            Args = BuildSentinelLoopResolverArgs<DateTime, IDuration>(loop.Seed, loop.Terminal, loop.Step, loop.IntervalMode);
+                            break;
+                        default:
+                            throw new ArgumentOutOfRangeException();
+                    }
+                    break;
+                case FileLoopXml loop:
+                    Args = BuildFileLoopResolverArgs(loop.Path, loop.Pattern);
+                    break;
+                case QueryXml query:
+                    var queryBuilder = new QueryResolverArgsBuilder(ServiceLocator);
+                    queryBuilder.Setup(query, settings, Scope, Variables);
+                    queryBuilder.Build();
+                    Args = new QuerySequenceResolverArgs(queryBuilder.GetArgs());
+                    break;
+                case CustomXml obj:
+                    Args = new CustomSequenceResolverArgs(
+                            helper.InstantiateResolver<string>(obj.AssemblyPath),
+                            helper.InstantiateResolver<string>(obj.TypeName),
+                            obj.Parameters.Select(x => new { x.Name, ScalarResolver = (IScalarResolver)helper.InstantiateResolver<string>(x.StringValue) })
+                            .ToDictionary(x => x.Name, y => y.ScalarResolver)
+                        );
+                    break;
+                case List<string> list:
+                    var resolvers = new List<IScalarResolver>();
+                    foreach (var value in list)
+                        resolvers.Add(helper.InstantiateResolver<string>(value));
+                    Args = new ListSequenceResolverArgs(resolvers);
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
-            else if (obj is FileLoopXml)
-            {
-                var loop = obj as FileLoopXml;
-                args = BuildFileLoopResolverArgs(loop.Path, loop.Pattern);
-            }
-            else if (obj is List<string>)
-            {
-                var helper = new ScalarHelper(serviceLocator, new Context(Variables));
-                var resolvers = new List<IScalarResolver>();
-                foreach (var value in obj as List<string>)
-                    resolvers.Add(helper.InstantiateResolver<string>(value));
-                args = new ListSequenceResolverArgs(resolvers);
-            }
-
-            if (args == null)
-                throw new ArgumentException();
         }
 
-        public ISequenceResolverArgs GetArgs() => args ?? throw new InvalidOperationException();
+        public ISequenceResolverArgs GetArgs() => Args ?? throw new InvalidOperationException();
         
         private ISequenceResolverArgs BuildSentinelLoopResolverArgs<T, U>(string seed, string terminal, string step, IntervalMode intervalMode)
         {
-            var helper = new ScalarHelper(serviceLocator, new Context(Variables));
+            var helper = new ScalarHelper(ServiceLocator, new Context(Variables));
             
             var args = new SentinelLoopSequenceResolverArgs<T, U>(
                     helper.InstantiateResolver<T>(seed).Execute(),
@@ -120,7 +123,7 @@ namespace NBi.NUnit.Builder.Helper
         }
         private ISequenceResolverArgs BuildFileLoopResolverArgs(string path, string pattern)
         {
-            var helper = new ScalarHelper(serviceLocator, new Context(Variables));
+            var helper = new ScalarHelper(ServiceLocator, new Context(Variables));
 
             var args = new FileLoopSequenceResolverArgs()
             {

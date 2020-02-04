@@ -12,20 +12,19 @@ namespace NBi.Core.ResultSet.Alteration.Extension
 {
     class NativeExtendEngine : AbstractExtendEngine
     {
-        public NativeExtendEngine(ServiceLocator serviceLocator, IColumnIdentifier newColumn, string code)
-            : base(serviceLocator, newColumn, code) { }
+        public NativeExtendEngine(ServiceLocator serviceLocator, Context context, IColumnIdentifier newColumn, string code)
+            : base(serviceLocator, context, newColumn, code) { }
 
         protected override ResultSet Execute(ResultSet rs, int ordinal)
         {
-            var context = new Context(null);
-            var argsFactory = new ScalarResolverArgsFactory(ServiceLocator, context);
+            var argsFactory = new ScalarResolverArgsFactory(ServiceLocator, Context);
             var args = argsFactory.Instantiate(Code);
             var factory = ServiceLocator.GetScalarResolverFactory();
             var resolver = factory.Instantiate(args);
 
             foreach (DataRow row in rs.Rows)
             {
-                context.Switch(row);
+                Context.Switch(row);
                 row[ordinal] = resolver.Execute();
             }
             return rs;

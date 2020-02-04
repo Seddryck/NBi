@@ -1,4 +1,5 @@
-﻿using NBi.Core.Sequence.Transformation.Aggregation;
+﻿using NBi.Core.Scalar.Resolver;
+using NBi.Core.Sequence.Transformation.Aggregation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,9 +11,9 @@ namespace NBi.Core.ResultSet.Alteration.Summarization
     public class ColumnAggregationArgs : AggregationArgs
     {
         public IColumnIdentifier Identifier { get; }
-        
-        public ColumnAggregationArgs(IColumnIdentifier identifier, AggregationFunctionType function, ColumnType columnType)
-            : base(function, columnType)
+
+        public ColumnAggregationArgs(IColumnIdentifier identifier, AggregationFunctionType function, ColumnType columnType, IList<IScalarResolver> parameters)
+            : base(function, columnType, parameters)
             => (Identifier) = (identifier);
     }
 }

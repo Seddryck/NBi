@@ -1,16 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<testSuite name="Acceptance Testing: query equalTo ResultSet" xmlns="http://NBi/TestSuite">
+<testSuite name="Acceptance Testing: query equal-to ResultSet" xmlns="http://NBi/TestSuite">
   <settings>
     <default apply-to="everywhere">
       <connectionString>Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly</connectionString>
     </default>
   </settings>
-	<!--<test name="'Reseller Order Count' by year between 2005 and 2009" uid="0001">
+	<test name="'Reseller Order Count' by year between 2005 and 2009" uid="0001">
     <condition>
       <service-running name="MSOLAP$SQL2017TABULAR"/>
     </condition>
 		<system-under-test>
-			<execution>
+			<result-set>
 				<query name="MDX Except" connectionString="Provider=MSOLAP.4;Data Source=(local)\SQL2017;Initial Catalog='Adventure Works DW 2012';localeidentifier=1033">
 					SELECT
 					[Measures].[Reseller Order Count] ON 0,
@@ -18,11 +18,11 @@
 					FROM
 					[Adventure Works]
 				</query>
-			</execution>
+			</result-set>
 		</system-under-test>
 		<assert>
-			<equalTo>
-				<resultSet>
+			<equal-to>
+				<result-set>
 					<row>
 						<cell>CY 2005</cell>
 						<cell>366</cell>
@@ -43,13 +43,13 @@
 						<cell>CY 2009</cell>
 						<cell/>
 					</row>
-				</resultSet>
-			</equalTo>
+				</result-set>
+			</equal-to>
 		</assert>
 	</test>
   <test name="Some random elements with null, empty and blank compared to blank" uid="0001">
     <system-under-test>
-      <execution>
+      <result-set>
         <query>
           SELECT
           'alpha', '  '
@@ -63,11 +63,11 @@
           SELECT
           'delta', null
         </query>
-      </execution>
+      </result-set>
     </system-under-test>
     <assert>
-      <equalTo values-default-type="text">
-        <resultSet>
+      <equal-to values-default-type="text">
+        <result-set>
           <row>
             <cell>alpha</cell>
             <cell>(blank)</cell>
@@ -84,13 +84,13 @@
             <cell>delta</cell>
             <cell>(null)</cell>
           </row>
-        </resultSet>
-      </equalTo>
+        </result-set>
+      </equal-to>
     </assert>
-  </test>-->
+  </test>
   <test name="Some keys with null and empty" uid="0030">
     <system-under-test>
-      <execution>
+      <result-set>
         <query>
           select
             '001', 100
@@ -101,12 +101,12 @@
           select
             '', 300
         </query>
-      </execution>
+      </result-set>
     </system-under-test>
     <assert>
       <equal-to>
         <column index="1" role="key" type="numeric"/>
-        <resultSet>
+        <result-set>
           <row>
             <cell>001</cell>
             <cell>100</cell>
@@ -119,7 +119,7 @@
             <cell>(empty)</cell>
             <cell>300</cell>
           </row>
-        </resultSet>
+        </result-set>
       </equal-to>
     </assert>
   </test>

@@ -34,6 +34,12 @@ using NBi.Xml.Items.ResultSet.Lookup;
 using NBi.Core.ResultSet.Lookup;
 using NBi.Core.ResultSet.Alteration.Lookup.Strategies.Missing;
 using NBi.Core.ResultSet.Alteration.Renaming.Strategies.Missing;
+using NBi.Core.ResultSet.Filtering;
+using NBi.Core.Calculation.Grouping;
+using NBi.Xml.Items.Calculation.Grouping;
+using NBi.Core.Calculation.Grouping.ColumnBased;
+using NBi.Core.Calculation.Grouping.CaseBased;
+using NBi.Core.Calculation.Predication;
 
 namespace NBi.NUnit.Builder.Helper
 {
@@ -84,7 +90,7 @@ namespace NBi.NUnit.Builder.Helper
         private Alter InstantiateFilter(FilterXml filterXml)
         {
             var context = new Context(Variables);
-            var factory = new ResultSetFilterFactory(ServiceLocator, context);
+            var factory = new ResultSetFilterFactory(ServiceLocator);
 
             if (filterXml.Ranking == null)
             {
@@ -99,9 +105,8 @@ namespace NBi.NUnit.Builder.Helper
 
                     return factory.Instantiate
                                 (
-                                    filterXml.Aliases
-                                    , expressions
-                                    , new PredicationArgs(filterXml.Predication.Operand, args)
+                                    new PredicationArgs(filterXml.Predication.Operand, args)
+                                    , context
                                 ).Apply;
                 }
                 if (filterXml.Combination != null)
@@ -116,21 +121,50 @@ namespace NBi.NUnit.Builder.Helper
 
                     return factory.Instantiate
                                 (
-                                    filterXml.Aliases
-                                    , expressions
-                                    , filterXml.Combination.Operator
+                                    filterXml.Combination.Operator
                                     , predicationArgs
+                                    , context
                                 ).Apply;
                 }
                 throw new ArgumentException();
             }
             else
             {
-                return factory.Instantiate(
-                    filterXml.Ranking,
-                    filterXml.Ranking?.GroupBy?.Columns
-                    ).Apply;
+                var groupByArgs = BuildGroupByArgs(filterXml.Ranking.GroupBy, context);
+                var groupByFactory = new GroupByFactory();
+                var groupBy = groupByFactory.Instantiate(groupByArgs);
+
+                var rankingGroupByArgs = new RankingGroupByArgs(groupBy, filterXml.Ranking.Option, filterXml.Ranking.Count, filterXml.Ranking.Operand, filterXml.Ranking.Type);
+                return factory.Instantiate(rankingGroupByArgs, context).Apply;
             }
+        }
+
+        private IGroupByArgs BuildGroupByArgs(GroupByXml xml, Context context)
+        {
+            if (xml == null)
+                return new NoneGroupByArgs();
+            if ((xml?.Columns?.Count ?? 0) > 0)
+                return new ColumnGroupByArgs(xml.Columns, context);
+            if ((xml?.Cases?.Count ?? 0) > 0)
+            {
+                var builder = new PredicateArgsBuilder(ServiceLocator, context);
+                var predications = new List<IPredication>();
+                foreach (var caseXml in xml.Cases)
+                {
+                    if (caseXml.Predication is SinglePredicationXml)
+                    {
+                        var predicationXml = (caseXml.Predication) as SinglePredicationXml;
+                        var args = builder.Execute(predicationXml.ColumnType, predicationXml.Predicate);
+                        var predicate = new PredicateFactory().Instantiate(args);
+                        var predicationFactory = new PredicationFactory();
+                        predications.Add(predicationFactory.Instantiate(predicate, predicationXml.Operand));
+
+                    }
+                }
+
+                return new CaseGroupByArgs(predications, context);
+            }
+            throw new ArgumentOutOfRangeException();
         }
 
         private Alter InstantiateConvert(ConvertXml convertXml)
@@ -172,13 +206,16 @@ namespace NBi.NUnit.Builder.Helper
 
         private Alter InstantiateSummarize(SummarizeXml summarizeXml)
         {
+            var scalarHelper = new ScalarHelper(ServiceLocator, null);
+
             var factory = new SummarizationFactory();
             var aggregations = new List<ColumnAggregationArgs>()
                     {
                         new ColumnAggregationArgs(
                             summarizeXml.Aggregation.Identifier,
                             summarizeXml.Aggregation.Function,
-                            summarizeXml.Aggregation.ColumnType
+                            summarizeXml.Aggregation.ColumnType,
+                            summarizeXml.Aggregation.Parameters.Select(x => scalarHelper.InstantiateResolver(summarizeXml.Aggregation.ColumnType, x)).ToList()
                         )
                     };
             var groupBys = summarizeXml.GroupBy?.Columns?.Cast<IColumnDefinitionLight>() ?? new List<IColumnDefinitionLight>();
@@ -189,7 +226,7 @@ namespace NBi.NUnit.Builder.Helper
 
         private Alter InstantiateExtend(ExtendXml extendXml)
         {
-            var factory = new ExtensionFactory(ServiceLocator);
+            var factory = new ExtensionFactory(ServiceLocator, new Context(Variables));
             var extender = factory.Instantiate(new ExtendArgs
                 (
                     extendXml.Identifier

@@ -17,7 +17,7 @@ namespace NBi.Core.ResultSet.Resolver
                 if (obj is IEnumerable<object> items)
                     foreach (var item in items)
                     {
-                        var cell = new Cell() { Value = item?.ToString() };
+                        var cell = new Cell() { Value = item };
                         row.Cells.Add(cell);
                     }
                 rows.Add(row);
@@ -35,7 +35,7 @@ namespace NBi.Core.ResultSet.Resolver
 
         private class Cell : ICell
         {
-            public string Value { get; set; }
+            public object Value { get; set; }
             public string ColumnName { get; set; }
         }
     }

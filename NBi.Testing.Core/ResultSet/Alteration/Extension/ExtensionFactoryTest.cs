@@ -3,6 +3,7 @@ using NBi.Core.ResultSet.Alteration.Extension;
 using NBi.Core.ResultSet.Resolver;
 using NBi.Core.Scalar.Resolver;
 using NBi.Core.Transformation;
+using NBi.Core.Variable;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
@@ -17,7 +18,7 @@ namespace NBi.Testing.Core.ResultSet.Alteration.Extension
         [Test]
         public void Instantiate_ExtendArgsNCalc_NCalcExtendEngine()
         {
-            var factory = new ExtensionFactory(null);
+            var factory = new ExtensionFactory(null, new Context(null));
             var extender = factory.Instantiate(new ExtendArgs(
                 new ColumnOrdinalIdentifier(1),
                 "a+b*c",
@@ -30,7 +31,7 @@ namespace NBi.Testing.Core.ResultSet.Alteration.Extension
         [Test]
         public void Instantiate_ExtendArgsNative_NativeExtendEngine()
         {
-            var factory = new ExtensionFactory(null);
+            var factory = new ExtensionFactory(null, new Context(null));
             var extender = factory.Instantiate(new ExtendArgs(
                 new ColumnOrdinalIdentifier(1),
                 "[A] | dateTime-to-date | dateTime-to-add(00:15:00, [B])",

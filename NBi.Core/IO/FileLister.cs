@@ -18,8 +18,6 @@ namespace NBi.Core.IO.File
         {
             var rootFilter = filters.OfType<IRootFileFilter>().SingleOrDefault() ?? new NullRootFilter();
             IEnumerable<FileInfo> files = rootFilter.Execute(Path);
-            foreach (var propertyFilter in filters.OfType<IPropertyFilter>())
-                files = files.Where(x => propertyFilter.Execute(x));
             return files;
         }
     }

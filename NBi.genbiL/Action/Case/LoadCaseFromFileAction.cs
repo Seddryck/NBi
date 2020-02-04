@@ -15,13 +15,13 @@ namespace NBi.GenbiL.Action.Case
 
         public void Execute(GenerationState state) => Execute(state.CaseCollection.CurrentScope);
 
-        public void Execute(CaseSet testCases)
+        public virtual void Execute(CaseSet testCases)
         {
             var csvReader = new CsvReader();
             testCases.Content = csvReader.ToDataTable(Filename, true);
             testCases.Content.AcceptChanges();
         }
 
-        public string Display => $"Loading TestCases from CSV file '{Filename}'";
+        public virtual string Display => $"Loading TestCases from CSV file '{Filename}'";
     }
 }

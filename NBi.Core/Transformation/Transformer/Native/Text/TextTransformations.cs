@@ -73,6 +73,29 @@ namespace NBi.Core.Transformation.Transformer.Native
         protected override object EvaluateBlank() => "(empty)";
         protected override object EvaluateString(string value) => value.Trim();
     }
+    abstract class AbstractTextAppend : AbstractTextTransformation
+    {
+        public IScalarResolver<string> Append { get; }
+        public AbstractTextAppend(IScalarResolver<string> append)
+            => Append = append;
+
+        protected override object EvaluateEmpty() => Append.Execute();
+        protected override object EvaluateBlank() => Append.Execute();
+    }
+
+    class TextToPrefix : AbstractTextAppend
+    {
+        public TextToPrefix(IScalarResolver<string> prefix)
+            : base(prefix) { }
+        protected override object EvaluateString(string value) => $"{Append.Execute()}{value}";
+    }
+
+    class TextToSuffix : AbstractTextAppend
+    {
+        public TextToSuffix(IScalarResolver<string> suffix)
+            : base(suffix) { }
+        protected override object EvaluateString(string value) => $"{value}{Append.Execute()}";
+    }
 
     abstract class AbstractTextLengthTransformation : AbstractTextTransformation
     {

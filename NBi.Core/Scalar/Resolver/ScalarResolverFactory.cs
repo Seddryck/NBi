@@ -2,9 +2,6 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using NBi.Core.Query;
-using NBi.Core.Xml;
-using NBi.Core.Query.Resolver;
 using NBi.Core.Injection;
 using System.Reflection;
 
@@ -56,6 +53,8 @@ namespace NBi.Core.Scalar.Resolver
                     return new NCalcScalarResolver<T>(x);
                 case EnvironmentScalarResolverArgs x:
                     return new EnvironmentScalarResolver<T>(x);
+                case CustomScalarResolverArgs x:
+                    return new CustomScalarResolver<T>(x);
                 case FormatScalarResolverArgs x:
                     return typeof(T) == typeof(string) ? (IScalarResolver<T>)new FormatScalarResolver(x, serviceLocator) : throw new ArgumentException("You cannot instantiate a FormatScalarResolver that is not a string.");
                 case FunctionScalarResolverArgs x:

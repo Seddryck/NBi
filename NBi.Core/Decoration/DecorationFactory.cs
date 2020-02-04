@@ -32,6 +32,7 @@ namespace NBi.Core.Decoration
             switch (args)
             {
                 case IProcessConditionArgs processArgs: return new ProcessConditionFactory().Instantiate(processArgs);
+                case IIoConditionArgs ioArgs: return new IoConditionFactory().Instantiate(ioArgs);
                 case ICustomConditionArgs customConditionArgs: return new CustomConditionFactory().Instantiate(customConditionArgs);
                 default: throw new ArgumentOutOfRangeException();
             }

@@ -9,11 +9,12 @@ namespace NBi.Core.Scalar.Casting
     public interface ICaster<T>: ICaster
     {
         new T Execute(object obj);
-        bool IsValid(object obj);
     }
 
     public interface ICaster
     {
         object Execute(object obj);
+        bool IsValid(object obj);
+        bool IsStrictlyValid(object obj);
     }
 }

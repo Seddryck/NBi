@@ -54,8 +54,8 @@
     <Reference Include="Castle.Core, Version=4.0.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
       <HintPath>..\packages\Castle.Core.4.4.0\lib\net45\Castle.Core.dll</HintPath>
     </Reference>
-    <Reference Include="Deedle, Version=2.0.4.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Deedle.2.0.4\lib\net45\Deedle.dll</HintPath>
+    <Reference Include="Deedle, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Deedle.2.1.0\lib\net45\Deedle.dll</HintPath>
     </Reference>
     <Reference Include="FSharp.Core, Version=4.7.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\FSharp.Core.4.7.0\lib\net45\FSharp.Core.dll</HintPath>
@@ -63,14 +63,14 @@
     <Reference Include="MarkdownLog, Version=0.9.64.0, Culture=neutral, PublicKeyToken=2b6c562c5dd991ab, processorArchitecture=MSIL">
       <HintPath>..\packages\MarkdownLog.0.9.64\lib\netstandard2.0\MarkdownLog.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.AnalysisServices.AdomdClient, Version=18.0.2.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.AnalysisServices.AdomdClient.retail.amd64.18.0.2\lib\net45\Microsoft.AnalysisServices.AdomdClient.dll</HintPath>
+    <Reference Include="Microsoft.AnalysisServices.AdomdClient, Version=18.2.3.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AnalysisServices.AdomdClient.retail.amd64.18.2.3\lib\net45\Microsoft.AnalysisServices.AdomdClient.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.AnalysisServices.SPClient.Interfaces, Version=18.0.2.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.AnalysisServices.AdomdClient.retail.amd64.18.0.2\lib\net45\Microsoft.AnalysisServices.SPClient.Interfaces.dll</HintPath>
+    <Reference Include="Microsoft.AnalysisServices.SPClient.Interfaces, Version=18.2.3.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AnalysisServices.AdomdClient.retail.amd64.18.2.3\lib\net45\Microsoft.AnalysisServices.SPClient.Interfaces.dll</HintPath>
     </Reference>
     <Reference Include="Moq, Version=4.13.0.0, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
-      <HintPath>..\packages\Moq.4.13.0\lib\net45\Moq.dll</HintPath>
+      <HintPath>..\packages\Moq.4.13.1\lib\net45\Moq.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
@@ -135,6 +135,8 @@
     <Compile Include="Acceptance\Resources\CustomCommand.cs" />
     <Compile Include="Acceptance\Resources\CustomConditionFalse.cs" />
     <Compile Include="Acceptance\Resources\CustomConditionTrue.cs" />
+    <Compile Include="Acceptance\Resources\CustomSequenceMonths.cs" />
+    <Compile Include="Acceptance\Resources\CustomVariableDaysBetween.cs" />
     <Compile Include="Acceptance\Resources\TsvReader.cs" />
     <Compile Include="Acceptance\RuntimeOverrider.cs" />
     <Compile Include="Acceptance\TestSuiteOverrider.cs" />
@@ -148,11 +150,10 @@
     <Compile Include="Integration\Core\Decoration\IO\Commands\DeleteExtensionCommandTest.cs" />
     <Compile Include="Integration\Core\Decoration\IO\Commands\CopyPatternCommandTest.cs" />
     <Compile Include="Integration\Core\Decoration\IO\Commands\CopyExtensionCommandTest.cs" />
+    <Compile Include="Integration\Core\Decoration\IO\Conditions\FileExistsConditionTest.cs" />
+    <Compile Include="Integration\Core\Decoration\IO\Conditions\FolderExistsConditionTest.cs" />
     <Compile Include="Integration\Core\Decoration\Process\Commands\WaitCommandTest.cs" />
     <Compile Include="Integration\Core\Decoration\Process\Commands\StopCommandTest.cs" />
-    <Compile Include="Integration\Core\IO\Filtering\SizeFilterTest.cs" />
-    <Compile Include="Integration\Core\IO\Filtering\UpdateDateTimeFilterTest.cs" />
-    <Compile Include="Integration\Core\IO\Filtering\CreationDateTimeFilterTest.cs" />
     <Compile Include="Integration\Core\IO\Filtering\NullRootFilterTest.cs" />
     <Compile Include="Integration\Core\IO\FileListerTest.cs" />
     <Compile Include="Integration\Core\Query\Command\AdomdCommandFactoryTest.cs" />
@@ -201,9 +202,11 @@
     <Compile Include="Integration\Core\IO\Filtering\PatternRootFilterTest.cs" />
     <Compile Include="Integration\Core\Scalar\Resolver\QueryScalarResolverTest.cs" />
     <Compile Include="Integration\Core\DirectoryInfoExtensionsTest.cs" />
+    <Compile Include="Unit\NUnit\Builder\Helper\AnononymousXml.cs" />
     <Compile Include="Unit\NUnit\Builder\Helper\ConnectionStringHelperTest.cs" />
     <Compile Include="Unit\NUnit\Builder\Helper\PredicateArgsBuilderTest.cs" />
     <Compile Include="Unit\NUnit\Builder\Helper\ScalarResolverArgsBuilderTest.cs" />
+    <Compile Include="Unit\NUnit\Builder\Helper\RestHelperTest.cs" />
     <Compile Include="Unit\NUnit\Builder\Helper\SetupHelperTest.cs" />
     <Compile Include="Unit\NUnit\Builder\ResultSetAllRowsBuilderTest.cs" />
     <Compile Include="Unit\NUnit\Builder\ScalarScoreBuilderTest.cs" />
@@ -516,6 +519,12 @@
     <EmbeddedResource Include="Acceptance\Resources\Csv\ResellerOrderCountByYearBefore2006bis.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
+    <EmbeddedResource Include="Acceptance\Resources\Csv\PurchaseOrders.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Acceptance\Resources\Csv\MyEmpty.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
     <None Include="Acceptance\Resources\Positive\ExternalSettings.nbitset">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -781,6 +790,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="Acceptance\Resources\Negative\DataRowsMessage-0020.txt" />
+    <EmbeddedResource Include="Acceptance\Resources\Csv\PurchaseOrders.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
     <Content Include="Acceptance\Resources\Query\ResellerOrderCount.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

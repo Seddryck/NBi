@@ -2,9 +2,6 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using NBi.Core.Query;
-using NBi.Core.Xml;
-using NBi.Core.Query.Resolver;
 using NBi.Core.Injection;
 using NBi.Core.FlatFile;
 
@@ -34,10 +31,12 @@ namespace NBi.Core.ResultSet.Resolver
                 case RowsResultSetResolverArgs x: return new RowsResultSetResolver(x);
                 case QueryResultSetResolverArgs x: return new QueryResultSetResolver(x, serviceLocator);
                 case FlatFileResultSetResolverArgs x: return new FlatFileResultSetResolver(x, serviceLocator);
-                case XPathResultSetResolverArgs x: return new XPathResultSetResolver(x);
+                case DataSerializationResultSetResolverArgs x: return new DataSerializationResultSetResolver(x);
                 case ObjectsResultSetResolverArgs x: return new ObjectsResultSetResolver(x);
                 case SequenceCombinationResultSetResolverArgs x: return new SequenceCombinationResultSetResolver(x);
-                default: throw new ArgumentOutOfRangeException($"Type '{args.GetType().Name}' is not expected when building a ResultSet");
+                case EmptyResultSetResolverArgs x: return new EmptyResultSetResolver(x);
+                case IfUnavailableResultSetResolverArgs x: return new IfUnavailableResultSetResolver(x);
+                default: throw new ArgumentOutOfRangeException($"Type '{args.GetType().Name}' is not expected when building a result-set");
             }
         }
     }

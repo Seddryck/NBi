@@ -18,7 +18,9 @@ namespace NBi.Testing.Core.Scalar.Resolver
             using (var dt = new DataTable())
             {
                 var row = dt.NewRow();
-                var args = new NCalcScalarResolverArgs("1+1", row);
+                var context = new Context(null);
+                var args = new NCalcScalarResolverArgs("1+1", context);
+                context.Switch(row);
                 var resolver = new NCalcScalarResolver<object>(args);
 
                 var output = resolver.Execute();
@@ -36,8 +38,10 @@ namespace NBi.Testing.Core.Scalar.Resolver
                 dt.Columns.Add("b", typeof(int));
                 dt.Columns.Add("c", typeof(int));
                 var row = dt.NewRow();
+                var context = new Context(null);
                 row.ItemArray = new object[] { 2, 5, 3 };
-                var args = new NCalcScalarResolverArgs("a*Max(b, c)-2", row);
+                var args = new NCalcScalarResolverArgs("a*Max(b, c)-2", context);
+                context.Switch(row);
                 var resolver = new NCalcScalarResolver<object>(args);
 
                 var output = resolver.Execute();
@@ -56,7 +60,9 @@ namespace NBi.Testing.Core.Scalar.Resolver
                 dt.Columns.Add("c", typeof(int));
                 var row = dt.NewRow();
                 row.ItemArray = new object[] { 2, 5, 3 };
-                var args = new NCalcScalarResolverArgs("[a]*Max([b], [c])-2", row);
+                var context = new Context(null);
+                var args = new NCalcScalarResolverArgs("[a]*Max([b], [c])-2", context);
+                context.Switch(row);
                 var resolver = new NCalcScalarResolver<object>(args);
 
                 var output = resolver.Execute();
@@ -75,12 +81,35 @@ namespace NBi.Testing.Core.Scalar.Resolver
                 dt.Columns.Add("c", typeof(int));
                 var row = dt.NewRow();
                 row.ItemArray = new object[] { 2, 5, 3 };
-                var args = new NCalcScalarResolverArgs("[#0]*Max([#1], [#2])-2", row);
+                var context = new Context(null);
+                var args = new NCalcScalarResolverArgs("[#0]*Max([#1], [#2])-2", context);
+                context.Switch(row);
                 var resolver = new NCalcScalarResolver<object>(args);
 
                 var output = resolver.Execute();
 
                 Assert.That(output, Is.EqualTo(2 * Math.Max(5, 3) - 2));
+            }
+        }
+
+        [Test]
+        public void Instantiate_WithRowValuesBasedOnOrdinalsAndVariable_CorrectComputation()
+        {
+            using (var dt = new DataTable())
+            {
+                dt.Columns.Add("a", typeof(int));
+                dt.Columns.Add("b", typeof(int));
+                dt.Columns.Add("c", typeof(int));
+                var row = dt.NewRow();
+                row.ItemArray = new object[] { 2, 5, 3 };
+                var context = new Context(new Dictionary<string, ITestVariable> { { "myVar", new GlobalVariable(new LiteralScalarResolver<decimal>(10)) } });
+                var args = new NCalcScalarResolverArgs("[#0]*Max([#1], [#2])-[@myVar]", context);
+                context.Switch(row);
+                var resolver = new NCalcScalarResolver<object>(args);
+
+                var output = resolver.Execute();
+
+                Assert.That(output, Is.EqualTo(2 * Math.Max(5, 3) - 10));
             }
         }
 

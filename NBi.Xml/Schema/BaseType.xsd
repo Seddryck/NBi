@@ -735,10 +735,11 @@
   <xs:complexType name="summarization-type">
     <xs:sequence>
       <xs:choice>
-        <xs:element name="sum" type="aggregation-type" minOccurs="0" maxOccurs="1"/>
-        <xs:element name="average" type="aggregation-type" minOccurs="0" maxOccurs="1"/>
-        <xs:element name="max" type="aggregation-type" minOccurs="0" maxOccurs="1"/>
-        <xs:element name="min" type="aggregation-type" minOccurs="0" maxOccurs="1"/>
+        <xs:element name="sum" type="column-aggregation-type" minOccurs="0" maxOccurs="1"/>
+        <xs:element name="average" type="column-aggregation-type" minOccurs="0" maxOccurs="1"/>
+        <xs:element name="max" type="column-aggregation-type" minOccurs="0" maxOccurs="1"/>
+        <xs:element name="min" type="column-aggregation-type" minOccurs="0" maxOccurs="1"/>
+        <xs:element name="count" type="aggregation-type" minOccurs="0" maxOccurs="1"/>
         <xs:element name="concatenation" type="concatenation-type" minOccurs="0" maxOccurs="1"/>
       </xs:choice>
       <xs:element name="group-by" type="group-by-type" minOccurs="0" maxOccurs="1"/>
@@ -747,16 +748,22 @@
   <xs:complexType name="aggregation-type">
     <xs:simpleContent>
       <xs:extension base="code-transformation-type">
-        <xs:attribute name="column" use="required" />
         <xs:attribute name="type" type="column-type-enum" use="required" />
         <xs:attribute name="if-empty-series" use="optional" />
         <xs:attribute name="if-missing-values" use="optional" />
       </xs:extension>
     </xs:simpleContent>
   </xs:complexType>
-  <xs:complexType name="concatenation-type">
+  <xs:complexType name="column-aggregation-type">
     <xs:simpleContent>
       <xs:extension base="aggregation-type">
+        <xs:attribute name="column" use="required" />
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="concatenation-type">
+    <xs:simpleContent>
+      <xs:extension base="column-aggregation-type">
         <xs:attribute name="separator" use="required"/>
       </xs:extension>
     </xs:simpleContent>

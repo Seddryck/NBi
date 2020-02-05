@@ -783,6 +783,7 @@
     <Compile Include="Sequence\Transformation\Aggregation\AggregationArgs.cs" />
     <Compile Include="Sequence\Transformation\Aggregation\AggregationFactory.cs" />
     <Compile Include="Sequence\Transformation\Aggregation\AggregationFunctionType.cs" />
+    <Compile Include="Sequence\Transformation\Aggregation\Function\Count.cs" />
     <Compile Include="Sequence\Transformation\Aggregation\Function\Concatenation.cs" />
     <Compile Include="Sequence\Transformation\Aggregation\IAggregationStrategy.cs" />
     <Compile Include="Sequence\Transformation\Aggregation\Function\BaseAggregation.cs" />

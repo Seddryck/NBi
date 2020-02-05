@@ -250,7 +250,9 @@
     <Compile Include="Sequence\Transformation\Aggregation\Numeric\MaxTest.cs" />
     <Compile Include="Sequence\Transformation\Aggregation\Numeric\MeanTest.cs" />
     <Compile Include="Sequence\Transformation\Aggregation\Numeric\MinTest.cs" />
+    <Compile Include="Sequence\Transformation\Aggregation\Numeric\CountTest.cs" />
     <Compile Include="Sequence\Transformation\Aggregation\Numeric\SumTest.cs" />
+    <Compile Include="Sequence\Transformation\Aggregation\Text\CountTest.cs" />
     <Compile Include="Sequence\Transformation\Aggregation\Text\ConcatenateTest.cs" />
     <Compile Include="Sequence\Transformation\Strategy\DropStrategyTest.cs" />
     <Compile Include="Sequence\Transformation\Strategy\FailureEmptySeriesStrategyTest.cs" />

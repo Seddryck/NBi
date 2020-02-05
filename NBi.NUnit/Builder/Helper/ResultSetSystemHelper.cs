@@ -212,7 +212,7 @@ namespace NBi.NUnit.Builder.Helper
             var aggregations = new List<ColumnAggregationArgs>()
                     {
                         new ColumnAggregationArgs(
-                            summarizeXml.Aggregation.Identifier,
+                            (summarizeXml.Aggregation as ColumnAggregationXml)?.Identifier,
                             summarizeXml.Aggregation.Function,
                             summarizeXml.Aggregation.ColumnType,
                             summarizeXml.Aggregation.Parameters.Select(x => scalarHelper.InstantiateResolver(summarizeXml.Aggregation.ColumnType, x)).ToList()

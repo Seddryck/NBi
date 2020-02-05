@@ -14,15 +14,7 @@ namespace NBi.Xml.Items.Alteration.Summarization
         [XmlIgnore]
         public AggregationFunctionType Function { get; set; }
         public AggregationXml(AggregationFunctionType function) => Function = function;
-
-        [XmlAttribute("column")]
-        public string IdentifierSerializer { get; set; }
-        [XmlIgnore]
-        public IColumnIdentifier Identifier
-        {
-            get => new ColumnIdentifierFactory().Instantiate(IdentifierSerializer);
-            set => IdentifierSerializer = value.Label;
-        }
+        
         [XmlAttribute("type")]
         public ColumnType ColumnType { get; set; }
         [XmlAttribute("if-empty")]
@@ -34,27 +26,46 @@ namespace NBi.Xml.Items.Alteration.Summarization
         public virtual IEnumerable<string> Parameters => Array.Empty<string>();
     }
 
-    public class SumXml : AggregationXml
+    public abstract class ColumnAggregationXml : AggregationXml
+    {
+        public ColumnAggregationXml(AggregationFunctionType function) : base(function) { }
+
+        [XmlAttribute("column")]
+        public string IdentifierSerializer { get; set; }
+        [XmlIgnore]
+        public IColumnIdentifier Identifier
+        {
+            get => new ColumnIdentifierFactory().Instantiate(IdentifierSerializer);
+            set => IdentifierSerializer = value.Label;
+        }
+    }
+
+    public class SumXml : ColumnAggregationXml
     {
         public SumXml() : base(AggregationFunctionType.Sum) { }
     }
 
-    public class AverageXml : AggregationXml
+    public class AverageXml : ColumnAggregationXml
     {
         public AverageXml() : base(AggregationFunctionType.Average) { }
     }
 
-    public class MaxXml : AggregationXml
+    public class MaxXml : ColumnAggregationXml
     {
         public MaxXml() : base(AggregationFunctionType.Max) { }
     }
 
-    public class MinXml : AggregationXml
+    public class MinXml : ColumnAggregationXml
     {
         public MinXml() : base(AggregationFunctionType.Min) { }
     }
 
-    public class ConcatenationXml : AggregationXml
+    public class CountRowsXml : AggregationXml
+    {
+        public CountRowsXml() : base(AggregationFunctionType.Count) { }
+    }
+
+    public class ConcatenationXml : ColumnAggregationXml
     {
         public ConcatenationXml() : base(AggregationFunctionType.Concatenation) { }
 

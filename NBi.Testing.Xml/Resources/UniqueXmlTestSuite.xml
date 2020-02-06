@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<testSuite name="Ranking TestSuite" xmlns="http://NBi/TestSuite">
+  <test name="With ranking top" uid="0000">
+    <system-under-test>
+      <result-set>
+        <query name="Select first departments">
+          select row_count as DeptId, [Name], [GroupName] from [HumanResources].[Department] order by Name
+        </query>
+        <alteration>
+          <filter>
+            <unique>
+              <group-by>
+                <column identifier="[Name]" type="text"/>
+                <column identifier="[GroupName]" type="text"/>
+              </group-by>
+            </unique>
+          </filter>
+        </alteration>
+      </result-set>
+    </system-under-test>
+    <assert>
+      <all-rows>
+        <predicate name="ModDepId">
+          <more-than or-equal="true">10</more-than>
+        </predicate>
+      </all-rows>
+    </assert>
+  </test>
+</testSuite>

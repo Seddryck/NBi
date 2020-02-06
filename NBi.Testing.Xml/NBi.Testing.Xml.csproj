@@ -88,6 +88,7 @@
     <Compile Include="Items\Api\Rest\RestXmlTest.cs" />
     <Compile Include="Items\AssemblyXmlTest.cs" />
     <Compile Include="Items\Calculation\PredicateXmlTest.cs" />
+    <Compile Include="Items\Calculation\UniqueXmlTest.cs" />
     <Compile Include="Items\Calculation\RankingXmlTest.cs" />
     <Compile Include="Items\ColumnXmlTest.cs" />
     <Compile Include="Items\EtlXmlTest.cs" />
@@ -425,6 +426,9 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\QuerySequenceXmlTestSuite.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\UniqueXmlTestSuite.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

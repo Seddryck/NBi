@@ -1187,6 +1187,43 @@
         </equal-to>
       </assert>
     </test>
+    <test name="Filter with uniqueness and group-by case" uid="0215">
+      <system-under-test>
+        <result-set>
+          <row>
+            <cell>foo</cell>
+            <cell>82</cell>
+          </row>
+          <row>
+            <cell>foo</cell>
+            <cell>163</cell>
+          </row>
+          <row>
+            <cell>bar</cell>
+            <cell>212</cell>
+          </row>
+          <alteration>
+            <filter>
+              <unique>
+                <group-by>
+                  <column identifier="#0" type="text"/>
+                </group-by>
+              </unique>
+            </filter>
+          </alteration>
+        </result-set>
+      </system-under-test>
+      <assert>
+        <equal-to keys="first">
+          <result-set>
+            <row>
+              <cell>bar</cell>
+              <cell>212</cell>
+            </row>
+          </result-set>
+        </equal-to>
+      </assert>
+    </test>
     <test name="Conversion with text-to-date" uid="0221">
       <system-under-test>
         <resultSet file="..\Csv\Orders.csv">

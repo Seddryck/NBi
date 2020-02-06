@@ -109,6 +109,7 @@
     <Compile Include="Calculation\Predication\AndCombinationPredicationTest.cs" />
     <Compile Include="Calculation\Predication\OrCombinationPredicationTest.cs" />
     <Compile Include="Calculation\Predication\XOrCombinationPredicationTest.cs" />
+    <Compile Include="ResultSet\Filtering\UniquenessFilterTest.cs" />
     <Compile Include="ResultSet\Filtering\PredicationFilterTest.cs" />
     <Compile Include="Calculation\Predicate\CultureSensitivePredicateMatchesTest.cs" />
     <Compile Include="ResultSet\Filtering\GroupByFilterTest.cs" />

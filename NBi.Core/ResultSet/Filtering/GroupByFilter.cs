@@ -12,8 +12,8 @@ namespace NBi.Core.ResultSet.Filtering
 {
     class GroupByFilter: IResultSetFilter
     {
-        private IResultSetFilter Filter { get; }
-        private IGroupBy GroupBy { get; }
+        protected IResultSetFilter Filter { get; }
+        protected IGroupBy GroupBy { get; }
 
         public GroupByFilter(IResultSetFilter filter, IGroupBy groupBy)
             => (Filter, GroupBy) = (filter, groupBy);
@@ -35,7 +35,7 @@ namespace NBi.Core.ResultSet.Filtering
         public ResultSet AntiApply(ResultSet rs)
             => throw new NotImplementedException();
 
-        public string Describe()
+        public virtual string Describe()
             => $"{Filter.Describe()} after grouping by {GroupBy.ToString()}";
     }
 }

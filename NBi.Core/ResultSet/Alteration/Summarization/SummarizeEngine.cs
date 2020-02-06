@@ -33,11 +33,7 @@ namespace NBi.Core.ResultSet.Alteration.Summarization
                 var aggregations = new List<Aggregation>();
                 foreach (var aggregation in Args.Aggregations)
                 {
-                    var column = aggregation.Identifier.GetColumn(rs.Table);
-
-                    var columnName = Args.Aggregations.Count(x => x.Identifier.GetColumn(rs.Table) == new ColumnNameIdentifier(column.ColumnName).GetColumn(rs.Table)) > 1
-                        ? $"{column.ColumnName}_{aggregation.Function.ToString()}"
-                        : column.ColumnName;
+                    var columnName = ExtractColumnName(rs, aggregation);
 
                     dataTable.Columns.Add(new DataColumn(columnName, MapType(aggregation.Function, aggregation.ColumnType)));
                     aggregations.Add(factory.Instantiate(aggregation));
@@ -54,7 +50,10 @@ namespace NBi.Core.ResultSet.Alteration.Summarization
                     {
                         var inputs = new List<object>();
                         foreach (DataRow groupRow in group.Value.Rows)
-                            inputs.Add(groupRow.GetValue(aggregation.Definition.Identifier));
+                            if (aggregation.Definition.Identifier == null)
+                                inputs.Add(1);
+                            else
+                                inputs.Add(groupRow.GetValue(aggregation.Definition.Identifier));
 
                         var aggrResult = aggregation.Implementation.Execute(inputs);
                         values.Add(aggrResult);
@@ -68,6 +67,19 @@ namespace NBi.Core.ResultSet.Alteration.Summarization
                 rs.Load(dataTable);
             }
             return rs;
+        }
+
+        private string ExtractColumnName(ResultSet rs, ColumnAggregationArgs aggregation)
+        {
+            if (aggregation.Identifier == null)
+                return "count";
+
+            var column = aggregation.Identifier.GetColumn(rs.Table);
+
+            var columnName = Args.Aggregations.Count(x => x.Identifier.GetColumn(rs.Table) == new ColumnNameIdentifier(column.ColumnName).GetColumn(rs.Table)) > 1
+                ? $"{column.ColumnName}_{aggregation.Function.ToString()}"
+                : column.ColumnName;
+            return columnName;
         }
 
         private Type MapType(AggregationFunctionType function, ColumnType type)

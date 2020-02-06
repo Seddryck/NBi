@@ -29,6 +29,7 @@ namespace NBi.Core.Scalar.Casting
         {
             switch (type)
             {
+                case ColumnType.Untyped: return new UntypedCaster();
                 case ColumnType.Text: return new TextCaster();
                 case ColumnType.Numeric: return new NumericCaster();
                 case ColumnType.Boolean: return new BooleanCaster();

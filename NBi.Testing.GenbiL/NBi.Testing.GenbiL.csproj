@@ -62,6 +62,7 @@
     <Compile Include="Action\Case\ConcatenateCaseActionTest.cs" />
     <Compile Include="Action\Case\CopyCaseActionTest.cs" />
     <Compile Include="Action\Case\CrossFullCaseActionTest.cs" />
+    <Compile Include="Action\Case\LoadFileOptionalCaseActionTest.cs" />
     <Compile Include="Action\Case\CrossJoinCaseActionTest.cs" />
     <Compile Include="Action\Case\CrossVectorCaseActionTest.cs" />
     <Compile Include="Action\Case\DuplicateCaseActionTest.cs" />

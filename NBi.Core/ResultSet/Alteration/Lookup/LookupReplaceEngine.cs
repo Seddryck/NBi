@@ -25,7 +25,7 @@ namespace NBi.Core.ResultSet.Alteration.Lookup
             var stopWatch = new Stopwatch();
             stopWatch.Start();
             var referenceKeyRetriever = BuildColumnsRetriever(Args.Mapping, x => x.ReferenceColumn);
-            var referenceValueRetriever = BuildColumnsRetriever(new ColumnMapping(Args.Replacement, ColumnType.Text), x => x.ReferenceColumn);
+            var referenceValueRetriever = BuildColumnsRetriever(new ColumnMapping(Args.Replacement, ColumnType.Untyped), x => x.ReferenceColumn);
             var index = BuildReferenceIndex(reference.Table, referenceKeyRetriever, referenceValueRetriever);
             Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceInfo, $"Built the index for reference table containing {index.Count()} rows [{stopWatch.Elapsed:d'.'hh':'mm':'ss'.'fff'ms'}]");
 

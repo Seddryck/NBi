@@ -68,6 +68,7 @@
     <Compile Include="Action\Case\DuplicateCaseAction.cs" />
     <Compile Include="Action\Case\ICaseAction.cs" />
     <Compile Include="Action\Case\LoadCaseFromDatatableAction.cs" />
+    <Compile Include="Action\Case\LoadOptionalCaseFromFileAction.cs" />
     <Compile Include="Action\Case\ReduceCaseAction.cs" />
     <Compile Include="Action\Case\GroupCaseAction.cs" />
     <Compile Include="Action\Case\SplitCaseAction.cs" />

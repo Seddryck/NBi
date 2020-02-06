@@ -524,6 +524,23 @@ namespace NBi.Testing.Xml.Unit.Systems
         }
 
         [Test]
+        [TestCase(typeof(CountRowsXml), "count")]
+        public void Serialize_CountAggregation_Correct(Type aggregationType, string serialization)
+        {
+            var root = new SummarizeXml()
+            {
+                Aggregation = (AggregationXml)Activator.CreateInstance(aggregationType)
+            };
+            root.Aggregation.ColumnType = ColumnType.DateTime;
+
+            var manager = new XmlManager();
+            var xml = manager.XmlSerializeFrom(root);
+            Console.WriteLine(xml);
+            Assert.That(xml, Does.Contain($"<{serialization}"));
+            Assert.That(xml, Does.Contain("dateTime"));
+        }
+
+        [Test]
         [TestCase(typeof(SumXml), "sum")]
         [TestCase(typeof(AverageXml), "average")]
         [TestCase(typeof(MaxXml), "max")]
@@ -532,10 +549,10 @@ namespace NBi.Testing.Xml.Unit.Systems
         {
             var root = new SummarizeXml()
             {
-                Aggregation = (AggregationXml)Activator.CreateInstance(aggregationType)
+                Aggregation = (ColumnAggregationXml)Activator.CreateInstance(aggregationType)
             };
             root.Aggregation.ColumnType = ColumnType.DateTime;
-            root.Aggregation.Identifier = new ColumnOrdinalIdentifier(2);
+            (root.Aggregation as ColumnAggregationXml).Identifier = new ColumnOrdinalIdentifier(2);
 
             var manager = new XmlManager();
             var xml = manager.XmlSerializeFrom(root);
@@ -552,7 +569,7 @@ namespace NBi.Testing.Xml.Unit.Systems
                 Aggregation = new ConcatenationXml() { Separator="+" }
             };
             root.Aggregation.ColumnType = ColumnType.Text;
-            root.Aggregation.Identifier = new ColumnOrdinalIdentifier(2);
+            (root.Aggregation as ColumnAggregationXml).Identifier = new ColumnOrdinalIdentifier(2);
 
             var manager = new XmlManager();
             var xml = manager.XmlSerializeFrom(root);

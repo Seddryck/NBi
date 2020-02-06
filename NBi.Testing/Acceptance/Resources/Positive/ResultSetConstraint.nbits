@@ -1795,7 +1795,42 @@
         </equal-to>
       </assert>
     </test>
-    <test name="Summarization on no column" uid="0264">
+    <test name="Summarization of count" uid="0264">
+      <system-under-test>
+        <result-set>
+          <query>
+            select 'A' as Key1, 'alpha' as Value
+            union all select 'B', 'foo'
+            union all select 'B', 'bar'
+            union all select 'A', 'beta'
+            union all select 'A', 'gamma'
+          </query>
+          <alteration>
+            <summarize>
+              <count type="text"/>
+              <group-by>
+                <column identifier="Key1" type="text"/>
+              </group-by>
+            </summarize>
+          </alteration>
+        </result-set>
+      </system-under-test>
+      <assert>
+        <equal-to values-default-type="numeric">
+          <result-set>
+            <row>
+              <cell>A</cell>
+              <cell>3</cell>
+            </row>
+            <row>
+              <cell>B</cell>
+              <cell>2</cell>
+            </row>
+          </result-set>
+        </equal-to>
+      </assert>
+    </test>
+    <test name="Summarization on no column" uid="0267">
       <system-under-test>
         <result-set>
           <query>
@@ -1822,7 +1857,7 @@
         </equal-to>
       </assert>
     </test>
-    <test name="Chaining two summarizations" uid="0265">
+    <test name="Chaining two summarizations" uid="0268">
       <system-under-test>
         <result-set>
           <query>
@@ -1864,7 +1899,7 @@
         </equal-to>
       </assert>
     </test>
-    <test name="Complex chaining two summarizations" uid="0266">
+    <test name="Complex chaining two summarizations" uid="0269">
       <system-under-test>
         <result-set>
           <query>

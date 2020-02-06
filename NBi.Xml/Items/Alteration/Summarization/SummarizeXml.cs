@@ -14,6 +14,7 @@ namespace NBi.Xml.Items.Alteration.Summarization
             XmlElement(Type = typeof(MinXml), ElementName = "min"),
             XmlElement(Type = typeof(MaxXml), ElementName = "max"),
             XmlElement(Type = typeof(AverageXml), ElementName = "average"),
+            XmlElement(Type = typeof(CountRowsXml), ElementName = "count"),
             XmlElement(Type = typeof(ConcatenationXml), ElementName = "concatenation"),
         ]
         public AggregationXml Aggregation { get; set; }

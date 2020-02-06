@@ -30,6 +30,19 @@ namespace NBi.Testing.Unit.Core.Sequence.Transformation.Aggregation
         }
 
         [Test]
+        [TestCase(ColumnType.Numeric)]
+        [TestCase(ColumnType.Boolean)]
+        [TestCase(ColumnType.DateTime)]
+        [TestCase(ColumnType.Text)]
+        public void Instantiate_ColumnTypeCount_CorrectAggregation(ColumnType columnType)
+        {
+            var factory = new AggregationFactory();
+            var aggregation = factory.Instantiate(columnType, AggregationFunctionType.Count, Array.Empty<IScalarResolver>(), Array.Empty<IAggregationStrategy>());
+            Assert.That(aggregation, Is.Not.Null);
+            Assert.That(aggregation.Function, Is.InstanceOf<Count>());
+        }
+
+        [Test]
         public void Instantiate_ConcantenationText_CorrectAggregation()
         {
             var factory = new AggregationFactory();

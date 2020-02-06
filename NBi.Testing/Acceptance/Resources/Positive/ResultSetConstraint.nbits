@@ -1867,7 +1867,7 @@
         </equal-to>
       </assert>
     </test>
-    <test name="Summarization on no column" uid="0267">
+    <test name="Summarization without group-by column" uid="0267">
       <system-under-test>
         <result-set>
           <query>

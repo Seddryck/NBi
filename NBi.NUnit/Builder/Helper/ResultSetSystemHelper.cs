@@ -92,7 +92,7 @@ namespace NBi.NUnit.Builder.Helper
             var context = new Context(Variables);
             var factory = new ResultSetFilterFactory(ServiceLocator);
 
-            if (filterXml.Ranking == null)
+            if (filterXml.Ranking == null && filterXml.Uniqueness==null)
             {
                 var expressions = new List<IColumnExpression>();
                 if (filterXml.Expression != null)
@@ -128,7 +128,7 @@ namespace NBi.NUnit.Builder.Helper
                 }
                 throw new ArgumentException();
             }
-            else
+            else if (filterXml.Ranking != null)
             {
                 var groupByArgs = BuildGroupByArgs(filterXml.Ranking.GroupBy, context);
                 var groupByFactory = new GroupByFactory();
@@ -137,6 +137,18 @@ namespace NBi.NUnit.Builder.Helper
                 var rankingGroupByArgs = new RankingGroupByArgs(groupBy, filterXml.Ranking.Option, filterXml.Ranking.Count, filterXml.Ranking.Operand, filterXml.Ranking.Type);
                 return factory.Instantiate(rankingGroupByArgs, context).Apply;
             }
+
+            else if (filterXml.Uniqueness != null)
+            {
+                var groupByArgs = BuildGroupByArgs(filterXml.Uniqueness.GroupBy, context);
+                var groupByFactory = new GroupByFactory();
+                var groupBy = groupByFactory.Instantiate(groupByArgs);
+
+                var uniquenessArgs = new UniquenessArgs(groupBy);
+                return factory.Instantiate(uniquenessArgs, context).Apply;
+            }
+
+            throw new ArgumentOutOfRangeException();
         }
 
         private IGroupByArgs BuildGroupByArgs(GroupByXml xml, Context context)

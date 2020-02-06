@@ -1480,20 +1480,16 @@
   </xs:complexType>
   <xs:complexType name="unique-type">
     <xs:sequence minOccurs="1" maxOccurs="1">
-      <xs:element name="group-by" type="group-by-type" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="group-by" type="group-by-type" minOccurs="1" maxOccurs="1"/>
     </xs:sequence>
   </xs:complexType>
   <xs:complexType name="rank-type">
     <xs:attribute name="count" type="xs:positiveInteger" use="optional"/>
   </xs:complexType>
   <xs:complexType name="group-by-type">
-    <xs:choice>
-      <xs:sequence minOccurs="1" maxOccurs="unbounded">
-        <xs:element name="column" type="definition-column-base-type" minOccurs="0" maxOccurs="unbounded"/>
-      </xs:sequence>
-      <xs:sequence minOccurs="1" maxOccurs="unbounded">
-        <xs:element name="case" type="group-by-case-type"/>
-      </xs:sequence>
+    <xs:choice minOccurs="1" maxOccurs="1">
+        <xs:element name="column" type="definition-column-base-type" minOccurs="1" maxOccurs="unbounded"/>
+        <xs:element name="case" type="group-by-case-type" minOccurs="1" maxOccurs="unbounded"/>
     </xs:choice>
   </xs:complexType>
   <xs:complexType name ="group-by-case-type">

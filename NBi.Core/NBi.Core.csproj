@@ -193,6 +193,7 @@
     <Compile Include="Calculation\Ranking\RankingArgs.cs" />
     <Compile Include="Calculation\RowValueExtractor.cs" />
     <Compile Include="Calculation\Predicate\PredicateArgs.cs" />
+    <Compile Include="ResultSet\Filtering\UniquenessArgs.cs" />
     <Compile Include="ResultSet\Filtering\RankingGroupByArgs.cs" />
     <Compile Include="ResultSet\Filtering\ResultSetFilterFactory.cs" />
     <Compile Include="Calculation\Predicate\AbstractPredicate.cs" />
@@ -536,6 +537,7 @@
     <Compile Include="ResultSet\Equivalence\SingleRowNameEquivaler.cs" />
     <Compile Include="ResultSet\Filtering\BaseFilter.cs" />
     <Compile Include="ResultSet\Filtering\PredicationFilter.cs" />
+    <Compile Include="ResultSet\Filtering\UniquenessFilter.cs" />
     <Compile Include="ResultSet\KeyCollectionEqualityComparer.cs" />
     <Compile Include="ResultSet\Lookup\Behavior.cs" />
     <Compile Include="ResultSet\Combination\CartesianProductSequenceCombination.cs" />

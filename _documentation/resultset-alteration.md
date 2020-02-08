@@ -248,6 +248,23 @@ Another option group rows is to group them depending on the evaluation of a pred
 </alteration>
 {% endhighlight %}
 
+### Filters unique rows
+
+In some cases, it's interesting to discard duplicated rows. You can achieve with a filter named *unique*. This filter uses a *group-by* element to specify the keys of the result-sets that will determine uniqueness. The groupings by-columns and by-cases are supported. If a group of rows contains more than one row then the **whole** group is discarded, else the group is hold. The resulting result-set after application of the filter will contain all the initial columns.
+
+{% highlight xml %}
+<alteration>
+  <filter>
+    <unique>
+      <group-by>
+        <column identifier="#0"/>
+        <column identifier="#1"/>
+      </group-by>
+    </unique>
+  </filter>
+</alteration>
+{% endhighlight %}
+
 ## Converts
 
 This alteration is useful when you want to convert a column of type *text* to a *dateTime* or *numeric*. This kind of translation is usually transparent for the test-writer and is performed with the help of an implicit casting. But implicit castings are limited to a predefined culture! It means that the textual value *2017-01-06* will be translated to the equivalent dateTime value but the textual value *06.01.2017* (6th of January 2017 in japanese culture) can't be translated to a dateTime column with an implicit casting. To achieve this translation, you'll need to apply an explicit conversion.

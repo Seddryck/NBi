@@ -339,8 +339,41 @@ The different aggregations supported are
 |average|Yes|No|No
 |sum|Yes|No|No
 |concatenation|No|No|Yes
+|count|Yes|Yes|Yes
 
-Note that the aggregation *concatenation* is expecting an xml attribute *separator* defining the characters to place between two instances to concatenate.
+Note that the aggregation *concatenation* is expecting an xml attribute *separator* defining the characters to place between two instances to concatenate. 
+
+{% highlight xml %}
+<summarize>
+  <concatenate column="supplier" type="text" separator=", "/>
+  <group-by>
+    <column identifier="fruit"/>
+  </group-by>
+</summarize>
+{% endhighlight %}
+
+|fruit|supplier
+|-----|-----
+|Apple|Supplier X, Supplier Y, Supplier X
+|Orange|Supplier Y, Supplier Y
+
+The aggregation *count* is not expecting a column, it will count the instances of rows available in each group. The new column created is named *count*. If this column is already existing an ordinal suffix will be added.
+
+{% highlight xml %}
+<summarize>
+  <count type="numeric"/>
+  <group-by>
+    <column identifier="fruit"/>
+    <column identifier="supplier"/>
+  </group-by>
+</summarize>
+{% endhighlight %}
+
+|fruit|supplier|count
+|-----|-----|-----
+|Apple|Supplier X| 2
+|Apple|Supplier Y| 1
+|Orange|Supplier Y| 2
 
 ## Reshaping
 

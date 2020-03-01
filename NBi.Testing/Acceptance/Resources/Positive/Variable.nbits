@@ -30,7 +30,7 @@
       </custom>
     </variable>
     <variable name="xmlVar">
-      <script language="c-sharp">XDocument.Load(@"../PurchaseOrders.xml").XPathSelectElement("./PurchaseOrders/PurchaseOrder/Address/Zip").Value.ToString()</script>
+      <script language="c-sharp">XDocument.Load(@"./Acceptance/Resources/PurchaseOrders.xml").XPathSelectElement("./PurchaseOrders/PurchaseOrder/Address/Zip").Value.ToString()</script>
     </variable>
   </variables>
 	<test name="'Reseller Order Count' by year before 2006 (csv)" uid="0001">

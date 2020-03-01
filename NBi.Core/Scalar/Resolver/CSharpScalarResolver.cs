@@ -6,6 +6,8 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
+using System.Xml.XPath;
 
 namespace NBi.Core.Scalar.Resolver
 {
@@ -38,6 +40,10 @@ namespace NBi.Core.Scalar.Resolver
         {
             string codeTemplate = @"
                 using System;
+                using System.Xml;
+                using System.Xml.Linq;
+                using System.Linq;
+                using System.Xml.XPath;
             
                 namespace {1}
                 {{                
@@ -59,6 +65,14 @@ namespace NBi.Core.Scalar.Resolver
                 {
                     GenerateInMemory = true,
                     GenerateExecutable = false,
+                    ReferencedAssemblies =
+                    {
+                        "System.Xml.dll",
+                        "System.Xml.Linq.dll",
+                        "System.Linq.dll",
+                        "System.Core.dll",
+                        "System.Xml.XPath.dll"
+                    }
                 };
 
                 var results = provider.CompileAssemblyFromSource(parameters, finalCode);

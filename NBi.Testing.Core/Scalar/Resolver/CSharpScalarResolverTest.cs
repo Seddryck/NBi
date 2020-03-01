@@ -38,7 +38,7 @@ namespace NBi.Testing.Core.Scalar.Resolver
         [Test]
         public void Instantiate_GetValueXmlLinq_CorrectComputation()
         {
-            var xmlPath = new Uri(FileOnDisk.CreatePhysicalFile("PurchaseOrders.xml", "NBi.Testing.Core.Resources.PurchaseOrders.xml")).AbsolutePath;
+            var xmlPath = new Uri(FileOnDisk.CreatePhysicalFile("PurchaseOrders.xml", "NBi.Testing.Core.Scalar.Resolver.Resources.PurchaseOrders.xml")).AbsolutePath;
             string xmlDoc = string.Format(@"XDocument.Load(""{0}"").Root.Name.ToString()", xmlPath);
 
             var args = new CSharpScalarResolverArgs(xmlDoc);
@@ -53,7 +53,7 @@ namespace NBi.Testing.Core.Scalar.Resolver
         public void Instantiate_GetValueXmlXpath_CorrectComputation()
         {
             var xPath = "./PurchaseOrders/PurchaseOrder/Address/Name";
-            var xmlPath = new Uri(FileOnDisk.CreatePhysicalFile("PurchaseOrders.xml", "NBi.Testing.Core.Resources.PurchaseOrders.xml")).AbsolutePath;
+            var xmlPath = new Uri(FileOnDisk.CreatePhysicalFile("PurchaseOrders.xml", "NBi.Testing.Core.Scalar.Resolver.Resources.PurchaseOrders.xml")).AbsolutePath;
             string xmlDoc = string.Format(@"XDocument.Load(""{0}"").XPathSelectElement(""{1}"").Value.ToString()", xmlPath, xPath);
 
             var args = new CSharpScalarResolverArgs(xmlDoc);

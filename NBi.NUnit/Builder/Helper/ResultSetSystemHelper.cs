@@ -40,6 +40,8 @@ using NBi.Xml.Items.Calculation.Grouping;
 using NBi.Core.Calculation.Grouping.ColumnBased;
 using NBi.Core.Calculation.Grouping.CaseBased;
 using NBi.Core.Calculation.Predication;
+using NBi.Xml.Items.Alteration.Merging;
+using NBi.Core.ResultSet.Alteration.Merging;
 
 namespace NBi.NUnit.Builder.Helper
 {
@@ -82,6 +84,7 @@ namespace NBi.NUnit.Builder.Helper
                     case ProjectAwayXml x: yield return InstantiateProjectAway(x); break;
                     case ProjectXml x: yield return InstantiateProject(x); break;
                     case LookupReplaceXml x: yield return InstantiateLookupReplace(x, resultSetXml.Settings); break;
+                    case MergeXml x: yield return InstantiateMerging(x, resultSetXml.Settings); break;
                     default: throw new ArgumentException();
                 }
             }
@@ -206,6 +209,18 @@ namespace NBi.NUnit.Builder.Helper
             var factory = new RenamingFactory();
             var renamer = factory.Instantiate(new NewNameRenamingArgs(renameXml.Identifier, newName, strategy));
             return renamer.Execute;
+        }
+
+        private Alter InstantiateMerging(MergeXml mergeXml, SettingsXml settingsXml)
+        {
+            var innerService = new ResultSetServiceBuilder();
+            mergeXml.ResultSet.Settings = settingsXml;
+            innerService.Setup(InstantiateResolver(mergeXml.ResultSet));
+            innerService.Setup(InstantiateAlterations(mergeXml.ResultSet));
+
+            var factory = new MergingFactory();
+            var merger = factory.Instantiate(new CartesianProductArgs(innerService.GetService()));
+            return merger.Execute;
         }
 
         private Alter InstantiateTransform(TransformXml transformXml)

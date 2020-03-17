@@ -26,6 +26,7 @@ using NBi.Xml.Items.Alteration.Projection;
 using NBi.Xml.Items.Alteration.Lookup;
 using NBi.Xml.Items.ResultSet.Lookup;
 using NBi.Xml.Variables.Sequence;
+using NBi.Xml.Items.Alteration.Merging;
 
 namespace NBi.Testing.Xml.Unit.Systems
 {
@@ -720,6 +721,33 @@ namespace NBi.Testing.Xml.Unit.Systems
             Console.WriteLine(xml);
             Assert.That(xml, Does.Contain("<lookup-replace"));
             Assert.That(xml, Does.Not.Contain("<missing"));
+        }
+
+        [Test]
+        public void Serialize_Merge_Correct()
+        {
+            var root = new ResultSetSystemXml()
+            {
+                Alterations = new List<AlterationXml>()
+                {
+                    new MergeXml()
+                    {
+                        ResultSet = new ResultSetSystemXml()
+                        {
+                            Sequence = new SequenceXml() { Items = new List<string>() { "A", "B" } },
+                        }
+                    }
+                }
+            };
+
+            var manager = new XmlManager();
+            var xml = manager.XmlSerializeFrom(root);
+            Console.WriteLine(xml);
+            Assert.That(xml, Does.Contain("<merge"));
+            Assert.That(xml, Does.Contain("<result-set"));
+            Assert.That(xml, Does.Contain("<sequence"));
+            Assert.That(xml, Does.Contain("<item>A</item>"));
+            Assert.That(xml, Does.Contain("<item>B</item>"));
         }
 
         [Test]

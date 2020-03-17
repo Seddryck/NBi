@@ -159,6 +159,7 @@
     <Compile Include="Items\Alteration\Conversion\TextToDateConverterXml.cs" />
     <Compile Include="Items\Alteration\Conversion\TextToNumericConverterXml.cs" />
     <Compile Include="Items\Alteration\Conversion\TextToDateTimeConverterXml.cs" />
+    <Compile Include="Items\Alteration\Merging\MergeXml.cs" />
     <Compile Include="Items\Alteration\Projection\ProjectXml.cs" />
     <Compile Include="Items\Alteration\Projection\AbstractProjectionXml.cs" />
     <Compile Include="Items\Alteration\Lookup\LookupReplaceXml.cs" />

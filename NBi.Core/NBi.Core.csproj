@@ -167,12 +167,18 @@
     <Compile Include="DataSerialization\Reader\IReaderArgs.cs" />
     <Compile Include="DataSerialization\Reader\RestReader.cs" />
     <Compile Include="DataSerialization\Reader\UrlReader.cs" />
+    <Compile Include="Decoration\Grouping\IGroupCommandArgs.cs" />
     <Compile Include="Decoration\IO\Conditions\FileExistsCondition.cs" />
     <Compile Include="Decoration\IO\Conditions\FolderExistsCondition.cs" />
     <Compile Include="Decoration\IO\FileExistsConditionArgs.cs" />
     <Compile Include="Decoration\IO\FolderExistsConditionArgs.cs" />
     <Compile Include="Decoration\IO\IIoConditionArgs.cs" />
     <Compile Include="Decoration\Process\IoConditionFactory.cs" />
+    <Compile Include="ResultSet\Alteration\Merging\CartesianProductArgs.cs" />
+    <Compile Include="ResultSet\Alteration\Merging\CartesianProductEngine.cs" />
+    <Compile Include="ResultSet\Alteration\Merging\IMergingArgs.cs" />
+    <Compile Include="ResultSet\Alteration\Merging\IMergingEngine.cs" />
+    <Compile Include="ResultSet\Alteration\Merging\MergingFactory.cs" />
     <Compile Include="ResultSet\Filtering\PredicationArgs.cs" />
     <Compile Include="ResultSet\Filtering\IFilteringArgs.cs" />
     <Compile Include="Calculation\Predication\AndCombinationPredication.cs" />
@@ -279,7 +285,6 @@
     <Compile Include="Decoration\DataEngineering\IEtlRunCommandArgs.cs" />
     <Compile Include="Decoration\Grouping\Commands\SequentialCommand.cs" />
     <Compile Include="Decoration\Grouping\Commands\ParallelCommand.cs" />
-    <Compile Include="Decoration\Grouping\IGroupCommandArgs.cs" />
     <Compile Include="Decoration\Grouping\IParallelCommandArgs.cs" />
     <Compile Include="Decoration\Grouping\ISequentialCommandArgs.cs" />
     <Compile Include="Decoration\IDecorationCommandArgs.cs" />

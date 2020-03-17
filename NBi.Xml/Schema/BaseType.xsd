@@ -1734,6 +1734,7 @@
         <xs:element name="project" type="project-type" minOccurs="0" maxOccurs="1"/>
         <xs:element name="project-away" type="project-away-type" minOccurs="0" maxOccurs="1"/>
         <xs:element name="lookup-replace" type="lookup-replace-type" minOccurs="0" maxOccurs="1"/>
+        <xs:element name="merge" type="merge-type" minOccurs="0" maxOccurs="1"/>
       </xs:choice>
     </xs:sequence>
   </xs:complexType>
@@ -1817,6 +1818,11 @@
   <xs:complexType name="project-away-type">
     <xs:sequence>
       <xs:element name="column" type="definition-column-base-type" minOccurs="1" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="merge-type">
+    <xs:sequence>
+      <xs:element name="result-set" type="result-set-type" minOccurs="1" maxOccurs="1"/>
     </xs:sequence>
   </xs:complexType>
   <xs:complexType name="definition-column-base-type">

@@ -123,6 +123,49 @@ Another engine supported is the [native transformations](../scalar-native-transf
 </result-set>
 {% endhighlight %}
 
+## Merging and concatening
+
+This alteration is useful when you want to combine two result-sets to create a new one.
+
+### Cartesian product
+
+This alteration is simply combining each row from the first result-set with each row of the second result-set.
+
+To specify this alteration, just specify the *merge* element containing a *result-set*.
+
+{% highlight xml %}
+<result-set>
+  <query>
+    select 'Apple' as Fruit, 10 as Qty union all select 'Orange', 15
+  </query>
+  <alteration>
+    <merge>
+      <result-set>
+        <row>
+          <cell>Supplier X</cell>
+          <cell>Foo</cell>
+        </row>
+        <row>
+          <cell>Supplier Y</cell>
+          <cell>Bar</cell>
+        </row>
+      </result-set>
+    </merge>
+  </alteration>
+</result-set>
+{% endhighlight %}
+
+Previous alteration will return the following result-set:
+
+|Fruit|Qty|Column0|Column1
+|-----|-----|-----|------
+|Apple|10|Supplier X|Foo
+|Orange|15|Supplier X|Foo
+|Apple|10|Supplier Y|Bar
+|Orange|15|Supplier Y|Bar
+
+NB: if any result-set is empty (no rows) then the resulting result-set will also be empty.
+
 ## Lookup-replaces
 
 This alteration is useful when you want to change the content of a column based on a dictionary.

@@ -118,10 +118,13 @@ permalink: /release/
 					var downloadFramework = "";
 					var downloadGenbi = "";
 					if (release.assets.length>0) {
-						downloadFramework = release.assets[0].browser_download_url;
-					}
-					if (release.assets.length>1) {
-						downloadGenbi = release.assets[1].browser_download_url;
+						var frameworkAsset = release.assets.find(function(asset) {return asset.name.includes("Framework");});
+						if (frameworkAsset !== undefined)
+							{downloadFramework = frameworkAsset.browser_download_url;}
+
+						var genbiAsset = release.assets.find(function(asset) {return asset.name.includes("Genbi");});
+						if (genbiAsset !== undefined)
+							{downloadGenbi = genbiAsset.browser_download_url;}
 					}
 					var releaseNote = release.html_url;
 				}

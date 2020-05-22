@@ -80,10 +80,10 @@ permalink: /release/
     function GetLatestReleaseInfo()
 	{
         $.getJSON("https://api.github.com/repos/Seddryck/NBi/releases/latest").done(function (release) {
-            var framework = release.assets[0];			
+            var framework = release.assets.find(function(asset) {return asset.name.includes("Framework");});	
             var downloadFramework = "https://github.com/Seddryck/NBi/releases/download/" + release.tag_name + "/" + framework.name;
 
-			var genbi = release.assets[1];
+			var genbi = release.assets.find(function(asset) {return asset.name.includes("Genbi");});
 			var downloadGenbi = "https://github.com/Seddryck/NBi/releases/download/" + release.tag_name + "/" + genbi.name;
 
             var downloadCount = 0;

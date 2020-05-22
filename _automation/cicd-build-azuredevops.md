@@ -1,6 +1,6 @@
 ---
 layout: automation
-title: Build a test-suite
+title: Build a test-suite (Azure DevOps)
 prev_section: comments
 next_section: cicd-build-appveyor
 permalink: /automation/cicd-build-azuredevops/
@@ -99,7 +99,7 @@ $(System.ArtifactsDirectory)\\Genbi\\genbi.exe $(System.DefaultWorkingDirectory)
 
 ### Promote the output as artifact
 
-Now that the test-suite has been created, we'll need to promote it as an artefact. A first task will copy the test-suite to the *staging directory* and a second will transform the content of the *staging directory* to a zip file that will be available as an output of the pipeline (artefact).
+Now that the test-suite has been created, we'll need to promote it as an artifact. A first task will copy the test-suite to the *staging directory* and a second will transform the content of the *staging directory* to a zip file that will be available as an output of the pipeline (artefact).
 
 Select the task *copy files*
 
@@ -120,7 +120,7 @@ and don't forget to rename this artifact *test-suite*
 ### Trigger the pipeline
 
 Once the pipeline defined, don't forget to save it. This save will trigger the upload of a file named *
-azure-pipelines.yml* in your GitHub repository. Due to the change in this repository, it will also trigger the pipeline on Azure DevOps. 
+azure-pipelines.yml* in your GitHub repository. Due to the change in this repository, it will also trigger the pipeline on Azure DevOps.
 
 ![save-run]({{ site.baseurl }}/img/automation/save-run.png)
 

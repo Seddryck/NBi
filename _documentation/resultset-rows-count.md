@@ -83,7 +83,7 @@ It's possible to compare the row-count of the first result-set defined in the sy
           <![CDATA[
            select Age, *
            from Employee
-            where Age=50
+           where Age=50
           ]]>
         </query>
       </result-set>
@@ -97,13 +97,13 @@ It's possible to compare the row-count of the first result-set defined in the sy
 <test name="Count of SalesTerritory is less-than or equal to 3" uid="0001">
    <system-under-test>
     <result-set>
-      <query connection-string="Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User   Id=sqlfamily;password=sqlf@m1ly">
+      <query connection-string="...">
         select
-        [Name], [CountryRegionCode]
+          [Name], [CountryRegionCode]
         from
-        [Sales].[SalesTerritory]
+          [Sales].[SalesTerritory]
         where
-        [Group]='Europe'
+          [Group]='Europe'
       </query>
     </result-set>
    </system-under-test>

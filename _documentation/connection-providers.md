@@ -12,6 +12,7 @@ More precisely, NBi extract the information *provider* from the connection strin
 If the attribute *driver* is specified, NBi will create an ODBC connection from the namespace *System.Data.Odbc*.
 
 ## Register additional providers
+
 Since version 1.11, it's possible to register additional patterns to ensure that NBi correctly detects the provider specified in the connection-strings.
 
 In the example here under, you'll add the provider *Microsoft.ACE.OLEDB.12.0* and specify that this provider will be make usage of objects from the namespace *System.Data.OleDb*. To achieve this goal, you must edit the config file. Add an element *providers* under the element *nbi* in your config file. Then under this new element, you add and *add* element where you define the name of the provider (attribute *id*) and the corresponding namespace to use (attribute *invariant-name*).

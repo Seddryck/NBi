@@ -12,15 +12,15 @@ A valid configuration, to use NBi as a data quality rules engine, is to set the 
 
 {% highlight xml %}
 <nbi>
-    <failure-report-profile
-        threshold-sample-items="50"
-        max-sample-items="25"
-        expected-set="None"
-        actual-set="None"
-        analysis-set="Sample"
-        format="Json"
-        mode="Always"
-    />
+  <failure-report-profile
+    threshold-sample-items="50"
+    max-sample-items="25"
+    expected-set="None"
+    actual-set="None"
+    analysis-set="Sample"
+    format="Json"
+    mode="Always"
+  />
 </nbi>
 {% endhighlight %}
 

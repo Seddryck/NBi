@@ -466,7 +466,7 @@ You can ensure that the columns will be there by defining `enforced-value` eleme
 {% highlight xml %}
 <header>
   <column identifier="Header"/>
-  <enforced-value>alpha</enforced-value>
-  <enforced-value>omega</enforced-value>
+  <enforced-value>import</enforced-value>
+  <enforced-value>export</enforced-value>
 </header>
 {% endhighlight %}

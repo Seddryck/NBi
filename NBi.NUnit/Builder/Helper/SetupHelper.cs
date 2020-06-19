@@ -95,7 +95,7 @@ namespace NBi.NUnit.Builder.Helper
             var args = new
             {
                 xml.ConnectionString,
-                Version = helper.InstantiateResolver<int>(xml.TimeOut),
+                TimeOut = helper.InstantiateResolver<int>(xml.TimeOut),
             };
             return args.ActLike<IConnectionWaitCommandArgs>();
         }

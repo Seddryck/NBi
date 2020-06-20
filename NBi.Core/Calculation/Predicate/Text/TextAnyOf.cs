@@ -1,5 +1,6 @@
 ﻿using NBi.Core.Scalar.Resolver;
 using NBi.Core.Sequence.Resolver;
+using NBi.Extensibility.Resolving;
 using System;
 using System.Collections.Generic;
 using System.Globalization;

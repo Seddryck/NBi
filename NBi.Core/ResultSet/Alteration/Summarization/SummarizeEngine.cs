@@ -1,6 +1,6 @@
 ﻿using NBi.Core.Calculation.Grouping;
 using NBi.Core.Calculation.Grouping.ColumnBased;
-using NBi.Core.Scalar.Resolver;
+using NBi.Extensibility;
 using NBi.Core.Sequence.Transformation.Aggregation;
 using NBi.Core.Variable;
 using System;
@@ -19,7 +19,7 @@ namespace NBi.Core.ResultSet.Alteration.Summarization
         public SummarizeEngine(SummarizeArgs args)
             => Args = args;
 
-        public ResultSet Execute(ResultSet rs)
+        public IResultSet Execute(IResultSet rs)
         {
             using (var dataTable = new DataTable())
             {
@@ -69,7 +69,7 @@ namespace NBi.Core.ResultSet.Alteration.Summarization
             return rs;
         }
 
-        private string ExtractColumnName(ResultSet rs, ColumnAggregationArgs aggregation)
+        private string ExtractColumnName(IResultSet rs, ColumnAggregationArgs aggregation)
         {
             if (aggregation.Identifier == null)
                 return "count";

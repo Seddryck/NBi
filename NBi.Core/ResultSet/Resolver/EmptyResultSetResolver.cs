@@ -1,4 +1,5 @@
-﻿using NBi.Core.Query;
+﻿using NBi.Extensibility;
+using NBi.Extensibility.Resolving;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -15,7 +16,7 @@ namespace NBi.Core.ResultSet.Resolver
         public EmptyResultSetResolver(EmptyResultSetResolverArgs args)
             => Args = args;
 
-        public virtual ResultSet Execute()
+        public virtual IResultSet Execute()
         {
             var dataTable = new DataTable();
             if (Args.Identifiers != null)

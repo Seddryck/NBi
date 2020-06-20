@@ -1,4 +1,6 @@
 ﻿using NBi.Core.Query;
+using NBi.Extensibility;
+using NBi.Extensibility.Resolving;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -17,7 +19,7 @@ namespace NBi.Core.ResultSet.Resolver
             this.args = args;
         }
 
-        public virtual ResultSet Execute()
+        public virtual IResultSet Execute()
         {
             var rs = new ResultSet();
             rs.Load(args.Rows);

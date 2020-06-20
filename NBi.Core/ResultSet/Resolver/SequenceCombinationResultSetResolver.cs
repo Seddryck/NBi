@@ -1,5 +1,6 @@
 ﻿using NBi.Core.ResultSet.Combination;
-using NBi.Core.Sequence.Resolver;
+using NBi.Extensibility;
+using NBi.Extensibility.Resolving;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -15,7 +16,7 @@ namespace NBi.Core.ResultSet.Resolver
         public SequenceCombinationResultSetResolver(SequenceCombinationResultSetResolverArgs args)
             => Args = args;
 
-        public ResultSet Execute()
+        public IResultSet Execute()
         {
             if (Args.Resolvers.Count() == 0)
                 throw new InvalidOperationException();

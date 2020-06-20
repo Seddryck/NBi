@@ -1,4 +1,5 @@
 ﻿using NBi.Core.Calculation.Grouping;
+using NBi.Extensibility;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,10 +17,10 @@ namespace NBi.Core.ResultSet.Filtering
         {
             public string Describe() => "Unique rows";
 
-            public ResultSet Apply(ResultSet rs)
+            public IResultSet Apply(IResultSet rs)
                 => rs.Rows.Count == 1 ? rs : rs.Clone();
             
-            public ResultSet AntiApply(ResultSet rs)
+            public IResultSet AntiApply(IResultSet rs)
                 => rs.Rows.Count != 1 ? rs : rs.Clone();
         }
     }

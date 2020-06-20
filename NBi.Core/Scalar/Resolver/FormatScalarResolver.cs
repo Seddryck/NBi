@@ -1,5 +1,6 @@
 ﻿using NBi.Core.Injection;
 using NBi.Core.Scalar.Format;
+using NBi.Extensibility.Resolving;
 using System;
 using System.Collections.Generic;
 using System.Linq;

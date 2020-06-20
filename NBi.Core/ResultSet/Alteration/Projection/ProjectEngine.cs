@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NBi.Extensibility;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -14,7 +15,7 @@ namespace NBi.Core.ResultSet.Alteration.Projection
         public ProjectEngine(ProjectArgs args)
             => Identifiers = args.Identifiers;
 
-        public ResultSet Execute(ResultSet resultSet)
+        public IResultSet Execute(IResultSet resultSet)
         {
             var columns = new List<DataColumn>();
             foreach (var identifier in Identifiers)

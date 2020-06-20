@@ -1,8 +1,6 @@
-﻿using NBi.Core.FlatFile;
-using NBi.Core.Injection;
-using NBi.Core.Query;
-using NBi.Core.Scalar.Resolver;
+﻿using NBi.Core.Injection;
 using NBi.Extensibility;
+using NBi.Extensibility.Resolving;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -25,7 +23,7 @@ namespace NBi.Core.ResultSet.Resolver
             this.serviceLocator = serviceLocator;
         }
 
-        public virtual ResultSet Execute()
+        public virtual IResultSet Execute()
         {
             var path = args.Path.Execute();
             var file = (Path.IsPathRooted(path)) ? path : args.BasePath + path;

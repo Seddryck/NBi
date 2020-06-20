@@ -1,4 +1,4 @@
-﻿using NBi.Core.ResultSet.Combination;
+﻿using NBi.Extensibility.Resolving;
 using NBi.Core.ResultSet.Resolver;
 using NBi.Core.Scalar.Resolver;
 using NBi.Core.Sequence.Resolver;

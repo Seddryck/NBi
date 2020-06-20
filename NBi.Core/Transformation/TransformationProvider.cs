@@ -34,7 +34,7 @@ namespace NBi.Core.Transformation
             cacheTransformers.Add(indentifier, transformer);
         }
 
-        public virtual ResultSet.ResultSet Transform(ResultSet.ResultSet resultSet)
+        public virtual IResultSet Transform(IResultSet resultSet)
         {
             foreach (var identifier in cacheTransformers.Keys)
             {

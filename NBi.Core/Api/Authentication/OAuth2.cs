@@ -1,4 +1,5 @@
 ﻿using NBi.Core.Scalar.Resolver;
+using NBi.Extensibility.Resolving;
 using RestSharp.Authenticators;
 using System;
 using System.Collections.Generic;

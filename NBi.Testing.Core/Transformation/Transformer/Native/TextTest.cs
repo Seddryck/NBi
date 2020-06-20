@@ -1,4 +1,5 @@
 ﻿using NBi.Core.Scalar.Resolver;
+using NBi.Extensibility.Resolving;
 using NBi.Core.Transformation.Transformer.Native;
 using NBi.Core.Variable;
 using NUnit.Framework;

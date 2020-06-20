@@ -1,20 +1,12 @@
 ﻿#region Using directives
-using System.Data;
 using Moq;
 using NBi.NUnit.Builder;
-using NBi.NUnit.ResultSetComparison;
 using NBi.Xml.Constraints;
 using NBi.Xml.Items;
-using NBi.Xml.Items.ResultSet;
 using NBi.Xml.Settings;
 using NUnit.Framework;
-using Items = NBi.Xml.Items;
 using Systems = NBi.Xml.Systems;
-using NBi.Core.ResultSet;
-using NBi.Core.Transformation;
-using NBi.Core.ResultSet.Resolver;
-using NBi.Core.ResultSet.Equivalence;
-using System.Data.SqlClient;
+using NBi.Extensibility.Resolving;
 using NBi.Core.Injection;
 using NBi.NUnit.Scoring;
 using NBi.Core.Scalar.Resolver;

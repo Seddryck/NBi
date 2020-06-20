@@ -1,5 +1,6 @@
 ﻿using NBi.Core.Variable;
 using NBi.Extensibility;
+using NBi.Extensibility.Resolving;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;

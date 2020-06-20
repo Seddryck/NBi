@@ -4,6 +4,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using NBi.Extensibility;
 
 namespace NBi.Core.ResultSet.Alteration.Merging
 {
@@ -14,7 +15,7 @@ namespace NBi.Core.ResultSet.Alteration.Merging
         public CartesianProductEngine(CartesianProductArgs args)
             => Args = args;
 
-        public ResultSet Execute(ResultSet rs)
+        public IResultSet Execute(IResultSet rs)
         {
             var secondRs = Args.ResultSetResolver.Execute();
 

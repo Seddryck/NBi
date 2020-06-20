@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using NBi.Core.ResultSet.Resolver;
 using NBi.Core.ResultSet.Alteration;
+using NBi.Extensibility.Resolving;
 
 namespace NBi.Core.ResultSet
 {

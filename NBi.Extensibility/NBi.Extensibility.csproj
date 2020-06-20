@@ -61,6 +61,7 @@
     <Compile Include="FlatFile\IFlatFileReader.cs" />
     <Compile Include="IEtlRunResult.cs" />
     <Compile Include="IExecutable.cs" />
+    <Compile Include="IResultSet.cs" />
     <Compile Include="ITemplateEngine.cs" />
     <Compile Include="NBiException.cs" />
     <Compile Include="NBiTraceSwitch.cs" />
@@ -76,6 +77,15 @@
     <Compile Include="Query\IQueryParameter.cs" />
     <Compile Include="Query\IQueryTemplateVariable.cs" />
     <Compile Include="Query\SupportedCommandTypeAttribute.cs" />
+    <Compile Include="Resolving\IResolver.cs" />
+    <Compile Include="Resolving\IResultSetResolver.cs" />
+<<<<<<< Updated upstream
+    <Compile Include="Resolving\IScalarResolver.cs" />
+    <Compile Include="Resolving\ISequenceResolver.cs" />
+=======
+    <Compile Include="Resolving\ISequenceResolver.cs" />
+    <Compile Include="Resolving\IScalarResolver.cs" />
+>>>>>>> Stashed changes
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

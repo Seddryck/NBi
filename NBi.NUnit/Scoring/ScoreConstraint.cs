@@ -3,7 +3,7 @@ using NUnitCtr = NUnit.Framework.Constraints;
 using NBi.Framework.FailureMessage;
 using NUnit.Framework;
 using NBi.Core.Configuration.FailureReport;
-using NBi.Core.Scalar.Resolver;
+using NBi.Extensibility.Resolving;
 
 namespace NBi.NUnit.Scoring
 {

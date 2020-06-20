@@ -12,8 +12,8 @@ using NUnitCtr = NUnit.Framework.Constraints;
 using NBi.Framework.FailureMessage;
 using NBi.Framework.FailureMessage.Markdown;
 using NBi.Core.Query.Resolver;
-using NBi.Core.ResultSet.Resolver;
 using NBi.Core.Query;
+using NBi.Extensibility.Resolving;
 
 namespace NBi.NUnit.Member
 {

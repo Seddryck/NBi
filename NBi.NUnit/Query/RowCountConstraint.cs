@@ -1,14 +1,11 @@
 ﻿using System;
 using System.Data;
 using System.Linq;
-using NBi.Core.ResultSet.Resolver;
 using NBi.Core.ResultSet;
 using NBi.Framework.FailureMessage;
 using NUnitCtr = NUnit.Framework.Constraints;
-using NBi.Framework.FailureMessage.Markdown;
 using NUnit.Framework;
-using NBi.Framework;
-using NBi.Core.Scalar.Resolver;
+using NBi.Extensibility;
 using NBi.Core.Configuration.FailureReport;
 
 namespace NBi.NUnit.Query
@@ -18,7 +15,7 @@ namespace NBi.NUnit.Query
         /// <summary>
         /// Store for the result of the engine's execution
         /// </summary>
-        protected ResultSet actualResultSet;
+        protected IResultSet actualResultSet;
         protected DifferedConstraint differed;
         protected NUnitCtr.Constraint ctr;
 
@@ -68,9 +65,9 @@ namespace NBi.NUnit.Query
                 throw new ArgumentException($"The type '{actual.GetType().Name}' is not supported by the constraint '{this.GetType().Name}'. Use a IResultSetService or a ResultSet.", nameof(actual));
         }
 
-        protected virtual bool doMatch(ResultSet actual)
+        protected virtual bool doMatch(IResultSet actual)
         {
-            actualResultSet = (ResultSet)actual;
+            actualResultSet = actual;
             return Matches(actualResultSet.Rows.Count);
         }
 

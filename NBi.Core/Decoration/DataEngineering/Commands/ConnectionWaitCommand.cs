@@ -1,4 +1,5 @@
 ﻿using NBi.Core.Query.Client;
+using NBi.Core.Scalar.Resolver;
 using NBi.Extensibility;
 using System;
 using System.Collections.Generic;
@@ -17,7 +18,7 @@ namespace NBi.Core.Decoration.DataEngineering.Commands
 
         public ConnectionWaitCommand(IConnectionWaitCommandArgs args) => this.args = args;
 
-        public void Execute() => Execute(args.ConnectionString, args.TimeOut);
+        public void Execute() => Execute(args.ConnectionString, args.TimeOut.Execute());
 
         internal void Execute(string connectionString, int timeOut)
         {

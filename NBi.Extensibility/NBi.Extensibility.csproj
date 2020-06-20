@@ -79,13 +79,8 @@
     <Compile Include="Query\SupportedCommandTypeAttribute.cs" />
     <Compile Include="Resolving\IResolver.cs" />
     <Compile Include="Resolving\IResultSetResolver.cs" />
-<<<<<<< Updated upstream
     <Compile Include="Resolving\IScalarResolver.cs" />
     <Compile Include="Resolving\ISequenceResolver.cs" />
-=======
-    <Compile Include="Resolving\ISequenceResolver.cs" />
-    <Compile Include="Resolving\IScalarResolver.cs" />
->>>>>>> Stashed changes
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

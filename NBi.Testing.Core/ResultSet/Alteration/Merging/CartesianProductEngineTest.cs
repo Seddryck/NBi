@@ -2,6 +2,7 @@
 using NBi.Core.ResultSet.Alteration;
 using NBi.Core.ResultSet.Alteration.Merging;
 using NBi.Core.ResultSet.Resolver;
+using NBi.Extensibility.Resolving;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;

@@ -6,7 +6,7 @@ using NBi.NUnit.Builder.Helper;
 using NBi.Core.Configuration;
 using NBi.Core.Injection;
 using NBi.Core.Variable;
-using NBi.Core.Scalar.Resolver;
+using NBi.Extensibility.Resolving;
 using NBi.Xml.Settings;
 
 namespace NBi.NUnit.Builder

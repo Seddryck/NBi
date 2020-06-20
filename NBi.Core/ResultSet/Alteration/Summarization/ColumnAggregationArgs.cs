@@ -1,5 +1,5 @@
-﻿using NBi.Core.Scalar.Resolver;
-using NBi.Core.Sequence.Transformation.Aggregation;
+﻿using NBi.Core.Sequence.Transformation.Aggregation;
+using NBi.Extensibility.Resolving;
 using System;
 using System.Collections.Generic;
 using System.Linq;

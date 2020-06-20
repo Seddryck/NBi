@@ -1,6 +1,7 @@
 ﻿using NBi.Core.Injection;
 using NBi.Core.Scalar.Resolver;
 using NBi.Core.Variable;
+using NBi.Extensibility;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -15,7 +16,7 @@ namespace NBi.Core.ResultSet.Alteration.Extension
         public NativeExtendEngine(ServiceLocator serviceLocator, Context context, IColumnIdentifier newColumn, string code)
             : base(serviceLocator, context, newColumn, code) { }
 
-        protected override ResultSet Execute(ResultSet rs, int ordinal)
+        protected override IResultSet Execute(IResultSet rs, int ordinal)
         {
             var argsFactory = new ScalarResolverArgsFactory(ServiceLocator, Context);
             var args = argsFactory.Instantiate(Code);

@@ -1,7 +1,6 @@
 ﻿using NBi.Core.Calculation.Grouping;
 using NBi.Core.Calculation.Grouping.ColumnBased;
-using NBi.Core.Scalar.Resolver;
-using NBi.Core.Sequence.Transformation.Aggregation;
+using NBi.Extensibility;
 using NBi.Core.Variable;
 using System;
 using System.Collections.Generic;
@@ -19,7 +18,7 @@ namespace NBi.Core.ResultSet.Alteration.Reshaping
         public UnstackEngine(UnstackArgs args)
             => Args = args;
 
-        public ResultSet Execute(ResultSet rs)
+        public IResultSet Execute(IResultSet rs)
         {
             //Build structre of the resulting table
             var valueColumns = rs.Columns.Cast<DataColumn>().Where(

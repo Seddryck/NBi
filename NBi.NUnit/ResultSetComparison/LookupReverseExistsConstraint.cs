@@ -12,6 +12,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using NUnitCtr = NUnit.Framework.Constraints;
+using NBi.Extensibility.Resolving;
 
 namespace NBi.NUnit.ResultSetComparison
 {

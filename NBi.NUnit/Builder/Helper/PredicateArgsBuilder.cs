@@ -5,7 +5,7 @@ using NBi.Core.ResultSet;
 using NBi.Core.Sequence.Resolver;
 using NBi.Core.Variable;
 using NBi.Xml.Constraints.Comparer;
-using NBi.Xml.Items.Calculation;
+using NBi.Extensibility.Resolving;
 using NBi.Xml.Settings;
 using System;
 using System.Collections.Generic;

@@ -8,13 +8,15 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using NBi.Extensibility;
+using NBi.Extensibility.Resolving;
 using Rs = NBi.Core.ResultSet;
 
 namespace NBi.Testing.Core.ResultSet.Combination
 {
     public class CartesianProductSequenceCombinationTest
     {
-        private (Rs.ResultSet rs, ISequenceResolver resolver) Initialize()
+        private (IResultSet rs, ISequenceResolver resolver) Initialize()
         {
             var dataTable = new DataTable() { TableName = "MyTable" };
             dataTable.Columns.Add(new DataColumn("Id"));

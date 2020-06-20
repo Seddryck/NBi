@@ -2,6 +2,7 @@
 using NBi.Core.ResultSet.Resolver;
 using NBi.Core.ResultSet;
 using NBi.Core.Sequence.Transformation.Aggregation;
+using NBi.Extensibility;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,7 +17,7 @@ namespace NBi.Testing.Core.ResultSet.Alteration.Summarization
 {
     public class SummarizeEngineTest
     {
-        private NBi.Core.ResultSet.ResultSet Build()
+        private IResultSet Build()
         {
             var args = new ObjectsResultSetResolverArgs(new[] { new object[] { "alpha", 1 }, new object[] { "alpha", 2 }, new object[] { "beta", 3 }, new object[] { "alpha", 4 } });
             var resolver = new ObjectsResultSetResolver(args);
@@ -26,7 +27,7 @@ namespace NBi.Testing.Core.ResultSet.Alteration.Summarization
             return rs;
         }
 
-        private NBi.Core.ResultSet.ResultSet BuildLarge(int count)
+        private IResultSet BuildLarge(int count)
         {
             var values = new List<object>();
             for (int i = 0; i < count; i++)

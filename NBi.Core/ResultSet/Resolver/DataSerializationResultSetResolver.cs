@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using NBi.Extensibility;
+using NBi.Extensibility.Resolving;
 
 namespace NBi.Core.ResultSet.Resolver
 {
@@ -17,7 +18,7 @@ namespace NBi.Core.ResultSet.Resolver
         public DataSerializationResultSetResolver(DataSerializationResultSetResolverArgs args)
             => Args = args;
 
-        public virtual ResultSet Execute()
+        public virtual IResultSet Execute()
         {
             try
             {

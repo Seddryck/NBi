@@ -4,7 +4,7 @@ using NBi.Core.Decoration;
 using NBi.Core.Decoration.IO;
 using NBi.Core.Decoration.Process;
 using NBi.Core.Injection;
-using NBi.Core.Scalar.Resolver;
+using NBi.Extensibility.Resolving;
 using NBi.Core.Variable;
 using NBi.Xml.Decoration.Condition;
 using System;

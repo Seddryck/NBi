@@ -1,4 +1,5 @@
 ﻿using NBi.Core.Decoration.DataEngineering;
+using NBi.Extensibility.Resolving;
 using NBi.Core.Scalar.Resolver;
 using System;
 using System.Collections.Generic;

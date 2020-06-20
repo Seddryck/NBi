@@ -10,7 +10,7 @@ using System.Xml.Linq;
 using System.Xml.XPath;
 using NBi.Core.DataSerialization;
 using NBi.Core.ResultSet;
-using NBi.Core.Scalar.Resolver;
+using NBi.Extensibility.Resolving;
 
 namespace NBi.Core.DataSerialization.Flattening.Xml
 {

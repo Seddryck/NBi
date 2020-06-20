@@ -308,7 +308,6 @@
     <Compile Include="Injection\ConfigurationModule.cs" />
     <Compile Include="Injection\QueryModule.cs" />
     <Compile Include="Injection\ServiceLocator.cs" />
-    <Compile Include="IResolver.cs" />
     <Compile Include="IO\FileLister.cs" />
     <Compile Include="PathExtensions.cs" />
     <Compile Include="Query\EngineFactory.cs" />
@@ -614,7 +613,6 @@
     <Compile Include="ResultSet\DataRowKeysComparerByName.cs" />
     <Compile Include="ResultSet\DataRowKeysComparerByOrdinal.cs" />
     <Compile Include="ResultSet\Resolver\FlatFileResultSetResolver.cs" />
-    <Compile Include="ResultSet\Resolver\IResultSetResolver.cs" />
     <Compile Include="ResultSet\IResultSetService.cs" />
     <Compile Include="ResultSet\Resolver\ContentResultSetResolver.cs" />
     <Compile Include="ResultSet\Resolver\RowsResultSetResolver.cs" />
@@ -745,7 +743,6 @@
     <Compile Include="Scalar\Resolver\LiteralScalarResolver.cs" />
     <Compile Include="Scalar\Resolver\GlobalVariableScalarResolverArgs.cs" />
     <Compile Include="Scalar\Resolver\GlobalVariableScalarResolver.cs" />
-    <Compile Include="Scalar\Resolver\IScalarResolver.cs" />
     <Compile Include="Scalar\Resolver\CSharpScalarResolverArgs.cs" />
     <Compile Include="Scalar\Resolver\RowCountResultSetScalarResolverArgs.cs" />
     <Compile Include="Scalar\Resolver\ProjectionResultSetScalarResolverArgs.cs" />
@@ -781,7 +778,6 @@
     <Compile Include="Sequence\Resolver\Loop\CountLoopStrategy.cs" />
     <Compile Include="Sequence\Resolver\Loop\CountNumericLoopStrategy.cs" />
     <Compile Include="Sequence\Resolver\Loop\ILoopStrategy.cs" />
-    <Compile Include="Sequence\Resolver\ISequenceResolver.cs" />
     <Compile Include="Sequence\Resolver\ISequenceResolverArgs.cs" />
     <Compile Include="Sequence\Resolver\ListSequenceResolver.cs" />
     <Compile Include="Sequence\Resolver\ListSequenceResolverArgs.cs" />

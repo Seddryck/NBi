@@ -2,7 +2,6 @@
 using NBi.Core.IO.Filtering;
 using NBi.Core.ResultSet;
 using NBi.Core.Scalar.Duration;
-using NBi.Core.Scalar.Resolver;
 using NBi.Core.Sequence.Resolver;
 using NBi.Core.Sequence.Resolver.Loop;
 using NBi.Core.Variable;
@@ -10,6 +9,7 @@ using NBi.Xml.Items;
 using NBi.Xml.Settings;
 using NBi.Xml.Variables.Custom;
 using NBi.Xml.Variables.Sequence;
+using NBi.Extensibility.Resolving;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;

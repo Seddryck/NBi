@@ -3,14 +3,19 @@ using NBi.Core.ResultSet;
 using NBi.Core.ResultSet.Resolver;
 using NBi.Core.Sequence.Resolver;
 using NBi.Core.Variable;
-using NBi.Core.DataSerialization;
 using NBi.Xml.Items;
+using NBi.Core.DataSerialization.Flattening;
+using NBi.Core.DataSerialization.Flattening.Xml;
+using NBi.Core.DataSerialization.Reader;
+using NBi.Core.DataSerialization.Flattening.Json;
+using NBi.Xml.Items.Hierarchical.Json;
 using NBi.Xml.Items.ResultSet;
 using NBi.Xml.Items.ResultSet.Combination;
 using NBi.Xml.Items.Hierarchical.Xml;
 using NBi.Xml.Settings;
 using NBi.Xml.Systems;
 using NBi.Xml.Variables.Sequence;
+using NBi.Extensibility.Resolving;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -18,15 +23,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using NBi.Xml.Items.Hierarchical.Json;
-using NBi.Core.Api.Rest;
-using NBi.Core.Api.Authentication;
-using NBi.Xml.Items.Api.Rest;
-using NBi.Xml.Items.Api.Authentication;
-using NBi.Core.DataSerialization.Flattening;
-using NBi.Core.DataSerialization.Flattening.Xml;
-using NBi.Core.DataSerialization.Reader;
-using NBi.Core.DataSerialization.Flattening.Json;
+
 
 namespace NBi.NUnit.Builder.Helper
 {

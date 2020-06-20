@@ -1,5 +1,6 @@
 ﻿using Deedle;
 using NBi.Core.Scalar.Casting;
+using NBi.Extensibility.Resolving;
 using NBi.Core.Scalar.Resolver;
 using System;
 using System.Collections.Generic;

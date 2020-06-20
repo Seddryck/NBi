@@ -7,15 +7,13 @@ using NBi.Xml.Constraints;
 using NBi.Xml.Systems;
 using NUnitCtr = NUnit.Framework.Constraints;
 using NBi.Xml.Constraints.Comparer;
-using NBi.Core.Calculation;
 using NBi.Core.Evaluate;
 using NBi.NUnit.Builder.Helper;
-using NBi.Core.Scalar.Resolver;
-using NBi.Core.Scalar;
-using NBi.Core.Calculation.Predicate;
 using NBi.Core.Variable;
 using NBi.Xml.Settings;
 using NBi.Core.ResultSet.Filtering;
+using NBi.Extensibility.Resolving;
+
 
 namespace NBi.NUnit.Builder
 {

@@ -3,6 +3,7 @@ using NBi.Core.Configuration.FailureReport;
 using NBi.Core.ResultSet;
 using NBi.Core.ResultSet.Lookup;
 using NBi.Core.ResultSet.Lookup.Violation;
+using NBi.Extensibility;
 using NBi.Framework.FailureMessage;
 using NUnit.Framework;
 using System;
@@ -22,8 +23,8 @@ namespace NBi.NUnit.ResultSetComparison
 
         protected bool parallelizeQueries = false;
 
-        protected ResultSet rsReference;
-        protected ResultSet rsCandidate;
+        protected IResultSet rsReference;
+        protected IResultSet rsCandidate;
         protected LookupViolationCollection violations;
 
         private ILookupViolationMessageFormatter failure;

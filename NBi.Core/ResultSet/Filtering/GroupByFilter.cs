@@ -1,6 +1,5 @@
 ﻿using NBi.Core.Calculation.Grouping;
-using NBi.Core.ResultSet;
-using NBi.Core.Variable;
+using NBi.Extensibility;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -18,7 +17,7 @@ namespace NBi.Core.ResultSet.Filtering
         public GroupByFilter(IResultSetFilter filter, IGroupBy groupBy)
             => (Filter, GroupBy) = (filter, groupBy);
         
-        public ResultSet Apply(ResultSet rs)
+        public IResultSet Apply(IResultSet rs)
         {
             var newRs = rs.Clone();
             var groups = GroupBy.Execute(rs);
@@ -32,7 +31,7 @@ namespace NBi.Core.ResultSet.Filtering
             return newRs;
         }
 
-        public ResultSet AntiApply(ResultSet rs)
+        public IResultSet AntiApply(IResultSet rs)
             => throw new NotImplementedException();
 
         public virtual string Describe()

@@ -1,5 +1,6 @@
 ﻿using NBi.Core.Scalar.Resolver;
 using System;
+using NBi.Extensibility.Resolving;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;

@@ -2,6 +2,7 @@
 using NBi.Core.Scalar.Resolver;
 using NBi.Core.Sequence.Resolver;
 using NBi.Core.Sequence.Resolver.Loop;
+using NBi.Extensibility.Resolving;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;

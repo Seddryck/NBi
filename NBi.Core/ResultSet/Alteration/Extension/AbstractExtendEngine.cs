@@ -1,5 +1,5 @@
 ﻿using NBi.Core.Injection;
-using NBi.Core.Scalar.Resolver;
+using NBi.Extensibility;
 using NBi.Core.Variable;
 using System;
 using System.Collections.Generic;
@@ -20,13 +20,13 @@ namespace NBi.Core.ResultSet.Alteration.Extension
         public AbstractExtendEngine(ServiceLocator serviceLocator, Context context, IColumnIdentifier newColumn, string code)
             => (ServiceLocator, Context, NewColumn, Code) = (serviceLocator, context, newColumn, code);
 
-        public ResultSet Execute(ResultSet rs)
+        public IResultSet Execute(IResultSet rs)
         {
             var ordinal = GetNewColumnOrdinal(NewColumn, rs.Table);
             return Execute(rs, ordinal);
         }
 
-        protected abstract ResultSet Execute(ResultSet rs, int ordinal);
+        protected abstract IResultSet Execute(IResultSet rs, int ordinal);
         
         private int GetNewColumnOrdinal(IColumnIdentifier newColumn, DataTable dt)
         {

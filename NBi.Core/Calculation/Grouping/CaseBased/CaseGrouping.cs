@@ -19,7 +19,7 @@ namespace NBi.Core.Calculation.Grouping.CaseBased
         public CaseGrouping(IEnumerable<IPredication> cases, Context context)
             => (Cases, Context) = (cases, context);
 
-        public IDictionary<ResultSet.KeyCollection, DataTable> Execute(ResultSet.ResultSet resultSet)
+        public IDictionary<ResultSet.KeyCollection, DataTable> Execute(IResultSet resultSet)
         {
             var stopWatch = new Stopwatch();
             var dico = new Dictionary<ResultSet.KeyCollection, DataTable>();

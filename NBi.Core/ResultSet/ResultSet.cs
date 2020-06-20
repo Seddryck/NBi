@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NBi.Extensibility;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
@@ -6,9 +7,9 @@ using System.Linq;
 
 namespace NBi.Core.ResultSet
 {
-    public class ResultSet
+    public class ResultSet : IResultSet
     {
-        protected internal DataTable Table { get; protected set; }
+        public DataTable Table { get; protected set; }
         
         public DataColumnCollection Columns
         {
@@ -48,7 +49,7 @@ namespace NBi.Core.ResultSet
             rows.CopyToDataTable(Table, LoadOption.OverwriteChanges);
         }
 
-        public ResultSet Clone()
+        public IResultSet Clone()
         {
             var newRs = new ResultSet
             {

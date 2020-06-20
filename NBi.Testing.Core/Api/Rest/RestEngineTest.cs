@@ -2,6 +2,7 @@
 using NBi.Core.Api.Rest;
 using NBi.Core.Scalar.Resolver;
 using NUnit.Framework;
+using NBi.Extensibility.Resolving;
 using System;
 using System.Collections.Generic;
 using System.Linq;

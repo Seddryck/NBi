@@ -6,6 +6,7 @@ using NBi.Core.Transformation;
 using NBi.Core.Transformation.Transformer;
 using NBi.Core.Variable;
 using NBi.Core.Variable.Instantiation;
+using NBi.Extensibility.Resolving;
 using NBi.Xml;
 using NBi.Xml.Settings;
 using NBi.Xml.Variables;

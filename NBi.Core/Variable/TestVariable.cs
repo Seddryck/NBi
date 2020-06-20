@@ -1,9 +1,6 @@
-﻿using Microsoft.CSharp;
-using NBi.Core.Scalar;
-using NBi.Core.Scalar.Resolver;
-using NBi.Core.Transformation;
+﻿using NBi.Core.Scalar;
+using NBi.Extensibility.Resolving;
 using System;
-using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;

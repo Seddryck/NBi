@@ -5,6 +5,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using NBi.Extensibility;
 
 namespace NBi.Core.ResultSet.Resolver
 {
@@ -18,7 +19,7 @@ namespace NBi.Core.ResultSet.Resolver
             this.args = args;
         }
 
-        public override ResultSet Execute()
+        public override IResultSet Execute()
         {
             var rs = base.Execute();
             for (int i = 0; i < args.ColumnNames.Count(); i++)

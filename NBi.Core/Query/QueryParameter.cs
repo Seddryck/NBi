@@ -1,10 +1,11 @@
-﻿using System;
+﻿using NBi.Extensibility.Query;
+using NBi.Extensibility.Resolving;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using NBi.Core.Scalar.Resolver;
-using NBi.Extensibility.Query;
 
 namespace NBi.Core.Query
 {

@@ -5,6 +5,7 @@ using NBi.Core.Query.Resolver;
 using NBi.Core.ResultSet.Resolver;
 using NBi.Core.Scalar.Resolver;
 using NBi.Core.Transformation;
+using NBi.Extensibility.Resolving;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;

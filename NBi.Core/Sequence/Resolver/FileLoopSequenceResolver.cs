@@ -1,4 +1,5 @@
 ﻿using NBi.Core.IO.File;
+using NBi.Extensibility.Resolving;
 using System;
 using System.Collections;
 using System.Collections.Generic;

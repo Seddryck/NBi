@@ -4,6 +4,7 @@ using System.Data;
 using System.Linq;
 using NBi.Core.Injection;
 using NBi.Core.FlatFile;
+using NBi.Extensibility.Resolving;
 
 namespace NBi.Core.ResultSet.Resolver
 {

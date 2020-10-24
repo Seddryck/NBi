@@ -1,10 +1,17 @@
 $mssqlPrefix = "mssql`$sql"
 $mssqlName = (Get-Service $mssqlPrefix* | Sort-Object Name -Descending | Select-Object -first 1).Name
 $mssqlVersion = $mssqlName.Substring($mssqlPrefix.Length)
-Write-Host "Starting service '$mssqlName' (Version:$mssqlVersion)"
+Write-Host "Selected service '$mssqlName' (Version:$mssqlVersion)"
 
-Start-Service $mssqlName
-Write-Host "Service '$mssqlName' is $((Get-Service $mssqlName).Status)"
+if ((Get-Service $mssqlName).Status -eq "Running")
+    { Write-Host "Service '$mssqlName' is already running" }
+else
+{
+    Write-Host "Starting service '$mssqlName'"
+    Start-Service $mssqlName
+    Write-Host "Service '$mssqlName' is $((Get-Service $mssqlName).Status)"
+}
+
 Start-FileDownload "https://github.com/Microsoft/sql-server-samples/releases/download/adventureworks/AdventureWorksDW$mssqlVersion.bak" -FileName "c:\projects\AdventureWorksDW$mssqlVersion.bak"
 
 if (Get-Module -ListAvailable -Name dbatools) 

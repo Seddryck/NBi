@@ -12,7 +12,7 @@ else
     Write-Host "Service '$mssqlName' is $((Get-Service $mssqlName).Status)"
 }
 
-Start-FileDownload "https://github.com/Microsoft/sql-server-samples/releases/download/adventureworks/AdventureWorksDW$mssqlVersion.bak" -FileName "c:\projects\AdventureWorksDW$mssqlVersion.bak"
+Start-FileDownload "https://github.com/Microsoft/sql-server-samples/releases/download/adventureworks/AdventureWorks$mssqlVersion.bak" -FileName "c:\projects\AdventureWorks$mssqlVersion.bak"
 
 if (Get-Module -ListAvailable -Name dbatools) 
     { Write-Host "Module dbatools already installed" } 
@@ -23,5 +23,5 @@ else
     Write-Host "Module dbatools installed"
 }
 
-Write-Host "Restoring AdventureWorksDW$mssqlVersion on $env:computername\SQL$mssqlVersion ..."
-Restore-DbaDatabase -SqlInstance $env:computername\SQL$mssqlVersion -Path c:\projects\AdventureWorksDW$mssqlVersion.bak
+Write-Host "Restoring AdventureWorks$mssqlVersion on $env:computername\SQL$mssqlVersion ..."
+Restore-DbaDatabase -SqlInstance $env:computername\SQL$mssqlVersion -Path c:\projects\AdventureWorks$mssqlVersion.bak

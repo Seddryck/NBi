@@ -29,7 +29,7 @@
   <test name="'Reseller Order Count' by year before 2006 (csv)" uid="0001">
     <system-under-test>
       <result-set>
-        <query connection-string="Data Source=(local)\SQL2017;Initial Catalog=AdventureWorksDW2017;User Id=sa;password=Password12!">
+        <query connection-string="Data Source=(local)\SQL2017;Initial Catalog=AdventureWorks2017;User Id=sa;password=Password12!">
           SELECT [Key]=1,Val1='2',Val3=NULL,Val3='3'
           UNION
           SELECT [Key]=4,Val1=NULL,Val2='3',Val3=''

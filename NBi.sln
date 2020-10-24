@@ -12,6 +12,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".project", ".project", "{DA
 		appveyor.yml = appveyor.yml
 		AssemblyInfo.cs = AssemblyInfo.cs
 		GitVersion.yml = GitVersion.yml
+		restore-database-for-testing.ps1 = restore-database-for-testing.ps1
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NBi.NUnit", "NBi.NUnit\NBi.NUnit.csproj", "{66314704-AA76-4153-80D8-CA2C5FF06976}"

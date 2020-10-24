@@ -2,10 +2,10 @@
 <testSuite name="Acceptance Testing: query equalTo query" xmlns="http://NBi/TestSuite">
   <settings>
     <default apply-to="system-under-test">
-      <connection-string>Data Source=(local)\SQL2017;Initial Catalog=AdventureWorksDW2017;User Id=sa;password=Password12!</connection-string>
+      <connection-string>Data Source=(local)\SQL2017;Initial Catalog=AdventureWorks2017;User Id=sa;password=Password12!</connection-string>
     </default>
     <default apply-to="assert">
-      <connection-string>Data Source=(local)\SQL2017;Initial Catalog=AdventureWorksDW2017;User Id=sa;password=Password12!</connection-string>
+      <connection-string>Data Source=(local)\SQL2017;Initial Catalog=AdventureWorks2017;User Id=sa;password=Password12!</connection-string>
     </default>
   </settings>
   <variables>
@@ -259,7 +259,7 @@
     <test name="Sql Native vs ODBC">
       <system-under-test>
         <result-set>
-          <query connectionString="Data Source=(local)\SQL2017;Initial Catalog=AdventureWorksDW2017;User Id=sa;password=Password12!">
+          <query connectionString="Data Source=(local)\SQL2017;Initial Catalog=AdventureWorks2017;User Id=sa;password=Password12!">
             select 'OK';
           </query>
         </result-set>
@@ -275,7 +275,7 @@
     <test name="Sql Native vs OLEDB">
       <system-under-test>
         <result-set>
-          <query connectionString="Data Source=(local)\SQL2017;Initial Catalog=AdventureWorksDW2017;User Id=sa;password=Password12!">
+          <query connectionString="Data Source=(local)\SQL2017;Initial Catalog=AdventureWorks2017;User Id=sa;password=Password12!">
             select 'OK';
           </query>
         </result-set>

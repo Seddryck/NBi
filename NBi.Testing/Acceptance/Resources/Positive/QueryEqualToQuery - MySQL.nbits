@@ -5,7 +5,7 @@
       <connectionString>Driver={MySQL ODBC 5.3 ANSI Driver};Server=eu-cdbr-azure-west-d.cloudapp.net;User=bdfdabafa6c4ff;password=562d3996</connectionString>
     </default>
     <default apply-to="assert">
-      <connectionString>Data Source=(local)\SQL2017;Initial Catalog=AdventureWorksDW2017;User Id=sa;password=Password12!</connectionString>
+      <connectionString>Data Source=(local)\SQL2017;Initial Catalog=AdventureWorks2017;User Id=sa;password=Password12!</connectionString>
     </default>
   </settings>
   <test name="'Reseller Order Count' by year before 2006" uid="0001">
@@ -229,7 +229,7 @@
     <test name="Sql Native vs ODBC">
       <system-under-test>
         <result-set>
-          <query connectionString="Data Source=(local)\SQL2017;Initial Catalog=AdventureWorksDW2017;User Id=sa;password=Password12!">
+          <query connectionString="Data Source=(local)\SQL2017;Initial Catalog=AdventureWorks2017;User Id=sa;password=Password12!">
             select 'OK';
           </query>
         </result-set>
@@ -245,7 +245,7 @@
     <test name="Sql Native vs OLEDB">
       <system-under-test>
         <result-set>
-          <query connectionString="Data Source=(local)\SQL2017;Initial Catalog=AdventureWorksDW2017;User Id=sa;password=Password12!">
+          <query connectionString="Data Source=(local)\SQL2017;Initial Catalog=AdventureWorks2017;User Id=sa;password=Password12!">
             select 'OK';
           </query>
         </result-set>

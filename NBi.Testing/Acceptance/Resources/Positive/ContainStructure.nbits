@@ -5,7 +5,7 @@
       <connectionString>Provider=MSOLAP.4;Data Source=(local)\SQL2017;Initial Catalog='Adventure Works DW 2012';localeidentifier=1033</connectionString>
     </default>
     <reference name="Dwh">
-      <connectionString>Data Source=(local)\SQL2017;Initial Catalog=AdventureWorksDW2017;User Id=sa;password=Password12!</connectionString>
+      <connectionString>Data Source=(local)\SQL2017;Initial Catalog=AdventureWorks2017;User Id=sa;password=Password12!</connectionString>
     </reference>
     <reference name="Tabular">
       <connectionString>Provider=MSOLAP.4;Data Source=(local)\SQL2017TABULAR;Initial Catalog='AdventureWorks Tabular Model SQL 2012';localeidentifier=1033</connectionString>
@@ -62,7 +62,7 @@
   <test name="In perspective 'HumanResources', we find at least this list of routines" uid="0003">
     <system-under-test>
       <structure>
-        <tables perspective="HumanResources" connectionString="Data Source=(local)\SQL2017;Initial Catalog=AdventureWorksDW2017;User Id=sa;password=Password12!"/>
+        <tables perspective="HumanResources" connectionString="Data Source=(local)\SQL2017;Initial Catalog=AdventureWorks2017;User Id=sa;password=Password12!"/>
       </structure>
     </system-under-test>
     <assert>
@@ -75,7 +75,7 @@
   <test name="In perspective 'HumanResources', we find at least this list of routines" uid="0003">
     <system-under-test>
       <structure>
-        <routines perspective="HumanResources" connectionString="Data Source=(local)\SQL2017;Initial Catalog=AdventureWorksDW2017;User Id=sa;password=Password12!"/>
+        <routines perspective="HumanResources" connectionString="Data Source=(local)\SQL2017;Initial Catalog=AdventureWorks2017;User Id=sa;password=Password12!"/>
       </structure>
     </system-under-test>
     <assert>
@@ -88,7 +88,7 @@
   <test name="In perspective 'HumanResources', stored procedure 'uspUpdateEmployeePersonalInfo', we find at least this list of parameters" uid="0003">
     <system-under-test>
       <structure>
-        <parameters perspective="HumanResources" routine="uspUpdateEmployeePersonalInfo" connectionString="Data Source=(local)\SQL2017;Initial Catalog=AdventureWorksDW2017;User Id=sa;password=Password12!"/>
+        <parameters perspective="HumanResources" routine="uspUpdateEmployeePersonalInfo" connectionString="Data Source=(local)\SQL2017;Initial Catalog=AdventureWorks2017;User Id=sa;password=Password12!"/>
       </structure>
     </system-under-test>
     <assert>
@@ -104,7 +104,7 @@
   <test name="In perspective 'HumanResources', stored procedure 'uspUpdateEmployeePersonalInfo', we find at least this list of 'in' parameters" uid="0003">
     <system-under-test>
       <structure>
-        <parameters direction="in" perspective="HumanResources" routine="uspUpdateEmployeePersonalInfo" connectionString="Data Source=(local)\SQL2017;Initial Catalog=AdventureWorksDW2017;User Id=sa;password=Password12!"/>
+        <parameters direction="in" perspective="HumanResources" routine="uspUpdateEmployeePersonalInfo" connectionString="Data Source=(local)\SQL2017;Initial Catalog=AdventureWorks2017;User Id=sa;password=Password12!"/>
       </structure>
     </system-under-test>
     <assert>

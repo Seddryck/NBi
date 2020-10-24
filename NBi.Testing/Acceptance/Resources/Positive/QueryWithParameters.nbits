@@ -5,7 +5,7 @@
 			<connectionString>Provider=MSOLAP.4;Data Source=(local)\SQL2017;Initial Catalog='Adventure Works DW 2012'</connectionString>
 		</default>
 		<reference name="SqlAdvenureWorks2012">
-			<connectionString>Data Source=(local)\SQL2017;Initial Catalog=AdventureWorksDW2017;User Id=sa;password=Password12!</connectionString>
+			<connectionString>Data Source=(local)\SQL2017;Initial Catalog=AdventureWorks2017;User Id=sa;password=Password12!</connectionString>
 		</reference>
 	</settings>
 	<test name="Faster Than for SQL with parameter" uid="0001">

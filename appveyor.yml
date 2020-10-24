@@ -8,7 +8,8 @@ install:
   - cmd: net start MSSQL$SQL2017
   - ps: Get-Service mssql*
   - ps: Start-FileDownload 'https://github.com/Microsoft/sql-server-samples/releases/download/adventureworks/AdventureWorksDW2017.bak' -FileName 'c:\projects\AdventureWorksDW2017.bak'
-  - ps: Restore-SqlDatabase -ServerInstance "(local)\SQL2017" -Database "AdventureWorksDW2017" -BackupFile "c:\projects\AdventureWorksDW2017.bak"
+  - ps: Install-Module dbatools
+  - ps: Restore-DbaDatabase -SqlInstance $env:computername\SQL2017 -Path c:\projects\AdventureWorksDW2017.bak
 before_build:
 - cmd: >-
     gitversion /l console /output buildserver /updateAssemblyInfo

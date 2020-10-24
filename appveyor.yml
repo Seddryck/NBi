@@ -5,6 +5,7 @@ init:
 services:
   - mssql2017
 install:
+  - cmd: net start MSSQL$SQL2017
   - ps: Get-Service mssql*
   - ps: start-sleep 300
   - ps: Get-Service mssql*

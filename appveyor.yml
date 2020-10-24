@@ -1,7 +1,12 @@
 version: build.{build}
 image: Visual Studio 2017
+services:
+  - mssql2017
 init:
 - cmd: git config --global core.autocrlf true
+install:
+- ps: Start-FileDownload 'https://github.com/Microsoft/sql-server-samples/releases/download/adventureworks/AdventureWorksDW2017.bak' -FileName 'c:\projects\AdventureWorksDW2017.bak'
+- ps: Restore-SqlDatabase -ServerInstance "(local)\SQL2017" -Database "AdventureWorksDW2017" -BackupFile "c:\projects\AdventureWorksDW2017.bak"
 before_build:
 - cmd: >-
     gitversion /l console /output buildserver /updateAssemblyInfo

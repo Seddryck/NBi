@@ -3,7 +3,7 @@ image: Visual Studio 2017
 init:
   - cmd: git config --global core.autocrlf true
 services:
-  - mssql2017
+  - net start mssql$SQL2017
 install:
   - ps: Start-FileDownload 'https://github.com/Microsoft/sql-server-samples/releases/download/adventureworks/AdventureWorksDW2017.bak' -FileName 'c:\projects\AdventureWorksDW2017.bak'
   - ps: Restore-SqlDatabase -ServerInstance "(local)\SQL2017" -Database "AdventureWorksDW2017" -BackupFile "c:\projects\AdventureWorksDW2017.bak"

@@ -3,7 +3,7 @@ $mssqlName = (Get-Service $mssqlPrefix* | Sort-Object Name -Descending | Select-
 $mssqlVersion = $mssqlName.Substring($mssqlPrefix.Length)
 Write-Host "Starting service '$mssqlName' (Version:$mssqlVersion)"
 
-#Start-Service $mssqlName
+Start-Service $mssqlName
 Write-Host "Service '$mssqlName' is $((Get-Service $mssqlName).Status)"
 Start-FileDownload "https://github.com/Microsoft/sql-server-samples/releases/download/adventureworks/AdventureWorksDW$mssqlVersion.bak" -FileName "c:\projects\AdventureWorksDW$mssqlVersion.bak"
 

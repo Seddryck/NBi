@@ -5,12 +5,7 @@ init:
 services:
   - mssql2017
 install:
-  - ps: Get-Service mssql*
-  - ps: Start-Service "mssql`$sql2017"
-  - ps: Get-Service mssql*
-  - ps: Start-FileDownload 'https://github.com/Microsoft/sql-server-samples/releases/download/adventureworks/AdventureWorksDW2017.bak' -FileName 'c:\projects\AdventureWorksDW2017.bak'
-  - ps: if (Get-Module -ListAvailable -Name dbatools) { Write-Host "Module dbatools already installed" } else { Install-Module dbatools -Scope CurrentUser}
-  - ps: Restore-DbaDatabase -SqlInstance $env:computername\SQL2017 -Path c:\projects\AdventureWorksDW2017.bak
+  - ps: .\restore-database-for-testing.ps1
 before_build:
 - cmd: >-
     gitversion /l console /output buildserver /updateAssemblyInfo

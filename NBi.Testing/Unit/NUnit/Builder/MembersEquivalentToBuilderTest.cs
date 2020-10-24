@@ -56,7 +56,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
             {
                 Query = new QueryXml()
                 {
-                    ConnectionString = "Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly",
+                    ConnectionString = "Data Source=(local)\SQL2017;Initial Catalog=AdventureWorksDW2017;User Id=sa;password=Password12!",
                     InlineQuery = "select * from one-column-table"
                 }
             };

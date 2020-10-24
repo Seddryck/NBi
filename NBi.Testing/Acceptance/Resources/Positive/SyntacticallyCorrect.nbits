@@ -19,13 +19,13 @@
 			<syntacticallyCorrect/>
 		</assert>
     <cleanup>
-      <sql-run connectionString="Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly" name="MyFile.sql" path="C:\totot\"/>
+      <sql-run connectionString="Data Source=(local)\SQL2017;Initial Catalog=AdventureWorksDW2017;User Id=sa;password=Password12!" name="MyFile.sql" path="C:\totot\"/>
     </cleanup>
 	</test>
 	<test name="A correct query SQL">
 		<system-under-test>
 			<execution>
-				<query name="SQL" connectionString="Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly">
+				<query name="SQL" connectionString="Data Source=(local)\SQL2017;Initial Catalog=AdventureWorksDW2017;User Id=sa;password=Password12!">
 					SELECT
 						NULL
 				</query>

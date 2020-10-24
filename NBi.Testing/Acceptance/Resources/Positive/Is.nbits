@@ -2,7 +2,7 @@
 <testSuite name="Acceptance Testing: members ordering" xmlns="http://NBi/TestSuite">
 	<settings>
     <default apply-to="system-under-test">
-      <connectionString>Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly</connectionString>
+      <connectionString>Data Source=(local)\SQL2017;Initial Catalog=AdventureWorksDW2017;User Id=sa;password=Password12!</connectionString>
     </default>
 	</settings>
   <test name="Column 'NationalIDNumber' is 'nvarchar', in the schema 'HumanResources', table 'Employee'" uid="0001">

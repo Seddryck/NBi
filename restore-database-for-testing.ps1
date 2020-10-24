@@ -3,13 +3,18 @@ $mssqlName = (Get-Service $mssqlPrefix* | Sort-Object Name -Descending | Select-
 $mssqlVersion = $mssqlName.Substring($mssqlPrefix.Length)
 Write-Host "Starting service '$mssqlName' (Version:$mssqlVersion)"
 
-Start-Service $mssqlName
+#Start-Service $mssqlName
 Write-Host "Service '$mssqlName' is $((Get-Service $mssqlName).Status)"
 Start-FileDownload "https://github.com/Microsoft/sql-server-samples/releases/download/adventureworks/AdventureWorksDW$mssqlVersion.bak" -FileName "c:\projects\AdventureWorksDW$mssqlVersion.bak"
 
 if (Get-Module -ListAvailable -Name dbatools) 
     { Write-Host "Module dbatools already installed" } 
 else 
-    { Install-Module dbatools -Scope CurrentUser }
+{ 
+    Write-Host "Installing module dbatools ..."
+    Install-Module dbatools -Scope CurrentUser 
+    Write-Host "Module dbatools installed"
+}
 
-Restore-DbaDatabase -SqlInstance $env:computername\SQL$mssqlVersion -Path c:\temp\AdventureWorksDW$mssqlVersion.bak
+Write-Host "Restoring AdventureWorksDW$mssqlVersion on $env:computername\SQL$mssqlVersion ..."
+Restore-DbaDatabase -SqlInstance $env:computername\SQL$mssqlVersion -Path c:\projects\AdventureWorksDW$mssqlVersion.bak

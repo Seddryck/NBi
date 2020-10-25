@@ -433,6 +433,7 @@
     <test name="Query from report" uid="0107">
       <condition>
         <service-running name="MSSQL$SQL2017"/>
+        <service-running name="SQLServerReportingServices"/>
       </condition>
       <system-under-test>
         <resultSet>

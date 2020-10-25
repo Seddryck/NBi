@@ -266,7 +266,7 @@
       </system-under-test>
       <assert>
         <equalTo>
-          <query connectionString="Driver={SQL Server};Server=tcp:.\SQL2017,1433;Database=AdventureWorks2017;Uid=sa;Pwd=Password12!;Encrypt=yes;TrustServerCertificate=yes;Connection Timeout=30;">
+          <query connectionString="Driver={ODBC Driver 13 for SQL Server};Server=tcp:.\SQL2017,1433;Database=AdventureWorks2017;Uid=sa;Pwd=Password12!;Encrypt=yes;TrustServerCertificate=yes;Connection Timeout=30;">
             select 'OK';
           </query>
         </equalTo>

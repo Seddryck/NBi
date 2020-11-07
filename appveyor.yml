@@ -1,7 +1,9 @@
 version: build.{build}
 image: Visual Studio 2017
 init:
-- cmd: git config --global core.autocrlf true
+  - cmd: git config --global core.autocrlf true
+install:
+  - ps: .\restore-database-for-testing.ps1
 before_build:
 - cmd: >-
     gitversion /l console /output buildserver /updateAssemblyInfo
@@ -10,7 +12,7 @@ before_build:
 build:
   verbosity: minimal
 before_package:
-- cmd: clone-extensions.cmd
+  - cmd: clone-extensions.cmd
 after_build:
 - ps: >-
     $nuget_version = "$env:GitVersion_NuGetVersionV2"

@@ -2,16 +2,16 @@
 <testSuite name="Acceptance Testing: ResultSet" xmlns="http://NBi/TestSuite">
   <settings>
     <default apply-to="system-under-test">
-      <connectionString>Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly</connectionString>
+      <connectionString>Data Source=(local)\SQL2017;Initial Catalog=AdventureWorks2017;User Id=sa;password=Password12!</connectionString>
     </default>
     <default apply-to="assert">
-      <connectionString>Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly</connectionString>
+      <connectionString>Data Source=(local)\SQL2017;Initial Catalog=AdventureWorks2017;User Id=sa;password=Password12!</connectionString>
     </default>
     <default apply-to="variable">
-      <connectionString>Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly</connectionString>
+      <connectionString>Data Source=(local)\SQL2017;Initial Catalog=AdventureWorks2017;User Id=sa;password=Password12!</connectionString>
     </default>
     <reference name="ref1">
-      <connectionString>Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly</connectionString>
+      <connectionString>Data Source=(local)\SQL2017;Initial Catalog=AdventureWorks2017;User Id=sa;password=Password12!</connectionString>
     </reference>
   </settings>
   <variables>
@@ -433,6 +433,7 @@
     <test name="Query from report" uid="0107">
       <condition>
         <service-running name="MSSQL$SQL2017"/>
+        <service-running name="SQLServerReportingServices"/>
       </condition>
       <system-under-test>
         <resultSet>
@@ -464,15 +465,7 @@
         <equalTo values-default-type="text">
           <resultSet>
             <row>
-              <cell>adventure-works\ken0</cell>
-              <cell>Chief Executive Officer</cell>
-            </row>
-            <row>
-              <cell>adventure-works\belinda0</cell>
-              <cell>Production Technician - WC45</cell>
-            </row>
-            <row>
-              <cell>adventure-works\michael9</cell>
+              <cell>adventure-works\josé1</cell>
               <cell>Sales Representative</cell>
             </row>
           </resultSet>
@@ -2324,7 +2317,7 @@
                 <using>[FooBarId]</using>
               </join>
               <result-set>
-                <query connection-string="Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly">
+                <query connection-string="Data Source=(local)\SQL2017;Initial Catalog=AdventureWorks2017;User Id=sa;password=Password12!">
                   select 1 as FooBarId, 'Foo' as ValueX union all select 2, 'Bar'
                 </query>
               </result-set>

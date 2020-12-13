@@ -2,16 +2,16 @@
 <testSuite name="Acceptance Testing: ResultSet" xmlns="http://NBi/TestSuite">
   <settings>
     <default apply-to="system-under-test">
-      <connectionString>Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly</connectionString>
+      <connectionString>Data Source=(local)\SQL2017;Initial Catalog=AdventureWorks2017;User Id=sa;password=Password12!</connectionString>
     </default>
     <default apply-to="assert">
-      <connectionString>Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly</connectionString>
+      <connectionString>Data Source=(local)\SQL2017;Initial Catalog=AdventureWorks2017;User Id=sa;password=Password12!</connectionString>
     </default>
     <default apply-to="variable">
-      <connectionString>Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly</connectionString>
+      <connectionString>Data Source=(local)\SQL2017;Initial Catalog=AdventureWorks2017;User Id=sa;password=Password12!</connectionString>
     </default>
     <reference name="ref1">
-      <connectionString>Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly</connectionString>
+      <connectionString>Data Source=(local)\SQL2017;Initial Catalog=AdventureWorks2017;User Id=sa;password=Password12!</connectionString>
     </reference>
   </settings>
   <variables>
@@ -433,6 +433,7 @@
     <test name="Query from report" uid="0107">
       <condition>
         <service-running name="MSSQL$SQL2017"/>
+        <service-running name="SQLServerReportingServices"/>
       </condition>
       <system-under-test>
         <resultSet>
@@ -464,15 +465,7 @@
         <equalTo values-default-type="text">
           <resultSet>
             <row>
-              <cell>adventure-works\ken0</cell>
-              <cell>Chief Executive Officer</cell>
-            </row>
-            <row>
-              <cell>adventure-works\belinda0</cell>
-              <cell>Production Technician - WC45</cell>
-            </row>
-            <row>
-              <cell>adventure-works\michael9</cell>
+              <cell>adventure-works\josé1</cell>
               <cell>Sales Representative</cell>
             </row>
           </resultSet>
@@ -544,6 +537,155 @@
             </row>
             <row>
               <cell>fr</cell>
+            </row>
+          </result-set>
+        </equal-to>
+      </assert>
+    </test>
+    <test name="Result-set is the cartesian product of two result-sets" uid="141">
+      <system-under-test>
+        <result-set>
+          <row>
+            <cell>2012</cell>
+            <cell>London</cell>
+          </row>
+          <row>
+            <cell>2016</cell>
+            <cell>Rio</cell>
+          </row>
+          <row>
+            <cell>2020</cell>
+            <cell>Tokyo</cell>
+          </row>
+          <alteration>
+            <merge>
+              <result-set>
+                <row>
+                  <cell>be</cell>
+                  <cell>Belgium</cell>
+                  <cell>Brussels</cell>
+                </row>
+                <row>
+                  <cell>fr</cell>
+                  <cell>France</cell>
+                  <cell>Paris</cell>
+                </row>
+              </result-set>
+            </merge>
+          </alteration>
+        </result-set>
+      </system-under-test>
+      <assert>
+        <equal-to keys="all">
+          <result-set>
+            <row>
+              <cell>2012</cell>
+              <cell>London</cell>
+              <cell>be</cell>
+              <cell>Belgium</cell>
+              <cell>Brussels</cell>
+            </row>
+            <row>
+              <cell>2016</cell>
+              <cell>Rio</cell>
+              <cell>be</cell>
+              <cell>Belgium</cell>
+              <cell>Brussels</cell>
+            </row>
+            <row>
+              <cell>2020</cell>
+              <cell>Tokyo</cell>
+              <cell>be</cell>
+              <cell>Belgium</cell>
+              <cell>Brussels</cell>
+            </row>
+            <row>
+              <cell>2012</cell>
+              <cell>London</cell>
+              <cell>fr</cell>
+              <cell>France</cell>
+              <cell>Paris</cell>
+            </row>
+            <row>
+              <cell>2016</cell>
+              <cell>Rio</cell>
+              <cell>fr</cell>
+              <cell>France</cell>
+              <cell>Paris</cell>
+            </row>
+            <row>
+              <cell>2020</cell>
+              <cell>Tokyo</cell>
+              <cell>fr</cell>
+              <cell>France</cell>
+              <cell>Paris</cell>
+            </row>
+          </result-set>
+        </equal-to>
+      </assert>
+    </test>
+    <test name="Result-set is the cartesian product of two result-sets" uid="141">
+      <system-under-test>
+        <result-set>
+          <sequence type="numeric">
+            <loop-sentinel seed="2012" terminal="2020" step="4"/>
+          </sequence>
+          <alteration>
+            <merge>
+              <result-set>
+                <row>
+                  <cell>be</cell>
+                  <cell>Belgium</cell>
+                  <cell>Brussels</cell>
+                </row>
+                <row>
+                  <cell>fr</cell>
+                  <cell>France</cell>
+                  <cell>Paris</cell>
+                </row>
+              </result-set>
+            </merge>
+          </alteration>
+        </result-set>
+      </system-under-test>
+      <assert>
+        <equal-to keys="all">
+          <result-set>
+            <row>
+              <cell>2012</cell>
+              <cell>be</cell>
+              <cell>Belgium</cell>
+              <cell>Brussels</cell>
+            </row>
+            <row>
+              <cell>2016</cell>
+              <cell>be</cell>
+              <cell>Belgium</cell>
+              <cell>Brussels</cell>
+            </row>
+            <row>
+              <cell>2020</cell>
+              <cell>be</cell>
+              <cell>Belgium</cell>
+              <cell>Brussels</cell>
+            </row>
+            <row>
+              <cell>2012</cell>
+              <cell>fr</cell>
+              <cell>France</cell>
+              <cell>Paris</cell>
+            </row>
+            <row>
+              <cell>2016</cell>
+              <cell>fr</cell>
+              <cell>France</cell>
+              <cell>Paris</cell>
+            </row>
+            <row>
+              <cell>2020</cell>
+              <cell>fr</cell>
+              <cell>France</cell>
+              <cell>Paris</cell>
             </row>
           </result-set>
         </equal-to>
@@ -1187,6 +1329,43 @@
         </equal-to>
       </assert>
     </test>
+    <test name="Filter with uniqueness and group-by case" uid="0215">
+      <system-under-test>
+        <result-set>
+          <row>
+            <cell>foo</cell>
+            <cell>82</cell>
+          </row>
+          <row>
+            <cell>foo</cell>
+            <cell>163</cell>
+          </row>
+          <row>
+            <cell>bar</cell>
+            <cell>212</cell>
+          </row>
+          <alteration>
+            <filter>
+              <unique>
+                <group-by>
+                  <column identifier="#0" type="text"/>
+                </group-by>
+              </unique>
+            </filter>
+          </alteration>
+        </result-set>
+      </system-under-test>
+      <assert>
+        <equal-to keys="first">
+          <result-set>
+            <row>
+              <cell>bar</cell>
+              <cell>212</cell>
+            </row>
+          </result-set>
+        </equal-to>
+      </assert>
+    </test>
     <test name="Conversion with text-to-date" uid="0221">
       <system-under-test>
         <resultSet file="..\Csv\Orders.csv">
@@ -1795,7 +1974,42 @@
         </equal-to>
       </assert>
     </test>
-    <test name="Summarization on no column" uid="0264">
+    <test name="Summarization of count" uid="0264">
+      <system-under-test>
+        <result-set>
+          <query>
+            select 'A' as Key1, 'alpha' as Value
+            union all select 'B', 'foo'
+            union all select 'B', 'bar'
+            union all select 'A', 'beta'
+            union all select 'A', 'gamma'
+          </query>
+          <alteration>
+            <summarize>
+              <count type="text"/>
+              <group-by>
+                <column identifier="Key1" type="text"/>
+              </group-by>
+            </summarize>
+          </alteration>
+        </result-set>
+      </system-under-test>
+      <assert>
+        <equal-to values-default-type="numeric">
+          <result-set>
+            <row>
+              <cell>A</cell>
+              <cell>3</cell>
+            </row>
+            <row>
+              <cell>B</cell>
+              <cell>2</cell>
+            </row>
+          </result-set>
+        </equal-to>
+      </assert>
+    </test>
+    <test name="Summarization without group-by column" uid="0267">
       <system-under-test>
         <result-set>
           <query>
@@ -1822,7 +2036,7 @@
         </equal-to>
       </assert>
     </test>
-    <test name="Chaining two summarizations" uid="0265">
+    <test name="Chaining two summarizations" uid="0268">
       <system-under-test>
         <result-set>
           <query>
@@ -1864,7 +2078,7 @@
         </equal-to>
       </assert>
     </test>
-    <test name="Complex chaining two summarizations" uid="0266">
+    <test name="Complex chaining two summarizations" uid="0269">
       <system-under-test>
         <result-set>
           <query>
@@ -2103,7 +2317,7 @@
                 <using>[FooBarId]</using>
               </join>
               <result-set>
-                <query connection-string="Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly">
+                <query connection-string="Data Source=(local)\SQL2017;Initial Catalog=AdventureWorks2017;User Id=sa;password=Password12!">
                   select 1 as FooBarId, 'Foo' as ValueX union all select 2, 'Bar'
                 </query>
               </result-set>

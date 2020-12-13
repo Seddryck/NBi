@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core
+namespace NBi.Extensibility.Resolving
 {
     public interface IResolver
     {

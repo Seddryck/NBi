@@ -9,6 +9,7 @@ using NBi.Core.ResultSet.Analyzer;
 using NBi.Core.ResultSet.Equivalence;
 using NUnit.Framework;
 using NBi.Core.Configuration.FailureReport;
+using NBi.Extensibility;
 
 namespace NBi.NUnit.ResultSetComparison
 {
@@ -18,8 +19,8 @@ namespace NBi.NUnit.ResultSetComparison
 
         protected bool parallelizeQueries = false;
 
-        protected ResultSet expectedResultSet;
-        protected ResultSet actualResultSet;
+        protected IResultSet expectedResultSet;
+        protected IResultSet actualResultSet;
 
         protected ResultResultSet result;
         private IDataRowsMessageFormatter failure;
@@ -111,7 +112,7 @@ namespace NBi.NUnit.ResultSetComparison
         /// <returns></returns>
         public bool Process(IResultSetService actual)
         {
-            ResultSet rsActual = null;
+            IResultSet rsActual = null;
             if (parallelizeQueries)
                 rsActual = ProcessParallel(actual);
             else
@@ -120,11 +121,11 @@ namespace NBi.NUnit.ResultSetComparison
             return this.Matches(rsActual);
         }
 
-        public ResultSet ProcessParallel(IResultSetService actual)
+        public IResultSet ProcessParallel(IResultSetService actual)
         {
             Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceVerbose, string.Format("Queries exectued in parallel."));
             
-            ResultSet rsActual = null;
+            IResultSet rsActual = null;
             System.Threading.Tasks.Parallel.Invoke(
                 () => {
                         rsActual = actual.Execute();

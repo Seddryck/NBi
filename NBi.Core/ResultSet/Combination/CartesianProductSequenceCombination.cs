@@ -1,4 +1,5 @@
-﻿using NBi.Core.Sequence.Resolver;
+﻿using NBi.Extensibility;
+using NBi.Extensibility.Resolving;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -14,7 +15,7 @@ namespace NBi.Core.ResultSet.Combination
         public CartesianProductSequenceCombination(ISequenceResolver resolver)
             => Resolver = resolver;
 
-        public ResultSet Execute(ResultSet rs)
+        public IResultSet Execute(IResultSet rs)
         {
             var newColumn = new DataColumn($"Column{rs.Columns.Count}", typeof(object));
             rs.Columns.Add(newColumn);

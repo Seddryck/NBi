@@ -167,12 +167,18 @@
     <Compile Include="DataSerialization\Reader\IReaderArgs.cs" />
     <Compile Include="DataSerialization\Reader\RestReader.cs" />
     <Compile Include="DataSerialization\Reader\UrlReader.cs" />
+    <Compile Include="Decoration\Grouping\IGroupCommandArgs.cs" />
     <Compile Include="Decoration\IO\Conditions\FileExistsCondition.cs" />
     <Compile Include="Decoration\IO\Conditions\FolderExistsCondition.cs" />
     <Compile Include="Decoration\IO\FileExistsConditionArgs.cs" />
     <Compile Include="Decoration\IO\FolderExistsConditionArgs.cs" />
     <Compile Include="Decoration\IO\IIoConditionArgs.cs" />
     <Compile Include="Decoration\Process\IoConditionFactory.cs" />
+    <Compile Include="ResultSet\Alteration\Merging\CartesianProductArgs.cs" />
+    <Compile Include="ResultSet\Alteration\Merging\CartesianProductEngine.cs" />
+    <Compile Include="ResultSet\Alteration\Merging\IMergingArgs.cs" />
+    <Compile Include="ResultSet\Alteration\Merging\IMergingEngine.cs" />
+    <Compile Include="ResultSet\Alteration\Merging\MergingFactory.cs" />
     <Compile Include="ResultSet\Filtering\PredicationArgs.cs" />
     <Compile Include="ResultSet\Filtering\IFilteringArgs.cs" />
     <Compile Include="Calculation\Predication\AndCombinationPredication.cs" />
@@ -193,6 +199,7 @@
     <Compile Include="Calculation\Ranking\RankingArgs.cs" />
     <Compile Include="Calculation\RowValueExtractor.cs" />
     <Compile Include="Calculation\Predicate\PredicateArgs.cs" />
+    <Compile Include="ResultSet\Filtering\UniquenessArgs.cs" />
     <Compile Include="ResultSet\Filtering\RankingGroupByArgs.cs" />
     <Compile Include="ResultSet\Filtering\ResultSetFilterFactory.cs" />
     <Compile Include="Calculation\Predicate\AbstractPredicate.cs" />
@@ -278,7 +285,6 @@
     <Compile Include="Decoration\DataEngineering\IEtlRunCommandArgs.cs" />
     <Compile Include="Decoration\Grouping\Commands\SequentialCommand.cs" />
     <Compile Include="Decoration\Grouping\Commands\ParallelCommand.cs" />
-    <Compile Include="Decoration\Grouping\IGroupCommandArgs.cs" />
     <Compile Include="Decoration\Grouping\IParallelCommandArgs.cs" />
     <Compile Include="Decoration\Grouping\ISequentialCommandArgs.cs" />
     <Compile Include="Decoration\IDecorationCommandArgs.cs" />
@@ -302,7 +308,6 @@
     <Compile Include="Injection\ConfigurationModule.cs" />
     <Compile Include="Injection\QueryModule.cs" />
     <Compile Include="Injection\ServiceLocator.cs" />
-    <Compile Include="IResolver.cs" />
     <Compile Include="IO\FileLister.cs" />
     <Compile Include="PathExtensions.cs" />
     <Compile Include="Query\EngineFactory.cs" />
@@ -536,6 +541,7 @@
     <Compile Include="ResultSet\Equivalence\SingleRowNameEquivaler.cs" />
     <Compile Include="ResultSet\Filtering\BaseFilter.cs" />
     <Compile Include="ResultSet\Filtering\PredicationFilter.cs" />
+    <Compile Include="ResultSet\Filtering\UniquenessFilter.cs" />
     <Compile Include="ResultSet\KeyCollectionEqualityComparer.cs" />
     <Compile Include="ResultSet\Lookup\Behavior.cs" />
     <Compile Include="ResultSet\Combination\CartesianProductSequenceCombination.cs" />
@@ -607,7 +613,6 @@
     <Compile Include="ResultSet\DataRowKeysComparerByName.cs" />
     <Compile Include="ResultSet\DataRowKeysComparerByOrdinal.cs" />
     <Compile Include="ResultSet\Resolver\FlatFileResultSetResolver.cs" />
-    <Compile Include="ResultSet\Resolver\IResultSetResolver.cs" />
     <Compile Include="ResultSet\IResultSetService.cs" />
     <Compile Include="ResultSet\Resolver\ContentResultSetResolver.cs" />
     <Compile Include="ResultSet\Resolver\RowsResultSetResolver.cs" />
@@ -738,7 +743,6 @@
     <Compile Include="Scalar\Resolver\LiteralScalarResolver.cs" />
     <Compile Include="Scalar\Resolver\GlobalVariableScalarResolverArgs.cs" />
     <Compile Include="Scalar\Resolver\GlobalVariableScalarResolver.cs" />
-    <Compile Include="Scalar\Resolver\IScalarResolver.cs" />
     <Compile Include="Scalar\Resolver\CSharpScalarResolverArgs.cs" />
     <Compile Include="Scalar\Resolver\RowCountResultSetScalarResolverArgs.cs" />
     <Compile Include="Scalar\Resolver\ProjectionResultSetScalarResolverArgs.cs" />
@@ -774,7 +778,6 @@
     <Compile Include="Sequence\Resolver\Loop\CountLoopStrategy.cs" />
     <Compile Include="Sequence\Resolver\Loop\CountNumericLoopStrategy.cs" />
     <Compile Include="Sequence\Resolver\Loop\ILoopStrategy.cs" />
-    <Compile Include="Sequence\Resolver\ISequenceResolver.cs" />
     <Compile Include="Sequence\Resolver\ISequenceResolverArgs.cs" />
     <Compile Include="Sequence\Resolver\ListSequenceResolver.cs" />
     <Compile Include="Sequence\Resolver\ListSequenceResolverArgs.cs" />
@@ -783,6 +786,7 @@
     <Compile Include="Sequence\Transformation\Aggregation\AggregationArgs.cs" />
     <Compile Include="Sequence\Transformation\Aggregation\AggregationFactory.cs" />
     <Compile Include="Sequence\Transformation\Aggregation\AggregationFunctionType.cs" />
+    <Compile Include="Sequence\Transformation\Aggregation\Function\Count.cs" />
     <Compile Include="Sequence\Transformation\Aggregation\Function\Concatenation.cs" />
     <Compile Include="Sequence\Transformation\Aggregation\IAggregationStrategy.cs" />
     <Compile Include="Sequence\Transformation\Aggregation\Function\BaseAggregation.cs" />

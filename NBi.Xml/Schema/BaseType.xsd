@@ -735,10 +735,11 @@
   <xs:complexType name="summarization-type">
     <xs:sequence>
       <xs:choice>
-        <xs:element name="sum" type="aggregation-type" minOccurs="0" maxOccurs="1"/>
-        <xs:element name="average" type="aggregation-type" minOccurs="0" maxOccurs="1"/>
-        <xs:element name="max" type="aggregation-type" minOccurs="0" maxOccurs="1"/>
-        <xs:element name="min" type="aggregation-type" minOccurs="0" maxOccurs="1"/>
+        <xs:element name="sum" type="column-aggregation-type" minOccurs="0" maxOccurs="1"/>
+        <xs:element name="average" type="column-aggregation-type" minOccurs="0" maxOccurs="1"/>
+        <xs:element name="max" type="column-aggregation-type" minOccurs="0" maxOccurs="1"/>
+        <xs:element name="min" type="column-aggregation-type" minOccurs="0" maxOccurs="1"/>
+        <xs:element name="count" type="aggregation-type" minOccurs="0" maxOccurs="1"/>
         <xs:element name="concatenation" type="concatenation-type" minOccurs="0" maxOccurs="1"/>
       </xs:choice>
       <xs:element name="group-by" type="group-by-type" minOccurs="0" maxOccurs="1"/>
@@ -747,16 +748,22 @@
   <xs:complexType name="aggregation-type">
     <xs:simpleContent>
       <xs:extension base="code-transformation-type">
-        <xs:attribute name="column" use="required" />
         <xs:attribute name="type" type="column-type-enum" use="required" />
         <xs:attribute name="if-empty-series" use="optional" />
         <xs:attribute name="if-missing-values" use="optional" />
       </xs:extension>
     </xs:simpleContent>
   </xs:complexType>
-  <xs:complexType name="concatenation-type">
+  <xs:complexType name="column-aggregation-type">
     <xs:simpleContent>
       <xs:extension base="aggregation-type">
+        <xs:attribute name="column" use="required" />
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="concatenation-type">
+    <xs:simpleContent>
+      <xs:extension base="column-aggregation-type">
         <xs:attribute name="separator" use="required"/>
       </xs:extension>
     </xs:simpleContent>
@@ -1455,6 +1462,7 @@
       <xs:extension base="filter-base-type">
         <xs:choice minOccurs="0" maxOccurs="1">
           <xs:element name="ranking" type="ranking-type"/>
+          <xs:element name="unique" type="unique-type"/>
         </xs:choice>
       </xs:extension>
     </xs:complexContent>
@@ -1470,17 +1478,18 @@
     <xs:attribute name="operand" type="xs:string" use="required"/>
     <xs:attribute name="type" type="column-type-enum"/>
   </xs:complexType>
+  <xs:complexType name="unique-type">
+    <xs:sequence minOccurs="1" maxOccurs="1">
+      <xs:element name="group-by" type="group-by-type" minOccurs="1" maxOccurs="1"/>
+    </xs:sequence>
+  </xs:complexType>
   <xs:complexType name="rank-type">
     <xs:attribute name="count" type="xs:positiveInteger" use="optional"/>
   </xs:complexType>
   <xs:complexType name="group-by-type">
-    <xs:choice>
-      <xs:sequence minOccurs="1" maxOccurs="unbounded">
-        <xs:element name="column" type="definition-column-base-type" minOccurs="0" maxOccurs="unbounded"/>
-      </xs:sequence>
-      <xs:sequence minOccurs="1" maxOccurs="unbounded">
-        <xs:element name="case" type="group-by-case-type"/>
-      </xs:sequence>
+    <xs:choice minOccurs="1" maxOccurs="1">
+        <xs:element name="column" type="definition-column-base-type" minOccurs="1" maxOccurs="unbounded"/>
+        <xs:element name="case" type="group-by-case-type" minOccurs="1" maxOccurs="unbounded"/>
     </xs:choice>
   </xs:complexType>
   <xs:complexType name ="group-by-case-type">
@@ -1725,6 +1734,7 @@
         <xs:element name="project" type="project-type" minOccurs="0" maxOccurs="1"/>
         <xs:element name="project-away" type="project-away-type" minOccurs="0" maxOccurs="1"/>
         <xs:element name="lookup-replace" type="lookup-replace-type" minOccurs="0" maxOccurs="1"/>
+        <xs:element name="merge" type="merge-type" minOccurs="0" maxOccurs="1"/>
       </xs:choice>
     </xs:sequence>
   </xs:complexType>
@@ -1808,6 +1818,11 @@
   <xs:complexType name="project-away-type">
     <xs:sequence>
       <xs:element name="column" type="definition-column-base-type" minOccurs="1" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="merge-type">
+    <xs:sequence>
+      <xs:element name="result-set" type="result-set-type" minOccurs="1" maxOccurs="1"/>
     </xs:sequence>
   </xs:complexType>
   <xs:complexType name="definition-column-base-type">

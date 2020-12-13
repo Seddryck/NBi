@@ -4,12 +4,13 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using NBi.Extensibility;
 using NBi.Core.ResultSet;
 
 namespace NBi.Core.Calculation.Grouping
 {
     public interface IGroupBy
     {
-        IDictionary<KeyCollection, DataTable> Execute(ResultSet.ResultSet resultSet);
+        IDictionary<KeyCollection, DataTable> Execute(IResultSet resultSet);
     }
 }

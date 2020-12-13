@@ -1,5 +1,6 @@
 ﻿using NBi.Core.Query;
 using NBi.Core.Sequence.Resolver;
+using NBi.Extensibility.Resolving;
 using System;
 using System.Collections.Generic;
 using System.Data;

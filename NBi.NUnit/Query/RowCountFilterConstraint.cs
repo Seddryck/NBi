@@ -10,7 +10,7 @@ using NBi.Framework.FailureMessage.Markdown;
 using NBi.Framework;
 using NBi.Core.Configuration.FailureReport;
 using NBi.Core.ResultSet.Filtering;
-using NBi.Core.Variable;
+using NBi.Extensibility;
 
 namespace NBi.NUnit.Query
 {
@@ -20,8 +20,8 @@ namespace NBi.NUnit.Query
         /// Store for the result of the engine's execution
         /// </summary>
         protected IResultSetFilter filter = ResultSetFilter.None;
-        protected ResultSet filterResultSet;
-        protected Func<ResultSet, ResultSet> filterFunction;
+        protected IResultSet filterResultSet;
+        protected Func<IResultSet, IResultSet> filterFunction;
 
         public RowCountFilterConstraint(DifferedConstraint childConstraint, IResultSetFilter filter)
             : base(childConstraint)
@@ -38,7 +38,7 @@ namespace NBi.NUnit.Query
             return msg;
         }
         
-        protected override bool doMatch(ResultSet actual)
+        protected override bool doMatch(IResultSet actual)
         {
             actualResultSet = actual;
             filterResultSet = filterFunction(actualResultSet);

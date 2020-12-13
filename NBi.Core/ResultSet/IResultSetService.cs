@@ -1,15 +1,15 @@
-﻿using NBi.Core.ResultSet.Alteration;
-using System;
+﻿using NBi.Extensibility;
+using NBi.Core.ResultSet.Alteration;
 using System.Collections.Generic;
 using System.Data;
 
 namespace NBi.Core.ResultSet
 {
-    public delegate ResultSet Load();
+    public delegate IResultSet Load();
 
     public interface IResultSetService
     {
-        ResultSet Execute();
+        IResultSet Execute();
 
         IReadOnlyList<Alter> Alterations { get; }
         Load Load { get; }

@@ -1,4 +1,5 @@
-﻿using NBi.Core.Transformation.Transformer.Native;
+﻿using NBi.Extensibility.Resolving;
+using NBi.Core.Transformation.Transformer.Native;
 using System;
 using System.Collections.Generic;
 using System.Linq;

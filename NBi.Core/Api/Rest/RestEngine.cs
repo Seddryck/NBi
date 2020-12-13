@@ -1,5 +1,5 @@
 ﻿using NBi.Core.Api.Authentication;
-using NBi.Core.Scalar.Resolver;
+using NBi.Extensibility.Resolving;
 using RestSharp;
 using System;
 using System.Collections.Generic;

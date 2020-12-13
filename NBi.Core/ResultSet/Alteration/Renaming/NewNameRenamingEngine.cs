@@ -1,5 +1,6 @@
 ﻿using NBi.Core.ResultSet.Alteration.Renaming.Strategies.Missing;
-using NBi.Core.Scalar.Resolver;
+using NBi.Extensibility;
+using NBi.Extensibility.Resolving;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,7 +21,7 @@ namespace NBi.Core.ResultSet.Alteration.Renaming
         public NewNameRenamingEngine(IColumnIdentifier originalIdentification, IScalarResolver<string> newIdentification, IMissingColumnStrategy missingColumnStrategy)
             => (OriginalIdentification, NewIdentification, MissingColumnStrategy) = (originalIdentification, newIdentification, missingColumnStrategy);
 
-        public ResultSet Execute(ResultSet rs)
+        public IResultSet Execute(IResultSet rs)
         {
             var originalColumn = OriginalIdentification.GetColumn(rs.Table);
 

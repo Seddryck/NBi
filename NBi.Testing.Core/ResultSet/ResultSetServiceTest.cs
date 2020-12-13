@@ -1,7 +1,7 @@
 ﻿using Moq;
 using NBi.Core.ResultSet;
-using NBi.Core.ResultSet.Resolver;
 using NBi.Core.Transformation;
+using NBi.Extensibility.Resolving;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;

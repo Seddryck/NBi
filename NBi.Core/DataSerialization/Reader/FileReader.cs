@@ -1,4 +1,4 @@
-﻿using NBi.Core.Scalar.Resolver;
+﻿using NBi.Extensibility.Resolving;
 using NBi.Extensibility;
 using System;
 using System.Collections.Generic;

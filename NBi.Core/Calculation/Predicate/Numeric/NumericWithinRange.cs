@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using NBi.Core.Scalar.Interval;
 using NBi.Core.Scalar.Casting;
-using NBi.Core.Scalar.Resolver;
+using NBi.Extensibility.Resolving;
 
 namespace NBi.Core.Calculation.Predicate.Numeric
 {

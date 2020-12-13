@@ -1,6 +1,7 @@
 ﻿using Moq;
 using NBi.Core.Scalar.Resolver;
 using NBi.Testing.Core.Scalar.Resolver.Resources;
+using NBi.Extensibility.Resolving;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;

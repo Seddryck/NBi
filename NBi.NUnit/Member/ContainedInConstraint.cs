@@ -7,7 +7,7 @@ using NBi.Core.Analysis.Request;
 using NUnit.Framework.Constraints;
 using NUnitCtr = NUnit.Framework.Constraints;
 using NBi.Core.Query;
-using NBi.Core.ResultSet.Resolver;
+using NBi.Extensibility.Resolving;
 
 namespace NBi.NUnit.Member
 {

@@ -48,6 +48,8 @@ namespace NBi.Xml.Items.Calculation
 
         [XmlElement("ranking")]
         public RankingXml Ranking { get; set; }
+        [XmlElement("unique")]
+        public UniqueXml Uniqueness { get; set; }
 
         [XmlElement("combination")]
         public CombinationPredicationXml Combination { get; set; }

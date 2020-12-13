@@ -109,6 +109,8 @@
     <Compile Include="Calculation\Predication\AndCombinationPredicationTest.cs" />
     <Compile Include="Calculation\Predication\OrCombinationPredicationTest.cs" />
     <Compile Include="Calculation\Predication\XOrCombinationPredicationTest.cs" />
+    <Compile Include="ResultSet\Alteration\Merging\CartesianProductEngineTest.cs" />
+    <Compile Include="ResultSet\Filtering\UniquenessFilterTest.cs" />
     <Compile Include="ResultSet\Filtering\PredicationFilterTest.cs" />
     <Compile Include="Calculation\Predicate\CultureSensitivePredicateMatchesTest.cs" />
     <Compile Include="ResultSet\Filtering\GroupByFilterTest.cs" />
@@ -250,7 +252,9 @@
     <Compile Include="Sequence\Transformation\Aggregation\Numeric\MaxTest.cs" />
     <Compile Include="Sequence\Transformation\Aggregation\Numeric\MeanTest.cs" />
     <Compile Include="Sequence\Transformation\Aggregation\Numeric\MinTest.cs" />
+    <Compile Include="Sequence\Transformation\Aggregation\Numeric\CountTest.cs" />
     <Compile Include="Sequence\Transformation\Aggregation\Numeric\SumTest.cs" />
+    <Compile Include="Sequence\Transformation\Aggregation\Text\CountTest.cs" />
     <Compile Include="Sequence\Transformation\Aggregation\Text\ConcatenateTest.cs" />
     <Compile Include="Sequence\Transformation\Strategy\DropStrategyTest.cs" />
     <Compile Include="Sequence\Transformation\Strategy\FailureEmptySeriesStrategyTest.cs" />
@@ -344,7 +348,11 @@
   <ItemGroup>
     <EmbeddedResource Include="DataSerialization\Flattenizer\Resources\PurchaseOrders.json" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Scalar\Resolver\Resources\PurchaseOrders.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

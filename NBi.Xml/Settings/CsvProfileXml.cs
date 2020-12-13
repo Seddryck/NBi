@@ -20,11 +20,12 @@ namespace NBi.Xml.Settings
         { }
 
         public CsvProfileXml(char fieldSeparator, char textQualifier, string recordSeparator)
-        {
-            FieldSeparator = fieldSeparator;
-            TextQualifier = textQualifier;
-            RecordSeparator = recordSeparator;
-        }
+            : this(fieldSeparator, textQualifier, recordSeparator, false, "(empty)", "(null)")
+        { }
+
+        protected CsvProfileXml(char fieldSeparator, char textQualifier, string recordSeparator, bool firstRowHeader, string emptyCell, string missingCell)
+            => (FieldSeparator, TextQualifier, RecordSeparator, FirstRowHeader, EmptyCell, MissingCell)
+                = (fieldSeparator, textQualifier, recordSeparator, firstRowHeader, emptyCell, missingCell);
 
         [XmlAttribute("field-separator")]
         [DefaultValue(";")]

@@ -1,5 +1,4 @@
-﻿using NBi.Core.Calculation;
-using NBi.Core.Calculation.Predicate;
+﻿using NBi.Core.Calculation.Predicate;
 using NBi.Core.Evaluate;
 using NBi.Core.Injection;
 using NBi.Core.ResultSet;
@@ -8,12 +7,12 @@ using NBi.Core.ResultSet.Alteration.Extension;
 using NBi.Core.ResultSet.Alteration.Renaming;
 using NBi.Core.ResultSet.Alteration.Summarization;
 using NBi.Core.ResultSet.Conversion;
-using NBi.Core.ResultSet.Resolver;
 using NBi.Core.Scalar.Conversion;
 using NBi.Core.Transformation;
 using NBi.Core.Variable;
 using NBi.Xml.Settings;
 using NBi.Xml.Systems;
+using NBi.Extensibility.Resolving;
 using System;
 using System.Linq;
 using System.Collections.Generic;
@@ -40,6 +39,8 @@ using NBi.Xml.Items.Calculation.Grouping;
 using NBi.Core.Calculation.Grouping.ColumnBased;
 using NBi.Core.Calculation.Grouping.CaseBased;
 using NBi.Core.Calculation.Predication;
+using NBi.Xml.Items.Alteration.Merging;
+using NBi.Core.ResultSet.Alteration.Merging;
 
 namespace NBi.NUnit.Builder.Helper
 {
@@ -82,6 +83,7 @@ namespace NBi.NUnit.Builder.Helper
                     case ProjectAwayXml x: yield return InstantiateProjectAway(x); break;
                     case ProjectXml x: yield return InstantiateProject(x); break;
                     case LookupReplaceXml x: yield return InstantiateLookupReplace(x, resultSetXml.Settings); break;
+                    case MergeXml x: yield return InstantiateMerging(x, resultSetXml.Settings); break;
                     default: throw new ArgumentException();
                 }
             }
@@ -92,7 +94,7 @@ namespace NBi.NUnit.Builder.Helper
             var context = new Context(Variables);
             var factory = new ResultSetFilterFactory(ServiceLocator);
 
-            if (filterXml.Ranking == null)
+            if (filterXml.Ranking == null && filterXml.Uniqueness==null)
             {
                 var expressions = new List<IColumnExpression>();
                 if (filterXml.Expression != null)
@@ -128,7 +130,7 @@ namespace NBi.NUnit.Builder.Helper
                 }
                 throw new ArgumentException();
             }
-            else
+            else if (filterXml.Ranking != null)
             {
                 var groupByArgs = BuildGroupByArgs(filterXml.Ranking.GroupBy, context);
                 var groupByFactory = new GroupByFactory();
@@ -137,6 +139,18 @@ namespace NBi.NUnit.Builder.Helper
                 var rankingGroupByArgs = new RankingGroupByArgs(groupBy, filterXml.Ranking.Option, filterXml.Ranking.Count, filterXml.Ranking.Operand, filterXml.Ranking.Type);
                 return factory.Instantiate(rankingGroupByArgs, context).Apply;
             }
+
+            else if (filterXml.Uniqueness != null)
+            {
+                var groupByArgs = BuildGroupByArgs(filterXml.Uniqueness.GroupBy, context);
+                var groupByFactory = new GroupByFactory();
+                var groupBy = groupByFactory.Instantiate(groupByArgs);
+
+                var uniquenessArgs = new UniquenessArgs(groupBy);
+                return factory.Instantiate(uniquenessArgs, context).Apply;
+            }
+
+            throw new ArgumentOutOfRangeException();
         }
 
         private IGroupByArgs BuildGroupByArgs(GroupByXml xml, Context context)
@@ -196,6 +210,18 @@ namespace NBi.NUnit.Builder.Helper
             return renamer.Execute;
         }
 
+        private Alter InstantiateMerging(MergeXml mergeXml, SettingsXml settingsXml)
+        {
+            var innerService = new ResultSetServiceBuilder();
+            mergeXml.ResultSet.Settings = settingsXml;
+            innerService.Setup(InstantiateResolver(mergeXml.ResultSet));
+            innerService.Setup(InstantiateAlterations(mergeXml.ResultSet));
+
+            var factory = new MergingFactory();
+            var merger = factory.Instantiate(new CartesianProductArgs(innerService.GetService()));
+            return merger.Execute;
+        }
+
         private Alter InstantiateTransform(TransformXml transformXml)
         {
             var identifierFactory = new ColumnIdentifierFactory();
@@ -212,7 +238,7 @@ namespace NBi.NUnit.Builder.Helper
             var aggregations = new List<ColumnAggregationArgs>()
                     {
                         new ColumnAggregationArgs(
-                            summarizeXml.Aggregation.Identifier,
+                            (summarizeXml.Aggregation as ColumnAggregationXml)?.Identifier,
                             summarizeXml.Aggregation.Function,
                             summarizeXml.Aggregation.ColumnType,
                             summarizeXml.Aggregation.Parameters.Select(x => scalarHelper.InstantiateResolver(summarizeXml.Aggregation.ColumnType, x)).ToList()

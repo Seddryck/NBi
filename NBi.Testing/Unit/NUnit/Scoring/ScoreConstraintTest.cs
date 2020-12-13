@@ -1,13 +1,8 @@
-﻿using System.Data.SqlClient;
-using Moq;
-using NBi.Core.Query;
-using NBi.NUnit.Query;
+﻿using Moq;
 using NUnit.Framework;
-using NBi.Core.Query.Performance;
 using System;
-using NBi.Extensibility.Query;
+using NBi.Extensibility.Resolving;
 using NBi.NUnit.Scoring;
-using NBi.Core.Scalar.Resolver;
 
 namespace NBi.Testing.Unit.NUnit.Query
 {

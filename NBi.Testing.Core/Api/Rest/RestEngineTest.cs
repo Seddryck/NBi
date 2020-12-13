@@ -2,6 +2,7 @@
 using NBi.Core.Api.Rest;
 using NBi.Core.Scalar.Resolver;
 using NUnit.Framework;
+using NBi.Extensibility.Resolving;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -44,22 +45,45 @@ namespace NBi.Testing.Core.Api.Rest
             Assert.That(result, Does.StartWith("{\"count\":"));
         }
 
+
+        //[Test]
+        //public void Execute_Segments_CorrectResponse()
+        //{
+        //    var baseUrl = new LiteralScalarResolver<string>("https://verse.pawelad.xyz/");
+        //    var path = new LiteralScalarResolver<string>("/projects/{project}/");
+        //    var segment = new SegmentRest(
+        //        new LiteralScalarResolver<string>("project"),
+        //        new LiteralScalarResolver<string>("jekyll")
+        //    );
+        //    var parameter = new ParameterRest(
+        //        new LiteralScalarResolver<string>("format"),
+        //        new LiteralScalarResolver<string>("json")
+        //    );
+        //    var engine = new RestEngine(new Anonymous(), baseUrl, path, new[] { parameter }, new[] { segment }, null);
+        //    var result = engine.Execute();
+        //    Assert.That(result, Does.StartWith("{\"latest\":"));
+        //}
+
         [Test]
         public void Execute_Segments_CorrectResponse()
         {
-            var baseUrl = new LiteralScalarResolver<string>("https://verse.pawelad.xyz/");
-            var path = new LiteralScalarResolver<string>("/projects/{project}/");
+            var baseUrl = new LiteralScalarResolver<string>("http://api.icndb.com");
+            var path = new LiteralScalarResolver<string>("/jokes/{id}");
             var segment = new SegmentRest(
-                new LiteralScalarResolver<string>("project"),
-                new LiteralScalarResolver<string>("jekyll")
+                new LiteralScalarResolver<string>("id"),
+                new LiteralScalarResolver<string>("268")
             );
-            var parameter = new ParameterRest(
-                new LiteralScalarResolver<string>("format"),
-                new LiteralScalarResolver<string>("json")
+            var parameter1 = new ParameterRest(
+                new LiteralScalarResolver<string>("firstName"),
+                new LiteralScalarResolver<string>("John")
             );
-            var engine = new RestEngine(new Anonymous(), baseUrl, path, new[] { parameter }, new[] { segment }, null);
+            var parameter2 = new ParameterRest(
+                new LiteralScalarResolver<string>("firstName"),
+                new LiteralScalarResolver<string>("John")
+            );
+            var engine = new RestEngine(new Anonymous(), baseUrl, path, new[] { parameter1, parameter2 }, new[] { segment }, null);
             var result = engine.Execute();
-            Assert.That(result, Does.StartWith("{\"latest\":"));
+            Assert.That(result, Does.StartWith("{ \"type\": \"success\", \"value\": { \"id\": 268,"));
         }
     }
 }

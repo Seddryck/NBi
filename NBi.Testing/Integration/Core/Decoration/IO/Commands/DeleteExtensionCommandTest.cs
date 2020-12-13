@@ -10,6 +10,7 @@ using NBi.Core.Decoration.IO;
 using Moq;
 using NBi.Core.Decoration.IO.Commands;
 using NBi.Core.Scalar.Resolver;
+using NBi.Extensibility.Resolving;
 
 namespace NBi.Testing.Integration.Core.Decoration.IO.Commands
 {

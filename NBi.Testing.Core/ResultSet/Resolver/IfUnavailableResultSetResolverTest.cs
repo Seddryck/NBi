@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using NBi.Core.Injection;
 using NBi.Core.ResultSet;
 using Moq;
+using NBi.Extensibility.Resolving;
 
 namespace NBi.Testing.Core.ResultSet.Resolver
 {

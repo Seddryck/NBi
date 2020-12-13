@@ -32,6 +32,7 @@ namespace NBi.Core.ResultSet.Filtering
             {
                 case PredicationArgs args: return InstantiatePredication(args, context);
                 case RankingGroupByArgs args: return InstantiateRanking(args, context);
+                case UniquenessArgs args: return InstantiateUniqueness(args, context);
                 default: throw new ArgumentOutOfRangeException();
             }
         }
@@ -56,6 +57,9 @@ namespace NBi.Core.ResultSet.Filtering
             var ranking = new RankingFactory().Instantiate(args);
             return new GroupByFilter(ranking, args.GroupBy);
         }
+
+        private IResultSetFilter InstantiateUniqueness(UniquenessArgs args, Context context)
+            => new UniquenessFilter(args.GroupBy);
 
         public IResultSetFilter Instantiate(CombinationOperator combinationOperator, IEnumerable<PredicationArgs> predicationArgs, Context context)
         {

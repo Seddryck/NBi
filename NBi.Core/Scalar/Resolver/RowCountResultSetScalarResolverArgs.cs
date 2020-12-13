@@ -4,13 +4,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using NBi.Extensibility;
 
 namespace NBi.Core.Scalar.Resolver
 {
     public class RowCountResultSetScalarResolverArgs : ProjectionResultSetScalarResolverArgs
     {
         public RowCountResultSetScalarResolverArgs(ResultSetResolverArgs resultSetArgs)
-            : base((ResultSet.ResultSet rs) => rs.Rows.Count, resultSetArgs)
+            : base((IResultSet rs) => rs.Rows.Count, resultSetArgs)
         {
         }
     }

@@ -18,6 +18,7 @@ namespace NBi.GenbiL.Parser
                                     .Or(Template.Parser)
                                     .Or(Variable.Parser)
                                     .Or(Consumable.Parser)
+                                    .Or(CsvProfile.Parser)
                 from terminator in Grammar.Terminator.AtLeastOnce()
                 select sentence
         );

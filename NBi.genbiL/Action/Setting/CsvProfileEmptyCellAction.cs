@@ -7,9 +7,9 @@ using NBi.Xml.Settings;
 
 namespace NBi.GenbiL.Action.Setting
 {
-    public class CsvProfileEmptyCellAction : ISettingAction
+    public class CsvProfileEmptyCellAction : ICsvProfileAction
     {
-        string Value { get; set; }
+        public string Value { get; set; }
 
         public CsvProfileEmptyCellAction(string value)
         {

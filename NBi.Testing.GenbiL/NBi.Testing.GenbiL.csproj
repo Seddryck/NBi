@@ -99,6 +99,7 @@
     <Compile Include="Parser\ConsumableParserTest.cs" />
     <Compile Include="Parser\GrammarParserTest.cs" />
     <Compile Include="Parser\RecipeParserTest.cs" />
+    <Compile Include="Parser\CsvProfileParserTest.cs" />
     <Compile Include="Parser\SettingParserTest.cs" />
     <Compile Include="Parser\SuiteParserTest.cs" />
     <Compile Include="Parser\TemplateParserTest.cs" />

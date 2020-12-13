@@ -7,9 +7,9 @@ using NBi.Xml.Settings;
 
 namespace NBi.GenbiL.Action.Setting
 {
-    public class CsvProfileTextQualifierAction : ISettingAction
+    public class CsvProfileTextQualifierAction : ICsvProfileAction
     {
-        char Value { get; set; }
+        public char Value { get; set; }
 
         public CsvProfileTextQualifierAction(char value)
         {

@@ -106,6 +106,7 @@
     <Compile Include="Action\Setting\CsvProfileRecordSeparatorAction.cs" />
     <Compile Include="Action\Setting\CsvProfileTextQualifierAction.cs" />
     <Compile Include="Action\Setting\IncludeSettingAction.cs" />
+    <Compile Include="Action\Setting\ICsvProfile.cs" />
     <Compile Include="Action\Setting\ISettingAction.cs" />
     <Compile Include="Action\Setting\ParameterActionFactory.cs" />
     <Compile Include="Action\Setting\ParallelizeQueriesAction.cs" />
@@ -135,6 +136,7 @@
     <Compile Include="Parser\Action.cs" />
     <Compile Include="Parser\Consumable.cs" />
     <Compile Include="Action\DirectionType.cs" />
+    <Compile Include="Parser\CsvProfile.cs" />
     <Compile Include="Parser\Valuable\Column.cs" />
     <Compile Include="Parser\Comment.cs" />
     <Compile Include="Parser\Valuable\IValuable.cs" />

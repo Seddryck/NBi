@@ -7,9 +7,9 @@ using NBi.Xml.Settings;
 
 namespace NBi.GenbiL.Action.Setting
 {
-    public class CsvProfileFirstRowHeaderAction : ISettingAction
+    public class CsvProfileFirstRowHeaderAction : ICsvProfileAction
     {
-        bool Value { get; set; }
+        public bool Value { get; set; }
 
         public CsvProfileFirstRowHeaderAction(bool value)
         {

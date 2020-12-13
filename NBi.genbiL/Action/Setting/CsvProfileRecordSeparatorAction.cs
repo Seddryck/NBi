@@ -7,9 +7,9 @@ using NBi.Xml.Settings;
 
 namespace NBi.GenbiL.Action.Setting
 {
-    public class CsvProfileRecordSeparatorAction : ISettingAction
+    public class CsvProfileRecordSeparatorAction : ICsvProfileAction
     {
-        string Value { get; set; }
+        public string Value { get; set; }
 
         public CsvProfileRecordSeparatorAction(string value)
         {

@@ -1735,6 +1735,7 @@
         <xs:element name="project-away" type="project-away-type" minOccurs="0" maxOccurs="1"/>
         <xs:element name="lookup-replace" type="lookup-replace-type" minOccurs="0" maxOccurs="1"/>
         <xs:element name="merge" type="merge-type" minOccurs="0" maxOccurs="1"/>
+        <xs:element name="duplicate" type="duplicate-type" minOccurs="0" maxOccurs="1"/>
       </xs:choice>
     </xs:sequence>
   </xs:complexType>
@@ -1825,6 +1826,24 @@
       <xs:element name="result-set" type="result-set-type" minOccurs="1" maxOccurs="1"/>
     </xs:sequence>
   </xs:complexType>
+  <xs:complexType name="duplicate-type">
+    <xs:sequence>
+      <xs:element name="predicate" type="predicate-type" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="times" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="output" minOccurs="0" maxOccurs="unbounded">
+        <xs:complexType>
+          <xs:attribute name="name" use="required" type="xs:string"/>
+          <xs:attribute name="value" use="required" type="output-value-enum"/>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:simpleType name="output-value-enum">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="index"/>
+      <xs:enumeration value="total"/>
+    </xs:restriction>
+  </xs:simpleType>
   <xs:complexType name="definition-column-base-type">
     <xs:attribute name="identifier" type="xs:string"/>
     <xs:attribute name="type" type="column-type-enum" use="optional"/>

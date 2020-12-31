@@ -23,6 +23,7 @@ using NBi.Xml.Variables.Sequence;
 using NBi.Xml.Items.Hierarchical.Xml;
 using NBi.Xml.Items.Hierarchical.Json;
 using NBi.Xml.Items.Alteration.Merging;
+using NBi.Xml.Items.Alteration.Duplication;
 
 namespace NBi.Xml.Systems
 {
@@ -129,6 +130,7 @@ namespace NBi.Xml.Systems
             XmlArrayItem(Type = typeof(ProjectAwayXml), ElementName = "project-away"),
             XmlArrayItem(Type = typeof(LookupReplaceXml), ElementName = "lookup-replace"),
             XmlArrayItem(Type = typeof(MergeXml), ElementName = "merge"),
+            XmlArrayItem(Type = typeof(DuplicateXml), ElementName = "duplicate"),
         ]
         public virtual List<AlterationXml> Alterations { get; set; }
 

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 
 namespace NBi.Core.ResultSet.Alteration.Duplication
 {
@@ -17,7 +18,9 @@ namespace NBi.Core.ResultSet.Alteration.Duplication
 
     public enum OutputValue
     {
+        [XmlEnum(Name = "index")]
         Index = 0,
+        [XmlEnum(Name = "total")]
         Total = 1
     }
 }

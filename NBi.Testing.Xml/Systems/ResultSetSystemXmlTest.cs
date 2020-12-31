@@ -27,6 +27,8 @@ using NBi.Xml.Items.Alteration.Lookup;
 using NBi.Xml.Items.ResultSet.Lookup;
 using NBi.Xml.Variables.Sequence;
 using NBi.Xml.Items.Alteration.Merging;
+using NBi.Xml.Items.Alteration.Duplication;
+using NBi.Core.ResultSet.Alteration.Duplication;
 
 namespace NBi.Testing.Xml.Unit.Systems
 {
@@ -402,9 +404,42 @@ namespace NBi.Testing.Xml.Unit.Systems
         }
 
         [Test]
-        public void Deserialize_SampleFile_EmptyResultSet()
+        public void Deserialize_SampleFile_AlterationDuplicate()
         {
             int testNr = 18;
+
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            var ts = DeserializeSample();
+
+            // Check the properties of the object.
+            Assert.That(ts.Tests[testNr].Systems[0], Is.AssignableTo<ResultSetSystemXml>());
+            var rs = ts.Tests[testNr].Systems[0] as ResultSetSystemXml;
+
+            Assert.That(rs.Alterations, Is.Not.Null);
+            Assert.That(rs.Alterations, Has.Count.EqualTo(1));
+
+            Assert.That(rs.Alterations[0], Is.Not.Null);
+            Assert.That(rs.Alterations[0], Is.TypeOf<DuplicateXml>());
+            var duplicate = rs.Alterations[0] as DuplicateXml;
+
+            Assert.That(duplicate.Predication, Is.Not.Null);
+            Assert.That(duplicate.Predication, Is.TypeOf<SinglePredicationXml>());
+
+            Assert.That(duplicate.Times, Is.Not.Null);
+            Assert.That(duplicate.Times, Is.EqualTo("@myVar"));
+
+            Assert.That(duplicate.Outputs, Is.Not.Null);
+            Assert.That(duplicate.Outputs.Count, Is.EqualTo(2));
+            Assert.That(duplicate.Outputs[0].Identifier.Label, Is.EqualTo("[myIndex]"));
+            Assert.That(duplicate.Outputs[0].Value, Is.EqualTo(OutputValue.Index));
+            Assert.That(duplicate.Outputs[1].Identifier.Label, Is.EqualTo("[myTotal]"));
+            Assert.That(duplicate.Outputs[1].Value, Is.EqualTo(OutputValue.Total));
+        }
+
+        [Test]
+        public void Deserialize_SampleFile_EmptyResultSet()
+        {
+            int testNr = 19;
 
             // Create an instance of the XmlSerializer specifying type and namespace.
             var ts = DeserializeSample();
@@ -427,7 +462,7 @@ namespace NBi.Testing.Xml.Unit.Systems
         [Test]
         public void Deserialize_SampleFile_IfUnavailable()
         {
-            int testNr = 19;
+            int testNr = 20;
 
             // Create an instance of the XmlSerializer specifying type and namespace.
             var ts = DeserializeSample();

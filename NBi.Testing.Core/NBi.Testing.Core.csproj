@@ -109,6 +109,8 @@
     <Compile Include="Calculation\Predication\AndCombinationPredicationTest.cs" />
     <Compile Include="Calculation\Predication\OrCombinationPredicationTest.cs" />
     <Compile Include="Calculation\Predication\XOrCombinationPredicationTest.cs" />
+    <Compile Include="ResultSet\Alteration\Duplication\DuplicationFactoryTest.cs" />
+    <Compile Include="ResultSet\Alteration\Duplication\DuplicateEngineTest.cs" />
     <Compile Include="ResultSet\Alteration\Merging\CartesianProductEngineTest.cs" />
     <Compile Include="ResultSet\Filtering\UniquenessFilterTest.cs" />
     <Compile Include="ResultSet\Filtering\PredicationFilterTest.cs" />

@@ -14,7 +14,9 @@ namespace NBi.Core.Calculation.Predicate
 {
     public class PredicateFactory
     {
-        private IPredicate Instantiate(ComparerType comparerType, ColumnType columnType, bool not, IResolver reference, string culture, StringComparison stringComparison, object secondOperand)
+        internal IPredicate Instantiate(ComparerType comparerType, ColumnType columnType, bool not, IResolver reference)
+            => Instantiate(comparerType, columnType, not, reference, "en-us", StringComparison.OrdinalIgnoreCase, null);
+        internal IPredicate Instantiate(ComparerType comparerType, ColumnType columnType, bool not, IResolver reference, string culture, StringComparison stringComparison, object secondOperand)
         {
             switch (columnType)
             {

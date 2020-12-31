@@ -1,4 +1,6 @@
-﻿using NBi.Extensibility.Resolving;
+﻿using NBi.Core.ResultSet;
+using NBi.Core.Variable;
+using NBi.Extensibility.Resolving;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -10,15 +12,18 @@ namespace NBi.Core.Scalar.Resolver
 {
     class ContextScalarResolver<T> : IScalarResolver<T>
     {
-        private ContextScalarResolverArgs Args { get; }
+        private Context Context { get; }
+        private IColumnIdentifier ColumnIdentifier { get; }
 
         public ContextScalarResolver(ContextScalarResolverArgs args)
-            => Args = args;
+            => (Context, ColumnIdentifier) = (args.Context, args.ColumnIdentifier);
 
-        
+        internal ContextScalarResolver(Context context, IColumnIdentifier columnIdentifier)
+            => (Context, ColumnIdentifier) = (context, columnIdentifier);
+
         public T Execute()
         {
-            var evaluation = Args.Context.CurrentRow.GetValue(Args.ColumnIdentifier);
+            var evaluation = Context.CurrentRow.GetValue(ColumnIdentifier);
             var typedEvaluation = StrongTypingVariable(evaluation);
             return (T)typedEvaluation;
         }

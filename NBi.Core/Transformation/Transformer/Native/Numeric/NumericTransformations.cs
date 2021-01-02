@@ -136,6 +136,15 @@ namespace NBi.Core.Transformation.Transformer.Native
             => value * Value.Execute();
     }
 
+    class NumericToDivide : AbstractNumericArithmetic
+    {
+        public NumericToDivide(IScalarResolver<decimal> value)
+            : base(value) { }
+
+        protected override decimal EvaluateNumeric(decimal value)
+            => value / Value.Execute();
+    }
+
     class NumericToInvert : AbstractNumericTransformation
     {
         public NumericToInvert()

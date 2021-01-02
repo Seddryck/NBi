@@ -716,6 +716,7 @@
       <xs:enumeration value="numeric-to-add("/>
       <xs:enumeration value="numeric-to-subtract("/>
       <xs:enumeration value="numeric-to-multiply("/>
+      <xs:enumeration value="numeric-to-divide("/>
       <xs:enumeration value="numeric-to-invert"/>
       <xs:enumeration value="path-to-filename"/>
       <xs:enumeration value="path-to-filename-without-extension"/>

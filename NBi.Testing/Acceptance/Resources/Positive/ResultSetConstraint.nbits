@@ -57,7 +57,7 @@
     </variable>
   </variables>
   <group name="asserts">
-    <test name="Csv equal to embedded result-set" uid="0001">
+    <!--<test name="Csv equal to embedded result-set" uid="0001">
       <system-under-test>
         <resultSet file="..\Csv\ResellerOrderCountByYearBefore2006.csv"/>
       </system-under-test>
@@ -624,7 +624,7 @@
         </equal-to>
       </assert>
     </test>
-    <test name="Result-set is the cartesian product of two result-sets" uid="141">
+    <test name="Result-set is the cartesian product of two result-sets" uid="142">
       <system-under-test>
         <result-set>
           <sequence type="numeric">
@@ -690,8 +690,86 @@
           </result-set>
         </equal-to>
       </assert>
+    </test>-->
+    <test name="Result-set is the duplicated of a result-set" uid="143">
+      <system-under-test>
+        <result-set>
+          <row>
+            <cell>Belgium</cell>
+            <cell>Semester</cell>
+            <cell>2020H1</cell>
+            <cell>150</cell>
+          </row>
+          <row>
+            <cell>Belgium</cell>
+            <cell>Semester</cell>
+            <cell>2020H2</cell>
+            <cell>150</cell>
+          </row>
+          <row>
+            <cell>France</cell>
+            <cell>Year</cell>
+            <cell>2020</cell>
+            <cell>408</cell>
+          </row>
+          <alteration>
+            <duplicate>
+              <predicate operand="#1" type="text">
+                <equal>Year</equal>
+              </predicate>
+              <times>1</times>
+              <output name="Index" value="index"/>
+              <output name="Total" value="total"/>
+            </duplicate>
+          </alteration>
+        </result-set>
+      </system-under-test>
+      <assert>
+        <equal-to>
+          <column index="0" role="key" type="text"/>
+          <column index="1" role="key" type="text"/>
+          <column index="2" role="key" type="text"/>
+          <column index="3" role="value" type="numeric"/>
+          <column index="4" role="key" type="numeric"/>
+          <column index="5" role="value" type="numeric"/>
+          <result-set>
+            <row>
+              <cell>Belgium</cell>
+              <cell>Semester</cell>
+              <cell>2020H1</cell>
+              <cell>150</cell>
+              <cell>0</cell>
+              <cell>1</cell>
+            </row>
+            <row>
+              <cell>Belgium</cell>
+              <cell>Semester</cell>
+              <cell>2020H2</cell>
+              <cell>150</cell>
+              <cell>0</cell>
+              <cell>1</cell>
+            </row>
+            <row>
+              <cell>France</cell>
+              <cell>Year</cell>
+              <cell>2020</cell>
+              <cell>408</cell>
+              <cell>0</cell>
+              <cell>2</cell>
+            </row>
+            <row>
+              <cell>France</cell>
+              <cell>Year</cell>
+              <cell>2020</cell>
+              <cell>408</cell>
+              <cell>1</cell>
+              <cell>2</cell>
+            </row>
+          </result-set>
+        </equal-to>
+      </assert>
     </test>
-    <test name="Result-set is the xml-source" uid="0150">
+    <!--<test name="Result-set is the xml-source" uid="0150">
       <system-under-test>
         <result-set>
           <xml-source>
@@ -2473,6 +2551,6 @@
           </result-set>
         </equal-to>
       </assert>
-    </test>
+    </test>-->
   </group>
 </testSuite>

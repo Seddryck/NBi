@@ -56,6 +56,7 @@ The list of native transformations is available here under and is organized by t
 * ```numeric-to-subtract(decr)```: subtract *decr* to the current value
 * ```numeric-to-subtract(decr, times)```: subtract *decr* to the current value several *times*. If *times* is zero, return current value. *times* must be an integer value.
 * ```numeric-to-multiply(factor)```: multiply the current value by *factor*
+* ```numeric-to-divide(factor)```: divide the current value by *factor*
 * ```numeric-to-invert```: invert the current value (equivalent to *1/current value*)
 
 ### DateTime

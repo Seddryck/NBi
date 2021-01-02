@@ -203,6 +203,7 @@ namespace NBi.Testing.Core.Transformation.Transformer
         [TestCase("numeric-to-subtract(10)")]
         [TestCase("numeric-to-subtract(10, 3)")]
         [TestCase("numeric-to-multiply(10)")]
+        [TestCase("numeric-to-divide(12)")]
         [TestCase("numeric-to-invert")]
         [TestCase("path-to-filename")]
         [TestCase("path-to-filename-without-extension")]

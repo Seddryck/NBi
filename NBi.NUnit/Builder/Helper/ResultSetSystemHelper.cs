@@ -41,6 +41,8 @@ using NBi.Core.Calculation.Grouping.CaseBased;
 using NBi.Core.Calculation.Predication;
 using NBi.Xml.Items.Alteration.Merging;
 using NBi.Core.ResultSet.Alteration.Merging;
+using NBi.Xml.Items.Alteration.Duplication;
+using NBi.Core.ResultSet.Alteration.Duplication;
 
 namespace NBi.NUnit.Builder.Helper
 {
@@ -84,6 +86,7 @@ namespace NBi.NUnit.Builder.Helper
                     case ProjectXml x: yield return InstantiateProject(x); break;
                     case LookupReplaceXml x: yield return InstantiateLookupReplace(x, resultSetXml.Settings); break;
                     case MergeXml x: yield return InstantiateMerging(x, resultSetXml.Settings); break;
+                    case DuplicateXml x: yield return InstantiateDuplicate(x); break;
                     default: throw new ArgumentException();
                 }
             }
@@ -94,7 +97,7 @@ namespace NBi.NUnit.Builder.Helper
             var context = new Context(Variables);
             var factory = new ResultSetFilterFactory(ServiceLocator);
 
-            if (filterXml.Ranking == null && filterXml.Uniqueness==null)
+            if (filterXml.Ranking == null && filterXml.Uniqueness == null)
             {
                 var expressions = new List<IColumnExpression>();
                 if (filterXml.Expression != null)
@@ -285,6 +288,38 @@ namespace NBi.NUnit.Builder.Helper
             var factory = new ProjectionFactory();
             var project = factory.Instantiate(new ProjectAwayArgs(projectXml.Columns.Select(x => x.Identifier)));
             return project.Execute;
+        }
+
+        private Alter InstantiateDuplicate(DuplicateXml duplicateXml)
+        {
+            var context = new Context(Variables);
+
+            //Predication
+            var predicationFactory = new PredicationFactory();
+            var predication = predicationFactory.True;
+            if (duplicateXml.Predication != null)
+            {
+                var helper = new PredicateArgsBuilder(ServiceLocator, context);
+                var predicateArgs = helper.Execute(duplicateXml.Predication.ColumnType, duplicateXml.Predication.Predicate);
+                var predicateFactory = new PredicateFactory();
+                var predicate = predicateFactory.Instantiate(predicateArgs);
+
+                predication = predicationFactory.Instantiate(predicate, duplicateXml.Predication.Operand);
+            }
+
+            //Times
+            var times = new ScalarHelper(ServiceLocator, context).InstantiateResolver<int>(duplicateXml.Times);
+
+            //Outputs
+            var outputs = new List<OutputArgs>();
+            foreach (var outputXml in duplicateXml.Outputs)
+                outputs.Add(new OutputArgs(outputXml.NameSerializer, outputXml.Value));
+
+            //Duplicate
+            var args = new DuplicateArgs(predication, times, outputs);
+            var factory = new DuplicationFactory(ServiceLocator, context);
+            var duplicate = factory.Instantiate(args);
+            return duplicate.Execute;
         }
 
         private Alter InstantiateLookupReplace(LookupReplaceXml lookupReplaceXml, SettingsXml settingsXml)

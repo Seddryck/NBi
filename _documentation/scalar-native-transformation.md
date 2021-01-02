@@ -34,12 +34,12 @@ The list of native transformations is available here under and is organized by t
 * ```text-to-token-count```: returns the count of tokens. A token is considered as one or more letter or digit or hyphen seperated by one or more whitespace. If the current value is ```null``` or ```empty``` or ```blank```, it returns 0.
 * ```text-to-prefix(string)```: Append the value of *string* before the current value. If the current value is ```null```, the result will be ```null```.
 * ```text-to-suffix(string)```: Append the value of *string* after the current value. If the current value is ```null```, the result will be ```null```.
-* ```text-to-first-chars(length)```: if the text is longer than the specified length, take the last characters.
+* ```text-to-first-chars(length)```: if the text is longer than the specified length, take the first characters.
 * ```text-to-last-chars(length)```: if the text is longer than the specified length, take the last characters.
 * ```text-to-skip-first-chars(length)```: returns the text except the *length* first characters. If the text's length is less than the specified length returns an empty string.
 * ```text-to-skip-last-chars(length)```: returns the text except the *length* last characters. If the text's length is less than the specified length returns an empty string.
 * ```text-to-pad-left(length, character)```: if the text is shorter than the specified length, add the specified character at the beginning of the text until the length of this text is equal to the expected length.
-* ```text-to-pad-left(length, character)```: if the text is shorter than the specified length, add the specified character at the end of the text until the length of this text is equal to the expected length.
+* ```text-to-pad-right(length, character)```: if the text is shorter than the specified length, add the specified character at the end of the text until the length of this text is equal to the expected length.
 * ```text-to-dateTime(format)``` and ```text-to-dateTime(format, culture)``` returns a dateTime from the text value after parsing it with the *format* provided as argument. If the format includes day or month names, it could be useful to specify the *culture*.
 
 ### Numeric

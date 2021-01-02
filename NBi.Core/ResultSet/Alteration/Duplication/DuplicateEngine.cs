@@ -40,19 +40,22 @@ namespace NBi.Core.ResultSet.Alteration.Duplication
             foreach (DataRow row in rs.Rows)
             {
                 Context.Switch(row);
+                var isDuplicated = Predication.Execute(Context);
                 var times = Times.Execute();
 
                 newTable.ImportRow(row);
                 foreach (var output in Outputs)
-                    newTable.Rows[newTable.Rows.Count - 1][output.Name] = output.Value == OutputValue.Total ? times : 0;
+                    newTable.Rows[newTable.Rows.Count - 1][output.Name] = output.Value == OutputValue.Total 
+                        ? times * Convert.ToInt32(isDuplicated) + 1
+                        : 0;
 
-                if (Predication.Execute(Context))
+                if (isDuplicated)
                 {
                     for (int i = 0; i < times; i++)
                     {
                         newTable.ImportRow(row);
                         foreach (var output in Outputs)
-                            newTable.Rows[newTable.Rows.Count - 1][output.Name] = output.Value == OutputValue.Total ? times : i + 1;
+                            newTable.Rows[newTable.Rows.Count - 1][output.Name] = output.Value == OutputValue.Total ? times + 1 : i + 1;
                     }
                 }
             }

@@ -135,6 +135,39 @@ namespace NBi.Testing.Core.ResultSet.Alteration.Duplication
         }
 
         [Test]
+        public void Execute_NoPredicationTimesEqualOneWithOutput_CorrectTotal()
+        {
+            var args = new ObjectsResultSetResolverArgs(new[] { new object[] { "Alpha", 1, 2 }, new object[] { "Beta", 3, 2 }, new object[] { "Gamma", 5, 7 } });
+            var resolver = new ObjectsResultSetResolver(args);
+            var rs = resolver.Execute();
+
+            var context = new Context(null);
+            var duplicator = new DuplicateEngine(
+               new ServiceLocator(),
+               context,
+               new PredicationFactory().Instantiate(
+                        new PredicateFactory().Instantiate(
+                            NBi.Core.Calculation.ComparerType.LessThan, ColumnType.Numeric, false, new LiteralScalarResolver<int>(4)
+                        )
+                    , new ColumnOrdinalIdentifier(1)),
+                new ContextScalarResolver<int>(context, new ColumnOrdinalIdentifier(2)),
+                new List<OutputArgs>() { new OutputArgs("Total", OutputValue.Total) }
+                );
+            var newRs = duplicator.Execute(rs);
+
+            Assert.That(newRs.Columns.Count, Is.EqualTo(4));
+            Assert.That(newRs.Columns[3].ColumnName, Is.EqualTo("Total"));
+            Assert.That(newRs.Rows.Count, Is.EqualTo(7));
+            Assert.That(newRs.Rows[0][3], Is.EqualTo(3));
+            Assert.That(newRs.Rows[1][3], Is.EqualTo(3));
+            Assert.That(newRs.Rows[2][3], Is.EqualTo(3));
+            Assert.That(newRs.Rows[3][3], Is.EqualTo(3));
+            Assert.That(newRs.Rows[4][3], Is.EqualTo(3));
+            Assert.That(newRs.Rows[5][3], Is.EqualTo(3));
+            Assert.That(newRs.Rows[6][3], Is.EqualTo(1));
+        }
+
+        [Test]
         [TestCase(1000)]
         [TestCase(10000)]
         [TestCase(100000)]

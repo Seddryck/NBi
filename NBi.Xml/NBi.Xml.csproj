@@ -162,6 +162,7 @@
     <Compile Include="Items\Alteration\Duplication\DuplicateXml.cs" />
     <Compile Include="Items\Alteration\Duplication\OutputXml.cs" />
     <Compile Include="Items\Alteration\Merging\MergeXml.cs" />
+    <Compile Include="Items\Alteration\Merging\UnionXml.cs" />
     <Compile Include="Items\Alteration\Projection\ProjectXml.cs" />
     <Compile Include="Items\Alteration\Projection\AbstractProjectionXml.cs" />
     <Compile Include="Items\Alteration\Lookup\LookupReplaceXml.cs" />

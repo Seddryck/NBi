@@ -1,5 +1,6 @@
 ﻿using NBi.Core.ResultSet;
 using NBi.Core.ResultSet.Alteration.Duplication;
+using NBi.Core.ResultSet.Alteration.Merging;
 using NBi.Core.Transformation;
 using NBi.Xml;
 using NBi.Xml.Items;
@@ -399,9 +400,32 @@ namespace NBi.Testing.Xml.Unit.Systems
         }
 
         [Test]
-        public void Deserialize_SampleFile_AlterationDuplicate()
+        public void Deserialize_SampleFile_AlterationUnion()
         {
             int testNr = 18;
+
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            var ts = DeserializeSample();
+
+            // Check the properties of the object.
+            Assert.That(ts.Tests[testNr].Systems[0], Is.AssignableTo<ResultSetSystemXml>());
+            var rs = ts.Tests[testNr].Systems[0] as ResultSetSystemXml;
+
+            Assert.That(rs.Alterations, Is.Not.Null);
+            Assert.That(rs.Alterations, Has.Count.EqualTo(1));
+
+            Assert.That(rs.Alterations[0], Is.Not.Null);
+            Assert.That(rs.Alterations[0], Is.TypeOf<UnionXml>());
+            var union = rs.Alterations[0] as UnionXml;
+
+            Assert.That(union.ResultSet, Is.Not.Null);
+            Assert.That(union.ColumnIdentity, Is.EqualTo(ColumnIdentity.Name));
+        }
+
+        [Test]
+        public void Deserialize_SampleFile_AlterationDuplicate()
+        {
+            int testNr = 19;
 
             // Create an instance of the XmlSerializer specifying type and namespace.
             var ts = DeserializeSample();
@@ -445,7 +469,7 @@ namespace NBi.Testing.Xml.Unit.Systems
         [Test]
         public void Deserialize_SampleFile_EmptyResultSet()
         {
-            int testNr = 19;
+            int testNr = 20;
 
             // Create an instance of the XmlSerializer specifying type and namespace.
             var ts = DeserializeSample();
@@ -468,7 +492,7 @@ namespace NBi.Testing.Xml.Unit.Systems
         [Test]
         public void Deserialize_SampleFile_IfUnavailable()
         {
-            int testNr = 20;
+            int testNr = 21;
 
             // Create an instance of the XmlSerializer specifying type and namespace.
             var ts = DeserializeSample();

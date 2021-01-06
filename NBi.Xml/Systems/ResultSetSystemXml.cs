@@ -130,6 +130,7 @@ namespace NBi.Xml.Systems
             XmlArrayItem(Type = typeof(ProjectAwayXml), ElementName = "project-away"),
             XmlArrayItem(Type = typeof(LookupReplaceXml), ElementName = "lookup-replace"),
             XmlArrayItem(Type = typeof(MergeXml), ElementName = "merge"),
+            XmlArrayItem(Type = typeof(UnionXml), ElementName = "union"),
             XmlArrayItem(Type = typeof(DuplicateXml), ElementName = "duplicate"),
         ]
         public virtual List<AlterationXml> Alterations { get; set; }

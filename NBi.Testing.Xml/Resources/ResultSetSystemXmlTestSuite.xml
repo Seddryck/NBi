@@ -306,7 +306,35 @@
       </equal-to>
     </assert>
   </test>
-  <test name="Alteration has a duplicate" uid="0018">
+  <test name="Alteration has a union" uid="0018">
+    <system-under-test>
+      <result-set>
+        <query>
+          <report path="/path/" name="MyReport" dataset="MyDataSet"/>
+        </query>
+        <alteration>
+          <union column-identity="name">
+            <result-set>
+              <row>
+                <cell>A</cell>
+                <cell>alpha</cell>
+              </row>
+              <row>
+                <cell>B</cell>
+                <cell>beta</cell>
+              </row>
+            </result-set>
+          </union>
+        </alteration>
+      </result-set>
+    </system-under-test>
+    <assert>
+      <equal-to>
+        <resultSet file="..\Csv\ResellerOrderCountByYearBefore2006.csv"/>
+      </equal-to>
+    </assert>
+  </test>
+  <test name="Alteration has a duplicate" uid="0019">
     <system-under-test>
       <result-set>
         <query>
@@ -340,7 +368,7 @@
       </equal-to>
     </assert>
   </test>
-  <test name="Result-set is an empty result-set" uid="0019">
+  <test name="Result-set is an empty result-set" uid="0020">
     <system-under-test>
       <result-set>
         <empty column-count="4">
@@ -355,7 +383,7 @@
       </equal-to>
     </assert>
   </test>
-  <test name="Result-set has an if-unavailable" uid="0020">
+  <test name="Result-set has an if-unavailable" uid="0021">
     <system-under-test>
       <result-set>
         <xml-source>

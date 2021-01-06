@@ -1736,6 +1736,7 @@
         <xs:element name="project-away" type="project-away-type" minOccurs="0" maxOccurs="1"/>
         <xs:element name="lookup-replace" type="lookup-replace-type" minOccurs="0" maxOccurs="1"/>
         <xs:element name="merge" type="merge-type" minOccurs="0" maxOccurs="1"/>
+        <xs:element name="union" type="union-type" minOccurs="0" maxOccurs="1"/>
         <xs:element name="duplicate" type="duplicate-type" minOccurs="0" maxOccurs="1"/>
       </xs:choice>
     </xs:sequence>
@@ -1827,6 +1828,18 @@
       <xs:element name="result-set" type="result-set-type" minOccurs="1" maxOccurs="1"/>
     </xs:sequence>
   </xs:complexType>
+  <xs:complexType name="union-type">
+    <xs:sequence>
+      <xs:element name="result-set" type="result-set-type" minOccurs="1" maxOccurs="1"/>
+    </xs:sequence>
+    <xs:attribute name="column-identity" type="column-identity-enum" use="optional"/>
+  </xs:complexType>
+  <xs:simpleType name="column-identity-enum">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="ordinal"/>
+      <xs:enumeration value="name"/>
+    </xs:restriction>
+  </xs:simpleType>
   <xs:complexType name="duplicate-type">
     <xs:sequence>
       <xs:element name="predicate" type="predicate-type" minOccurs="0" maxOccurs="1"/>

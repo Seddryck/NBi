@@ -12,6 +12,13 @@ namespace NBi.Core.ResultSet.Alteration.Merging
         {
             switch (args)
             {
+                case UnionArgs x:
+                    switch (x.Identity)
+                    {
+                        case ColumnIdentity.Ordinal: return new UnionByOrdinalEngine(x.ResultSetResolver);
+                        case ColumnIdentity.Name: return new UnionByNameEngine(x.ResultSetResolver);
+                        default: throw new NotImplementedException();
+                    }
                 case CartesianProductArgs x: return new CartesianProductEngine(x);
                 default: throw new ArgumentException();
             }

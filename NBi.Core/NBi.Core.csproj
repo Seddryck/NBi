@@ -192,6 +192,9 @@
     <Compile Include="ResultSet\Alteration\Merging\IMergingArgs.cs" />
     <Compile Include="ResultSet\Alteration\Merging\IMergingEngine.cs" />
     <Compile Include="ResultSet\Alteration\Merging\MergingFactory.cs" />
+    <Compile Include="ResultSet\Alteration\Merging\UnionArgs.cs" />
+    <Compile Include="ResultSet\Alteration\Merging\UnionByOrdinalEngine.cs" />
+    <Compile Include="ResultSet\Alteration\Merging\UnionByNameEngine.cs" />
     <Compile Include="ResultSet\Filtering\PredicationArgs.cs" />
     <Compile Include="ResultSet\Filtering\IFilteringArgs.cs" />
     <Compile Include="Calculation\Predication\AndCombinationPredication.cs" />

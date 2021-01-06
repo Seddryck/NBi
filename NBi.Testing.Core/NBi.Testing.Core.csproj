@@ -112,6 +112,7 @@
     <Compile Include="ResultSet\Alteration\Duplication\DuplicationFactoryTest.cs" />
     <Compile Include="ResultSet\Alteration\Duplication\DuplicateEngineTest.cs" />
     <Compile Include="ResultSet\Alteration\Merging\CartesianProductEngineTest.cs" />
+    <Compile Include="ResultSet\Alteration\Merging\UnionEngineTest.cs" />
     <Compile Include="ResultSet\Filtering\UniquenessFilterTest.cs" />
     <Compile Include="ResultSet\Filtering\PredicationFilterTest.cs" />
     <Compile Include="Calculation\Predicate\CultureSensitivePredicateMatchesTest.cs" />

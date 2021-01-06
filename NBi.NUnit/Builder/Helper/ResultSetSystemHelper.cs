@@ -221,7 +221,15 @@ namespace NBi.NUnit.Builder.Helper
             innerService.Setup(InstantiateAlterations(mergeXml.ResultSet));
 
             var factory = new MergingFactory();
-            var merger = factory.Instantiate(new CartesianProductArgs(innerService.GetService()));
+
+            IMergingArgs args;
+            switch (mergeXml)
+            {
+                case UnionXml union: args = new UnionArgs(innerService.GetService(), union.ColumnIdentity); break;
+                default: args = new CartesianProductArgs(innerService.GetService()); break;
+            }
+
+            var merger = factory.Instantiate(args);
             return merger.Execute;
         }
 

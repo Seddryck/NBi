@@ -691,7 +691,59 @@
         </equal-to>
       </assert>
     </test>
-    <test name="Result-set is the duplicated of a result-set" uid="143">
+    <test name="Result-set is the cartesian product of two result-sets" uid="143">
+      <system-under-test>
+        <result-set>
+          <row>
+            <cell>be</cell>
+            <cell>Belgium</cell>
+            <cell>Brussels</cell>
+          </row>
+          <row>
+            <cell>fr</cell>
+            <cell>France</cell>
+            <cell>Paris</cell>
+          </row>
+          <alteration>
+            <union>
+              <result-set>
+                <row>
+                  <cell>de</cell>
+                  <cell>Germany</cell>
+                  <cell>Berlin</cell>
+                  <cell>Bonn</cell>
+                </row>
+              </result-set>
+            </union>
+          </alteration>
+        </result-set>
+      </system-under-test>
+      <assert>
+        <equal-to keys="first" values-default-type="text">
+          <result-set>
+            <row>
+              <cell>be</cell>
+              <cell>Belgium</cell>
+              <cell>Brussels</cell>
+              <cell/>
+            </row>
+            <row>
+              <cell>fr</cell>
+              <cell>France</cell>
+              <cell>Paris</cell>
+              <cell/>
+            </row>
+            <row>
+              <cell>de</cell>
+              <cell>Germany</cell>
+              <cell>Berlin</cell>
+              <cell>Bonn</cell>
+            </row>
+          </result-set>
+        </equal-to>
+      </assert>
+    </test>
+    <test name="Result-set is the duplicated of a result-set" uid="144">
       <system-under-test>
         <result-set>
           <row>

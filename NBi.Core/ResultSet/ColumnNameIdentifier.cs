@@ -13,11 +13,10 @@ namespace NBi.Core.ResultSet
         public string Label => $"[{Name}]";
 
         public ColumnNameIdentifier(string name)
-        {
-            Name = name;
-        }
+            => Name = name;
 
-        public DataColumn GetColumn(DataTable dataTable) => dataTable.Columns[Name];
+        public DataColumn GetColumn(DataTable dataTable) 
+            => dataTable.Columns.Contains(Name) ? dataTable.Columns[Name] : null;
 
         public object GetValue(DataRow dataRow) => dataRow[Name];
 

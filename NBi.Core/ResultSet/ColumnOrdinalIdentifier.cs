@@ -18,7 +18,9 @@ namespace NBi.Core.ResultSet
             Ordinal = position;
         }
 
-        public DataColumn GetColumn(DataTable dataTable) => dataTable.Columns[Ordinal];
+        public DataColumn GetColumn(DataTable dataTable) 
+            => Ordinal < dataTable.Columns.Count ? dataTable.Columns[Ordinal] : null;
+        
         public object GetValue(DataRow dataRow) => dataRow[Ordinal];
 
         public override int GetHashCode() => Ordinal.GetHashCode();

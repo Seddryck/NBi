@@ -127,6 +127,49 @@ Another engine supported is the [native transformations](../scalar-native-transf
 
 This alteration is useful when you want to combine two result-sets to create a new one.
 
+### Union
+
+This alteration simply append the rows of the second results to the rows of the first result-set, returning the rows of all of them.
+
+{% highlight xml %}
+<result-set>
+  <query>
+    select 'Apple' as Fruit, 10 as Qty union all select 'Orange', 15
+  </query>
+  <alteration>
+    <union>
+      <result-set>
+        <row>
+          <cell>Peer</cell>
+          <cell>5</cell>
+        </row>
+      </result-set>
+    </union>
+  </alteration>
+</result-set>
+{% endhighlight %}
+
+You can specify an attribute *column-identity* to define the strategy to match columns of the first result-set with columns of the second dataset. By default the value is set to *ordinal* meaning that the first column of the first result-set is considered as the same column than the first column of the second result-set (and so on). If the second result-set has more columns than the first one, they are added at the end.
+
+The value *name* for the attribute *column-identity* means that the column matching is based on the name. The second result-set will suffer a reordering of the columns to match with the column order of the first result-set. If the second result-set has more columns than the first one, they are added at the end.
+
+{% highlight xml %}
+<result-set>
+  <query>
+    select 'Apple' as Fruit, 10 as Qty union all select 'Orange', 15
+  </query>
+  <alteration>
+    <union column-identity="name">
+      <query>
+        select 5 as Qty, 'Apple' as Fruit, 'Fall' as Season
+      </query>
+    </union>
+  </alteration>
+</result-set>
+{% endhighlight %}
+
+The content of the cells included in columns not existing in the first or second result-set are always set to ```(null)```.
+
 ### Cartesian product
 
 This alteration is simply combining each row from the first result-set with each row of the second result-set.

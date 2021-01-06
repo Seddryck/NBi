@@ -308,6 +308,76 @@ In some cases, it's interesting to discard duplicated rows. You can achieve with
 </alteration>
 {% endhighlight %}
 
+## Duplications
+
+This alteration duplicates the rows of a result-set. How many times the rows are duplcated is specified with the help of the *times* attribute, expecting a static value (integer) or a variable or a column identification. The value of the attribute ```times``` specifies how many copies are applied to the original rows, meaning that a value of 0 will return the original rows but also that a value of 1 will return a result-set with two times the count of rows from the original result-set.
+
+{% highlight xml %}
+<result-set>
+  <query>
+    ...
+  <query>
+  <alteration>
+    <duplicate>
+      <times>1</times>
+    </convert>
+  </alteration>
+<result-set>
+{% endhighlight %}
+  
+It's possible to define a predicate to filter the rows from the original result-sets that must be duplicated. Only the original rows validating the predicate will be duplicated. Original rows not validating the predicate will still be present in the returned result-set but won't be duplicated.
+
+{% highlight xml %}
+<result-set>
+  <query>
+    ...
+  <query>
+  <alteration>
+    <duplicate>
+      <predicate operand="Period" type="text">
+        <equal>Year</equal>
+      <predicate>
+      <times>2</times>
+    </convert>
+  </alteration>
+<result-set>
+{% endhighlight %}
+  
+It's possible to add additional columns to the returned result-set. To achieve this you must specify these additional columns in *output* elements. Each *output* element must specify an identifier in the attribute *identifier* which could be the name of the new column or its position (to achieve this, precede the zero-based position by a *#*).
+
+You must also define the class of the *output* element. Following classes are supported:
+
+* *is-original*: returns a boolean specifying if the row was part of the original result-set or is a duplication.
+* *is-duplicable*: returns a boolean specifying if the row is validating the predicate. In case there is no predicate, the value is always ```true```. This value is identical for the original row or for all these duplications.
+* *index*: returns a zero-based index of the duplication. If a row is duplicated 10 times, each duplicated row will have a different index starting at 0 and ending at 9.
+* *total*: returns the total of duplication of the original row (identical to the value of the element *times*). This value is interesting when times is dynamically evaluated. 
+* *static*: returns a static value. The value is defined in a *value* element.
+* *script*: returns a value provided by a script dynamically evaluated for each row. The script is defined in a *script* element, the supported languages are *native* and *NCalc*. This script can use the ouput columns defined before the output containing the scripts, as such it's possible to use the *index* and *total* values in your script.
+
+The column identified as an output by the means of the attribute *identifier* could be a new column or an existing column. In the case of an existing column, the original value of the column will be replaced by the returned value of the output but only for duplicated rows. It means that the original row is not impacted by the outputs, new columns created by the ouputs will received a value of ```(null)```. This rule is not applicable if the class is *is-original* or *is-duplicabale*, which will apply the boolean value even for the original row (overriding the value of the cell if the column is already existing)!
+
+In the following examples, row of the original result-set are duplicated two times only if the content of the second column is equal to *year*. For the duplicated values, the output includes the index and the total, the existing value of the column named *Value* is replaced by the original value of this column divided by the total count of duplications and multiplied by ythe index of duplication incremented by one unit. The value of the existing column *Period* is replaced by the concatenation of the original value a *H* and the index (incremented). Value of the column *TimeSpan* is replaced by the static value *Semester*. Original rows are not affected by all these changes and will return ```(null)``` for the total and index and original values are preserved for all the other columns.
+
+{% highlight xml %}
+<duplicate>
+  <predicate operand="#1" type="text">
+    <equal>Year</equal>
+  </predicate>
+  <times>2</times>
+  <output identifier="Total" class="total"/>
+  <output identifier="Index" class="index"/>
+  <output identifier="Value" class="script">
+    <script language="ncalc">[Value] / [Total] * ([Index]+1)</script>
+  </output>
+  <output identifier="Period" class="script">
+    <script language="native">[Index] | numeric-to-increment | text-to-prefix(H) | text-to-prefix([Period])</script>
+  </output>
+  <output identifier="TimeSpan" class="static">
+    <value>Semester</value>
+  </output>
+</duplicate>
+{% endhighlight %}
+
 ## Converts
 
 This alteration is useful when you want to convert a column of type *text* to a *dateTime* or *numeric*. This kind of translation is usually transparent for the test-writer and is performed with the help of an implicit casting. But implicit castings are limited to a predefined culture! It means that the textual value *2017-01-06* will be translated to the equivalent dateTime value but the textual value *06.01.2017* (6th of January 2017 in japanese culture) can't be translated to a dateTime column with an implicit casting. To achieve this translation, you'll need to apply an explicit conversion.

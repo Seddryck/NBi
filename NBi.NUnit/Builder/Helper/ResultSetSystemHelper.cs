@@ -313,7 +313,12 @@ namespace NBi.NUnit.Builder.Helper
             //Outputs
             var outputs = new List<OutputArgs>();
             foreach (var outputXml in duplicateXml.Outputs)
-                outputs.Add(new OutputArgs(outputXml.NameSerializer, outputXml.Value));
+                if (outputXml.Class == OutputClass.Script)
+                    outputs.Add(new OutputScriptArgs(ServiceLocator, context, outputXml.Identifier, outputXml.Script.Language, outputXml.Script.Code));
+            else if(outputXml.Class == OutputClass.Static)
+                    outputs.Add(new OutputValueArgs(outputXml.Identifier, outputXml.Value));
+                else
+                    outputs.Add(new OutputArgs(outputXml.Identifier, outputXml.Class));
 
             //Duplicate
             var args = new DuplicateArgs(predication, times, outputs);

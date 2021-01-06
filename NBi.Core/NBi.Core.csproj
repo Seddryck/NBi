@@ -179,6 +179,13 @@
     <Compile Include="ResultSet\Alteration\Duplication\DuplicationFactory.cs" />
     <Compile Include="ResultSet\Alteration\Duplication\IDuplicationArgs.cs" />
     <Compile Include="ResultSet\Alteration\Duplication\IDuplicationEngine.cs" />
+    <Compile Include="ResultSet\Alteration\Duplication\OuputStrategies\IndexOutputStrategy.cs" />
+    <Compile Include="ResultSet\Alteration\Duplication\OuputStrategies\IOutputStrategy.cs" />
+    <Compile Include="ResultSet\Alteration\Duplication\OuputStrategies\IsDuplicableOutputStrategy.cs" />
+    <Compile Include="ResultSet\Alteration\Duplication\OuputStrategies\IsOriginalOutputStrategy.cs" />
+    <Compile Include="ResultSet\Alteration\Duplication\OuputStrategies\ScriptOuputStrategy.cs" />
+    <Compile Include="ResultSet\Alteration\Duplication\OuputStrategies\TotalOutputStrategy.cs" />
+    <Compile Include="ResultSet\Alteration\Duplication\OuputStrategies\ValueOutputStrategy.cs" />
     <Compile Include="ResultSet\Alteration\Duplication\OutputArgs.cs" />
     <Compile Include="ResultSet\Alteration\Merging\CartesianProductArgs.cs" />
     <Compile Include="ResultSet\Alteration\Merging\CartesianProductEngine.cs" />

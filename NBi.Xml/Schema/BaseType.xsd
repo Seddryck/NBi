@@ -1833,16 +1833,24 @@
       <xs:element name="times" minOccurs="0" maxOccurs="1"/>
       <xs:element name="output" minOccurs="0" maxOccurs="unbounded">
         <xs:complexType>
-          <xs:attribute name="name" use="required" type="xs:string"/>
-          <xs:attribute name="value" use="required" type="output-value-enum"/>
+          <xs:choice>
+            <xs:element name="script" type="script-extend-type" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="value" type="xs:string" minOccurs="0" maxOccurs="1"/>
+          </xs:choice>
+          <xs:attribute name="identifier" use="required" type="xs:string"/>
+          <xs:attribute name="class" use="required" type="output-class-enum"/>
         </xs:complexType>
       </xs:element>
     </xs:sequence>
   </xs:complexType>
-  <xs:simpleType name="output-value-enum">
+  <xs:simpleType name="output-class-enum">
     <xs:restriction base="xs:string">
+      <xs:enumeration value="static"/>
       <xs:enumeration value="index"/>
       <xs:enumeration value="total"/>
+      <xs:enumeration value="is-original"/>
+      <xs:enumeration value="is-duplicable"/>
+      <xs:enumeration value="script"/>
     </xs:restriction>
   </xs:simpleType>
   <xs:complexType name="definition-column-base-type">

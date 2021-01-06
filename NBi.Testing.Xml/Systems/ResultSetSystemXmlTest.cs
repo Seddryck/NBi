@@ -1,34 +1,29 @@
 ﻿using NBi.Core.ResultSet;
+using NBi.Core.ResultSet.Alteration.Duplication;
 using NBi.Core.Transformation;
 using NBi.Xml;
 using NBi.Xml.Items;
 using NBi.Xml.Items.Alteration;
 using NBi.Xml.Items.Alteration.Conversion;
+using NBi.Xml.Items.Alteration.Duplication;
+using NBi.Xml.Items.Alteration.Extension;
+using NBi.Xml.Items.Alteration.Lookup;
+using NBi.Xml.Items.Alteration.Merging;
+using NBi.Xml.Items.Alteration.Projection;
 using NBi.Xml.Items.Alteration.Renaming;
-using NBi.Xml.Items.Alteration.Transform;
-using NBi.Xml.Items.ResultSet;
+using NBi.Xml.Items.Alteration.Reshaping;
 using NBi.Xml.Items.Alteration.Summarization;
-using NBi.Xml.SerializationOption;
+using NBi.Xml.Items.Alteration.Transform;
+using NBi.Xml.Items.Calculation;
+using NBi.Xml.Items.Calculation.Grouping;
+using NBi.Xml.Items.ResultSet;
+using NBi.Xml.Items.ResultSet.Lookup;
 using NBi.Xml.Systems;
+using NBi.Xml.Variables.Sequence;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
-using NBi.Xml.Items.Alteration.Reshaping;
-using NBi.Xml.Items.Calculation.Grouping;
-using NBi.Xml.Items.Calculation;
-using NBi.Xml.Items.Alteration.Extension;
-using NBi.Xml.Items.Alteration.Projection;
-using NBi.Xml.Items.Alteration.Lookup;
-using NBi.Xml.Items.ResultSet.Lookup;
-using NBi.Xml.Variables.Sequence;
-using NBi.Xml.Items.Alteration.Merging;
-using NBi.Xml.Items.Alteration.Duplication;
-using NBi.Core.ResultSet.Alteration.Duplication;
 
 namespace NBi.Testing.Xml.Unit.Systems
 {
@@ -429,11 +424,22 @@ namespace NBi.Testing.Xml.Unit.Systems
             Assert.That(duplicate.Times, Is.EqualTo("@myVar"));
 
             Assert.That(duplicate.Outputs, Is.Not.Null);
-            Assert.That(duplicate.Outputs.Count, Is.EqualTo(2));
+            Assert.That(duplicate.Outputs.Count, Is.EqualTo(6));
             Assert.That(duplicate.Outputs[0].Identifier.Label, Is.EqualTo("[myIndex]"));
-            Assert.That(duplicate.Outputs[0].Value, Is.EqualTo(OutputValue.Index));
+            Assert.That(duplicate.Outputs[0].Class, Is.EqualTo(OutputClass.Index));
             Assert.That(duplicate.Outputs[1].Identifier.Label, Is.EqualTo("[myTotal]"));
-            Assert.That(duplicate.Outputs[1].Value, Is.EqualTo(OutputValue.Total));
+            Assert.That(duplicate.Outputs[1].Class, Is.EqualTo(OutputClass.Total));
+            Assert.That(duplicate.Outputs[2].Identifier.Label, Is.EqualTo("[myOriginal]"));
+            Assert.That(duplicate.Outputs[2].Class, Is.EqualTo(OutputClass.IsOriginal));
+            Assert.That(duplicate.Outputs[3].Identifier.Label, Is.EqualTo("[myDuplicable]"));
+            Assert.That(duplicate.Outputs[3].Class, Is.EqualTo(OutputClass.IsDuplicable));
+            Assert.That(duplicate.Outputs[4].Identifier.Label, Is.EqualTo("[myValue]"));
+            Assert.That(duplicate.Outputs[4].Class, Is.EqualTo(OutputClass.Script));
+            Assert.That(duplicate.Outputs[4].Script, Is.Not.Null);
+            Assert.That(duplicate.Outputs[4].Script.Language, Is.EqualTo(LanguageType.NCalc));
+            Assert.That(duplicate.Outputs[4].Script.Code, Does.Contain("[myValue] / [myTotal] * ([myIndex] + 1)"));
+            Assert.That(duplicate.Outputs[5].Class, Is.EqualTo(OutputClass.Static));
+            Assert.That(duplicate.Outputs[5].Value, Is.EqualTo("Monthly"));
         }
 
         [Test]

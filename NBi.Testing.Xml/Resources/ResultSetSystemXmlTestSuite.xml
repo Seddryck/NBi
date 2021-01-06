@@ -318,8 +318,18 @@
               <more-than>150</more-than>
             </predicate>
             <times>@myVar</times>
-            <output name="myIndex" value="index"/>
-            <output name="myTotal" value="total"/>
+            <output identifier="myIndex" class="index"/>
+            <output identifier="myTotal" class="total"/>
+            <output identifier="myOriginal" class="is-original"/>
+            <output identifier="myDuplicable" class="is-duplicable"/>
+            <output identifier="myValue" class="script">
+              <script language="ncalc">
+                [myValue] / [myTotal] * ([myIndex] + 1)
+              </script>
+            </output>
+            <output identifier="myStatic" class="static">
+              <value>Monthly</value>
+            </output>
           </duplicate>
         </alteration>
       </result-set>

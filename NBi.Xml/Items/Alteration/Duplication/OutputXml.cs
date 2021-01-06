@@ -1,5 +1,6 @@
 ﻿using NBi.Core.ResultSet;
 using NBi.Core.ResultSet.Alteration.Duplication;
+using NBi.Xml.Variables;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,16 +12,22 @@ namespace NBi.Xml.Items.Alteration.Duplication
 {
     public class OutputXml
     {
-        [XmlAttribute("name")]
-        public string NameSerializer { get; set; }
+        [XmlAttribute("identifier")]
+        public string IdentifierSerializer { get; set; }
         [XmlIgnore]
         public IColumnIdentifier Identifier
         {
-            get => new ColumnIdentifierFactory().Instantiate(NameSerializer);
-            set => NameSerializer = value.Label;
+            get => new ColumnIdentifierFactory().Instantiate(IdentifierSerializer);
+            set => IdentifierSerializer = value.Label;
         }
 
-        [XmlAttribute("value")]
-        public OutputValue Value { get; set; }
+        [XmlAttribute("class")]
+        public OutputClass Class { get; set; }
+
+        [XmlElement("script")]
+        public ScriptXml Script { get; set; }
+
+        [XmlElement("value")]
+        public string Value { get; set; }
     }
 }

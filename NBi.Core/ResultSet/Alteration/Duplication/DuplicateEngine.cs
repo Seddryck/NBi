@@ -29,12 +29,23 @@ namespace NBi.Core.ResultSet.Alteration.Duplication
             var newTable = rs.Table.Copy();
             newTable.Clear();
 
+            //Add the new columns
             foreach (var output in Outputs)
             {
-                if (newTable.Columns.Contains(output.Name))
-                    throw new ArgumentException($"Can't add a new column named '{output.Name}' because this column already exists in the orginal result-set.");
-
-                newTable.Columns.Add(new DataColumn(output.Name, typeof(object)));
+                if (newTable.GetColumn(output.Identifier) == null)
+                {
+                    switch (output.Identifier)
+                    {
+                        case ColumnNameIdentifier identifier:
+                            newTable.Columns.Add(new DataColumn(identifier.Name, typeof(object)) { DefaultValue = DBNull.Value });
+                            break;
+                        case ColumnOrdinalIdentifier identifier:
+                            newTable.Columns.Add(new DataColumn($"Column_{identifier.Ordinal}", typeof(object)) { DefaultValue = DBNull.Value });
+                            break;
+                        default:
+                            break;
+                    }
+                }
             }
 
             foreach (DataRow row in rs.Rows)
@@ -45,17 +56,29 @@ namespace NBi.Core.ResultSet.Alteration.Duplication
 
                 newTable.ImportRow(row);
                 foreach (var output in Outputs)
-                    newTable.Rows[newTable.Rows.Count - 1][output.Name] = output.Value == OutputValue.Total 
-                        ? times * Convert.ToInt32(isDuplicated) + 1
-                        : 0;
+                {
+                    if (output.Strategy.IsApplicable(true))
+                    {
+                        var columnName = newTable.GetColumn(output.Identifier).ColumnName;
+                        newTable.Rows[newTable.Rows.Count - 1][columnName] = output.Strategy.Execute(true, isDuplicated, times, 0);
+                    }
+                }
 
                 if (isDuplicated)
                 {
                     for (int i = 0; i < times; i++)
                     {
                         newTable.ImportRow(row);
+                        Context.Switch(row);
                         foreach (var output in Outputs)
-                            newTable.Rows[newTable.Rows.Count - 1][output.Name] = output.Value == OutputValue.Total ? times + 1 : i + 1;
+                        {
+                            if (output.Strategy.IsApplicable(false))
+                            {
+                                var columnName = newTable.GetColumn(output.Identifier).ColumnName;
+                                newTable.Rows[newTable.Rows.Count - 1][columnName] = output.Strategy.Execute(false, true, times, i);
+                                Context.Switch(newTable.Rows[newTable.Rows.Count - 1]);
+                            }
+                        }
                     }
                 }
             }

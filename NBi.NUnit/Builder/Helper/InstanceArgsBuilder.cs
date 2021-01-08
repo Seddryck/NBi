@@ -22,14 +22,14 @@ namespace NBi.NUnit.Builder.Helper
     public class InstanceArgsBuilder
     {
         private ServiceLocator ServiceLocator { get; }
-        private IDictionary<string, ITestVariable> Variables { get; }
+        private IDictionary<string, IVariable> Variables { get; }
 
         private bool isSetup = false;
         private object obj = null;
         private SettingsXml settings = SettingsXml.Empty;
         private IInstanceArgs args = null;
 
-        public InstanceArgsBuilder(ServiceLocator serviceLocator, IDictionary<string, ITestVariable> variables)
+        public InstanceArgsBuilder(ServiceLocator serviceLocator, IDictionary<string, IVariable> variables)
             => (ServiceLocator, Variables) = (serviceLocator, variables);
 
         public void Setup(SettingsXml settings)

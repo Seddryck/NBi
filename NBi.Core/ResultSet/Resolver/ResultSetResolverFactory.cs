@@ -5,6 +5,7 @@ using System.Linq;
 using NBi.Core.Injection;
 using NBi.Core.FlatFile;
 using NBi.Extensibility.Resolving;
+using NBi.Core.Variable;
 
 namespace NBi.Core.ResultSet.Resolver
 {
@@ -12,6 +13,7 @@ namespace NBi.Core.ResultSet.Resolver
     {
         private CsvProfile profile = CsvProfile.SemiColumnDoubleQuote;
         private readonly ServiceLocator serviceLocator;
+        private IDictionary<string, IVariable> Variables { get; }
 
         public ResultSetResolverFactory(ServiceLocator serviceLocator)
         {

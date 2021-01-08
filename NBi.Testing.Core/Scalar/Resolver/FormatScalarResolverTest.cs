@@ -15,7 +15,7 @@ namespace NBi.Testing.Core.Scalar.Resolver
         [Test]
         public void Execute_ExistingNumericVariable_CorrectEvaluation()
         {
-            var globalVariables = new Dictionary<string, ITestVariable>()
+            var globalVariables = new Dictionary<string, IVariable>()
             {
                 { "myVar" , new GlobalVariable(new CSharpScalarResolver<object>( new CSharpScalarResolverArgs("10*10"))) },
                 { "otherVar" , new GlobalVariable(new CSharpScalarResolver<object>( new CSharpScalarResolverArgs("10+10"))) }
@@ -29,7 +29,7 @@ namespace NBi.Testing.Core.Scalar.Resolver
         [SetCulture("en-us")]
         public void Execute_VariableWithNativeTransformation_CorrectEvaluation()
         {
-            var globalVariables = new Dictionary<string, ITestVariable>()
+            var globalVariables = new Dictionary<string, IVariable>()
             {
                 { "myVar" , new GlobalVariable(new CSharpScalarResolver<object>( new CSharpScalarResolverArgs("new DateTime(2019, 6, 1)"))) },
             };
@@ -44,7 +44,7 @@ namespace NBi.Testing.Core.Scalar.Resolver
         [SetCulture("fr-fr")]
         public void Execute_VariableWithNativeTransformation_IndependantOfLocalCulture()
         {
-            var globalVariables = new Dictionary<string, ITestVariable>()
+            var globalVariables = new Dictionary<string, IVariable>()
             {
                 { "myVar" , new GlobalVariable(new CSharpScalarResolver<object>( new CSharpScalarResolverArgs("new DateTime(2019, 6, 1)"))) },
             };
@@ -58,7 +58,7 @@ namespace NBi.Testing.Core.Scalar.Resolver
         [Test]
         public void Execute_VariableWithTwoNativeTransformations_CorrectEvaluation()
         {
-            var globalVariables = new Dictionary<string, ITestVariable>()
+            var globalVariables = new Dictionary<string, IVariable>()
             {
                 { "myVar" , new GlobalVariable(new CSharpScalarResolver<object>( new CSharpScalarResolverArgs("new DateTime(2019, 6, 12)"))) },
             };
@@ -72,7 +72,7 @@ namespace NBi.Testing.Core.Scalar.Resolver
         [Test]
         public void Execute_VariableWithNativeTransformationParametrized_CorrectEvaluation()
         {
-            var globalVariables = new Dictionary<string, ITestVariable>()
+            var globalVariables = new Dictionary<string, IVariable>()
             {
                 { "myVar" , new GlobalVariable(new CSharpScalarResolver<object>( new CSharpScalarResolverArgs("10*10"))) },
             };
@@ -87,7 +87,7 @@ namespace NBi.Testing.Core.Scalar.Resolver
         [SetCulture("fr-fr")]
         public void Execute_ExistingDateTimeVariable_CorrectEvaluation()
         {
-            var globalVariables = new Dictionary<string, ITestVariable>()
+            var globalVariables = new Dictionary<string, IVariable>()
             {
                 { "myVar" , new GlobalVariable(new CSharpScalarResolver<object>( new CSharpScalarResolverArgs("new DateTime(2018,1,1)"))) },
             };

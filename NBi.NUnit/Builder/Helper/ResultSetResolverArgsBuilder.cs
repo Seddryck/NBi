@@ -34,14 +34,14 @@ namespace NBi.NUnit.Builder.Helper
         private object obj = null;
         private SettingsXml settings = null;
         private SettingsXml.DefaultScope scope = SettingsXml.DefaultScope.Everywhere;
-        private IDictionary<string, ITestVariable> Variables { get; set; } = new Dictionary<string, ITestVariable>();
+        private IDictionary<string, IVariable> Variables { get; set; } = new Dictionary<string, IVariable>();
         private ResultSetResolverArgs args = null;
 
         private ServiceLocator ServiceLocator { get; }
 
         public ResultSetResolverArgsBuilder(ServiceLocator serviceLocator) => this.ServiceLocator = serviceLocator;
 
-        public void Setup(object obj, SettingsXml settingsXml, SettingsXml.DefaultScope scope, IDictionary<string, ITestVariable> variables)
+        public void Setup(object obj, SettingsXml settingsXml, SettingsXml.DefaultScope scope, IDictionary<string, IVariable> variables)
         {
             this.obj = obj;
             this.settings = settingsXml;

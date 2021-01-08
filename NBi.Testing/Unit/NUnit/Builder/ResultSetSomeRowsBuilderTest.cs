@@ -104,10 +104,10 @@ namespace NBi.Testing.Unit.NUnit.Builder
                 }
             };
 
-            var yearResolverMock = new Mock<ITestVariable>();
+            var yearResolverMock = new Mock<IVariable>();
             yearResolverMock.Setup(x => x.GetValue()).Returns(2017);
 
-            var variables = new Dictionary<string, ITestVariable>()
+            var variables = new Dictionary<string, IVariable>()
             {
                 {"year", yearResolverMock.Object }
             };
@@ -140,12 +140,12 @@ namespace NBi.Testing.Unit.NUnit.Builder
                 }
             };
 
-            var yearResolverMock = new Mock<ITestVariable>();
+            var yearResolverMock = new Mock<IVariable>();
             yearResolverMock.Setup(x => x.GetValue()).Returns(2017);
-            var notUsedResolverMock = new Mock<ITestVariable>();
+            var notUsedResolverMock = new Mock<IVariable>();
             notUsedResolverMock.Setup(x => x.GetValue());
 
-            var variables = new Dictionary<string, ITestVariable>()
+            var variables = new Dictionary<string, IVariable>()
             {
                 {"year", yearResolverMock.Object },
                 {"NotUsed", notUsedResolverMock.Object }

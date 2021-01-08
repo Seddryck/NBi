@@ -19,9 +19,9 @@ namespace NBi.NUnit.Builder.Helper
     public class ConditionHelper
     {
         private readonly ServiceLocator serviceLocator;
-        private readonly IDictionary<string, ITestVariable> variables;
+        private readonly IDictionary<string, IVariable> variables;
 
-        public ConditionHelper(ServiceLocator serviceLocator, IDictionary<string, ITestVariable> variables)
+        public ConditionHelper(ServiceLocator serviceLocator, IDictionary<string, IVariable> variables)
         {
             this.serviceLocator = serviceLocator;
             this.variables = variables;

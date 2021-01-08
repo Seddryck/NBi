@@ -47,7 +47,7 @@ namespace NBi.Testing.Acceptance
             {
                 var test = (TestXml)testCaseData.Arguments[0];
                 var testName = (string)testCaseData.Arguments[1];
-                var localVariables = (IDictionary<string, ITestVariable>)testCaseData.Arguments[2];
+                var localVariables = (IDictionary<string, IVariable>)testCaseData.Arguments[2];
                 try
                 {
                     testSuite.ExecuteTestCases(test, testName, localVariables);
@@ -87,7 +87,7 @@ namespace NBi.Testing.Acceptance
             {
                 var testXml = (TestXml)testCaseData.Arguments[0];
                 var testName = (string)testCaseData.Arguments[1];
-                var localVariables = (IDictionary<string, ITestVariable>)testCaseData.Arguments[2] ?? new Dictionary<string, ITestVariable>();
+                var localVariables = (IDictionary<string, IVariable>)testCaseData.Arguments[2] ?? new Dictionary<string, IVariable>();
                 try
                 {
                     testSuite.ExecuteTestCases(testXml, testName, localVariables);
@@ -129,7 +129,7 @@ namespace NBi.Testing.Acceptance
             {
                 var testXml = (TestXml)testCaseData.Arguments[0];
                 var testName = (string)testCaseData.Arguments[1];
-                var localVariables = (IDictionary<string, ITestVariable>)testCaseData.Arguments[2] ?? new Dictionary<string, ITestVariable>();
+                var localVariables = (IDictionary<string, IVariable>)testCaseData.Arguments[2] ?? new Dictionary<string, IVariable>();
                 try
                 {
                     testSuite.ExecuteTestCases(testXml, testName, localVariables);
@@ -176,7 +176,7 @@ namespace NBi.Testing.Acceptance
                 var isSuccess = false;
                 var test = (TestXml)testCaseData.Arguments[0];
                 var testName = (string)testCaseData.Arguments[1];
-                var localVariables = (IDictionary<string, ITestVariable>)testCaseData.Arguments[2] ?? new Dictionary<string, ITestVariable>();
+                var localVariables = (IDictionary<string, IVariable>)testCaseData.Arguments[2] ?? new Dictionary<string, IVariable>();
                 try
                 {
                     testSuite.ExecuteTestCases(test, testName, localVariables);

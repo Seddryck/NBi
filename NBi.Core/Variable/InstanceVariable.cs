@@ -7,18 +7,14 @@ using System.Threading.Tasks;
 
 namespace NBi.Core.Variable
 {
-    public class InstanceVariable : ITestVariable
+    public class InstanceVariable : ILoadtimeVariable
     {
-        private readonly object value;
+        private object Value { get; }
 
         public InstanceVariable(object value)
-        {
-            this.value = value;
-        }
+            => Value = value;
 
-        public void Evaluate() => throw new InvalidOperationException();
-
-        public object GetValue() => value;
+        public object GetValue() => Value;
 
         public bool IsEvaluated() => true;
     }

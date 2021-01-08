@@ -10,13 +10,13 @@ using System.Threading.Tasks;
 
 namespace NBi.Core.Variable
 {
-    public abstract class TestVariable : ITestVariable
+    public abstract class RuntimeVariable : IRuntimeVariable
     {
         private object value;
         private bool isEvaluated;
         private readonly IScalarResolver resolver;
 
-        public TestVariable(IScalarResolver resolver)
+        public RuntimeVariable(IScalarResolver resolver)
         {
             this.resolver = resolver;
         }

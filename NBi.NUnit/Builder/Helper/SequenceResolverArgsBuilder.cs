@@ -26,7 +26,7 @@ namespace NBi.NUnit.Builder.Helper
 
         private object obj = null;
         private SettingsXml settings = null;
-        private IDictionary<string, ITestVariable> Variables { get; set; } = new Dictionary<string, ITestVariable>();
+        private IDictionary<string, IVariable> Variables { get; set; } = new Dictionary<string, IVariable>();
         private SettingsXml.DefaultScope Scope { get; } = SettingsXml.DefaultScope.Everywhere;
         private ISequenceResolverArgs Args { get; set; } = null;
         private ColumnType columnType = ColumnType.Numeric;
@@ -52,7 +52,7 @@ namespace NBi.NUnit.Builder.Helper
             this.settings = settingsXml;
         }
 
-        public void Setup(IDictionary<string, ITestVariable> globalVariables)
+        public void Setup(IDictionary<string, IVariable> globalVariables)
         {
             this.Variables = globalVariables;
         }

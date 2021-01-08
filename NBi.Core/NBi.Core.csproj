@@ -578,6 +578,7 @@
     <Compile Include="ResultSet\Resolver\EmptyResultSetResolver.cs" />
     <Compile Include="ResultSet\Resolver\IfUnavailableResultSetResolverArgs.cs" />
     <Compile Include="ResultSet\Resolver\IfUnavailableResultSetResolver.cs" />
+    <Compile Include="ResultSet\Resolver\IterativeResultSetResolver.cs" />
     <Compile Include="ResultSet\Resolver\ResultSetUnavailableException.cs" />
     <Compile Include="ResultSet\Resolver\SequenceResultSetResolverArgs.cs" />
     <Compile Include="ResultSet\Resolver\SequenceCombinationResultSetResolverArgs.cs" />
@@ -910,10 +911,11 @@
     <Compile Include="Variable\Instantiation\InstanceFactory.cs" />
     <Compile Include="Variable\InstanceVariable.cs" />
     <Compile Include="Variable\Instantiation\DerivedVariableInstanceArgs.cs" />
+    <Compile Include="Variable\InternalVariable.cs" />
     <Compile Include="Variable\OverridenVariable.cs" />
     <Compile Include="Variable\Instantiation\SingleVariableInstanceArgs.cs" />
-    <Compile Include="Variable\TestVariable.cs" />
-    <Compile Include="Variable\ITestVariable.cs" />
+    <Compile Include="Variable\RuntimeVariable.cs" />
+    <Compile Include="Variable\IVariable.cs" />
     <Compile Include="Variable\VariableFactory.cs" />
     <Compile Include="Variable\VariableScope.cs" />
     <Compile Include="Decoration\Process\ProcessConditionFactory.cs" />

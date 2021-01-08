@@ -36,7 +36,7 @@ namespace NBi.Testing.Core.Scalar.Resolver
         [Test]
         public void Execute_FunctionPrecededByFormat_CorrectValue()
         {
-            var variables = new Dictionary<string, ITestVariable>()
+            var variables = new Dictionary<string, IVariable>()
             {
                 { "myVar" , new GlobalVariable(new CSharpScalarResolver<object>( new CSharpScalarResolverArgs("10*10"))) },
             };

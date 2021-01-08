@@ -36,7 +36,7 @@ namespace NBi.Core.ResultSet.Resolver
                     return args.Redirection.Execute();
             }
             else
-                Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceInfo, $"Loading data from flat file '{file}'");
+                Trace.WriteLineIf(NBiTraceSwitch.TraceInfo, $"Loading data from flat file '{file}'");
 
             var stopWatch = new Stopwatch();
             stopWatch.Start();
@@ -47,8 +47,8 @@ namespace NBi.Core.ResultSet.Resolver
             var rs = new ResultSet();
             rs.Load(dataTable);
             stopWatch.Stop();
-            Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceInfo, $"Time needed to load data from flat file: {stopWatch.Elapsed:d'.'hh':'mm':'ss'.'fff'ms'}");
-            Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceInfo, $"Result-set contains {dataTable.Rows.Count} row{(dataTable.Rows.Count > 1 ? "s" : string.Empty)} and {dataTable.Columns.Count} column{(dataTable.Columns.Count > 1 ? "s" : string.Empty)}");
+            Trace.WriteLineIf(NBiTraceSwitch.TraceInfo, $"Time needed to load data from flat file: {stopWatch.Elapsed:d'.'hh':'mm':'ss'.'fff'ms'}");
+            Trace.WriteLineIf(NBiTraceSwitch.TraceInfo, $"Result-set contains {dataTable.Rows.Count} row{(dataTable.Rows.Count > 1 ? "s" : string.Empty)} and {dataTable.Columns.Count} column{(dataTable.Columns.Count > 1 ? "s" : string.Empty)}");
             return rs;
         }
 

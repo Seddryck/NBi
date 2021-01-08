@@ -23,9 +23,9 @@ namespace NBi.NUnit.Builder.Helper
     public class SetupHelper
     {
         private readonly ServiceLocator serviceLocator;
-        private readonly IDictionary<string, ITestVariable> variables;
+        private readonly IDictionary<string, IVariable> variables;
 
-        public SetupHelper(ServiceLocator serviceLocator, IDictionary<string, ITestVariable> variables)
+        public SetupHelper(ServiceLocator serviceLocator, IDictionary<string, IVariable> variables)
         {
             this.serviceLocator = serviceLocator;
             this.variables = variables;

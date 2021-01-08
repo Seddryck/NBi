@@ -16,7 +16,7 @@ namespace NBi.Testing.Core.Scalar.Resolver
         [Test]
         public void Execute_ExistingVariable_CorrectEvaluation()
         {
-            var globalVariables = new Dictionary<string, ITestVariable>()
+            var globalVariables = new Dictionary<string, IVariable>()
             {
                 { "myVar" , new GlobalVariable(new CSharpScalarResolver<object>( new CSharpScalarResolverArgs("10*10"))) },
                 { "otherVar" , new GlobalVariable(new CSharpScalarResolver<object>( new CSharpScalarResolverArgs("10+10"))) }
@@ -29,7 +29,7 @@ namespace NBi.Testing.Core.Scalar.Resolver
         [Test]
         public void Execute_ExistingVariableWrongType_CorrectEvaluation()
         {
-            var globalVariables = new Dictionary<string, ITestVariable>()
+            var globalVariables = new Dictionary<string, IVariable>()
             {
                 { "myVar" , new GlobalVariable(new CSharpScalarResolver<object>( new CSharpScalarResolverArgs("(10*10).ToString()"))) },
                 { "otherVar" , new GlobalVariable(new CSharpScalarResolver<object>( new CSharpScalarResolverArgs("10+10"))) }
@@ -42,7 +42,7 @@ namespace NBi.Testing.Core.Scalar.Resolver
         [Test]
         public void Execute_ExistingVariableWrongTypeDateTime_CorrectEvaluation()
         {
-            var globalVariables = new Dictionary<string, ITestVariable>()
+            var globalVariables = new Dictionary<string, IVariable>()
             {
                 { "myVar" , new GlobalVariable(new CSharpScalarResolver<object>( new CSharpScalarResolverArgs("\"2017-05-12\""))) },
                 { "otherVar" , new GlobalVariable(new CSharpScalarResolver<object>( new CSharpScalarResolverArgs("10+10"))) }
@@ -58,7 +58,7 @@ namespace NBi.Testing.Core.Scalar.Resolver
             var resolverMock = Mock.Of<IScalarResolver>();
             Mock.Get(resolverMock).Setup(r => r.Execute()).Returns(true);
 
-            var globalVariables = new Dictionary<string, ITestVariable>()
+            var globalVariables = new Dictionary<string, IVariable>()
             {
                 { "myVar" , new GlobalVariable(resolverMock) }
             };

@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace NBi.Core.Variable
 {
-    public class GlobalVariable : RuntimeVariable
+    class InternalVariable : RuntimeVariable
     {
-        public GlobalVariable(IScalarResolver resolver)
+        public InternalVariable(IScalarResolver resolver)
             : base(resolver) { }
     }
 }

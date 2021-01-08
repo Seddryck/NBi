@@ -14,7 +14,7 @@ namespace NBi.NUnit
     public abstract class NBiConstraint : NUnitCtr.Constraint
     {
         public IConfiguration Configuration {get; set;}
-        public IDictionary<string, ITestVariable> GlobalVariables { get; set; }
+        public IDictionary<string, IVariable> GlobalVariables { get; set; }
 
         public NBiConstraint()
         {

@@ -50,9 +50,9 @@ namespace NBi.NUnit.Builder.Helper
     {
         protected ServiceLocator ServiceLocator { get; }
         protected SettingsXml.DefaultScope Scope { get; } = SettingsXml.DefaultScope.Everywhere;
-        protected IDictionary<string, ITestVariable> Variables { get; }
+        protected IDictionary<string, IVariable> Variables { get; }
 
-        public ResultSetSystemHelper(ServiceLocator serviceLocator, SettingsXml.DefaultScope scope, IDictionary<string, ITestVariable> variables)
+        public ResultSetSystemHelper(ServiceLocator serviceLocator, SettingsXml.DefaultScope scope, IDictionary<string, IVariable> variables)
             => (ServiceLocator, Scope, Variables) = (serviceLocator, scope, variables);
 
         public IResultSetResolver InstantiateResolver(ResultSetSystemXml resultSetXml)

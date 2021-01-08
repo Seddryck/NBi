@@ -122,7 +122,7 @@ namespace NBi.Testing.Core.Transformation.Transformer
         [Test]
         public void Instantiate_ExistingWithParametersAndVariables_CorrectType()
         {
-            var variables = new Dictionary<string, ITestVariable>()
+            var variables = new Dictionary<string, IVariable>()
             {
                 { "avg", new GlobalVariable(new LiteralScalarResolver<decimal>(50)) },
                 { "min", new GlobalVariable(new LiteralScalarResolver<decimal>(10)) },

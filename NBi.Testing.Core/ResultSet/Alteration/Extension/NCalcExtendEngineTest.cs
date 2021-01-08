@@ -76,7 +76,7 @@ namespace NBi.Testing.Core.ResultSet.Alteration.Extension
 
             var extender = new NCalcExtendEngine(
                 new ServiceLocator(),
-                new Context(new Dictionary<string, ITestVariable> { { "myVar", new GlobalVariable(new LiteralScalarResolver<decimal>(2)) } }),
+                new Context(new Dictionary<string, IVariable> { { "myVar", new GlobalVariable(new LiteralScalarResolver<decimal>(2)) } }),
                 new ColumnNameIdentifier("d"),
                 "[@myVar] * [b] * [c]"
                 );

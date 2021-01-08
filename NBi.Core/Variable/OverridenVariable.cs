@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace NBi.Core.Variable
 {
-    public class OverridenVariable : ITestVariable
+    public class OverridenVariable : ILoadtimeVariable
     {
         private string Name { get; set; }
         private object Value { get; set; }

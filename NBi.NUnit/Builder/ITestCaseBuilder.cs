@@ -13,7 +13,7 @@ namespace NBi.NUnit.Builder
 {
     public interface ITestCaseBuilder
     {
-        void Setup(AbstractSystemUnderTestXml sutXml, AbstractConstraintXml ctrXml, IConfiguration config, IDictionary<string, ITestVariable> variables, ServiceLocator serviceLocator);
+        void Setup(AbstractSystemUnderTestXml sutXml, AbstractConstraintXml ctrXml, IConfiguration config, IDictionary<string, IVariable> variables, ServiceLocator serviceLocator);
         void Build();
         object GetSystemUnderTest();
         NBiConstraint GetConstraint();

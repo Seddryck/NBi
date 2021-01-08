@@ -17,7 +17,7 @@ namespace NBi.Testing.Core.Transformation.Transformer
         [Test]
         public void Execute_TextToLastCharsWithVariable_Valid()
         {
-            var variables = new Dictionary<string, ITestVariable>() { { "length", new GlobalVariable(new LiteralScalarResolver<int>(6)) } };
+            var variables = new Dictionary<string, IVariable>() { { "length", new GlobalVariable(new LiteralScalarResolver<int>(6)) } };
             var code = "text-to-last-chars(@length)";
             var provider = new NativeTransformer<string>(new ServiceLocator(), new Context(variables));
             provider.Initialize(code);

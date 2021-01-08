@@ -31,7 +31,7 @@ namespace NBi.Testing.Unit.NUnit.Builder.Helper
                     { new FileDeleteXml()  { FileName="foo.txt", Path = @"C:\Temp\" } }
             };
 
-            var helper = new SetupHelper(new ServiceLocator(), new Dictionary<string, ITestVariable>());
+            var helper = new SetupHelper(new ServiceLocator(), new Dictionary<string, IVariable>());
             var listCommandArgs = helper.Execute(xml.Commands);
             Assert.That(listCommandArgs.Count(), Is.EqualTo(1));
         }
@@ -49,7 +49,7 @@ namespace NBi.Testing.Unit.NUnit.Builder.Helper
                 }
             };
 
-            var helper = new SetupHelper(new ServiceLocator(), new Dictionary<string, ITestVariable>());
+            var helper = new SetupHelper(new ServiceLocator(), new Dictionary<string, IVariable>());
             var listCommandArgs = helper.Execute(xml.Commands);
             Assert.That(listCommandArgs.Count(), Is.EqualTo(3));
         }
@@ -83,7 +83,7 @@ namespace NBi.Testing.Unit.NUnit.Builder.Helper
                     { xmlInstance as DecorationCommandXml }
             };
 
-            var helper = new SetupHelper(new ServiceLocator(), new Dictionary<string, ITestVariable>());
+            var helper = new SetupHelper(new ServiceLocator(), new Dictionary<string, IVariable>());
 
             var commandArgs = helper.Execute(xml.Commands).ElementAt(0);
             Assert.That(commandArgs, Is.AssignableTo<IDecorationCommandArgs>());
@@ -111,7 +111,7 @@ namespace NBi.Testing.Unit.NUnit.Builder.Helper
                 }
             };
 
-            var helper = new SetupHelper(new ServiceLocator(), new Dictionary<string, ITestVariable>());
+            var helper = new SetupHelper(new ServiceLocator(), new Dictionary<string, IVariable>());
 
             var commandArgs = helper.Execute(xml.Commands).ElementAt(0);
             Assert.That(commandArgs, Is.AssignableTo(argsType));
@@ -156,7 +156,7 @@ namespace NBi.Testing.Unit.NUnit.Builder.Helper
                 }
             };
 
-            var helper = new SetupHelper(new ServiceLocator(), new Dictionary<string, ITestVariable>());
+            var helper = new SetupHelper(new ServiceLocator(), new Dictionary<string, IVariable>());
 
             var commandArgs = helper.Execute(xml.Commands).ElementAt(0);
             Assert.That(commandArgs, Is.AssignableTo<ISequentialCommandArgs>());
@@ -193,7 +193,7 @@ namespace NBi.Testing.Unit.NUnit.Builder.Helper
                     }
             };
             var myVar = new GlobalVariable(new LiteralScalarResolver<object>("bar-foo"));
-            var helper = new SetupHelper(new ServiceLocator(), new Dictionary<string, ITestVariable>() {{ "myVar", myVar } });
+            var helper = new SetupHelper(new ServiceLocator(), new Dictionary<string, IVariable>() {{ "myVar", myVar } });
 
             var customCommandArgs = helper.Execute(xml.Commands).ElementAt(0) as ICustomCommandArgs;
             Assert.That(customCommandArgs.AssemblyPath, Is.TypeOf<LiteralScalarResolver<string>>());
@@ -220,7 +220,7 @@ namespace NBi.Testing.Unit.NUnit.Builder.Helper
                     { new FileDeleteXml()  { FileName="foo.txt", Path = @"C:\Temp\" } }
             };
 
-            var helper = new SetupHelper(new ServiceLocator(), new Dictionary<string, ITestVariable>());
+            var helper = new SetupHelper(new ServiceLocator(), new Dictionary<string, IVariable>());
 
             var deleteCommandArgs = helper.Execute(xml.Commands).ElementAt(0) as IDeleteCommandArgs;
             Assert.That(deleteCommandArgs.Name, Is.TypeOf<LiteralScalarResolver<string>>());
@@ -237,7 +237,7 @@ namespace NBi.Testing.Unit.NUnit.Builder.Helper
             };
 
             var myVar = new GlobalVariable(new LiteralScalarResolver<object>("bar.txt"));
-            var helper = new SetupHelper(new ServiceLocator(), new Dictionary<string, ITestVariable>() { { "myvar", myVar } });
+            var helper = new SetupHelper(new ServiceLocator(), new Dictionary<string, IVariable>() { { "myvar", myVar } });
 
             var deleteCommandArgs = helper.Execute(xml.Commands).ElementAt(0) as IDeleteCommandArgs;
             Assert.That(deleteCommandArgs.Name, Is.TypeOf<GlobalVariableScalarResolver<string>>());
@@ -254,7 +254,7 @@ namespace NBi.Testing.Unit.NUnit.Builder.Helper
             };
 
             var myVar = new GlobalVariable(new LiteralScalarResolver<object>("bar"));
-            var helper = new SetupHelper(new ServiceLocator(), new Dictionary<string, ITestVariable>() { { "myvar", myVar } });
+            var helper = new SetupHelper(new ServiceLocator(), new Dictionary<string, IVariable>() { { "myvar", myVar } });
 
             var deleteCommandArgs = helper.Execute(xml.Commands).ElementAt(0) as IDeleteCommandArgs;
             Assert.That(deleteCommandArgs.Name, Is.TypeOf<FormatScalarResolver>());
@@ -273,7 +273,7 @@ namespace NBi.Testing.Unit.NUnit.Builder.Helper
             var myVar = new GlobalVariable(new CSharpScalarResolver<object>(
                         new CSharpScalarResolverArgs("\"foo.txt\"")
                     ));
-            var helper = new SetupHelper(new ServiceLocator(), new Dictionary<string, ITestVariable>() { { "myvar", myVar } });
+            var helper = new SetupHelper(new ServiceLocator(), new Dictionary<string, IVariable>() { { "myvar", myVar } });
 
             var deleteCommandArgs = helper.Execute(xml.Commands).ElementAt(0) as IDeleteCommandArgs;
             Assert.That(deleteCommandArgs.Name, Is.AssignableTo<IScalarResolver>());

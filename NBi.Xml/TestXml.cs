@@ -211,7 +211,7 @@ namespace NBi.Xml
             return newName;
         }
 
-        public string GetName(IDictionary<string, ITestVariable> dico)
+        public string GetName(IDictionary<string, IVariable> dico)
         {
             var newName = GetName() + ".";
             foreach (var token in dico)

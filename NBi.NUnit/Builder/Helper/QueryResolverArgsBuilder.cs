@@ -26,7 +26,7 @@ namespace NBi.NUnit.Builder.Helper
         private object obj = null;
         protected SettingsXml Settings { get; private set; } = SettingsXml.Empty;
         protected SettingsXml.DefaultScope Scope { get; private set; } = SettingsXml.DefaultScope.Everywhere;
-        protected IDictionary<string, ITestVariable> Variables { get; private set; } = new Dictionary<string, ITestVariable>();
+        protected IDictionary<string, IVariable> Variables { get; private set; } = new Dictionary<string, IVariable>();
         private BaseQueryResolverArgs args = null;
 
         public QueryResolverArgsBuilder(ServiceLocator serviceLocator)
@@ -34,7 +34,7 @@ namespace NBi.NUnit.Builder.Helper
             this.serviceLocator = serviceLocator;
         }
 
-        public void Setup(QueryXml queryXml, SettingsXml settingsXml, SettingsXml.DefaultScope scope, IDictionary<string, ITestVariable> variables)
+        public void Setup(QueryXml queryXml, SettingsXml settingsXml, SettingsXml.DefaultScope scope, IDictionary<string, IVariable> variables)
         {
             obj = queryXml;
             Settings = settingsXml ?? SettingsXml.Empty;
@@ -43,7 +43,7 @@ namespace NBi.NUnit.Builder.Helper
             isSetup = true;
         }
 
-        public void Setup(ExecutableXml executableXml, SettingsXml settingsXml, IDictionary<string, ITestVariable> variables)
+        public void Setup(ExecutableXml executableXml, SettingsXml settingsXml, IDictionary<string, IVariable> variables)
         {
             obj = executableXml;
             Settings = settingsXml ?? SettingsXml.Empty;

@@ -15,7 +15,7 @@ namespace NBi.NUnit.Builder
     {
         protected ScalarXml SystemUnderTestXml { get; set; }
 
-        public override void Setup(AbstractSystemUnderTestXml sutXml, AbstractConstraintXml ctrXml, IConfiguration config, IDictionary<string, ITestVariable> variables, ServiceLocator serviceLocator)
+        public override void Setup(AbstractSystemUnderTestXml sutXml, AbstractConstraintXml ctrXml, IConfiguration config, IDictionary<string, IVariable> variables, ServiceLocator serviceLocator)
             => base.Setup(sutXml, ctrXml, config, variables, serviceLocator);
 
         protected override void BaseSetup(AbstractSystemUnderTestXml sutXml, AbstractConstraintXml ctrXml)

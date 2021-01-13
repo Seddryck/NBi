@@ -195,6 +195,7 @@
     <Compile Include="ResultSet\Lookup\LookupMatchesAnalyzerTest.cs" />
     <Compile Include="ResultSet\Resolver\IfUnavailableResultSetResolverTest.cs" />
     <Compile Include="ResultSet\Resolver\EmptyResultSetResolverTest.cs" />
+    <Compile Include="ResultSet\Resolver\IterativeResultSetResolverTest.cs" />
     <Compile Include="ResultSet\Resolver\SequenceCombinationResultSetResolverTest.cs" />
     <Compile Include="ResultSet\ResultSetServiceTest.cs" />
     <Compile Include="ResultSet\ResultSetTest.cs" />

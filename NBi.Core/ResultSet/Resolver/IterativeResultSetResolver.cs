@@ -25,7 +25,7 @@ namespace NBi.Core.ResultSet.Resolver
             ResultSetResolver = resultSetResolver;
             MergingEngine = new UnionByOrdinalEngine(new ResultSetService(resultSetResolver.Execute, null));
             Variables = variables;
-            
+            VariableName = variableName;
         }
 
         public IResultSet Execute()
@@ -41,7 +41,7 @@ namespace NBi.Core.ResultSet.Resolver
 
             foreach (var item in sequence)
             {
-                Variables[VariableName] = new InternalVariable(new LiteralScalarResolver<object>(sequence[0]));
+                Variables[VariableName] = new InternalVariable(new LiteralScalarResolver<object>(item));
                 rs = MergingEngine.Execute(rs);
             }
 

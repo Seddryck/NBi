@@ -160,9 +160,11 @@ The value *name* for the attribute *column-identity* means that the column match
   </query>
   <alteration>
     <union column-identity="name">
-      <query>
-        select 5 as Qty, 'Apple' as Fruit, 'Fall' as Season
-      </query>
+      <result-set>
+        <query>
+          select 5 as Qty, 'Apple' as Fruit, 'Fall' as Season
+        </query>
+      </result-set>
     </union>
   </alteration>
 </result-set>

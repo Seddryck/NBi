@@ -10,7 +10,7 @@ permalink: /docs/installation-tools/
 First, you must download and install the prerequisites:
 
 * .Net Framework 4.5 (or higher) from the [MSDN download page](http://www.microsoft.com/en-us/download/details.aspx?id=30653)
-* Last version of the NUnit 2.x series (such as 2.7.1 but not NUnit 3.x) – [NUnit.org download page](https://github.com/nunit-legacy/nunitv2/releases/latest). Download the .zip file and extract the content in a specific folder. This folder is containing `nunit.exe` that will open the NUnit console.
+* Last version of the NUnit 2.x series (such as 2.7.1 but not NUnit 3.x) – [NUnit.org download page](https://github.com/nunit-legacy/nunitv2/releases/latest). Download the .zip file and extract the content in a specific folder. This folder is containing `nunit.exe` that will run the NUnit console.
 
 ### AdomdClient (Release 1.10.0.19 and after)
 

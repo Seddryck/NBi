@@ -507,6 +507,23 @@ namespace NBi.Testing.Xml.Unit.Systems
         }
 
         [Test]
+        public void Deserialize_SampleFile_Iteration()
+        {
+            int testNr = 22;
+
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            var ts = DeserializeSample();
+
+            // Check the properties of the object.
+            Assert.That(ts.Tests[testNr].Systems[0], Is.AssignableTo<ResultSetSystemXml>());
+            var rs = ts.Tests[testNr].Systems[0] as ResultSetSystemXml;
+
+            Assert.That(rs.Iteration, Is.Not.Null);
+            Assert.That(rs.Iteration.Sequence, Is.Not.Null);
+            Assert.That(rs.NestedResultSet, Is.Not.Null);
+        }
+
+        [Test]
         public void Serialize_FileAndParser_Correct()
         {
             var root = new ResultSetSystemXml()
@@ -890,6 +907,49 @@ namespace NBi.Testing.Xml.Unit.Systems
             Assert.That(xml, Does.Contain("<if-unavailable"));
             Assert.That(xml, Does.Contain("<result-set"));
             Assert.That(xml, Does.Contain("<empty"));
+        }
+
+        [Test]
+        public void Serialize_NoIteration_IterationNotDisplayed()
+        {
+            var root = new ResultSetSystemXml()
+            {
+                File = new FileXml() { Path = @"C:\Temp\foo.txt" },
+            };
+
+            var manager = new XmlManager();
+            var xml = manager.XmlSerializeFrom(root);
+            Console.WriteLine(xml);
+            Assert.That(xml, Does.Not.Contain("<iteration"));
+        }
+
+        [Test]
+        public void Serialize_Iteration_IterationAndNestedResultSetNotDisplayed()
+        {
+            var root = new ResultSetSystemXml()
+            {
+                Iteration = new IterationXml() 
+                { 
+                    Sequence = new SequenceXml()
+                    { 
+                        Name="month", Type=ColumnType.DateTime
+                        , SentinelLoop = new SentinelLoopXml() { Seed="2020-01-01", Terminal="2020-03-01", Step="1 month" }
+                    }
+                },
+                NestedResultSet = new ResultSetSystemXml() 
+                {
+                    File = new FileXml() { Path = @"Data_{@month:yyyy}_{@month:MM}.csv" },
+                }
+            };
+
+            var manager = new XmlManager();
+            var xml = manager.XmlSerializeFrom(root);
+            Console.WriteLine(xml);
+            Assert.That(xml, Does.Contain("<iteration"));
+            Assert.That(xml, Does.Contain("<sequence"));
+            Assert.That(xml, Does.Contain("<loop-sentinel"));
+            Assert.That(xml, Does.Contain("<result-set"));
+            Assert.That(xml, Does.Contain("<file"));
         }
     }
 }

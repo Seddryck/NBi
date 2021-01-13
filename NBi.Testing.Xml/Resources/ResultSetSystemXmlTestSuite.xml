@@ -409,4 +409,25 @@
       </equal-to>
     </assert>
   </test>
+  <test name="Result-set has an iteration" uid="0022">
+    <system-under-test>
+      <result-set>
+        <iteration>
+          <sequence name="month"  type="dateTime">
+            <loop-sentinel seed="2020-01-01" terminal="2020-03-01" step="1 month"/>
+          </sequence>
+        </iteration>
+        <result-set>
+          <file>
+            <path>Data_{@month:yyyy}_{@month:MM}.csv</path>
+          </file>
+        </result-set>
+      </result-set>
+    </system-under-test>
+    <assert>
+      <equal-to>
+        <result-set file="..\Csv\Data_2020.csv"/>
+      </equal-to>
+    </assert>
+  </test>
 </testSuite>

@@ -1642,6 +1642,10 @@
   <xs:complexType name="result-set-type">
     <xs:sequence>
       <xs:choice>
+        <xs:sequence>
+          <xs:element name="iteration" minOccurs="1" maxOccurs="1" type="iteration-type"/>
+          <xs:element name="result-set" minOccurs="1" maxOccurs="1" type="result-set-type"/>
+        </xs:sequence>
         <xs:element name="row" minOccurs="0" maxOccurs="unbounded">
           <xs:complexType>
             <xs:sequence>
@@ -1669,6 +1673,11 @@
       <xs:element name="if-unavailable" type="if-unavailable-type" minOccurs="0" maxOccurs="1"/>
     </xs:sequence>
     <xs:attribute name="file" type="xs:string" use="optional" />
+  </xs:complexType>
+  <xs:complexType name="iteration-type">
+    <xs:sequence>
+      <xs:element name="sequence" type="sequence-type" minOccurs="1" maxOccurs="1"/>
+    </xs:sequence>
   </xs:complexType>
   <xs:complexType name="if-unavailable-type">
     <xs:sequence>

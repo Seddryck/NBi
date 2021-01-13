@@ -83,6 +83,12 @@ namespace NBi.Xml.Systems
             }
         }
 
+        [XmlElement("iteration")]
+        public virtual IterationXml Iteration { get; set; } = null;
+
+        [XmlElement("result-set")]
+        public virtual ResultSetSystemXml NestedResultSet { get; set; } = null;
+
         [XmlElement("file")]
         public virtual FileXml File { get; set; } = new FileXml();
 

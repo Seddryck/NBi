@@ -1162,6 +1162,27 @@
         </equal-to>
       </assert>
     </test>
+    <test name="Result-set is an iterative result-set" uid="0180">
+      <system-under-test>
+        <result-set>
+          <iteration>
+            <sequence name="month"  type="dateTime">
+              <loop-sentinel seed="2016-01-01" terminal="2016-03-01" step="1 month"/>
+            </sequence>
+          </iteration>
+          <result-set>
+            <file>
+              <path>~..\Csv\MyData_{@month:yyyy}_{@month:MM}.csv</path>
+            </file>
+          </result-set>
+        </result-set>
+      </system-under-test>
+      <assert>
+        <row-count>
+          <equal>6</equal>
+        </row-count>
+      </assert>
+    </test>
   </group>
   <group name="alterations">
     <test name="Filter with one predicate" uid="0201">

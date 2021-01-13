@@ -23,7 +23,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using NBi.Xml.Items.Alteration;
 
 namespace NBi.NUnit.Builder.Helper
 {
@@ -83,7 +83,6 @@ namespace NBi.NUnit.Builder.Helper
             //Query
             else if (xml.Query != null)
                 return BuildQueryResolverArgs(xml.Query, scope);
-            //Sequences combination
             else if (xml.SequenceCombination != null)
                 return BuildSequenceCombinationResolverArgs(xml.SequenceCombination);
             else if (xml.Sequence != null)
@@ -94,7 +93,8 @@ namespace NBi.NUnit.Builder.Helper
                 return BuildJsonPathResolverArgs(xml.JsonSource);
             else if (xml.Empty != null)
                 return BuildEmptyResolverArgs(xml.Empty);
-            //ResultSet (embedded)
+            else if (xml.Iteration != null)
+                return BuildIterativeResultSetResolverArgs(xml.Iteration, xml.NestedResultSet);
             else if (xml.Rows != null)
                 return BuildEmbeddedResolverArgs(xml.Content);
 
@@ -164,6 +164,24 @@ namespace NBi.NUnit.Builder.Helper
         {
             Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceVerbose, "ResultSet defined in embedded resultSet.");
             return new ContentResultSetResolverArgs(content);
+        }
+
+        private ResultSetResolverArgs BuildIterativeResultSetResolverArgs(IterationXml iterationXml, ResultSetSystemXml nestedResultSetXml)
+        {
+            var sequenceFactory = new SequenceResolverFactory(ServiceLocator);
+            var builder = new SequenceResolverArgsBuilder(ServiceLocator);
+            builder.Setup(settings);
+            builder.Setup(Variables);
+            builder.Setup(iterationXml.Sequence.Type);
+            builder.Setup((object)iterationXml.Sequence.SentinelLoop ?? iterationXml.Sequence.Items);
+            builder.Build();
+            var sequenceResolver = sequenceFactory.Instantiate(iterationXml.Sequence.Type, builder.GetArgs());
+
+            var nestedHelper = new ResultSetSystemHelper(ServiceLocator, scope, Variables);
+            nestedResultSetXml.Settings = settings;
+            var nestedResultSetResolver = nestedHelper.InstantiateResolver(nestedResultSetXml);
+
+            return new IterativeResultSetResolverArgs(sequenceResolver, iterationXml.Sequence.Name, Variables, nestedResultSetResolver);
         }
 
         private ResultSetResolverArgs BuildQueryResolverArgs(QueryXml queryXml, SettingsXml.DefaultScope scope)

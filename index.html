@@ -120,8 +120,7 @@ layout: default
               function GetLatestReleaseInfo() {
                   $.getJSON("https://api.github.com/repos/Seddryck/NBi/releases/latest").done(function (release) {
                       var asset = release.assets.find(function(asset) {return asset.name.includes("Framework");});
-                      var downloadURL = "https://github.com/Seddryck/NBi/releases/download/" + release.tag_name + "/" + asset.name;
-                      $("#downloadURL").attr("href", downloadURL);
+                      $("#downloadURL").attr("href", asset.browser_download_url);
          			  $("#releaseName").text(release.name);
                       $("#releaseName").fadeIn("slow");
                   });

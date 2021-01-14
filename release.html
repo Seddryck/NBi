@@ -41,7 +41,9 @@ permalink: /release/
 	<div>
 			<h2>Pre-releases</h2>
 			<p>This is a list of the the current pre-release development versions available for testing. Consider your needs carefully before using a version other than the current production versions. These are preview releases, and their use is not recommended in production settings. Please consider reporting any bugs in these versions.</p>
-			<p>Since version 1.15, beta versions are only available on a <a href="https://www.nuget.org/packages/NBi.Framework/">Nuget feed</a>, <a href="https://ci.appveyor.com/project/Seddryck/nbi/history">appVeyor</a> or <a href="https://seddryck.visualstudio.com/NBi/_build?definitionId=1&_a=summary&view=buildsHistory">Azure DevOps</a> and are more frequent (at least one build for each new feature). Only RC versions (if any) are available on GitHub.</p>
+			<p>Since version 1.15, beta versions are only available on a <a href="https://www.nuget.org/packages/NBi.Framework/">Nuget feed</a>, <a href="https://ci.appveyor.com/project/Seddryck/nbi/history">appVeyor</a> or <a href="https://seddryck.visualstudio.com/NBi/_build?definitionId=1&_a=summary&view=buildsHistory">Azure DevOps</a> and are more frequent (at least one build for each new feature).</p> 
+			<p>The latest beta version of NBi is version <span id="betaVersion">???</span> and has been published at <span id="betaPublished">???</span></p>
+			<p>Only RC versions (if any) are available on GitHub.</p>
 			<table id="table_prerelease">
 				<thead>
 					<tr>
@@ -97,6 +99,15 @@ function GetLatestReleaseInfo() {
       $("#createdAt").text(release.created_at);
       $("#releaseName").fadeIn("slow");
       console.log(framework.browser_download_url, genbi.browser_download_url, downloadCount, release.name, release.created_at)
+  });
+}
+		
+function GetLatestBetaInfo() {
+  $.getJSON("https://api-v2v3search-0.nuget.org/query?q=NBi.Framework&prerelease=true").done(function (json) {      
+    $("#betaVersion").text(json.data[0].version);
+    $.getJSON("https://api.nuget.org/v3/registration5-semver1/nbi.framework/" + json.data[0].version + ".json").done(function (json) {
+      $("#betaPublished").text(json.published);
+    });
   });
 }
 
@@ -159,5 +170,6 @@ function GetLatestReleaseInfo() {
         });
     }
 	GetLatestReleaseInfo();
+	GetLatestBetaInfo();
 	GetAllReleaseInfo();
 	</script>

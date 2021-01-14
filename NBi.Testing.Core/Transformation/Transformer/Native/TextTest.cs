@@ -15,6 +15,36 @@ namespace NBi.Testing.Core.Transformation.Transformer.Native
     public class TextTest
     {
         [Test]
+        [TestCase(0, "1 2017-07-06      CUST0001", "1")]
+        [TestCase(1, "1 2017-07-06      CUST0001", "2017-07-06")]
+        [TestCase(2, "1 2017-07-06      CUST0001", "CUST0001")]
+        public void Execute_TextToToken_DefaultSeparator(int index, string value, string expected)
+        {
+            var function = new TextToToken(new LiteralScalarResolver<int>(index));
+            var result = function.Evaluate(value);
+            Assert.That(result, Is.EqualTo(expected));
+        }
+
+        [Test]
+        [TestCase(0, ';', "1;2017-07-06;CUST0001", "1")]
+        [TestCase(1, ',', "1,      2017-07-06,CUST0001", "2017-07-06")]
+        [TestCase(2, '|', "1 | 2017-07-06 | CUST0001", "CUST0001")]
+        public void Execute_TextToToken_CustomSeparator(int index, char separator, string value, string expected)
+        {
+            var function = new TextToToken(new LiteralScalarResolver<int>(index), new LiteralScalarResolver<char>(separator));
+            var result = function.Evaluate(value);
+            Assert.That(result, Is.EqualTo(expected));
+        }
+
+        [Test]
+        [TestCase(99, "1 2017-07-06 CUST0001")]
+        public void Execute_TextToToken_IndexOutOfRange(int index, string value)
+        {
+            var function = new TextToToken(new LiteralScalarResolver<int>(index));
+            Assert.Throws<IndexOutOfRangeException>(() => function.Evaluate(value));
+        }
+
+        [Test]
         [TestCase("")]
         [TestCase("(null)")]
         [TestCase("\t")]

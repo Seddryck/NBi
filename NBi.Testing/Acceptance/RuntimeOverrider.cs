@@ -41,7 +41,7 @@ namespace NBi.Testing.Acceptance
         [TestCase("ResultSetMatchPattern.nbits")]
         [TestCase("QueryWithParameters.nbits")]
         [TestCase("ReportEqualTo.nbits")]
-        [TestCase("Decoration.nbits")]
+        //[TestCase("Decoration.nbits")]
         [TestCase("Is.nbits")]
         [TestCase("QueryEqualToXml.nbits")]
         [TestCase("QueryRowCount.nbits")]

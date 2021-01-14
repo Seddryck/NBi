@@ -1,4 +1,4 @@
-﻿using NBi.Core.Variable;
+﻿using NBi.Extensibility;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,10 +9,10 @@ namespace NBi.Core.ResultSet.Filtering
 {
     class NoneFilter : IResultSetFilter
     {
-        public ResultSet Apply(ResultSet rs)
+        public IResultSet Apply(IResultSet rs)
             => rs ?? throw new ArgumentNullException();
 
-        public ResultSet AntiApply(ResultSet rs)
+        public IResultSet AntiApply(IResultSet rs)
         {
             var table = rs?.Table?.Clone() ?? throw new ArgumentNullException();
             var filteredRs = new ResultSet();

@@ -34,4 +34,16 @@ namespace NBi.Core.Calculation.Predication
             return sb.ToString();
         }
     }
+
+    class TruePredication : IPredication
+    {
+        public TruePredication()
+        { }
+
+        public bool Execute(Context context)
+            => true;
+
+        public string Describe()
+            => "Always true.";
+    }
 }

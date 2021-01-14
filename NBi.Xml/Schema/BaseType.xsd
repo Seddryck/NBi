@@ -716,6 +716,7 @@
       <xs:enumeration value="numeric-to-add("/>
       <xs:enumeration value="numeric-to-subtract("/>
       <xs:enumeration value="numeric-to-multiply("/>
+      <xs:enumeration value="numeric-to-divide("/>
       <xs:enumeration value="numeric-to-invert"/>
       <xs:enumeration value="path-to-filename"/>
       <xs:enumeration value="path-to-filename-without-extension"/>
@@ -1641,6 +1642,10 @@
   <xs:complexType name="result-set-type">
     <xs:sequence>
       <xs:choice>
+        <xs:sequence>
+          <xs:element name="iteration" minOccurs="1" maxOccurs="1" type="iteration-type"/>
+          <xs:element name="result-set" minOccurs="1" maxOccurs="1" type="result-set-type"/>
+        </xs:sequence>
         <xs:element name="row" minOccurs="0" maxOccurs="unbounded">
           <xs:complexType>
             <xs:sequence>
@@ -1668,6 +1673,11 @@
       <xs:element name="if-unavailable" type="if-unavailable-type" minOccurs="0" maxOccurs="1"/>
     </xs:sequence>
     <xs:attribute name="file" type="xs:string" use="optional" />
+  </xs:complexType>
+  <xs:complexType name="iteration-type">
+    <xs:sequence>
+      <xs:element name="sequence" type="sequence-type" minOccurs="1" maxOccurs="1"/>
+    </xs:sequence>
   </xs:complexType>
   <xs:complexType name="if-unavailable-type">
     <xs:sequence>
@@ -1734,6 +1744,9 @@
         <xs:element name="project" type="project-type" minOccurs="0" maxOccurs="1"/>
         <xs:element name="project-away" type="project-away-type" minOccurs="0" maxOccurs="1"/>
         <xs:element name="lookup-replace" type="lookup-replace-type" minOccurs="0" maxOccurs="1"/>
+        <xs:element name="merge" type="merge-type" minOccurs="0" maxOccurs="1"/>
+        <xs:element name="union" type="union-type" minOccurs="0" maxOccurs="1"/>
+        <xs:element name="duplicate" type="duplicate-type" minOccurs="0" maxOccurs="1"/>
       </xs:choice>
     </xs:sequence>
   </xs:complexType>
@@ -1819,6 +1832,49 @@
       <xs:element name="column" type="definition-column-base-type" minOccurs="1" maxOccurs="unbounded"/>
     </xs:sequence>
   </xs:complexType>
+  <xs:complexType name="merge-type">
+    <xs:sequence>
+      <xs:element name="result-set" type="result-set-type" minOccurs="1" maxOccurs="1"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="union-type">
+    <xs:sequence>
+      <xs:element name="result-set" type="result-set-type" minOccurs="1" maxOccurs="1"/>
+    </xs:sequence>
+    <xs:attribute name="column-identity" type="column-identity-enum" use="optional"/>
+  </xs:complexType>
+  <xs:simpleType name="column-identity-enum">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="ordinal"/>
+      <xs:enumeration value="name"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:complexType name="duplicate-type">
+    <xs:sequence>
+      <xs:element name="predicate" type="predicate-type" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="times" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="output" minOccurs="0" maxOccurs="unbounded">
+        <xs:complexType>
+          <xs:choice>
+            <xs:element name="script" type="script-extend-type" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="value" type="xs:string" minOccurs="0" maxOccurs="1"/>
+          </xs:choice>
+          <xs:attribute name="identifier" use="required" type="xs:string"/>
+          <xs:attribute name="class" use="required" type="output-class-enum"/>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:simpleType name="output-class-enum">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="static"/>
+      <xs:enumeration value="index"/>
+      <xs:enumeration value="total"/>
+      <xs:enumeration value="is-original"/>
+      <xs:enumeration value="is-duplicable"/>
+      <xs:enumeration value="script"/>
+    </xs:restriction>
+  </xs:simpleType>
   <xs:complexType name="definition-column-base-type">
     <xs:attribute name="identifier" type="xs:string"/>
     <xs:attribute name="type" type="column-type-enum" use="optional"/>

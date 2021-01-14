@@ -252,9 +252,9 @@ namespace NBi.Testing.Core.Calculation.Predicate
         [Test]
         public void Compare_NumericVariable_VariableIsEvaluated()
         {
-            var variable = new Mock<ITestVariable>();
+            var variable = new Mock<IVariable>();
             variable.Setup(v => v.GetValue()).Returns(10);
-            var variables = new Dictionary<string, ITestVariable>() { { "var", variable.Object } };
+            var variables = new Dictionary<string, IVariable>() { { "var", variable.Object } };
 
             var info = new Mock<ReferencePredicateArgs>();
             info.SetupGet(i => i.ColumnType).Returns(ColumnType.Numeric);
@@ -271,9 +271,9 @@ namespace NBi.Testing.Core.Calculation.Predicate
         [Test]
         public void Compare_NumericVariablePartOfDictionary_VariableIsEvaluated()
         {
-            var variable = new Mock<ITestVariable>();
+            var variable = new Mock<IVariable>();
             variable.Setup(v => v.GetValue()).Returns(10);
-            var variables = new Dictionary<string, ITestVariable>() { { "var", variable.Object } };
+            var variables = new Dictionary<string, IVariable>() { { "var", variable.Object } };
 
             var info = new Mock<ReferencePredicateArgs>();
             info.SetupGet(i => i.ColumnType).Returns(ColumnType.Numeric);
@@ -291,11 +291,11 @@ namespace NBi.Testing.Core.Calculation.Predicate
         [Test]
         public void Compare_NumericVariablePartOfDictionary_PointlessVariableIsNotEvaluated()
         {
-            var variableUsed = new Mock<ITestVariable>();
+            var variableUsed = new Mock<IVariable>();
             variableUsed.Setup(v => v.GetValue()).Returns(10);
-            var variablePointless = new Mock<ITestVariable>();
+            var variablePointless = new Mock<IVariable>();
             variablePointless.Setup(v => v.GetValue()).Returns(0);
-            var variables = new Dictionary<string, ITestVariable>() { { "var", variableUsed.Object }, { "x", variablePointless.Object } };
+            var variables = new Dictionary<string, IVariable>() { { "var", variableUsed.Object }, { "x", variablePointless.Object } };
 
             var info = new Mock<ReferencePredicateArgs>();
             info.SetupGet(i => i.ColumnType).Returns(ColumnType.Numeric);

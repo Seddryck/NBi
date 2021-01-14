@@ -102,7 +102,7 @@ namespace NBi.Testing.Core.Scalar.Resolver
                 dt.Columns.Add("c", typeof(int));
                 var row = dt.NewRow();
                 row.ItemArray = new object[] { 2, 5, 3 };
-                var context = new Context(new Dictionary<string, ITestVariable> { { "myVar", new GlobalVariable(new LiteralScalarResolver<decimal>(10)) } });
+                var context = new Context(new Dictionary<string, IVariable> { { "myVar", new GlobalVariable(new LiteralScalarResolver<decimal>(10)) } });
                 var args = new NCalcScalarResolverArgs("[#0]*Max([#1], [#2])-[@myVar]", context);
                 context.Switch(row);
                 var resolver = new NCalcScalarResolver<object>(args);

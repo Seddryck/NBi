@@ -19,7 +19,7 @@ namespace NBi.Core.Calculation.Grouping.ColumnBased
         protected ColumnGrouping(ISettingsResultSet settings, Context context)
             => (Settings, Context) = (settings, context);
 
-        public IDictionary<KeyCollection, DataTable> Execute(ResultSet.ResultSet resultSet)
+        public IDictionary<KeyCollection, DataTable> Execute(IResultSet resultSet)
         {
             var stopWatch = new Stopwatch();
             var dico = new Dictionary<KeyCollection, DataTable>(new KeyCollectionEqualityComparer());

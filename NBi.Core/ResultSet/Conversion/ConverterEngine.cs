@@ -1,4 +1,5 @@
 ﻿using NBi.Core.Scalar.Conversion;
+using NBi.Extensibility;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -19,7 +20,7 @@ namespace NBi.Core.ResultSet.Conversion
             this.converter = converter ?? throw new ArgumentNullException("The converter can't be null.", nameof(converter));
         }
 
-        public ResultSet Execute(ResultSet rs)
+        public IResultSet Execute(IResultSet rs)
         {
             var columnName = column.StartsWith("#") ? rs.Columns[Convert.ToInt32(column.Replace("#", ""))].ColumnName : column;
             var columnIndex = column.StartsWith("#") ? Convert.ToInt32(column.Replace("#", "")) : rs.Columns[columnName].Ordinal;

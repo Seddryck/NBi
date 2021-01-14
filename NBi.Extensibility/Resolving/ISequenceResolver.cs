@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.Sequence.Resolver
+namespace NBi.Extensibility.Resolving
 {
     public interface ISequenceResolver : IResolver
     {

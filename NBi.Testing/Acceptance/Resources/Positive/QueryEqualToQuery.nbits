@@ -2,10 +2,10 @@
 <testSuite name="Acceptance Testing: query equalTo query" xmlns="http://NBi/TestSuite">
   <settings>
     <default apply-to="system-under-test">
-      <connection-string>Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly</connection-string>
+      <connection-string>Data Source=(local)\SQL2017;Initial Catalog=AdventureWorks2017;User Id=sa;password=Password12!</connection-string>
     </default>
     <default apply-to="assert">
-      <connection-string>Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly</connection-string>
+      <connection-string>Data Source=(local)\SQL2017;Initial Catalog=AdventureWorks2017;User Id=sa;password=Password12!</connection-string>
     </default>
   </settings>
   <variables>
@@ -259,14 +259,14 @@
     <test name="Sql Native vs ODBC">
       <system-under-test>
         <result-set>
-          <query connectionString="Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly">
+          <query connectionString="Data Source=(local)\SQL2017;Initial Catalog=AdventureWorks2017;User Id=sa;password=Password12!">
             select 'OK';
           </query>
         </result-set>
       </system-under-test>
       <assert>
         <equalTo>
-          <query connectionString="Driver={SQL Server};Server=tcp:mhknbn2kdz.database.windows.net,1433;Database=AdventureWorks2012;Uid=sqlfamily@mhknbn2kdz;Pwd=sqlf@m1ly;Encrypt=yes;TrustServerCertificate=no;Connection Timeout=30;">
+          <query connectionString="Driver={ODBC Driver 13 for SQL Server};Server=tcp:.\SQL2017,1433;Database=AdventureWorks2017;Uid=sa;Pwd=Password12!;Encrypt=yes;TrustServerCertificate=yes;Connection Timeout=30;">
             select 'OK';
           </query>
         </equalTo>
@@ -275,14 +275,14 @@
     <test name="Sql Native vs OLEDB">
       <system-under-test>
         <result-set>
-          <query connectionString="Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly">
+          <query connectionString="Data Source=(local)\SQL2017;Initial Catalog=AdventureWorks2017;User Id=sa;password=Password12!">
             select 'OK';
           </query>
         </result-set>
       </system-under-test>
       <assert>
         <equalTo>
-          <query connectionString="Provider=SQLNCLI11;Server=mhknbn2kdz.database.windows.net;Database=AdventureWorks2012;UId=sqlfamily;Pwd=sqlf@m1ly;">
+          <query connectionString="Provider=SQLNCLI11;Server=.\SQL2017;Database=AdventureWorks2017;UId=sa;Pwd=Password12!;">
             select 'OK';
           </query>
         </equalTo>

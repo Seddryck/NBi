@@ -7,10 +7,17 @@ using System.Threading.Tasks;
 
 namespace NBi.Core.Variable
 {
-    public interface ITestVariable
+    public interface IVariable
     {
-        void Evaluate();
         object GetValue();
         bool IsEvaluated();
     }
+    interface ILoadtimeVariable : IVariable { }
+
+    interface IRuntimeVariable : IVariable 
+    {
+        void Evaluate();
+    }
+    
+
 }

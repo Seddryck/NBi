@@ -1,5 +1,5 @@
 ﻿using NBi.Core.ResultSet.Lookup;
-using NBi.Core.Scalar.Resolver;
+using NBi.Extensibility;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -18,7 +18,7 @@ namespace NBi.Core.ResultSet.Alteration.Lookup
         public LookupReplaceEngine(LookupReplaceArgs args)
             => (Args) = (args);
 
-        public ResultSet Execute(ResultSet candidate)
+        public IResultSet Execute(IResultSet candidate)
         {
             var reference = Args.Reference.Execute();
 

@@ -109,6 +109,10 @@
     <Compile Include="Calculation\Predication\AndCombinationPredicationTest.cs" />
     <Compile Include="Calculation\Predication\OrCombinationPredicationTest.cs" />
     <Compile Include="Calculation\Predication\XOrCombinationPredicationTest.cs" />
+    <Compile Include="ResultSet\Alteration\Duplication\DuplicationFactoryTest.cs" />
+    <Compile Include="ResultSet\Alteration\Duplication\DuplicateEngineTest.cs" />
+    <Compile Include="ResultSet\Alteration\Merging\CartesianProductEngineTest.cs" />
+    <Compile Include="ResultSet\Alteration\Merging\UnionEngineTest.cs" />
     <Compile Include="ResultSet\Filtering\UniquenessFilterTest.cs" />
     <Compile Include="ResultSet\Filtering\PredicationFilterTest.cs" />
     <Compile Include="Calculation\Predicate\CultureSensitivePredicateMatchesTest.cs" />
@@ -191,6 +195,7 @@
     <Compile Include="ResultSet\Lookup\LookupMatchesAnalyzerTest.cs" />
     <Compile Include="ResultSet\Resolver\IfUnavailableResultSetResolverTest.cs" />
     <Compile Include="ResultSet\Resolver\EmptyResultSetResolverTest.cs" />
+    <Compile Include="ResultSet\Resolver\IterativeResultSetResolverTest.cs" />
     <Compile Include="ResultSet\Resolver\SequenceCombinationResultSetResolverTest.cs" />
     <Compile Include="ResultSet\ResultSetServiceTest.cs" />
     <Compile Include="ResultSet\ResultSetTest.cs" />
@@ -347,7 +352,11 @@
   <ItemGroup>
     <EmbeddedResource Include="DataSerialization\Flattenizer\Resources\PurchaseOrders.json" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Scalar\Resolver\Resources\PurchaseOrders.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

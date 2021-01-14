@@ -1,15 +1,13 @@
-﻿using NBi.Core.Scalar.Casting;
+﻿using Deedle;
+using NBi.Core.ResultSet;
+using NBi.Core.Sequence.Transformation.Aggregation.Strategy;
+using NBi.Extensibility.Resolving;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Deedle;
-using NBi.Core.ResultSet;
-using NBi.Core.Sequence.Transformation.Aggregation.Strategy;
-using NBi.Core.Sequence.Transformation.Aggregation.Function;
 using System.Reflection;
-using NBi.Core.Scalar.Resolver;
 
 namespace NBi.Core.Sequence.Transformation.Aggregation
 {

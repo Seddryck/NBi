@@ -2,6 +2,7 @@
 using NBi.Core.Query;
 using NBi.Core.Query.Execution;
 using NBi.Core.Query.Resolver;
+using NBi.Extensibility.Resolving;
 using System;
 using System.Collections.Generic;
 using System.Data;

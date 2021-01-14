@@ -3,9 +3,7 @@ using NBi.Core.Calculation.Predicate.DateTime;
 using NBi.Core.Calculation.Predicate.Numeric;
 using NBi.Core.Calculation.Predicate.Text;
 using NBi.Core.ResultSet;
-using NBi.Core.Scalar.Resolver;
-using NBi.Core.Sequence.Resolver;
-using NBi.Core.Variable;
+using NBi.Extensibility.Resolving;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,7 +14,9 @@ namespace NBi.Core.Calculation.Predicate
 {
     public class PredicateFactory
     {
-        private IPredicate Instantiate(ComparerType comparerType, ColumnType columnType, bool not, IResolver reference, string culture, StringComparison stringComparison, object secondOperand)
+        internal IPredicate Instantiate(ComparerType comparerType, ColumnType columnType, bool not, IResolver reference)
+            => Instantiate(comparerType, columnType, not, reference, "en-us", StringComparison.OrdinalIgnoreCase, null);
+        internal IPredicate Instantiate(ComparerType comparerType, ColumnType columnType, bool not, IResolver reference, string culture, StringComparison stringComparison, object secondOperand)
         {
             switch (columnType)
             {

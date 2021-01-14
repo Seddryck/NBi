@@ -32,7 +32,7 @@ namespace NBi.Testing.Core.Scalar.Resolver
         [Test]
         public void Instantiate_GlobalVariableArgs_GlobalVariableResolver()
         {
-            var args = new GlobalVariableScalarResolverArgs("myVar", new Dictionary<string, ITestVariable>() { { "myVar", null } });
+            var args = new GlobalVariableScalarResolverArgs("myVar", new Dictionary<string, IVariable>() { { "myVar", null } });
 
             var factory = new ScalarResolverFactory(null);
             var resolver = factory.Instantiate(args);
@@ -105,7 +105,7 @@ namespace NBi.Testing.Core.Scalar.Resolver
         [Test]
         public void Instantiate_FormatArgs_FormatResolver()
         {
-            var args = new FormatScalarResolverArgs("myVar", new Dictionary<string, ITestVariable>());
+            var args = new FormatScalarResolverArgs("myVar", new Dictionary<string, IVariable>());
 
             var factory = new ScalarResolverFactory(null);
             var resolver = factory.Instantiate<string>(args);
@@ -116,7 +116,7 @@ namespace NBi.Testing.Core.Scalar.Resolver
         [Test]
         public void InstantiateNeutral_FormatArgs_FormatResolver()
         {
-            var args = new FormatScalarResolverArgs("myVar", new Dictionary<string, ITestVariable>());
+            var args = new FormatScalarResolverArgs("myVar", new Dictionary<string, IVariable>());
 
             var factory = new ScalarResolverFactory(null);
             var resolver = factory.Instantiate(args);
@@ -127,7 +127,7 @@ namespace NBi.Testing.Core.Scalar.Resolver
         [Test]
         public void InstantiateNotString_FormatArgs_FormatResolver()
         {
-            var args = new FormatScalarResolverArgs("myVar", new Dictionary<string, ITestVariable>());
+            var args = new FormatScalarResolverArgs("myVar", new Dictionary<string, IVariable>());
 
             var factory = new ScalarResolverFactory(null);
             var ex = Assert.Throws<ArgumentException>(() => factory.Instantiate<object>(args));

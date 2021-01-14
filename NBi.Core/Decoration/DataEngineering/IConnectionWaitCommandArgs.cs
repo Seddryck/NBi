@@ -1,4 +1,6 @@
 ﻿using NBi.Core.Decoration.DataEngineering;
+using NBi.Extensibility.Resolving;
+using NBi.Core.Scalar.Resolver;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +11,6 @@ namespace NBi.Core.Decoration.DataEngineering
 {
     public interface IConnectionWaitCommandArgs : IDataEngineeringCommandArgs
     {
-        int TimeOut { get; }
+        IScalarResolver<int> TimeOut { get; }
     }
 }

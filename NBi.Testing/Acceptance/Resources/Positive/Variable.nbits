@@ -2,7 +2,7 @@
 <testSuite name="Acceptance Testing: query equal-to Csv" xmlns="http://NBi/TestSuite">
   <settings>
     <default apply-to="everywhere">
-      <connectionString>Data Source=mhknbn2kdz.database.windows.net;Initial Catalog=AdventureWorks2012;User Id=sqlfamily;password=sqlf@m1ly</connectionString>
+      <connectionString>Data Source=(local)\SQL2017;Initial Catalog=AdventureWorks2017;User Id=sa;password=Password12!</connectionString>
     </default>
   </settings>
   <variables>
@@ -28,6 +28,9 @@
         <parameter name="from">@januarySecond</parameter>
         <parameter name="to">@prevcommon</parameter>
       </custom>
+    </variable>
+    <variable name="xmlVar">
+      <script language="c-sharp">XDocument.Load(@"./Acceptance/Resources/PurchaseOrders.xml").XPathSelectElement("./PurchaseOrders/PurchaseOrder/Address/Zip").Value.ToString()</script>
     </variable>
   </variables>
 	<test name="'Reseller Order Count' by year before 2006 (csv)" uid="0001">
@@ -140,6 +143,23 @@
           </predicate>
         </combination>
       </all-rows>
+    </assert>
+  </test>
+  <test name="Variable retrieved from Xml file" uid="0301">
+    <system-under-test>
+      <result-set>
+        <query>
+          <parameter name="var">@xmlVar</parameter>
+          select @var;
+        </query>
+      </result-set>
+    </system-under-test>
+    <assert>
+      <single-row>
+        <predicate operand="#0">
+          <equal>10999</equal>
+        </predicate>
+      </single-row>
     </assert>
   </test>
 </testSuite>

@@ -1,8 +1,5 @@
 ﻿using NBi.Core.Assemblies;
-using NBi.Core.Query;
-using NBi.Core.Query.Resolver;
-using NBi.Core.ResultSet.Resolver;
-using NBi.Core.Scalar.Resolver;
+using NBi.Extensibility.Resolving;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;

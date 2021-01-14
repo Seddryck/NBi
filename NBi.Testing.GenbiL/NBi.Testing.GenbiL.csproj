@@ -81,10 +81,17 @@
     <Compile Include="Action\Case\TrimCaseActionTest.cs" />
     <Compile Include="Action\Consumable\AutoConsumableActionTest.cs" />
     <Compile Include="Action\Consumable\SetConsumableActionTest.cs" />
+    <Compile Include="Action\Setting\CsvProfileEmptyCellActionTest.cs" />
+    <Compile Include="Action\Setting\CsvProfileFieldSeparatorTest .cs" />
+    <Compile Include="Action\Setting\CsvProfileFirstRowHeaderTest.cs" />
+    <Compile Include="Action\Setting\CsvProfileMissingCellActionTest.cs" />
+    <Compile Include="Action\Setting\CsvProfileRecordSeparatorActionTest.cs" />
+    <Compile Include="Action\Setting\CsvProfileTextQualifierTest.cs" />
     <Compile Include="Action\Setting\ReferenceActionTest.cs" />
     <Compile Include="Action\Setting\DefaultActionTest.cs" />
     <Compile Include="Action\Suite\GenerateTestGroupBySuiteActionTest.cs" />
     <Compile Include="Action\Suite\GenerateTestSuiteActionTest.cs" />
+    <Compile Include="Action\Suite\SaveSuiteActionTest.cs" />
     <Compile Include="Action\Template\AddEmbeddedTemplateActionTest.cs" />
     <Compile Include="Action\Variable\IncludeVariableActionTest.cs" />
     <Compile Include="Parser\CaseParserTest.cs" />
@@ -92,6 +99,7 @@
     <Compile Include="Parser\ConsumableParserTest.cs" />
     <Compile Include="Parser\GrammarParserTest.cs" />
     <Compile Include="Parser\RecipeParserTest.cs" />
+    <Compile Include="Parser\CsvProfileParserTest.cs" />
     <Compile Include="Parser\SettingParserTest.cs" />
     <Compile Include="Parser\SuiteParserTest.cs" />
     <Compile Include="Parser\TemplateParserTest.cs" />

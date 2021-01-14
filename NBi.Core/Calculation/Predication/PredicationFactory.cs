@@ -28,5 +28,11 @@ namespace NBi.Core.Calculation.Predication
                     throw new ArgumentOutOfRangeException(nameof(combinationOperator));
             }
         }
+
+        private readonly IPredication truePredication = new TruePredication(); 
+        public IPredication True
+        {
+            get => truePredication;
+        }
     }
 }

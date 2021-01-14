@@ -1,9 +1,6 @@
-﻿using Microsoft.CSharp;
-using NBi.Core.Scalar;
-using NBi.Core.Scalar.Resolver;
-using NBi.Core.Transformation;
+﻿using NBi.Core.Scalar;
+using NBi.Extensibility.Resolving;
 using System;
-using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -13,13 +10,13 @@ using System.Threading.Tasks;
 
 namespace NBi.Core.Variable
 {
-    public abstract class TestVariable : ITestVariable
+    public abstract class RuntimeVariable : IRuntimeVariable
     {
         private object value;
         private bool isEvaluated;
         private readonly IScalarResolver resolver;
 
-        public TestVariable(IScalarResolver resolver)
+        public RuntimeVariable(IScalarResolver resolver)
         {
             this.resolver = resolver;
         }

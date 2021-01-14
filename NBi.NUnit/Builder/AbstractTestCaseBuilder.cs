@@ -20,7 +20,7 @@ namespace NBi.NUnit.Builder
         protected NBiConstraint Constraint { get; set; }
         protected IConfiguration Configuration { get; private set; }
         
-        protected IDictionary<string, ITestVariable> Variables { get; private set; }
+        protected IDictionary<string, IVariable> Variables { get; private set; }
         protected ServiceLocator ServiceLocator { get; private set; }
 
         protected bool isSetup;
@@ -31,10 +31,10 @@ namespace NBi.NUnit.Builder
             Setup(sutXml, ctrXml, null, null, null);
         }
 
-        public virtual void Setup(AbstractSystemUnderTestXml sutXml, AbstractConstraintXml ctrXml, IConfiguration config, IDictionary<string, ITestVariable> variables, ServiceLocator serviceLocator)
+        public virtual void Setup(AbstractSystemUnderTestXml sutXml, AbstractConstraintXml ctrXml, IConfiguration config, IDictionary<string, IVariable> variables, ServiceLocator serviceLocator)
         {
             Configuration = config ?? Core.Configuration.Configuration.Default;
-            Variables = variables ?? new Dictionary<string, ITestVariable>();
+            Variables = variables ?? new Dictionary<string, IVariable>();
             ServiceLocator = serviceLocator;
             BaseSetup(sutXml, ctrXml);
             SpecificSetup(sutXml, ctrXml);

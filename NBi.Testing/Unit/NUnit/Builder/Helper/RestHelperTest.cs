@@ -29,7 +29,7 @@ namespace NBi.Testing.Unit.NUnit.Builder.Helper
                 Segments = new List<RestSegmentXml> { new RestSegmentXml { Name = "user", Value = "@User" } },
             };
 
-            var variables = new Dictionary<string, ITestVariable> { { "User", new GlobalVariable(new LiteralScalarResolver<string>("seddryck")) } };
+            var variables = new Dictionary<string, IVariable> { { "User", new GlobalVariable(new LiteralScalarResolver<string>("seddryck")) } };
 
             var helper = new RestHelper(new ServiceLocator(), null, SettingsXml.DefaultScope.Everywhere , variables);
             var restEngine = helper.Execute(xml);

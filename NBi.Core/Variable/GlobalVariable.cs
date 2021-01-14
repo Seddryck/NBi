@@ -1,4 +1,4 @@
-﻿using NBi.Core.Scalar.Resolver;
+﻿using NBi.Extensibility.Resolving;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace NBi.Core.Variable
 {
-    public class GlobalVariable : TestVariable
+    public class GlobalVariable : RuntimeVariable
     {
         public GlobalVariable(IScalarResolver resolver)
             : base(resolver) { }

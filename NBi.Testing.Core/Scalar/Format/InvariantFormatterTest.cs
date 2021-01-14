@@ -15,7 +15,7 @@ namespace NBi.Testing.Core.Scalar.Format
         [Test]
         public void Execute_OneGlobalVariable_Processed()
         {
-            var globalVariables = new Dictionary<string, ITestVariable>()
+            var globalVariables = new Dictionary<string, IVariable>()
             {
                 { "myVar", new OverridenVariable("myVar", "2018") }
             };
@@ -27,7 +27,7 @@ namespace NBi.Testing.Core.Scalar.Format
         [Test]
         public void Execute_TwoGlobalVariables_Processed()
         {
-            var globalVariables = new Dictionary<string, ITestVariable>()
+            var globalVariables = new Dictionary<string, IVariable>()
             {
                 { "myVar", new OverridenVariable("myVar", "2018") },
                 { "myTime", new OverridenVariable("myTime", "YEAR") }
@@ -40,7 +40,7 @@ namespace NBi.Testing.Core.Scalar.Format
         [Test]
         public void Execute_OneGlobalVariablesFormatted_Processed()
         {
-            var globalVariables = new Dictionary<string, ITestVariable>()
+            var globalVariables = new Dictionary<string, IVariable>()
             {
                 { "myVar", new OverridenVariable("myVar", new DateTime(2018, 11, 6)) },
             };
@@ -53,7 +53,7 @@ namespace NBi.Testing.Core.Scalar.Format
         [SetCulture("fr-fr")]
         public void ExecuteWithCulture_OneGlobalVariablesFormatted_ProcessedCultureIndepedant()
         {
-            var globalVariables = new Dictionary<string, ITestVariable>()
+            var globalVariables = new Dictionary<string, IVariable>()
             {
                 { "myVar", new OverridenVariable("myVar", new DateTime(2018, 8, 6)) },
             };
@@ -65,7 +65,7 @@ namespace NBi.Testing.Core.Scalar.Format
         [Test]
         public void Execute_OneGlobalVariablesAdvancedFormatted_Processed()
         {
-            var globalVariables = new Dictionary<string, ITestVariable>()
+            var globalVariables = new Dictionary<string, IVariable>()
             {
                 { "myVar", new OverridenVariable("myVar", new DateTime(2018, 8, 6)) },
             };

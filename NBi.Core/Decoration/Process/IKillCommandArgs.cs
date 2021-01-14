@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using NBi.Core.Scalar.Resolver;
+using NBi.Extensibility.Resolving;
 
 namespace NBi.Core.Decoration.Process
 {

@@ -1,5 +1,6 @@
 ﻿using NBi.Core.Sequence.Resolver;
 using NBi.Core.Transformation;
+using NBi.Extensibility.Resolving;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,7 +29,7 @@ namespace NBi.Core.Variable.Instantiation
             {
                 var instanceVariable = new InstanceVariable(obj);
                 yield return new Instance(
-                    new Dictionary<string, ITestVariable>() { { variableName, instanceVariable } },
+                    new Dictionary<string, IVariable>() { { variableName, instanceVariable } },
                     categories,
                     traits
                     );
@@ -39,7 +40,7 @@ namespace NBi.Core.Variable.Instantiation
         {
             foreach (var obj in resolver.Execute())
             {
-                var dico = new Dictionary<string, ITestVariable>() { { variableName, new InstanceVariable(obj) } };
+                var dico = new Dictionary<string, IVariable>() { { variableName, new InstanceVariable(obj) } };
                 foreach (var derivation in derivations)
                     dico.Add(derivation.Key, new InstanceVariable(derivation.Value.Transformer.Execute(dico[derivation.Value.Source].GetValue())));
                 yield return new Instance(

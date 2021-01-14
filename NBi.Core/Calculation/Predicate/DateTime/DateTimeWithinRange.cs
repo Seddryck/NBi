@@ -1,13 +1,13 @@
-﻿using NBi.Core.ResultSet;
+﻿using NBi.Core.Scalar.Interval;
+using NBi.Core.Scalar.Casting;
+using NBi.Extensibility.Resolving;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using NBi.Core.Scalar.Interval;
-using NBi.Core.Scalar.Casting;
-using NBi.Core.Scalar.Resolver;
+
 
 namespace NBi.Core.Calculation.Predicate.DateTime
 {

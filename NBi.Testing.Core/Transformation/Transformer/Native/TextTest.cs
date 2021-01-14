@@ -1,4 +1,5 @@
 ﻿using NBi.Core.Scalar.Resolver;
+using NBi.Extensibility.Resolving;
 using NBi.Core.Transformation.Transformer.Native;
 using NBi.Core.Variable;
 using NUnit.Framework;
@@ -317,7 +318,7 @@ namespace NBi.Testing.Core.Transformation.Transformer.Native
         [Test]
         public void Execute_TextToLastCharsWithVariable_Valid()
         {
-            var args = new GlobalVariableScalarResolverArgs("length", new Dictionary<string, ITestVariable>() { { "length", new GlobalVariable(new LiteralScalarResolver<int>(6) )} });
+            var args = new GlobalVariableScalarResolverArgs("length", new Dictionary<string, IVariable>() { { "length", new GlobalVariable(new LiteralScalarResolver<int>(6) )} });
             var function = new TextToLastChars(new GlobalVariableScalarResolver<int>(args));
             var result = function.Evaluate("123456789");
             Assert.That(result, Is.EqualTo("456789"));

@@ -19,6 +19,7 @@ using NBi.Core.Scalar.Casting;
 using NBi.Core.Variable.Instantiation;
 using NBi.Core.Decoration;
 using NBi.Extensibility;
+using NBi.Extensibility.Resolving;
 
 namespace NBi.NUnit.Runtime
 {
@@ -36,7 +37,7 @@ namespace NBi.NUnit.Runtime
         public bool AllowDtdProcessing { get; set; }
         public string SettingsFilename { get; set; }
         public IConfiguration Configuration { get; set; }
-        public static IDictionary<string, ITestVariable> Variables { get; set; }
+        public static IDictionary<string, IVariable> Variables { get; set; }
 
         public static IDictionary<string, object> OverridenVariables { get; set; }
 
@@ -78,7 +79,7 @@ namespace NBi.NUnit.Runtime
         }
 
         [Test, TestCaseSource("GetTestCases")]
-        public virtual void ExecuteTestCases(TestXml test, string testName, IDictionary<string, ITestVariable> localVariables)
+        public virtual void ExecuteTestCases(TestXml test, string testName, IDictionary<string, IVariable> localVariables)
         {
             if (ConfigurationProvider != null)
             {
@@ -136,7 +137,7 @@ namespace NBi.NUnit.Runtime
             }
         }
 
-        private void ValidateConditions(ConditionXml condition, IDictionary<string, ITestVariable> allVariables)
+        private void ValidateConditions(ConditionXml condition, IDictionary<string, IVariable> allVariables)
         {
             foreach (var predicate in condition.Predicates)
             {
@@ -152,7 +153,7 @@ namespace NBi.NUnit.Runtime
             }
         }
 
-        private void ExecuteSetup(SetupXml setup, IDictionary<string, ITestVariable> allVariables)
+        private void ExecuteSetup(SetupXml setup, IDictionary<string, IVariable> allVariables)
         {
             var setupHelper = new SetupHelper(serviceLocator, allVariables);
             var commands = setupHelper.Execute(setup.Commands);
@@ -201,7 +202,7 @@ namespace NBi.NUnit.Runtime
             Assert.Fail(message);
         }
 
-        private void ExecuteCleanup(CleanupXml cleanup, IDictionary<string, ITestVariable> allVariables)
+        private void ExecuteCleanup(CleanupXml cleanup, IDictionary<string, IVariable> allVariables)
         {
             var cleanupHelper = new SetupHelper(serviceLocator, allVariables);
             var commands = cleanupHelper.Execute(cleanup.Commands);
@@ -274,9 +275,9 @@ namespace NBi.NUnit.Runtime
             return BuildTestCases();
         }
 
-        private IDictionary<string, ITestVariable> BuildVariables(IEnumerable<GlobalVariableXml> variables, IDictionary<string, object> overridenVariables)
+        private IDictionary<string, IVariable> BuildVariables(IEnumerable<GlobalVariableXml> variables, IDictionary<string, object> overridenVariables)
         {
-            var instances = new Dictionary<string, ITestVariable>();
+            var instances = new Dictionary<string, IVariable>();
             var resolverFactory = serviceLocator.GetScalarResolverFactory();
 
             Trace.WriteLineIf(NBiTraceSwitch.TraceInfo, $"{variables.Count()} variable{(variables.Count() > 1 ? "s" : string.Empty)} defined in the test-suite.");

@@ -1627,6 +1627,39 @@
         </equalTo>
       </assert>
     </test>
+    <test name="Conversion with text-to-token" uid="0223">
+      <system-under-test>
+        <resultSet>
+            <row>
+              <cell>1</cell>
+              <cell>2017-07-06</cell>
+              <cell>CUST0001</cell>
+            </row>
+          </resultSet>
+      </system-under-test>
+      <assert>
+        <equalTo keys="all">
+          <result-set>
+            <row>
+              <cell>1 2017-07-06 CUST0001</cell>
+              <cell>1;2017-07-06;CUST0001</cell>
+              <cell>1/2017-07-06/CUST0001</cell>
+            </row>
+            <alteration>
+              <transform column="#0" language="native" original-type="text">
+                text-to-token(0)
+              </transform>
+              <transform column="#1" language="native" original-type="text">
+                text-to-token(1,;)
+              </transform>
+              <transform column="#2" language="native" original-type="text">
+                text-to-token(2,/)
+              </transform>
+            </alteration>
+          </result-set>
+        </equalTo>
+      </assert>
+    </test>
     <test name="Transformations with C#" uid="0230">
       <system-under-test>
         <resultSet file="..\Csv\Orders.csv">

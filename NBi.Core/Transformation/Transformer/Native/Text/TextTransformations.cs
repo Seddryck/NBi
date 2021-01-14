@@ -212,6 +212,18 @@ namespace NBi.Core.Transformation.Transformer.Native
         protected override object EvaluateString(string value) => value.Length;
     }
 
+    class TextToToken : TextToLength
+    {
+        public IScalarResolver<int> Index { get; }
+        public IScalarResolver<char> Separator  { get; }
+        public TextToToken(IScalarResolver<int> index)
+            => (Index, Separator) = (index, new LiteralScalarResolver<char>(' '));
+        public TextToToken(IScalarResolver<int> index, IScalarResolver<char> separator)
+            => (Index, Separator) = (index, separator);
+        protected override object EvaluateBlank() => 0;
+        protected override object EvaluateString(string value) => value.Split(new char[] { Separator.Execute() }, StringSplitOptions.RemoveEmptyEntries)[Index.Execute()].Trim();
+    }
+
     class TextToTokenCount : TextToLength
     {
         protected override object EvaluateBlank() => 0;

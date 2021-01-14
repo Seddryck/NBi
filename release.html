@@ -77,31 +77,28 @@ permalink: /release/
   </div>
   <div class="clear"></div>
 	<script type="text/javascript">
-    function GetLatestReleaseInfo()
-	{
-        $.getJSON("https://api.github.com/repos/Seddryck/NBi/releases/latest").done(function (release) {
-            var framework = release.assets.find(function(asset) {return asset.name.includes("Framework");});	
-            var downloadFramework = "https://github.com/Seddryck/NBi/releases/download/" + release.tag_name + "/" + framework.name;
+function GetLatestReleaseInfo() {
+  $.getJSON("https://api.github.com/repos/Seddryck/NBi/releases/latest").done(function (release) {
+      var framework = release.assets.find(function(asset) {return asset.name.includes("Framework");});
+      var genbi = release.assets.find(function(asset) {return asset.name.includes("Genbi");});
 
-			var genbi = release.assets.find(function(asset) {return asset.name.includes("Genbi");});
-			var downloadGenbi = "https://github.com/Seddryck/NBi/releases/download/" + release.tag_name + "/" + genbi.name;
-
-            var downloadCount = 0;
-            for (var i = 0; i < release.assets.length; i++) {
-				if (release.assets.length>0){
-                	downloadCount += release.assets[i].download_count;
-				}
-            }
-            downloadCount +=  170 + 607 + 46 + 495 + 65 + 51 + 562 + 21 + 8 + 115 + 1488 + 250 + 7 + 5 + 49 + 1956;
-            var releaseInfo = release.name + " downloaded " + downloadCount + " times.";
-            $("#downloadFramework").attr("href", downloadFramework);
-			$("#downloadGenbi").attr("href", downloadGenbi);
-            $("#downloadCount").text(downloadCount);
-			$("#releaseName").text(release.name);
-			$("#createdAt").text(release.created_at);
-            $("#releaseName").fadeIn("slow");
-        });
-	}
+      var downloadCount = 0;
+      for (var i = 0; i < release.assets.length; i++) {
+        if (release.assets.length>0){
+          downloadCount += release.assets[i].download_count;
+        }
+      }
+      downloadCount +=  170 + 607 + 46 + 495 + 65 + 51 + 562 + 21 + 8 + 115 + 1488 + 250 + 7 + 5 + 49 + 1956;
+      var releaseInfo = release.name + " downloaded " + downloadCount + " times.";
+      $("#downloadFramework").attr("href", framework.browser_download_url);
+      $("#downloadGenbi").attr("href", genbi.browser_download_url);
+      $("#downloadCount").text(downloadCount);
+      $("#releaseName").text(release.name);
+      $("#createdAt").text(release.created_at);
+      $("#releaseName").fadeIn("slow");
+      console.log(framework.browser_download_url, genbi.browser_download_url, downloadCount, release.name, release.created_at)
+  });
+}
 
 	function GetAllReleaseInfo()
 	{

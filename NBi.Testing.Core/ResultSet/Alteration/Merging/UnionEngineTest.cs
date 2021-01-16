@@ -19,7 +19,7 @@ namespace NBi.Testing.Core.ResultSet.Alteration.Merging
             var rs1 = new ObjectsResultSetResolver(args1).Execute();
 
             var args2 = new ObjectsResultSetResolverArgs(new[] { new object[] { "Delta", 10, 5 }, new object[] { "Epsilon", 7, 3 } });
-            var rs2 = new ResultSetService(new ObjectsResultSetResolver(args2).Execute, null);
+            var rs2 = new ObjectsResultSetResolver(args2);
 
             var merge = new UnionByNameEngine(rs2);
             var result = merge.Execute(rs1);
@@ -37,7 +37,7 @@ namespace NBi.Testing.Core.ResultSet.Alteration.Merging
             rs1.Columns[2].SetOrdinal(0);
 
             var args2 = new ObjectsResultSetResolverArgs(new[] { new object[] { "Delta", 10, 5 }, new object[] { "Epsilon", 7, 3 } });
-            var rs2 = new ResultSetService(new ObjectsResultSetResolver(args2).Execute, null);
+            var rs2 = new ObjectsResultSetResolver(args2);
 
             var merge = new UnionByNameEngine(rs2);
             var result = merge.Execute(rs1);
@@ -67,7 +67,7 @@ namespace NBi.Testing.Core.ResultSet.Alteration.Merging
             var rs1 = new ObjectsResultSetResolver(args1).Execute();
 
             var args2 = new ObjectsResultSetResolverArgs(new[] { new object[] { "Delta", 10, 5 }, new object[] { "Epsilon", 7, 3 } });
-            var rs2 = new ResultSetService(new ObjectsResultSetResolver(args2).Execute, null);
+            var rs2 = new ObjectsResultSetResolver(args2);
 
             var merge = new UnionByOrdinalEngine(rs2);
             var result = merge.Execute(rs1);
@@ -83,7 +83,7 @@ namespace NBi.Testing.Core.ResultSet.Alteration.Merging
             var rs1 = new ObjectsResultSetResolver(args1).Execute();
 
             var args2 = new ObjectsResultSetResolverArgs(new[] { new object[] { "Delta", 10, 5, true }, new object[] { "Epsilon", 7, 3, false } });
-            var rs2 = new ResultSetService(new ObjectsResultSetResolver(args2).Execute, null);
+            var rs2 = new ObjectsResultSetResolver(args2);
 
             var merge = new UnionByOrdinalEngine(rs2);
             var result = merge.Execute(rs1);
@@ -104,7 +104,7 @@ namespace NBi.Testing.Core.ResultSet.Alteration.Merging
             var rs1 = new ObjectsResultSetResolver(args1).Execute();
 
             var args2 = new ObjectsResultSetResolverArgs(new[] { new object[] { "Delta", 10 }, new object[] { "Epsilon", 7 } });
-            var rs2 = new ResultSetService(new ObjectsResultSetResolver(args2).Execute, null);
+            var rs2 = new ObjectsResultSetResolver(args2);
 
             var merge = new UnionByOrdinalEngine(rs2);
             var result = merge.Execute(rs1);

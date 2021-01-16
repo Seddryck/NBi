@@ -21,7 +21,7 @@ namespace NBi.Core.ResultSet.Resolver
         {
             SequenceResolver = sequenceResolver;
             ResultSetResolver = resultSetResolver;
-            MergingEngine = new UnionByOrdinalEngine(new ResultSetService(resultSetResolver.Execute, null));
+            MergingEngine = new UnionByOrdinalEngine(resultSetResolver);
             Variables = variables;
             VariableName = variableName;
         }

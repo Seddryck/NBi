@@ -10,12 +10,13 @@ using NBi.Core.ResultSet.Equivalence;
 using NUnit.Framework;
 using NBi.Core.Configuration.FailureReport;
 using NBi.Extensibility;
+using NBi.Extensibility.Resolving;
 
 namespace NBi.NUnit.ResultSetComparison
 {
     public abstract class BaseResultSetComparisonConstraint : NBiConstraint
     {
-        protected IResultSetService expect;
+        protected IResultSetResolver expect;
 
         protected bool parallelizeQueries = false;
 
@@ -44,9 +45,9 @@ namespace NBi.NUnit.ResultSetComparison
             set => engine = value ?? throw new ArgumentNullException();
         }
         
-        public BaseResultSetComparisonConstraint(IResultSetService value)
+        public BaseResultSetComparisonConstraint(IResultSetResolver resolver)
         {
-            this.expect = value;
+            this.expect = resolver;
         }
 
         
@@ -81,8 +82,8 @@ namespace NBi.NUnit.ResultSetComparison
         /// <returns>true, if the execution of the actual IResultSetService returns a ResultSet identical to the content of the expected ResultSet</returns>
         public override bool Matches(object actual)
         {
-            if (actual is IResultSetService)
-                return Process((IResultSetService)actual);
+            if (actual is IResultSetResolver)
+                return Process((IResultSetResolver)actual);
             else if (actual is ResultSet)
                 return doMatch((ResultSet)actual);
             else
@@ -110,7 +111,7 @@ namespace NBi.NUnit.ResultSetComparison
         /// </summary>
         /// <param name="actual">IDbCommand</param>
         /// <returns></returns>
-        public bool Process(IResultSetService actual)
+        public bool Process(IResultSetResolver actual)
         {
             IResultSet rsActual = null;
             if (parallelizeQueries)
@@ -121,9 +122,9 @@ namespace NBi.NUnit.ResultSetComparison
             return this.Matches(rsActual);
         }
 
-        public IResultSet ProcessParallel(IResultSetService actual)
+        public IResultSet ProcessParallel(IResultSetResolver actual)
         {
-            Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceVerbose, string.Format("Queries exectued in parallel."));
+            Trace.WriteLineIf(NBiTraceSwitch.TraceVerbose, string.Format("Queries exectued in parallel."));
             
             IResultSet rsActual = null;
             System.Threading.Tasks.Parallel.Invoke(

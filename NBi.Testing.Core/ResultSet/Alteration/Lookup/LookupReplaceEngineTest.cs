@@ -30,14 +30,13 @@ namespace NBi.Testing.Core.ResultSet.Alteration.Lookup
                     }
                 )).Execute();
 
-            var reference = new ResultSetService(
-                new ObjectsResultSetResolver(
+            var reference = new ObjectsResultSetResolver(
                     new ObjectsResultSetResolverArgs(
                         new[] {
                             new object[] { "A", "alpha" },
                             new object[] { "B", "beta" },
                         }
-                )).Execute, null);
+                    ));
 
             var engine = new LookupReplaceEngine(
                     new LookupReplaceArgs( 
@@ -67,14 +66,13 @@ namespace NBi.Testing.Core.ResultSet.Alteration.Lookup
                     }
                 )).Execute();
 
-            var reference = new ResultSetService(
-                new ObjectsResultSetResolver(
+            var reference =  new ObjectsResultSetResolver(
                     new ObjectsResultSetResolverArgs(
                         new[] {
                             new object[] { "A", 10.2 },
                             new object[] { "B", 21.1 },
                         }
-                )).Execute, null);
+                    ));
 
             var engine = new LookupReplaceEngine(
                     new LookupReplaceArgs(
@@ -104,14 +102,14 @@ namespace NBi.Testing.Core.ResultSet.Alteration.Lookup
                     }
                 )).Execute();
 
-            var reference = new ResultSetService(
+            var reference = 
                 new ObjectsResultSetResolver(
                     new ObjectsResultSetResolverArgs(
                         new[] {
                             new object[] { "A", "alpha" },
                             new object[] { "B", "beta" },
                         }
-                )).Execute, null);
+                ));
 
             var engine = new LookupReplaceEngine(
                     new LookupReplaceArgs(
@@ -138,14 +136,14 @@ namespace NBi.Testing.Core.ResultSet.Alteration.Lookup
                     }
                 )).Execute();
 
-            var reference = new ResultSetService(
+            var reference = 
                 new ObjectsResultSetResolver(
                     new ObjectsResultSetResolverArgs(
                         new[] {
                             new object[] { "A", "alpha" },
                             new object[] { "B", "beta" },
                         }
-                )).Execute, null);
+                ));
 
             var engine = new LookupReplaceEngine(
                     new LookupReplaceArgs(
@@ -177,14 +175,14 @@ namespace NBi.Testing.Core.ResultSet.Alteration.Lookup
                     }
                 )).Execute();
 
-            var reference = new ResultSetService(
+            var reference = 
                 new ObjectsResultSetResolver(
                     new ObjectsResultSetResolverArgs(
                         new[] {
                             new object[] { "A", "alpha" },
                             new object[] { "B", "beta" },
                         }
-                )).Execute, null);
+                ));
 
             var engine = new LookupReplaceEngine(
                     new LookupReplaceArgs(
@@ -216,14 +214,14 @@ namespace NBi.Testing.Core.ResultSet.Alteration.Lookup
                     }
                 )).Execute();
 
-            var reference = new ResultSetService(
+            var reference =
                 new ObjectsResultSetResolver(
                     new ObjectsResultSetResolverArgs(
                         new[] {
                             new object[] { "A", "alpha" },
                             new object[] { "B", "beta" },
                         }
-                )).Execute, null);
+                ));
 
             var engine = new LookupReplaceEngine(
                     new LookupReplaceArgs(

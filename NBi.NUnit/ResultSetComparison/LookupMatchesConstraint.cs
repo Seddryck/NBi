@@ -3,6 +3,7 @@ using NBi.Core.Configuration.FailureReport;
 using NBi.Core.ResultSet;
 using NBi.Core.ResultSet.Lookup;
 using NBi.Core.Scalar.Comparer;
+using NBi.Extensibility.Resolving;
 using NBi.Framework.FailureMessage;
 using NUnit.Framework;
 using System;
@@ -38,7 +39,7 @@ namespace NBi.NUnit.ResultSetComparison
             return msg;
         }
 
-        public LookupMatchesConstraint(IResultSetService reference)
+        public LookupMatchesConstraint(IResultSetResolver reference)
         : base(reference) { }
 
         private ColumnMappingCollection keyMappings;

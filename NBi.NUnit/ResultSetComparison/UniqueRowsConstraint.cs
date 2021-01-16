@@ -11,6 +11,7 @@ using NBi.Framework.FailureMessage.Markdown;
 using NBi.Framework;
 using NUnit.Framework;
 using NBi.Core.Configuration.FailureReport;
+using NBi.Extensibility.Resolving;
 
 namespace NBi.NUnit.Query
 {
@@ -39,9 +40,9 @@ namespace NBi.NUnit.Query
         /// <returns>true, if the result-set has unique rows</returns>
         public override bool Matches(object actual)
         {
-            if (actual is IResultSetService)
+            if (actual is IResultSetResolver)
             {
-                return Matches((actual as IResultSetService).Execute());
+                return Matches((actual as IResultSetResolver).Execute());
             }
             else if (actual is ResultSet)
             {

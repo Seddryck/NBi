@@ -574,6 +574,8 @@
     <Compile Include="ResultSet\Lookup\Violation\LookupMatchesViolationComposite.cs" />
     <Compile Include="ResultSet\Alteration\Projection\ProjectEngine.cs" />
     <Compile Include="ResultSet\Alteration\Projection\ProjectAwayEngine.cs" />
+    <Compile Include="ResultSet\Resolver\AlterationResultSetResolverArgs.cs" />
+    <Compile Include="ResultSet\Resolver\AlterationResultSetResolver.cs" />
     <Compile Include="ResultSet\Resolver\EmptyResultSetResolverArgs.cs" />
     <Compile Include="ResultSet\Resolver\EmptyResultSetResolver.cs" />
     <Compile Include="ResultSet\Resolver\IfUnavailableResultSetResolverArgs.cs" />
@@ -631,7 +633,6 @@
     <Compile Include="ResultSet\DataRowKeysComparerByName.cs" />
     <Compile Include="ResultSet\DataRowKeysComparerByOrdinal.cs" />
     <Compile Include="ResultSet\Resolver\FlatFileResultSetResolver.cs" />
-    <Compile Include="ResultSet\IResultSetService.cs" />
     <Compile Include="ResultSet\Resolver\ContentResultSetResolver.cs" />
     <Compile Include="ResultSet\Resolver\RowsResultSetResolver.cs" />
     <Compile Include="ResultSet\Resolver\ObjectsResultSetResolver.cs" />
@@ -652,8 +653,6 @@
     <Compile Include="Query\Resolver\IQueryResolver.cs" />
     <Compile Include="Query\Resolver\BaseQueryResolverArgs.cs" />
     <Compile Include="Query\Resolver\QueryResolverFactory.cs" />
-    <Compile Include="ResultSet\ResultSetService.cs" />
-    <Compile Include="ResultSet\ResultSetServiceBuilder.cs" />
     <Compile Include="ResultSet\Uniqueness\EvaluatorFactory.cs" />
     <Compile Include="ResultSet\Uniqueness\NameEvaluator.cs" />
     <Compile Include="ResultSet\Uniqueness\SettingsEvaluatorBuilder.cs" />

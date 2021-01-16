@@ -1,4 +1,5 @@
 ﻿using NBi.Extensibility;
+using NBi.Extensibility.Resolving;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -10,9 +11,9 @@ namespace NBi.Core.ResultSet.Alteration.Merging
 {
     public class UnionByOrdinalEngine : IMergingEngine
     {
-        public IResultSetService ResultSetResolver { get; }
+        public IResultSetResolver ResultSetResolver { get; }
 
-        public UnionByOrdinalEngine(IResultSetService resultSetResolver)
+        public UnionByOrdinalEngine(IResultSetResolver resultSetResolver)
             => (ResultSetResolver) = (resultSetResolver);
 
         public IResultSet Execute(IResultSet rs)

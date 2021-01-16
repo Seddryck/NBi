@@ -8,6 +8,7 @@ using NBi.NUnit.ResultSetComparison;
 using NBi.NUnit.Structure;
 using NF = NUnit.Framework;
 using NBi.Core.ResultSet;
+using NBi.Extensibility.Resolving;
 
 namespace NBi.NUnit.FluentInterface
 {
@@ -30,9 +31,9 @@ namespace NBi.NUnit.FluentInterface
             return ctr;
         }
 
-        public static EqualToConstraint EqualTo(IResultSetService service)
+        public static EqualToConstraint EqualTo(IResultSetResolver resolver)
         {
-            var ctr = new EqualToConstraint(service);
+            var ctr = new EqualToConstraint(resolver);
             return ctr;
         }
         

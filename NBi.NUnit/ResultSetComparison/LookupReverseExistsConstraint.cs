@@ -18,20 +18,20 @@ namespace NBi.NUnit.ResultSetComparison
 {
     public class LookupReverseExistsConstraint : LookupExistsConstraint
     {
-        public LookupReverseExistsConstraint(IResultSetService reference)
+        public LookupReverseExistsConstraint(IResultSetResolver reference)
             : base(reference)
         { }
 
         public new LookupReverseExistsConstraint Using(ColumnMappingCollection mappings)
             => base.Using(mappings) as LookupReverseExistsConstraint;
 
-        public override bool ProcessParallel(IResultSetService actual)
+        public override bool ProcessParallel(IResultSetResolver actual)
         {
             Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceVerbose, string.Format("Queries exectued in parallel."));
 
             Parallel.Invoke(
                 () => { rsReference = actual.Execute(); },
-                () => { rsCandidate = referenceService.Execute(); }
+                () => { rsCandidate = referenceResolver.Execute(); }
             );
 
             return Matches(rsReference);

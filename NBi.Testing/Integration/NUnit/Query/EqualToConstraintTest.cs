@@ -69,16 +69,12 @@ namespace NBi.Testing.Integration.NUnit.Query
             var query2 = new NBi.Core.Query.Query("WAITFOR DELAY '00:00:03';SELECT 1;", ConnectionStringReader.GetSqlClient());
 
             var resolver = new FakeQueryResultSetResolver(query2, serviceLocator);
-            var builder = new ResultSetServiceBuilder();
-            builder.Setup(resolver);
-            BaseResultSetComparisonConstraint ctr = new EqualToConstraint(builder.GetService());
+            BaseResultSetComparisonConstraint ctr = new EqualToConstraint(resolver);
             ctr = ctr.Parallel();
 
             //Method under test
             var chrono = DateTime.Now;
-            var actualBuilder = new ResultSetServiceBuilder();
-            actualBuilder.Setup(new FakeQueryResultSetResolver(query1, serviceLocator));
-            var actual = actualBuilder.GetService();
+            var actual = new FakeQueryResultSetResolver(query1, serviceLocator);
             Assert.That(actual, ctr);
             var elapsed = DateTime.Now.Subtract(chrono);
 
@@ -91,17 +87,13 @@ namespace NBi.Testing.Integration.NUnit.Query
             var query1 = new NBi.Core.Query.Query("WAITFOR DELAY '00:00:03';SELECT 1;", ConnectionStringReader.GetSqlClient());
             var query2 = new NBi.Core.Query.Query("WAITFOR DELAY '00:00:03';SELECT 1;", ConnectionStringReader.GetSqlClient());
 
-            var loader = new FakeQueryResultSetResolver(query2, serviceLocator);
-            var builder = new ResultSetServiceBuilder();
-            builder.Setup(loader);
-            BaseResultSetComparisonConstraint ctr = new EqualToConstraint(builder.GetService());
+            var resolver = new FakeQueryResultSetResolver(query2, serviceLocator);
+            BaseResultSetComparisonConstraint ctr = new EqualToConstraint(resolver);
             ctr = ctr.Sequential();
 
             //Method under test
             var chrono = DateTime.Now;
-            var actualBuilder = new ResultSetServiceBuilder();
-            actualBuilder.Setup(new FakeQueryResultSetResolver(query1, serviceLocator));
-            var actual = actualBuilder.GetService();
+            var actual = new FakeQueryResultSetResolver(query1, serviceLocator);
 
             Assert.That(actual, ctr);
             var elapsed = DateTime.Now.Subtract(chrono);
@@ -123,17 +115,12 @@ namespace NBi.Testing.Integration.NUnit.Query
             };
 
             var resolver = new ObjectsResultSetResolver(new ObjectsResultSetResolverArgs(objs.ToArray()));
-            var builder = new ResultSetServiceBuilder();
-            builder.Setup(resolver);
-            var ctr = new EqualToConstraint(builder.GetService());
+            var ctr = new EqualToConstraint(resolver);
 
             var mdx = "SELECT [Measures].[Amount] ON 0, NON EMPTY([Date].[Calendar].[Calendar Year]) ON 1 FROM [Adventure Works]";
             var query = new NBi.Core.Query.Query(mdx, ConnectionStringReader.GetAdomd());
 
-
-            var actualBuilder = new ResultSetServiceBuilder();
-            actualBuilder.Setup(new FakeQueryResultSetResolver(query, serviceLocator));
-            var actual = actualBuilder.GetService();
+            var actual = new FakeQueryResultSetResolver(query, serviceLocator);
 
             //Assertion
             Assert.That(ctr.Matches(actual));
@@ -152,9 +139,8 @@ namespace NBi.Testing.Integration.NUnit.Query
             };
 
             var resolver = new ObjectsResultSetResolver(new ObjectsResultSetResolverArgs(objs.ToArray()));
-            var builder = new ResultSetServiceBuilder();
-            builder.Setup(resolver);
-            var ctr = new EqualToConstraint(builder.GetService());
+            
+            var ctr = new EqualToConstraint(resolver);
             ctr.Using(new SettingsOrdinalResultSet(
                     SettingsOrdinalResultSet.KeysChoice.First,
                     SettingsOrdinalResultSet.ValuesChoice.Last,
@@ -164,11 +150,7 @@ namespace NBi.Testing.Integration.NUnit.Query
 
             var mdx = "SELECT [Measures].[Amount] ON 0, NON EMPTY([Date].[Calendar].[Calendar Year]) ON 1 FROM [Adventure Works]";
             var query = new NBi.Core.Query.Query(mdx, ConnectionStringReader.GetAdomd());
-
-
-            var actualBuilder = new ResultSetServiceBuilder();
-            actualBuilder.Setup(new FakeQueryResultSetResolver(query, serviceLocator));
-            var actual = actualBuilder.GetService();
+            var actual = new FakeQueryResultSetResolver(query, serviceLocator);
 
             //Assertion
             Assert.That(ctr.Matches(actual));
@@ -186,9 +168,7 @@ namespace NBi.Testing.Integration.NUnit.Query
                 new object[] { "CY 2008", 1513940 }
             };
             var resolver = new ObjectsResultSetResolver(new ObjectsResultSetResolverArgs(objs.ToArray()));
-            var builder = new ResultSetServiceBuilder();
-            builder.Setup(resolver);
-            var ctr = new EqualToConstraint(builder.GetService());
+            var ctr = new EqualToConstraint(resolver);
             ctr.Using(new SettingsOrdinalResultSet(
                 SettingsOrdinalResultSet.KeysChoice.First,
                 SettingsOrdinalResultSet.ValuesChoice.Last,
@@ -197,10 +177,8 @@ namespace NBi.Testing.Integration.NUnit.Query
 
             var mdx = "SELECT [Measures].[Amount] ON 0, NON EMPTY([Date].[Calendar].[Calendar Year]) ON 1 FROM [Adventure Works]";
             var query = new NBi.Core.Query.Query(mdx, ConnectionStringReader.GetAdomd());
-            var actualBuilder = new ResultSetServiceBuilder();
-            actualBuilder.Setup(new FakeQueryResultSetResolver(query, serviceLocator));
-            var actual = actualBuilder.GetService();
-
+            var actual = new FakeQueryResultSetResolver(query, serviceLocator);
+            
             //Assertion
             Assert.That(ctr.Matches(actual));
         }
@@ -213,9 +191,7 @@ namespace NBi.Testing.Integration.NUnit.Query
             var mdx = "SELECT [Measures].[Amount] ON 0, NON EMPTY([Date].[Calendar].[Calendar Year]) ON 1 FROM [Adventure Works]";
             var expectedQuery = new NBi.Core.Query.Query(mdx, ConnectionStringReader.GetAdomd());
             var resolver = new FakeQueryResultSetResolver(expectedQuery, serviceLocator);
-            var builder = new ResultSetServiceBuilder();
-            builder.Setup(resolver);
-            var ctr = new EqualToConstraint(builder.GetService());
+            var ctr = new EqualToConstraint(resolver);
             ctr.Using(new SettingsOrdinalResultSet(
                 SettingsOrdinalResultSet.KeysChoice.First,
                 SettingsOrdinalResultSet.ValuesChoice.Last,
@@ -225,10 +201,8 @@ namespace NBi.Testing.Integration.NUnit.Query
             var mdx2 = "SELECT [Measures].[Amount] ON 0, NON EMPTY([Date].[Calendar].[Calendar Year]) ON 1  FROM [Adventure Works]";
             var query = new NBi.Core.Query.Query(mdx2, ConnectionStringReader.GetAdomd());
 
-            var actualBuilder = new ResultSetServiceBuilder();
-            actualBuilder.Setup(new FakeQueryResultSetResolver(query, serviceLocator));
-            var actual = actualBuilder.GetService();
-
+            var actual = new FakeQueryResultSetResolver(query, serviceLocator);
+            
             //Assertion
             Assert.That(ctr.Matches(actual));
         }
@@ -242,9 +216,7 @@ namespace NBi.Testing.Integration.NUnit.Query
             mdx += " SELECT [Measures].NewAmount ON 0, NON EMPTY([Date].[Calendar].[Calendar Year]) ON 1 FROM [Adventure Works]";
             var expectedQuery = new NBi.Core.Query.Query(mdx, ConnectionStringReader.GetAdomd());
             var resolver = new FakeQueryResultSetResolver(expectedQuery, serviceLocator);
-            var builder = new ResultSetServiceBuilder();
-            builder.Setup(resolver);
-            var ctr = new EqualToConstraint(builder.GetService());
+            var ctr = new EqualToConstraint(resolver);
             ctr.Using(new SettingsOrdinalResultSet(
                 SettingsOrdinalResultSet.KeysChoice.First,
                 SettingsOrdinalResultSet.ValuesChoice.Last,
@@ -254,10 +226,8 @@ namespace NBi.Testing.Integration.NUnit.Query
             var mdx2 = "SELECT [Measures].[Amount] ON 0, ([Date].[Calendar].[Calendar Year]-[Date].[Calendar].[Calendar Year].&[2010]) ON 1  FROM [Adventure Works]";
             var query = new NBi.Core.Query.Query(mdx2, ConnectionStringReader.GetAdomd());
 
-            var actualBuilder = new ResultSetServiceBuilder();
-            actualBuilder.Setup(new FakeQueryResultSetResolver(query, serviceLocator));
-            var actual = actualBuilder.GetService();
-
+            var actual = new FakeQueryResultSetResolver(query, serviceLocator);
+            
             //Assertion
             Assert.That(ctr.Matches(actual), Is.False);
         }
@@ -271,9 +241,7 @@ namespace NBi.Testing.Integration.NUnit.Query
             mdx += " SELECT [Measures].NewAmount ON 0, ([Date].[Calendar].[Calendar Year].[CY 2005]:[Date].[Calendar].[Calendar Year].[CY 2008]) ON 1  FROM [Adventure Works]";
             var expectedQuery = new NBi.Core.Query.Query(mdx, ConnectionStringReader.GetAdomd());
             var resolver = new FakeQueryResultSetResolver(expectedQuery, serviceLocator);
-            var builder = new ResultSetServiceBuilder();
-            builder.Setup(resolver);
-            var ctr = new EqualToConstraint(builder.GetService());
+            var ctr = new EqualToConstraint(resolver);
             ctr.Using(new SettingsOrdinalResultSet(
                     SettingsOrdinalResultSet.KeysChoice.First,
                     SettingsOrdinalResultSet.ValuesChoice.Last,
@@ -292,12 +260,8 @@ namespace NBi.Testing.Integration.NUnit.Query
 
             var query = "SELECT  [Measures].[Amount] ON 0, NON EMPTY([Date].[Calendar].[Calendar Year]) ON 1 FROM [Adventure Works]";
             var cmd = new NBi.Core.Query.Query(query, ConnectionStringReader.GetAdomd());
-
-
-            var actualBuilder = new ResultSetServiceBuilder();
-            actualBuilder.Setup(new FakeQueryResultSetResolver(cmd, serviceLocator));
-            var actual = actualBuilder.GetService();
-
+            var actual = new FakeQueryResultSetResolver(cmd, serviceLocator);
+            
             //Assertion
             Assert.That(ctr.Matches(actual));
         }
@@ -315,9 +279,7 @@ namespace NBi.Testing.Integration.NUnit.Query
 
             var expectedQuery = new NBi.Core.Query.Query(sql, ConnectionStringReader.GetSqlClient());
             var resolver = new FakeQueryResultSetResolver(expectedQuery, serviceLocator);
-            var builder = new ResultSetServiceBuilder();
-            builder.Setup(resolver);
-            var ctr = new EqualToConstraint(builder.GetService());
+            var ctr = new EqualToConstraint(resolver);
             ctr.Using(
                     new SettingsOrdinalResultSet(
                         SettingsOrdinalResultSet.KeysChoice.AllExpectLast,
@@ -338,10 +300,8 @@ namespace NBi.Testing.Integration.NUnit.Query
             var mdx = "SELECT  [Measures].[Amount] ON 0, NON EMPTY([Date].[Calendar].[Calendar Year]) ON 1 FROM [Adventure Works]";
             var query = new NBi.Core.Query.Query(mdx, ConnectionStringReader.GetAdomd());
 
-            var actualBuilder = new ResultSetServiceBuilder();
-            actualBuilder.Setup(new FakeQueryResultSetResolver(query, serviceLocator));
-            var actual = actualBuilder.GetService();
-
+            var actual = new FakeQueryResultSetResolver(query, serviceLocator);
+            
             //Assertion
             Assert.That(ctr.Matches(actual));
         }
@@ -353,18 +313,14 @@ namespace NBi.Testing.Integration.NUnit.Query
             //Buiding object used during test
             var filename = DiskOnFile.CreatePhysicalFile("NonEmptyAmountByYear.csv", "NBi.Testing.Integration.NUnit.Resources.NonEmptyAmountByYear.csv");
             var resolver = new FlatFileResultSetResolver(new FlatFileResultSetResolverArgs(new LiteralScalarResolver<string>(filename), string.Empty, string.Empty, null, CsvProfile.SemiColumnDoubleQuote), serviceLocator);
-            var builder = new ResultSetServiceBuilder();
-            builder.Setup(resolver);
-            var ctr = new EqualToConstraint(builder.GetService());
+            var ctr = new EqualToConstraint(resolver);
 
             var mdx = "SELECT [Measures].[Amount] ON 0, NON EMPTY([Date].[Calendar].[Calendar Year]) ON 1 FROM [Adventure Works]";
             var query = new NBi.Core.Query.Query(mdx, ConnectionStringReader.GetAdomd());
 
 
-            var actualBuilder = new ResultSetServiceBuilder();
-            actualBuilder.Setup(new FakeQueryResultSetResolver(query, serviceLocator));
-            var actual = actualBuilder.GetService();
-
+            var actual = new FakeQueryResultSetResolver(query, serviceLocator);
+            
             //Assertion
             Assert.That(ctr.Matches(actual));
         }
@@ -377,9 +333,7 @@ namespace NBi.Testing.Integration.NUnit.Query
             var expectedQuery = new NBi.Core.Query.Query(sql, ConnectionStringReader.GetSqlClient());
 
             var resolver = new FakeQueryResultSetResolver(expectedQuery, serviceLocator);
-            var builder = new ResultSetServiceBuilder();
-            builder.Setup(resolver);
-            var ctr = new EqualToConstraint(builder.GetService());
+            var ctr = new EqualToConstraint(resolver);
             ctr.Using(
                     new SettingsOrdinalResultSet(
                         SettingsOrdinalResultSet.KeysChoice.AllExpectLast,
@@ -391,10 +345,8 @@ namespace NBi.Testing.Integration.NUnit.Query
             var mdx = "SELECT [Measures].[Amount] ON 0, [Date].[Calendar].[Calendar Year].&[2010] ON 1 FROM [Adventure Works]";
             var query = new NBi.Core.Query.Query(mdx, ConnectionStringReader.GetAdomd());
 
-            var actualBuilder = new ResultSetServiceBuilder();
-            actualBuilder.Setup(new FakeQueryResultSetResolver(query, serviceLocator));
-            var actual = actualBuilder.GetService();
-
+            var actual = new FakeQueryResultSetResolver(query, serviceLocator);
+            
             //Assertion
             Assert.That(ctr.Matches(actual));
         }
@@ -407,9 +359,7 @@ namespace NBi.Testing.Integration.NUnit.Query
             var sql = "SELECT 'CY 2010',  0 ";
             var expectedQuery = new NBi.Core.Query.Query(sql, ConnectionStringReader.GetSqlClient());
             var resolver = new FakeQueryResultSetResolver(expectedQuery, serviceLocator);
-            var builder = new ResultSetServiceBuilder();
-            builder.Setup(resolver);
-            var ctr = new EqualToConstraint(builder.GetService());
+            var ctr = new EqualToConstraint(resolver);
             ctr.Using(
                     new SettingsOrdinalResultSet(
                         SettingsOrdinalResultSet.KeysChoice.AllExpectLast,
@@ -421,10 +371,8 @@ namespace NBi.Testing.Integration.NUnit.Query
             var mdx = "SELECT [Measures].[Amount] ON 0, [Date].[Calendar].[Calendar Year].&[2010] ON 1 FROM [Adventure Works]";
             var query = new NBi.Core.Query.Query(mdx, ConnectionStringReader.GetAdomd());
 
-            var actualBuilder = new ResultSetServiceBuilder();
-            actualBuilder.Setup(new FakeQueryResultSetResolver(query, serviceLocator));
-            var actual = actualBuilder.GetService();
-
+            var actual = new FakeQueryResultSetResolver(query, serviceLocator);
+            
             //Assertion
             Assert.That(ctr.Matches(actual), Is.False);
         }
@@ -440,9 +388,7 @@ namespace NBi.Testing.Integration.NUnit.Query
                 new Column() { Identifier= new ColumnOrdinalIdentifier(1), Role = ColumnRole.Value, Type = ColumnType.DateTime }
             };
             var resolver = new FakeQueryResultSetResolver(expectedQuery, serviceLocator);
-            var builder = new ResultSetServiceBuilder();
-            builder.Setup(resolver);
-            var ctr = new EqualToConstraint(builder.GetService());
+            var ctr = new EqualToConstraint(resolver);
             ctr.Using(
                     new SettingsOrdinalResultSet(
                         SettingsOrdinalResultSet.KeysChoice.AllExpectLast,
@@ -454,10 +400,8 @@ namespace NBi.Testing.Integration.NUnit.Query
             var sql = "SELECT 'CY 2010',  '1/01/2010 00:00:00'";
             var query = new NBi.Core.Query.Query(sql, ConnectionStringReader.GetSqlClient());
 
-            var actualBuilder = new ResultSetServiceBuilder();
-            actualBuilder.Setup(new FakeQueryResultSetResolver(query, serviceLocator));
-            var actual = actualBuilder.GetService();
-
+            var actual = new FakeQueryResultSetResolver(query, serviceLocator);
+            
             //Assertion
             Assert.That(ctr.Matches(actual));
         }
@@ -474,9 +418,7 @@ namespace NBi.Testing.Integration.NUnit.Query
                 new Column() { Identifier= new ColumnOrdinalIdentifier(1), Role = ColumnRole.Value, Type = ColumnType.DateTime }
             };
             var resolver = new FakeQueryResultSetResolver(expectedQuery, serviceLocator);
-            var builder = new ResultSetServiceBuilder();
-            builder.Setup(resolver);
-            var ctr = new EqualToConstraint(builder.GetService());
+            var ctr = new EqualToConstraint(resolver);
             ctr.Using(
                     new SettingsOrdinalResultSet(
                         SettingsOrdinalResultSet.KeysChoice.AllExpectLast,
@@ -488,10 +430,7 @@ namespace NBi.Testing.Integration.NUnit.Query
             var sql2 = "SELECT 'CY 2010',  '1/01/2010 00:00:00'";
             var query = new NBi.Core.Query.Query(sql2, ConnectionStringReader.GetSqlClient());
 
-            var actualBuilder = new ResultSetServiceBuilder();
-            actualBuilder.Setup(new FakeQueryResultSetResolver(query, serviceLocator));
-            var actual = actualBuilder.GetService();
-
+            var actual = new FakeQueryResultSetResolver(query, serviceLocator);
             //Assertion
             Assert.That(ctr.Matches(actual), Is.False);
         }
@@ -508,10 +447,8 @@ namespace NBi.Testing.Integration.NUnit.Query
                 new Column() { Identifier= new ColumnOrdinalIdentifier(1), Role = ColumnRole.Value, Type = ColumnType.DateTime }
             };
 
-            var expectedLoader = new FakeQueryResultSetResolver(expectedQuery, serviceLocator);
-            var expectedBuilder = new ResultSetServiceBuilder();
-            expectedBuilder.Setup(expectedLoader);
-            var ctr = new EqualToConstraint(expectedBuilder.GetService());
+            var expected = new FakeQueryResultSetResolver(expectedQuery, serviceLocator);
+            var ctr = new EqualToConstraint(expected);
             ctr.Using(
                                 new SettingsOrdinalResultSet(
                                     SettingsOrdinalResultSet.KeysChoice.AllExpectLast,
@@ -522,9 +459,7 @@ namespace NBi.Testing.Integration.NUnit.Query
 
             var sql2 = "SELECT 'CY 2010',  '1/01/2010 01:00:00'";
             var query = new NBi.Core.Query.Query(sql2, ConnectionStringReader.GetSqlClient());
-            var builder = new ResultSetServiceBuilder();
-            builder.Setup(new FakeQueryResultSetResolver(query, serviceLocator));
-            var actual = builder.GetService();
+            var actual = new FakeQueryResultSetResolver(query, serviceLocator);
 
             //Assertion
             Assert.That(ctr.Matches(actual), Is.False);

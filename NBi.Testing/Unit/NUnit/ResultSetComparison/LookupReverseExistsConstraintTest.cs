@@ -3,6 +3,7 @@ using NBi.Core.Evaluate;
 using NBi.Core.ResultSet;
 using NBi.Core.ResultSet.Lookup;
 using NBi.Core.ResultSet.Lookup.Violation;
+using NBi.Extensibility.Resolving;
 using NBi.NUnit.ResultSetComparison;
 using NUnit.Framework;
 using System;
@@ -21,14 +22,14 @@ namespace NBi.Testing.Unit.NUnit.ResultSetComparison
         {
             var candidate = new ResultSet();
             candidate.Load("a;b;1");
-            var sutMock = new Mock<IResultSetService>();
+            var sutMock = new Mock<IResultSetResolver>();
             sutMock.Setup(s => s.Execute())
                 .Returns(candidate);
             var candidateService = sutMock.Object;
 
             var assert = new ResultSet();
             assert.Load("a;b");
-            var assertMock = new Mock<IResultSetService>();
+            var assertMock = new Mock<IResultSetResolver>();
             assertMock.Setup(s => s.Execute())
                 .Returns(assert);
             var assertService = assertMock.Object;
@@ -55,14 +56,14 @@ namespace NBi.Testing.Unit.NUnit.ResultSetComparison
         {
             var sut = new ResultSet();
             sut.Load("a;b;1");
-            var sutMock = new Mock<IResultSetService>();
+            var sutMock = new Mock<IResultSetResolver>();
             sutMock.Setup(s => s.Execute())
                 .Returns(sut);
             var sutService = sutMock.Object;
 
             var assert = new ResultSet();
             assert.Load("a;b");
-            var assertMock = new Mock<IResultSetService>();
+            var assertMock = new Mock<IResultSetResolver>();
             assertMock.Setup(s => s.Execute())
                 .Returns(assert);
             var assertService = assertMock.Object;

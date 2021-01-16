@@ -43,6 +43,7 @@ using NBi.Xml.Items.Alteration.Merging;
 using NBi.Core.ResultSet.Alteration.Merging;
 using NBi.Xml.Items.Alteration.Duplication;
 using NBi.Core.ResultSet.Alteration.Duplication;
+using NBi.Core.ResultSet.Resolver;
 
 namespace NBi.NUnit.Builder.Helper
 {
@@ -215,18 +216,21 @@ namespace NBi.NUnit.Builder.Helper
 
         private Alter InstantiateMerging(MergeXml mergeXml, SettingsXml settingsXml)
         {
-            var innerService = new ResultSetServiceBuilder();
             mergeXml.ResultSet.Settings = settingsXml;
-            innerService.Setup(InstantiateResolver(mergeXml.ResultSet));
-            innerService.Setup(InstantiateAlterations(mergeXml.ResultSet));
 
+            var resolverArgs = new AlterationResultSetResolverArgs(
+                    InstantiateResolver(mergeXml.ResultSet),
+                    InstantiateAlterations(mergeXml.ResultSet)
+                );
+            var innerResolver = new ResultSetResolverFactory(ServiceLocator).Instantiate(resolverArgs);
+            
             var factory = new MergingFactory();
 
             IMergingArgs args;
             switch (mergeXml)
             {
-                case UnionXml union: args = new UnionArgs(innerService.GetService(), union.ColumnIdentity); break;
-                default: args = new CartesianProductArgs(innerService.GetService()); break;
+                case UnionXml union: args = new UnionArgs(innerResolver, union.ColumnIdentity); break;
+                default: args = new CartesianProductArgs(innerResolver); break;
             }
 
             var merger = factory.Instantiate(args);
@@ -337,23 +341,25 @@ namespace NBi.NUnit.Builder.Helper
 
         private Alter InstantiateLookupReplace(LookupReplaceXml lookupReplaceXml, SettingsXml settingsXml)
         {
-            var factory = new LookupFactory();
-
-            var innerService = new ResultSetServiceBuilder();
             lookupReplaceXml.ResultSet.Settings = settingsXml;
-            innerService.Setup(InstantiateResolver(lookupReplaceXml.ResultSet));
-            innerService.Setup(InstantiateAlterations(lookupReplaceXml.ResultSet));
+            var resolverArgs = new AlterationResultSetResolverArgs(
+                    InstantiateResolver(lookupReplaceXml.ResultSet),
+                    InstantiateAlterations(lookupReplaceXml.ResultSet)
+                );
+            var innerResolver = new ResultSetResolverFactory(ServiceLocator).Instantiate(resolverArgs);
+
+            var factory = new LookupFactory();
 
             IMissingStrategy strategy = new FailureMissingStrategy();
             switch (lookupReplaceXml.Missing.Behavior)
             {
-                case alt.Lookup.Behavior.OriginalValue:
+                case Behavior.OriginalValue:
                     strategy = new OriginalValueMissingStrategy();
                     break;
-                case alt.Lookup.Behavior.DefaultValue:
+                case Behavior.DefaultValue:
                     strategy = new DefaultValueMissingStrategy(lookupReplaceXml.Missing.DefaultValue);
                     break;
-                case alt.Lookup.Behavior.DiscardRow:
+                case Behavior.DiscardRow:
                     strategy = new DiscardRowMissingStrategy();
                     break;
                 default:
@@ -363,7 +369,7 @@ namespace NBi.NUnit.Builder.Helper
 
             var lookup = factory.Instantiate(
                     new LookupReplaceArgs(
-                        innerService.GetService(),
+                        innerResolver,
                         BuildMappings(lookupReplaceXml.Join).ElementAt(0),
                         lookupReplaceXml.Replacement.Identifier,
                         strategy

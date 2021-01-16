@@ -49,13 +49,10 @@ namespace NBi.NUnit.Builder
                         , @using.Type)
                     )));
 
-            var builder = new ResultSetServiceBuilder();
             var helper = new ResultSetSystemHelper(ServiceLocator, SettingsXml.DefaultScope.Assert, Variables);
-            builder.Setup(helper.InstantiateResolver(ctrXml.ResultSet));
-            builder.Setup(helper.InstantiateAlterations(ctrXml.ResultSet));
-            var service = builder.GetService();
+            var resolver = helper.InstantiateResolver(ctrXml.ResultSet);
 
-            var ctr = ctrXml.IsReversed ? new LookupReverseExistsConstraint(service) : new LookupExistsConstraint(service);
+            var ctr = ctrXml.IsReversed ? new LookupReverseExistsConstraint(resolver) : new LookupExistsConstraint(resolver);
             Constraint = ctr.Using(mappings);
         }
 

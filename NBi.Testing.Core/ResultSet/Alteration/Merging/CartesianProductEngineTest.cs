@@ -16,7 +16,7 @@ namespace NBi.Testing.Core.ResultSet.Alteration.Merging
 {
     public class CartesianProductEngineTest
     {
-        private (Rs.ResultSet firstRs, IResultSetService service) Initialize(int count)
+        private (Rs.ResultSet firstRs, IResultSetResolver resolver) Initialize(int count)
         {
             var dataTable = new DataTable() { TableName = "MyTable" };
             dataTable.Columns.Add(new DataColumn("Id"));
@@ -42,7 +42,7 @@ namespace NBi.Testing.Core.ResultSet.Alteration.Merging
                 var args = new EmptyResultSetResolverArgs(new[] { new ColumnNameIdentifier("one"), new ColumnNameIdentifier("two") });
                 resolver = new EmptyResultSetResolver(args);
             }
-            return (rs1, new ResultSetService(resolver.Execute, new List<Alter>()));
+            return (rs1, resolver);
         }
 
         [Test()]

@@ -4,6 +4,7 @@ using NBi.Core.ResultSet;
 using NBi.Core.ResultSet.Lookup;
 using NBi.Core.ResultSet.Lookup.Violation;
 using NBi.Extensibility;
+using NBi.Extensibility.Resolving;
 using NBi.Framework.FailureMessage;
 using NUnit.Framework;
 using System;
@@ -19,7 +20,7 @@ namespace NBi.NUnit.ResultSetComparison
 {
     public class LookupExistsConstraint : NBiConstraint
     {
-        protected IResultSetService referenceService;
+        protected IResultSetResolver referenceResolver;
 
         protected bool parallelizeQueries = false;
 
@@ -48,10 +49,8 @@ namespace NBi.NUnit.ResultSetComparison
             set => engine = value ?? throw new ArgumentNullException();
         }
 
-        public LookupExistsConstraint(IResultSetService reference)
-        {
-            referenceService = reference;
-        }
+        public LookupExistsConstraint(IResultSetResolver reference)
+            => referenceResolver = reference;
 
         protected ColumnMappingCollection mappings;
         public LookupExistsConstraint Using(ColumnMappingCollection mappings)
@@ -62,21 +61,21 @@ namespace NBi.NUnit.ResultSetComparison
 
         public override bool Matches(object actual)
         {
-            if (actual is IResultSetService)
-                return ProcessParallel((IResultSetService)actual);
+            if (actual is IResultSetResolver)
+                return ProcessParallel((IResultSetResolver)actual);
             else if (actual is ResultSet)
                 return doMatch((ResultSet)actual);
             else
                 throw new ArgumentException($"The type of the actual object is '{actual.GetType().Name}' and is not supported for a constraint of type '{this.GetType().Name}'. Use a ResultSet or a ResultSetService.", nameof(actual));
         }
 
-        public virtual bool ProcessParallel(IResultSetService actual)
+        public virtual bool ProcessParallel(IResultSetResolver actual)
         {
-            Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceVerbose, string.Format("Queries exectued in parallel."));
+            Trace.WriteLineIf(NBiTraceSwitch.TraceVerbose, string.Format("Queries exectued in parallel."));
 
             Parallel.Invoke(
                 () => { rsCandidate = actual.Execute(); },
-                () => { rsReference = referenceService.Execute(); }
+                () => { rsReference = referenceResolver.Execute(); }
             );
 
             return Matches(rsCandidate);

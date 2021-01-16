@@ -30,6 +30,7 @@ namespace NBi.Core.ResultSet.Resolver
         {
             switch (args)
             {
+                case AlterationResultSetResolverArgs x: return new AlterationResultSetResolver(x.Resolver, x.Alterations);
                 case IterativeResultSetResolverArgs x: return new IterativeResultSetResolver(x.SequenceResolver, x.VariableName, x.Variables, x.ResultSetResolver);
                 case ContentResultSetResolverArgs x: return new ContentResultSetResolver(x);
                 case RowsResultSetResolverArgs x: return new RowsResultSetResolver(x);

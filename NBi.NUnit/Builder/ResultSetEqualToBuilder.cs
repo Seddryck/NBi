@@ -11,6 +11,7 @@ using NBi.Core.ResultSet.Equivalence;
 using NBi.NUnit.Builder.Helper;
 using NBi.Xml.Settings;
 using NBi.Core.Variable;
+using NBi.Extensibility.Resolving;
 
 namespace NBi.NUnit.Builder
 {
@@ -99,13 +100,10 @@ namespace NBi.NUnit.Builder
         protected virtual BaseResultSetComparisonConstraint InstantiateConstraint(ResultSetSystemXml xml, SettingsXml settings)
         {
             xml.Settings = settings;
-            var builder = new ResultSetServiceBuilder();
             var helper = new ResultSetSystemHelper(ServiceLocator, SettingsXml.DefaultScope.Assert, Variables);
-            builder.Setup(helper.InstantiateResolver(xml));
-            builder.Setup(helper.InstantiateAlterations(xml));
-            var service = builder.GetService();
+            var resolver = helper.InstantiateResolver(xml);
 
-            return InstantiateConstraint(service);
+            return InstantiateConstraint(resolver);
         }
 
         protected virtual BaseResultSetComparisonConstraint InstantiateConstraint(object obj, SettingsXml settings, TransformationProvider transformation)
@@ -117,17 +115,10 @@ namespace NBi.NUnit.Builder
             var factory = ServiceLocator.GetResultSetResolverFactory();
             var resolver = factory.Instantiate(argsBuilder.GetArgs());
 
-            var serviceBuilder = new ResultSetServiceBuilder();
-            serviceBuilder.Setup(resolver);
-            if (transformation != null)
-                serviceBuilder.Setup(transformation.Transform);
-
-            var service = serviceBuilder.GetService();
-
-            return InstantiateConstraint(service);
+            return InstantiateConstraint(resolver);
         }
 
-        protected virtual BaseResultSetComparisonConstraint InstantiateConstraint(IResultSetService service)
-            => new EqualToConstraint(service);
+        protected virtual BaseResultSetComparisonConstraint InstantiateConstraint(IResultSetResolver resolver)
+            => new EqualToConstraint(resolver);
     }
 }

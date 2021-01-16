@@ -16,6 +16,7 @@ using NBi.Core.ResultSet.Resolver;
 using NBi.Core.ResultSet.Equivalence;
 using System.Data.SqlClient;
 using NBi.Core.Injection;
+using NBi.Extensibility.Resolving;
 #endregion
 
 namespace NBi.Testing.Unit.NUnit.Builder
@@ -202,7 +203,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
             var sut = builder.GetSystemUnderTest();
 
             Assert.That(sut, Is.Not.Null);
-            Assert.That(sut, Is.InstanceOf<IResultSetService>());
+            Assert.That(sut, Is.InstanceOf<IResultSetResolver>());
         }
 
         [Test]
@@ -223,7 +224,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
             var sut = builder.GetSystemUnderTest();
 
             Assert.That(sut, Is.Not.Null);
-            Assert.That(sut, Is.InstanceOf<IResultSetService>());
+            Assert.That(sut, Is.InstanceOf<IResultSetResolver>());
         }
     }
 }

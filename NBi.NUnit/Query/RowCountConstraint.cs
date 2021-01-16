@@ -7,6 +7,7 @@ using NUnitCtr = NUnit.Framework.Constraints;
 using NUnit.Framework;
 using NBi.Extensibility;
 using NBi.Core.Configuration.FailureReport;
+using NBi.Extensibility.Resolving;
 
 namespace NBi.NUnit.Query
 {
@@ -47,10 +48,10 @@ namespace NBi.NUnit.Query
         /// <returns>true, if the row-count of ResultSet validates the child constraint</returns>
         public override bool Matches(object actual)
         {
-            if (actual is IResultSetService)
-                return Matches(((IResultSetService)actual).Execute());
-            else if (actual is IResultSet)
-                return doMatch(actual as IResultSet);
+            if (actual is IResultSetResolver)
+                return Matches(((IResultSetResolver)actual).Execute());
+            else if (actual is ResultSet)
+                return doMatch(actual as ResultSet);
             else if (actual is int)
             {
                 var output = doMatch(((int)actual));

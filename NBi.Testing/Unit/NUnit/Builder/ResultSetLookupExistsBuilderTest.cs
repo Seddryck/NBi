@@ -21,6 +21,7 @@ using NBi.Core.ResultSet;
 using NBi.Core.Injection;
 using NBi.NUnit.ResultSetComparison;
 using NBi.Xml.Items.ResultSet.Lookup;
+using NBi.Extensibility.Resolving;
 #endregion
 
 namespace NBi.Testing.Unit.NUnit.Builder
@@ -118,7 +119,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
             var sut = builder.GetSystemUnderTest();
 
             Assert.That(sut, Is.Not.Null);
-            Assert.That(sut, Is.InstanceOf<IResultSetService>());
+            Assert.That(sut, Is.InstanceOf<IResultSetResolver>());
         }
     }
 }

@@ -4,14 +4,14 @@ using System.Data;
 using System.Diagnostics;
 using System.Linq;
 using NBi.Core.ResultSet;
-
+using NBi.Extensibility.Resolving;
 
 namespace NBi.NUnit.ResultSetComparison
 {
     public class IntersectionOfConstraint : BaseResultSetComparisonConstraint
     {
-        public IntersectionOfConstraint(IResultSetService service)
-            : base(service)
+        public IntersectionOfConstraint(IResultSetResolver resolver)
+            : base(resolver)
         { }
     }
 }

@@ -9,6 +9,7 @@ using NBi.NUnit.ResultSetComparison;
 using NBi.Core.ResultSet.Resolver;
 using NBi.Core.ResultSet.Equivalence;
 using NBi.Extensibility;
+using NBi.Extensibility.Resolving;
 
 namespace NBi.Testing.Unit.NUnit.ResultSetComparison
 {
@@ -21,12 +22,12 @@ namespace NBi.Testing.Unit.NUnit.ResultSetComparison
             var rs = new DataTableResultSet();
             rs.Load("a;b;c");
 
-            var expectedServiceMock = new Mock<IResultSetService>();
+            var expectedServiceMock = new Mock<IResultSetResolver>();
             expectedServiceMock.Setup(s => s.Execute())
                 .Returns(rs);
             var expectedService = expectedServiceMock.Object;
 
-            var actualServiceMock = new Mock<IResultSetService>();
+            var actualServiceMock = new Mock<IResultSetResolver>();
             actualServiceMock.Setup(s => s.Execute())
                 .Returns(rs);
             var actualService = actualServiceMock.Object;
@@ -56,12 +57,12 @@ namespace NBi.Testing.Unit.NUnit.ResultSetComparison
             var actualRs = new DataTableResultSet();
             actualRs.Load("x;y;z");
 
-            var expectedServiceMock = new Mock<IResultSetService>();
+            var expectedServiceMock = new Mock<IResultSetResolver>();
             expectedServiceMock.Setup(s => s.Execute())
                 .Returns(expectedRs);
             var expectedService = expectedServiceMock.Object;
 
-            var actualServiceMock = new Mock<IResultSetService>();
+            var actualServiceMock = new Mock<IResultSetResolver>();
             actualServiceMock.Setup(s => s.Execute())
                 .Returns(actualRs);
             var actualService = actualServiceMock.Object;
@@ -86,12 +87,12 @@ namespace NBi.Testing.Unit.NUnit.ResultSetComparison
             var rs = new DataTableResultSet();
             rs.Load("a;b;c");
 
-            var expectedServiceMock = new Mock<IResultSetService>();
+            var expectedServiceMock = new Mock<IResultSetResolver>();
             expectedServiceMock.Setup(s => s.Execute())
                 .Returns(rs);
             var expectedService = expectedServiceMock.Object;
 
-            var actualServiceMock = new Mock<IResultSetService>();
+            var actualServiceMock = new Mock<IResultSetResolver>();
             actualServiceMock.Setup(s => s.Execute())
                 .Returns(rs);
             var actualService = actualServiceMock.Object;
@@ -119,12 +120,12 @@ namespace NBi.Testing.Unit.NUnit.ResultSetComparison
             var actualRs = new DataTableResultSet();
             actualRs.Load("x;y;z");
 
-            var expectedServiceMock = new Mock<IResultSetService>();
+            var expectedServiceMock = new Mock<IResultSetResolver>();
             expectedServiceMock.Setup(s => s.Execute())
                 .Returns(expectedRs);
             var expectedService = expectedServiceMock.Object;
 
-            var actualServiceMock = new Mock<IResultSetService>();
+            var actualServiceMock = new Mock<IResultSetResolver>();
             actualServiceMock.Setup(s => s.Execute())
                 .Returns(actualRs);
             var actualService = actualServiceMock.Object;

@@ -23,6 +23,7 @@ using NBi.Core.Injection;
 using NBi.Core.Variable;
 using NBi.Extensibility.Query;
 using NBi.Xml.Settings;
+using NBi.Extensibility.Resolving;
 
 namespace NBi.NUnit.Builder
 {
@@ -51,7 +52,7 @@ namespace NBi.NUnit.Builder
                 SystemUnderTest = InstantiateSystemUnderTest((ResultSetSystemXml)SystemUnderTestXml);
         }
 
-        protected virtual IResultSetService InstantiateSystemUnderTest(ExecutionXml executionXml)
+        protected virtual IResultSetResolver InstantiateSystemUnderTest(ExecutionXml executionXml)
         {
             var queryArgsBuilder = new QueryResolverArgsBuilder(ServiceLocator);
             queryArgsBuilder.Setup(executionXml.Item, executionXml.Settings, Variables);
@@ -60,20 +61,14 @@ namespace NBi.NUnit.Builder
             var factory = ServiceLocator.GetResultSetResolverFactory();
             var resolver = factory.Instantiate(new QueryResultSetResolverArgs(queryArgsBuilder.GetArgs()));
 
-            var builder = new ResultSetServiceBuilder();
-            builder.Setup(resolver);
-            var service = builder.GetService();
-
-            return service;
+            return resolver;
         }
 
         protected virtual object InstantiateSystemUnderTest(ResultSetSystemXml resultSetXml)
         {
-            var builder = new ResultSetServiceBuilder();
             var helper = new ResultSetSystemHelper(ServiceLocator, SettingsXml.DefaultScope.SystemUnderTest, Variables);
-            builder.Setup(helper.InstantiateResolver(resultSetXml));
-            builder.Setup(helper.InstantiateAlterations(resultSetXml));
-            return builder.GetService();
+            var resolver = helper.InstantiateResolver(resultSetXml);
+            return resolver;
         }
     }
 }

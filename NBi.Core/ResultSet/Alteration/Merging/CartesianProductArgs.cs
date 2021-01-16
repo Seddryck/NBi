@@ -1,5 +1,6 @@
 ﻿using NBi.Core.ResultSet.Resolver;
 using NBi.Core.Sequence.Resolver;
+using NBi.Extensibility.Resolving;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,9 +11,9 @@ namespace NBi.Core.ResultSet.Alteration.Merging
 {
     public class CartesianProductArgs : IMergingArgs
     {
-        public IResultSetService ResultSetResolver { get; }
+        public IResultSetResolver ResultSetResolver { get; }
 
-        public CartesianProductArgs(IResultSetService resultSetResolver)
+        public CartesianProductArgs(IResultSetResolver resultSetResolver)
             => (ResultSetResolver) = (resultSetResolver);
     }
 }

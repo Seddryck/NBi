@@ -12,6 +12,7 @@ using NBi.Core.Transformation;
 using NBi.Core.ResultSet.Equivalence;
 using NBi.NUnit.Builder.Helper;
 using NBi.Xml.Settings;
+using NBi.Extensibility.Resolving;
 
 namespace NBi.NUnit.Builder
 {
@@ -30,8 +31,8 @@ namespace NBi.NUnit.Builder
             ConstraintXml = (IntersectionOfXml)ctrXml;
         }
 
-        protected override BaseResultSetComparisonConstraint InstantiateConstraint(IResultSetService service)
-            => new IntersectionOfConstraint(service);
+        protected override BaseResultSetComparisonConstraint InstantiateConstraint(IResultSetResolver resolver)
+            => new IntersectionOfConstraint(resolver);
 
     }
 }

@@ -11,6 +11,7 @@ using NBi.Core.Scalar.Resolver;
 using NBi.Core.Calculation.Predicate;
 using NBi.Core.Variable;
 using NBi.Core.ResultSet.Filtering;
+using NBi.Extensibility.Resolving;
 
 namespace NBi.Testing.Unit.NUnit.ResultSetComparison
 {
@@ -39,13 +40,12 @@ namespace NBi.Testing.Unit.NUnit.ResultSetComparison
             var resultSet = new DataTableResultSet();
             resultSet.Load("a;b;1");
 
-            var serviceMock = new Mock<IResultSetService>();
+            var serviceMock = new Mock<IResultSetResolver>();
             serviceMock.Setup(s => s.Execute())
                 .Returns(resultSet);
             var service = serviceMock.Object;
 
             var alias = Mock.Of<IColumnAlias>(v => v.Column == 2 && v.Name == "Value");
-
 
             var predicate = new Mock<ReferencePredicateArgs>();
             predicate.SetupGet(p => p.ColumnType).Returns(ColumnType.Numeric);

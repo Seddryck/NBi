@@ -19,6 +19,7 @@ using System.Collections.Generic;
 using NBi.Core.Variable;
 using NBi.Core.ResultSet;
 using NBi.Core.Injection;
+using NBi.Extensibility.Resolving;
 #endregion
 
 namespace NBi.Testing.Unit.NUnit.Builder
@@ -159,7 +160,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
         }
 
         [Test]
-        public void GetSystemUnderTest_ExecutionXml_IResultSetService()
+        public void GetSystemUnderTest_ExecutionXml_IResultSetResolver()
         {
             var sutXmlStubFactory = new Mock<Systems.ExecutionXml>();
             var itemXmlStubFactory = new Mock<QueryXml>();
@@ -184,11 +185,11 @@ namespace NBi.Testing.Unit.NUnit.Builder
             var sut = builder.GetSystemUnderTest();
 
             Assert.That(sut, Is.Not.Null);
-            Assert.That(sut, Is.InstanceOf<IResultSetService>());
+            Assert.That(sut, Is.InstanceOf<IResultSetResolver>());
         }
 
         [Test]
-        public void GetSystemUnderTest_ResultSetSystemXml_IResultSetService()
+        public void GetSystemUnderTest_ResultSetSystemXml_IResultSetResolver()
         {
             var sutXmlStub = new Mock<Systems.ResultSetSystemXml>();
             sutXmlStub.Setup(s => s.File.Path).Returns("myFile.csv");
@@ -209,7 +210,7 @@ namespace NBi.Testing.Unit.NUnit.Builder
             var sut = builder.GetSystemUnderTest();
 
             Assert.That(sut, Is.Not.Null);
-            Assert.That(sut, Is.InstanceOf<IResultSetService>());
+            Assert.That(sut, Is.InstanceOf<IResultSetResolver>());
         }
     }
 }

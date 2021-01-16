@@ -4,6 +4,7 @@ using NBi.Xml.Constraints;
 using NBi.Xml.Systems;
 using NBi.NUnit.ResultSetComparison;
 using NBi.Core.ResultSet.Equivalence;
+using NBi.Extensibility.Resolving;
 
 namespace NBi.NUnit.Builder
 {
@@ -23,7 +24,7 @@ namespace NBi.NUnit.Builder
             ConstraintXml = (SubsetOfXml)ctrXml;
         }
 
-        protected override BaseResultSetComparisonConstraint InstantiateConstraint(IResultSetService service)
-            => new SubsetOfConstraint(service);
+        protected override BaseResultSetComparisonConstraint InstantiateConstraint(IResultSetResolver resolver)
+            => new SubsetOfConstraint(resolver);
     }
 }

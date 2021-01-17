@@ -285,7 +285,7 @@ For other cases, it's recommended to specify a prefix for the default namespace 
 
 ### JSON source
 
-Mst of the features described for an Xml are also available for a Json. You'll also have to supply a FLOWR query on the form of Json-paths. As JSON doesn't support namespace and attributes, the related features are not supported.
+Most of the features described for an Xml are also available for a Json. You'll also have to supply a FLOWR query on the form of Json-paths. As JSON doesn't support namespace and attributes, the related features are not supported.
 
 {% highlight xml %}
 <result-set>
@@ -317,7 +317,7 @@ The element *rest* is expected in place of *url* or *file* as children of *xml-s
 <result-set>
 {% endhighlight %}
 
-The attribute *base-url* specififes the base url of the Rest API. It supports HTTP and HTTPS.
+The attribute *base-url* specifies the base url of the Rest API. It supports HTTP and HTTPS.
 
 #### Authentication
 

@@ -34,28 +34,29 @@ A full test, would be:
 {% highlight xml %}
 <test name="A fast MDX query">
   <system-under-test>
-  <result-set>
-    <query connection-string="...">
-    SELECT
-      [Measures].[Reseller Order Count] ON 0,
-    EXCEPT(
-      {[Date].[Calendar Year].Children}
-      ,{[Date].[Calendar Year].[CY 2006]}
-    ) ON 1
-    FROM
-      [Adventure Works]
-    </query>
+    <execution>
+      <query connection-string="...">
+      SELECT
+        [Measures].[Reseller Order Count] ON 0,
+      EXCEPT(
+        {[Date].[Calendar Year].Children}
+        ,{[Date].[Calendar Year].[CY 2006]}
+      ) ON 1
+      FROM
+        [Adventure Works]
+      </query>
+    </execution>
   </result-set>
   </system-under-test>
   <assert>
-  <fasterThan max-time-milliSeconds="1000"/>
+    <fasterThan max-time-milliSeconds="1000"/>
   </assert>
 </test>
 {% endhighlight %}
 
 ### Clean the cache
 
-Until version 1.13, this feature was only available for SQL queries. Since  1.13-beta-2, NBi is supporting the cleaning of the cache for MDX/DAX queries.
+NBi is supporting the cleaning of the cache for SQL queries (SQL Server) and MDX/DAX queries (SSAS).
 
 It’s possible to specify that the cache must be cleaned before the execution of the test. The time needed to clean the cache is not included in the measurement of your query’s performance but, on the other hand, the time elapsed during the creation of the execution plan is included in the performances' measurement.
 
@@ -67,7 +68,7 @@ This can be really embarrasing when you've some queries much slower than expecte
 {% highlight xml %}
 <test name="A fast MDX query">
   <system-under-test>
-    <result-set>
+    <execution>
       <query name="MDX" connection-string="...">
         SELECT
           [Measures].[Reseller Order Count] ON 0,
@@ -78,7 +79,7 @@ This can be really embarrasing when you've some queries much slower than expecte
         FROM
           [Adventure Works]
       </query>
-    </result-set>
+    </execution>
    </system-under-test>
    <assert>
     <fasterThan

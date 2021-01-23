@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 using NBi.Extensibility;
+using NBi.Core.Transformation.Transformer.Native.Text;
 
 namespace NBi.Core.Transformation.Transformer.Native.IO
 {

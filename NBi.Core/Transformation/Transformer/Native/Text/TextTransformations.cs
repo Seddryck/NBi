@@ -10,7 +10,7 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.Transformation.Transformer.Native
+namespace NBi.Core.Transformation.Transformer.Native.Text
 {
     abstract class AbstractTextTransformation : INativeTransformation
     {
@@ -212,50 +212,48 @@ namespace NBi.Core.Transformation.Transformer.Native
         protected override object EvaluateString(string value) => value.Length;
     }
 
-    class TextToToken : TextToLength
+    class TextToToken : AbstractTextTransformation
     {
         public IScalarResolver<int> Index { get; }
         public IScalarResolver<char> Separator  { get; }
         public TextToToken(IScalarResolver<int> index)
-            => (Index, Separator) = (index, new LiteralScalarResolver<char>(' '));
+            => (Index, Separator) = (index, null);
         public TextToToken(IScalarResolver<int> index, IScalarResolver<char> separator)
             => (Index, Separator) = (index, separator);
-        protected override object EvaluateBlank() => 0;
-        protected override object EvaluateString(string value) => value.Split(new char[] { Separator.Execute() }, StringSplitOptions.RemoveEmptyEntries)[Index.Execute()].Trim();
+        protected override object EvaluateBlank() => Separator==null || char.IsWhiteSpace(Separator.Execute()) ? "(null)" : "(blank)";
+        protected override object EvaluateEmpty() => "(null)";
+        protected override object EvaluateString(string value)
+        {
+            var tokenizer = Separator == null ? (ITokenizer)new WhitespaceTokenizer() : new Tokenizer(Separator.Execute());
+
+            var tokens = tokenizer.Execute(value);
+            var indexValue = Index.Execute();
+            if (indexValue < tokens.Length)
+                return tokens[indexValue];
+            else
+                return "(null)";
+        }
     }
 
     class TextToTokenCount : TextToLength
     {
+        public IScalarResolver<char> Separator { get; }
+        public TextToTokenCount()
+            => Separator = null;
+        public TextToTokenCount(IScalarResolver<char> separator)
+            => Separator = separator;
+
         protected override object EvaluateBlank() => 0;
         protected override object EvaluateString(string value) => TokenCount(value);
 
         private int TokenCount(string value)
         {
-            if (!string.IsNullOrWhiteSpace(value))
-            {
-                int len = value.Length;
-                int count = 0;
-                bool tokenRunning = false;
-
-                for (int i = 0; i < len; i++)
-                {
-                    if (char.IsLetterOrDigit(value[i]) || char.Parse("-") == value[i])
-                    {
-                        if (!tokenRunning)
-                            count += 1;
-                        tokenRunning = true;
-                    }
-                    if (char.IsWhiteSpace(value[i]))
-                        tokenRunning = false;
-                }
-                return count;
-            }
-            else
-            {
-                return 0;
-            }
+            var tokenizer = Separator == null ? (ITokenizer)new WhitespaceTokenizer() : new Tokenizer(Separator.Execute());
+            return tokenizer.Execute(value).Count();
         }
     }
+
+
 
     class TextToDateTime : AbstractTextTransformation
     {

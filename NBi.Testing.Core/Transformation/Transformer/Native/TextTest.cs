@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using NBi.Core.Transformation.Transformer.Native.Text;
 
 namespace NBi.Testing.Core.Transformation.Transformer.Native
 {
@@ -18,6 +19,12 @@ namespace NBi.Testing.Core.Transformation.Transformer.Native
         [TestCase(0, "1 2017-07-06      CUST0001", "1")]
         [TestCase(1, "1 2017-07-06      CUST0001", "2017-07-06")]
         [TestCase(2, "1 2017-07-06      CUST0001", "CUST0001")]
+        [TestCase(2, "1 2017-07-06  ,    CUST0001", "CUST0001")]
+        [TestCase(2, "1 2017-07-06          CUST0001", "CUST0001")]
+        [TestCase(100, "1 2017-07-06      CUST0001", "(null)")]
+        [TestCase(0, "(null)", "(null)")]
+        [TestCase(0, "(blank)", "(null)")]
+        [TestCase(0, "(empty)", "(null)")]
         public void Execute_TextToToken_DefaultSeparator(int index, string value, string expected)
         {
             var function = new TextToToken(new LiteralScalarResolver<int>(index));
@@ -27,8 +34,12 @@ namespace NBi.Testing.Core.Transformation.Transformer.Native
 
         [Test]
         [TestCase(0, ';', "1;2017-07-06;CUST0001", "1")]
-        [TestCase(1, ',', "1,      2017-07-06,CUST0001", "2017-07-06")]
-        [TestCase(2, '|', "1 | 2017-07-06 | CUST0001", "CUST0001")]
+        [TestCase(1, ',', "1,      2017-07-06 ,CUST0001", "      2017-07-06 ")]
+        [TestCase(2, '|', "1 | 2017-07-06 | CUST0001", " CUST0001")]
+        [TestCase(0, '|', "(null)", "(null)")]
+        [TestCase(0, '|', "(blank)", "(blank)")]
+        [TestCase(0, ' ', "(blank)", "(null)")]
+        [TestCase(0, '|', "(empty)", "(null)")]
         public void Execute_TextToToken_CustomSeparator(int index, char separator, string value, string expected)
         {
             var function = new TextToToken(new LiteralScalarResolver<int>(index), new LiteralScalarResolver<char>(separator));
@@ -37,11 +48,24 @@ namespace NBi.Testing.Core.Transformation.Transformer.Native
         }
 
         [Test]
-        [TestCase(99, "1 2017-07-06 CUST0001")]
-        public void Execute_TextToToken_IndexOutOfRange(int index, string value)
+        [TestCase("abc 123")]
+        [TestCase("abc 123 ")]
+        [TestCase(" abc 123")]
+        [TestCase("abc   123")]
+        [TestCase("  abc   123  ")]
+        [TestCase("  abc ,  123  ")]
+        public void Execute_TextToTokenAndTextToTokenCount_Aligned(string value)
         {
-            var function = new TextToToken(new LiteralScalarResolver<int>(index));
-            Assert.Throws<IndexOutOfRangeException>(() => function.Evaluate(value));
+            var tokenCount = (int)new TextToTokenCount().Evaluate(value);
+
+            for (int i = 0; i < tokenCount; i++)
+            {
+                var nextTextToToken = new TextToToken(new LiteralScalarResolver<int>(i));
+                Assert.That(nextTextToToken.Evaluate(value), Is.Not.EqualTo("(null)"));
+            }
+
+            var textToToken = new TextToToken(new LiteralScalarResolver<int>(tokenCount));
+            Assert.That(textToToken.Evaluate(value), Is.EqualTo("(null)"));
         }
 
         [Test]
@@ -256,6 +280,8 @@ namespace NBi.Testing.Core.Transformation.Transformer.Native
         [TestCase(null, 0)]
         [TestCase("(empty)", 0)]
         [TestCase("(blank)", 0)]
+        [TestCase("1 2017-07-06      CUST0001", 3)]
+        [TestCase("1 2017-07-06          CUST0001", 3)]
         public void Execute_TokenCount_Valid(object value, int expected)
         {
             var function = new TextToTokenCount();

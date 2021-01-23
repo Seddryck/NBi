@@ -2,6 +2,7 @@
 using NBi.Core.Scalar.Resolver;
 using NBi.Core.Transformation.Transformer;
 using NBi.Core.Transformation.Transformer.Native;
+using NBi.Core.Transformation.Transformer.Native.Text;
 using NBi.Core.Variable;
 using NBi.Extensibility.Resolving;
 using NUnit.Framework;
@@ -162,6 +163,9 @@ namespace NBi.Testing.Core.Transformation.Transformer
         [TestCase("text-to-html")]
         [TestCase("text-to-without-diacritics")]
         [TestCase("text-to-token-count")]
+        [TestCase("text-to-token-count(;)")]
+        [TestCase("text-to-token(2)")]
+        [TestCase("text-to-token(2,;)")]
         [TestCase("text-to-without-whitespaces")]
         [TestCase("text-to-dateTime(yyyy.mm.dd hh:mm)")]
         [TestCase("text-to-dateTime(dddd dd mm yyyy hh:mm, fr-fr)")]

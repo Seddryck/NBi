@@ -15,6 +15,7 @@ namespace NBi.Core.DataSerialization.Reader
                 case FileReaderArgs fileArgs: return new FileReader(fileArgs.BasePath, fileArgs.Path);
                 case UrlReaderArgs urlArgs: return new UrlReader(urlArgs.Url);
                 case RestReaderArgs restArgs: return new RestReader(restArgs.Rest);
+                case ScalarReaderArgs scalarArgs: return new ScalarReader(scalarArgs.Value);
                 default: throw new ArgumentOutOfRangeException();
             }
         }

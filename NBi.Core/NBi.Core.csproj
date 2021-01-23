@@ -161,6 +161,8 @@
     <Compile Include="DataSerialization\Reader\DataSerializationReaderFactory.cs" />
     <Compile Include="DataSerialization\Reader\FileReader.cs" />
     <Compile Include="DataSerialization\Reader\RestReaderArgs.cs" />
+    <Compile Include="DataSerialization\Reader\ScalarReader.cs" />
+    <Compile Include="DataSerialization\Reader\ScalarReaderArgs.cs" />
     <Compile Include="DataSerialization\Reader\UrlReaderArgs.cs" />
     <Compile Include="DataSerialization\Reader\FileReaderArgs.cs" />
     <Compile Include="DataSerialization\Reader\IDataSerializationReader.cs" />

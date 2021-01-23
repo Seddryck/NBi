@@ -109,6 +109,7 @@
     <Compile Include="Calculation\Predication\AndCombinationPredicationTest.cs" />
     <Compile Include="Calculation\Predication\OrCombinationPredicationTest.cs" />
     <Compile Include="Calculation\Predication\XOrCombinationPredicationTest.cs" />
+    <Compile Include="DataSerialization\Reader\ScalarReaderTest.cs" />
     <Compile Include="ResultSet\Alteration\Duplication\DuplicationFactoryTest.cs" />
     <Compile Include="ResultSet\Alteration\Duplication\DuplicateEngineTest.cs" />
     <Compile Include="ResultSet\Alteration\Merging\CartesianProductEngineTest.cs" />
@@ -193,6 +194,7 @@
     <Compile Include="ResultSet\Lookup\ColumnMappingCollectionTest.cs" />
     <Compile Include="ResultSet\Lookup\LookupExistsAnalyzerTest.cs" />
     <Compile Include="ResultSet\Lookup\LookupMatchesAnalyzerTest.cs" />
+    <Compile Include="ResultSet\Resolver\DataSerializationResultSetResolverTest.cs" />
     <Compile Include="ResultSet\Resolver\IfUnavailableResultSetResolverTest.cs" />
     <Compile Include="ResultSet\Resolver\EmptyResultSetResolverTest.cs" />
     <Compile Include="ResultSet\Resolver\IterativeResultSetResolverTest.cs" />

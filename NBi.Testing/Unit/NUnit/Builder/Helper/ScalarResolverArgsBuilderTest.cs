@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using NBi.Core.Injection;
 using NBi.Core.Transformation.Transformer.Native;
 using NBi.Core.Variable;
+using NBi.Core.Transformation.Transformer.Native.Text;
 
 namespace NBi.Testing.Unit.NUnit.Builder.Helper
 {

@@ -20,18 +20,19 @@ The list of native transformations is available here under and is organized by t
 
 ### Text
 
-* ```blank-to-empty```: if the current content of the cell is ```blank``` (zero or many spaces) replace the content by ```(empty)```
-* ```blank-to-null```: if the current content of the cell is ```blank``` (zero or many spaces) replace the content by ```(null)```
-* ```empty-to-null```: if the current content of the cell is ```empty``` (length=0) replace the content by ```(null)```
-* ```text-to-without-diacritics```: if the current cell's value contains any accents or diacritics, they are removed
+* ```blank-to-empty```: if the current text is ```blank``` (zero or many spaces) replace the content by ```(empty)```
+* ```blank-to-null```: if the current text is ```blank``` (zero or many spaces) replace the content by ```(null)```
+* ```empty-to-null```: if the current text is ```empty``` (length=0) replace the content by ```(null)```
+* ```text-to-without-diacritics```: if the current text contains any accents or diacritics, they are removed
 * ```text-to-without-whitespaces```: removes blanks from anywhere within the cell. If the cell is ```null```, it returns ```null``` but if ```empty``` or ```blank```, it returns ```empty```.
 * ```text-to-upper```: returns a copy of this text converted to uppercase
 * ```text-to-lower```: returns a copy of this text converted to lowercase
 * ```html-to-text```: decodes the html to text
-* ```text-to-html```: encodes the content to html
-* ```text-to-trim```: removes blanks from the beginning and end of the cell.
-* ```text-to-length```: returns the length of the *text* value of the cell. If the cell is ```null``` or ```empty```, it returns 0.
-* ```text-to-token-count```: returns the count of tokens. A token is considered as one or more letter or digit or hyphen seperated by one or more whitespace. If the current value is ```null``` or ```empty``` or ```blank```, it returns 0.
+* ```text-to-html```: encodes the text to html
+* ```text-to-trim```: removes blanks from the beginning and end of the text.
+* ```text-to-length```: returns the length of the *text* value of the text. If the text is ```null``` or ```empty```, it returns 0.
+* ```text-to-token-count``` and ```text-to-token-count(char)```: returns the count of tokens in the original text. If no sperator is specified (char), it uses the whitespace tokenizer that is considered as one or more letter or digit or hyphen seperated by one or more whitespace. If a separator is specified, a token is identified as a serie of any character separated by one or more instance of the separator. If the current value is ```null``` or ```empty``` or ```blank```, it returns 0.
+* ```text-to-token(index)``` and ```text-to-token(index, char)```: returns the token at the position of the index. The first token as an index of 0. This function uses the same tokenizer than defined in ```text-to-token-count```. If the requested token doesn't exist (index greater or equal to the tokens' count), it returns ```(null)```. The initial value ```null``` and ```empty``` returns ```null``` for any separator and any index. In general, the value ```blank``` returns ```blank``` for the first token except if the separator is a whitespace.
 * ```text-to-prefix(string)```: Append the value of *string* before the current value. If the current value is ```null```, the result will be ```null```.
 * ```text-to-suffix(string)```: Append the value of *string* after the current value. If the current value is ```null```, the result will be ```null```.
 * ```text-to-first-chars(length)```: if the text is longer than the specified length, take the first characters.

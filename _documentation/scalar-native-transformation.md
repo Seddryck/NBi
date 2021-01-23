@@ -24,7 +24,8 @@ The list of native transformations is available here under and is organized by t
 * ```blank-to-null```: if the current text is ```blank``` (zero or many spaces) replace the content by ```(null)```
 * ```empty-to-null```: if the current text is ```empty``` (length=0) replace the content by ```(null)```
 * ```text-to-without-diacritics```: if the current text contains any accents or diacritics, they are removed
-* ```text-to-without-whitespaces```: removes blanks from anywhere within the cell. If the cell is ```null```, it returns ```null``` but if ```empty``` or ```blank```, it returns ```empty```.
+* ```text-to-without-whitespaces```: removes blanks from anywhere within the text. If the text is ```null```, it returns ```null``` but if ```empty``` or ```blank```, it returns ```empty```.
+* ```text-to-remove-chars(char)```: removes the defined char from anywhere within the text. If the text is ```null```, it returns ```null``` and if ```empty```, it returns ```empty```. If the original value is ```blank``` and the character to remove is not a whitespace it returns ```(blank)``` else ```empty```.
 * ```text-to-upper```: returns a copy of this text converted to uppercase
 * ```text-to-lower```: returns a copy of this text converted to lowercase
 * ```html-to-text```: decodes the html to text
@@ -42,6 +43,7 @@ The list of native transformations is available here under and is organized by t
 * ```text-to-pad-left(length, character)```: if the text is shorter than the specified length, add the specified character at the beginning of the text until the length of this text is equal to the expected length.
 * ```text-to-pad-right(length, character)```: if the text is shorter than the specified length, add the specified character at the end of the text until the length of this text is equal to the expected length.
 * ```text-to-dateTime(format)``` and ```text-to-dateTime(format, culture)``` returns a dateTime from the text value after parsing it with the *format* provided as argument. If the format includes day or month names, it could be useful to specify the *culture*.
+
 
 ### Numeric
 

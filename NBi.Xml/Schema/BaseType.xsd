@@ -683,6 +683,7 @@
       <xs:enumeration value="text-to-skip-last-chars("/>
       <xs:enumeration value="text-to-pad-left("/>
       <xs:enumeration value="text-to-pad-right("/>
+      <xs:enumeration value="text-to-remove-chars("/>
       <xs:enumeration value="text-to-dateTime("/>
       <xs:enumeration value="html-to-text"/>
       <xs:enumeration value="date-to-age"/>

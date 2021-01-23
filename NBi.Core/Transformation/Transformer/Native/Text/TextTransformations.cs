@@ -276,4 +276,28 @@ namespace NBi.Core.Transformation.Transformer.Native.Text
             throw new NBiException($"Impossible to transform the value '{value}' into a date using the format '{Format}'");
         }
     }
+
+    class TextToRemoveChars : AbstractTextTransformation
+    {
+        public IScalarResolver<char> CharToRemove { get; }
+        public TextToRemoveChars(IScalarResolver<char> charToRemove)
+            => CharToRemove = charToRemove;
+
+        protected override object EvaluateString(string value)
+        {
+            var stringBuilder = new StringBuilder();
+            foreach (var c in value)
+                if (!c.Equals(CharToRemove.Execute()))
+                    stringBuilder.Append(c);
+            return stringBuilder.ToString();
+        }
+
+        protected override object EvaluateBlank()
+        {
+            if (char.IsWhiteSpace(CharToRemove.Execute()))
+                return "(empty)";
+            else
+                return base.EvaluateBlank();
+        }
+    }
 }

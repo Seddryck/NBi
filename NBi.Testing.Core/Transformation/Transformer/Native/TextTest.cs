@@ -448,5 +448,20 @@ namespace NBi.Testing.Core.Transformation.Transformer.Native
             var result = function.Evaluate(value);
             Assert.That(result, Is.EqualTo(expected));
         }
+
+        [Test]
+        [TestCase("123*456*78", "*", "12345678")]
+        [TestCase("***123***456*78****", "*", "12345678")]
+        [TestCase("******", "*", "")]
+        [TestCase("(null)", "*", "(null)")]
+        [TestCase("(empty)", "*", "(empty)")]
+        [TestCase("(blank)", "*", "(blank)")]
+        [TestCase("(blank)", " ", "(empty)")]
+        public void Execute_TextToRemoveChars_Valid(string value, char charToRemove, string expected)
+        {
+            var function = new TextToRemoveChars(new LiteralScalarResolver<char>(charToRemove));
+            var result = function.Evaluate(value);
+            Assert.That(result, Is.EqualTo(expected));
+        }
     }
 }

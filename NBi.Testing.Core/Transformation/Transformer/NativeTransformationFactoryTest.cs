@@ -167,6 +167,7 @@ namespace NBi.Testing.Core.Transformation.Transformer
         [TestCase("text-to-token(2)")]
         [TestCase("text-to-token(2,;)")]
         [TestCase("text-to-without-whitespaces")]
+        [TestCase("text-to-remove-chars(*)")]
         [TestCase("text-to-dateTime(yyyy.mm.dd hh:mm)")]
         [TestCase("text-to-dateTime(dddd dd mm yyyy hh:mm, fr-fr)")]
         [TestCase("html-to-text")]

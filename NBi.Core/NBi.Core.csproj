@@ -897,6 +897,7 @@
     <Compile Include="Transformation\Transformer\Native\DateTime\TimeZoneTransformations.cs" />
     <Compile Include="Transformation\Transformer\Native\Special\ValueToValue.cs" />
     <Compile Include="Transformation\Transformer\Native\Special\AnyToAny.cs" />
+    <Compile Include="Transformation\Transformer\Native\Text\Tokenizer.cs" />
     <Compile Include="Transformation\Transformer\NCalcTransformer.cs" />
     <Compile Include="Transformation\Transformer\CSharpTransformer.cs" />
     <Compile Include="Transformation\ITransformationInfo.cs" />

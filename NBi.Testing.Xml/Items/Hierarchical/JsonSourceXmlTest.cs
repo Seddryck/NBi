@@ -112,5 +112,18 @@ namespace NBi.Testing.Xml.Unit.Items.Hierarchical
             Assert.That(selects[0].Value, Is.EqualTo("$.Item.SubItem[*].Quantity"));
             Assert.That(selects[1].Value, Is.EqualTo("!.Number"));
         }
+
+        [Test]
+        public void Deserialize_SampleFile_QueryScalar()
+        {
+            int testNr = 1;
+
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            TestSuiteXml ts = DeserializeSample();
+
+            // Check the properties of the object.
+            var query = ((ts.Tests[testNr].Constraints[0]) as EqualToXml).ResultSet.JsonSource.QueryScalar;
+            Assert.That(query.InlineQuery, Does.StartWith("select Id as Identifier"));
+        }
     }
 }

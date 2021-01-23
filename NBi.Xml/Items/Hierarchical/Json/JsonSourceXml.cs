@@ -20,6 +20,9 @@ namespace NBi.Xml.Items.Hierarchical.Json
         [XmlElement("rest")]
         public RestXml Rest { get; set; }
 
+        [XmlElement("query-scalar")]
+        public QueryScalarXml QueryScalar { get; set; }
+
         [XmlElement("json-path")]
         public JsonPathXml JsonPath { get; set; }
     }

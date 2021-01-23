@@ -874,6 +874,7 @@
         <xs:element name="file" minOccurs="1" maxOccurs="1" type="xs:string"/>
         <xs:element name="url" minOccurs="1" maxOccurs="1" type="xs:string"/>
         <xs:element name="rest" minOccurs="1" maxOccurs="1" type="rest-type"/>
+        <xs:element name="query-scalar" minOccurs="1" maxOccurs="1" type="query-scalar-type"/>
       </xs:choice>
       <xs:element name="json-path" minOccurs="1" maxOccurs="1" type="json-path-type" />
     </xs:sequence>

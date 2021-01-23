@@ -1,5 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <testSuite name="XmlSource" xmlns="http://NBi/TestSuite">
+  <settings>
+    <default apply-to="assert">
+      <connection-string>Data Source=My Server;Initial Catalog=myDb;Integrated Security=true;</connection-string>
+    </default>
+  </settings>
   <test name="My first test case" uid="0001">
     <system-under-test>
       <result-set>
@@ -15,6 +20,28 @@
               <from>$.Path[*]</from>
               <select>$.Item.SubItem[*].Quantity</select>
               <select>!.Number</select>
+            </json-path>
+          </json-source>
+        </result-set>
+      </equal-to>
+    </assert>
+  </test>
+  <test name="My first test case" uid="0001">
+    <system-under-test>
+      <result-set>
+        <query>select * from table</query>
+      </result-set>
+    </system-under-test>
+    <assert>
+      <equal-to>
+        <result-set>
+          <json-source>
+            <query-scalar>select Id as Identifier, MONTH(DoB) as [BirthDate.Month], YEAR(DoB) as [BirthDate.Year] from myTable for json path</query-scalar>
+            <json-path>
+              <from>$</from>
+              <select>$.Identifier</select>
+              <select>$.BirthDate.Year</select>
+              <select>$.BirthDate.Month</select>
             </json-path>
           </json-source>
         </result-set>

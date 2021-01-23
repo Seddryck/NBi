@@ -254,7 +254,8 @@ namespace NBi.NUnit.Builder.Helper
         private ResultSetResolverArgs BuildJsonPathResolverArgs(JsonSourceXml jsonSource)
         {
             Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceVerbose, "ResultSet defined through an json-source.");
-            var helper = new ScalarHelper(ServiceLocator, settings, scope, new Context(Variables));
+            var context = new Context(Variables);
+            var helper = new ScalarHelper(ServiceLocator, settings, scope, context);
 
             IReaderArgs reader = null;
             if (jsonSource.File != null)
@@ -272,6 +273,15 @@ namespace NBi.NUnit.Builder.Helper
                 var restHelper = new RestHelper(ServiceLocator, settings, scope, Variables);
                 reader = new RestReaderArgs(restHelper.Execute(jsonSource.Rest));
             }
+            else if (jsonSource.QueryScalar != null)
+            {
+                var builder = new ScalarResolverArgsBuilder(ServiceLocator, context);
+                builder.Setup(jsonSource.QueryScalar, settings, scope);
+                builder.Build();
+                var args = ServiceLocator.GetScalarResolverFactory().Instantiate<string>(builder.GetArgs());
+                reader = new ScalarReaderArgs(args);
+            }
+
 
             var selects = new List<IPathSelect>();
             var selectFactory = new PathFlattenizerFactory();

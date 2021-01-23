@@ -3,8 +3,8 @@
   <settings>
     <default apply-to="system-under-test">
       <connectionString>Data Source=(local)\SQL2017;Initial Catalog=AdventureWorks2017;User Id=sa;password=Password12!</connectionString>
-    </default>
-    <default apply-to="assert">
+    </default>                                                                         
+    <default apply-to="assert">                                                        
       <connectionString>Data Source=(local)\SQL2017;Initial Catalog=AdventureWorks2017;User Id=sa;password=Password12!</connectionString>
     </default>
     <default apply-to="variable">
@@ -1082,7 +1082,7 @@
         </superset-of>
       </assert>
     </test>
-    <test name="Result-set is the json-source with rest api and variables" uid="0162">
+    <test name="Result-set is the json-source with rest api and variables" uid="0163">
       <system-under-test>
         <result-set>
           <json-source>
@@ -1105,6 +1105,43 @@
               <cell>Cats</cell>
               <cell>unknown</cell>
             </row>
+          </result-set>
+        </equal-to>
+      </assert>
+    </test>
+    <test name="Result-set is the json-source with scalar-query" uid="0164">
+      <system-under-test>
+        <result-set>
+          <json-source>
+            <query-scalar>
+              select cast ((select
+                NationalIdNumber as [nid],
+                month(BirthDate) as [dob.month],
+                year(BirthDate) as [dob.year]
+              from
+                [HumanResources].[Employee] e
+              for json path) as nvarchar(max)) as x
+            </query-scalar>
+            <json-path>
+              <from>$.[*]</from>
+              <select>$.nid</select>
+              <select>$.dob.month</select>
+              <select>$.dob.year</select>
+            </json-path>
+          </json-source>
+        </result-set>
+      </system-under-test>
+      <assert>
+        <equal-to keys="first" values-default-type="numeric">
+          <result-set>
+            <query>
+              select
+                NationalIdNumber as [nid],
+                month(BirthDate) as [dobMonth],
+                year(BirthDate) as [dobYear]
+              from
+                [HumanResources].[Employee] e
+            </query>
           </result-set>
         </equal-to>
       </assert>

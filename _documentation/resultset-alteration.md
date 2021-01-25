@@ -123,6 +123,49 @@ Another engine supported is the [native transformations](../scalar-native-transf
 </result-set>
 {% endhighlight %}
 
+## Transformations
+
+This alteration is useful when you want to slightly change the value of a column without creating a new one.
+
+You'll have to identify the column to update by its name or by its position in the result-set and specify the original-type of this column (text, numeric, bool, 
+)
+
+The definition of the content of the new column is performed with the help of the ```native``` language (using [native transformations](../scalar-native-transformation)) using column identifications (ordinal or names) or variables as function parameters.
+
+In the following example, all the values within the column in position 0 and the column named *ColD* are updated. The first column is multiplied by the content of second column and clipped between 0 and the content of the column *ColC*. The values of the column *ColdD* are simply transformed to the upper-case version.
+
+{% highlight xml %}
+<result-set>
+  <query>
+    select 10 as ColA, 20 as ColB, 30 as ColC, 'alpha' as ColD, '*' union all select 1, 5, 9, 'beta', '#'
+  </query>
+  <alteration>
+    <transform identifier="#0" original-type="numeric">
+      <script language="native">numeric-to-multiply(#1) | numeric-to-clip(0, [ColC])</script>
+    </extend>
+    <extend identifier="[ColD]" original-type="text">
+      <script language="native"> text-to-upper</script>
+    </extend>
+  </alteration>
+</result-set>
+{% endhighlight %}
+
+Transformations also support the ```c-sharp``` language. Principle applied to the native language are also applicable for C#. The initial value of cell is passed to the c# variable named *value* in the script.
+
+{% highlight xml %}
+<alteration>
+  <transform column-index="0" language="c-sharp" original-type="text">
+    "AA" + value;
+  </transform>
+  <transform column-index="1" language="c-sharp" original-type="text">
+    value.Substring(value.Length - 4);
+  </transform>
+  <transform column-index="2" language="c-sharp" original-type="text">
+    value.Substring(value.LastIndexOf("0")+1)
+  </transform>
+</alteration>
+{% endhighlight %}
+
 ## Merging and concatening
 
 This alteration is useful when you want to combine two result-sets to create a new one.

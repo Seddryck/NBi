@@ -427,15 +427,17 @@ Finally, you can apply query parameters in your url. The url *https://www.myapi.
 
 You can also define an alteration to the result-set. For the moment, three kinds of alterations are supported by NBi:
 
-* [projections](../resultset-alteration/#projections)
-* [renamings](../resultset-alteration/#renamings)
-* [extentions](../resultset-alteration/#extensions)
-* [lookup for replacement](../resultset-alteration/#lookup-replaces)
-* [filtering](../resultset-rows-count-advanced/#filters).
-* [convertions](../resultset-alteration/#converts)
-* [transformations](../transform-column/)
-* [summarize](../resultset-alteration/#summarize)
-* [reshaping](../resultset-alteration/#reshaping)
+* [Projections](../resultset-alteration/#projections)
+* [Renamings](../resultset-alteration/#renamings)
+* [Extentions](../resultset-alteration/#extensions)
+* [Transformations](../resultset-alteration/#transformations)
+* [Merging and concatening](../resultset-alteration/#merging-and-concatening)
+* [Lookup for replacement](../resultset-alteration/#lookup-replaces)
+* [Filtering](../resultset-alteration/#filters)
+* [Duplication](../resultset-alteration/#duplications)
+* [Conversions](../resultset-alteration/#converts)
+* [Summarize](../resultset-alteration/#summarize)
+* [Reshaping](../resultset-alteration/#reshaping)
 
 {% highlight xml %}
 <result-set>

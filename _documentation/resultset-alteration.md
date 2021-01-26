@@ -619,11 +619,11 @@ This alteration Will result in the following result-set
 
 Often, you'll need to ensure that some columns are available into the resulting result-set. This could be for defining columns to compare in an `equal-to` or to refer to these columns in additional alterations.
 
-You can ensure that the columns will be there by defining `enforced-value` elements in the header. In the following example, the resulting result-set will have the columns *alpha*, *omega* (independantly of the fact that these values are contained into the column *Header*) and all the distinct values available in *Header*.
+You can ensure that the columns will be there by defining `enforced-value` elements in the header. In the following example, the resulting result-set will have the columns *import*, *export* (independantly of the fact that these values are contained or not into the column *Header*) and all the distinct values available in *Header*.
 
 {% highlight xml %}
 <header>
-  <column identifier="Header"/>
+  <column identifier="direction"/>
   <enforced-value>import</enforced-value>
   <enforced-value>export</enforced-value>
 </header>

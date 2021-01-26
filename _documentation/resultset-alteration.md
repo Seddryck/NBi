@@ -603,7 +603,7 @@ The remaining column will be used to fill the content of the newly created colum
         <column identifier="direction"/>
       </header>
       <group-by>
-        <column identifier="price"/>
+        <column identifier="fruit"/>
       </group-by>
     </summarize>
   </alteration>

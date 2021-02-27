@@ -63,6 +63,7 @@
 - title: Settings management
   docs:
   - settings-load
+  - settings-csv-profile
   - variable-include
 
 - title: Test-suite management

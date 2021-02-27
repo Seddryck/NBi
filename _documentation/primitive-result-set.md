@@ -423,6 +423,41 @@ Finally, you can apply query parameters in your url. The url *https://www.myapi.
 </rest>
 {% endhighlight %}
 
+### Iterative result-set
+
+An iterative result-set is a result-set resulting from the union of many result-sets. Each of the underlying result-set is retrieved from a single query, file or xml/json-source with a different value for a given parameter. As an example, imagine that you've a stored procedure and you want to call it for the year 2019, 2020 and 2021 then merge the three result-sets ... It's exactly what this feature is providing.
+
+To create an iterative result-set, you must first reference a sequence. Each element of a sequence will be passed to the underlying query, file, xml/json-source.
+
+{% highlight xml %}
+<result-set>
+  <iteration>
+    <sequence name="year"  type="dateTime">
+      <loop-sentinel seed="2019-01-01" terminal="2021-01-01" step="1 year"/>
+    </sequence>
+  </iteration>
+  ...
+</result-set>
+{% endhighlight %}
+
+You also need to define a result-set. This result-set will be executed for each element of the sequence. This result-set could have alterations if needed.
+
+{% highlight xml %}
+<result-set>
+  <iteration>
+    ...
+  </iteration>
+  <result-set>
+    <query>
+      select * from myTable where Year = @year;
+      <parameter name="year">@year</parameter>
+    </query>
+  </result-set>
+</result-set>
+{% endhighlight %}
+
+The different result-sets are concatenated by a union operation to return a single result-set. This union is based on the ordinal position of the columns. Meaning that, independantly of the name of the column, the first columns of all the individual results-sets will be merged together and the same will happen for the second columns and so on. If some columns are missing in an individual result-set, the column's value for each row of this result-set will be set to `null`.
+
 ## Alterations
 
 You can also define an alteration to the result-set. For the moment, three kinds of alterations are supported by NBi:

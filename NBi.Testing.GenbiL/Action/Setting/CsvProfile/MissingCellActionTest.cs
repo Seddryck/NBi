@@ -1,24 +1,17 @@
-﻿using NBi.GenbiL.Action;
-using NBi.GenbiL.Action.Setting;
+﻿using NBi.GenbiL.Action.Setting.CsvProfile;
 using NBi.GenbiL.Stateful;
 using NUnit.Framework;
-using NBi.Xml.Settings;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace NBi.Testing.GenbiL.Action.Setting
+namespace NBi.Testing.GenbiL.Action.Setting.CsvProfile
 {
-    public class CsvProfileMissingCellActionTest
+    public class MissingCellActionTest
     {
         [Test]
-        public void Execute_NewCsvProfileMissingCell_ProfileAdded()
+        public void Execute_NewMissingCell_ProfileAdded()
         {
             var state = new GenerationState();
 
-            var action = new CsvProfileMissingCellAction("NULL");
+            var action = new MissingCellAction("NULL");
 
             action.Execute(state);
             var target = state.Settings.CsvProfile;
@@ -31,7 +24,7 @@ namespace NBi.Testing.GenbiL.Action.Setting
         {
             var state = new GenerationState();
 
-            var action = new CsvProfileMissingCellAction("NULL");
+            var action = new MissingCellAction("NULL");
             action.Execute(state);
             var target = state.Settings.CsvProfile.MissingCell;
             Assert.That(target, Is.Not.Null);
@@ -44,7 +37,7 @@ namespace NBi.Testing.GenbiL.Action.Setting
             var state = new GenerationState();
             state.Settings.CsvProfile.MissingCell = "originalValue";
 
-            var action = new CsvProfileMissingCellAction("newValue");
+            var action = new MissingCellAction("newValue");
             action.Execute(state);
             var target = state.Settings.CsvProfile.MissingCell;
             Assert.That(target, Is.Not.Null);

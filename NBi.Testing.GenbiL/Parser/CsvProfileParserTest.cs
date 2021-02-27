@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using NBi.GenbiL.Action;
-using NBi.GenbiL.Action.Setting;
+using NBi.GenbiL.Action.Setting.CsvProfile;
 using NBi.GenbiL.Parser;
 using NUnit.Framework;
 using Sprache;
@@ -18,8 +18,8 @@ namespace NBi.Testing.GenbiL.Parser
             var result = CsvProfile.Parser.Parse(input);
 
             Assert.That(result, Is.Not.Null);
-            Assert.That(result, Is.InstanceOf<CsvProfileFieldSeparatorAction>());
-            Assert.That(((CsvProfileFieldSeparatorAction)result).Value, Is.EqualTo('#'));
+            Assert.That(result, Is.InstanceOf<FieldSeparatorAction>());
+            Assert.That(((FieldSeparatorAction)result).Value, Is.EqualTo('#'));
         }
 
         [Test]
@@ -29,8 +29,8 @@ namespace NBi.Testing.GenbiL.Parser
             var result = CsvProfile.Parser.Parse(input);
 
             Assert.That(result, Is.Not.Null);
-            Assert.That(result, Is.InstanceOf<CsvProfileRecordSeparatorAction>());
-            Assert.That(((CsvProfileRecordSeparatorAction)result).Value, Is.EqualTo("Tab"));
+            Assert.That(result, Is.InstanceOf<RecordSeparatorAction>());
+            Assert.That(((RecordSeparatorAction)result).Value, Is.EqualTo("Tab"));
         }
 
         [Test]
@@ -40,8 +40,8 @@ namespace NBi.Testing.GenbiL.Parser
             var result = CsvProfile.Parser.Parse(input);
 
             Assert.That(result, Is.Not.Null);
-            Assert.That(result, Is.InstanceOf<CsvProfileTextQualifierAction>());
-            Assert.That(((CsvProfileTextQualifierAction)result).Value, Is.EqualTo('#'));
+            Assert.That(result, Is.InstanceOf<TextQualifierAction>());
+            Assert.That(((TextQualifierAction)result).Value, Is.EqualTo('#'));
         }
 
         [Test]
@@ -51,8 +51,8 @@ namespace NBi.Testing.GenbiL.Parser
             var result = CsvProfile.Parser.Parse(input);
 
             Assert.That(result, Is.Not.Null);
-            Assert.That(result, Is.InstanceOf<CsvProfileFirstRowHeaderAction>());
-            Assert.That(((CsvProfileFirstRowHeaderAction)result).Value, Is.True);
+            Assert.That(result, Is.InstanceOf<FirstRowHeaderAction>());
+            Assert.That(((FirstRowHeaderAction)result).Value, Is.True);
         }
 
         [Test]
@@ -62,8 +62,8 @@ namespace NBi.Testing.GenbiL.Parser
             var result = CsvProfile.Parser.Parse(input);
 
             Assert.That(result, Is.Not.Null);
-            Assert.That(result, Is.InstanceOf<CsvProfileEmptyCellAction>());
-            Assert.That(((CsvProfileEmptyCellAction)result).Value, Is.EqualTo("..."));
+            Assert.That(result, Is.InstanceOf<EmptyCellAction>());
+            Assert.That(((EmptyCellAction)result).Value, Is.EqualTo("..."));
         }
 
         [Test]
@@ -73,8 +73,8 @@ namespace NBi.Testing.GenbiL.Parser
             var result = CsvProfile.Parser.Parse(input);
 
             Assert.That(result, Is.Not.Null);
-            Assert.That(result, Is.InstanceOf<CsvProfileMissingCellAction>());
-            Assert.That(((CsvProfileMissingCellAction)result).Value, Is.EqualTo("?"));
+            Assert.That(result, Is.InstanceOf<MissingCellAction>());
+            Assert.That(((MissingCellAction)result).Value, Is.EqualTo("?"));
         }
 
     }

@@ -1,5 +1,6 @@
 ﻿using NBi.GenbiL.Action;
 using NBi.GenbiL.Action.Setting;
+using NBi.GenbiL.Action.Setting.CsvProfile;
 using Sprache;
 using System;
 using System.Collections.Generic;
@@ -16,7 +17,7 @@ namespace NBi.GenbiL.Parser
                 from tag in Keyword.FieldSeparator
                 from to in Keyword.To
                 from value in Grammar.QuotedTextual
-                select new CsvProfileFieldSeparatorAction(value[0])
+                select new FieldSeparatorAction(value[0])
         );
 
         readonly static Parser<ICsvProfileAction> RecordSeparatorParser =
@@ -24,7 +25,7 @@ namespace NBi.GenbiL.Parser
                 from tag in Keyword.RecordSeparator
                 from to in Keyword.To
                 from value in Grammar.QuotedTextual
-                select new CsvProfileRecordSeparatorAction(value)
+                select new RecordSeparatorAction(value)
         );
 
         readonly static Parser<ICsvProfileAction> TextQualifierParser =
@@ -32,7 +33,7 @@ namespace NBi.GenbiL.Parser
                 from tag in Keyword.TextQualifier
                 from to in Keyword.To
                 from value in Grammar.QuotedTextual
-                select new CsvProfileTextQualifierAction(value[0])
+                select new TextQualifierAction(value[0])
         );
 
         readonly static Parser<ICsvProfileAction> FirstRowHeaderParser =
@@ -40,7 +41,7 @@ namespace NBi.GenbiL.Parser
                 from tag in Keyword.FirstRowHeader
                 from to in Keyword.To
                 from value in Grammar.Boolean
-                select new CsvProfileFirstRowHeaderAction(value)
+                select new FirstRowHeaderAction(value)
         );
 
         readonly static Parser<ICsvProfileAction> EmptyCellParser =
@@ -48,7 +49,7 @@ namespace NBi.GenbiL.Parser
                 from tag in Keyword.EmptyCell
                 from to in Keyword.To
                 from value in Grammar.QuotedTextual
-                select new CsvProfileEmptyCellAction(value)
+                select new EmptyCellAction(value)
         );
 
         readonly static Parser<ICsvProfileAction> MissingCellParser =
@@ -56,7 +57,7 @@ namespace NBi.GenbiL.Parser
                 from tag in Keyword.MissingCell
                 from to in Keyword.To
                 from value in Grammar.QuotedTextual
-                select new CsvProfileMissingCellAction(value)
+                select new MissingCellAction(value)
         );
 
         public readonly static Parser<IAction> Parser =

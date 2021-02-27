@@ -111,7 +111,7 @@ namespace NBi.Core.Transformation.Transformer.Native.Text
         public TextToFirstChars(IScalarResolver<int> length)
             : base(length) { }
 
-        protected override object EvaluateString(string value) 
+        protected override object EvaluateString(string value)
             => value.Length >= Length.Execute() ? value.Substring(0, Length.Execute()) : value;
     }
 
@@ -120,7 +120,7 @@ namespace NBi.Core.Transformation.Transformer.Native.Text
         public TextToLastChars(IScalarResolver<int> length)
             : base(length) { }
 
-        protected override object EvaluateString(string value) 
+        protected override object EvaluateString(string value)
             => value.Length >= Length.Execute() ? value.Substring(value.Length - Length.Execute(), Length.Execute()) : value;
     }
 
@@ -130,7 +130,7 @@ namespace NBi.Core.Transformation.Transformer.Native.Text
             : base(length) { }
 
         protected override object EvaluateString(string value)
-            => value.Length <= Length.Execute() ? "(empty)" : value.Substring(Length.Execute(), value.Length-Length.Execute());
+            => value.Length <= Length.Execute() ? "(empty)" : value.Substring(Length.Execute(), value.Length - Length.Execute());
     }
 
     class TextToSkipLastChars : AbstractTextLengthTransformation
@@ -160,7 +160,7 @@ namespace NBi.Core.Transformation.Transformer.Native.Text
         public TextToPadRight(IScalarResolver<int> length, IScalarResolver<char> character)
             : base(length, character) { }
 
-        protected override object EvaluateString(string value) 
+        protected override object EvaluateString(string value)
             => value.Length >= Length.Execute() ? value : value.PadRight(Length.Execute(), Character.Execute());
     }
 
@@ -169,7 +169,7 @@ namespace NBi.Core.Transformation.Transformer.Native.Text
         public TextToPadLeft(IScalarResolver<int> length, IScalarResolver<char> character)
             : base(length, character) { }
 
-        protected override object EvaluateString(string value) 
+        protected override object EvaluateString(string value)
             => value.Length >= Length.Execute() ? value : value.PadLeft(Length.Execute(), Character.Execute());
     }
 
@@ -215,12 +215,12 @@ namespace NBi.Core.Transformation.Transformer.Native.Text
     class TextToToken : AbstractTextTransformation
     {
         public IScalarResolver<int> Index { get; }
-        public IScalarResolver<char> Separator  { get; }
+        public IScalarResolver<char> Separator { get; }
         public TextToToken(IScalarResolver<int> index)
             => (Index, Separator) = (index, null);
         public TextToToken(IScalarResolver<int> index, IScalarResolver<char> separator)
             => (Index, Separator) = (index, separator);
-        protected override object EvaluateBlank() => Separator==null || char.IsWhiteSpace(Separator.Execute()) ? "(null)" : "(blank)";
+        protected override object EvaluateBlank() => Separator == null || char.IsWhiteSpace(Separator.Execute()) ? "(null)" : "(blank)";
         protected override object EvaluateEmpty() => "(null)";
         protected override object EvaluateString(string value)
         {
@@ -299,5 +299,59 @@ namespace NBi.Core.Transformation.Transformer.Native.Text
             else
                 return base.EvaluateBlank();
         }
+    }
+
+    class TextToMask : AbstractTextTransformation
+    {
+        private char maskChar { get; } = '*';
+        public IScalarResolver<string> Mask { get; }
+        public TextToMask(IScalarResolver<string> mask)
+            => Mask = mask;
+
+        protected override object EvaluateString(string value)
+        {
+            var mask = Mask.Execute();
+            var stringBuilder = new StringBuilder();
+            var index = 0;
+            foreach (var c in mask)
+                if (c.Equals(maskChar))
+                    stringBuilder.Append(index < value.Length ? value[index++] : maskChar);
+                else
+                    stringBuilder.Append(c);
+            return stringBuilder.ToString();
+        }
+
+        protected override object EvaluateBlank()
+            => Mask.Execute();
+        protected override object EvaluateEmpty()
+            => Mask.Execute();
+    }
+
+    class MaskToText : AbstractTextTransformation
+    {
+        private char maskChar { get; } = '*';
+        public IScalarResolver<string> Mask { get; }
+        public MaskToText(IScalarResolver<string> mask)
+            => Mask = mask;
+
+        protected override object EvaluateString(string value)
+        {
+            var mask = Mask.Execute();
+            var stringBuilder = new StringBuilder();
+            if (mask.Length != value.Length)
+                return "(null)";
+
+            for (int i = 0; i < mask.Length; i++)
+                if (mask[i].Equals(maskChar) && !value[i].Equals(maskChar))
+                    stringBuilder.Append(value[i]);
+                else if (!mask[i].Equals(value[i]))
+                    return "(null)";
+            return stringBuilder.ToString();
+        }
+
+        protected override object EvaluateBlank()
+            => (Mask.Execute().Replace(maskChar.ToString(), "").Length == 0) ? "(blank)" : "(null)";
+        protected override object EvaluateEmpty()
+            => (Mask.Execute().Replace(maskChar.ToString(), "").Length == 0) ? "(empty)" : "(null)";
     }
 }

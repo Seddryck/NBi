@@ -463,5 +463,35 @@ namespace NBi.Testing.Core.Transformation.Transformer.Native
             var result = function.Evaluate(value);
             Assert.That(result, Is.EqualTo(expected));
         }
+
+        [Test]
+        [TestCase("12345678", "BE-***.***.**", "BE-123.456.78")]
+        [TestCase("1234567890", "BE-***.***.**", "BE-123.456.78")]
+        [TestCase("12345", "BE-***.***.**", "BE-123.45*.**")]
+        [TestCase("(null)", "BE-***.***.**", "(null)")]
+        [TestCase("(empty)", "BE-***.***.**", "BE-***.***.**")]
+        [TestCase("(blank)", "BE-***.***.**", "BE-***.***.**")]
+        public void Execute_TextToMask_Valid(string value, string mask, string expected)
+        {
+            var function = new TextToMask(new LiteralScalarResolver<string>(mask));
+            var result = function.Evaluate(value);
+            Assert.That(result, Is.EqualTo(expected));
+        }
+
+        [Test]
+        [TestCase("12345678", "BE-***.***.**", "BE-123.456.78")]
+        [TestCase("12345", "BE-***.***.**", "BE-123.45*.**")]
+        [TestCase("(null)", "BE-***.***.**", "(null)")]
+        [TestCase("", "BE-***.***.**", "BE-***.***.**")]
+        [TestCase("(null)", "BE-***.***.**", "(empty)")]
+        [TestCase("(empty)", "********", "(empty)")]
+        [TestCase("(null)", "BE-***.***.**", "(blank)")]
+        [TestCase("(blank)", "********", "(blank)")]
+        public void Execute_MaskToText_Valid(string expected, string mask, string value)
+        {
+            var function = new MaskToText(new LiteralScalarResolver<string>(mask));
+            var result = function.Evaluate(value);
+            Assert.That(result, Is.EqualTo(expected));
+        }
     }
 }

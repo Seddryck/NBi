@@ -685,6 +685,8 @@
       <xs:enumeration value="text-to-pad-right("/>
       <xs:enumeration value="text-to-remove-chars("/>
       <xs:enumeration value="text-to-dateTime("/>
+      <xs:enumeration value="text-to-mask("/>
+      <xs:enumeration value="mask-to-text("/>
       <xs:enumeration value="html-to-text"/>
       <xs:enumeration value="date-to-age"/>
       <xs:enumeration value="utc-to-local("/>

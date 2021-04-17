@@ -38,12 +38,12 @@ namespace NBi.Core.ResultSet.Resolver
             return query;
         }
 
-        protected virtual ResultSet Load(IQuery query)
+        protected virtual IResultSet Load(IQuery query)
         {
             var factory = serviceLocator.GetExecutionEngineFactory();
             var qe = factory.Instantiate(query);
             var ds = qe.Execute();
-            var rs = new ResultSet();
+            var rs = new DataTableResultSet();
             rs.Load(ds);
             return rs;
         }

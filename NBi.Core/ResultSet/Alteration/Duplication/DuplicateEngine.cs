@@ -82,7 +82,7 @@ namespace NBi.Core.ResultSet.Alteration.Duplication
                     }
                 }
             }
-            var newRs = new ResultSet();
+            var newRs = new DataTableResultSet();
             newRs.Load(newTable);
             return newRs;
         }

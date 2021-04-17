@@ -8,6 +8,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using NBi.Extensibility;
 
 namespace NBi.Core.ResultSet.Lookup
 {
@@ -22,11 +23,11 @@ namespace NBi.Core.ResultSet.Lookup
 
         public virtual LookupViolationCollection Execute(object candidate, object reference)
         {
-            if (candidate is DataTable && reference is DataTable)
-                return Execute((DataTable)candidate, (DataTable)reference);
+            if (candidate is DataTable candidateTable && reference is DataTable referenceTable)
+                return Execute(candidateTable, referenceTable);
 
-            if (candidate is ResultSet && reference is ResultSet)
-                return Execute(((ResultSet)candidate).Table, ((ResultSet)reference).Table);
+            if (candidate is IResultSet candidateRs && reference is IResultSet referenceRs)
+                return Execute(candidateRs.Table, referenceRs.Table);
 
             throw new ArgumentException();
         }

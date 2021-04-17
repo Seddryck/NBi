@@ -21,7 +21,7 @@ namespace NBi.Core.ResultSet.Filtering
 
         protected IResultSet Apply(IResultSet rs, Func<bool, bool> onApply)
         {
-            var filteredRs = new ResultSet();
+            var filteredRs = new DataTableResultSet();
             var table = rs.Table.Clone();
             filteredRs.Load(table);
             filteredRs.Table.Clear();

@@ -30,7 +30,7 @@ namespace NBi.Core.ResultSet.Resolver
                     dataTable.Columns.Add(new DataColumn($"Column_{dataTable.Columns.Count}", typeof(object)));
             }
 
-            var rs = new ResultSet();
+            var rs = new DataTableResultSet();
             rs.Load(dataTable);
             return rs;
         }

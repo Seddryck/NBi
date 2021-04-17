@@ -30,7 +30,7 @@ namespace NBi.Core.ResultSet.Resolver
             return rs;
         }
         
-        private ResultSet Initialize(ISequenceResolver resolver)
+        private IResultSet Initialize(ISequenceResolver resolver)
         {
             var dataTable = new DataTable();
             var newColumn = new DataColumn($"Column{dataTable.Columns.Count}", typeof(object));
@@ -43,7 +43,7 @@ namespace NBi.Core.ResultSet.Resolver
                 dataTable.Rows.Add(newRow);
             }
             dataTable.AcceptChanges();
-            var rs = new ResultSet();
+            var rs = new DataTableResultSet();
             rs.Load(dataTable);
             return rs;
         }

@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using NBi.Extensibility;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -10,7 +11,7 @@ namespace NBi.Core.ResultSet
 {
     public class JsonResultSet
     {
-        public ResultSet Build(string json)
+        public IResultSet Build(string json)
         {
             var dt = (DataTable)JsonConvert.DeserializeObject(json, (typeof(DataTable)));
 
@@ -96,7 +97,7 @@ namespace NBi.Core.ResultSet
             }
 
 
-            var rs = new ResultSet();
+            var rs = new DataTableResultSet();
             rs.Load(dt);
             return rs;
         }

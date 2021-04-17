@@ -10,6 +10,7 @@ using NBi.Core.Scalar.Casting;
 using NBi.Core.ResultSet.Analyzer;
 using System.Collections.ObjectModel;
 using NBi.Core.ResultSet.Equivalence;
+using NBi.Extensibility;
 
 namespace NBi.Core.ResultSet.Uniqueness
 {
@@ -36,11 +37,11 @@ namespace NBi.Core.ResultSet.Uniqueness
 
         public ResultUniqueRows Execute(object x)
         {
-            if (x is DataTable)
-                return doCompare((DataTable)x);
+            if (x is DataTable xDt)
+                return doCompare(xDt);
 
-            if (x is ResultSet)
-                return doCompare(((ResultSet)x).Table);
+            if (x is IResultSet xRs)
+                return doCompare(xRs.Table);
 
             throw new ArgumentException();
         }

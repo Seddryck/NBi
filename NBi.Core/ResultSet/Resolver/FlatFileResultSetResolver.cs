@@ -44,7 +44,7 @@ namespace NBi.Core.ResultSet.Resolver
             var reader = factory.Instantiate(args.ParserName, args.Profile);
             var dataTable = reader.ToDataTable(file);
 
-            var rs = new ResultSet();
+            var rs = new DataTableResultSet();
             rs.Load(dataTable);
             stopWatch.Stop();
             Trace.WriteLineIf(NBiTraceSwitch.TraceInfo, $"Time needed to load data from flat file: {stopWatch.Elapsed:d'.'hh':'mm':'ss'.'fff'ms'}");

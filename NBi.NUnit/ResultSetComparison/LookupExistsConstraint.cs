@@ -62,12 +62,13 @@ namespace NBi.NUnit.ResultSetComparison
 
         public override bool Matches(object actual)
         {
-            if (actual is IResultSetService)
-                return ProcessParallel((IResultSetService)actual);
-            else if (actual is ResultSet)
-                return doMatch((ResultSet)actual);
-            else
-                throw new ArgumentException($"The type of the actual object is '{actual.GetType().Name}' and is not supported for a constraint of type '{this.GetType().Name}'. Use a ResultSet or a ResultSetService.", nameof(actual));
+            switch(actual)
+            {
+                case IResultSetService rss: return ProcessParallel(rss);
+                case IResultSet rs: return doMatch(rs);
+                default:
+                    throw new ArgumentException($"The type of the actual object is '{actual.GetType().Name}' and is not supported for a constraint of type '{this.GetType().Name}'. Use a ResultSet or a ResultSetService.", nameof(actual));
+            }
         }
 
         public virtual bool ProcessParallel(IResultSetService actual)
@@ -82,7 +83,7 @@ namespace NBi.NUnit.ResultSetComparison
             return Matches(rsCandidate);
         }
 
-        protected virtual bool doMatch(ResultSet actual)
+        protected virtual bool doMatch(IResultSet actual)
         {
             violations = Engine.Execute(actual, rsReference);
             var output = violations.Count() == 0;

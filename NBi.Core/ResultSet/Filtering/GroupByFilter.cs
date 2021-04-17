@@ -23,7 +23,7 @@ namespace NBi.Core.ResultSet.Filtering
             var groups = GroupBy.Execute(rs);
             foreach (var group in groups)
             {
-                var groupRs = new ResultSet();
+                var groupRs = new DataTableResultSet();
                 groupRs.Load(group.Value);
                 var filtered = Filter.Apply(groupRs);
                 newRs.AddRange(filtered.Rows.Cast<DataRow>());

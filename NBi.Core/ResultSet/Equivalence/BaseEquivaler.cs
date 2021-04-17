@@ -9,6 +9,7 @@ using System.Text;
 using NBi.Core.Scalar.Casting;
 using NBi.Core.ResultSet.Analyzer;
 using System.Collections.ObjectModel;
+using NBi.Extensibility;
 
 namespace NBi.Core.ResultSet.Equivalence
 {
@@ -37,11 +38,11 @@ namespace NBi.Core.ResultSet.Equivalence
         
         public ResultResultSet Compare(object x, object y)
         {
-            if (x is DataTable && y is DataTable)
-                return doCompare((DataTable)y, (DataTable)x);
+            if (x is DataTable xTable && y is DataTable yTable)
+                return doCompare(yTable, xTable);
 
-            if (x is ResultSet && y is ResultSet)
-                return doCompare(((ResultSet)y).Table, ((ResultSet)x).Table);
+            if (x is IResultSet xResultSet && y is IResultSet yResultSet)
+                return doCompare(yResultSet.Table, xResultSet.Table);
 
             throw new ArgumentException();
         }

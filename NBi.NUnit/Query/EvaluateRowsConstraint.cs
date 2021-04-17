@@ -19,7 +19,7 @@ namespace NBi.NUnit.Query
         private readonly IEnumerable<IColumnAlias> variables;
         private readonly IEnumerable<IColumnExpression> expressions;
 
-        protected ResultSet actualResultSet;
+        protected IResultSet actualResultSet;
         protected List<RowEvaluationResult> evaluationResults;
 
         public EvaluateRowsConstraint (IEnumerable<IColumnAlias> variables, IEnumerable<IColumnExpression> expressions)
@@ -35,16 +35,15 @@ namespace NBi.NUnit.Query
         /// <returns>true, if the result of query execution is exactly identical to the content of the resultset</returns>
         public override bool Matches(object actual)
         {
-            if (actual is IQuery)
-                return Process((IQuery)actual);
-            else if (actual is ResultSet)
-                return doMatch((ResultSet)actual);
-            else
-                return false;
-
+            switch (actual)
+            {
+                case IQuery query: return Process(query);
+                case IResultSet actualRs: return doMatch(actualRs);
+                default: return false;
+            }
         }
 
-        protected bool doMatch(ResultSet actual)
+        protected bool doMatch(IResultSet actual)
         {
             this.actualResultSet = actual;
 

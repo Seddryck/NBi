@@ -16,7 +16,7 @@ namespace NBi.Testing.Core.ResultSet.Alteration.Projection
         [Test]
         public void Execute_Identifier_ColumnFilterped(string identifier)
         {
-            var rs = new NBi.Core.ResultSet.ResultSet();
+            var rs = new NBi.Core.ResultSet.DataTableResultSet();
             rs.Load("a;1;120");
             rs.Columns[0].ColumnName = "Foo";
             rs.Columns[1].ColumnName = "Col1";
@@ -37,7 +37,7 @@ namespace NBi.Testing.Core.ResultSet.Alteration.Projection
         [Test]
         public void Execute_MultipleIdentifiers_ColumnFilterped(string id1, string id2)
         {
-            var rs = new NBi.Core.ResultSet.ResultSet();
+            var rs = new NBi.Core.ResultSet.DataTableResultSet();
             rs.Load("a;1;120");
             rs.Columns[0].ColumnName = "Foo";
             rs.Columns[1].ColumnName = "Col1";
@@ -58,7 +58,7 @@ namespace NBi.Testing.Core.ResultSet.Alteration.Projection
         [Test]
         public void Execute_MultipleIdentifiersNotSameOrder_ColumnFilteredOrderChanged(string id1, string id2)
         {
-            var rs = new NBi.Core.ResultSet.ResultSet();
+            var rs = new NBi.Core.ResultSet.DataTableResultSet();
             rs.Load("a;1;120");
             rs.Columns[0].ColumnName = "Foo";
             rs.Columns[1].ColumnName = "Col1";
@@ -80,7 +80,7 @@ namespace NBi.Testing.Core.ResultSet.Alteration.Projection
         [Test]
         public void Execute_DuplicatedIdentifiers_ColumnFilterped(string id1, string id2)
         {
-            var rs = new NBi.Core.ResultSet.ResultSet();
+            var rs = new NBi.Core.ResultSet.DataTableResultSet();
             rs.Load("a;1;120");
             rs.Columns[0].ColumnName = "Foo";
             rs.Columns[1].ColumnName = "Col1";
@@ -101,7 +101,7 @@ namespace NBi.Testing.Core.ResultSet.Alteration.Projection
         [Test]
         public void Execute_DuplicatedIdentifiersAndChangeOrder_ColumnFilteredOrderedChanged(string id1, string id2)
         {
-            var rs = new NBi.Core.ResultSet.ResultSet();
+            var rs = new NBi.Core.ResultSet.DataTableResultSet();
             rs.Load("a;1;120");
             rs.Columns[0].ColumnName = "Col1";
             rs.Columns[1].ColumnName = "Foo";
@@ -122,7 +122,7 @@ namespace NBi.Testing.Core.ResultSet.Alteration.Projection
         [Test]
         public void Execute_NonExistingIdentifiers_ColumnFilterped(string id)
         {
-            var rs = new NBi.Core.ResultSet.ResultSet();
+            var rs = new NBi.Core.ResultSet.DataTableResultSet();
             rs.Load("a;1;120");
             rs.Columns[0].ColumnName = "Foo";
             rs.Columns[1].ColumnName = "Col1";

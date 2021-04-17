@@ -13,6 +13,7 @@ using System.Text;
 using System.Threading.Tasks;
 using NUnitCtr = NUnit.Framework.Constraints;
 using NBi.Extensibility.Resolving;
+using NBi.Extensibility;
 
 namespace NBi.NUnit.ResultSetComparison
 {
@@ -37,7 +38,7 @@ namespace NBi.NUnit.ResultSetComparison
             return Matches(rsReference);
         }
 
-        protected override bool doMatch(ResultSet actual)
+        protected override bool doMatch(IResultSet actual)
         {
             violations = Engine.Execute(rsCandidate, actual);
             var output = violations.Count() == 0;

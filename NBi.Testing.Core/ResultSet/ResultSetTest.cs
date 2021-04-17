@@ -49,7 +49,7 @@ namespace NBi.Testing.Core.ResultSet
         {
             var objects = new object[] { new object[] { "A", "B", "C" }, new object[] { "D", "E", "F" } }.AsEnumerable().Cast<object[]>();
 
-            var rs = new NBiRs.ResultSet();
+            var rs = new NBiRs.DataTableResultSet();
             rs.Load(objects);
 
             Assert.That(rs.Columns.Count, Is.EqualTo(3));
@@ -79,7 +79,7 @@ namespace NBi.Testing.Core.ResultSet
                     )
             };
 
-            var rs = new NBiRs.ResultSet();
+            var rs = new NBiRs.DataTableResultSet();
             rs.Load(objects);
 
             Assert.That(rs.Columns.Count, Is.EqualTo(2));
@@ -103,7 +103,7 @@ namespace NBi.Testing.Core.ResultSet
                 objects.Add(new object[] { i, i.ToString(), null, i * 2 });
 
 
-            var rs = new NBiRs.ResultSet();
+            var rs = new NBiRs.DataTableResultSet();
             rs.Load(objects.AsEnumerable().Cast<object[]>());
             Assert.That(rs.Rows.Count, Is.EqualTo(x));
 
@@ -128,7 +128,7 @@ namespace NBi.Testing.Core.ResultSet
                 objects.Add(new object[] { i, i.ToString(), null, i * 2 });
 
 
-            var rs = new NBiRs.ResultSet();
+            var rs = new NBiRs.DataTableResultSet();
             rs.Load(objects.AsEnumerable().Cast<object[]>());
             Assert.That(rs.Rows.Count, Is.EqualTo(x));
             var frame = Frame.ReadReader(rs.Table.CreateDataReader());

@@ -25,7 +25,7 @@ namespace NBi.Testing.Core.ResultSet.Combination
             for (int i = 0; i < 20; i++)
                 dataTable.LoadDataRow(new object[] { "Alpha", i, true }, false);
             dataTable.AcceptChanges();
-            var rs = new Rs.ResultSet();
+            var rs = new Rs.DataTableResultSet();
             rs.Load(dataTable);
 
             var scalarResolvers = new List<IScalarResolver>()

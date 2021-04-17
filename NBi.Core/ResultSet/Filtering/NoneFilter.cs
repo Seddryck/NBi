@@ -15,7 +15,7 @@ namespace NBi.Core.ResultSet.Filtering
         public IResultSet AntiApply(IResultSet rs)
         {
             var table = rs?.Table?.Clone() ?? throw new ArgumentNullException();
-            var filteredRs = new ResultSet();
+            var filteredRs = new DataTableResultSet();
             filteredRs.Load(table);
             return filteredRs;
         }

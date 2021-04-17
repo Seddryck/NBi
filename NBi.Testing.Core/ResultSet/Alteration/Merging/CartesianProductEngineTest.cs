@@ -2,6 +2,7 @@
 using NBi.Core.ResultSet.Alteration;
 using NBi.Core.ResultSet.Alteration.Merging;
 using NBi.Core.ResultSet.Resolver;
+using NBi.Extensibility;
 using NBi.Extensibility.Resolving;
 using NUnit.Framework;
 using System;
@@ -16,7 +17,7 @@ namespace NBi.Testing.Core.ResultSet.Alteration.Merging
 {
     public class CartesianProductEngineTest
     {
-        private (Rs.ResultSet firstRs, IResultSetService service) Initialize(int count)
+        private (IResultSet firstRs, IResultSetService service) Initialize(int count)
         {
             var dataTable = new DataTable() { TableName = "MyTable" };
             dataTable.Columns.Add(new DataColumn("Id"));
@@ -25,7 +26,7 @@ namespace NBi.Testing.Core.ResultSet.Alteration.Merging
             for (int i = 0; i < 20; i++)
                 dataTable.LoadDataRow(new object[] { "Alpha", i, true }, false);
             dataTable.AcceptChanges();
-            var rs1 = new Rs.ResultSet();
+            var rs1 = new Rs.DataTableResultSet();
             rs1.Load(dataTable);
 
             IResultSetResolver resolver = null;

@@ -81,15 +81,15 @@ namespace NBi.NUnit.ResultSetComparison
         /// <returns>true, if the execution of the actual IResultSetService returns a ResultSet identical to the content of the expected ResultSet</returns>
         public override bool Matches(object actual)
         {
-            if (actual is IResultSetService)
-                return Process((IResultSetService)actual);
-            else if (actual is ResultSet)
-                return doMatch((ResultSet)actual);
-            else
-                throw new ArgumentException($"The type of the actual object is '{actual.GetType().Name}' and is not supported for a constraint of type '{this.GetType().Name}'. Use a ResultSet or a ResultSetService.", nameof(actual));
+            switch (actual)
+            {
+                case IResultSetService rss: return Process(rss);
+                case IResultSet rs: return doMatch(rs);
+                default: throw new ArgumentException($"The type of the actual object is '{actual.GetType().Name}' and is not supported for a constraint of type '{this.GetType().Name}'. Use a ResultSet or a ResultSetService.", nameof(actual));
+            }
         }
 
-        protected bool doMatch(ResultSet actual)
+        protected bool doMatch(IResultSet actual)
         {
             actualResultSet = actual;
 

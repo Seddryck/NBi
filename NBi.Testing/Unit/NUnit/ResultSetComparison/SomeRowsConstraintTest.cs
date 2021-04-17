@@ -36,7 +36,7 @@ namespace NBi.Testing.Unit.NUnit.ResultSetComparison
         [Test]
         public void Matches_ResultSetService_CallToExecuteOnce()
         {
-            var resultSet = new ResultSet();
+            var resultSet = new DataTableResultSet();
             resultSet.Load("a;b;1");
 
             var serviceMock = new Mock<IResultSetService>();
@@ -73,7 +73,7 @@ namespace NBi.Testing.Unit.NUnit.ResultSetComparison
         [Test]
         public void Matches_AllValidatePredicate_True()
         {
-            var rs = new ResultSet();
+            var rs = new DataTableResultSet();
             rs.Load(new[] { new object[] { "a", -1 }, new object[] { "b", -2 }, new object[] { "c", -3 } });
 
             var predicate = new Mock<ReferencePredicateArgs>();
@@ -99,7 +99,7 @@ namespace NBi.Testing.Unit.NUnit.ResultSetComparison
         [Test]
         public void Matches_NoneValidatePredicate_False()
         {
-            var rs = new ResultSet();
+            var rs = new DataTableResultSet();
             rs.Load(new[] { new object[] { "a", 1 }, new object[] { "b", 2 }, new object[] { "c", 3 } });
 
             var predicate = new Mock<ReferencePredicateArgs>();
@@ -125,7 +125,7 @@ namespace NBi.Testing.Unit.NUnit.ResultSetComparison
         [Test]
         public void Matches_FewValidatePredicate_True()
         {
-            var rs = new ResultSet();
+            var rs = new DataTableResultSet();
             rs.Load(new[] { new object[] { "a", -1 }, new object[] { "b", -2 }, new object[] { "c", 3 } });
 
             var predicate = new Mock<ReferencePredicateArgs>();
@@ -151,7 +151,7 @@ namespace NBi.Testing.Unit.NUnit.ResultSetComparison
         [Test]
         public void Matches_SingleValidatePredicate_True()
         {
-            var rs = new ResultSet();
+            var rs = new DataTableResultSet();
             rs.Load(new[] { new object[] { "a", -1 }, new object[] { "b", 2 }, new object[] { "c", 3 } });
 
             var predicate = new Mock<ReferencePredicateArgs>();

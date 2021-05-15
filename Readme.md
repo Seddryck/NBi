@@ -1,4 +1,5 @@
-![Logo](https://github.com/Seddryck/nbi/raw/gh-pages/img/logo-2x.png)
+![Logo](https://github.com/Seddryck/nbi/raw/gh-pages/img/logo-2x.png)[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2FSeddryck%2FNBi.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2FSeddryck%2FNBi?ref=badge_shield)
+
 # NBi #
 NBi is a **testing framework** (add-on to NUnit) for **Business Intelligence**. It supports most of the relational databases (SQL server, MySQL, postgreSQL ...) and OLAP platforms (Analysis Services, Mondrian ...) but also ETL and reporting components (Microsoft technologies).
 
@@ -38,6 +39,9 @@ The documentation is available on-line and is hosted on [www.nbi.io](http://www.
 
 ## Licenses ##
 NBi is available on the terms of Apache 2.0. NBi is also using several OSS projects as libraries. All these projects, and their respective licenses, are available in the folder "License". 
+
+
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2FSeddryck%2FNBi.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2FSeddryck%2FNBi?ref=badge_large)
 
 ## Bugs, issues and requests for features ##
 The list of bugs and feature's requests is hosted on [GitHub](https://github.com/Seddryck/NBi/issues)

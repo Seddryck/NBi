@@ -37,7 +37,10 @@ Binaries for the different releases are hosted on [www.nbi.io](http://www.nbi.io
 The documentation is available on-line and is hosted on [www.nbi.io](http://www.nbi.io/docs/home/)
 
 ## Licenses ##
-NBi is available on the terms of Apache 2.0. NBi is also using several OSS projects as libraries. All these projects, and their respective licenses, are available in the folder "License". 
+NBi is available on the terms of Apache 2.0. NBi is also using several OSS projects as libraries. 
+
+Compatibility of licenses in checked by FOSSA app:
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2FSeddryck%2FNBi.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2FSeddryck%2FNBi?ref=badge_large)
 
 ## Bugs, issues and requests for features ##
 The list of bugs and feature's requests is hosted on [GitHub](https://github.com/Seddryck/NBi/issues)

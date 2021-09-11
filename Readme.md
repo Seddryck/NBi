@@ -10,6 +10,7 @@ The main goal of this framework is to let users create tests with a declarative 
 **Releases:** [![nuget](https://img.shields.io/nuget/v/NBi.Framework.svg)](https://www.nuget.org/packages/NBi.Framework/)
 [![GitHub Release Date](https://img.shields.io/github/release-date/seddryck/nbi.svg)](https://github.com/Seddryck/NBi/releases/latest)
 [![licence badge](https://img.shields.io/badge/License-Apache%202.0-yellow.svg)](https://github.com/Seddryck/NBi/blob/master/LICENSE)
+ [![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2FSeddryck%2FNBi.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2FSeddryck%2FNBi?ref=badge_shield)
 
 **Latest RC and beta:** [![Pre-release](https://img.shields.io/github/tag-pre/seddryck/nbi.svg?color=%23ee41f4&label=Pre-release)](https://github.com/Seddryck/NBi/releases/)
 ![GitHub (Pre-)Release Date](https://img.shields.io/github/release-date-pre/Seddryck/NBi?label=Pre-release)

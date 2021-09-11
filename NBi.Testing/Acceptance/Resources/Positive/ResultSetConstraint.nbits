@@ -1102,8 +1102,8 @@
         <equal-to keys="first" values-default-type="text">
           <result-set>
             <row>
-              <cell>(value)</cell>
-              <cell>(value)</cell>
+              <cell>Cat Facts</cell>
+              <cell>no</cell>
             </row>
           </result-set>
         </equal-to>

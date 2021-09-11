@@ -1,4 +1,5 @@
 ﻿using NBi.Core.Sequence.Transformation.Aggregation;
+using NBi.Extensibility;
 using NBi.Extensibility.Resolving;
 using System;
 using System.Collections.Generic;

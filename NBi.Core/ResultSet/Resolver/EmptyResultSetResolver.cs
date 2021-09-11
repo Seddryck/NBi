@@ -18,7 +18,7 @@ namespace NBi.Core.ResultSet.Resolver
 
         public virtual IResultSet Execute()
         {
-            var dataTable = new DataTable();
+            var dataTable = new DataTableResultSet();
             if (Args.Identifiers != null)
                 foreach (var identifier in Args.Identifiers)
                     dataTable.Columns.Add(new DataColumn(identifier.Name, typeof(object)));
@@ -29,10 +29,7 @@ namespace NBi.Core.ResultSet.Resolver
                 for (int i = 0; i < missingColumnCount; i++)
                     dataTable.Columns.Add(new DataColumn($"Column_{dataTable.Columns.Count}", typeof(object)));
             }
-
-            var rs = new DataTableResultSet();
-            rs.Load(dataTable);
-            return rs;
+            return dataTable;
         }
     }
 }

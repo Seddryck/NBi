@@ -134,7 +134,7 @@ namespace NBi.Testing.Core.ResultSet.Equivalence
         }
 
 
-        protected DataTable BuildDataTable(string[] columnNames, object[] firstRow, object[] secondRow)
+        private DataTableResultSet BuildDataTable(string[] columnNames, object[] firstRow, object[] secondRow)
         {
             var ds = new DataSet();
             var dt = ds.Tables.Add("myTable");
@@ -150,7 +150,7 @@ namespace NBi.Testing.Core.ResultSet.Equivalence
             dr.ItemArray = secondRow;
             dt.Rows.Add(dr);
 
-            return dt;
+            return new DataTableResultSet(dt);
         }
 
         protected SettingsNameResultSet BuildSettingsKeyValue()

@@ -26,8 +26,7 @@ namespace NBi.Testing.Core.ResultSet.Alteration.Merging
             for (int i = 0; i < 20; i++)
                 dataTable.LoadDataRow(new object[] { "Alpha", i, true }, false);
             dataTable.AcceptChanges();
-            var rs1 = new Rs.DataTableResultSet();
-            rs1.Load(dataTable);
+            var rs1 = new DataTableResultSet(dataTable);
 
             IResultSetResolver resolver = null;
             if (count > 0)

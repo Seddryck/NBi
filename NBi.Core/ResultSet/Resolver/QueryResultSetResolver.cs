@@ -43,9 +43,7 @@ namespace NBi.Core.ResultSet.Resolver
             var factory = serviceLocator.GetExecutionEngineFactory();
             var qe = factory.Instantiate(query);
             var ds = qe.Execute();
-            var rs = new DataTableResultSet();
-            rs.Load(ds);
-            return rs;
+            return new DataTableResultSet(ds.Tables[0]);
         }
     }
 }

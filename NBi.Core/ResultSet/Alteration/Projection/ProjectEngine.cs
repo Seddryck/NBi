@@ -52,7 +52,7 @@ namespace NBi.Core.ResultSet.Alteration.Projection
                     moved += 1;
                 }
             }
-            resultSet.Table.AcceptChanges();
+            resultSet.AcceptChanges();
             return resultSet;
         }
 

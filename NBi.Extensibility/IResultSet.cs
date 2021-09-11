@@ -9,14 +9,18 @@ namespace NBi.Extensibility
 {
     public interface IResultSet
     {
-        DataTable Table { get; }
-
         DataColumnCollection Columns { get; }
-
         DataRowCollection Rows { get; }
-        void Load(DataTable table);
-        void Load(IEnumerable<DataRow> rows);
+
+        DataColumn GetColumn(IColumnIdentifier columnIdentifier);
+
+        void Add(DataRow row);
+        void ImportRow(DataRow row);
+        DataRow NewRow();
         void AddRange(IEnumerable<DataRow> rows);
+        void AcceptChanges();
+
         IResultSet Clone();
+        void Clear();
     }
 }

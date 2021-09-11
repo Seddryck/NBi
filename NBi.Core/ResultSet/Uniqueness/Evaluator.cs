@@ -35,18 +35,15 @@ namespace NBi.Core.ResultSet.Uniqueness
 
         private readonly Dictionary<KeyCollection, int> dict = new Dictionary<KeyCollection, int>();
 
-        public ResultUniqueRows Execute(object x)
+        public ResultUniqueRows Execute(IResultSet x)
         {
-            if (x is DataTable xDt)
-                return doCompare(xDt);
-
             if (x is IResultSet xRs)
-                return doCompare(xRs.Table);
+                return doCompare(xRs);
 
             throw new ArgumentException();
         }
 
-        protected virtual ResultUniqueRows doCompare(DataTable x)
+        protected virtual ResultUniqueRows doCompare(IResultSet x)
         {
             var stopWatch = new Stopwatch();
 
@@ -58,7 +55,7 @@ namespace NBi.Core.ResultSet.Uniqueness
 
             stopWatch.Start();
             BuildRowDictionary(x, keyComparer, dict);
-            Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceInfo, string.Format("Building dictionary: {0} [{1}]", x.Rows.Count, stopWatch.Elapsed.ToString(@"d\d\.hh\h\:mm\m\:ss\s\ \+fff\m\s")));
+            Trace.WriteLineIf(NBiTraceSwitch.TraceInfo, string.Format("Building dictionary: {0} [{1}]", x.Rows.Count, stopWatch.Elapsed.ToString(@"d\d\.hh\h\:mm\m\:ss\s\ \+fff\m\s")));
             stopWatch.Reset();
 
             var duplicatedRows = dict.Where(r => r.Value > 1);
@@ -69,13 +66,13 @@ namespace NBi.Core.ResultSet.Uniqueness
                 );
         }
 
-        protected abstract void PreliminaryChecks(DataTable x);
-        protected abstract DataRowKeysComparer BuildDataRowsKeyComparer(DataTable x);
+        protected abstract void PreliminaryChecks(IResultSet x);
+        protected abstract DataRowKeysComparer BuildDataRowsKeyComparer(IResultSet x);
         
-        private void BuildRowDictionary(DataTable dt, DataRowKeysComparer keyComparer, Dictionary<KeyCollection, int> dict)
+        private void BuildRowDictionary(IResultSet rs, DataRowKeysComparer keyComparer, Dictionary<KeyCollection, int> dict)
         {
             dict.Clear();
-            foreach (DataRow row in dt.Rows)
+            foreach (DataRow row in rs.Rows)
             {
                 RowHelper hlpr = new RowHelper();
 

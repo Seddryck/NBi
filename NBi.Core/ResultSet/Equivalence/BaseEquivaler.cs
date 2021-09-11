@@ -36,18 +36,15 @@ namespace NBi.Core.ResultSet.Equivalence
         private readonly Dictionary<KeyCollection, RowHelper> yDict = new Dictionary<KeyCollection, RowHelper>();
 
         
-        public ResultResultSet Compare(object x, object y)
+        public ResultResultSet Compare(IResultSet x, IResultSet y)
         {
-            if (x is DataTable xTable && y is DataTable yTable)
-                return doCompare(yTable, xTable);
-
             if (x is IResultSet xResultSet && y is IResultSet yResultSet)
-                return doCompare(yResultSet.Table, xResultSet.Table);
+                return doCompare(yResultSet, xResultSet);
 
             throw new ArgumentException();
         }
 
-        protected virtual ResultResultSet doCompare(DataTable x, DataTable y)
+        protected virtual ResultResultSet doCompare(IResultSet x, IResultSet y)
         {
             var stopWatch = new Stopwatch();
 
@@ -92,8 +89,8 @@ namespace NBi.Core.ResultSet.Equivalence
                 );
         }
 
-        protected abstract void PreliminaryChecks(DataTable x, DataTable y);
-        protected abstract DataRowKeysComparer BuildDataRowsKeyComparer(DataTable x);
+        protected abstract void PreliminaryChecks(IResultSet x, IResultSet y);
+        protected abstract DataRowKeysComparer BuildDataRowsKeyComparer(IResultSet x);
         //protected abstract void CompareValues(List<CompareHelper> keyMatchingRows, List<DataRow> nonMatchingValueRows);
         protected virtual bool CanSkipValueComparison()
         {
@@ -131,10 +128,10 @@ namespace NBi.Core.ResultSet.Equivalence
 
         
 
-        private void BuildRowDictionary(DataTable dt, Dictionary<KeyCollection, RowHelper> dict, DataRowKeysComparer keyComparer, bool isSystemUnderTest)
+        private void BuildRowDictionary(IResultSet rs, Dictionary<KeyCollection, RowHelper> dict, DataRowKeysComparer keyComparer, bool isSystemUnderTest)
         {
             dict.Clear();
-            foreach (DataRow row in dt.Rows)
+            foreach (DataRow row in rs.Rows)
             {
                 RowHelper hlpr = new RowHelper();
 

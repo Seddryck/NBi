@@ -1,6 +1,7 @@
 ﻿using NBi.Core.ResultSet;
 using NBi.Core.ResultSet.Lookup;
 using NBi.Core.Scalar.Comparer;
+using NBi.Extensibility;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
@@ -14,7 +15,7 @@ namespace NBi.Testing.Core.ResultSet.Lookup
 {
     public class LookupMatchesAnalyzerTest
     {
-        protected DataTable BuildDataTable(object[] keys, object[] values)
+        private DataTableResultSet BuildDataTable(object[] keys, object[] values)
         {
             var ds = new DataSet();
             var dt = ds.Tables.Add("myTable");
@@ -30,10 +31,10 @@ namespace NBi.Testing.Core.ResultSet.Lookup
                 dt.Rows.Add(dr);
             }
 
-            return dt;
+            return new DataTableResultSet(dt);
         }
 
-        protected DataTable BuildDataTable(object[] keys, object[] secondKeys, object[] values)
+        private DataTableResultSet BuildDataTable(object[] keys, object[] secondKeys, object[] values)
         {
             var ds = new DataSet();
             var dt = ds.Tables.Add("myTable");
@@ -45,13 +46,13 @@ namespace NBi.Testing.Core.ResultSet.Lookup
             for (int i = 0; i < keys.Length; i++)
             {
                 var dr = dt.NewRow();
-                dr.SetField<object>(keyCol, keys[i]);
-                dr.SetField<object>(secondKeyCol, secondKeys[i]);
-                dr.SetField<object>(valueCol, values[i]);
+                dr.SetField(keyCol, keys[i]);
+                dr.SetField(secondKeyCol, secondKeys[i]);
+                dr.SetField(valueCol, values[i]);
                 dt.Rows.Add(dr);
             }
 
-            return dt;
+            return new DataTableResultSet(dt);
         }
 
         private ColumnMappingCollection BuildColumnMapping(int count, int shift = 0, ColumnType columnType = ColumnType.Text)
@@ -152,18 +153,19 @@ namespace NBi.Testing.Core.ResultSet.Lookup
         public void Execute_LargeVolumeReference_Fast(int maxItem)
         {
             var candidate = BuildDataTable(new[] { "Key0", "Key1", "Key0" }, new[] { "Foo", "Bar", "Foo" }, new object[] { 1, 2, 3 });
-            var reference = new DataTable();
-            var idColumn = reference.Columns.Add("id");
-            var valueColumn = reference.Columns.Add("value");
+            var dt = new DataTable();
+            var idColumn = dt.Columns.Add("id");
+            var valueColumn = dt.Columns.Add("value");
             var randomizer = new Random();
             for (int i = 0; i < maxItem; i++)
             {
-                var dr = reference.NewRow();
+                var dr = dt.NewRow();
                 dr.SetField<object>(idColumn, i);
                 dr.SetField<object>(valueColumn, randomizer.Next().ToString());
-                reference.Rows.Add(dr);
+                dt.Rows.Add(dr);
             }
-            reference.AcceptChanges();
+            dt.AcceptChanges();
+            var reference = new DataTableResultSet(dt);
 
             var mappingKey = new ColumnMappingCollection
             {
@@ -191,18 +193,19 @@ namespace NBi.Testing.Core.ResultSet.Lookup
         public void Execute_LargeVolumeCandidate_Fast(int maxItem)
         {
             var reference = BuildDataTable(new[] { "Key0", "Key1", "Key0" }, new[] { "Foo", "Bar", "Foo" }, new object[] { 1, 2, 3 });
-            var candidate = new DataTable();
-            var idColumn = candidate.Columns.Add("id");
-            var valueColumn = candidate.Columns.Add("value");
+            var dt = new DataTable();
+            var idColumn = dt.Columns.Add("id");
+            var valueColumn = dt.Columns.Add("value");
             var randomizer = new Random();
             for (int i = 0; i < maxItem; i++)
             {
-                var dr = candidate.NewRow();
+                var dr = dt.NewRow();
                 dr.SetField<object>(idColumn, i);
                 dr.SetField<object>(valueColumn, randomizer.Next().ToString());
-                candidate.Rows.Add(dr);
+                dt.Rows.Add(dr);
             }
-            candidate.AcceptChanges();
+            dt.AcceptChanges();
+            var candidate = new DataTableResultSet(dt);
 
             var mappingKey = new ColumnMappingCollection
             {

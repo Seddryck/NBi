@@ -43,7 +43,7 @@ namespace NBi.Core.Calculation
             }
 
             var newRs = rs.Clone();
-            newRs.Load(subset.Select(x => x.Value as DataRow));
+            newRs.AddRange(subset.Select(x => x.Value as DataRow));
             return newRs;
         }
 

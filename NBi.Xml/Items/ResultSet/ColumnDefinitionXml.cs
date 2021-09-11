@@ -3,6 +3,7 @@ using System.Xml.Serialization;
 using NBi.Core.ResultSet;
 using NBi.Core.Scalar.Comparer;
 using NBi.Core.Transformation;
+using NBi.Extensibility;
 using NBi.Xml.Items.Alteration.Transform;
 
 namespace NBi.Xml.Items.ResultSet

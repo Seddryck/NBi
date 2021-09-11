@@ -26,21 +26,21 @@ namespace NBi.Core.ResultSet.Alteration.Duplication
 
         public IResultSet Execute(IResultSet rs)
         {
-            var newTable = rs.Table.Copy();
-            newTable.Clear();
+            var result = rs.Clone();
+            result.Clear();
 
             //Add the new columns
             foreach (var output in Outputs)
             {
-                if (newTable.GetColumn(output.Identifier) == null)
+                if (result.GetColumn(output.Identifier) == null)
                 {
                     switch (output.Identifier)
                     {
                         case ColumnNameIdentifier identifier:
-                            newTable.Columns.Add(new DataColumn(identifier.Name, typeof(object)) { DefaultValue = DBNull.Value });
+                            result.Columns.Add(new DataColumn(identifier.Name, typeof(object)) { DefaultValue = DBNull.Value });
                             break;
                         case ColumnOrdinalIdentifier identifier:
-                            newTable.Columns.Add(new DataColumn($"Column_{identifier.Ordinal}", typeof(object)) { DefaultValue = DBNull.Value });
+                            result.Columns.Add(new DataColumn($"Column_{identifier.Ordinal}", typeof(object)) { DefaultValue = DBNull.Value });
                             break;
                         default:
                             break;
@@ -54,13 +54,13 @@ namespace NBi.Core.ResultSet.Alteration.Duplication
                 var isDuplicated = Predication.Execute(Context);
                 var times = Times.Execute();
 
-                newTable.ImportRow(row);
+                result.ImportRow(row);
                 foreach (var output in Outputs)
                 {
                     if (output.Strategy.IsApplicable(true))
                     {
-                        var columnName = newTable.GetColumn(output.Identifier).ColumnName;
-                        newTable.Rows[newTable.Rows.Count - 1][columnName] = output.Strategy.Execute(true, isDuplicated, times, 0);
+                        var columnName = result.GetColumn(output.Identifier).ColumnName;
+                        result.Rows[result.Rows.Count - 1][columnName] = output.Strategy.Execute(true, isDuplicated, times, 0);
                     }
                 }
 
@@ -68,23 +68,21 @@ namespace NBi.Core.ResultSet.Alteration.Duplication
                 {
                     for (int i = 0; i < times; i++)
                     {
-                        newTable.ImportRow(row);
+                        result.ImportRow(row);
                         Context.Switch(row);
                         foreach (var output in Outputs)
                         {
                             if (output.Strategy.IsApplicable(false))
                             {
-                                var columnName = newTable.GetColumn(output.Identifier).ColumnName;
-                                newTable.Rows[newTable.Rows.Count - 1][columnName] = output.Strategy.Execute(false, true, times, i);
-                                Context.Switch(newTable.Rows[newTable.Rows.Count - 1]);
+                                var columnName = result.GetColumn(output.Identifier).ColumnName;
+                                result.Rows[result.Rows.Count - 1][columnName] = output.Strategy.Execute(false, true, times, i);
+                                Context.Switch(result.Rows[result.Rows.Count - 1]);
                             }
                         }
                     }
                 }
             }
-            var newRs = new DataTableResultSet();
-            newRs.Load(newTable);
-            return newRs;
+            return result;
         }
     }
 }

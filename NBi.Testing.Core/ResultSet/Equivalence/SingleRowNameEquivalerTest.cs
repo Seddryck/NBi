@@ -91,10 +91,10 @@ namespace NBi.Testing.Core.ResultSet.Equivalence
             Assert.That(res, Is.EqualTo(ResultResultSet.Matching));
         }
 
-        protected DataTable BuildDataTable<T>(T[] values)
+        private DataTableResultSet BuildDataTable<T>(T[] values)
             => BuildDataTable<T>(values, null);
 
-        protected DataTable BuildDataTable<T>(T[] values, string[] useless)
+        private DataTableResultSet BuildDataTable<T>(T[] values, string[] useless)
         {
             var ds = new DataSet();
             var dt = ds.Tables.Add("myTable");
@@ -116,10 +116,10 @@ namespace NBi.Testing.Core.ResultSet.Equivalence
 
             dt.Rows.Add(dr);
 
-            return dt;
+            return new DataTableResultSet(dt);
         }
 
-        protected DataTable BuildDataEmptyTable<T>(int columnCount)
+        private DataTableResultSet BuildDataEmptyTable<T>(int columnCount)
         {
             var ds = new DataSet();
             var dt = ds.Tables.Add("myTable");
@@ -127,7 +127,7 @@ namespace NBi.Testing.Core.ResultSet.Equivalence
             for (int i = 0; i < columnCount; i++)
                 dt.Columns.Add("myValue" + i.ToString(), typeof(T));
 
-            return dt;
+            return new DataTableResultSet(dt);
         }
 
         protected IReadOnlyCollection<IColumnDefinition> BuildColumnsStringDecimal()

@@ -9,6 +9,7 @@ using NBi.Core.Calculation.Ranking.Scoring;
 using NBi.Core.Evaluate;
 using NBi.Core.ResultSet;
 using NBi.Core.Scalar.Resolver;
+using NBi.Extensibility;
 
 namespace NBi.Core.Calculation.Ranking
 {

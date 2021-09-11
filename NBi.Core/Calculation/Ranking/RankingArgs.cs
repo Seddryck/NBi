@@ -1,5 +1,6 @@
 ﻿using NBi.Core.ResultSet;
 using NBi.Core.ResultSet.Filtering;
+using NBi.Extensibility;
 using System;
 using System.Collections.Generic;
 using System.Linq;

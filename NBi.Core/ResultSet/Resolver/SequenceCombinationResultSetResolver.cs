@@ -43,9 +43,7 @@ namespace NBi.Core.ResultSet.Resolver
                 dataTable.Rows.Add(newRow);
             }
             dataTable.AcceptChanges();
-            var rs = new DataTableResultSet();
-            rs.Load(dataTable);
-            return rs;
+            return new DataTableResultSet(dataTable);
         }
     }
 }

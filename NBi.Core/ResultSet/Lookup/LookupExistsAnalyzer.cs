@@ -27,23 +27,23 @@ namespace NBi.Core.ResultSet.Lookup
                 return Execute(candidateTable, referenceTable);
 
             if (candidate is IResultSet candidateRs && reference is IResultSet referenceRs)
-                return Execute(candidateRs.Table, referenceRs.Table);
+                return Execute(candidateRs, referenceRs);
 
             throw new ArgumentException();
         }
 
-        protected virtual LookupViolationCollection Execute(DataTable candidate, DataTable reference)
+        protected virtual LookupViolationCollection Execute(IResultSet candidate, IResultSet reference)
         {
             var stopWatch = new Stopwatch();
             stopWatch.Start();
             var referenceKeyRetriever = BuildColumnsRetriever(Keys, x => x.ReferenceColumn);
             var references = BuildReferenceIndex(reference, referenceKeyRetriever);
-            Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceInfo, $"Building the index for keys from reference table containing {references.Count()} rows [{stopWatch.Elapsed:d'.'hh':'mm':'ss'.'fff'ms'}]");
+            Trace.WriteLineIf(NBiTraceSwitch.TraceInfo, $"Building the index for keys from reference table containing {references.Count()} rows [{stopWatch.Elapsed:d'.'hh':'mm':'ss'.'fff'ms'}]");
 
             stopWatch.Restart();
             var candidateKeyBuilder = BuildColumnsRetriever(Keys, x => x.CandidateColumn);
             var violations = ExtractLookupViolation(candidate, candidateKeyBuilder, references);
-            Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceInfo, $"Analyzing potential lookup violations (based on keys) for the {candidate.Rows.Count} rows from candidate table [{stopWatch.Elapsed:d'.'hh':'mm':'ss'.'fff'ms'}]");
+            Trace.WriteLineIf(NBiTraceSwitch.TraceInfo, $"Analyzing potential lookup violations (based on keys) for the {candidate.Rows.Count} rows from candidate table [{stopWatch.Elapsed:d'.'hh':'mm':'ss'.'fff'ms'}]");
 
             return violations;
         }
@@ -63,7 +63,7 @@ namespace NBi.Core.ResultSet.Lookup
                 return new CellRetrieverByName(defColumns);
         }
 
-        protected IEnumerable<KeyCollection> BuildReferenceIndex(DataTable table, CellRetriever keyRetriever)
+        protected IEnumerable<KeyCollection> BuildReferenceIndex(IResultSet table, CellRetriever keyRetriever)
         {
             var references = new HashSet<KeyCollection>();
 
@@ -77,7 +77,7 @@ namespace NBi.Core.ResultSet.Lookup
             return references;
         }
 
-        protected virtual LookupViolationCollection ExtractLookupViolation(DataTable table, CellRetriever keyRetriever, IEnumerable<KeyCollection> references)
+        protected virtual LookupViolationCollection ExtractLookupViolation(IResultSet table, CellRetriever keyRetriever, IEnumerable<KeyCollection> references)
         {
             var violations = new LookupExistsViolationCollection(Keys);
             var stopWatch = new Stopwatch();
@@ -92,7 +92,7 @@ namespace NBi.Core.ResultSet.Lookup
                 if (!references.Contains(keys))
                     violations.Register(keys, row);
                 if (i % 1000 == 0)
-                    Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceInfo, $"Searching for {i} rows [{stopWatch.Elapsed:d'.'hh':'mm':'ss'.'fff'ms'}]");
+                    Trace.WriteLineIf(NBiTraceSwitch.TraceInfo, $"Searching for {i} rows [{stopWatch.Elapsed:d'.'hh':'mm':'ss'.'fff'ms'}]");
             }
             return violations;
         }

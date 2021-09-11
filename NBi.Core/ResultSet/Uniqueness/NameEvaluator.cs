@@ -10,6 +10,7 @@ using NBi.Core.Scalar.Casting;
 using NBi.Core.ResultSet;
 using NBi.Core.ResultSet.Analyzer;
 using NBi.Core.ResultSet.Equivalence;
+using NBi.Extensibility;
 
 namespace NBi.Core.ResultSet.Uniqueness
 {
@@ -29,7 +30,7 @@ namespace NBi.Core.ResultSet.Uniqueness
         {
         }
 
-        protected override void PreliminaryChecks(DataTable x)
+        protected override void PreliminaryChecks(IResultSet x)
         {
             if (base.Settings == null)
                 throw new InvalidOperationException();
@@ -41,12 +42,12 @@ namespace NBi.Core.ResultSet.Uniqueness
             CheckSettingsAndFirstRow(x, Settings);
         }
 
-        protected override DataRowKeysComparer BuildDataRowsKeyComparer(DataTable x)
+        protected override DataRowKeysComparer BuildDataRowsKeyComparer(IResultSet x)
         {
             return new DataRowKeysComparerByName(Settings);
         }
 
-        protected void WriteSettingsToDataTableProperties(DataTable dt, SettingsNameResultSet settings)
+        protected void WriteSettingsToDataTableProperties(IResultSet dt, SettingsNameResultSet settings)
         {
             foreach (DataColumn column in dt.Columns)
             {
@@ -60,7 +61,7 @@ namespace NBi.Core.ResultSet.Uniqueness
             }
         }
 
-        protected void CheckSettingsAndDataTable(DataTable dt, SettingsNameResultSet settings)
+        protected void CheckSettingsAndDataTable(IResultSet dt, SettingsNameResultSet settings)
         {
             var missingColumns = new List<KeyValuePair<string, string>>();
             foreach (var columnName in settings.GetKeyNames())
@@ -93,7 +94,7 @@ namespace NBi.Core.ResultSet.Uniqueness
             }
         }
 
-        protected void CheckSettingsAndFirstRow(DataTable dt, SettingsNameResultSet settings)
+        protected void CheckSettingsAndFirstRow(IResultSet dt, SettingsNameResultSet settings)
         {
             if (dt.Rows.Count == 0)
                 return;
@@ -117,7 +118,7 @@ namespace NBi.Core.ResultSet.Uniqueness
             }
         }
 
-        protected void RemoveIgnoredColumns(DataTable dt, SettingsNameResultSet settings)
+        protected void RemoveIgnoredColumns(IResultSet dt, SettingsNameResultSet settings)
         {
             var i = 0;
             while (i < dt.Columns.Count)

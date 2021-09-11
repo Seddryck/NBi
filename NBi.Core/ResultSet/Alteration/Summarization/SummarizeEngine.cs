@@ -21,11 +21,11 @@ namespace NBi.Core.ResultSet.Alteration.Summarization
 
         public IResultSet Execute(IResultSet rs)
         {
-            using (var dataTable = new DataTable())
+            using (var dataTable = new DataTableResultSet())
             {
                 foreach (var groupBy in Args.GroupBys)
                 {
-                    var column = groupBy.Identifier.GetColumn(rs.Table);
+                    var column = groupBy.Identifier.GetColumn(rs);
                     dataTable.Columns.Add(new DataColumn(column.ColumnName, column.DataType));
                 }
 
@@ -64,9 +64,8 @@ namespace NBi.Core.ResultSet.Alteration.Summarization
                     dataTable.Rows.Add(row);
                 }
                 dataTable.AcceptChanges();
-                rs.Load(dataTable);
+                return dataTable;
             }
-            return rs;
         }
 
         private string ExtractColumnName(IResultSet rs, ColumnAggregationArgs aggregation)
@@ -74,9 +73,9 @@ namespace NBi.Core.ResultSet.Alteration.Summarization
             if (aggregation.Identifier == null)
                 return "count";
 
-            var column = aggregation.Identifier.GetColumn(rs.Table);
+            var column = aggregation.Identifier.GetColumn(rs);
 
-            var columnName = Args.Aggregations.Count(x => x.Identifier.GetColumn(rs.Table) == new ColumnNameIdentifier(column.ColumnName).GetColumn(rs.Table)) > 1
+            var columnName = Args.Aggregations.Count(x => x.Identifier.GetColumn(rs) == new ColumnNameIdentifier(column.ColumnName).GetColumn(rs)) > 1
                 ? $"{column.ColumnName}_{aggregation.Function.ToString()}"
                 : column.ColumnName;
             return columnName;

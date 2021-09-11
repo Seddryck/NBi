@@ -23,10 +23,10 @@ namespace NBi.Core.ResultSet.Alteration.Renaming
 
         public IResultSet Execute(IResultSet rs)
         {
-            var originalColumn = OriginalIdentification.GetColumn(rs.Table);
+            var originalColumn = OriginalIdentification.GetColumn(rs);
 
             if (originalColumn == null)
-                MissingColumnStrategy.Execute(OriginalIdentification.Label, rs.Table);
+                MissingColumnStrategy.Execute(OriginalIdentification.Label, rs);
             else
                 originalColumn.ColumnName = NewIdentification.Execute();
             return rs;

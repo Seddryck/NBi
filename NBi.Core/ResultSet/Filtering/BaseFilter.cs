@@ -21,30 +21,28 @@ namespace NBi.Core.ResultSet.Filtering
 
         protected IResultSet Apply(IResultSet rs, Func<bool, bool> onApply)
         {
-            var filteredRs = new DataTableResultSet();
-            var table = rs.Table.Clone();
-            filteredRs.Load(table);
-            filteredRs.Table.Clear();
+            var table = rs.Clone();
+            table.Clear();
 
             foreach (DataRow row in rs.Rows)
             {
                 Context.Switch(row);
                 if (onApply(RowApply(Context)))
                 {
-                    if (filteredRs.Rows.Count == 0 && filteredRs.Columns.Count != row.Table.Columns.Count)
+                    if (table.Rows.Count == 0 && table.Columns.Count != row.Table.Columns.Count)
                     {
                         foreach (DataColumn column in row.Table.Columns)
                         {
-                            if (!filteredRs.Columns.Cast<DataColumn>().Any(x => x.ColumnName == column.ColumnName))
-                                filteredRs.Columns.Add(column.ColumnName, typeof(object));
+                            if (!table.Columns.Cast<DataColumn>().Any(x => x.ColumnName == column.ColumnName))
+                                table.Columns.Add(column.ColumnName, typeof(object));
                         }
                     }
-                    filteredRs.Table.ImportRow(row);
+                    table.ImportRow(row);
                 }
             }
 
-            filteredRs.Table.AcceptChanges();
-            return filteredRs;
+            table.AcceptChanges();
+            return table;
         }
 
         protected abstract bool RowApply(Context context);

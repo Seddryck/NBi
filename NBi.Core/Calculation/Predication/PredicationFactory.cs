@@ -1,6 +1,7 @@
 ﻿using NBi.Core.Calculation.Predicate;
 using NBi.Core.Evaluate;
 using NBi.Core.ResultSet;
+using NBi.Extensibility;
 using System;
 using System.Collections.Generic;
 using System.Linq;

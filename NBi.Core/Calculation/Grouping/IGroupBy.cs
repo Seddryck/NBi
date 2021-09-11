@@ -11,6 +11,6 @@ namespace NBi.Core.Calculation.Grouping
 {
     public interface IGroupBy
     {
-        IDictionary<KeyCollection, DataTable> Execute(IResultSet resultSet);
+        IDictionary<KeyCollection, IResultSet> Execute(IResultSet resultSet);
     }
 }

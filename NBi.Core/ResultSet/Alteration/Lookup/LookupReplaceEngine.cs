@@ -26,15 +26,15 @@ namespace NBi.Core.ResultSet.Alteration.Lookup
             stopWatch.Start();
             var referenceKeyRetriever = BuildColumnsRetriever(Args.Mapping, x => x.ReferenceColumn);
             var referenceValueRetriever = BuildColumnsRetriever(new ColumnMapping(Args.Replacement, ColumnType.Untyped), x => x.ReferenceColumn);
-            var index = BuildReferenceIndex(reference.Table, referenceKeyRetriever, referenceValueRetriever);
-            Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceInfo, $"Built the index for reference table containing {index.Count()} rows [{stopWatch.Elapsed:d'.'hh':'mm':'ss'.'fff'ms'}]");
+            var index = BuildReferenceIndex(reference, referenceKeyRetriever, referenceValueRetriever);
+            Trace.WriteLineIf(NBiTraceSwitch.TraceInfo, $"Built the index for reference table containing {index.Count()} rows [{stopWatch.Elapsed:d'.'hh':'mm':'ss'.'fff'ms'}]");
 
             stopWatch.Restart();
             var candidateKeyBuilder = BuildColumnsRetriever(Args.Mapping, x => x.CandidateColumn);
 
-            var originalColumn = candidate.Table.GetColumn(Args.Mapping.CandidateColumn);
-            var newColumn = candidate.Table.Columns.Add($"tmp_{originalColumn.ColumnName}", typeof(object));
-            foreach (DataRow row in candidate.Table.Rows)
+            var originalColumn = candidate.GetColumn(Args.Mapping.CandidateColumn);
+            var newColumn = candidate.Columns.Add($"tmp_{originalColumn.ColumnName}", typeof(object));
+            foreach (DataRow row in candidate.Rows)
             {
                 var candidateKeys = candidateKeyBuilder.GetColumns(row);
                 if (index.Keys.Contains(candidateKeys))
@@ -46,11 +46,11 @@ namespace NBi.Core.ResultSet.Alteration.Lookup
             //Replace the original column by the new column
             newColumn.SetOrdinal(originalColumn.Ordinal);
             var columnName = originalColumn.ColumnName;
-            candidate.Table.Columns.Remove(originalColumn);
+            candidate.Columns.Remove(originalColumn);
             newColumn.ColumnName = columnName;
 
-            Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceInfo, $"Performed lookup replacement (based on keys) for the {candidate.Rows.Count} rows from candidate table [{stopWatch.Elapsed:d'.'hh':'mm':'ss'.'fff'ms'}]");
-            candidate.Table.AcceptChanges();
+            Trace.WriteLineIf(NBiTraceSwitch.TraceInfo, $"Performed lookup replacement (based on keys) for the {candidate.Rows.Count} rows from candidate table [{stopWatch.Elapsed:d'.'hh':'mm':'ss'.'fff'ms'}]");
+            candidate.AcceptChanges();
             return candidate;
         }
 
@@ -68,11 +68,11 @@ namespace NBi.Core.ResultSet.Alteration.Lookup
             }
         }
 
-        protected IDictionary<KeyCollection, ICollection<KeyCollection>> BuildReferenceIndex(DataTable table, CellRetriever keyRetriever, CellRetriever valuesRetriever)
+        protected IDictionary<KeyCollection, ICollection<KeyCollection>> BuildReferenceIndex(IResultSet rs, CellRetriever keyRetriever, CellRetriever valuesRetriever)
         {
             var references = new Dictionary<KeyCollection, ICollection<KeyCollection>>();
 
-            foreach (DataRow row in table.Rows)
+            foreach (DataRow row in rs.Rows)
             {
                 var keys = keyRetriever.GetColumns(row);
                 var values = valuesRetriever.GetColumns(row);

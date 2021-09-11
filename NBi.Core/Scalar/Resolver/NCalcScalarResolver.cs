@@ -1,5 +1,6 @@
 ﻿using Microsoft.CSharp;
 using NBi.Core.ResultSet;
+using NBi.Extensibility;
 using NBi.Extensibility.Resolving;
 using System;
 using System.CodeDom.Compiler;

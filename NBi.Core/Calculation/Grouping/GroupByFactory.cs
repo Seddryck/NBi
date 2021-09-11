@@ -6,6 +6,7 @@ using NBi.Core.ResultSet.Equivalence;
 using NBi.Core.Scalar.Comparer;
 using NBi.Core.Transformation;
 using NBi.Core.Variable;
+using NBi.Extensibility;
 using System;
 using System.Collections.Generic;
 using System.Linq;

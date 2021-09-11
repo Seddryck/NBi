@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using NBi.Core.ResultSet;
 using NBi.Core.Variable;
+using NBi.Extensibility;
 
 namespace NBi.Core.Calculation.Grouping.ColumnBased
 {
@@ -16,7 +17,7 @@ namespace NBi.Core.Calculation.Grouping.ColumnBased
         public OrdinalColumnGrouping(SettingsOrdinalResultSet settings, Context context)
             : base(settings, context) { }
 
-        protected override DataRowKeysComparer BuildDataRowsKeyComparer(DataTable x)
+        protected override DataRowKeysComparer BuildDataRowsKeyComparer(IResultSet x)
             => new DataRowKeysComparerByOrdinal(Settings, x.Columns.Count);
     }
 }

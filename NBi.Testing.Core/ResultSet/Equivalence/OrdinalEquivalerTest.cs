@@ -458,12 +458,10 @@ namespace NBi.Testing.Core.ResultSet.Equivalence
         }
 
 
-        protected DataTable BuildDataTable(string[] keys, double[] values)
-        {
-            return BuildDataTable(keys, values, null);
-        }
+        private DataTableResultSet BuildDataTable(string[] keys, double[] values)
+            => BuildDataTable(keys, values, null);
 
-        protected DataTable BuildDataTable(object[] keys, object[] values)
+        private DataTableResultSet BuildDataTable(object[] keys, object[] values)
         {
             var ds = new DataSet();
             var dt = ds.Tables.Add("myTable");
@@ -479,10 +477,10 @@ namespace NBi.Testing.Core.ResultSet.Equivalence
                 dt.Rows.Add(dr);
             }
 
-            return dt;
+            return new DataTableResultSet(dt);
         }
 
-        protected DataTable BuildDataTable(string[] keys, double[] values, string[] useless)
+        private DataTableResultSet BuildDataTable(string[] keys, double[] values, string[] useless)
         {
             var ds = new DataSet();
             var dt = ds.Tables.Add("myTable");
@@ -501,10 +499,10 @@ namespace NBi.Testing.Core.ResultSet.Equivalence
                 dt.Rows.Add(dr);
             }
 
-            return dt;
+            return new DataTableResultSet(dt);
         }
 
-        protected DataTable BuildDataTableNumeric(decimal[] keys, double[] values)
+        private DataTableResultSet BuildDataTableNumeric(decimal[] keys, double[] values)
         {
             var ds = new DataSet();
             var dt = ds.Tables.Add("myTable");
@@ -515,15 +513,15 @@ namespace NBi.Testing.Core.ResultSet.Equivalence
             for (int i = 0; i < keys.Length; i++)
             {
                 var dr = dt.NewRow();
-                dr.SetField<decimal>(keyCol, keys[i]);
-                dr.SetField<double>(valueCol, values[i]);
+                dr.SetField(keyCol, keys[i]);
+                dr.SetField(valueCol, values[i]);
                 dt.Rows.Add(dr);
             }
 
-            return dt;
+            return new DataTableResultSet(dt);
         }
 
-        protected DataTable BuildDataTableDateTime(DateTime[] keys, double[] values)
+        private DataTableResultSet BuildDataTableDateTime(DateTime[] keys, double[] values)
         {
             var ds = new DataSet();
             var dt = ds.Tables.Add("myTable");
@@ -539,10 +537,10 @@ namespace NBi.Testing.Core.ResultSet.Equivalence
                 dt.Rows.Add(dr);
             }
 
-            return dt;
+            return new DataTableResultSet(dt);
         }
 
-        protected DataTable BuildDataTableBoolean(bool[] keys, double[] values)
+        private DataTableResultSet BuildDataTableBoolean(bool[] keys, double[] values)
         {
             var ds = new DataSet();
             var dt = ds.Tables.Add("myTable");
@@ -558,7 +556,7 @@ namespace NBi.Testing.Core.ResultSet.Equivalence
                 dt.Rows.Add(dr);
             }
 
-            return dt;
+            return new DataTableResultSet(dt);
         }
 
         protected SettingsOrdinalResultSet BuildSettingsKeyValue()

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using NBi.Core.Scalar.Comparer;
 using NBi.Core.ResultSet.Analyzer;
+using NBi.Extensibility;
 
 namespace NBi.Core.ResultSet.Equivalence
 {
@@ -19,7 +20,7 @@ namespace NBi.Core.ResultSet.Equivalence
             base.Settings = settings;
         }
 
-        protected override void PreliminaryChecks(DataTable x, DataTable y)
+        protected override void PreliminaryChecks(IResultSet x, IResultSet y)
         {
             var columnsCount = Math.Max(y.Columns.Count, x.Columns.Count);
             if (Settings == null)
@@ -42,7 +43,7 @@ namespace NBi.Core.ResultSet.Equivalence
             get => EngineStyle.ByIndex;
         }
 
-        protected override DataRowKeysComparer BuildDataRowsKeyComparer(DataTable x)
+        protected override DataRowKeysComparer BuildDataRowsKeyComparer(IResultSet x)
             => new DataRowKeysComparerByOrdinal(Settings, x.Columns.Count);
 
         protected override bool CanSkipValueComparison()
@@ -74,7 +75,7 @@ namespace NBi.Core.ResultSet.Equivalence
                 return null;
         }
 
-        protected void WriteSettingsToDataTableProperties(DataTable dt, SettingsOrdinalResultSet settings)
+        protected void WriteSettingsToDataTableProperties(IResultSet dt, SettingsOrdinalResultSet settings)
         {
             foreach (DataColumn column in dt.Columns)
             {
@@ -88,7 +89,7 @@ namespace NBi.Core.ResultSet.Equivalence
             }
         }
 
-        protected void CheckSettingsAndDataTable(DataTable dt, SettingsOrdinalResultSet settings)
+        protected void CheckSettingsAndDataTable(IResultSet dt, SettingsOrdinalResultSet settings)
         {
             var max = settings.GetMaxColumnOrdinalDefined();
             if (dt.Columns.Count <= max)
@@ -105,7 +106,7 @@ namespace NBi.Core.ResultSet.Equivalence
             }
         }
 
-        protected void CheckSettingsAndFirstRow(DataTable dt, SettingsOrdinalResultSet settings)
+        protected void CheckSettingsAndFirstRow(IResultSet dt, SettingsOrdinalResultSet settings)
         {
             if (dt.Rows.Count == 0)
                 return;

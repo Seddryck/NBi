@@ -109,7 +109,7 @@ namespace NBi.Testing.Core.ResultSet
 
             var stopWatch = new Stopwatch();
             stopWatch.Start();
-            var frame = Frame.ReadReader(rs.Table.CreateDataReader());
+            var frame = Frame.ReadReader(rs.CreateDataReader());
             stopWatch.Stop();
             Debug.WriteLine(stopWatch.ElapsedMilliseconds);
             Assert.That(frame.RowCount, Is.EqualTo(x));
@@ -131,7 +131,7 @@ namespace NBi.Testing.Core.ResultSet
             var rs = new NBiRs.DataTableResultSet();
             rs.Load(objects.AsEnumerable().Cast<object[]>());
             Assert.That(rs.Rows.Count, Is.EqualTo(x));
-            var frame = Frame.ReadReader(rs.Table.CreateDataReader());
+            var frame = Frame.ReadReader(rs.CreateDataReader());
             Assert.That(frame.RowCount, Is.EqualTo(x));
 
 

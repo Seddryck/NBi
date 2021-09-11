@@ -19,11 +19,11 @@ namespace NBi.Core.Calculation.Grouping.ColumnBased
         protected ColumnGrouping(ISettingsResultSet settings, Context context)
             => (Settings, Context) = (settings, context);
 
-        public IDictionary<KeyCollection, DataTable> Execute(IResultSet resultSet)
+        public IDictionary<KeyCollection, IResultSet> Execute(IResultSet resultSet)
         {
             var stopWatch = new Stopwatch();
-            var dico = new Dictionary<KeyCollection, DataTable>(new KeyCollectionEqualityComparer());
-            var keyComparer = BuildDataRowsKeyComparer(resultSet.Table);
+            var dico = new Dictionary<KeyCollection, IResultSet>(new KeyCollectionEqualityComparer());
+            var keyComparer = BuildDataRowsKeyComparer(resultSet);
 
             stopWatch.Start();
             foreach (DataRow row in resultSet.Rows)
@@ -31,13 +31,13 @@ namespace NBi.Core.Calculation.Grouping.ColumnBased
                 Context.Switch(row);
                 var key = keyComparer.GetKeys(row);
                 if (!dico.ContainsKey(key))
-                    dico.Add(key, row.Table.Clone());
-                dico[key].ImportRow(row);
+                    dico.Add(key, resultSet.Clone());
+                dico[key].Add(row);
             }
             Trace.WriteLineIf(NBiTraceSwitch.TraceInfo, $"Building rows' groups: {dico.Count} [{stopWatch.Elapsed.ToString(@"d\d\.hh\h\:mm\m\:ss\s\ \+fff\m\s")})]");
             return dico;
         }
 
-        protected abstract DataRowKeysComparer BuildDataRowsKeyComparer(DataTable x);
+        protected abstract DataRowKeysComparer BuildDataRowsKeyComparer(IResultSet x);
     }
 }

@@ -7,9 +7,11 @@ using System.Linq;
 
 namespace NBi.Core.ResultSet
 {
-    internal class DataTableResultSet : IResultSet
+    internal class DataTableResultSet : IResultSet, IDisposable
     {
-        public DataTable Table { get; protected set; }
+        private bool disposedValue;
+
+        private DataTable Table { get; set; }
         
         public DataColumnCollection Columns
         {
@@ -21,25 +23,34 @@ namespace NBi.Core.ResultSet
             get => Table.Rows;
         }
 
+        public DataColumn GetColumn(IColumnIdentifier columnIdentifier) 
+            => columnIdentifier.GetColumn(this);
+
         public DataTableResultSet()
-        { }
+            => Table = new DataTable();
 
-        public void Load(DataSet dataSet)
-            => Load(dataSet.Tables[0]);
-
-        public void Load(DataTable table)
+        public DataTableResultSet(DataTable table)
             => Table = table;
-
-        public void Load(IEnumerable<DataRow> rows)
-        {
-            rows.CopyToDataTable(Table, LoadOption.OverwriteChanges);
-
-            //display for debug
-            ConsoleDisplay();
-        }
 
         public void AddRange(IEnumerable<DataRow> rows)
             => rows.CopyToDataTable(Table, LoadOption.OverwriteChanges);
+        
+        public void Add(DataRow row)
+            => Table.ImportRow(row);
+
+        public void ImportRow(DataRow row)
+            => Table.ImportRow(row);
+
+        public DataRow NewRow()
+            => Table.NewRow();
+
+        public void AcceptChanges()
+            => Table.AcceptChanges();
+
+        public DataTableReader CreateDataReader()
+            => Table.CreateDataReader();
+
+
 
         public IResultSet Clone()
         {
@@ -49,6 +60,9 @@ namespace NBi.Core.ResultSet
             };
             return newRs;
         }
+
+        public void Clear()
+            => Table.Clear();
 
         public void Load(string record)
         {
@@ -145,5 +159,22 @@ namespace NBi.Core.ResultSet
             Trace.WriteLine(string.Format(""));
         }
 
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposedValue)
+            {
+                if (disposing)
+                {
+                    Table.Dispose();
+                }
+                disposedValue = true;
+            }
+        }
+
+        public void Dispose()
+        {
+            Dispose(disposing: true);
+            GC.SuppressFinalize(this);
+        }
     }
 }

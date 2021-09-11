@@ -25,9 +25,8 @@ namespace NBi.Testing.Core.ResultSet.Combination
             for (int i = 0; i < 20; i++)
                 dataTable.LoadDataRow(new object[] { "Alpha", i, true }, false);
             dataTable.AcceptChanges();
-            var rs = new Rs.DataTableResultSet();
-            rs.Load(dataTable);
-
+            var rs = new Rs.DataTableResultSet(dataTable);
+            
             var scalarResolvers = new List<IScalarResolver>()
             {
                 new LiteralScalarResolver<string>("2015-01-01"),
@@ -78,8 +77,8 @@ namespace NBi.Testing.Core.ResultSet.Combination
         public void Execute_EmptyResultSetAndSequenceOfTwo_EmptyResultSet()
         {
             var (rs, resolver) = Initialize();
-            rs.Table.Clear();
-            rs.Table.AcceptChanges();
+            rs.Clear();
+            rs.AcceptChanges();
             var initColumnCount = rs.Columns.Count;
 
             var combination = new CartesianProductSequenceCombination(resolver);

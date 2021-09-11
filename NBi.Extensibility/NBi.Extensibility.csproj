@@ -59,6 +59,7 @@
     <Compile Include="ExternalDependencyNotFoundException.cs" />
     <Compile Include="FlatFile\IFlatFileProfile.cs" />
     <Compile Include="FlatFile\IFlatFileReader.cs" />
+    <Compile Include="IColumnIdentifier.cs" />
     <Compile Include="IEtlRunResult.cs" />
     <Compile Include="IExecutable.cs" />
     <Compile Include="IResultSet.cs" />

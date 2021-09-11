@@ -11,7 +11,6 @@ namespace NBi.Core.ResultSet.Lookup.Violation
 {
     public abstract class LookupViolationCollection : Dictionary<KeyCollection, LookupViolationInformation>
     {
-        private bool isBuilt = false;
         public ColumnMappingCollection KeyMappings { get; set; }
         public ColumnMappingCollection ValueMappings { get; set; }
 
@@ -43,24 +42,24 @@ namespace NBi.Core.ResultSet.Lookup.Violation
             }
         }
 
-        public IEnumerable<DataRow> GetRows(RowViolationState state)
-        {
-            if (Count > 0 && !isBuilt)
-            {
-                var firstRow = this.ElementAt(0).Value.Rows.ElementAt(0);
-                foreach (var keyMapping in KeyMappings.Reverse())
-                {
-                    var column = keyMapping.CandidateColumn.GetColumn(firstRow.Table);
-                    column.ExtendedProperties["NBi::Role"] = ColumnRole.Key;
-                    column.ExtendedProperties["NBi::Lookup"] = keyMapping.ReferenceColumn.Label;
-                }
-            }
-            isBuilt = true;
+        //public IEnumerable<DataRow> GetRows(RowViolationState state)
+        //{
+        //    if (Count > 0 && !isBuilt)
+        //    {
+        //        var firstRow = this.ElementAt(0).Value.Rows.ElementAt(0);
+        //        foreach (var keyMapping in KeyMappings.Reverse())
+        //        {
+        //            var column = keyMapping.CandidateColumn.GetColumn(firstRow.Table);
+        //            column.ExtendedProperties["NBi::Role"] = ColumnRole.Key;
+        //            column.ExtendedProperties["NBi::Lookup"] = keyMapping.ReferenceColumn.Label;
+        //        }
+        //    }
+        //    isBuilt = true;
 
-            foreach (var violation in this.Where(x => x.Value.State == state))
-                foreach (var row in violation.Value.Rows)
-                    yield return row;
-        }
+        //    foreach (var violation in this.Where(x => x.Value.State == state))
+        //        foreach (var row in violation.Value.Rows)
+        //            yield return row;
+        //}
     }
 
     public class LookupExistsViolationCollection : LookupViolationCollection

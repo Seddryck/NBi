@@ -25,7 +25,7 @@ namespace NBi.Testing.Core.Scalar.Resolver
             var args = new ContextScalarResolverArgs(context, new ColumnNameIdentifier("Foo"));
             var resolver = new ContextScalarResolver<string>(args);
 
-            context.Switch(rs.Table.Rows[0]);
+            context.Switch(rs.Rows[0]);
             Assert.That(resolver.Execute(), Is.EqualTo("a"));
         }
 
@@ -39,7 +39,7 @@ namespace NBi.Testing.Core.Scalar.Resolver
             var args = new ContextScalarResolverArgs(context, new ColumnOrdinalIdentifier(0));
             var resolver = new ContextScalarResolver<string>(args);
 
-            context.Switch(rs.Table.Rows[0]);
+            context.Switch(rs.Rows[0]);
             Assert.That(resolver.Execute(), Is.EqualTo("a"));
         }
 
@@ -54,9 +54,9 @@ namespace NBi.Testing.Core.Scalar.Resolver
             var args = new ContextScalarResolverArgs(context, new ColumnNameIdentifier("Foo"));
             var resolver = new ContextScalarResolver<string>(args);
 
-            context.Switch(rs.Table.Rows[0]);
+            context.Switch(rs.Rows[0]);
             Assert.That(resolver.Execute(), Is.EqualTo("a"));
-            context.Switch(rs.Table.Rows[1]);
+            context.Switch(rs.Rows[1]);
             Assert.That(resolver.Execute(), Is.EqualTo("b"));
         }
     }

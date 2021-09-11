@@ -23,7 +23,7 @@ namespace NBi.Core.ResultSet.Combination
             var sequence = Resolver.Execute();
             if (sequence.Count == 0 || rs.Columns.Count == 1)
             {
-                rs.Table.Clear();
+                rs.Clear();
             }
             else
             {
@@ -36,16 +36,16 @@ namespace NBi.Core.ResultSet.Combination
                 {
                     foreach (DataRow row in rs.Rows)
                     {
-                        var newRow = rs.Table.NewRow();
+                        var newRow = rs.NewRow();
                         newRow.ItemArray = row.ItemArray;
                         newRow[newColumn] = item;
                         newRows.Add(newRow);
                     }
                 }
                 foreach (var newRow in newRows)
-                    rs.Table.Rows.Add(newRow);
+                    rs.Rows.Add(newRow);
             }
-            rs.Table.AcceptChanges();
+            rs.AcceptChanges();
             return rs;
         }
     }

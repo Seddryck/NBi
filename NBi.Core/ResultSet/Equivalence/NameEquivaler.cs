@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using NBi.Core.ResultSet.Analyzer;
+using NBi.Extensibility;
 
 namespace NBi.Core.ResultSet.Equivalence
 {
@@ -27,7 +28,7 @@ namespace NBi.Core.ResultSet.Equivalence
             base.Settings = settings;
         }
 
-        protected override void PreliminaryChecks(DataTable x, DataTable y)
+        protected override void PreliminaryChecks(IResultSet x, IResultSet y)
         {
             if (base.Settings == null)
                 throw new InvalidOperationException();
@@ -45,7 +46,7 @@ namespace NBi.Core.ResultSet.Equivalence
             CheckSettingsAndFirstRow(x, Settings);
         }
 
-        protected override DataRowKeysComparer BuildDataRowsKeyComparer(DataTable x)
+        protected override DataRowKeysComparer BuildDataRowsKeyComparer(IResultSet x)
         {
             return new DataRowKeysComparerByName(Settings);
         }
@@ -74,7 +75,7 @@ namespace NBi.Core.ResultSet.Equivalence
         }
 
 
-        protected void RemoveIgnoredColumns(DataTable dt, SettingsNameResultSet settings)
+        protected void RemoveIgnoredColumns(IResultSet dt, SettingsNameResultSet settings)
         {
             var i = 0;
             while (i < dt.Columns.Count)
@@ -86,7 +87,7 @@ namespace NBi.Core.ResultSet.Equivalence
             }
         }
 
-        protected void WriteSettingsToDataTableProperties(DataTable dt, SettingsNameResultSet settings)
+        protected void WriteSettingsToDataTableProperties(IResultSet dt, SettingsNameResultSet settings)
         {
             foreach (DataColumn column in dt.Columns)
             {
@@ -101,7 +102,7 @@ namespace NBi.Core.ResultSet.Equivalence
         }
 
 
-        protected void CheckSettingsAndDataTable(DataTable dt, SettingsNameResultSet settings)
+        protected void CheckSettingsAndDataTable(IResultSet dt, SettingsNameResultSet settings)
         {
             var missingColumns = new List<KeyValuePair<string,string>>();
             foreach (var columnName in settings.GetKeyNames())
@@ -129,7 +130,7 @@ namespace NBi.Core.ResultSet.Equivalence
             }
         }
 
-        protected void CheckSettingsAndFirstRow(DataTable dt, SettingsNameResultSet settings)
+        protected void CheckSettingsAndFirstRow(IResultSet dt, SettingsNameResultSet settings)
         {
             if (dt.Rows.Count == 0)
                 return;

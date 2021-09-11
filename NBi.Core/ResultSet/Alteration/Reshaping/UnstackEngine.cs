@@ -22,8 +22,8 @@ namespace NBi.Core.ResultSet.Alteration.Reshaping
         {
             //Build structre of the resulting table
             var valueColumns = rs.Columns.Cast<DataColumn>().Where(
-                    x => x != Args.Header.GetColumn(rs.Table)
-                    && !Args.GroupBys.Select(y => y.Identifier.GetColumn(rs.Table)).Contains(x)
+                    x => x != Args.Header.GetColumn(rs)
+                    && !Args.GroupBys.Select(y => y.Identifier.GetColumn(rs)).Contains(x)
                 );
             
 
@@ -31,11 +31,11 @@ namespace NBi.Core.ResultSet.Alteration.Reshaping
             rs.Rows.Cast<DataRow>().ToList().ForEach(x => headerValues.Add(Args.Header.GetValue(x).ToString()));
             headerValues = headerValues.Distinct().ToList();
 
-            using (var dataTable = new DataTable())
+            using (var dataTable = new DataTableResultSet())
             {
                 foreach (var groupBy in Args.GroupBys)
                 {
-                    var column = groupBy.Identifier.GetColumn(rs.Table);
+                    var column = groupBy.Identifier.GetColumn(rs);
                     dataTable.Columns.Add(new DataColumn(column.ColumnName, column.DataType));
                 }
 
@@ -76,9 +76,8 @@ namespace NBi.Core.ResultSet.Alteration.Reshaping
                     dataTable.Rows.Add(newRow);
                 }
                 dataTable.AcceptChanges();
-                rs.Load(dataTable);
+                return dataTable;
             }
-            return rs;
         }
 
         private interface INamingStrategy

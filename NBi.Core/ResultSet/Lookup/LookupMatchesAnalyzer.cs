@@ -1,6 +1,7 @@
 ﻿using NBi.Core.ResultSet.Lookup.Violation;
 using NBi.Core.Scalar.Casting;
 using NBi.Core.Scalar.Comparer;
+using NBi.Extensibility;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -27,25 +28,25 @@ namespace NBi.Core.ResultSet.Lookup
             Tolerances = tolerances ?? new Dictionary<IColumnIdentifier, Tolerance>();
         }
 
-        protected override LookupViolationCollection Execute(DataTable candidate, DataTable reference)
+        protected override LookupViolationCollection Execute(IResultSet candidate, IResultSet reference)
         {
             var stopWatch = new Stopwatch();
             stopWatch.Start();
             var referenceKeyRetriever = BuildColumnsRetriever(Keys, x => x.ReferenceColumn);
             var referenceValueRetriever = BuildColumnsRetriever(Values, x => x.ReferenceColumn);
             var references = BuildReferenceIndex(reference, referenceKeyRetriever, referenceValueRetriever);
-            Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceInfo, $"Building the index (including value columns) for keys from the reference table containing {references.Count} rows [{stopWatch.Elapsed:d'.'hh':'mm':'ss'.'fff'ms'}]");
+            Trace.WriteLineIf(NBiTraceSwitch.TraceInfo, $"Building the index (including value columns) for keys from the reference table containing {references.Count} rows [{stopWatch.Elapsed:d'.'hh':'mm':'ss'.'fff'ms'}]");
 
             stopWatch.Restart();
             var candidateKeyBuilder = BuildColumnsRetriever(Keys, x => x.CandidateColumn);
             var candidateValueRetriever = BuildColumnsRetriever(Values, x => x.CandidateColumn);
             var violations = ExtractLookupViolation(candidate, candidateKeyBuilder, candidateValueRetriever, references, Tolerances);
-            Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceInfo, $"Analyzing potential lookup violations (based on keys and values) for the {candidate.Rows.Count} rows from candidate table [{stopWatch.Elapsed:d'.'hh':'mm':'ss'.'fff'ms'}]");
+            Trace.WriteLineIf(NBiTraceSwitch.TraceInfo, $"Analyzing potential lookup violations (based on keys and values) for the {candidate.Rows.Count} rows from candidate table [{stopWatch.Elapsed:d'.'hh':'mm':'ss'.'fff'ms'}]");
 
             return violations;
         }
 
-        protected IDictionary<KeyCollection, ICollection<KeyCollection>> BuildReferenceIndex(DataTable table, CellRetriever keyRetriever, CellRetriever valuesRetriever)
+        protected IDictionary<KeyCollection, ICollection<KeyCollection>> BuildReferenceIndex(IResultSet table, CellRetriever keyRetriever, CellRetriever valuesRetriever)
         {
             var references = new Dictionary<KeyCollection, ICollection<KeyCollection>>();
 
@@ -62,7 +63,7 @@ namespace NBi.Core.ResultSet.Lookup
             return references;
         }
 
-        private LookupViolationCollection ExtractLookupViolation(DataTable table, CellRetriever keyRetriever, CellRetriever valueRetriever, IDictionary<KeyCollection, ICollection<KeyCollection>> references, IDictionary<IColumnIdentifier, Tolerance> tolerances)
+        private LookupViolationCollection ExtractLookupViolation(IResultSet table, CellRetriever keyRetriever, CellRetriever valueRetriever, IDictionary<KeyCollection, ICollection<KeyCollection>> references, IDictionary<IColumnIdentifier, Tolerance> tolerances)
         {
             var violations = new LookupMatchesViolationCollection(Keys, Values);
 
@@ -82,7 +83,7 @@ namespace NBi.Core.ResultSet.Lookup
                                 ReferenceValue = x,
                                 CandidateValue = row.GetValue(c.CandidateColumn),
                                 c.Type,
-                                Column = row.Table.GetColumn(c.CandidateColumn),
+                                Column = table.GetColumn(c.CandidateColumn),
                                 Tolerance = tolerances.ContainsKey(c.CandidateColumn) ? tolerances[c.CandidateColumn] : null
                             } );
 

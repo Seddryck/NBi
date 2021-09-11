@@ -564,7 +564,6 @@
     <Compile Include="ResultSet\Lookup\ILookupAnalyzer.cs" />
     <Compile Include="ResultSet\Lookup\LookupMatchesAnalyzer.cs" />
     <Compile Include="ResultSet\Lookup\LookupExistsAnalyzer.cs" />
-    <Compile Include="ResultSet\IColumnIdentifier.cs" />
     <Compile Include="ResultSet\Lookup\ColumnMapping.cs" />
     <Compile Include="ResultSet\Lookup\CellRetriever.cs" />
     <Compile Include="ResultSet\Lookup\CellRetrieverByOrdinal.cs" />

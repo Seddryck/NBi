@@ -13,12 +13,7 @@ namespace NBi.Core.ResultSet.Filtering
             => rs ?? throw new ArgumentNullException();
 
         public IResultSet AntiApply(IResultSet rs)
-        {
-            var table = rs?.Table?.Clone() ?? throw new ArgumentNullException();
-            var filteredRs = new DataTableResultSet();
-            filteredRs.Load(table);
-            return filteredRs;
-        }
+            => rs ?? throw new ArgumentNullException();
 
         public string Describe() => "none";
     }

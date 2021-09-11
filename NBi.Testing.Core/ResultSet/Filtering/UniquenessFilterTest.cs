@@ -33,8 +33,8 @@ namespace NBi.Testing.Core.ResultSet.Filtering
             var uniquenessFilter = new UniquenessFilter(grouping);
 
             var result = uniquenessFilter.Apply(rs);
-            Assert.That(result.Table.Columns, Has.Count.EqualTo(2));
-            Assert.That(result.Table.Rows, Has.Count.EqualTo(4));
+            Assert.That(result.Columns, Has.Count.EqualTo(2));
+            Assert.That(result.Rows, Has.Count.EqualTo(4));
         }
 
         [Test]
@@ -50,8 +50,8 @@ namespace NBi.Testing.Core.ResultSet.Filtering
             var uniquenessFilter = new UniquenessFilter(grouping);
 
             var result = uniquenessFilter.Apply(rs);
-            Assert.That(result.Table.Columns, Has.Count.EqualTo(2));
-            Assert.That(result.Table.Rows, Has.Count.EqualTo(1));
+            Assert.That(result.Columns, Has.Count.EqualTo(2));
+            Assert.That(result.Rows, Has.Count.EqualTo(1));
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NBi.Extensibility;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -18,7 +19,7 @@ namespace NBi.Core.ResultSet
             Ordinal = position;
         }
 
-        public DataColumn GetColumn(DataTable dataTable) 
+        public DataColumn GetColumn(IResultSet dataTable) 
             => Ordinal < dataTable.Columns.Count ? dataTable.Columns[Ordinal] : null;
         
         public object GetValue(DataRow dataRow) => dataRow[Ordinal];

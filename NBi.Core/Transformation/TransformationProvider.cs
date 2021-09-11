@@ -42,18 +42,18 @@ namespace NBi.Core.Transformation
                 var transformer = cacheTransformers[identifier];
 
                 var newColumn = new DataColumn() { DataType = typeof(object) };
-                resultSet.Table.Columns.Add(newColumn);
+                resultSet.Columns.Add(newColumn);
 
-                var ordinal = (identifier as ColumnOrdinalIdentifier)?.Ordinal ?? resultSet.Table.Columns[(identifier as ColumnNameIdentifier).Name].Ordinal;
-                var originalName = resultSet.Table.Columns[ordinal].ColumnName;
+                var ordinal = (identifier as ColumnOrdinalIdentifier)?.Ordinal ?? resultSet.Columns[(identifier as ColumnNameIdentifier).Name].Ordinal;
+                var originalName = resultSet.Columns[ordinal].ColumnName;
 
-                foreach (DataRow row in resultSet.Table.Rows)
+                foreach (DataRow row in resultSet.Rows)
                 {
                     Context.Switch(row);
                     row[newColumn.Ordinal] = transformer.Execute(row[ordinal]);
                 }
 
-                resultSet.Table.Columns.RemoveAt(ordinal);
+                resultSet.Columns.RemoveAt(ordinal);
                 newColumn.SetOrdinal(ordinal);
                 newColumn.ColumnName = originalName;
 

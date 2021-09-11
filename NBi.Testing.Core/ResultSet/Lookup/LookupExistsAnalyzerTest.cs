@@ -13,7 +13,7 @@ namespace NBi.Testing.Core.ResultSet.Lookup
 {
     public class LookupExistsAnalyzerTest
     {
-        protected DataTable BuildDataTable(object[] keys, object[] values)
+        private DataTableResultSet BuildDataTable(object[] keys, object[] values)
         {
             var ds = new DataSet();
             var dt = ds.Tables.Add("myTable");
@@ -29,10 +29,10 @@ namespace NBi.Testing.Core.ResultSet.Lookup
                 dt.Rows.Add(dr);
             }
 
-            return dt;
+            return new DataTableResultSet(dt);
         }
 
-        protected DataTable BuildDataTable(object[] keys, object[] secondKeys, object[] values)
+        private DataTableResultSet BuildDataTable(object[] keys, object[] secondKeys, object[] values)
         {
             var ds = new DataSet();
             var dt = ds.Tables.Add("myTable");
@@ -44,13 +44,13 @@ namespace NBi.Testing.Core.ResultSet.Lookup
             for (int i = 0; i < keys.Length; i++)
             {
                 var dr = dt.NewRow();
-                dr.SetField<object>(keyCol, keys[i]);
-                dr.SetField<object>(secondKeyCol, secondKeys[i]);
-                dr.SetField<object>(valueCol, values[i]);
+                dr.SetField(keyCol, keys[i]);
+                dr.SetField(secondKeyCol, secondKeys[i]);
+                dr.SetField(valueCol, values[i]);
                 dt.Rows.Add(dr);
             }
 
-            return dt;
+            return new DataTableResultSet(dt);
         }
 
         private ColumnMappingCollection BuildColumnMapping(int count, int shift = 0)
@@ -307,15 +307,16 @@ namespace NBi.Testing.Core.ResultSet.Lookup
         public void Execute_LargeVolumeReference_Fast(int maxItem)
         {
             var child = BuildDataTable(new[] { "Key0", "Key1", "Key0" }, new[] { "Foo", "Bar", "Foo" }, new object[] { 1, 2, 3 });
-            var reference = new DataTable();
-            var dt = reference.Columns.Add("two");
+            var dt = new DataTable();
+            var column = dt.Columns.Add("two");
             for (int i = 0; i < maxItem; i++)
             {
-                var dr = reference.NewRow();
-                dr.SetField<object>(dt, i);
-                reference.Rows.Add(dr);
+                var dr = dt.NewRow();
+                dr.SetField<object>(column, i);
+                dt.Rows.Add(dr);
             }
-            reference.AcceptChanges();
+            dt.AcceptChanges();
+            var reference = new DataTableResultSet(dt);
 
             var mapping = new ColumnMappingCollection
             {
@@ -339,15 +340,16 @@ namespace NBi.Testing.Core.ResultSet.Lookup
         public void Execute_LargeVolumeChild_Fast(int maxItem)
         {
             var reference = BuildDataTable(new[] { "Key0", "Key1", "Key0" }, new[] { "Foo", "Bar", "Foo" }, new object[] { 1, 2, 3 });
-            var child = new DataTable();
-            var dt = child.Columns.Add("two");
+            var dt = new DataTable();
+            var column = dt.Columns.Add("two");
             for (int i = 0; i < maxItem; i++)
             {
-                var dr = child.NewRow();
-                dr.SetField<object>(dt, i);
-                child.Rows.Add(dr);
+                var dr = dt.NewRow();
+                dr.SetField<object>(column, i);
+                dt.Rows.Add(dr);
             }
-            child.AcceptChanges();
+            dt.AcceptChanges();
+            var child = new DataTableResultSet(dt);
 
             var mapping = new ColumnMappingCollection
             {
@@ -370,16 +372,17 @@ namespace NBi.Testing.Core.ResultSet.Lookup
         [Parallelizable(ParallelScope.Self)]
         public void Execute_LargeVolumeChildAndReference_Fast(int maxItem)
         {
-            var child = new DataTable();
-            var dtChild = child.Columns.Add("one");
+            var dt = new DataTable();
+            var column = dt.Columns.Add("one");
             for (int i = 0; i < maxItem; i++)
             {
-                var dr = child.NewRow();
-                dr.SetField<object>(dtChild, i);
-                child.Rows.Add(dr);
+                var dr = dt.NewRow();
+                dr.SetField<object>(column, i);
+                dt.Rows.Add(dr);
             }
-            child.AcceptChanges();
-            var reference = child.Copy();
+            dt.AcceptChanges();
+            var child = new DataTableResultSet(dt);
+            var reference = child.Clone();
 
             var mapping = new ColumnMappingCollection
             {

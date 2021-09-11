@@ -5,12 +5,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.ResultSet
+namespace NBi.Extensibility
 {
     public interface IColumnIdentifier
     {
         string Label { get; }
-        DataColumn GetColumn(DataTable dataTable);
+        DataColumn GetColumn(IResultSet rs);
         object GetValue(DataRow dataRow);
     }
 }

@@ -35,8 +35,8 @@ namespace NBi.Core.ResultSet.Alteration.Merging
 
             //Import each row of the second dataset
             foreach (DataRow row in secondRs.Rows)
-                rs.Table.ImportRow(row);
-            rs.Table.AcceptChanges();
+                rs.ImportRow(row);
+            rs.AcceptChanges();
 
             return rs;
         }

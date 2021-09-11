@@ -19,10 +19,10 @@ namespace NBi.Core.Calculation.Grouping.CaseBased
         public CaseGrouping(IEnumerable<IPredication> cases, Context context)
             => (Cases, Context) = (cases, context);
 
-        public IDictionary<ResultSet.KeyCollection, DataTable> Execute(IResultSet resultSet)
+        public IDictionary<ResultSet.KeyCollection, IResultSet> Execute(IResultSet resultSet)
         {
             var stopWatch = new Stopwatch();
-            var dico = new Dictionary<ResultSet.KeyCollection, DataTable>();
+            var dico = new Dictionary<ResultSet.KeyCollection, IResultSet>();
             stopWatch.Start();
 
             foreach (DataRow row in resultSet.Rows)
@@ -33,8 +33,8 @@ namespace NBi.Core.Calculation.Grouping.CaseBased
                                 ?.Index ?? -1;
                 var key = new ResultSet.KeyCollection(new object[] { index });
                 if (!dico.ContainsKey(key))
-                    dico.Add(key, row.Table.Clone());
-                dico[key].ImportRow(row);
+                    dico.Add(key, resultSet.Clone());
+                dico[key].Add(row);
             }
 
             Trace.WriteLineIf(NBiTraceSwitch.TraceInfo, $"Building rows' groups by cases: {dico.Count} [{stopWatch.Elapsed.ToString(@"d\d\.hh\h\:mm\m\:ss\s\ \+fff\m\s")}");

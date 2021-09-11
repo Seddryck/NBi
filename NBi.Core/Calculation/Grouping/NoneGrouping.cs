@@ -11,11 +11,11 @@ namespace NBi.Core.Calculation.Grouping
 {
     sealed class NoneGrouping : IGroupBy
     {
-        public IDictionary<KeyCollection, DataTable> Execute(IResultSet resultSet)
+        public IDictionary<KeyCollection, IResultSet> Execute(IResultSet resultSet)
         {
-            return new Dictionary<KeyCollection, DataTable>()
+            return new Dictionary<KeyCollection, IResultSet>()
             {
-                { new KeyCollection(Array.Empty<object>()), resultSet.Table }
+                { new KeyCollection(Array.Empty<object>()), resultSet }
             };
         }
     }

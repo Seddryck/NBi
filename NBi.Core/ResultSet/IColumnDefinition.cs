@@ -1,5 +1,6 @@
 ﻿using NBi.Core.Scalar.Comparer;
 using NBi.Core.Transformation;
+using NBi.Extensibility;
 
 namespace NBi.Core.ResultSet
 {

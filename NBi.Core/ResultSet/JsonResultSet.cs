@@ -13,7 +13,7 @@ namespace NBi.Core.ResultSet
     {
         public IResultSet Build(string json)
         {
-            var dt = (DataTable)JsonConvert.DeserializeObject(json, (typeof(DataTable)));
+            var dt = new DataTableResultSet((DataTable)JsonConvert.DeserializeObject(json, (typeof(DataTable))));
 
             var isArrayConverted = false;
             for (int i = 0; i < dt.Columns.Count; i++)
@@ -96,10 +96,7 @@ namespace NBi.Core.ResultSet
                 }
             }
 
-
-            var rs = new DataTableResultSet();
-            rs.Load(dt);
-            return rs;
+            return dt;
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using NBi.Core.ResultSet;
+using NBi.Extensibility;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -15,6 +16,6 @@ namespace NBi.Core
 
     public static class DataTableExtensions
     {
-        public static DataColumn GetColumn(this DataTable table, IColumnIdentifier columnIdentifier) => columnIdentifier.GetColumn(table);
+        public static DataColumn GetColumn(this IResultSet table, IColumnIdentifier columnIdentifier) => columnIdentifier.GetColumn(table);
     }
 }

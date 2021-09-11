@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using NBi.Core.Calculation.Predicate;
 using NBi.Core.Evaluate;
 using NBi.Core.ResultSet;
+using NBi.Extensibility;
 
 namespace NBi.Core.Calculation.Ranking
 {

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NBi.Extensibility;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -15,8 +16,8 @@ namespace NBi.Core.ResultSet
         public ColumnNameIdentifier(string name)
             => Name = name;
 
-        public DataColumn GetColumn(DataTable dataTable) 
-            => dataTable.Columns.Contains(Name) ? dataTable.Columns[Name] : null;
+        public DataColumn GetColumn(IResultSet rs) 
+            => rs.Columns.Contains(Name) ? rs.Columns[Name] : null;
 
         public object GetValue(DataRow dataRow) => dataRow[Name];
 

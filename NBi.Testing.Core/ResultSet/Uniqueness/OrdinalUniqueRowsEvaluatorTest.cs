@@ -6,12 +6,13 @@ using System.Threading.Tasks;
 using NUnit.Framework;
 using NBi.Core.ResultSet.Uniqueness;
 using System.Data;
+using NBi.Core.ResultSet;
 
 namespace NBi.Testing.Core.ResultSet.Uniqueness
 {
     public class OrdinalUniqueRowsEvaluatorTest
     {
-        protected DataTable BuildDataTable(IEnumerable<List<object>> rows)
+        private DataTableResultSet BuildDataTable(IEnumerable<List<object>> rows)
         {
             var ds = new DataSet();
             var dt = ds.Tables.Add("myTable");
@@ -31,7 +32,7 @@ namespace NBi.Testing.Core.ResultSet.Uniqueness
                 dt.Rows.Add(dr);
             }
             
-            return dt;
+            return new DataTableResultSet(dt);
         }
 
         [Test]

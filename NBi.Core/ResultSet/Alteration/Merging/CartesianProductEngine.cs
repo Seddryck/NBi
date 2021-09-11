@@ -31,7 +31,7 @@ namespace NBi.Core.ResultSet.Alteration.Merging
 
             if (secondRs.Rows.Count == 0 || secondRs.Columns.Count == 0)
             {
-                rs.Table.Clear();
+                rs.Clear();
             }
             else
             {
@@ -45,7 +45,7 @@ namespace NBi.Core.ResultSet.Alteration.Merging
                 {
                     foreach (DataRow row in rs.Rows)
                     {
-                        var newRow = rs.Table.NewRow();
+                        var newRow = rs.NewRow();
                         newRow.ItemArray = row.ItemArray;
                         foreach (DataColumn column in secondRs.Columns)
                             newRow[initialColumnCount + column.Ordinal] = item[column.Ordinal];
@@ -53,9 +53,9 @@ namespace NBi.Core.ResultSet.Alteration.Merging
                     }
                 }
                 foreach (var newRow in newRows)
-                    rs.Table.Rows.Add(newRow);
+                    rs.Rows.Add(newRow);
             }
-            rs.Table.AcceptChanges();
+            rs.AcceptChanges();
             return rs;
         }
     }

@@ -1,5 +1,6 @@
 ﻿using NBi.Core.ResultSet;
 using NBi.Core.Variable;
+using NBi.Extensibility;
 using System;
 using System.Collections.Generic;
 using System.Linq;

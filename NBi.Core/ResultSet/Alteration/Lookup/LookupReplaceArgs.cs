@@ -1,6 +1,7 @@
 ﻿using NBi.Core.ResultSet.Alteration.Lookup.Strategies.Missing;
 using NBi.Core.ResultSet.Lookup;
 using NBi.Core.Scalar.Resolver;
+using NBi.Extensibility;
 using System;
 using System.Collections.Generic;
 using System.Linq;

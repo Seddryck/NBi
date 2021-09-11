@@ -1,4 +1,5 @@
 ﻿using NBi.Core.ResultSet.Alteration.Renaming.Strategies.Missing;
+using NBi.Extensibility;
 using NBi.Extensibility.Resolving;
 using System;
 using System.Collections.Generic;

@@ -1,5 +1,6 @@
 ﻿using NBi.Core.Calculation.Grouping;
 using NBi.Core.Calculation.Ranking;
+using NBi.Extensibility;
 using System;
 using System.Collections.Generic;
 using System.Linq;

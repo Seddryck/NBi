@@ -2,6 +2,7 @@
 using NBi.Core.ResultSet.Alteration.Duplication.OuputStrategies;
 using NBi.Core.Transformation;
 using NBi.Core.Variable;
+using NBi.Extensibility;
 using System;
 using System.Collections.Generic;
 using System.Linq;

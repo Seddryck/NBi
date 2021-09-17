@@ -2,6 +2,7 @@
 using NBi.Core.ResultSet;
 using NBi.Core.ResultSet.Lookup;
 using NBi.Core.ResultSet.Lookup.Violation;
+using NBi.Extensibility;
 using NBi.Framework.FailureMessage.Common;
 using NBi.Framework.FailureMessage.Common.Helper;
 using NBi.Framework.FailureMessage.Markdown.Helper;

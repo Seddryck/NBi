@@ -2,6 +2,7 @@
 using NBi.Core;
 using NBi.Core.ResultSet;
 using NBi.Core.Scalar.Presentation;
+using NBi.Extensibility;
 using NBi.Framework.Markdown.MarkdownLogExtension;
 using NBi.Framework.Sampling;
 using System;
@@ -30,7 +31,7 @@ namespace NBi.Framework.FailureMessage.Common.Helper
         {
             var metadataDico = new Dictionary<DataColumn, ColumnMetadata>();
             foreach (var definition in existingDefinitions)
-                metadataDico.Add(table.GetColumn(definition.Identifier), definition);
+                metadataDico.Add(definition.Identifier.GetColumn(table), definition);
 
             var identifierFactory = new ColumnIdentifierFactory();
             foreach (DataColumn dataColumn in table.Columns)

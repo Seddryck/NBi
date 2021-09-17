@@ -19,7 +19,7 @@ namespace NBi.NUnit.Query
         private readonly IEnumerable<IColumnAlias> variables;
         private readonly IEnumerable<IColumnExpression> expressions;
 
-        protected ResultSet actualResultSet;
+        protected IResultSet actualResultSet;
         protected List<RowEvaluationResult> evaluationResults;
 
         public EvaluateRowsConstraint (IEnumerable<IColumnAlias> variables, IEnumerable<IColumnExpression> expressions)
@@ -37,14 +37,14 @@ namespace NBi.NUnit.Query
         {
             if (actual is IQuery)
                 return Process((IQuery)actual);
-            else if (actual is ResultSet)
-                return doMatch((ResultSet)actual);
+            else if (actual is IResultSet)
+                return doMatch((IResultSet)actual);
             else
                 return false;
 
         }
 
-        protected bool doMatch(ResultSet actual)
+        protected bool doMatch(IResultSet actual)
         {
             this.actualResultSet = actual;
 

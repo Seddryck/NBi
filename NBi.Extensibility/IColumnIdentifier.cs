@@ -11,6 +11,7 @@ namespace NBi.Extensibility
     {
         string Label { get; }
         DataColumn GetColumn(IResultSet rs);
+        DataColumn GetColumn(DataTable dataTable);
         object GetValue(DataRow dataRow);
     }
 }

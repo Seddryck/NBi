@@ -23,7 +23,7 @@ namespace NBi.Core.ResultSet.Resolver
             var helper = new ObjectsToRowsHelper();
             var rows = helper.Execute(args.Objects);
 
-            var rs = new ResultSet();
+            var rs = new DataTableResultSet();
             rs.Load(rows);
             return rs;
         }

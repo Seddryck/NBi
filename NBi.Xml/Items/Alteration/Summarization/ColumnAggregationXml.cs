@@ -1,5 +1,6 @@
 ﻿using NBi.Core.ResultSet;
 using NBi.Core.Sequence.Transformation.Aggregation;
+using NBi.Extensibility;
 using System;
 using System.Collections.Generic;
 using System.Linq;

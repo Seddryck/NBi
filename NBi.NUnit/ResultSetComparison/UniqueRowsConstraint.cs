@@ -11,12 +11,13 @@ using NBi.Framework.FailureMessage.Markdown;
 using NBi.Framework;
 using NUnit.Framework;
 using NBi.Core.Configuration.FailureReport;
+using NBi.Extensibility;
 
 namespace NBi.NUnit.Query
 {
     public class UniqueRowsConstraint : NBiConstraint
     {
-        protected ResultSet actualResultSet;
+        protected IResultSet actualResultSet;
         private IDataRowsMessageFormatter failure;
 
         protected Evaluator Engine { get; set; }
@@ -43,9 +44,9 @@ namespace NBi.NUnit.Query
             {
                 return Matches((actual as IResultSetService).Execute());
             }
-            else if (actual is ResultSet)
+            else if (actual is IResultSet)
             {
-                actualResultSet = (ResultSet)actual;
+                actualResultSet = (IResultSet)actual;
                 var result = Engine.Execute(actualResultSet);
 
                 if (!result.AreUnique || Configuration.FailureReportProfile.Mode == FailureReportMode.Always)

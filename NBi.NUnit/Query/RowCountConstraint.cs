@@ -49,8 +49,8 @@ namespace NBi.NUnit.Query
         {
             if (actual is IResultSetService)
                 return Matches(((IResultSetService)actual).Execute());
-            else if (actual is ResultSet)
-                return doMatch(actual as ResultSet);
+            else if (actual is IResultSet)
+                return doMatch(actual as IResultSet);
             else if (actual is int)
             {
                 var output = doMatch(((int)actual));

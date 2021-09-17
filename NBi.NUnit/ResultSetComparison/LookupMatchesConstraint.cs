@@ -3,6 +3,7 @@ using NBi.Core.Configuration.FailureReport;
 using NBi.Core.ResultSet;
 using NBi.Core.ResultSet.Lookup;
 using NBi.Core.Scalar.Comparer;
+using NBi.Extensibility;
 using NBi.Framework.FailureMessage;
 using NUnit.Framework;
 using System;

@@ -29,7 +29,7 @@ namespace NBi.Core.ResultSet.Conversion
             rs.Columns.Add(new DataColumn(columnNameTemp, converter.DestinationType));
             rs.Columns[columnNameTemp].SetOrdinal(columnIndex + 1);
 
-            foreach(DataRow row in rs.Rows)
+            foreach(var row in rs.Rows)
                 row[columnNameTemp] = converter.Execute(row[columnIndex]) ?? DBNull.Value;
 
             rs.Columns.RemoveAt(columnIndex);

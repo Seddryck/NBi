@@ -36,7 +36,7 @@ namespace NBi.NUnit.Query
         {
             var factory = new DataRowsMessageFormatterFactory();
             var msg = factory.Instantiate(Configuration.FailureReportProfile, EngineStyle.ByIndex);
-            msg.BuildCount(actualResultSet.Rows.Cast<DataRow>());
+            msg.BuildCount(actualResultSet.Rows);
             return msg;
         }
 
@@ -49,8 +49,8 @@ namespace NBi.NUnit.Query
         {
             if (actual is IResultSetService)
                 return Matches(((IResultSetService)actual).Execute());
-            else if (actual is ResultSet)
-                return doMatch(actual as ResultSet);
+            else if (actual is IResultSet)
+                return doMatch(actual as IResultSet);
             else if (actual is int)
             {
                 var output = doMatch(((int)actual));

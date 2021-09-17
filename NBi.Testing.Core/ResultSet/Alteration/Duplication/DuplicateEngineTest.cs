@@ -37,13 +37,13 @@ namespace NBi.Testing.Core.ResultSet.Alteration.Duplication
             var newRs = duplicator.Execute(rs);
 
             Assert.That(newRs.Columns.Count, Is.EqualTo(3));
-            Assert.That(newRs.Rows.Count, Is.EqualTo(6));
-            Assert.That(newRs.Rows[0][0], Is.EqualTo("Alpha"));
-            Assert.That(newRs.Rows[1][0], Is.EqualTo("Alpha"));
-            Assert.That(newRs.Rows[2][0], Is.EqualTo("Beta"));
-            Assert.That(newRs.Rows[3][0], Is.EqualTo("Beta"));
-            Assert.That(newRs.Rows[4][0], Is.EqualTo("Gamma"));
-            Assert.That(newRs.Rows[5][0], Is.EqualTo("Gamma"));
+            Assert.That(newRs.RowCount, Is.EqualTo(6));
+            Assert.That(newRs[0][0], Is.EqualTo("Alpha"));
+            Assert.That(newRs[1][0], Is.EqualTo("Alpha"));
+            Assert.That(newRs[2][0], Is.EqualTo("Beta"));
+            Assert.That(newRs[3][0], Is.EqualTo("Beta"));
+            Assert.That(newRs[4][0], Is.EqualTo("Gamma"));
+            Assert.That(newRs[5][0], Is.EqualTo("Gamma"));
         }
 
         [Test]
@@ -66,12 +66,12 @@ namespace NBi.Testing.Core.ResultSet.Alteration.Duplication
             var newRs = duplicator.Execute(rs);
 
             Assert.That(newRs.Columns.Count, Is.EqualTo(3));
-            Assert.That(newRs.Rows.Count, Is.EqualTo(5));
-            Assert.That(newRs.Rows[0][0], Is.EqualTo("Alpha"));
-            Assert.That(newRs.Rows[1][0], Is.EqualTo("Alpha"));
-            Assert.That(newRs.Rows[2][0], Is.EqualTo("Beta"));
-            Assert.That(newRs.Rows[3][0], Is.EqualTo("Beta"));
-            Assert.That(newRs.Rows[4][0], Is.EqualTo("Gamma"));
+            Assert.That(newRs.RowCount, Is.EqualTo(5));
+            Assert.That(newRs[0][0], Is.EqualTo("Alpha"));
+            Assert.That(newRs[1][0], Is.EqualTo("Alpha"));
+            Assert.That(newRs[2][0], Is.EqualTo("Beta"));
+            Assert.That(newRs[3][0], Is.EqualTo("Beta"));
+            Assert.That(newRs[4][0], Is.EqualTo("Gamma"));
         }
 
         [Test]
@@ -97,15 +97,15 @@ namespace NBi.Testing.Core.ResultSet.Alteration.Duplication
             var newRs = duplicator.Execute(rs);
 
             Assert.That(newRs.Columns.Count, Is.EqualTo(3));
-            Assert.That(newRs.Rows.Count, Is.EqualTo(8));
-            Assert.That(newRs.Rows[0][0], Is.EqualTo("Alpha"));
-            Assert.That(newRs.Rows[1][0], Is.EqualTo("Alpha"));
-            Assert.That(newRs.Rows[2][0], Is.EqualTo("Alpha"));
-            Assert.That(newRs.Rows[3][0], Is.EqualTo("Beta"));
-            Assert.That(newRs.Rows[4][0], Is.EqualTo("Beta"));
-            Assert.That(newRs.Rows[5][0], Is.EqualTo("Beta"));
-            Assert.That(newRs.Rows[6][0], Is.EqualTo("Beta"));
-            Assert.That(newRs.Rows[7][0], Is.EqualTo("Gamma"));
+            Assert.That(newRs.RowCount, Is.EqualTo(8));
+            Assert.That(newRs[0][0], Is.EqualTo("Alpha"));
+            Assert.That(newRs[1][0], Is.EqualTo("Alpha"));
+            Assert.That(newRs[2][0], Is.EqualTo("Alpha"));
+            Assert.That(newRs[3][0], Is.EqualTo("Beta"));
+            Assert.That(newRs[4][0], Is.EqualTo("Beta"));
+            Assert.That(newRs[5][0], Is.EqualTo("Beta"));
+            Assert.That(newRs[6][0], Is.EqualTo("Beta"));
+            Assert.That(newRs[7][0], Is.EqualTo("Gamma"));
         }
 
         [Test]
@@ -126,13 +126,13 @@ namespace NBi.Testing.Core.ResultSet.Alteration.Duplication
 
             Assert.That(newRs.Columns.Count, Is.EqualTo(4));
             Assert.That(newRs.Columns[3].ColumnName, Is.EqualTo("NewValue"));
-            Assert.That(newRs.Rows.Count, Is.EqualTo(6));
-            Assert.That(newRs.Rows[0][3], Is.EqualTo(DBNull.Value));
-            Assert.That(newRs.Rows[1][3], Is.EqualTo("Static Value"));
-            Assert.That(newRs.Rows[2][3], Is.EqualTo(DBNull.Value));
-            Assert.That(newRs.Rows[3][3], Is.EqualTo("Static Value"));
-            Assert.That(newRs.Rows[4][3], Is.EqualTo(DBNull.Value));
-            Assert.That(newRs.Rows[5][3], Is.EqualTo("Static Value"));
+            Assert.That(newRs.RowCount, Is.EqualTo(6));
+            Assert.That(newRs[0][3], Is.EqualTo(DBNull.Value));
+            Assert.That(newRs[1][3], Is.EqualTo("Static Value"));
+            Assert.That(newRs[2][3], Is.EqualTo(DBNull.Value));
+            Assert.That(newRs[3][3], Is.EqualTo("Static Value"));
+            Assert.That(newRs[4][3], Is.EqualTo(DBNull.Value));
+            Assert.That(newRs[5][3], Is.EqualTo("Static Value"));
         }
 
         [Test]
@@ -153,13 +153,13 @@ namespace NBi.Testing.Core.ResultSet.Alteration.Duplication
 
             Assert.That(newRs.Columns.Count, Is.EqualTo(4));
             Assert.That(newRs.Columns[3].ColumnName, Is.EqualTo("Index"));
-            Assert.That(newRs.Rows.Count, Is.EqualTo(6));
-            Assert.That(newRs.Rows[0][3], Is.EqualTo(DBNull.Value));
-            Assert.That(newRs.Rows[1][3], Is.EqualTo(0));
-            Assert.That(newRs.Rows[2][3], Is.EqualTo(DBNull.Value));
-            Assert.That(newRs.Rows[3][3], Is.EqualTo(0));
-            Assert.That(newRs.Rows[4][3], Is.EqualTo(DBNull.Value));
-            Assert.That(newRs.Rows[5][3], Is.EqualTo(0));
+            Assert.That(newRs.RowCount, Is.EqualTo(6));
+            Assert.That(newRs[0][3], Is.EqualTo(DBNull.Value));
+            Assert.That(newRs[1][3], Is.EqualTo(0));
+            Assert.That(newRs[2][3], Is.EqualTo(DBNull.Value));
+            Assert.That(newRs[3][3], Is.EqualTo(0));
+            Assert.That(newRs[4][3], Is.EqualTo(DBNull.Value));
+            Assert.That(newRs[5][3], Is.EqualTo(0));
         }
 
         [Test]
@@ -185,14 +185,14 @@ namespace NBi.Testing.Core.ResultSet.Alteration.Duplication
 
             Assert.That(newRs.Columns.Count, Is.EqualTo(4));
             Assert.That(newRs.Columns[3].ColumnName, Is.EqualTo("Total"));
-            Assert.That(newRs.Rows.Count, Is.EqualTo(7));
-            Assert.That(newRs.Rows[0][3], Is.EqualTo(DBNull.Value));
-            Assert.That(newRs.Rows[1][3], Is.EqualTo(2));
-            Assert.That(newRs.Rows[2][3], Is.EqualTo(2));
-            Assert.That(newRs.Rows[3][3], Is.EqualTo(DBNull.Value));
-            Assert.That(newRs.Rows[4][3], Is.EqualTo(2));
-            Assert.That(newRs.Rows[5][3], Is.EqualTo(2));
-            Assert.That(newRs.Rows[6][3], Is.EqualTo(DBNull.Value));
+            Assert.That(newRs.RowCount, Is.EqualTo(7));
+            Assert.That(newRs[0][3], Is.EqualTo(DBNull.Value));
+            Assert.That(newRs[1][3], Is.EqualTo(2));
+            Assert.That(newRs[2][3], Is.EqualTo(2));
+            Assert.That(newRs[3][3], Is.EqualTo(DBNull.Value));
+            Assert.That(newRs[4][3], Is.EqualTo(2));
+            Assert.That(newRs[5][3], Is.EqualTo(2));
+            Assert.That(newRs[6][3], Is.EqualTo(DBNull.Value));
         }
 
         [Test]
@@ -218,9 +218,9 @@ namespace NBi.Testing.Core.ResultSet.Alteration.Duplication
 
             Assert.That(newRs.Columns.Count, Is.EqualTo(4));
             Assert.That(newRs.Columns[3].ColumnName, Is.EqualTo("IsOriginal"));
-            Assert.That(newRs.Rows.Count, Is.EqualTo(7));
-            for (int i = 0; i < newRs.Rows.Count; i++)
-                Assert.That(newRs.Rows[i][3], Is.EqualTo(new[] { 0, 3, 6 }.Contains(i)));
+            Assert.That(newRs.RowCount, Is.EqualTo(7));
+            for (int i = 0; i < newRs.RowCount; i++)
+                Assert.That(newRs[i][3], Is.EqualTo(new[] { 0, 3, 6 }.Contains(i)));
         }
 
         [Test]
@@ -246,9 +246,9 @@ namespace NBi.Testing.Core.ResultSet.Alteration.Duplication
 
             Assert.That(newRs.Columns.Count, Is.EqualTo(4));
             Assert.That(newRs.Columns[3].ColumnName, Is.EqualTo("IsDuplicable"));
-            Assert.That(newRs.Rows.Count, Is.EqualTo(7));
-            for (int i = 0; i < newRs.Rows.Count; i++)
-                Assert.That(newRs.Rows[i][3], Is.EqualTo(!new[] { 6 }.Contains(i)));
+            Assert.That(newRs.RowCount, Is.EqualTo(7));
+            for (int i = 0; i < newRs.RowCount; i++)
+                Assert.That(newRs[i][3], Is.EqualTo(!new[] { 6 }.Contains(i)));
         }
 
         [Test]
@@ -277,12 +277,12 @@ namespace NBi.Testing.Core.ResultSet.Alteration.Duplication
 
             Assert.That(newRs.Columns.Count, Is.EqualTo(4));
             Assert.That(newRs.Columns[3].ColumnName, Is.EqualTo("NewValue"));
-            Assert.That(newRs.Rows.Count, Is.EqualTo(8));
-            for (int i = 0; i < newRs.Rows.Count; i++)
+            Assert.That(newRs.RowCount, Is.EqualTo(8));
+            for (int i = 0; i < newRs.RowCount; i++)
                 if (new[] { 0, 3, 7 }.Contains(i))
-                    Assert.That(newRs.Rows[i][3], Is.EqualTo(DBNull.Value));
+                    Assert.That(newRs[i][3], Is.EqualTo(DBNull.Value));
                 else
-                    Assert.That(new[] { 5, 1, 7 }.Contains(Convert.ToInt32(newRs.Rows[i][3])));
+                    Assert.That(new[] { 5, 1, 7 }.Contains(Convert.ToInt32(newRs[i][3])));
         }
 
         [Test]
@@ -312,15 +312,15 @@ namespace NBi.Testing.Core.ResultSet.Alteration.Duplication
 
             Assert.That(newRs.Columns.Count, Is.EqualTo(3));
             Assert.That(newRs.Columns[1].ColumnName, Is.EqualTo("Value"));
-            Assert.That(newRs.Rows.Count, Is.EqualTo(8));
-            Assert.That(newRs.Rows[0][1], Is.EqualTo(10));
-            Assert.That(newRs.Rows[1][1], Is.EqualTo(5));
-            Assert.That(newRs.Rows[2][1], Is.EqualTo(5));
-            Assert.That(newRs.Rows[3][1], Is.EqualTo(3));
-            Assert.That(newRs.Rows[4][1], Is.EqualTo(1));
-            Assert.That(newRs.Rows[5][1], Is.EqualTo(1));
-            Assert.That(newRs.Rows[6][1], Is.EqualTo(1));
-            Assert.That(newRs.Rows[7][1], Is.EqualTo(30));
+            Assert.That(newRs.RowCount, Is.EqualTo(8));
+            Assert.That(newRs[0][1], Is.EqualTo(10));
+            Assert.That(newRs[1][1], Is.EqualTo(5));
+            Assert.That(newRs[2][1], Is.EqualTo(5));
+            Assert.That(newRs[3][1], Is.EqualTo(3));
+            Assert.That(newRs[4][1], Is.EqualTo(1));
+            Assert.That(newRs[5][1], Is.EqualTo(1));
+            Assert.That(newRs[6][1], Is.EqualTo(1));
+            Assert.That(newRs[7][1], Is.EqualTo(30));
         }
 
         [Test]
@@ -356,15 +356,15 @@ namespace NBi.Testing.Core.ResultSet.Alteration.Duplication
 
             Assert.That(newRs.Columns.Count, Is.EqualTo(5));
             Assert.That(newRs.Columns[1].ColumnName, Is.EqualTo("Value"));
-            Assert.That(newRs.Rows.Count, Is.EqualTo(8));
-            Assert.That(newRs.Rows[0][1], Is.EqualTo(10));
-            Assert.That(newRs.Rows[1][1], Is.EqualTo(5));
-            Assert.That(newRs.Rows[2][1], Is.EqualTo(10));
-            Assert.That(newRs.Rows[3][1], Is.EqualTo(3));
-            Assert.That(newRs.Rows[4][1], Is.EqualTo(1));
-            Assert.That(newRs.Rows[5][1], Is.EqualTo(2));
-            Assert.That(newRs.Rows[6][1], Is.EqualTo(3));
-            Assert.That(newRs.Rows[7][1], Is.EqualTo(30));
+            Assert.That(newRs.RowCount, Is.EqualTo(8));
+            Assert.That(newRs[0][1], Is.EqualTo(10));
+            Assert.That(newRs[1][1], Is.EqualTo(5));
+            Assert.That(newRs[2][1], Is.EqualTo(10));
+            Assert.That(newRs[3][1], Is.EqualTo(3));
+            Assert.That(newRs[4][1], Is.EqualTo(1));
+            Assert.That(newRs[5][1], Is.EqualTo(2));
+            Assert.That(newRs[6][1], Is.EqualTo(3));
+            Assert.That(newRs[7][1], Is.EqualTo(30));
         }
 
         [Test]

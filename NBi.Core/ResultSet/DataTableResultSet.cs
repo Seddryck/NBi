@@ -12,18 +12,21 @@ namespace NBi.Core.ResultSet
         private bool disposedValue;
 
         private DataTable Table { get; set; }
-        
+
         public DataColumnCollection Columns
         {
             get => Table.Columns;
         }
 
-        public DataRowCollection Rows
+        public IEnumerable<IResultRow> Rows
         {
-            get => Table.Rows;
+            get { foreach (DataRow row in Table.Rows) { yield return new DataRowResultSet(row); } }
         }
 
-        public DataColumn GetColumn(IColumnIdentifier columnIdentifier) 
+        public int RowCount { get => Rows.Count(); }
+
+
+        public DataColumn GetColumn(IColumnIdentifier columnIdentifier)
             => columnIdentifier.GetColumn(this);
 
         public DataTableResultSet()
@@ -32,17 +35,24 @@ namespace NBi.Core.ResultSet
         public DataTableResultSet(DataTable table)
             => Table = table;
 
-        public void AddRange(IEnumerable<DataRow> rows)
-            => rows.CopyToDataTable(Table, LoadOption.OverwriteChanges);
-        
-        public void Add(DataRow row)
-            => Table.ImportRow(row);
+        public IResultRow Add(IResultRow row)
+        {
+            var newRow = Table.NewRow();
+            newRow.ItemArray = row.ItemArray;
+            Table.Rows.Add(newRow);
+            return new DataRowResultSet(newRow);
+        }
 
-        public void ImportRow(DataRow row)
-            => Table.ImportRow(row);
+        public void AddRange(IEnumerable<IResultRow> rows)
+        { foreach (var row in rows) { Add(row); } }
 
-        public DataRow NewRow()
-            => Table.NewRow();
+        public IResultRow this[int index]
+        {
+            get => new DataRowResultSet(Table.Rows[index]);
+        }
+
+        public IResultRow NewRow()
+            => new DataRowResultSet(Table.NewRow());
 
         public void AcceptChanges()
             => Table.AcceptChanges();
@@ -50,42 +60,44 @@ namespace NBi.Core.ResultSet
         public DataTableReader CreateDataReader()
             => Table.CreateDataReader();
 
-
-
         public IResultSet Clone()
-        {
-            var newRs = new DataTableResultSet
-            {
-                Table = Table.Clone()
-            };
-            return newRs;
-        }
+            => new DataTableResultSet(Table.Clone());
 
         public void Clear()
             => Table.Clear();
+
+        public void InsertAt(IResultRow row, int index)
+        {
+            switch (row)
+            {
+                case DataRow r: Table.Rows.InsertAt(r, index); break;
+                default:
+                    throw new NotImplementedException();
+            }
+        }
+        public void RemoveAt(int index)
+            => Table.Rows.RemoveAt(index);
+
 
         public void Load(string record)
         {
             Table = new DataTable();
             var fields = record.Split(';');
 
-            //if > 0 row
             if (fields.Count() > 0)
             {
                 //Build structure
                 for (int i = 0; i < fields.Length; i++)
                     Columns.Add(string.Format("Column{0}", i), typeof(string));
 
-                //load each row one by one
                 Table.BeginLoadData();
-                //Transform (null) [string] into null
                 for (int i = 0; i < fields.Count(); i++)
                 {
                     if (fields[i] != null && fields[i].ToString().ToLower() == "(null)".ToLower())
                         fields[i] = null;
                 }
                 Table.LoadDataRow(fields, LoadOption.OverwriteChanges);
-                Table.EndLoadData();  
+                Table.EndLoadData();
             }
         }
 
@@ -176,5 +188,6 @@ namespace NBi.Core.ResultSet
             Dispose(disposing: true);
             GC.SuppressFinalize(this);
         }
+
     }
 }

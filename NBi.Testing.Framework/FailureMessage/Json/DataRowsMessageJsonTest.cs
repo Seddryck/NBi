@@ -2,6 +2,7 @@
 using NBi.Core.Configuration;
 using NBi.Core.Configuration.FailureReport;
 using NBi.Core.ResultSet;
+using NBi.Extensibility;
 using NBi.Framework;
 using NBi.Framework.FailureMessage;
 using NBi.Framework.FailureMessage.Json;
@@ -19,7 +20,7 @@ namespace NBi.Testing.Framework.FailureMessage.Json
     public class DataRowsMessageJsonTest
     {
         #region Helpers
-        private IEnumerable<DataRow> GetDataRows(int count)
+        private IEnumerable<IResultRow> GetDataRows(int count)
         {
             var dataTable = new DataTable() { TableName = "MyTable" };
             dataTable.Columns.Add(new DataColumn("Id"));
@@ -27,8 +28,9 @@ namespace NBi.Testing.Framework.FailureMessage.Json
             dataTable.Columns.Add(new DataColumn("Boolean value"));
             for (int i = 0; i < count; i++)
                 dataTable.LoadDataRow(new object[] { "Alpha", i, true }, false);
+            var rs = new DataTableResultSet(dataTable);
 
-            return dataTable.Rows.Cast<DataRow>();
+            return rs.Rows;
         }
         #endregion
 
@@ -41,10 +43,11 @@ namespace NBi.Testing.Framework.FailureMessage.Json
             dataTable.Columns.Add(new DataColumn("Boolean value"));
             for (int i = 0; i < 20; i++)
                 dataTable.LoadDataRow(new object[] { "Alpha", i, true }, false);
+            var rs = new DataTableResultSet(dataTable);
 
-            var samplers = new SamplersFactory<DataRow>().Instantiate(FailureReportProfile.Default);
+            var samplers = new SamplersFactory<IResultRow>().Instantiate(FailureReportProfile.Default);
             var msg = new DataRowsMessageJson(EngineStyle.ByIndex, samplers);
-            msg.BuildComparaison(dataTable.Rows.Cast<DataRow>(), null, null);
+            msg.BuildComparaison(rs.Rows, null, null);
             var value = msg.RenderExpected();
 
             Assert.That(value, Does.Contain("\"total-rows\":20"));
@@ -53,17 +56,17 @@ namespace NBi.Testing.Framework.FailureMessage.Json
         [Test]
         public void RenderExpected_MoreThanMaxRowsCount_ReturnSampleRowsCountAndHeaderAndSeparation()
         {
-            var dataSet = new DataSet();
             var dataTable = new DataTable() { TableName = "MyTable" };
             dataTable.Columns.Add(new DataColumn("Id"));
             dataTable.Columns.Add(new DataColumn("Numeric value"));
             dataTable.Columns.Add(new DataColumn("Boolean value"));
             for (int i = 0; i < 20; i++)
                 dataTable.LoadDataRow(new object[] { "Alpha", i, true }, false);
+            var rs = new DataTableResultSet(dataTable);
 
-            var samplers = new SamplersFactory<DataRow>().Instantiate(FailureReportProfile.Default);
+            var samplers = new SamplersFactory<IResultRow>().Instantiate(FailureReportProfile.Default);
             var msg = new DataRowsMessageJson(EngineStyle.ByIndex, samplers);
-            msg.BuildComparaison(dataTable.Rows.Cast<DataRow>(), null, null);
+            msg.BuildComparaison(rs.Rows, null, null);
             var value = msg.RenderExpected();
             Assert.That(value, Does.Contain("\"sampled-rows\":10"));
 
@@ -76,17 +79,17 @@ namespace NBi.Testing.Framework.FailureMessage.Json
         {
             var rowCount = 12;
 
-            var dataSet = new DataSet();
             var dataTable = new DataTable() { TableName = "MyTable" };
             dataTable.Columns.Add(new DataColumn("Id"));
             dataTable.Columns.Add(new DataColumn("Numeric value"));
             dataTable.Columns.Add(new DataColumn("Boolean value"));
             for (int i = 0; i < rowCount; i++)
                 dataTable.LoadDataRow(new object[] { "Alpha", i, true }, false);
+            var rs = new DataTableResultSet(dataTable);
 
-            var samplers = new SamplersFactory<DataRow>().Instantiate(FailureReportProfile.Default);
+            var samplers = new SamplersFactory<IResultRow>().Instantiate(FailureReportProfile.Default);
             var msg = new DataRowsMessageJson(EngineStyle.ByIndex, samplers);
-            msg.BuildComparaison(dataTable.Rows.Cast<DataRow>(), null, null);
+            msg.BuildComparaison(rs.Rows, null, null);
 
             var value = msg.RenderExpected();
             Assert.That(value, Does.Not.Contain("\"sampled-rows\":"));
@@ -102,22 +105,22 @@ namespace NBi.Testing.Framework.FailureMessage.Json
             var threshold = rowCount + 20;
             var max = threshold / 2;
 
-            var dataSet = new DataSet();
             var dataTable = new DataTable() { TableName = "MyTable" };
             dataTable.Columns.Add(new DataColumn("Id"));
             dataTable.Columns.Add(new DataColumn("Numeric value"));
             dataTable.Columns.Add(new DataColumn("Boolean value"));
             for (int i = 0; i < rowCount; i++)
                 dataTable.LoadDataRow(new object[] { "Alpha", i, true }, false);
+            var rs = new DataTableResultSet(dataTable);
 
             var profile = Mock.Of<IFailureReportProfile>(p =>
                 p.MaxSampleItem == max
                 && p.ThresholdSampleItem == threshold
                 && p.ExpectedSet == FailureReportSetType.Sample
             );
-            var samplers = new SamplersFactory<DataRow>().Instantiate(profile);
+            var samplers = new SamplersFactory<IResultRow>().Instantiate(profile);
             var msg = new DataRowsMessageJson(EngineStyle.ByIndex, samplers);
-            msg.BuildComparaison(dataTable.Rows.Cast<DataRow>(), null, null);
+            msg.BuildComparaison(rs.Rows, null, null);
             var value = msg.RenderExpected();
             Assert.That(value, Does.Not.Contain("\"sampled-rows\":"));
 
@@ -133,22 +136,22 @@ namespace NBi.Testing.Framework.FailureMessage.Json
             var threshold = rowCount - 20;
             var max = threshold / 2;
 
-            var dataSet = new DataSet();
             var dataTable = new DataTable() { TableName = "MyTable" };
             dataTable.Columns.Add(new DataColumn("Id"));
             dataTable.Columns.Add(new DataColumn("Numeric value"));
             dataTable.Columns.Add(new DataColumn("Boolean value"));
             for (int i = 0; i < rowCount; i++)
                 dataTable.LoadDataRow(new object[] { "Alpha", i, true }, false);
+            var rs = new DataTableResultSet(dataTable);
 
             var profile = Mock.Of<IFailureReportProfile>(p =>
                 p.MaxSampleItem == max
                 && p.ThresholdSampleItem == threshold
                 && p.ExpectedSet == FailureReportSetType.Sample
             );
-            var samplers = new SamplersFactory<DataRow>().Instantiate(profile);
+            var samplers = new SamplersFactory<IResultRow>().Instantiate(profile);
             var msg = new DataRowsMessageJson(EngineStyle.ByIndex, samplers);
-            msg.BuildComparaison(dataTable.Rows.Cast<DataRow>(), null, null);
+            msg.BuildComparaison(rs.Rows, null, null);
             var value = msg.RenderExpected();
             Assert.That(value, Does.Contain($"\"total-rows\":{rowCount}"));
             Assert.That(value, Does.Contain($"\"sampled-rows\":{max}"));
@@ -180,7 +183,7 @@ namespace NBi.Testing.Framework.FailureMessage.Json
                     , GetDataRows(nonMatchingValueRowCount)
                 );
 
-            var samplers = new SamplersFactory<DataRow>().Instantiate(FailureReportProfile.Default);
+            var samplers = new SamplersFactory<IResultRow>().Instantiate(FailureReportProfile.Default);
             var msg = new DataRowsMessageJson(EngineStyle.ByIndex, samplers);
             msg.BuildComparaison(null, null, compared);
             var value = msg.RenderAnalysis();
@@ -210,7 +213,7 @@ namespace NBi.Testing.Framework.FailureMessage.Json
                 );
 
 
-            var samplers = new SamplersFactory<DataRow>().Instantiate(FailureReportProfile.Default);
+            var samplers = new SamplersFactory<IResultRow>().Instantiate(FailureReportProfile.Default);
             var msg = new DataRowsMessageJson(EngineStyle.ByIndex, samplers);
             msg.BuildComparaison(null, null, compared);
             var value = msg.RenderAnalysis();
@@ -221,7 +224,7 @@ namespace NBi.Testing.Framework.FailureMessage.Json
 
         public void RenderMessage_NoAdditional_IncludeTimestamp()
         {
-            var samplers = new SamplersFactory<DataRow>().Instantiate(FailureReportProfile.Default);
+            var samplers = new SamplersFactory<IResultRow>().Instantiate(FailureReportProfile.Default);
             var msg = new DataRowsMessageJson(EngineStyle.ByIndex, samplers);
             var value = msg.RenderMessage();
 

@@ -30,7 +30,7 @@ namespace NBi.NUnit.ResultSetComparison
         {
             var factory = new DataRowsMessageFormatterFactory();
             var msg = factory.Instantiate(Configuration.FailureReportProfile, Engine.Style);
-            msg.BuildComparaison(expectedResultSet.Rows.Cast<DataRow>(), actualResultSet.Rows.Cast<DataRow>(), result);
+            msg.BuildComparaison(expectedResultSet.Rows.Cast<IResultRow>(), actualResultSet.Rows.Cast<IResultRow>(), result);
             return msg;
         }
      
@@ -83,13 +83,13 @@ namespace NBi.NUnit.ResultSetComparison
         {
             if (actual is IResultSetService)
                 return Process((IResultSetService)actual);
-            else if (actual is ResultSet)
-                return doMatch((ResultSet)actual);
+            else if (actual is IResultSet)
+                return doMatch((IResultSet)actual);
             else
                 throw new ArgumentException($"The type of the actual object is '{actual.GetType().Name}' and is not supported for a constraint of type '{this.GetType().Name}'. Use a ResultSet or a ResultSetService.", nameof(actual));
         }
 
-        protected bool doMatch(ResultSet actual)
+        protected bool doMatch(IResultSet actual)
         {
             actualResultSet = actual;
 

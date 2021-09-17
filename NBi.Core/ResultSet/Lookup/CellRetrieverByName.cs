@@ -14,7 +14,7 @@ namespace NBi.Core.ResultSet.Lookup
             : base(settings)
         { }
 
-        public override KeyCollection GetColumns(DataRow row)
+        public override KeyCollection GetColumns(IResultRow row)
         {
             var keys = new List<object>();
             foreach (var setting in Settings)
@@ -27,7 +27,7 @@ namespace NBi.Core.ResultSet.Lookup
                 }
                 catch (ArgumentException ex)
                 {
-                    var columnNames = row.Table.Columns.Cast<DataColumn>().Select(x => x.ColumnName);
+                    var columnNames = row.Parent.Columns.Cast<DataColumn>().Select(x => x.ColumnName);
                     throw new NBiException($"{ex.Message} This table contains the following column{(columnNames.Count()>1 ? "s" : string.Empty)}: '{string.Join("', '",  columnNames)}'.");
                 }
                 catch (FormatException)

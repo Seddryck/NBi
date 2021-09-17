@@ -1,4 +1,5 @@
 ﻿using NBi.Core.ResultSet;
+using NBi.Extensibility;
 using NBi.Xml;
 using NBi.Xml.Constraints;
 using NBi.Xml.Constraints.Comparer;

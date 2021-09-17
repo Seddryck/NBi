@@ -36,15 +36,7 @@ namespace NBi.Core.ResultSet.Equivalence
         private readonly Dictionary<KeyCollection, RowHelper> yDict = new Dictionary<KeyCollection, RowHelper>();
 
         
-        public ResultResultSet Compare(IResultSet x, IResultSet y)
-        {
-            if (x is IResultSet xResultSet && y is IResultSet yResultSet)
-                return doCompare(yResultSet, xResultSet);
-
-            throw new ArgumentException();
-        }
-
-        protected virtual ResultResultSet doCompare(IResultSet x, IResultSet y)
+        public virtual ResultResultSet Compare(IResultSet x, IResultSet y)
         {
             var stopWatch = new Stopwatch();
 
@@ -56,12 +48,12 @@ namespace NBi.Core.ResultSet.Equivalence
 
             stopWatch.Start();
             BuildRowDictionary(x, xDict, keyComparer, false);
-            Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceInfo, string.Format("Building first rows dictionary: {0} [{1}]", x.Rows.Count, stopWatch.Elapsed.ToString(@"d\d\.hh\h\:mm\m\:ss\s\ \+fff\m\s")));
+            Trace.WriteLineIf(NBiTraceSwitch.TraceInfo, string.Format("Building first rows dictionary: {0} [{1}]", x.RowCount, stopWatch.Elapsed.ToString(@"d\d\.hh\h\:mm\m\:ss\s\ \+fff\m\s")));
             stopWatch.Reset();
 
             stopWatch.Start();
             BuildRowDictionary(y, yDict, keyComparer, true);
-            Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceInfo, string.Format("Building second rows dictionary: {0} [{1}]", y.Rows.Count, stopWatch.Elapsed.ToString(@"d\d\.hh\h\:mm\m\:ss\s\ \+fff\m\s")));
+            Trace.WriteLineIf(NBiTraceSwitch.TraceInfo, string.Format("Building second rows dictionary: {0} [{1}]", y.RowCount, stopWatch.Elapsed.ToString(@"d\d\.hh\h\:mm\m\:ss\s\ \+fff\m\s")));
             stopWatch.Reset();
 
             var missingRowsAnalyzer = analyzers.FirstOrDefault(a => a.GetType() == typeof(MissingRowsAnalyzer));
@@ -74,11 +66,11 @@ namespace NBi.Core.ResultSet.Equivalence
             var keyMatchingRows = keyMatchingRowsAnalyzer?.Retrieve(xDict, yDict) ?? new List<RowHelper>();
 
             stopWatch.Start();
-            var nonMatchingValueRows = !CanSkipValueComparison() ? CompareSets(keyMatchingRows) : new List<DataRow>();
-            Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceInfo, string.Format("Rows with a matching key but without matching value: {0} [{1}]", nonMatchingValueRows.Count(), stopWatch.Elapsed.ToString(@"d\d\.hh\h\:mm\m\:ss\s\ \+fff\m\s")));
+            var nonMatchingValueRows = !CanSkipValueComparison() ? CompareSets(keyMatchingRows) : new List<IResultRow>();
+            Trace.WriteLineIf(NBiTraceSwitch.TraceInfo, string.Format("Rows with a matching key but without matching value: {0} [{1}]", nonMatchingValueRows.Count(), stopWatch.Elapsed.ToString(@"d\d\.hh\h\:mm\m\:ss\s\ \+fff\m\s")));
             stopWatch.Reset();
 
-            var duplicatedRows = new List<DataRow>(); // Dummy placeholder
+            var duplicatedRows = new List<IResultRow>(); // Dummy placeholder
 
             return ResultResultSet.Build(
                 missingRows.Select(a => a.DataRowObj).ToList(),
@@ -91,18 +83,17 @@ namespace NBi.Core.ResultSet.Equivalence
 
         protected abstract void PreliminaryChecks(IResultSet x, IResultSet y);
         protected abstract DataRowKeysComparer BuildDataRowsKeyComparer(IResultSet x);
-        //protected abstract void CompareValues(List<CompareHelper> keyMatchingRows, List<DataRow> nonMatchingValueRows);
         protected virtual bool CanSkipValueComparison()
         {
             return false;
         }
 
-        protected List<DataRow> CompareSets(List<RowHelper> keyMatchingRows)
+        protected List<IResultRow> CompareSets(List<RowHelper> keyMatchingRows)
         {
             var stopWatch = new Stopwatch();
             int i = 0;
 
-            var nonMatchingValueRows = new List<DataRow>();
+            var nonMatchingValueRows = new List<IResultRow>();
             foreach (var rxHelper in keyMatchingRows)
             {
                 i++;
@@ -118,20 +109,20 @@ namespace NBi.Core.ResultSet.Equivalence
                 if (i==1)
                     Trace.WriteLineIf(
                         Extensibility.NBiTraceSwitch.TraceInfo,
-                        $"Comparison of first row: [{stopWatch.Elapsed.ToString(@"d\d\.hh\h\:mm\m\:ss\s\ \+fff\m\s")}]"
+                        $"Comparison of first row: [{stopWatch.Elapsed:d\\d\\.hh\\h\\:mm\\m\\:ss\\s\\ \\+fff\\m\\s}]"
                         );
             }
             return nonMatchingValueRows;
         }
 
-        protected abstract DataRow CompareRows(DataRow x, DataRow y);
+        protected abstract IResultRow CompareRows(IResultRow x, IResultRow y);
 
         
 
         private void BuildRowDictionary(IResultSet rs, Dictionary<KeyCollection, RowHelper> dict, DataRowKeysComparer keyComparer, bool isSystemUnderTest)
         {
             dict.Clear();
-            foreach (DataRow row in rs.Rows)
+            foreach (var row in rs.Rows)
             {
                 RowHelper hlpr = new RowHelper();
 
@@ -159,7 +150,7 @@ namespace NBi.Core.ResultSet.Equivalence
             }
         }
 
-        private string RowToString(DataRow row)
+        private string RowToString(IResultRow row)
         {
             var sb = new StringBuilder();
             sb.Append("<");

@@ -2,6 +2,7 @@
 using NBi.Core.ResultSet;
 using NBi.Core.ResultSet.Lookup;
 using NBi.Core.ResultSet.Lookup.Violation;
+using NBi.Extensibility;
 using NBi.Framework.FailureMessage.Common;
 using NBi.Framework.FailureMessage.Common.Helper;
 using NBi.Framework.FailureMessage.Markdown.Helper;
@@ -18,7 +19,7 @@ namespace NBi.Framework.FailureMessage.Markdown
     abstract class LookupViolationMessageMarkdown : LookupViolationMessage<MarkdownContainer>
     {
 
-        public LookupViolationMessageMarkdown(IDictionary<string, ISampler<DataRow>> samplers)
+        public LookupViolationMessageMarkdown(IDictionary<string, ISampler<IResultRow>> samplers)
             : base(samplers)
         {
             reference = new MarkdownContainer();
@@ -26,7 +27,7 @@ namespace NBi.Framework.FailureMessage.Markdown
             analysis = new MarkdownContainer();
         }
 
-        protected override void RenderStandardTable(IEnumerable<DataRow> rows, IEnumerable<ColumnMetadata> metadata, ISampler<DataRow> sampler, string title, MarkdownContainer container)
+        protected override void RenderStandardTable(IEnumerable<IResultRow> rows, IEnumerable<ColumnMetadata> metadata, ISampler<IResultRow> sampler, string title, MarkdownContainer container)
         {
             sampler.Build(rows);
             var tableHelper = new StandardTableHelperMarkdown(rows, metadata, sampler);

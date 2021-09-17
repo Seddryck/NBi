@@ -26,7 +26,7 @@ namespace NBi.Core.Calculation.Grouping.ColumnBased
             var keyComparer = BuildDataRowsKeyComparer(resultSet);
 
             stopWatch.Start();
-            foreach (DataRow row in resultSet.Rows)
+            foreach (var row in resultSet.Rows)
             {
                 Context.Switch(row);
                 var key = keyComparer.GetKeys(row);
@@ -34,7 +34,7 @@ namespace NBi.Core.Calculation.Grouping.ColumnBased
                     dico.Add(key, resultSet.Clone());
                 dico[key].Add(row);
             }
-            Trace.WriteLineIf(NBiTraceSwitch.TraceInfo, $"Building rows' groups: {dico.Count} [{stopWatch.Elapsed.ToString(@"d\d\.hh\h\:mm\m\:ss\s\ \+fff\m\s")})]");
+            Trace.WriteLineIf(NBiTraceSwitch.TraceInfo, $"Building rows' groups: {dico.Count} [{stopWatch.Elapsed:d\\d\\.hh\\h\\:mm\\m\\:ss\\s\\ \\+fff\\m\\s})]");
             return dico;
         }
 

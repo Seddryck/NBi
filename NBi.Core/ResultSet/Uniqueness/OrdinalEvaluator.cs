@@ -82,16 +82,16 @@ namespace NBi.Core.ResultSet.Uniqueness
 
         protected void CheckSettingsAndFirstRow(IResultSet dt, SettingsOrdinalResultSet settings)
         {
-            if (dt.Rows.Count == 0)
+            if (dt.RowCount == 0)
                 return;
 
-            var dr = dt.Rows[0];
-            for (int i = 0; i < dr.Table.Columns.Count; i++)
+            var dr = dt[0];
+            for (int i = 0; i < dt.Columns.Count; i++)
             {
                 CheckSettingsFirstRowCell(
                         settings.GetColumnRole(i)
                         , settings.GetColumnType(i)
-                        , dr.Table.Columns[i]
+                        , dt.Columns[i]
                         , dr.IsNull(i) ? DBNull.Value : dr[i]
                         , new string[]
                             {

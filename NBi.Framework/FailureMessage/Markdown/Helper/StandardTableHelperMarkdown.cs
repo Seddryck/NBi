@@ -2,6 +2,7 @@
 using NBi.Core;
 using NBi.Core.ResultSet;
 using NBi.Core.Scalar.Presentation;
+using NBi.Extensibility;
 using NBi.Framework.Markdown.MarkdownLogExtension;
 using NBi.Framework.Sampling;
 using System;
@@ -15,17 +16,17 @@ using System.Threading.Tasks;
 
 namespace NBi.Framework.FailureMessage.Markdown.Helper
 {
-    class StandardTableHelperMarkdown : BaseTableHelperMarkdown<DataRow>
+    class StandardTableHelperMarkdown : BaseTableHelperMarkdown<IResultRow>
     {
-        public StandardTableHelperMarkdown(IEnumerable<DataRow> rows, IEnumerable<ColumnMetadata> definitions, ISampler<DataRow> sampler)
+        public StandardTableHelperMarkdown(IEnumerable<IResultRow> rows, IEnumerable<ColumnMetadata> definitions, ISampler<IResultRow> sampler)
             : base(rows, definitions, sampler) { }
 
-        protected override IEnumerable<ExtendedMetadata> BuildExtendedMetadatas(DataRow row, IEnumerable<ColumnMetadata> metadatas)
-            => ExtendMetadata(row.Table, Metadatas);
+        protected override IEnumerable<ExtendedMetadata> BuildExtendedMetadatas(IResultRow row, IEnumerable<ColumnMetadata> metadatas)
+            => ExtendMetadata(row.Parent, Metadatas);
 
-        protected override IEnumerable<TableCellExtended> RenderRow(DataRow row, IEnumerable<ColumnType> columnTypes)
+        protected override IEnumerable<TableCellExtended> RenderRow(IResultRow row, IEnumerable<ColumnType> columnTypes)
         {
-            for (int i = 0; i < row.Table.Columns.Count; i++)
+            for (int i = 0; i < row.Parent.Columns.Count; i++)
             {
                 var displayValue = RenderCell(row.IsNull(i) ? DBNull.Value : row.ItemArray[i], columnTypes.ElementAt(i));
                 yield return new TableCellExtended() { Text = displayValue };

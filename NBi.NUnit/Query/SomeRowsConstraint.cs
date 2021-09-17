@@ -19,7 +19,7 @@ namespace NBi.NUnit.Query
         { }
 
         protected override bool doMatch(int actual)
-            => filterResultSet.Rows.Count >= 1;
+            => filterResultSet.Rows.Count() >= 1;
 
         public override void WriteDescriptionTo(NUnitCtr.MessageWriter writer)
         {

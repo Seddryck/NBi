@@ -25,10 +25,10 @@ namespace NBi.Core.ResultSet.Alteration.Reshaping
                     x => x != Args.Header.GetColumn(rs)
                     && !Args.GroupBys.Select(y => y.Identifier.GetColumn(rs)).Contains(x)
                 );
-            
 
             var headerValues = Args.EnforcedColumns.Select(x => x.Name).ToList();
-            rs.Rows.Cast<DataRow>().ToList().ForEach(x => headerValues.Add(Args.Header.GetValue(x).ToString()));
+            foreach (var row in rs.Rows)
+                headerValues.Add(Args.Header.GetValue(row).ToString());
             headerValues = headerValues.Distinct().ToList();
 
             using (var dataTable = new DataTableResultSet())
@@ -59,21 +59,25 @@ namespace NBi.Core.ResultSet.Alteration.Reshaping
 
 
                     var alreadyValued = new List<string>();
-                    foreach (DataRow groupRow in group.Value.Rows)
+                    foreach (var groupRow in group.Value.Rows)
                         foreach (var valueColumn in valueColumns)
                         {
-                            var nameValueColumn = namingStrategy.Execute(groupRow.GetValue(Args.Header).ToString(), valueColumn.ColumnName);
+                            var nameValueColumn = namingStrategy.Execute(groupRow[Args.Header].ToString(), valueColumn.ColumnName);
                             if (!alreadyValued.Contains(nameValueColumn))
                             {
                                 alreadyValued.Add(nameValueColumn);
                                 var identifier = new ColumnNameIdentifier(nameValueColumn);
-                                itemArray[dataTable.GetColumn(identifier).Ordinal] = groupRow[valueColumn.ColumnName];
+                                var col = dataTable.GetColumn(identifier);
+                                if (col is null)
+                                    throw new Exception($"Unexpected Column {identifier.Name}");
+                                var colOrdinal = col.Ordinal;
+                                itemArray[colOrdinal] = groupRow[valueColumn.ColumnName];
                             }
                             else
                                 throw new ArgumentException();
                         }
                     newRow.ItemArray = itemArray;
-                    dataTable.Rows.Add(newRow);
+                    dataTable.Add(newRow);
                 }
                 dataTable.AcceptChanges();
                 return dataTable;

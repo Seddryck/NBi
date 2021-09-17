@@ -49,7 +49,7 @@ namespace NBi.Core.ResultSet.Alteration.Summarization
                     foreach (var aggregation in aggregations.Zip(Args.Aggregations, (x, y) => new { Implementation = x, Definition = y }))
                     {
                         var inputs = new List<object>();
-                        foreach (DataRow groupRow in group.Value.Rows)
+                        foreach (var groupRow in group.Value.Rows)
                             if (aggregation.Definition.Identifier == null)
                                 inputs.Add(1);
                             else
@@ -61,7 +61,7 @@ namespace NBi.Core.ResultSet.Alteration.Summarization
 
                     var row = dataTable.NewRow();
                     row.ItemArray = values.ToArray();
-                    dataTable.Rows.Add(row);
+                    dataTable.Add(row);
                 }
                 dataTable.AcceptChanges();
                 return dataTable;
@@ -76,7 +76,7 @@ namespace NBi.Core.ResultSet.Alteration.Summarization
             var column = aggregation.Identifier.GetColumn(rs);
 
             var columnName = Args.Aggregations.Count(x => x.Identifier.GetColumn(rs) == new ColumnNameIdentifier(column.ColumnName).GetColumn(rs)) > 1
-                ? $"{column.ColumnName}_{aggregation.Function.ToString()}"
+                ? $"{column.ColumnName}_{aggregation.Function}"
                 : column.ColumnName;
             return columnName;
         }

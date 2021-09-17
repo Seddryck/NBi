@@ -19,7 +19,7 @@ namespace NBi.Testing.Core.Transformation
         [Test]
         public void Transform_SimpleTranformation_CorrectHandlingOfColumnNames()
         {
-            var resultSet = new NBi.Core.ResultSet.ResultSet();
+            var resultSet = new DataTableResultSet();
             resultSet.Load("aaaa;10");
             resultSet.Columns[0].ColumnName = "MyCol0";
             resultSet.Columns[1].ColumnName = "MyCol1";
@@ -43,7 +43,7 @@ namespace NBi.Testing.Core.Transformation
         [Test]
         public void Transform_SimpleTranformation_Correct()
         {
-            var resultSet = new NBi.Core.ResultSet.ResultSet();
+            var resultSet = new DataTableResultSet();
             resultSet.Load("aaaa;10");
 
             var transformation = Mock.Of<ITransformationInfo>
@@ -57,13 +57,13 @@ namespace NBi.Testing.Core.Transformation
             provider.Add(new ColumnOrdinalIdentifier(0), transformation);
             provider.Transform(resultSet);
 
-            Assert.That(resultSet.Rows[0][0], Is.EqualTo("a"));
+            Assert.That(resultSet[0][0], Is.EqualTo("a"));
         }
 
         [Test]
         public void Transform_NativeTranformationTrim_Correct()
         {
-            var resultSet = new NBi.Core.ResultSet.ResultSet();
+            var resultSet = new DataTableResultSet();
             resultSet.Load(" aaaa  ;10");
 
             var transformation = Mock.Of<ITransformationInfo>
@@ -77,13 +77,13 @@ namespace NBi.Testing.Core.Transformation
             provider.Add(new ColumnOrdinalIdentifier(0), transformation);
             provider.Transform(resultSet);
 
-            Assert.That(resultSet.Rows[0][0], Is.EqualTo("aaaa"));
+            Assert.That(resultSet[0][0], Is.EqualTo("aaaa"));
         }
 
         [Test]
         public void Transform_NativeTranformationFirstCharWithContext_Correct()
         {
-            var resultSet = new NBi.Core.ResultSet.ResultSet();
+            var resultSet = new DataTableResultSet();
             resultSet.Load(new[] { new object[] { "123456789", 6 }, new object[] { "abcdefgh", 2 } });
 
             var transformation = Mock.Of<ITransformationInfo>
@@ -97,14 +97,14 @@ namespace NBi.Testing.Core.Transformation
             provider.Add(new ColumnOrdinalIdentifier(0), transformation);
             provider.Transform(resultSet);
 
-            Assert.That(resultSet.Rows[0][0], Is.EqualTo("123456"));
-            Assert.That(resultSet.Rows[1][0], Is.EqualTo("ab"));
+            Assert.That(resultSet[0][0], Is.EqualTo("123456"));
+            Assert.That(resultSet[1][0], Is.EqualTo("ab"));
         }
 
         [Test]
         public void Transform_NativeTranformationBlankToNull_Correct()
         {
-            var resultSet = new NBi.Core.ResultSet.ResultSet();
+            var resultSet = new DataTableResultSet();
             resultSet.Load("\t;10");
 
             var transformation = Mock.Of<ITransformationInfo>
@@ -118,14 +118,14 @@ namespace NBi.Testing.Core.Transformation
             provider.Add(new ColumnOrdinalIdentifier(0), transformation);
             provider.Transform(resultSet);
 
-            Assert.That(resultSet.Rows[0][0], Is.EqualTo("(null)"));
+            Assert.That(resultSet[0][0], Is.EqualTo("(null)"));
         }
 
 
         [Test]
         public void Transform_NativeTranformationUnknown_Exception()
         {
-            var resultSet = new NBi.Core.ResultSet.ResultSet();
+            var resultSet = new DataTableResultSet();
             resultSet.Load("\t;10");
 
             var transformation = Mock.Of<ITransformationInfo>
@@ -143,7 +143,7 @@ namespace NBi.Testing.Core.Transformation
         [Test]
         public void Transform_TypeSwitch_Correct()
         {
-            var resultSet = new NBi.Core.ResultSet.ResultSet();
+            var resultSet = new DataTableResultSet();
             var obj = new object[] { new DateTime(2016,10,1) };
             resultSet.Load(Enumerable.Repeat(obj,1));
 
@@ -158,7 +158,7 @@ namespace NBi.Testing.Core.Transformation
             provider.Add(new ColumnOrdinalIdentifier(0), transformation);
             provider.Transform(resultSet);
 
-            Assert.That(resultSet.Rows[0][0], Is.EqualTo(202));
+            Assert.That(resultSet[0][0], Is.EqualTo(202));
         }
     }
 }

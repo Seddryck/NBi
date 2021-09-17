@@ -51,7 +51,7 @@ namespace NBi.Core.ResultSet.Equivalence
             return new DataRowKeysComparerByName(Settings);
         }
 
-        protected override DataRow CompareRows(DataRow rx, DataRow ry)
+        protected override IResultRow CompareRows(IResultRow rx, IResultRow ry)
         {
             var isRowOnError = false;
             foreach (var columnName in Settings.GetValueNames())
@@ -132,17 +132,17 @@ namespace NBi.Core.ResultSet.Equivalence
 
         protected void CheckSettingsAndFirstRow(IResultSet dt, SettingsNameResultSet settings)
         {
-            if (dt.Rows.Count == 0)
+            if (dt.RowCount == 0)
                 return;
 
-            var dr = dt.Rows[0];
-            for (int i = 0; i < dr.Table.Columns.Count; i++)
+            var dr = dt[0];
+            for (int i = 0; i < dt.Columns.Count; i++)
             {
-                var columnName = dr.Table.Columns[i].ColumnName;
+                var columnName = dt.Columns[i].ColumnName;
                 CheckSettingsFirstRowCell(
                         settings.GetColumnRole(columnName)
                         , settings.GetColumnType(columnName)
-                        , dr.Table.Columns[columnName]
+                        , dt.Columns[columnName]
                         , dr.IsNull(columnName) ? DBNull.Value : dr[columnName]
                         , new string[]
                             {

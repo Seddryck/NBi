@@ -1,4 +1,5 @@
 ﻿using NBi.Core.Scalar.Presentation;
+using NBi.Extensibility;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -12,11 +13,11 @@ namespace NBi.Framework.FailureMessage.Json
 {
     class CompareTableHelperJson : TableHelperJson
     {
-        protected override void BuildRows(IEnumerable<DataRow> rows, IEnumerable<IPresenter> presenters, JsonWriter writer)
+        protected override void BuildRows(IEnumerable<IResultRow> rows, IEnumerable<IPresenter> presenters, JsonWriter writer)
         {
             writer.WritePropertyName("rows");
             writer.WriteStartArray();
-            foreach (DataRow row in rows)
+            foreach (var row in rows)
             {
                 writer.WriteStartArray();
                 for (int i = 0; i < row.ItemArray.Count(); i++)

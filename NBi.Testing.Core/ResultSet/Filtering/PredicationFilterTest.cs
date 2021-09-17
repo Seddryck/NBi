@@ -27,10 +27,10 @@ namespace NBi.Testing.Core.ResultSet.Filtering
                 new ObjectsResultSetResolverArgs(
                     new object[]
                     {
-                        new List<object>() { "(null)", 10, 100 },
-                        new List<object>() { "(empty)", 2, 75 },
-                        new List<object>() { "(empty)", 20, 75 },
-                        new List<object>() { "C", 5, 50 }
+                        new object[] { "(null)", 10, 100 },
+                        new object[] { "(empty)", 2, 75 },
+                        new object[] { "(empty)", 20, 75 },
+                        new object[] { "C", 5, 50 }
                     }));
 
             var rs = service.Execute();
@@ -59,7 +59,7 @@ namespace NBi.Testing.Core.ResultSet.Filtering
             var filter = factory.Instantiate(CombinationOperator.And, new[] { predication1.Object, predication2.Object }, new Context(null, aliases, Array.Empty<IColumnExpression>()));
             var result = filter.Apply(rs);
 
-            Assert.That(result.Rows, Has.Count.EqualTo(2));
+            Assert.That(result.Rows.Count(), Is.EqualTo(2));
         }
 
 
@@ -70,11 +70,11 @@ namespace NBi.Testing.Core.ResultSet.Filtering
                 new ObjectsResultSetResolverArgs(
                     new object[]
                     {
-                        new List<object>() { null },
-                        new List<object>() { 5 },
-                        new List<object>() { 10 },
-                        new List<object>() { null },
-                        new List<object>() { 20 },
+                        new object[] { null },
+                        new object[] { 5 },
+                        new object[] { 10 },
+                        new object[] { null },
+                        new object[] { 20 },
                     }));
 
             var rs = service.Execute();
@@ -101,7 +101,7 @@ namespace NBi.Testing.Core.ResultSet.Filtering
             var filter = factory.Instantiate(CombinationOperator.And, new[] { predication1.Object, predication2.Object }, new Context(null, aliases, Array.Empty<IColumnExpression>()));
             var result = filter.Apply(rs);
 
-            Assert.That(result.Rows, Has.Count.EqualTo(1));
+            Assert.That(result.Rows.Count(), Is.EqualTo(1));
         }
 
         [Test]
@@ -111,11 +111,11 @@ namespace NBi.Testing.Core.ResultSet.Filtering
                 new ObjectsResultSetResolverArgs(
                     new object[]
                     {
-                        new List<object>() { "(null)", 10, 100 },
-                        new List<object>() { "(empty)", 2, 75 },
-                        new List<object>() { "(empty)", 20, 75 },
-                        new List<object>() { "C", 5, 50 },
-                        new List<object>() { "C", 15, 50 }
+                        new object[] { "(null)", 10, 100 },
+                        new object[] { "(empty)", 2, 75 },
+                        new object[] { "(empty)", 20, 75 },
+                        new object[] { "C", 5, 50 },
+                        new object[] { "C", 15, 50 }
                     }));
 
             var rs = service.Execute();
@@ -142,7 +142,7 @@ namespace NBi.Testing.Core.ResultSet.Filtering
             var filter = factory.Instantiate(CombinationOperator.Or, new[] { predication1.Object, predication2.Object }, new Context(null, aliases, Array.Empty<IColumnExpression>()));
             var result = filter.Apply(rs);
 
-            Assert.That(result.Rows, Has.Count.EqualTo(4));
+            Assert.That(result.Rows.Count(), Is.EqualTo(4));
         }
 
         [Test]
@@ -152,11 +152,11 @@ namespace NBi.Testing.Core.ResultSet.Filtering
                 new ObjectsResultSetResolverArgs(
                     new object[]
                     {
-                        new List<object>() { null },
-                        new List<object>() { 5 },
-                        new List<object>() { 10 },
-                        new List<object>() { null },
-                        new List<object>() { 20 },
+                        new object[] { null },
+                        new object[] { 5 },
+                        new object[] { 10 },
+                        new object[] { null },
+                        new object[] { 20 },
                     }));
 
             var rs = service.Execute();
@@ -182,7 +182,7 @@ namespace NBi.Testing.Core.ResultSet.Filtering
             var filter = factory.Instantiate(CombinationOperator.Or, new[] { predication1.Object, predication2.Object }, new Context(null, aliases, Array.Empty<IColumnExpression>()));
             var result = filter.Apply(rs);
 
-            Assert.That(result.Rows, Has.Count.EqualTo(3));
+            Assert.That(result.Rows.Count(), Is.EqualTo(3));
         }
 
         [Test]
@@ -192,11 +192,11 @@ namespace NBi.Testing.Core.ResultSet.Filtering
                 new ObjectsResultSetResolverArgs(
                     new object[]
                     {
-                        new List<object>() { "(null)", 10, 100 },
-                        new List<object>() { "(empty)", 2, 75 },
-                        new List<object>() { "(empty)", 20, 75 },
-                        new List<object>() { "C", 5, 50 },
-                        new List<object>() { "C", 15, 50 }
+                        new object[] { "(null)", 10, 100 },
+                        new object[] { "(empty)", 2, 75 },
+                        new object[] { "(empty)", 20, 75 },
+                        new object[] { "C", 5, 50 },
+                        new object[] { "C", 15, 50 }
                     }));
 
             var rs = service.Execute();
@@ -222,7 +222,7 @@ namespace NBi.Testing.Core.ResultSet.Filtering
             var filter = factory.Instantiate(CombinationOperator.XOr, new[] { predication1.Object, predication2.Object }, new Context(null, aliases, Array.Empty<IColumnExpression>()));
             var result = filter.Apply(rs);
 
-            Assert.That(result.Rows, Has.Count.EqualTo(3));
+            Assert.That(result.Rows.Count(), Is.EqualTo(3));
         }
 
     }

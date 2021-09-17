@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NBi.Extensibility;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -9,6 +10,6 @@ namespace NBi.Core.ResultSet
     public class RowHelper
     {
         public KeyCollection Keys { get; set; }
-        public DataRow DataRowObj { get; set; }
+        public IResultRow DataRowObj { get; set; }
     }
 }

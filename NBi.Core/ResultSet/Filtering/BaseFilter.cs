@@ -24,20 +24,20 @@ namespace NBi.Core.ResultSet.Filtering
             var table = rs.Clone();
             table.Clear();
 
-            foreach (DataRow row in rs.Rows)
+            foreach (var row in rs.Rows)
             {
                 Context.Switch(row);
                 if (onApply(RowApply(Context)))
                 {
-                    if (table.Rows.Count == 0 && table.Columns.Count != row.Table.Columns.Count)
+                    if (table.RowCount == 0 && table.Columns.Count != rs.Columns.Count)
                     {
-                        foreach (DataColumn column in row.Table.Columns)
+                        foreach (DataColumn column in rs.Columns)
                         {
                             if (!table.Columns.Cast<DataColumn>().Any(x => x.ColumnName == column.ColumnName))
                                 table.Columns.Add(column.ColumnName, typeof(object));
                         }
                     }
-                    table.ImportRow(row);
+                    table.Add(row);
                 }
             }
 

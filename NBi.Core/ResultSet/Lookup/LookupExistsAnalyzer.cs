@@ -43,7 +43,7 @@ namespace NBi.Core.ResultSet.Lookup
             stopWatch.Restart();
             var candidateKeyBuilder = BuildColumnsRetriever(Keys, x => x.CandidateColumn);
             var violations = ExtractLookupViolation(candidate, candidateKeyBuilder, references);
-            Trace.WriteLineIf(NBiTraceSwitch.TraceInfo, $"Analyzing potential lookup violations (based on keys) for the {candidate.Rows.Count} rows from candidate table [{stopWatch.Elapsed:d'.'hh':'mm':'ss'.'fff'ms'}]");
+            Trace.WriteLineIf(NBiTraceSwitch.TraceInfo, $"Analyzing potential lookup violations (based on keys) for the {candidate.RowCount} rows from candidate table [{stopWatch.Elapsed:d'.'hh':'mm':'ss'.'fff'ms'}]");
 
             return violations;
         }
@@ -67,7 +67,7 @@ namespace NBi.Core.ResultSet.Lookup
         {
             var references = new HashSet<KeyCollection>();
 
-            foreach (DataRow row in table.Rows)
+            foreach (var row in table.Rows)
             {
                 var keys = keyRetriever.GetColumns(row);
                 if (!references.Contains(keys))
@@ -84,7 +84,7 @@ namespace NBi.Core.ResultSet.Lookup
             stopWatch.Start();
             var i = 0;
 
-            foreach (DataRow row in table.Rows)
+            foreach (var row in table.Rows)
             {
                 i++;
                 

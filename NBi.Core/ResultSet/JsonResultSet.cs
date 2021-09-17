@@ -13,7 +13,7 @@ namespace NBi.Core.ResultSet
     {
         public IResultSet Build(string json)
         {
-            var dt = new DataTableResultSet((DataTable)JsonConvert.DeserializeObject(json, (typeof(DataTable))));
+            var dt = (DataTable)JsonConvert.DeserializeObject(json, (typeof(DataTable)));
 
             var isArrayConverted = false;
             for (int i = 0; i < dt.Columns.Count; i++)
@@ -68,13 +68,13 @@ namespace NBi.Core.ResultSet
                             {
                                 if (column != columnIter && !columnIter.ExtendedProperties.ContainsKey("split"))
                                 {
-                                    newRow[columnIter] = masterRow[columnIter];
+                                    newRow[columnIter.Ordinal] = masterRow[columnIter.Ordinal];
                                 }
                                 else if (column != columnIter && columnIter.ExtendedProperties.ContainsKey("split"))
                                 {
                                     var columnName = (string)columnIter.ExtendedProperties["split"];
-                                    if (rowTable.Table.Columns.Contains(columnName))
-                                        newRow[columnIter] = rowTable[columnName];
+                                    if (subTable.Columns.Contains(columnName))
+                                        newRow[columnIter.Ordinal] = rowTable[columnName];
                                 }
                             }
                             dt.Rows.InsertAt(newRow, k+l);
@@ -96,7 +96,7 @@ namespace NBi.Core.ResultSet
                 }
             }
 
-            return dt;
+            return new DataTableResultSet(dt);
         }
     }
 }

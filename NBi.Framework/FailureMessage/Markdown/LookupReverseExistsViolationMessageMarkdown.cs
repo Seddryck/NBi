@@ -2,6 +2,7 @@
 using NBi.Core.ResultSet;
 using NBi.Core.ResultSet.Lookup;
 using NBi.Core.ResultSet.Lookup.Violation;
+using NBi.Extensibility;
 using NBi.Framework.FailureMessage.Common;
 using NBi.Framework.FailureMessage.Common.Helper;
 using NBi.Framework.FailureMessage.Markdown.Helper;
@@ -18,7 +19,7 @@ namespace NBi.Framework.FailureMessage.Markdown
     class LookupReverseExistsViolationMessageMarkdown : LookupExistsViolationMessageMarkdown
     {
 
-        public LookupReverseExistsViolationMessageMarkdown(IDictionary<string, ISampler<DataRow>> samplers)
+        public LookupReverseExistsViolationMessageMarkdown(IDictionary<string, ISampler<IResultRow>> samplers)
             : base(samplers) { }
 
     }

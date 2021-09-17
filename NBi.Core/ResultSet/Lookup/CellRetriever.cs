@@ -1,4 +1,5 @@
 ﻿using NBi.Core.Scalar.Casting;
+using NBi.Extensibility;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -16,7 +17,7 @@ namespace NBi.Core.ResultSet.Lookup
             Settings = settings;
         }
 
-        public abstract KeyCollection GetColumns(DataRow row);
+        public abstract KeyCollection GetColumns(IResultRow row);
 
         protected internal object FormatValue(ColumnType columnType, object value)
         {

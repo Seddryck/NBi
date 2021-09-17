@@ -2,6 +2,7 @@
 using NBi.Core.ResultSet;
 using NBi.Core.Scalar.Comparer;
 using NBi.Core.Scalar.Presentation;
+using NBi.Extensibility;
 using NBi.Framework.Markdown.MarkdownLogExtension;
 using System;
 using System.Collections.Generic;
@@ -22,7 +23,7 @@ namespace NBi.Framework.FailureMessage.Markdown.Helper
             this.style = style;
         }
 
-        public MarkdownContainer Build(IEnumerable<DataRow> dataRows)
+        public MarkdownContainer Build(IEnumerable<IResultRow> dataRows)
         {
             var container = new MarkdownContainer();
 
@@ -39,7 +40,7 @@ namespace NBi.Framework.FailureMessage.Markdown.Helper
             return "This result set is empty.".ToMarkdownParagraph();
         }
 
-        protected TableExtended BuildNonEmptyTable(IEnumerable<DataRow> dataRows)
+        protected TableExtended BuildNonEmptyTable(IEnumerable<IResultRow> dataRows)
         {
             var headers = BuildColumns(dataRows, out var columnTypes);
             var rows = BuildRows(dataRows, columnTypes);
@@ -47,13 +48,13 @@ namespace NBi.Framework.FailureMessage.Markdown.Helper
             return new TableExtended() { Columns = headers, Rows = rows };
         }
 
-        protected virtual List<TableRowExtended> BuildRows(IEnumerable<DataRow> dataRows, List<ColumnType> columnTypes)
+        protected virtual List<TableRowExtended> BuildRows(IEnumerable<IResultRow> dataRows, List<ColumnType> columnTypes)
         {
             var rows = new List<TableRowExtended>();
-            foreach (DataRow dataRow in dataRows)
+            foreach (IResultRow dataRow in dataRows)
             {
                 var cells = new List<TableCellExtended>();
-                for (int i = 0; i < dataRow.Table.Columns.Count; i++)
+                for (int i = 0; i < dataRow.Parent.Columns.Count; i++)
                 {
                     var text = GetText(columnTypes, dataRow, i);
                     cells.Add(new TableCellExtended() { Text = text });
@@ -64,7 +65,7 @@ namespace NBi.Framework.FailureMessage.Markdown.Helper
             return rows;
         }
 
-        protected string GetText(List<ColumnType> columnTypes, DataRow dataRow, int i)
+        protected string GetText(List<ColumnType> columnTypes, IResultRow dataRow, int i)
         {
             var factory = new PresenterFactory();
             var formatter = factory.Instantiate(columnTypes[i]);
@@ -77,11 +78,11 @@ namespace NBi.Framework.FailureMessage.Markdown.Helper
             return text;
         }
 
-        private List<TableColumnExtended> BuildColumns(IEnumerable<DataRow> dataRows, out List<ColumnType> columnTypes)
+        private List<TableColumnExtended> BuildColumns(IEnumerable<IResultRow> dataRows, out List<ColumnType> columnTypes)
         {
             var headers = new List<TableColumnExtended>();
             columnTypes = new List<ColumnType>();
-            foreach (DataColumn dataColumn in dataRows.ElementAt(0).Table.Columns)
+            foreach (DataColumn dataColumn in dataRows.ElementAt(0).Parent.Columns)
             {
                 var formatter = new ColumnPropertiesFormatter();
                 var tableColumn = new TableColumnExtended();

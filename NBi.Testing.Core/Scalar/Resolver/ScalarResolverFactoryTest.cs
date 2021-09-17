@@ -43,7 +43,7 @@ namespace NBi.Testing.Core.Scalar.Resolver
         [Test]
         public void Instantiate_ContextArgs_ContextResolver()
         {
-            using (var dt = new DataTable())
+            using (var dt = new DataTableResultSet())
             {
                 var context = Context.None;
                 context.Switch(dt.NewRow());

@@ -20,7 +20,7 @@ namespace NBi.NUnit.Query
             filterFunction = filter.AntiApply;
         }
         protected override bool doMatch(int actual) 
-            => filterResultSet.Rows.Count == 0;
+            => filterResultSet.Rows.Count() == 0;
 
         public override void WriteDescriptionTo(NUnitCtr.MessageWriter writer)
         {
@@ -42,7 +42,7 @@ namespace NBi.NUnit.Query
             if (Configuration.FailureReportProfile.Format == FailureReportFormat.Json)
                 return;
 
-            var value = filterResultSet.Rows.Count;
+            var value = filterResultSet.Rows.Count();
             writer.WriteLine($"{value} row{(value > 1 ? "s" : string.Empty)} do{(value == 1 ? "es" : string.Empty)}n't validate the predicate '{filter.Describe()}'.");
         }
     }

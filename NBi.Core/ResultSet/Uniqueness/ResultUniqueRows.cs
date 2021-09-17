@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NBi.Extensibility;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -12,7 +13,7 @@ namespace NBi.Core.ResultSet.Uniqueness
         public bool AreUnique { get; private set; }
         public int RowCount { get; private set; }
         public IEnumerable<ResultOccurenceUniqueRows> Values { get; private set; }
-        public IEnumerable<DataRow> Rows { get; private set; }
+        public IEnumerable<IResultRow> Rows { get; private set; }
 
 
         public ResultUniqueRows(int count, IEnumerable<KeyValuePair<KeyCollection, int>> values)
@@ -23,7 +24,7 @@ namespace NBi.Core.ResultSet.Uniqueness
 
             if (!AreUnique)
             {
-                var dt = new DataTable();
+                var dt = new DataTableResultSet();
                 dt.Columns.Add(new DataColumn("Occurence", typeof(int)));
                 int i = 0;
                 foreach (var key in Values.ElementAt(0).Keys.Members)
@@ -38,12 +39,12 @@ namespace NBi.Core.ResultSet.Uniqueness
                     i = 0;
                     foreach (var key in value.Keys.Members)
                     {
-                        dr.SetField($"#{i}", key);
+                        dr[$"#{i}"] = key;
                         i++;
                     }
-                    dt.Rows.Add(dr);
+                    dt.Add(dr);
                 }
-                Rows = dt.Rows.Cast<DataRow>();
+                Rows = dt.Rows;
             }
         }
     }

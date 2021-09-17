@@ -1,6 +1,7 @@
 ﻿using NBi.Core.ResultSet;
 using NBi.Core.ResultSet.Lookup;
 using NBi.Core.ResultSet.Lookup.Violation;
+using NBi.Extensibility;
 using NBi.Framework.FailureMessage.Common;
 using NBi.Framework.FailureMessage.Common.Helper;
 using NBi.Framework.FailureMessage.Json.Helper;
@@ -22,7 +23,7 @@ namespace NBi.Framework.FailureMessage.Json
         private readonly StringBuilder sbCandidate = new StringBuilder();
         private readonly StringBuilder sbAnalysis = new StringBuilder();
 
-        public LookupViolationMessageJson(IDictionary<string, ISampler<DataRow>> samplers)
+        public LookupViolationMessageJson(IDictionary<string, ISampler<IResultRow>> samplers)
             : base(samplers)
         {
             reference = new JsonTextWriter(new StringWriter(sbReference));
@@ -31,7 +32,7 @@ namespace NBi.Framework.FailureMessage.Json
         }
 
 
-        protected override void RenderStandardTable(IEnumerable<DataRow> rows, IEnumerable<ColumnMetadata> metadata, ISampler<DataRow> sampler, string title, JsonWriter writer)
+        protected override void RenderStandardTable(IEnumerable<IResultRow> rows, IEnumerable<ColumnMetadata> metadata, ISampler<IResultRow> sampler, string title, JsonWriter writer)
         {
             sampler.Build(rows);
             var tableHelper = new StandardTableHelperJson(rows, metadata, sampler);

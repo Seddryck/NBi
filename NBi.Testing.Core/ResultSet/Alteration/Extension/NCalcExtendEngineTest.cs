@@ -34,9 +34,9 @@ namespace NBi.Testing.Core.ResultSet.Alteration.Extension
             var newRs = extender.Execute(rs);
 
             Assert.That(newRs.Columns.Count, Is.EqualTo(4));
-            Assert.That(newRs.Rows[0][3], Is.EqualTo(2));
-            Assert.That(newRs.Rows[1][3], Is.EqualTo(6));
-            Assert.That(newRs.Rows[2][3], Is.EqualTo(35));
+            Assert.That(newRs[0][3], Is.EqualTo(2));
+            Assert.That(newRs[1][3], Is.EqualTo(6));
+            Assert.That(newRs[2][3], Is.EqualTo(35));
         }
 
         [Test]
@@ -59,9 +59,9 @@ namespace NBi.Testing.Core.ResultSet.Alteration.Extension
 
             Assert.That(newRs.Columns.Count, Is.EqualTo(4));
             Assert.That(newRs.Columns[3].ColumnName, Is.EqualTo("d"));
-            Assert.That(newRs.Rows[0][3], Is.EqualTo(2));
-            Assert.That(newRs.Rows[1][3], Is.EqualTo(6));
-            Assert.That(newRs.Rows[2][3], Is.EqualTo(35));
+            Assert.That(newRs[0][3], Is.EqualTo(2));
+            Assert.That(newRs[1][3], Is.EqualTo(6));
+            Assert.That(newRs[2][3], Is.EqualTo(35));
         }
 
         [Test]
@@ -84,9 +84,9 @@ namespace NBi.Testing.Core.ResultSet.Alteration.Extension
 
             Assert.That(newRs.Columns.Count, Is.EqualTo(4));
             Assert.That(newRs.Columns[3].ColumnName, Is.EqualTo("d"));
-            Assert.That(newRs.Rows[0][3], Is.EqualTo(4));
-            Assert.That(newRs.Rows[1][3], Is.EqualTo(12));
-            Assert.That(newRs.Rows[2][3], Is.EqualTo(70));
+            Assert.That(newRs[0][3], Is.EqualTo(4));
+            Assert.That(newRs[1][3], Is.EqualTo(12));
+            Assert.That(newRs[2][3], Is.EqualTo(70));
         }
 
         [Test]

@@ -17,18 +17,18 @@ namespace NBi.Core.ResultSet
             this.settings = settings;
         }
 
-        protected override bool CheckKeysExist(DataRow dr)
+        protected override bool CheckKeysExist(IResultRow dr)
         {
             var missingColumns = new List<string>();
             foreach (var columnName in settings.GetKeyNames())
             {
-                if (!dr.Table.Columns.Contains(columnName))
+                if (!dr.Parent.Columns.Contains(columnName))
                     return false;
             }
             return true;
         }
         
-        public override KeyCollection GetKeys(DataRow row)
+        public override KeyCollection GetKeys(IResultRow row)
         {
             var keys = new List<object>();
             foreach (var keyName in settings.GetKeyNames())

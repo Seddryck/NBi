@@ -155,7 +155,7 @@ namespace NBi.Testing.Core.ResultSet.Equivalence
             var actual = BuildDataTable<string>(new string[] { "Value0", "Value1", "Value2" });
 
             //Call the method to test
-            var res = comparer.Compare(actual, reference);
+            var res = comparer.Compare(reference, actual);
 
             //Assertion
             Assert.That(res, Is.EqualTo(ResultResultSet.NotMatching));
@@ -167,11 +167,11 @@ namespace NBi.Testing.Core.ResultSet.Equivalence
         {
             //Buiding object used during test
             var comparer = new SingleRowOrdinalEquivaler(new SettingsSingleRowOrdinalResultSet (ColumnType.Text, null, null));
-            var reference = BuildDataTable<string>(new string[] { "Value0", "Value1", "Value2" });
+            var reference = BuildDataTable(new string[] { "Value0", "Value1", "Value2" });
             var actual = BuildDataEmptyTable<string>(3); 
 
             //Call the method to test
-            var res = comparer.Compare(actual, reference);
+            var res = comparer.Compare(reference, actual);
 
             //Assertion
             Assert.That(res, Is.EqualTo(ResultResultSet.NotMatching));

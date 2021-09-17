@@ -23,7 +23,7 @@ namespace NBi.Core.ResultSet.Alteration.Extension
             var factory = ServiceLocator.GetScalarResolverFactory();
             var resolver = factory.Instantiate(args);
 
-            foreach (DataRow row in rs.Rows)
+            foreach (var row in rs.Rows)
             {
                 Context.Switch(row);
                 row[ordinal] = resolver.Execute();

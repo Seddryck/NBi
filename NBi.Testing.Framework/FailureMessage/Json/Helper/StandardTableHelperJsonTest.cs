@@ -11,6 +11,7 @@ using NBi.Framework.FailureMessage.Json.Helper;
 using System.IO;
 using Newtonsoft.Json;
 using NBi.Framework.Sampling;
+using NBi.Extensibility;
 
 namespace NBi.Testing.Framework.FailureMessage.Json.Helper
 {
@@ -25,12 +26,13 @@ namespace NBi.Testing.Framework.FailureMessage.Json.Helper
             dataTable.Columns.Add(new DataColumn("Boolean value"));
             dataTable.LoadDataRow(new object[] { "Alpha", 10, true }, false);
             dataTable.LoadDataRow(new object[] { "Beta", 20, false }, false);
+            var rs = new DataTableResultSet(dataTable);
 
             var idDefinition = new ColumnMetadata() { Identifier = new ColumnIdentifierFactory().Instantiate("Id"), Role = ColumnRole.Key };
 
-            var sampler = new FullSampler<DataRow>();
-            sampler.Build(dataTable.Rows.Cast<DataRow>());
-            var msg = new StandardTableHelperJson(dataTable.Rows.Cast<DataRow>()
+            var sampler = new FullSampler<IResultRow>();
+            sampler.Build(rs.Rows);
+            var msg = new StandardTableHelperJson(rs.Rows
                 , new ColumnMetadata[] { idDefinition }
                 , sampler);
             var sb = new StringBuilder();
@@ -56,14 +58,15 @@ namespace NBi.Testing.Framework.FailureMessage.Json.Helper
             dataTable.Columns.Add(new DataColumn("Boolean value"));
             dataTable.LoadDataRow(new object[] { "Alpha", 10, true }, false);
             dataTable.LoadDataRow(new object[] { "Beta", 20, false }, false);
+            var rs = new DataTableResultSet(dataTable);
 
             var idDefinition = new ColumnMetadata() { Identifier = new ColumnIdentifierFactory().Instantiate("#0"), Role = ColumnRole.Key };
             var numericDefinition = new ColumnMetadata() { Identifier = new ColumnIdentifierFactory().Instantiate("#1"), Role = ColumnRole.Value, Type = ColumnType.Numeric };
             var booleanDefinition = new ColumnMetadata() { Identifier = new ColumnIdentifierFactory().Instantiate("#2"), Role = ColumnRole.Value, Type = ColumnType.Boolean };
 
-            var sampler = new FullSampler<DataRow>();
-            sampler.Build(dataTable.Rows.Cast<DataRow>());
-            var msg = new StandardTableHelperJson(dataTable.Rows.Cast<DataRow>()
+            var sampler = new FullSampler<IResultRow>();
+            sampler.Build(rs.Rows);
+            var msg = new StandardTableHelperJson(rs.Rows
                 , new ColumnMetadata[] { idDefinition, numericDefinition, booleanDefinition }
                 , sampler);
             var sb = new StringBuilder();

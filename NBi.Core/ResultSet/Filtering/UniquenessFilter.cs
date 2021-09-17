@@ -18,10 +18,10 @@ namespace NBi.Core.ResultSet.Filtering
             public string Describe() => "Unique rows";
 
             public IResultSet Apply(IResultSet rs)
-                => rs.Rows.Count == 1 ? rs : rs.Clone();
+                => rs.RowCount == 1 ? rs : rs.Clone();
             
             public IResultSet AntiApply(IResultSet rs)
-                => rs.Rows.Count != 1 ? rs : rs.Clone();
+                => rs.RowCount != 1 ? rs : rs.Clone();
         }
     }
 }

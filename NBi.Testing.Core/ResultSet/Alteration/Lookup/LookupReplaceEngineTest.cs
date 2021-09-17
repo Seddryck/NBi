@@ -49,9 +49,9 @@ namespace NBi.Testing.Core.ResultSet.Alteration.Lookup
             var result = engine.Execute(candidate);
             Assert.That(result.Columns.Count, Is.EqualTo(3));
             Assert.That(result.Rows.Count, Is.EqualTo(4));
-            Assert.That(result.Rows.Cast<DataRow>().Select(x => x[1]).Distinct(), Does.Contain("alpha"));
-            Assert.That(result.Rows.Cast<DataRow>().Select(x => x[1]).Distinct(), Does.Contain("beta"));
-            Assert.That(result.Rows.Cast<DataRow>().Select(x => x[1] as string).Where(x => x != "alpha" && x != "beta"), Is.Empty); 
+            Assert.That(result.Rows.Select(x => x[1]).Distinct(), Does.Contain("alpha"));
+            Assert.That(result.Rows.Select(x => x[1]).Distinct(), Does.Contain("beta"));
+            Assert.That(result.Rows.Select(x => x[1] as string).Where(x => x != "alpha" && x != "beta"), Is.Empty); 
         }
 
         [Test]
@@ -86,9 +86,9 @@ namespace NBi.Testing.Core.ResultSet.Alteration.Lookup
             var result = engine.Execute(candidate);
             Assert.That(result.Columns.Count, Is.EqualTo(3));
             Assert.That(result.Rows.Count, Is.EqualTo(4));
-            Assert.That(result.Rows.Cast<DataRow>().Select(x => x[1]).Distinct(), Does.Contain(10.2));
-            Assert.That(result.Rows.Cast<DataRow>().Select(x => x[1]).Distinct(), Does.Contain(21.1));
-            Assert.That(result.Rows.Cast<DataRow>().Select(x => Convert.ToDecimal(x[1])).Where(x => x != 10.2m && x != 21.1m), Is.Empty);
+            Assert.That(result.Rows.Select(x => x[1]).Distinct(), Does.Contain(10.2));
+            Assert.That(result.Rows.Select(x => x[1]).Distinct(), Does.Contain(21.1));
+            Assert.That(result.Rows.Select(x => Convert.ToDecimal(x[1])).Where(x => x != 10.2m && x != 21.1m), Is.Empty);
         }
 
         [Test]
@@ -157,9 +157,9 @@ namespace NBi.Testing.Core.ResultSet.Alteration.Lookup
 
             var result = engine.Execute(candidate);
             Assert.That(result.Rows.Count, Is.EqualTo(4));
-            Assert.That(result.Rows.Cast<DataRow>().Select(x => x[1]).Distinct(), Does.Contain("alpha"));
-            Assert.That(result.Rows.Cast<DataRow>().Select(x => x[1]).Distinct(), Does.Contain("beta"));
-            var otherValues = result.Rows.Cast<DataRow>().Select(x => x[1] as string).Where(x => x != "alpha" && x != "beta");
+            Assert.That(result.Rows.Select(x => x[1]).Distinct(), Does.Contain("alpha"));
+            Assert.That(result.Rows.Select(x => x[1]).Distinct(), Does.Contain("beta"));
+            var otherValues = result.Rows.Select(x => x[1] as string).Where(x => x != "alpha" && x != "beta");
             Assert.That(otherValues, Is.Not.Empty);
             Assert.That(otherValues, Does.Contain("omega"));
         }
@@ -196,9 +196,9 @@ namespace NBi.Testing.Core.ResultSet.Alteration.Lookup
 
             var result = engine.Execute(candidate);
             Assert.That(result.Rows.Count, Is.EqualTo(4));
-            Assert.That(result.Rows.Cast<DataRow>().Select(x => x[1]).Distinct(), Does.Contain("alpha"));
-            Assert.That(result.Rows.Cast<DataRow>().Select(x => x[1]).Distinct(), Does.Contain("beta"));
-            var otherValues = result.Rows.Cast<DataRow>().Select(x => x[1] as string).Where(x => x != "alpha" && x != "beta");
+            Assert.That(result.Rows.Select(x => x[1]).Distinct(), Does.Contain("alpha"));
+            Assert.That(result.Rows.Select(x => x[1]).Distinct(), Does.Contain("beta"));
+            var otherValues = result.Rows.Select(x => x[1] as string).Where(x => x != "alpha" && x != "beta");
             Assert.That(otherValues, Is.Not.Empty);
             Assert.That(otherValues, Does.Contain("C"));
         }
@@ -235,9 +235,9 @@ namespace NBi.Testing.Core.ResultSet.Alteration.Lookup
 
             var result = engine.Execute(candidate);
             Assert.That(result.Rows.Count, Is.EqualTo(3));
-            Assert.That(result.Rows.Cast<DataRow>().Select(x => x[1]).Distinct(), Does.Contain("alpha"));
-            Assert.That(result.Rows.Cast<DataRow>().Select(x => x[1]).Distinct(), Does.Contain("beta"));
-            var otherValues = result.Rows.Cast<DataRow>().Select(x => x[1] as string).Where(x => x != "alpha" && x != "beta");
+            Assert.That(result.Rows.Select(x => x[1]).Distinct(), Does.Contain("alpha"));
+            Assert.That(result.Rows.Select(x => x[1]).Distinct(), Does.Contain("beta"));
+            var otherValues = result.Rows.Select(x => x[1] as string).Where(x => x != "alpha" && x != "beta");
             Assert.That(otherValues, Is.Empty);
         }
     }

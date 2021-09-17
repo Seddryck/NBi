@@ -10,7 +10,7 @@ namespace NBi.Core.ResultSet.Alteration.Lookup.Strategies.Missing
 {
     public class FailureMissingStrategy : IMissingStrategy
     {
-        public void Execute(DataRow row, DataColumn originalColumn, DataColumn newColumn)
+        public void Execute(IResultRow row, DataColumn originalColumn, DataColumn newColumn)
             => throw new NBiException($"The value '{row[originalColumn.Ordinal]}' is not available on the reference table.");
     }
 }

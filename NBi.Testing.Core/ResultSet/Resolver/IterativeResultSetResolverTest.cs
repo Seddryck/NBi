@@ -46,8 +46,8 @@ namespace NBi.Testing.Core.ResultSet.Resolver
             var result = resolver.Execute();
 
             Assert.That(result.Rows.Count, Is.EqualTo(2));
-            Assert.That(result.Rows[0][0], Is.EqualTo(0));
-            Assert.That(result.Rows[1][0], Is.EqualTo(1));
+            Assert.That(result[0][0], Is.EqualTo(0));
+            Assert.That(result[1][0], Is.EqualTo(1));
         }
 
         [Test]
@@ -68,9 +68,9 @@ namespace NBi.Testing.Core.ResultSet.Resolver
             var result = resolver.Execute();
 
             Assert.That(result.Rows.Count, Is.EqualTo(3));
-            Assert.That(result.Rows[0][0], Is.EqualTo(0));
-            Assert.That(result.Rows[1][0], Is.EqualTo(1));
-            Assert.That(result.Rows[2][0], Is.EqualTo(2));
+            Assert.That(result[0][0], Is.EqualTo(0));
+            Assert.That(result[1][0], Is.EqualTo(1));
+            Assert.That(result[2][0], Is.EqualTo(2));
         }
 
         [Test]
@@ -89,7 +89,7 @@ namespace NBi.Testing.Core.ResultSet.Resolver
             var result = resolver.Execute();
 
             Assert.That(result.Rows.Count, Is.EqualTo(1));
-            Assert.That(result.Rows[0][0], Is.EqualTo(0));
+            Assert.That(result[0][0], Is.EqualTo(0));
         }
 
         [Test]

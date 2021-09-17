@@ -1,5 +1,6 @@
 ﻿using NBi.Core.Configuration;
 using NBi.Core.Configuration.FailureReport;
+using NBi.Extensibility;
 using NBi.Framework.FailureMessage.Json;
 using NBi.Framework.FailureMessage.Markdown;
 using NBi.Framework.Sampling;
@@ -16,7 +17,7 @@ namespace NBi.Framework.FailureMessage
     {
         public IDataRowsMessageFormatter Instantiate(IFailureReportProfile profile, Core.ResultSet.EngineStyle style)
         {
-            var factory = new SamplersFactory<DataRow>();
+            var factory = new SamplersFactory<IResultRow>();
             var samplers = factory.Instantiate(profile);
 
             switch (profile.Format)

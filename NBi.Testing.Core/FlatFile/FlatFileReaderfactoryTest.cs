@@ -15,28 +15,28 @@ namespace NBi.Testing.Core.FlatFile
     public class FlatFileReaderFactoryTest
     {
         #region Fake
-        public class FakeFlatFileReader : IFlatFileReader
+        internal class FakeFlatFileReader : IFlatFileReader
         {
             public event ProgressStatusHandler ProgressStatusChanged { add { } remove { } }
 
             public DataTable ToDataTable(string filename) => throw new NotImplementedException();
         }
 
-        public class FakeFlatFileReader2 : IFlatFileReader
+        internal class FakeFlatFileReader2 : IFlatFileReader
         {
             public event ProgressStatusHandler ProgressStatusChanged { add { } remove { } }
 
             public DataTable ToDataTable(string filename) => throw new NotImplementedException();
         }
 
-        public class FakeFlatFileReader3 : IFlatFileReader
+        internal class FakeFlatFileReader3 : IFlatFileReader
         {
             public event ProgressStatusHandler ProgressStatusChanged { add { } remove { } }
 
             public DataTable ToDataTable(string filename) => throw new NotImplementedException();
         }
 
-        public class FakeFlatFileReaderWrong : IFlatFileReader
+        internal class FakeFlatFileReaderWrong : IFlatFileReader
         {
             public FakeFlatFileReaderWrong(string whatsup)
                 : base() { }

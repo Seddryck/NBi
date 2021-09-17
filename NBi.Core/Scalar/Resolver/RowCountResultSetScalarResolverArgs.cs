@@ -11,7 +11,7 @@ namespace NBi.Core.Scalar.Resolver
     public class RowCountResultSetScalarResolverArgs : ProjectionResultSetScalarResolverArgs
     {
         public RowCountResultSetScalarResolverArgs(ResultSetResolverArgs resultSetArgs)
-            : base((IResultSet rs) => rs.Rows.Count, resultSetArgs)
+            : base((IResultSet rs) => rs.RowCount, resultSetArgs)
         {
         }
     }

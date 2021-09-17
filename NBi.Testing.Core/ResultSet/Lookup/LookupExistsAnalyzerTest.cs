@@ -1,5 +1,6 @@
 ﻿using NBi.Core.ResultSet;
 using NBi.Core.ResultSet.Lookup;
+using NBi.Extensibility;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
@@ -32,7 +33,7 @@ namespace NBi.Testing.Core.ResultSet.Lookup
             return new DataTableResultSet(dt);
         }
 
-        private DataTableResultSet BuildDataTable(object[] keys, object[] secondKeys, object[] values)
+        private IResultSet BuildDataTable(object[] keys, object[] secondKeys, object[] values)
         {
             var ds = new DataSet();
             var dt = ds.Tables.Add("myTable");

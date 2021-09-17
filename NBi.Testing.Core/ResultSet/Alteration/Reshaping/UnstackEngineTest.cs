@@ -47,10 +47,10 @@ namespace NBi.Testing.Core.ResultSet.Alteration.Reshaping
             Assert.That(result.Columns.Cast<DataColumn>().Any(x => x.ColumnName == "A"));
             Assert.That(result.Columns.Cast<DataColumn>().Any(x => x.ColumnName == "B"));
             Assert.That(result.Rows.Count, Is.EqualTo(2));
-            Assert.That(Convert.ToInt32(result.Rows.Cast<DataRow>().Single(x => x["keyColumn"] as string == "alpha")["A"]) == 1);
-            Assert.That(Convert.ToInt32(result.Rows.Cast<DataRow>().Single(x => x["keyColumn"] as string == "alpha")["B"]) == 2);
-            Assert.That(Convert.ToInt32(result.Rows.Cast<DataRow>().Single(x => x["keyColumn"] as string == "beta")["A"]) == 3);
-            Assert.That(Convert.ToInt32(result.Rows.Cast<DataRow>().Single(x => x["keyColumn"] as string == "beta")["B"]) == 4);
+            Assert.That(Convert.ToInt32(result.Rows.Single(x => x["keyColumn"] as string == "alpha")["A"]) == 1);
+            Assert.That(Convert.ToInt32(result.Rows.Single(x => x["keyColumn"] as string == "alpha")["B"]) == 2);
+            Assert.That(Convert.ToInt32(result.Rows.Single(x => x["keyColumn"] as string == "beta")["A"]) == 3);
+            Assert.That(Convert.ToInt32(result.Rows.Single(x => x["keyColumn"] as string == "beta")["B"]) == 4);
         }
 
         [Test]
@@ -87,14 +87,14 @@ namespace NBi.Testing.Core.ResultSet.Alteration.Reshaping
             Assert.That(result.Columns.Cast<DataColumn>().Any(x => x.ColumnName == "A_value2Column"));
             Assert.That(result.Columns.Cast<DataColumn>().Any(x => x.ColumnName == "B_value2Column"));
             Assert.That(result.Rows.Count, Is.EqualTo(2));
-            Assert.That(Convert.ToInt32(result.Rows.Cast<DataRow>().Single(x => x["keyColumn"] as string == "alpha")["A_value1Column"]) == 1);
-            Assert.That(Convert.ToInt32(result.Rows.Cast<DataRow>().Single(x => x["keyColumn"] as string == "alpha")["B_value1Column"]) == 2);
-            Assert.That(Convert.ToInt32(result.Rows.Cast<DataRow>().Single(x => x["keyColumn"] as string == "beta")["A_value1Column"]) == 3);
-            Assert.That(Convert.ToInt32(result.Rows.Cast<DataRow>().Single(x => x["keyColumn"] as string == "beta")["B_value1Column"]) == 4);
-            Assert.That(Convert.ToInt32(result.Rows.Cast<DataRow>().Single(x => x["keyColumn"] as string == "alpha")["A_value2Column"]) == -1);
-            Assert.That(Convert.ToInt32(result.Rows.Cast<DataRow>().Single(x => x["keyColumn"] as string == "alpha")["B_value2Column"]) == -2);
-            Assert.That(Convert.ToInt32(result.Rows.Cast<DataRow>().Single(x => x["keyColumn"] as string == "beta")["A_value2Column"]) == -3);
-            Assert.That(Convert.ToInt32(result.Rows.Cast<DataRow>().Single(x => x["keyColumn"] as string == "beta")["B_value2Column"]) == -4);
+            Assert.That(Convert.ToInt32(result.Rows.Single(x => x["keyColumn"] as string == "alpha")["A_value1Column"]) == 1);
+            Assert.That(Convert.ToInt32(result.Rows.Single(x => x["keyColumn"] as string == "alpha")["B_value1Column"]) == 2);
+            Assert.That(Convert.ToInt32(result.Rows.Single(x => x["keyColumn"] as string == "beta")["A_value1Column"]) == 3);
+            Assert.That(Convert.ToInt32(result.Rows.Single(x => x["keyColumn"] as string == "beta")["B_value1Column"]) == 4);
+            Assert.That(Convert.ToInt32(result.Rows.Single(x => x["keyColumn"] as string == "alpha")["A_value2Column"]) == -1);
+            Assert.That(Convert.ToInt32(result.Rows.Single(x => x["keyColumn"] as string == "alpha")["B_value2Column"]) == -2);
+            Assert.That(Convert.ToInt32(result.Rows.Single(x => x["keyColumn"] as string == "beta")["A_value2Column"]) == -3);
+            Assert.That(Convert.ToInt32(result.Rows.Single(x => x["keyColumn"] as string == "beta")["B_value2Column"]) == -4);
         }
 
         [Test]
@@ -134,12 +134,12 @@ namespace NBi.Testing.Core.ResultSet.Alteration.Reshaping
             Assert.That(result.Columns.Cast<DataColumn>().Any(x => x.ColumnName == "A"));
             Assert.That(result.Columns.Cast<DataColumn>().Any(x => x.ColumnName == "B"));
             Assert.That(result.Rows.Count, Is.EqualTo(3));
-            Assert.That(Convert.ToInt32(result.Rows.Cast<DataRow>().Single(x => x["key1Column"] as string == "alpha" && x["key2Column"] as string == "one")["A"]) == 1);
-            Assert.That(Convert.ToInt32(result.Rows.Cast<DataRow>().Single(x => x["key1Column"] as string == "alpha" && x["key2Column"] as string == "one")["B"]) == 2);
-            Assert.That(Convert.ToInt32(result.Rows.Cast<DataRow>().Single(x => x["key1Column"] as string == "beta" && x["key2Column"] as string == "one")["A"]) == 3);
-            Assert.That(Convert.ToInt32(result.Rows.Cast<DataRow>().Single(x => x["key1Column"] as string == "beta" && x["key2Column"] as string == "one")["B"]) == 4);
-            Assert.That(Convert.ToInt32(result.Rows.Cast<DataRow>().Single(x => x["key1Column"] as string == "beta" && x["key2Column"] as string == "two")["B"]) == -4);
-            Assert.That(result.Rows.Cast<DataRow>().Single(x => x["key1Column"] as string == "beta" && x["key2Column"] as string == "two")["A"] == DBNull.Value);
+            Assert.That(Convert.ToInt32(result.Rows.Single(x => x["key1Column"] as string == "alpha" && x["key2Column"] as string == "one")["A"]) == 1);
+            Assert.That(Convert.ToInt32(result.Rows.Single(x => x["key1Column"] as string == "alpha" && x["key2Column"] as string == "one")["B"]) == 2);
+            Assert.That(Convert.ToInt32(result.Rows.Single(x => x["key1Column"] as string == "beta" && x["key2Column"] as string == "one")["A"]) == 3);
+            Assert.That(Convert.ToInt32(result.Rows.Single(x => x["key1Column"] as string == "beta" && x["key2Column"] as string == "one")["B"]) == 4);
+            Assert.That(Convert.ToInt32(result.Rows.Single(x => x["key1Column"] as string == "beta" && x["key2Column"] as string == "two")["B"]) == -4);
+            Assert.That(result.Rows.Single(x => x["key1Column"] as string == "beta" && x["key2Column"] as string == "two")["A"] == DBNull.Value);
         }
 
         [Test]
@@ -175,8 +175,8 @@ namespace NBi.Testing.Core.ResultSet.Alteration.Reshaping
             Assert.That(result.Columns.Cast<DataColumn>().Any(x => x.ColumnName == "B"));
             Assert.That(result.Columns.Cast<DataColumn>().Any(x => x.ColumnName == "C"));
             Assert.That(result.Rows.Count, Is.EqualTo(2));
-            Assert.That(result.Rows.Cast<DataRow>().Single(x => x["keyColumn"] as string == "alpha")["C"] == DBNull.Value);
-            Assert.That(result.Rows.Cast<DataRow>().Single(x => x["keyColumn"] as string == "alpha")["C"] == DBNull.Value);
+            Assert.That(result.Rows.Single(x => x["keyColumn"] as string == "alpha")["C"] == DBNull.Value);
+            Assert.That(result.Rows.Single(x => x["keyColumn"] as string == "alpha")["C"] == DBNull.Value);
         }
 
         [Test]

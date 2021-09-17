@@ -6,6 +6,7 @@ using NBi.Core.ResultSet;
 using System.Data;
 using NBi.Core.Calculation;
 using NBi.Core.ResultSet.Filtering;
+using System.Linq;
 
 namespace NBi.NUnit.Query
 {
@@ -17,7 +18,7 @@ namespace NBi.NUnit.Query
 
         protected override bool doMatch(int actual)
         {
-            this.actual = Convert.ToDecimal(actual) / actualResultSet.Rows.Count * 100;
+            this.actual = Convert.ToDecimal(actual) / actualResultSet.Rows.Count() * 100;
             ctr = differed.Resolve();
             return ctr.Matches(this.actual);
         }

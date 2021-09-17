@@ -24,6 +24,7 @@ namespace NBi.Testing.Framework.FailureMessage.Markdown.Helper
             candidateTable.Columns.Add(new DataColumn("Boolean value"));
             candidateTable.LoadDataRow(new object[] { "Alpha", 10, true }, false);
             candidateTable.LoadDataRow(new object[] { "Beta", 20, false }, false);
+            var rsCandidate = new DataTableResultSet(candidateTable);
 
             var foreignKeyDefinition = new ColumnMetadata() { Identifier = new ColumnIdentifierFactory().Instantiate("ForeignKey"), Role = ColumnRole.Key };
             var numericDefinition = new ColumnMetadata() { Identifier = new ColumnIdentifierFactory().Instantiate("Numeric value"), Role = ColumnRole.Value };
@@ -38,7 +39,7 @@ namespace NBi.Testing.Framework.FailureMessage.Markdown.Helper
                     { candidateTable.Columns[1] , new LookupMatchesViolationData(false, 15) },
                 },
             };
-            var association = new LookupMatchesViolationComposite(candidateTable.Rows[0], records);
+            var association = new LookupMatchesViolationComposite(rsCandidate.Rows.ElementAt(0), records);
 
             var sampler = new FullSampler<LookupMatchesViolationComposite>();
             sampler.Build(new[] { association });
@@ -71,6 +72,7 @@ namespace NBi.Testing.Framework.FailureMessage.Markdown.Helper
             candidateTable.Columns.Add(new DataColumn("Boolean value"));
             candidateTable.LoadDataRow(new object[] { 1, "Alpha", 10, true }, false);
             candidateTable.LoadDataRow(new object[] { 2, "Beta", 20, false }, false);
+            var rsCandidate = new DataTableResultSet(candidateTable);
 
             var foreignKeyDefinition = new ColumnMetadata() { Identifier = new ColumnIdentifierFactory().Instantiate("ForeignKey"), Role = ColumnRole.Key };
             var numericDefinition = new ColumnMetadata() { Identifier = new ColumnIdentifierFactory().Instantiate("Numeric value"), Role = ColumnRole.Value };
@@ -84,7 +86,7 @@ namespace NBi.Testing.Framework.FailureMessage.Markdown.Helper
                     { candidateTable.Columns[3] , new LookupMatchesViolationData(false, false) },
                 },
             };
-            var association = new LookupMatchesViolationComposite(candidateTable.Rows[0], records);
+            var association = new LookupMatchesViolationComposite(rsCandidate.Rows.ElementAt(0), records);
 
             var sampler = new FullSampler<LookupMatchesViolationComposite>();
             sampler.Build(new[] { association });
@@ -111,6 +113,7 @@ namespace NBi.Testing.Framework.FailureMessage.Markdown.Helper
             candidateTable.Columns.Add(new DataColumn("Boolean value"));
             candidateTable.LoadDataRow(new object[] { 1, "Alpha", 10, true }, false);
             candidateTable.LoadDataRow(new object[] { 2, "Beta", 20, false }, false);
+            var rsCandidate = new DataTableResultSet(candidateTable);
 
             var foreignKeyDefinition = new ColumnMetadata() { Identifier = new ColumnIdentifierFactory().Instantiate("ForeignKey"), Role = ColumnRole.Key };
             var numericDefinition = new ColumnMetadata() { Identifier = new ColumnIdentifierFactory().Instantiate("Numeric value"), Role = ColumnRole.Value, Type = ColumnType.Numeric };
@@ -123,7 +126,7 @@ namespace NBi.Testing.Framework.FailureMessage.Markdown.Helper
                     { candidateTable.Columns[3] , new LookupMatchesViolationData(false, false) },
                 },
             };
-            var association = new LookupMatchesViolationComposite(candidateTable.Rows[0], records);
+            var association = new LookupMatchesViolationComposite(rsCandidate.Rows.ElementAt(0), records);
 
             var sampler = new FullSampler<LookupMatchesViolationComposite>();
             sampler.Build(new[] { association });
@@ -150,6 +153,7 @@ namespace NBi.Testing.Framework.FailureMessage.Markdown.Helper
             candidateTable.Columns.Add(new DataColumn("Boolean value"));
             candidateTable.LoadDataRow(new object[] { 1, "Alpha", 10, true }, false);
             candidateTable.LoadDataRow(new object[] { 2, "Beta", 20, false }, false);
+            var rsCandidate = new DataTableResultSet(candidateTable);
 
             var foreignKeyDefinition = new ColumnMetadata() { Identifier = new ColumnIdentifierFactory().Instantiate("ForeignKey"), Role = ColumnRole.Key };
             var numericDefinition = new ColumnMetadata() { Identifier = new ColumnIdentifierFactory().Instantiate("Numeric value"), Role = ColumnRole.Value, Type = ColumnType.Numeric };
@@ -173,7 +177,7 @@ namespace NBi.Testing.Framework.FailureMessage.Markdown.Helper
                     { candidateTable.Columns[3] , new LookupMatchesViolationData(true, true) },
                 },
             };
-            var association = new LookupMatchesViolationComposite(candidateTable.Rows[0], records);
+            var association = new LookupMatchesViolationComposite(rsCandidate.Rows.ElementAt(0), records);
 
             var sampler = new FullSampler<LookupMatchesViolationComposite>();
             sampler.Build(new[] { association });
@@ -204,6 +208,7 @@ namespace NBi.Testing.Framework.FailureMessage.Markdown.Helper
             candidateTable.Columns.Add(new DataColumn("Boolean value"));
             candidateTable.LoadDataRow(new object[] { 1, "Alpha", 10, true }, false);
             candidateTable.LoadDataRow(new object[] { 2, "Alpha", 20, false }, false);
+            var rsCandidate = new DataTableResultSet(candidateTable);
 
             var foreignKeyDefinition = new ColumnMetadata() { Identifier = new ColumnIdentifierFactory().Instantiate("ForeignKey"), Role = ColumnRole.Key };
             var numericDefinition = new ColumnMetadata() { Identifier = new ColumnIdentifierFactory().Instantiate("Numeric value"), Role = ColumnRole.Value, Type = ColumnType.Numeric };
@@ -227,8 +232,8 @@ namespace NBi.Testing.Framework.FailureMessage.Markdown.Helper
                     { candidateTable.Columns[3] , new LookupMatchesViolationData(true, true) },
                 },
             };
-            var firstAssociation = new LookupMatchesViolationComposite(candidateTable.Rows[0], records);
-            var secondAssociation = new LookupMatchesViolationComposite(candidateTable.Rows[1], records);
+            var firstAssociation = new LookupMatchesViolationComposite(rsCandidate.Rows.ElementAt(0), records);
+            var secondAssociation = new LookupMatchesViolationComposite(rsCandidate.Rows.ElementAt(1), records);
 
             var sampler = new FullSampler<LookupMatchesViolationComposite>();
             sampler.Build(new[] { firstAssociation, secondAssociation });

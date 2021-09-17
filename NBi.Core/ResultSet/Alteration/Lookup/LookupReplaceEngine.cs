@@ -34,7 +34,7 @@ namespace NBi.Core.ResultSet.Alteration.Lookup
 
             var originalColumn = candidate.GetColumn(Args.Mapping.CandidateColumn);
             var newColumn = candidate.Columns.Add($"tmp_{originalColumn.ColumnName}", typeof(object));
-            foreach (DataRow row in candidate.Rows)
+            foreach (var row in candidate.Rows)
             {
                 var candidateKeys = candidateKeyBuilder.GetColumns(row);
                 if (index.Keys.Contains(candidateKeys))
@@ -49,7 +49,7 @@ namespace NBi.Core.ResultSet.Alteration.Lookup
             candidate.Columns.Remove(originalColumn);
             newColumn.ColumnName = columnName;
 
-            Trace.WriteLineIf(NBiTraceSwitch.TraceInfo, $"Performed lookup replacement (based on keys) for the {candidate.Rows.Count} rows from candidate table [{stopWatch.Elapsed:d'.'hh':'mm':'ss'.'fff'ms'}]");
+            Trace.WriteLineIf(NBiTraceSwitch.TraceInfo, $"Performed lookup replacement (based on keys) for the {candidate.RowCount} rows from candidate table [{stopWatch.Elapsed:d'.'hh':'mm':'ss'.'fff'ms'}]");
             candidate.AcceptChanges();
             return candidate;
         }
@@ -72,7 +72,7 @@ namespace NBi.Core.ResultSet.Alteration.Lookup
         {
             var references = new Dictionary<KeyCollection, ICollection<KeyCollection>>();
 
-            foreach (DataRow row in rs.Rows)
+            foreach (var row in rs.Rows)
             {
                 var keys = keyRetriever.GetColumns(row);
                 var values = valuesRetriever.GetColumns(row);

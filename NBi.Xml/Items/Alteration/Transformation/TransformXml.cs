@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using NBi.Core.ResultSet;
 using System.Xml.Serialization;
 using System.ComponentModel;
+using NBi.Extensibility;
 
 namespace NBi.Xml.Items.Alteration.Transform
 {

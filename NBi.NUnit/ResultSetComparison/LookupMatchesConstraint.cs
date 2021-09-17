@@ -3,6 +3,7 @@ using NBi.Core.Configuration.FailureReport;
 using NBi.Core.ResultSet;
 using NBi.Core.ResultSet.Lookup;
 using NBi.Core.Scalar.Comparer;
+using NBi.Extensibility;
 using NBi.Framework.FailureMessage;
 using NUnit.Framework;
 using System;
@@ -34,7 +35,7 @@ namespace NBi.NUnit.ResultSetComparison
         {
             var factory = new LookupMatchesViolationsMessageFormatterFactory();
             var msg = factory.Instantiate(Configuration.FailureReportProfile);
-            msg.Generate(rsReference.Rows.Cast<DataRow>(), rsCandidate.Rows.Cast<DataRow>(), violations, keyMappings, valueMappings);
+            msg.Generate(rsReference.Rows, rsCandidate.Rows, violations, keyMappings, valueMappings);
             return msg;
         }
 

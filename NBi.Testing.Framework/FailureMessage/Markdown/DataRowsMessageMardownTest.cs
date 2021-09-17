@@ -2,6 +2,7 @@
 using NBi.Core.Configuration;
 using NBi.Core.Configuration.FailureReport;
 using NBi.Core.ResultSet;
+using NBi.Extensibility;
 using NBi.Framework;
 using NBi.Framework.FailureMessage;
 using NBi.Framework.FailureMessage.Markdown;
@@ -19,7 +20,7 @@ namespace NBi.Testing.Framework.FailureMessage.Markdown
     public class DataRowsMessageMardownTest
     {
         #region Helpers
-        private IEnumerable<DataRow> GetDataRows(int count)
+        private IEnumerable<IResultRow> GetDataRows(int count)
         {
             var dataTable = new DataTable() { TableName = "MyTable" };
             dataTable.Columns.Add(new DataColumn("Id"));
@@ -27,8 +28,9 @@ namespace NBi.Testing.Framework.FailureMessage.Markdown
             dataTable.Columns.Add(new DataColumn("Boolean value"));
             for (int i = 0; i < count; i++)
                 dataTable.LoadDataRow(new object[] { "Alpha", i, true }, false);
+            var rs = new DataTableResultSet(dataTable);
 
-            return dataTable.Rows.Cast<DataRow>();
+            return rs.Rows;
         }
         #endregion
 
@@ -41,10 +43,11 @@ namespace NBi.Testing.Framework.FailureMessage.Markdown
             dataTable.Columns.Add(new DataColumn("Boolean value"));
             for (int i = 0; i < 20; i++)
                 dataTable.LoadDataRow(new object[] { "Alpha", i, true }, false);
+            var rs = new DataTableResultSet(dataTable);
 
-            var samplers = new SamplersFactory<DataRow>().Instantiate(FailureReportProfile.Default);
+            var samplers = new SamplersFactory<IResultRow>().Instantiate(FailureReportProfile.Default);
             var msg = new DataRowsMessageMarkdown(EngineStyle.ByIndex, samplers);
-            msg.BuildComparaison(dataTable.Rows.Cast<DataRow>(), null, null);
+            msg.BuildComparaison(rs.Rows, null, null);
             var value = msg.RenderExpected();
             var lines = value.Replace("\n", string.Empty).Split('\r');
 
@@ -60,10 +63,11 @@ namespace NBi.Testing.Framework.FailureMessage.Markdown
             dataTable.Columns.Add(new DataColumn("Boolean value"));
             for (int i = 0; i < 1; i++)
                 dataTable.LoadDataRow(new object[] { "Alpha", i, true }, false);
+            var rs = new DataTableResultSet(dataTable);
 
-            var samplers = new SamplersFactory<DataRow>().Instantiate(FailureReportProfile.Default);
+            var samplers = new SamplersFactory<IResultRow>().Instantiate(FailureReportProfile.Default);
             var msg = new DataRowsMessageMarkdown(EngineStyle.ByIndex, samplers);
-            msg.BuildComparaison(dataTable.Rows.Cast<DataRow>(), null, null);
+            msg.BuildComparaison(rs.Rows, null, null);
             var value = msg.RenderExpected();
             var lines = value.Replace("\n", string.Empty).Split('\r');
 
@@ -74,7 +78,6 @@ namespace NBi.Testing.Framework.FailureMessage.Markdown
         [Test]
         public void RenderExpected_MoreThanMaxRowsCount_ReturnSampleRowsCountAndHeadersAndSeparation()
         {
-            var dataSet = new DataSet();
             var dataTable = new DataTable() { TableName = "MyTable" };
             dataTable.Columns.Add(new DataColumn("Id"));
             dataTable.Columns.Add(new DataColumn("Numeric value"));
@@ -82,10 +85,11 @@ namespace NBi.Testing.Framework.FailureMessage.Markdown
             dataTable.Columns["Id"].ExtendedProperties.Add("NBi::Role", ColumnRole.Key);
             for (int i = 0; i < 20; i++)
                 dataTable.LoadDataRow(new object[] { "Alpha", i, true }, false);
+            var rs = new DataTableResultSet(dataTable);
 
-            var samplers = new SamplersFactory<DataRow>().Instantiate(FailureReportProfile.Default);
+            var samplers = new SamplersFactory<IResultRow>().Instantiate(FailureReportProfile.Default);
             var msg = new DataRowsMessageMarkdown(EngineStyle.ByIndex, samplers);
-            msg.BuildComparaison(dataTable.Rows.Cast<DataRow>(), null, null);
+            msg.BuildComparaison(rs.Rows, null, null);
             var value = msg.RenderExpected();
             var lines = value.Replace("\n", string.Empty).Split('\r');
 
@@ -95,17 +99,17 @@ namespace NBi.Testing.Framework.FailureMessage.Markdown
         [Test]
         public void RenderExpected_MoreThanMaxRowsCount_ReturnSampleRowsCountAndHeaderAndSeparation()
         {
-            var dataSet = new DataSet();
             var dataTable = new DataTable() { TableName = "MyTable" };
             dataTable.Columns.Add(new DataColumn("Id"));
             dataTable.Columns.Add(new DataColumn("Numeric value"));
             dataTable.Columns.Add(new DataColumn("Boolean value"));
             for (int i = 0; i < 20; i++)
                 dataTable.LoadDataRow(new object[] { "Alpha", i, true }, false);
+            var rs = new DataTableResultSet(dataTable);
 
-            var samplers = new SamplersFactory<DataRow>().Instantiate(FailureReportProfile.Default);
+            var samplers = new SamplersFactory<IResultRow>().Instantiate(FailureReportProfile.Default);
             var msg = new DataRowsMessageMarkdown(EngineStyle.ByIndex, samplers);
-            msg.BuildComparaison(dataTable.Rows.Cast<DataRow>(), null, null);
+            msg.BuildComparaison(rs.Rows, null, null);
             var value = msg.RenderExpected();
             var lines = value.Replace("\n", string.Empty).Split('\r');
 
@@ -117,7 +121,6 @@ namespace NBi.Testing.Framework.FailureMessage.Markdown
         {
             var rowCount = 12;
 
-            var dataSet = new DataSet();
             var dataTable = new DataTable() { TableName = "MyTable" };
             dataTable.Columns.Add(new DataColumn("Id"));
             dataTable.Columns.Add(new DataColumn("Numeric value"));
@@ -125,10 +128,11 @@ namespace NBi.Testing.Framework.FailureMessage.Markdown
             dataTable.Columns["Id"].ExtendedProperties.Add("NBi::Role", ColumnRole.Key);
             for (int i = 0; i < rowCount; i++)
                 dataTable.LoadDataRow(new object[] { "Alpha", i, true }, false);
+            var rs = new DataTableResultSet(dataTable);
 
-            var samplers = new SamplersFactory<DataRow>().Instantiate(FailureReportProfile.Default);
+            var samplers = new SamplersFactory<IResultRow>().Instantiate(FailureReportProfile.Default);
             var msg = new DataRowsMessageMarkdown(EngineStyle.ByIndex, samplers);
-            msg.BuildComparaison(dataTable.Rows.Cast<DataRow>(), null, null);
+            msg.BuildComparaison(rs.Rows, null, null);
             var value = msg.RenderExpected();
             var lines = value.Replace("\n", string.Empty).Split('\r');
             
@@ -142,7 +146,6 @@ namespace NBi.Testing.Framework.FailureMessage.Markdown
             var threshold = rowCount - 20;
             var max = threshold / 2;
 
-            var dataSet = new DataSet();
             var dataTable = new DataTable() { TableName = "MyTable" };
             dataTable.Columns.Add(new DataColumn("Id"));
             dataTable.Columns.Add(new DataColumn("Numeric value"));
@@ -150,6 +153,7 @@ namespace NBi.Testing.Framework.FailureMessage.Markdown
             dataTable.Columns["Id"].ExtendedProperties.Add("NBi::Role", ColumnRole.Key);
             for (int i = 0; i < rowCount; i++)
                 dataTable.LoadDataRow(new object[] { "Alpha", i, true }, false);
+            var rs = new DataTableResultSet(dataTable);
 
             var profile = Mock.Of<IFailureReportProfile>(p =>
                 p.MaxSampleItem == max
@@ -157,9 +161,9 @@ namespace NBi.Testing.Framework.FailureMessage.Markdown
                 && p.ExpectedSet == FailureReportSetType.Sample
             );
 
-            var samplers = new SamplersFactory<DataRow>().Instantiate(profile);
+            var samplers = new SamplersFactory<IResultRow>().Instantiate(profile);
             var msg = new DataRowsMessageMarkdown(EngineStyle.ByIndex, samplers);
-            msg.BuildComparaison(dataTable.Rows.Cast<DataRow>(), null, null);
+            msg.BuildComparaison(rs.Rows, null, null);
             var value = msg.RenderExpected();
             var lines = value.Replace("\n", string.Empty).Split('\r');
             
@@ -173,7 +177,6 @@ namespace NBi.Testing.Framework.FailureMessage.Markdown
             var threshold = rowCount - 20;
             var max = threshold / 2;
 
-            var dataSet = new DataSet();
             var dataTable = new DataTable() { TableName = "MyTable" };
             dataTable.Columns.Add(new DataColumn("Id"));
             dataTable.Columns.Add(new DataColumn("Numeric value"));
@@ -181,6 +184,7 @@ namespace NBi.Testing.Framework.FailureMessage.Markdown
             dataTable.Columns["Id"].ExtendedProperties.Add("NBi::Role", ColumnRole.Key);
             for (int i = 0; i < rowCount; i++)
                 dataTable.LoadDataRow(new object[] { "Alpha", i, true }, false);
+            var rs = new DataTableResultSet(dataTable);
 
             var profile = Mock.Of<IFailureReportProfile>(p =>
                 p.MaxSampleItem == max
@@ -188,9 +192,9 @@ namespace NBi.Testing.Framework.FailureMessage.Markdown
                 && p.ExpectedSet == FailureReportSetType.Full
             );
 
-            var samplers = new SamplersFactory<DataRow>().Instantiate(profile);
+            var samplers = new SamplersFactory<IResultRow>().Instantiate(profile);
             var msg = new DataRowsMessageMarkdown(EngineStyle.ByIndex, samplers);
-            msg.BuildComparaison(dataTable.Rows.Cast<DataRow>(), null, null);
+            msg.BuildComparaison(rs.Rows, null, null);
             var value = msg.RenderExpected();
             var lines = value.Replace("\n", string.Empty).Split('\r');
             
@@ -204,13 +208,13 @@ namespace NBi.Testing.Framework.FailureMessage.Markdown
             var threshold = rowCount - 20;
             var max = threshold / 2;
 
-            var dataSet = new DataSet();
             var dataTable = new DataTable() { TableName = "MyTable" };
             dataTable.Columns.Add(new DataColumn("Id"));
             dataTable.Columns.Add(new DataColumn("Numeric value"));
             dataTable.Columns.Add(new DataColumn("Boolean value"));
             for (int i = 0; i < rowCount; i++)
                 dataTable.LoadDataRow(new object[] { "Alpha", i, true }, false);
+            var rs = new DataTableResultSet(dataTable);
 
             var profile = Mock.Of<IFailureReportProfile>(p =>
                 p.MaxSampleItem == max
@@ -218,9 +222,9 @@ namespace NBi.Testing.Framework.FailureMessage.Markdown
                 && p.ExpectedSet == FailureReportSetType.None
             );
 
-            var samplers = new SamplersFactory<DataRow>().Instantiate(profile);
+            var samplers = new SamplersFactory<IResultRow>().Instantiate(profile);
             var msg = new DataRowsMessageMarkdown(EngineStyle.ByIndex, samplers);
-            msg.BuildComparaison(dataTable.Rows.Cast<DataRow>(), null, null);
+            msg.BuildComparaison(rs.Rows, null, null);
             var value = msg.RenderExpected();
             var lines = value.Replace("\n", string.Empty).Split('\r');
 
@@ -238,10 +242,11 @@ namespace NBi.Testing.Framework.FailureMessage.Markdown
             dataTable.Columns.Add(new DataColumn("Boolean value"));
             for (int i = 0; i < 22; i++)
                 dataTable.LoadDataRow(new object[] { "Alpha", i, true }, false);
+            var rs = new DataTableResultSet(dataTable);
 
-            var samplers = new SamplersFactory<DataRow>().Instantiate(FailureReportProfile.Default);
+            var samplers = new SamplersFactory<IResultRow>().Instantiate(FailureReportProfile.Default);
             var msg = new DataRowsMessageMarkdown(EngineStyle.ByIndex, samplers);
-            msg.BuildComparaison(dataTable.Rows.Cast<DataRow>(), null, null);
+            msg.BuildComparaison(rs.Rows, null, null);
             var value = msg.RenderExpected();
             var lines = value.Replace("\n", string.Empty).Split('\r');
             //Not exactly the last line but the previous due to paragraph rendering.
@@ -261,10 +266,11 @@ namespace NBi.Testing.Framework.FailureMessage.Markdown
             dataTable.Columns.Add(new DataColumn("Boolean value"));
             for (int i = 0; i < rowCount; i++)
                 dataTable.LoadDataRow(new object[] { "Alpha", i, true }, false);
+            var rs = new DataTableResultSet(dataTable);
 
-            var samplers = new SamplersFactory<DataRow>().Instantiate(FailureReportProfile.Default);
+            var samplers = new SamplersFactory<IResultRow>().Instantiate(FailureReportProfile.Default);
             var msg = new DataRowsMessageMarkdown(EngineStyle.ByIndex, samplers);
-            msg.BuildComparaison(dataTable.Rows.Cast<DataRow>(), null, null);
+            msg.BuildComparaison(rs.Rows, null, null);
             var value = msg.RenderExpected();
 
             Assert.That(value, Does.Not.Contain("rows have been skipped for display purpose."));
@@ -291,7 +297,7 @@ namespace NBi.Testing.Framework.FailureMessage.Markdown
                     , GetDataRows( nonMatchingValueRowCount)
                 );
 
-            var samplers = new SamplersFactory<DataRow>().Instantiate(FailureReportProfile.Default);
+            var samplers = new SamplersFactory<IResultRow>().Instantiate(FailureReportProfile.Default);
             var msg = new DataRowsMessageMarkdown(EngineStyle.ByIndex, samplers);
             msg.BuildComparaison(null, null, compared);
             var value = msg.RenderAnalysis();
@@ -320,7 +326,7 @@ namespace NBi.Testing.Framework.FailureMessage.Markdown
                     , GetDataRows(nonMatchingValueRowCount)
                 );
 
-            var samplers = new SamplersFactory<DataRow>().Instantiate(FailureReportProfile.Default);
+            var samplers = new SamplersFactory<IResultRow>().Instantiate(FailureReportProfile.Default);
             var msg = new DataRowsMessageMarkdown(EngineStyle.ByIndex, samplers);
             msg.BuildComparaison(null, null, compared);
             var value = msg.RenderAnalysis();

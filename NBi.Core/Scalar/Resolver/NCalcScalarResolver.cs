@@ -37,24 +37,24 @@ namespace NBi.Core.Scalar.Resolver
             return (T)Convert.ChangeType(rawValue, typeof(T));
         }
 
-        protected object GetValueFromRow(DataRow row, IColumnIdentifier identifier)
+        protected object GetValueFromRow(IResultRow row, IColumnIdentifier identifier)
         {
             if (identifier is ColumnOrdinalIdentifier)
             {
                 var ordinal = (identifier as ColumnOrdinalIdentifier).Ordinal;
-                if (ordinal <= row.Table.Columns.Count)
+                if (ordinal <= row.Parent.Columns.Count)
                     return row.ItemArray[ordinal];
                 else
-                    throw new ArgumentException($"The variable of the predicate is identified as '{identifier.Label}' but the column in position '{ordinal}' doesn't exist. The dataset only contains {row.Table.Columns.Count} columns.");
+                    throw new ArgumentException($"The variable of the predicate is identified as '{identifier.Label}' but the column in position '{ordinal}' doesn't exist. The dataset only contains {row.Parent.Columns.Count} columns.");
             }
 
             var name = (identifier as ColumnNameIdentifier).Name;
 
-            var column = row.Table.Columns.Cast<DataColumn>().SingleOrDefault(x => string.Equals(x.ColumnName, name, StringComparison.OrdinalIgnoreCase));
+            var column = row.Parent.Columns.Cast<DataColumn>().SingleOrDefault(x => string.Equals(x.ColumnName, name, StringComparison.OrdinalIgnoreCase));
             if (column != null)
                 return row[column.ColumnName];
 
-            var existingNames = row.Table.Columns.Cast<DataColumn>().Select(x => x.ColumnName);
+            var existingNames = row.Parent.Columns.Cast<DataColumn>().Select(x => x.ColumnName);
             
             throw new ArgumentException($"The value '{name}' is not recognized as a column position, a column name, a column alias or an expression. Possible arguments are: '{string.Join("', '", existingNames.ToArray())}'");
         }

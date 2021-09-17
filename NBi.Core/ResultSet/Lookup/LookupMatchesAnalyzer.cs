@@ -41,7 +41,7 @@ namespace NBi.Core.ResultSet.Lookup
             var candidateKeyBuilder = BuildColumnsRetriever(Keys, x => x.CandidateColumn);
             var candidateValueRetriever = BuildColumnsRetriever(Values, x => x.CandidateColumn);
             var violations = ExtractLookupViolation(candidate, candidateKeyBuilder, candidateValueRetriever, references, Tolerances);
-            Trace.WriteLineIf(NBiTraceSwitch.TraceInfo, $"Analyzing potential lookup violations (based on keys and values) for the {candidate.Rows.Count} rows from candidate table [{stopWatch.Elapsed:d'.'hh':'mm':'ss'.'fff'ms'}]");
+            Trace.WriteLineIf(NBiTraceSwitch.TraceInfo, $"Analyzing potential lookup violations (based on keys and values) for the {candidate.RowCount} rows from candidate table [{stopWatch.Elapsed:d'.'hh':'mm':'ss'.'fff'ms'}]");
 
             return violations;
         }
@@ -50,7 +50,7 @@ namespace NBi.Core.ResultSet.Lookup
         {
             var references = new Dictionary<KeyCollection, ICollection<KeyCollection>>();
 
-            foreach (DataRow row in table.Rows)
+            foreach (var row in table.Rows)
             {
                 var keys = keyRetriever.GetColumns(row);
                 var values = valuesRetriever.GetColumns(row);
@@ -67,7 +67,7 @@ namespace NBi.Core.ResultSet.Lookup
         {
             var violations = new LookupMatchesViolationCollection(Keys, Values);
 
-            foreach (DataRow row in table.Rows)
+            foreach (var row in table.Rows)
             {
                 var keys = keyRetriever.GetColumns(row);
                 if (!references.ContainsKey(keys))
@@ -81,7 +81,7 @@ namespace NBi.Core.ResultSet.Lookup
                         var tuples = valueFields.Members.Zip(Values,
                             (x, c) => new {
                                 ReferenceValue = x,
-                                CandidateValue = row.GetValue(c.CandidateColumn),
+                                CandidateValue = row[c.CandidateColumn],
                                 c.Type,
                                 Column = table.GetColumn(c.CandidateColumn),
                                 Tolerance = tolerances.ContainsKey(c.CandidateColumn) ? tolerances[c.CandidateColumn] : null

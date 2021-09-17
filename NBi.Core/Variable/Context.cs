@@ -1,4 +1,5 @@
 ﻿using NBi.Core.Evaluate;
+using NBi.Extensibility;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -15,7 +16,7 @@ namespace NBi.Core.Variable
         public IEnumerable<IColumnExpression> Expressions { get; } = new List<IColumnExpression>();
 
         public IDictionary<string, IVariable> Variables { get; } = new Dictionary<string, IVariable>();
-        public DataRow CurrentRow { get; private set; }
+        public IResultRow CurrentRow { get; private set; }
 
         public static Context None { get; } = new Context();
 
@@ -27,7 +28,7 @@ namespace NBi.Core.Variable
         public Context(IDictionary<string, IVariable> variables, IEnumerable<IColumnAlias> aliases, IEnumerable<IColumnExpression> expressions)
             : this(variables) => (Aliases, Expressions) = (aliases, expressions);
 
-        public void Switch(DataRow currentRow)
+        public void Switch(IResultRow currentRow)
             => CurrentRow = currentRow;
     }
 }

@@ -48,19 +48,19 @@ namespace NBi.Core.ResultSet.Alteration.Duplication
                 }
             }
 
-            foreach (DataRow row in rs.Rows)
+            foreach (IResultRow row in rs.Rows)
             {
                 Context.Switch(row);
                 var isDuplicated = Predication.Execute(Context);
                 var times = Times.Execute();
 
-                result.ImportRow(row);
+                var importedRow = result.Add(row);
                 foreach (var output in Outputs)
                 {
                     if (output.Strategy.IsApplicable(true))
                     {
                         var columnName = result.GetColumn(output.Identifier).ColumnName;
-                        result.Rows[result.Rows.Count - 1][columnName] = output.Strategy.Execute(true, isDuplicated, times, 0);
+                        importedRow[columnName] = output.Strategy.Execute(true, isDuplicated, times, 0);
                     }
                 }
 
@@ -68,20 +68,21 @@ namespace NBi.Core.ResultSet.Alteration.Duplication
                 {
                     for (int i = 0; i < times; i++)
                     {
-                        result.ImportRow(row);
-                        Context.Switch(row);
+                        Context.Switch(importedRow);
+                        var duplicatedRow = result.Add(importedRow);
                         foreach (var output in Outputs)
                         {
                             if (output.Strategy.IsApplicable(false))
                             {
                                 var columnName = result.GetColumn(output.Identifier).ColumnName;
-                                result.Rows[result.Rows.Count - 1][columnName] = output.Strategy.Execute(false, true, times, i);
-                                Context.Switch(result.Rows[result.Rows.Count - 1]);
+                                duplicatedRow[columnName] = output.Strategy.Execute(false, true, times, i);
+                                Context.Switch(duplicatedRow);
                             }
                         }
                     }
                 }
             }
+            result.AcceptChanges();
             return result;
         }
     }

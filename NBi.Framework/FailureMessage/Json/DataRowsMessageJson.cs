@@ -8,12 +8,13 @@ using System.IO;
 using Newtonsoft.Json;
 using NBi.Framework.Sampling;
 using NBi.Core.ResultSet.Uniqueness;
+using NBi.Extensibility;
 
 namespace NBi.Framework.FailureMessage.Json
 {
     class DataRowsMessageJson : IDataRowsMessageFormatter
     {
-        private readonly IDictionary<string, ISampler<DataRow>> samplers;
+        private readonly IDictionary<string, ISampler<IResultRow>> samplers;
         private readonly EngineStyle style;
 
         private string expected;
@@ -21,15 +22,15 @@ namespace NBi.Framework.FailureMessage.Json
         private string analysis;
 
 
-        public DataRowsMessageJson(EngineStyle style, IDictionary<string, ISampler<DataRow>> samplers)
+        public DataRowsMessageJson(EngineStyle style, IDictionary<string, ISampler<IResultRow>> samplers)
         {
             this.style = style;
             this.samplers = samplers;
         }
 
-        public void BuildComparaison(IEnumerable<DataRow> expectedRows, IEnumerable<DataRow> actualRows, ResultResultSet compareResult)
+        public void BuildComparaison(IEnumerable<IResultRow> expectedRows, IEnumerable<IResultRow> actualRows, ResultResultSet compareResult)
         {
-            compareResult = compareResult ?? ResultResultSet.Build(new List<DataRow>(), new List<DataRow>(), new List<DataRow>(), new List<DataRow>(), new List<DataRow>());
+            compareResult = compareResult ?? ResultResultSet.Build(new List<IResultRow>(), new List<IResultRow>(), new List<IResultRow>(), new List<IResultRow>(), new List<IResultRow>());
 
             expected = BuildTable(expectedRows, samplers["expected"]);
             actual = BuildTable(actualRows, samplers["actual"]);
@@ -37,39 +38,39 @@ namespace NBi.Framework.FailureMessage.Json
             analysis = BuildMultipleTables(
                 new[]
                 {
-                    new Tuple<string, IEnumerable<DataRow>, TableHelperJson>("unexpected", compareResult.Unexpected, new TableHelperJson()),
-                    new Tuple<string, IEnumerable<DataRow>, TableHelperJson>("missing", compareResult.Missing, new TableHelperJson()),
-                    new Tuple<string, IEnumerable<DataRow>, TableHelperJson>("duplicated", compareResult.Duplicated, new TableHelperJson()),
-                    new Tuple<string, IEnumerable<DataRow>, TableHelperJson>("non-matching", compareResult.NonMatchingValue.Rows, new CompareTableHelperJson()),
+                    new Tuple<string, IEnumerable<IResultRow>, TableHelperJson>("unexpected", compareResult.Unexpected, new TableHelperJson()),
+                    new Tuple<string, IEnumerable<IResultRow>, TableHelperJson>("missing", compareResult.Missing, new TableHelperJson()),
+                    new Tuple<string, IEnumerable<IResultRow>, TableHelperJson>("duplicated", compareResult.Duplicated, new TableHelperJson()),
+                    new Tuple<string, IEnumerable<IResultRow>, TableHelperJson>("non-matching", compareResult.NonMatchingValue.Rows, new CompareTableHelperJson()),
                 }, samplers["analysis"]
              );
         }
 
-        public void BuildDuplication(IEnumerable<DataRow> actualRows, ResultUniqueRows result)
+        public void BuildDuplication(IEnumerable<IResultRow> actualRows, ResultUniqueRows result)
         {
             actual = BuildTable(actualRows, samplers["actual"]);
             analysis = BuildMultipleTables(
                 new[]
                 {
-                    new Tuple<string, IEnumerable<DataRow>, TableHelperJson>("not-unique", result.Rows, new TableHelperJson())
+                    new Tuple<string, IEnumerable<IResultRow>, TableHelperJson>("not-unique", result.Rows, new TableHelperJson())
                 }, samplers["analysis"]);
         }
 
-        public void BuildFilter(IEnumerable<DataRow> actualRows, IEnumerable<DataRow> filteredRows)
+        public void BuildFilter(IEnumerable<IResultRow> actualRows, IEnumerable<IResultRow> filteredRows)
         {
             actual = BuildTable(actualRows, samplers["actual"]);
             analysis = BuildMultipleTables(
                 new[]
                 {
-                    new Tuple<string, IEnumerable<DataRow>, TableHelperJson>("filtered", filteredRows, new TableHelperJson())
+                    new Tuple<string, IEnumerable<IResultRow>, TableHelperJson>("filtered", filteredRows, new TableHelperJson())
                 }, samplers["analysis"]);
         }
-        public void BuildCount(IEnumerable<DataRow> actualRows)
+        public void BuildCount(IEnumerable<IResultRow> actualRows)
         {
             actual = BuildTable(actualRows, samplers["actual"]);
         }
 
-        private string BuildTable(IEnumerable<DataRow> rows, ISampler<DataRow> sampler)
+        private string BuildTable(IEnumerable<IResultRow> rows, ISampler<IResultRow> sampler)
         {
             var sb = new StringBuilder();
             var sw = new StringWriter(sb);
@@ -81,7 +82,7 @@ namespace NBi.Framework.FailureMessage.Json
             return sb.ToString();
         }
 
-        private string BuildMultipleTables(IEnumerable<Tuple<string, IEnumerable<DataRow>, TableHelperJson>> tableInfos, ISampler<DataRow> sampler)
+        private string BuildMultipleTables(IEnumerable<Tuple<string, IEnumerable<IResultRow>, TableHelperJson>> tableInfos, ISampler<IResultRow> sampler)
         {
             var sb = new StringBuilder();
             var sw = new StringWriter(sb);
@@ -99,12 +100,12 @@ namespace NBi.Framework.FailureMessage.Json
             return sb.ToString();
         }
 
-        private void BuildTable(IEnumerable<DataRow> rows, ISampler<DataRow> sampler, JsonWriter writer)
+        private void BuildTable(IEnumerable<IResultRow> rows, ISampler<IResultRow> sampler, JsonWriter writer)
         {
             BuildTable(rows, sampler, new TableHelperJson(), writer);
         }
 
-        private void BuildTable(IEnumerable<DataRow> rows, ISampler<DataRow> sampler, TableHelperJson tableHelper, JsonWriter writer)
+        private void BuildTable(IEnumerable<IResultRow> rows, ISampler<IResultRow> sampler, TableHelperJson tableHelper, JsonWriter writer)
         {
             tableHelper.Execute(rows, sampler, writer);
         }

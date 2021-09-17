@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NBi.Extensibility;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data;
@@ -20,7 +21,7 @@ namespace NBi.Core.ResultSet.Lookup.Violation
             ValueMappings = valueMappings;
         }
 
-        protected virtual LookupViolationInformation Register(RowViolationState state, NBiRs.KeyCollection key, DataRow candidateRow)
+        protected virtual LookupViolationInformation Register(RowViolationState state, NBiRs.KeyCollection key, IResultRow candidateRow)
         {
             if (ContainsKey(key))
             {
@@ -42,7 +43,7 @@ namespace NBi.Core.ResultSet.Lookup.Violation
             }
         }
 
-        //public IEnumerable<DataRow> GetRows(RowViolationState state)
+        //public IEnumerable<IResultRow> GetRows(RowViolationState state)
         //{
         //    if (Count > 0 && !isBuilt)
         //    {
@@ -66,7 +67,7 @@ namespace NBi.Core.ResultSet.Lookup.Violation
     {
         public LookupExistsViolationCollection(ColumnMappingCollection keyMappings)
         : base(keyMappings, null) { }
-        public LookupViolationInformation Register(NBiRs.KeyCollection key, DataRow candidateRow)
+        public LookupViolationInformation Register(NBiRs.KeyCollection key, IResultRow candidateRow)
             => Register(RowViolationState.Unexpected, key, candidateRow);
     }
 
@@ -75,7 +76,7 @@ namespace NBi.Core.ResultSet.Lookup.Violation
         public LookupMatchesViolationCollection(ColumnMappingCollection keyMappings, ColumnMappingCollection valueMappings)
         : base(keyMappings, valueMappings) { }
 
-        public LookupViolationInformation Register(NBiRs.KeyCollection key, DataRow candidateRow)
+        public LookupViolationInformation Register(NBiRs.KeyCollection key, IResultRow candidateRow)
             => Register(RowViolationState.Unexpected, key, candidateRow);
 
         public LookupViolationInformation Register(NBiRs.KeyCollection key, LookupMatchesViolationComposite composite)
@@ -102,7 +103,7 @@ namespace NBi.Core.ResultSet.Lookup.Violation
     {
         public ReverseLookupExistsViolationCollection(ColumnMappingCollection keyMappings)
         : base(keyMappings, null) { }
-        public LookupViolationInformation Register(NBiRs.KeyCollection key, DataRow candidateRow)
+        public LookupViolationInformation Register(NBiRs.KeyCollection key, IResultRow candidateRow)
             => Register(RowViolationState.Missing, key, candidateRow);
     }
 }

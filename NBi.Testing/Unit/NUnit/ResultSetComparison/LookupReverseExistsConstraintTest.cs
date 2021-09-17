@@ -3,6 +3,7 @@ using NBi.Core.Evaluate;
 using NBi.Core.ResultSet;
 using NBi.Core.ResultSet.Lookup;
 using NBi.Core.ResultSet.Lookup.Violation;
+using NBi.Extensibility;
 using NBi.NUnit.ResultSetComparison;
 using NUnit.Framework;
 using System;
@@ -19,14 +20,14 @@ namespace NBi.Testing.Unit.NUnit.ResultSetComparison
         [Test]
         public void Matches_ResultSetService_CallToExecuteOnce()
         {
-            var candidate = new ResultSet();
+            var candidate = new DataTableResultSet();
             candidate.Load("a;b;1");
             var sutMock = new Mock<IResultSetService>();
             sutMock.Setup(s => s.Execute())
                 .Returns(candidate);
             var candidateService = sutMock.Object;
 
-            var assert = new ResultSet();
+            var assert = new DataTableResultSet();
             assert.Load("a;b");
             var assertMock = new Mock<IResultSetService>();
             assertMock.Setup(s => s.Execute())
@@ -53,14 +54,14 @@ namespace NBi.Testing.Unit.NUnit.ResultSetComparison
         [Test]
         public void Matches_LookupAnalyzer_CallToExecuteOnce()
         {
-            var sut = new ResultSet();
+            var sut = new DataTableResultSet();
             sut.Load("a;b;1");
             var sutMock = new Mock<IResultSetService>();
             sutMock.Setup(s => s.Execute())
                 .Returns(sut);
             var sutService = sutMock.Object;
 
-            var assert = new ResultSet();
+            var assert = new DataTableResultSet();
             assert.Load("a;b");
             var assertMock = new Mock<IResultSetService>();
             assertMock.Setup(s => s.Execute())
@@ -75,7 +76,7 @@ namespace NBi.Testing.Unit.NUnit.ResultSetComparison
 
             var lookupExists = new LookupReverseExistsConstraint(assertService);
             var analyzer = new Mock<LookupExistsAnalyzer>(mappings);
-            analyzer.Setup(x => x.Execute(It.IsAny<ResultSet>(), It.IsAny<ResultSet>())).Returns(new LookupExistsViolationCollection(null));
+            analyzer.Setup(x => x.Execute(It.IsAny<IResultSet>(), It.IsAny<IResultSet>())).Returns(new LookupExistsViolationCollection(null));
             lookupExists.Engine = analyzer.Object;
 
             //Method under test

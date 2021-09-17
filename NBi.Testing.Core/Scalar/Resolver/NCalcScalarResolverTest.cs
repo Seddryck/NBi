@@ -1,4 +1,5 @@
-﻿using NBi.Core.Scalar.Resolver;
+﻿using NBi.Core.ResultSet;
+using NBi.Core.Scalar.Resolver;
 using NBi.Core.Variable;
 using NUnit.Framework;
 using System;
@@ -15,7 +16,7 @@ namespace NBi.Testing.Core.Scalar.Resolver
         [Test]
         public void Instantiate_WithoutRowValues_CorrectComputation()
         {
-            using (var dt = new DataTable())
+            using (var dt = new DataTableResultSet())
             {
                 var row = dt.NewRow();
                 var context = new Context(null);
@@ -32,7 +33,7 @@ namespace NBi.Testing.Core.Scalar.Resolver
         [Test]
         public void Instantiate_WithRowValuesBasedOnNames_CorrectComputation()
         {
-            using (var dt = new DataTable())
+            using (var dt = new DataTableResultSet())
             {
                 dt.Columns.Add("a", typeof(int));
                 dt.Columns.Add("b", typeof(int));
@@ -53,7 +54,7 @@ namespace NBi.Testing.Core.Scalar.Resolver
         [Test]
         public void Instantiate_WithRowValuesBasedOnBracketNames_CorrectComputation()
         {
-            using (var dt = new DataTable())
+            using (var dt = new DataTableResultSet())
             {
                 dt.Columns.Add("a", typeof(int));
                 dt.Columns.Add("b", typeof(int));
@@ -74,7 +75,7 @@ namespace NBi.Testing.Core.Scalar.Resolver
         [Test]
         public void Instantiate_WithRowValuesBasedOnOrdinals_CorrectComputation()
         {
-            using (var dt = new DataTable())
+            using (var dt = new DataTableResultSet())
             {
                 dt.Columns.Add("a", typeof(int));
                 dt.Columns.Add("b", typeof(int));
@@ -95,7 +96,7 @@ namespace NBi.Testing.Core.Scalar.Resolver
         [Test]
         public void Instantiate_WithRowValuesBasedOnOrdinalsAndVariable_CorrectComputation()
         {
-            using (var dt = new DataTable())
+            using (var dt = new DataTableResultSet())
             {
                 dt.Columns.Add("a", typeof(int));
                 dt.Columns.Add("b", typeof(int));

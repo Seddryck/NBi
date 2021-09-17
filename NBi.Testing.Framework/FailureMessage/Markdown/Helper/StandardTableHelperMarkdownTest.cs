@@ -9,6 +9,7 @@ using NBi.Framework.FailureMessage.Markdown.Helper;
 using MarkdownLog;
 using NBi.Framework.Sampling;
 using System.Text.RegularExpressions;
+using NBi.Extensibility;
 
 namespace NBi.Testing.Framework.FailureMessage.Markdown.Helper
 {
@@ -23,12 +24,13 @@ namespace NBi.Testing.Framework.FailureMessage.Markdown.Helper
             dataTable.Columns.Add(new DataColumn("Boolean value"));
             dataTable.LoadDataRow(new object[] { "Alpha", 10, true }, false);
             dataTable.LoadDataRow(new object[] { "Beta", 20, false }, false);
+            var rs = new DataTableResultSet(dataTable);
 
             var idDefinition = new ColumnMetadata() { Identifier = new ColumnIdentifierFactory().Instantiate("Id"), Role = ColumnRole.Key };
 
-            var sampler = new FullSampler<DataRow>();
-            sampler.Build(dataTable.Rows.Cast<DataRow>());
-            var msg = new StandardTableHelperMarkdown(dataTable.Rows.Cast<DataRow>()
+            var sampler = new FullSampler<IResultRow>();
+            sampler.Build(rs.Rows);
+            var msg = new StandardTableHelperMarkdown(rs.Rows
                 , new ColumnMetadata[] { idDefinition }
                 , sampler);
             var container = new MarkdownContainer();
@@ -54,14 +56,15 @@ namespace NBi.Testing.Framework.FailureMessage.Markdown.Helper
             dataTable.Columns.Add(new DataColumn("Boolean value"));
             dataTable.LoadDataRow(new object[] { "Alpha", 10, true }, false);
             dataTable.LoadDataRow(new object[] { "Beta", 20, false }, false);
+            var rs = new DataTableResultSet(dataTable);
 
             var idDefinition = new ColumnMetadata() { Identifier = new ColumnIdentifierFactory().Instantiate("#0"), Role = ColumnRole.Key };
             var numericDefinition = new ColumnMetadata() { Identifier = new ColumnIdentifierFactory().Instantiate("#1"), Role = ColumnRole.Value };
             var booleanDefinition = new ColumnMetadata() { Identifier = new ColumnIdentifierFactory().Instantiate("#2"), Role = ColumnRole.Value };
 
-            var sampler = new FullSampler<DataRow>();
-            sampler.Build(dataTable.Rows.Cast<DataRow>());
-            var msg = new StandardTableHelperMarkdown(dataTable.Rows.Cast<DataRow>()
+            var sampler = new FullSampler<IResultRow>();
+            sampler.Build(rs.Rows);
+            var msg = new StandardTableHelperMarkdown(rs.Rows
                 , new ColumnMetadata[] { idDefinition, numericDefinition, booleanDefinition }
                 , sampler);
             var container = new MarkdownContainer();
@@ -86,12 +89,13 @@ namespace NBi.Testing.Framework.FailureMessage.Markdown.Helper
             dataTable.Columns.Add(new DataColumn("Boolean value"));
             dataTable.LoadDataRow(new object[] { "Alpha", 10, true }, false);
             dataTable.LoadDataRow(new object[] { "Beta", 20, false }, false);
+            var rs = new DataTableResultSet(dataTable);
 
             var idDefinition = new ColumnMetadata() { Identifier = new ColumnIdentifierFactory().Instantiate("#0"), Role = ColumnRole.Key };
 
-            var sampler = new FullSampler<DataRow>();
-            sampler.Build(dataTable.Rows.Cast<DataRow>());
-            var msg = new StandardTableHelperMarkdown(dataTable.Rows.Cast<DataRow>()
+            var sampler = new FullSampler<IResultRow>();
+            sampler.Build(rs.Rows);
+            var msg = new StandardTableHelperMarkdown(rs.Rows
                 , new ColumnMetadata[] { idDefinition }
                 , sampler);
             var container = new MarkdownContainer();
@@ -115,12 +119,13 @@ namespace NBi.Testing.Framework.FailureMessage.Markdown.Helper
             dataTable.Columns.Add(new DataColumn("Boolean value"));
             dataTable.LoadDataRow(new object[] { "Alpha", 10, true }, false);
             dataTable.LoadDataRow(new object[] { "Beta", 20, false }, false);
+            var rs = new DataTableResultSet(dataTable);
 
             var idDefinition = new ColumnMetadata() { Identifier = new ColumnIdentifierFactory().Instantiate("#0"), Role = ColumnRole.Key };
 
-            var sampler = new FullSampler<DataRow>();
-            sampler.Build(dataTable.Rows.Cast<DataRow>());
-            var msg = new StandardTableHelperMarkdown(dataTable.Rows.Cast<DataRow>()
+            var sampler = new FullSampler<IResultRow>();
+            sampler.Build(rs.Rows);
+            var msg = new StandardTableHelperMarkdown(rs.Rows
                 , new ColumnMetadata[] { idDefinition }
                 , sampler);
             var container = new MarkdownContainer();
@@ -144,12 +149,13 @@ namespace NBi.Testing.Framework.FailureMessage.Markdown.Helper
             dataTable.Columns.Add(new DataColumn("Boolean value"));
             dataTable.LoadDataRow(new object[] { "Alpha", 10, true }, false);
             dataTable.LoadDataRow(new object[] { "Beta", 20, false }, false);
+            var rs = new DataTableResultSet(dataTable);
 
             var idDefinition = new ColumnMetadata() { Identifier = new ColumnIdentifierFactory().Instantiate("#0"), Role = ColumnRole.Key };
 
-            var sampler = new FullSampler<DataRow>();
-            sampler.Build(dataTable.Rows.Cast<DataRow>());
-            var msg = new StandardTableHelperMarkdown(dataTable.Rows.Cast<DataRow>()
+            var sampler = new FullSampler<IResultRow>();
+            sampler.Build(rs.Rows);
+            var msg = new StandardTableHelperMarkdown(rs.Rows
                 , new ColumnMetadata[] { idDefinition }
                 , sampler);
             var container = new MarkdownContainer();
@@ -177,12 +183,13 @@ namespace NBi.Testing.Framework.FailureMessage.Markdown.Helper
             dataTable.Columns.Add(new DataColumn("Boolean value"));
             dataTable.LoadDataRow(new object[] { "Alpha", 10.752, true }, false);
             dataTable.LoadDataRow(new object[] { "Beta", 20.8445585, false }, false);
+            var rs = new DataTableResultSet(dataTable);
 
             var numericDefinition = new ColumnMetadata() { Identifier = new ColumnIdentifierFactory().Instantiate("Numeric value"), Role = ColumnRole.Value, Type = ColumnType.Numeric };
 
-            var sampler = new FullSampler<DataRow>();
-            sampler.Build(dataTable.Rows.Cast<DataRow>());
-            var msg = new StandardTableHelperMarkdown(dataTable.Rows.Cast<DataRow>()
+            var sampler = new FullSampler<IResultRow>();
+            sampler.Build(rs.Rows);
+            var msg = new StandardTableHelperMarkdown(rs.Rows
                 , new ColumnMetadata[] { numericDefinition }
                 , sampler);
             var container = new MarkdownContainer();

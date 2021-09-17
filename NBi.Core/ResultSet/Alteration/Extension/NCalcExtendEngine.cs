@@ -18,7 +18,7 @@ namespace NBi.Core.ResultSet.Alteration.Extension
 
         protected override IResultSet Execute(IResultSet rs, int ordinal)
         {
-            foreach (DataRow row in rs.Rows)
+            foreach (var row in rs.Rows)
             {
                 Context.Switch(row);
                 var args = new NCalcScalarResolverArgs(Code, Context);

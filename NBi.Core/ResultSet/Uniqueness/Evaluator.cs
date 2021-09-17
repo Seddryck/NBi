@@ -37,14 +37,6 @@ namespace NBi.Core.ResultSet.Uniqueness
 
         public ResultUniqueRows Execute(IResultSet x)
         {
-            if (x is IResultSet xRs)
-                return doCompare(xRs);
-
-            throw new ArgumentException();
-        }
-
-        protected virtual ResultUniqueRows doCompare(IResultSet x)
-        {
             var stopWatch = new Stopwatch();
 
             var columnsCount = x.Columns.Count;
@@ -55,13 +47,13 @@ namespace NBi.Core.ResultSet.Uniqueness
 
             stopWatch.Start();
             BuildRowDictionary(x, keyComparer, dict);
-            Trace.WriteLineIf(NBiTraceSwitch.TraceInfo, string.Format("Building dictionary: {0} [{1}]", x.Rows.Count, stopWatch.Elapsed.ToString(@"d\d\.hh\h\:mm\m\:ss\s\ \+fff\m\s")));
+            Trace.WriteLineIf(NBiTraceSwitch.TraceInfo, string.Format("Building dictionary: {0} [{1}]", x.RowCount, stopWatch.Elapsed.ToString(@"d\d\.hh\h\:mm\m\:ss\s\ \+fff\m\s")));
             stopWatch.Reset();
 
             var duplicatedRows = dict.Where(r => r.Value > 1);
             
             return new ResultUniqueRows(
-                    x.Rows.Count
+                    x.RowCount
                     , duplicatedRows
                 );
         }
@@ -72,7 +64,7 @@ namespace NBi.Core.ResultSet.Uniqueness
         private void BuildRowDictionary(IResultSet rs, DataRowKeysComparer keyComparer, Dictionary<KeyCollection, int> dict)
         {
             dict.Clear();
-            foreach (DataRow row in rs.Rows)
+            foreach (var row in rs.Rows)
             {
                 RowHelper hlpr = new RowHelper();
 

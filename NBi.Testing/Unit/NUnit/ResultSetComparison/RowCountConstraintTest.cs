@@ -36,7 +36,7 @@ namespace NBi.Testing.Unit.NUnit.ResultSetComparison
         [Test]
         public void Matches_SqlCommand_CallToResultSetBuilderOnce()
         {
-            var resultSet = new ResultSet();
+            var resultSet = new DataTableResultSet();
             resultSet.Load("a;b;c");
 
             var serviceMock = new Mock<IResultSetService>();

@@ -21,7 +21,7 @@ namespace NBi.Core.ResultSet.Resolver
 
         public virtual IResultSet Execute()
         {
-            var rs = new DataTableResultSet();
+            var rs = new ResultSet();
             rs.Load(args.Rows);
             return rs;
             }

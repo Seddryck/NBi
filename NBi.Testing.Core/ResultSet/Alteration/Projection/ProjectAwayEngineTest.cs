@@ -16,7 +16,7 @@ namespace NBi.Testing.Core.ResultSet.Alteration.Projection
         [Test]
         public void Execute_Identifier_ColumnSkipped(string identifier)
         {
-            var rs = new NBi.Core.ResultSet.DataTableResultSet();
+            var rs = new NBi.Core.ResultSet.ResultSet();
             rs.Load("a;1;120");
             rs.Columns[0].ColumnName = "Foo";
             rs.Columns[1].ColumnName = "Col1";
@@ -38,7 +38,7 @@ namespace NBi.Testing.Core.ResultSet.Alteration.Projection
         [Test]
         public void Execute_MultipleIdentifiers_ColumnSkipped(string id1, string id2)
         {
-            var rs = new NBi.Core.ResultSet.DataTableResultSet();
+            var rs = new NBi.Core.ResultSet.ResultSet();
             rs.Load("a;1;120");
             rs.Columns[0].ColumnName = "Foo";
             rs.Columns[1].ColumnName = "Col1";
@@ -59,7 +59,7 @@ namespace NBi.Testing.Core.ResultSet.Alteration.Projection
         [Test]
         public void Execute_DuplicatedIdentifiers_ColumnSkipped(string id1, string id2)
         {
-            var rs = new NBi.Core.ResultSet.DataTableResultSet();
+            var rs = new NBi.Core.ResultSet.ResultSet();
             rs.Load("a;1;120");
             rs.Columns[0].ColumnName = "Foo";
             rs.Columns[1].ColumnName = "Col1";
@@ -78,7 +78,7 @@ namespace NBi.Testing.Core.ResultSet.Alteration.Projection
         [Test]
         public void Execute_NonExistingIdentifiers_ColumnSkipped(string id)
         {
-            var rs = new NBi.Core.ResultSet.DataTableResultSet();
+            var rs = new NBi.Core.ResultSet.ResultSet();
             rs.Load("a;1;120");
             rs.Columns[0].ColumnName = "Foo";
             rs.Columns[1].ColumnName = "Col1";

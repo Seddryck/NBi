@@ -17,7 +17,7 @@ namespace NBi.Testing.Core.Scalar.Resolver
         [Test]
         public void Execute_FirstRowByName_CorrectEvaluation()
         {
-            var rs = new NBi.Core.ResultSet.DataTableResultSet();
+            var rs = new NBi.Core.ResultSet.ResultSet();
             rs.Load(new[] { new object[] { "a", 1 }, new object[] { "b", 2 } });
             rs.Columns[0].ColumnName = "Foo";
 
@@ -32,7 +32,7 @@ namespace NBi.Testing.Core.Scalar.Resolver
         [Test]
         public void Execute_FirstRowByOrdinal_CorrectEvaluation()
         {
-            var rs = new NBi.Core.ResultSet.DataTableResultSet();
+            var rs = new NBi.Core.ResultSet.ResultSet();
             rs.Load(new[] { new object[] { "a", 1 }, new object[] { "b", 2 } });
 
             var context = Context.None;
@@ -46,7 +46,7 @@ namespace NBi.Testing.Core.Scalar.Resolver
         [Test]
         public void Execute_SecondRow_CorrectEvaluation()
         {
-            var rs = new NBi.Core.ResultSet.DataTableResultSet();
+            var rs = new NBi.Core.ResultSet.ResultSet();
             rs.Load(new[] { new object[] { "a", 1 }, new object[] { "b", 2 } });
             rs.Columns[0].ColumnName = "Foo";
 

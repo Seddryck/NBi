@@ -7,7 +7,6 @@ using NUnit.Framework;
 using NBi.Core;
 using NBi.Core.ResultSet.Resolver;
 using NBi.Core.ResultSet.Equivalence;
-using NBi.Extensibility;
 
 namespace NBi.Testing.Unit.NUnit.ResultSetComparison
 {
@@ -17,7 +16,7 @@ namespace NBi.Testing.Unit.NUnit.ResultSetComparison
         [Test]
         public void Matches_AnyServices_EachCalledOnce()
         {
-            var rs = new DataTableResultSet();
+            var rs = new ResultSet();
             rs.Load("a;b;c");
 
             var expectedServiceMock = new Mock<IResultSetService>();
@@ -31,7 +30,7 @@ namespace NBi.Testing.Unit.NUnit.ResultSetComparison
             var actualService = actualServiceMock.Object;
 
             var rscMock = new Mock<IEquivaler>();
-            rscMock.Setup(engine => engine.Compare(It.IsAny<IResultSet>(), It.IsAny<IResultSet>()))
+            rscMock.Setup(engine => engine.Compare(It.IsAny<ResultSet>(), It.IsAny<ResultSet>()))
                 .Returns(new ResultResultSet() { Difference = ResultSetDifferenceType.None });
             var rsc = rscMock.Object;
 
@@ -41,7 +40,7 @@ namespace NBi.Testing.Unit.NUnit.ResultSetComparison
             equalToConstraint.Matches(actualService);
 
             //Test conclusion            
-            rscMock.Verify(engine => engine.Compare(It.IsAny<IResultSet>(), It.IsAny<IResultSet>()), Times.Once());
+            rscMock.Verify(engine => engine.Compare(It.IsAny<ResultSet>(), It.IsAny<ResultSet>()), Times.Once());
             expectedServiceMock.Verify(s => s.Execute(), Times.Once);
             actualServiceMock.Verify(s => s.Execute(), Times.Once);
         }
@@ -49,10 +48,10 @@ namespace NBi.Testing.Unit.NUnit.ResultSetComparison
         [Test]
         public void Matches_AnyServices_TheirResultsAreCompared()
         {
-            var expectedRs = new DataTableResultSet();
+            var expectedRs = new ResultSet();
             expectedRs.Load("a;b;c");
 
-            var actualRs = new DataTableResultSet();
+            var actualRs = new ResultSet();
             actualRs.Load("x;y;z");
 
             var expectedServiceMock = new Mock<IResultSetService>();
@@ -66,7 +65,7 @@ namespace NBi.Testing.Unit.NUnit.ResultSetComparison
             var actualService = actualServiceMock.Object;
 
             var rscMock = new Mock<IEquivaler>();
-            rscMock.Setup(engine => engine.Compare(It.IsAny<IResultSet>(), It.IsAny<IResultSet>()))
+            rscMock.Setup(engine => engine.Compare(It.IsAny<ResultSet>(), It.IsAny<ResultSet>()))
                 .Returns(new ResultResultSet() { Difference = ResultSetDifferenceType.Content });
             var rsc = rscMock.Object;
 
@@ -82,7 +81,7 @@ namespace NBi.Testing.Unit.NUnit.ResultSetComparison
         [Test]
         public void Matches_TwoIdenticalResultSets_ReturnTrue()
         {
-            var rs = new DataTableResultSet();
+            var rs = new ResultSet();
             rs.Load("a;b;c");
 
             var expectedServiceMock = new Mock<IResultSetService>();
@@ -112,10 +111,10 @@ namespace NBi.Testing.Unit.NUnit.ResultSetComparison
         [Test]
         public void Matches_TwoDifferentResultSets_ReturnFalse()
         {
-            var expectedRs = new DataTableResultSet();
+            var expectedRs = new ResultSet();
             expectedRs.Load("a;b;c");
 
-            var actualRs = new DataTableResultSet();
+            var actualRs = new ResultSet();
             actualRs.Load("x;y;z");
 
             var expectedServiceMock = new Mock<IResultSetService>();

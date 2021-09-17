@@ -80,7 +80,6 @@ namespace NBi.Testing.Framework.FailureMessage.Json
             message.Generate(referenceTable.Rows.Cast<DataRow>(), candidateTable.Rows.Cast<DataRow>(), violations, keyMappings, valueMappings);
 
             var text = message.RenderMessage();
-            Console.WriteLine(text);
             Assert.That(text, Does.Contain("\"expected\":{\"total-rows\":3,\"table\""));
             Assert.That(text, Does.Contain("\"actual\":{\"total-rows\":2,\"table\""));
             Assert.That(text, Does.Contain("\"analysis\":{\"non-matching\":{\"total-rows\":1,"));
@@ -132,7 +131,6 @@ namespace NBi.Testing.Framework.FailureMessage.Json
             message.Generate(referenceTable.Rows.Cast<DataRow>(), candidateTable.Rows.Cast<DataRow>(), violations, keyMappings, valueMappings);
 
             var text = message.RenderMessage();
-            Console.WriteLine(text);
             Assert.That(text, Does.Contain("\"expected\":{\"total-rows\":3}"));
             Assert.That(text, Does.Contain("\"actual\":{\"total-rows\":2}"));
             Assert.That(text, Does.Contain("\"analysis\":{\"non-matching\":{\"total-rows\":1,"));

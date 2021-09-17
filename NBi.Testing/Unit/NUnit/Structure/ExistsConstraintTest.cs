@@ -64,7 +64,6 @@ namespace NBi.Testing.Unit.NUnit.Structure
             }
 
             //Test conclusion   
-            Console.WriteLine(assertionText);
             Assert.That(assertionText, Does.Contain("perspective-name").And
                                             .StringContaining("expected-dimension-caption"));
         }
@@ -99,7 +98,6 @@ namespace NBi.Testing.Unit.NUnit.Structure
             }
 
             //Test conclusion     
-            Console.WriteLine(assertionText);
             Assert.That(assertionText, Does.Contain("perspective-name").And
                                             .StringContaining("dimension-caption").And
                                             .StringContaining("expected-hierarchy-caption"));
@@ -135,7 +133,6 @@ namespace NBi.Testing.Unit.NUnit.Structure
             }
 
             //Test conclusion   
-            Console.WriteLine(assertionText);
             Assert.That(assertionText, Does.Contain("perspective-name").And
                                             .StringContaining("expected-measure-group-caption"));
         }
@@ -171,7 +168,6 @@ namespace NBi.Testing.Unit.NUnit.Structure
             }
 
             //Test conclusion      
-            Console.WriteLine(assertionText);
             Assert.That(assertionText, Does.Contain("not find"));
         }
 
@@ -205,7 +201,6 @@ namespace NBi.Testing.Unit.NUnit.Structure
             }
 
             //Test conclusion
-            Console.WriteLine(assertionText);
             Assert.That(assertionText, Does.Contain(actuals[0]).And
                                             .StringContaining(actuals[1]));
         }
@@ -240,7 +235,6 @@ namespace NBi.Testing.Unit.NUnit.Structure
             }
 
             //Test conclusion            
-            Console.WriteLine(assertionText);
             Assert.That(assertionText, Does.Contain("nothing found"));
         }
 
@@ -274,7 +268,6 @@ namespace NBi.Testing.Unit.NUnit.Structure
             }
 
             //Test conclusion   
-            Console.WriteLine(assertionText);
             Assert.That(assertionText, Does.Contain("The value 'expected-dimension-catpion' is close to your expectation."));
         }
 

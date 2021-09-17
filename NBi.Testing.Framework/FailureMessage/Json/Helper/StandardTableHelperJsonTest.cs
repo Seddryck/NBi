@@ -39,7 +39,6 @@ namespace NBi.Testing.Framework.FailureMessage.Json.Helper
             {
                 msg.Render(writer);
                 var value = sb.ToString();
-                Console.WriteLine(value);
                 Assert.That(sb.ToString, Does.Contain("\"total-rows\":2"));
                 Assert.That(sb.ToString, Does.Contain("\"table\":{\"columns\":[{"));
                 Assert.That(sb.ToString, Does.Contain("{\"position\":0,\"name\":\"Id\",\"role\":\"KEY\",\"type\":\"Text\"}"));
@@ -72,7 +71,6 @@ namespace NBi.Testing.Framework.FailureMessage.Json.Helper
             {
                 msg.Render(writer);
                 var value = sb.ToString();
-                Console.WriteLine(value);
                 Assert.That(sb.ToString, Does.Contain("{\"position\":0,\"name\":\"Id\",\"role\":\"KEY\",\"type\":\"Text\"}"));
                 Assert.That(sb.ToString, Does.Contain("{\"position\":1,\"name\":\"Numeric value\",\"role\":\"VALUE\",\"type\":\"Numeric\"}"));
                 Assert.That(sb.ToString, Does.Contain("{\"position\":2,\"name\":\"Boolean value\",\"role\":\"VALUE\",\"type\":\"Boolean\"}"));

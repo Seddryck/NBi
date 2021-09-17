@@ -66,7 +66,6 @@ namespace NBi.Testing.Xml.Unit.Items.Hierarchical
             };
             var manager = new XmlManager();
             var xml = manager.XmlSerializeFrom(root);
-            Console.WriteLine(xml);
             Assert.That(xml, Does.Contain("<file>"));
             Assert.That(xml, Does.Contain("<path>"));
             Assert.That(xml, Does.Contain("C:\\myPath.txt"));
@@ -86,7 +85,6 @@ namespace NBi.Testing.Xml.Unit.Items.Hierarchical
             };
             var manager = new XmlManager();
             var xml = manager.XmlSerializeFrom(root);
-            Console.WriteLine(xml);
             Assert.That(xml, Does.Contain("<parser "));
             Assert.That(xml, Does.Contain("name=\"myName\""));
         }

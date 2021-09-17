@@ -96,7 +96,6 @@ namespace NBi.Testing.Xml.Unit.Decoration
 
             var manager = new XmlManager();
             var xml = manager.XmlSerializeFrom(root);
-            Console.WriteLine(xml);
             Assert.That(xml, Does.Contain("<custom "));
             Assert.That(xml, Does.Contain("assembly-path=\"myAssembly.dll\""));
             Assert.That(xml, Does.Contain("type=\"myType\""));
@@ -124,7 +123,6 @@ namespace NBi.Testing.Xml.Unit.Decoration
 
             var manager = new XmlManager();
             var xml = manager.XmlSerializeFrom(root);
-            Console.WriteLine(xml);
             Assert.That(xml, Does.Contain("<parameter name=\"firstParam\">myValue</parameter>"));
         }
 
@@ -162,7 +160,6 @@ namespace NBi.Testing.Xml.Unit.Decoration
 
             var manager = new XmlManager();
             var xml = manager.XmlSerializeFrom(root);
-            Console.WriteLine(xml);
             Assert.That(xml, Does.Contain("<folder-exists "));
             Assert.That(xml, Does.Contain("path=\".\""));
             Assert.That(xml, Does.Contain("name=\"myFolderName\""));
@@ -203,7 +200,6 @@ namespace NBi.Testing.Xml.Unit.Decoration
 
             var manager = new XmlManager();
             var xml = manager.XmlSerializeFrom(root);
-            Console.WriteLine(xml);
             Assert.That(xml, Does.Contain("<file-exists "));
             Assert.That(xml, Does.Contain("path=\"Folder\\\""));
             Assert.That(xml, Does.Contain("name=\"myFileName.txt\""));

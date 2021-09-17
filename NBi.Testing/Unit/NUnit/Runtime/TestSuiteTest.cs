@@ -106,7 +106,6 @@ namespace NBi.Testing.Unit.NUnit.Runtime
             var testCase = testCases.First();
 
             //Assertion
-            Console.WriteLine(testCase.TestName);
             Assert.That(testCase.TestName, Does.Contain("my name contains a regex").And
                                             .StringContaining("My Caption").And
                                             .StringContaining("My Display Folder").And
@@ -243,7 +242,6 @@ namespace NBi.Testing.Unit.NUnit.Runtime
             }
             catch (AssertionException ex)
             {
-                Console.WriteLine(ex.Message);
                 Assert.That(ex.Message, Does.Contain("empty"));
             }
             catch (Exception ex)
@@ -301,7 +299,6 @@ namespace NBi.Testing.Unit.NUnit.Runtime
             }
             catch (CustomStackTraceErrorException ex)
             {
-                //Console.WriteLine(ex.Message);
                 Assert.That(ex.Message, Does.Contain("Filename"));
             }
             catch (Exception ex)

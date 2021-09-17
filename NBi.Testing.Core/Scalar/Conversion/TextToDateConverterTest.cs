@@ -21,7 +21,6 @@ namespace NBi.Testing.Core.Scalar.Conversion
         {
             var cultureInfo = new CultureInfo(culture);
             var text = (new DateTime(2018, 1, 6)).ToString(cultureInfo.DateTimeFormat).Split(' ')[0];
-            Console.WriteLine(text);
 
             var converter = new TextToDateConverter(cultureInfo, DateTime.MinValue);
             var newValue = converter.Execute(text);

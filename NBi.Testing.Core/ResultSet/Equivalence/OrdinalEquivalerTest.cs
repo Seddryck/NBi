@@ -72,13 +72,11 @@ namespace NBi.Testing.Core.ResultSet.Equivalence
             var reference = BuildDataTable(RandomLargeArrayString(count, 0), RandomLargeArrayDouble(count));
             var actual = BuildDataTable(RandomLargeArrayString(count, Convert.ToInt32(count * 0.8)), RandomLargeArrayDouble(count));
 
-            Console.WriteLine("Starting comparaison for {0} rows", count);
             var stopWatch = new Stopwatch();
             stopWatch.Start();
             //Call the method to test
             var res = comparer.Compare(reference, actual);
             stopWatch.Stop();
-            Console.WriteLine("Compaired in {0} milliseconds", stopWatch.Elapsed.TotalMilliseconds);
             //Assertion
             Assert.That(res, Is.EqualTo(ResultResultSet.NotMatching));
             Assert.That(stopWatch.Elapsed, Is.LessThan(new TimeSpan(0, 0, timeout)));

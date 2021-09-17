@@ -21,7 +21,6 @@ namespace NBi.Testing.Core.Scalar.Conversion
         {
             var cultureInfo = new CultureInfo(culture);
             var text = (100.456).ToString(cultureInfo.NumberFormat);
-            Console.WriteLine(text);
 
             var converter = new TextToNumericConverter(cultureInfo, -1m);
             var newValue = converter.Execute(text);

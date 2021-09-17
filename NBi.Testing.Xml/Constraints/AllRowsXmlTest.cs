@@ -581,7 +581,6 @@ namespace NBi.Testing.Xml.Unit.Constraints
 
             var manager = new XmlManager();
             var xml = manager.XmlSerializeFrom(root, overrides);
-            Console.WriteLine(xml);
             Assert.That(xml, Does.Contain("<matches-regex>"));
             Assert.That(xml, Does.Not.Contain("<ValueWrite>"));
             Assert.That(xml, Does.Contain("<![CDATA[<|>|&]]>"));
@@ -633,7 +632,6 @@ namespace NBi.Testing.Xml.Unit.Constraints
 
             var manager = new XmlManager();
             var xml = manager.XmlSerializeFrom(root, overrides);
-            Console.WriteLine(xml);
             Assert.That(xml, Does.Contain("<equal>0</equal>"));
             Assert.That(xml, Does.Not.Contain("<equal />"));
         }

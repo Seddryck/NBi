@@ -36,7 +36,6 @@ namespace NBi.Testing.Core.Scalar.Resolver
             var args = new FormatScalarResolverArgs("First of May was a {@myVar | dateTime-to-previous-month:dddd}", globalVariables);
             var resolver = new FormatScalarResolver(args, new ServiceLocator());
             var text = resolver.Execute();
-            Console.WriteLine(text);
             Assert.That(text, Is.EqualTo($"First of May was a Wednesday"));
         }
 
@@ -51,7 +50,6 @@ namespace NBi.Testing.Core.Scalar.Resolver
             var args = new FormatScalarResolverArgs("First of May was a {@myVar | dateTime-to-previous-month:dddd}", globalVariables);
             var resolver = new FormatScalarResolver(args, new ServiceLocator());
             var text = resolver.Execute();
-            Console.WriteLine(text);
             Assert.That(text, Is.EqualTo($"First of May was a Wednesday"));
         }
 
@@ -65,7 +63,6 @@ namespace NBi.Testing.Core.Scalar.Resolver
             var args = new FormatScalarResolverArgs("First day of the month before was a {@myVar | dateTime-to-previous-month | dateTime-to-first-of-month:dddd}", globalVariables);
             var resolver = new FormatScalarResolver(args, new ServiceLocator());
             var text = resolver.Execute();
-            Console.WriteLine(text);
             Assert.That(text, Is.EqualTo($"First day of the month before was a Wednesday"));
         }
 
@@ -79,7 +76,6 @@ namespace NBi.Testing.Core.Scalar.Resolver
             var args = new FormatScalarResolverArgs("My clipped value is {@myVar | numeric-to-clip(20, 80):##.00}", globalVariables);
             var resolver = new FormatScalarResolver(args, new ServiceLocator());
             var text = resolver.Execute();
-            Console.WriteLine(text);
             Assert.That(text, Is.EqualTo($"My clipped value is 80.00"));
         }
 

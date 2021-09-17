@@ -154,7 +154,6 @@ namespace NBi.Testing.Core.FlatFile
             };
             config.LoadExtensions(extensions);
             var ex = Assert.Throws<ArgumentException>(() => localServiceLocator.GetFlatFileReaderFactory());
-            Console.WriteLine(ex.Message);
         }
 
         [Test]
@@ -170,7 +169,6 @@ namespace NBi.Testing.Core.FlatFile
             };
             config.LoadExtensions(extensions);
             var ex = Assert.Throws<ArgumentException>(() => localServiceLocator.GetFlatFileReaderFactory());
-            Console.WriteLine(ex.Message);
         }
 
         [Test]
@@ -184,7 +182,6 @@ namespace NBi.Testing.Core.FlatFile
             };
             config.LoadExtensions(extensions);
             var ex = Assert.Throws<ArgumentException>(() => localServiceLocator.GetFlatFileReaderFactory());
-            Console.WriteLine(ex.Message);
         }
     }
 }

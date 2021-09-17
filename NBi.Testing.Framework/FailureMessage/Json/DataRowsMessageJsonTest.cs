@@ -226,7 +226,6 @@ namespace NBi.Testing.Framework.FailureMessage.Json
             var value = msg.RenderMessage();
 
             Assert.That(value, Does.Contain($"\"timestamp\":\"{DateTime.Now.Year}-"));
-            Console.WriteLine(value);
         }
     }
 }

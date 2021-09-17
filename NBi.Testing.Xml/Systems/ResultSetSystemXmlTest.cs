@@ -540,7 +540,6 @@ namespace NBi.Testing.Xml.Unit.Systems
 
             var manager = new XmlManager();
             var xml = manager.XmlSerializeFrom(root);
-            Console.WriteLine(xml);
             Assert.That(xml, Does.Contain("<file>"));
             Assert.That(xml, Does.Contain("<path>myFile.csv</path>"));
             Assert.That(xml, Does.Contain("<parser name=\"myParser\" />"));
@@ -559,7 +558,6 @@ namespace NBi.Testing.Xml.Unit.Systems
 
             var manager = new XmlManager();
             var xml = manager.XmlSerializeFrom(root);
-            Console.WriteLine(xml);
             Assert.That(xml, Does.Contain("<file>"));
             Assert.That(xml, Does.Contain("<path>myFile.csv</path>"));
             Assert.That(xml, Does.Contain("<parser name=\"myParser\" />"));
@@ -578,7 +576,6 @@ namespace NBi.Testing.Xml.Unit.Systems
 
             var manager = new XmlManager();
             var xml = manager.XmlSerializeFrom(root);
-            Console.WriteLine(xml);
             Assert.That(xml, Does.Contain("<file>"));
             Assert.That(xml, Does.Contain("<path>myFile.csv</path>"));
             Assert.That(xml, Does.Not.Contain("<parser"));
@@ -600,7 +597,6 @@ namespace NBi.Testing.Xml.Unit.Systems
 
             var manager = new XmlManager();
             var xml = manager.XmlSerializeFrom(root);
-            Console.WriteLine(xml);
             Assert.That(xml, Does.Contain("<rename"));
             Assert.That(xml, Does.Contain("#5"));
             Assert.That(xml, Does.Contain("myNewName"));
@@ -618,7 +614,6 @@ namespace NBi.Testing.Xml.Unit.Systems
 
             var manager = new XmlManager();
             var xml = manager.XmlSerializeFrom(root);
-            Console.WriteLine(xml);
             Assert.That(xml, Does.Contain($"<{serialization}"));
             Assert.That(xml, Does.Contain("dateTime"));
         }
@@ -639,7 +634,6 @@ namespace NBi.Testing.Xml.Unit.Systems
 
             var manager = new XmlManager();
             var xml = manager.XmlSerializeFrom(root);
-            Console.WriteLine(xml);
             Assert.That(xml, Does.Contain($"<{serialization}"));
             Assert.That(xml, Does.Contain("dateTime"));
         }
@@ -656,7 +650,6 @@ namespace NBi.Testing.Xml.Unit.Systems
 
             var manager = new XmlManager();
             var xml = manager.XmlSerializeFrom(root);
-            Console.WriteLine(xml);
             Assert.That(xml, Does.Contain($"<concatenation"));
             Assert.That(xml, Does.Contain("text"));
             Assert.That(xml, Does.Contain("separator=\"+\""));
@@ -693,7 +686,6 @@ namespace NBi.Testing.Xml.Unit.Systems
 
             var manager = new XmlManager();
             var xml = manager.XmlSerializeFrom(root);
-            Console.WriteLine(xml);
             Assert.That(xml, Does.Contain("<unstack>"));
             Assert.That(xml, Does.Contain("<header>"));
             Assert.That(xml, Does.Contain("<column identifier=\"#2\" />"));
@@ -725,7 +717,6 @@ namespace NBi.Testing.Xml.Unit.Systems
 
             var manager = new XmlManager();
             var xml = manager.XmlSerializeFrom(root);
-            Console.WriteLine(xml);
             Assert.That(xml, Does.Contain("<project>"));
             Assert.That(xml, Does.Contain("<column identifier=\"#2\" />"));
             Assert.That(xml, Does.Contain("<column identifier=\"[foo]\" />"));
@@ -751,7 +742,6 @@ namespace NBi.Testing.Xml.Unit.Systems
 
             var manager = new XmlManager();
             var xml = manager.XmlSerializeFrom(root);
-            Console.WriteLine(xml);
             Assert.That(xml, Does.Contain("<project-away>"));
             Assert.That(xml, Does.Contain("<column identifier=\"#2\" />"));
             Assert.That(xml, Does.Contain("<column identifier=\"[foo]\" />"));
@@ -776,7 +766,6 @@ namespace NBi.Testing.Xml.Unit.Systems
 
             var manager = new XmlManager();
             var xml = manager.XmlSerializeFrom(root);
-            Console.WriteLine(xml);
             Assert.That(xml, Does.Contain("<lookup-replace>"));
             Assert.That(xml, Does.Contain("<missing behavior=\"default-value\">(null)</missing>"));
             Assert.That(xml, Does.Contain("<join>"));
@@ -800,7 +789,6 @@ namespace NBi.Testing.Xml.Unit.Systems
 
             var manager = new XmlManager();
             var xml = manager.XmlSerializeFrom(root);
-            Console.WriteLine(xml);
             Assert.That(xml, Does.Contain("<lookup-replace"));
             Assert.That(xml, Does.Not.Contain("<missing"));
         }
@@ -824,7 +812,6 @@ namespace NBi.Testing.Xml.Unit.Systems
 
             var manager = new XmlManager();
             var xml = manager.XmlSerializeFrom(root);
-            Console.WriteLine(xml);
             Assert.That(xml, Does.Contain("<merge"));
             Assert.That(xml, Does.Contain("<result-set"));
             Assert.That(xml, Does.Contain("<sequence"));
@@ -845,7 +832,6 @@ namespace NBi.Testing.Xml.Unit.Systems
 
             var manager = new XmlManager();
             var xml = manager.XmlSerializeFrom(root);
-            Console.WriteLine(xml);
             Assert.That(xml, Does.Contain("<sequence"));
             Assert.That(xml, Does.Contain("<item>A</item>"));
             Assert.That(xml, Does.Contain("<item>B</item>"));
@@ -868,7 +854,6 @@ namespace NBi.Testing.Xml.Unit.Systems
 
             var manager = new XmlManager();
             var xml = manager.XmlSerializeFrom(root);
-            Console.WriteLine(xml);
             Assert.That(xml, Does.Contain("<empty>"));
             Assert.That(xml, Does.Contain("<column identifier=\"[myFirstColumn]\" />"));
             Assert.That(xml, Does.Contain("<column identifier=\"[mySecondColumn]\" />"));
@@ -885,7 +870,6 @@ namespace NBi.Testing.Xml.Unit.Systems
 
             var manager = new XmlManager();
             var xml = manager.XmlSerializeFrom(root);
-            Console.WriteLine(xml);
             Assert.That(xml, Does.Contain("<empty"));
             Assert.That(xml, Does.Contain("column-count=\"4\""));
             Assert.That(xml, Does.Not.Contain("<column"));
@@ -903,7 +887,6 @@ namespace NBi.Testing.Xml.Unit.Systems
 
             var manager = new XmlManager();
             var xml = manager.XmlSerializeFrom(root);
-            Console.WriteLine(xml);
             Assert.That(xml, Does.Contain("<if-unavailable"));
             Assert.That(xml, Does.Contain("<result-set"));
             Assert.That(xml, Does.Contain("<empty"));
@@ -919,7 +902,6 @@ namespace NBi.Testing.Xml.Unit.Systems
 
             var manager = new XmlManager();
             var xml = manager.XmlSerializeFrom(root);
-            Console.WriteLine(xml);
             Assert.That(xml, Does.Not.Contain("<iteration"));
         }
 
@@ -944,7 +926,6 @@ namespace NBi.Testing.Xml.Unit.Systems
 
             var manager = new XmlManager();
             var xml = manager.XmlSerializeFrom(root);
-            Console.WriteLine(xml);
             Assert.That(xml, Does.Contain("<iteration"));
             Assert.That(xml, Does.Contain("<sequence"));
             Assert.That(xml, Does.Contain("<loop-sentinel"));

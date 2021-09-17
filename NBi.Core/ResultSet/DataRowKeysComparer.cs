@@ -1,4 +1,5 @@
 ﻿using NBi.Core.Scalar.Casting;
+using NBi.Extensibility;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -7,10 +8,10 @@ using System.Linq;
 
 namespace NBi.Core.ResultSet
 {
-    public abstract class DataRowKeysComparer : IEqualityComparer<DataRow>
+    public abstract class DataRowKeysComparer : IEqualityComparer<IResultRow>
     {
 
-        public bool Equals(DataRow x, DataRow y)
+        public bool Equals(IResultRow x, IResultRow y)
         {
             if (!CheckKeysExist(x))
                 throw new ArgumentException("First datarow has not the required key fields");
@@ -20,10 +21,10 @@ namespace NBi.Core.ResultSet
             return GetHashCode(x) == GetHashCode(y);
         }
 
-        protected abstract bool CheckKeysExist(DataRow dr);
-        public abstract KeyCollection GetKeys(DataRow row);
+        protected abstract bool CheckKeysExist(IResultRow dr);
+        public abstract KeyCollection GetKeys(IResultRow row);
 
-        public int GetHashCode(DataRow dr)
+        public int GetHashCode(IResultRow dr)
         {
             int hash = 0;
             foreach (var value in GetKeys(dr).Members)

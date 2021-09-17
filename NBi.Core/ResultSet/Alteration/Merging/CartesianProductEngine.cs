@@ -29,21 +29,21 @@ namespace NBi.Core.ResultSet.Alteration.Merging
                 rs.Columns.Add(newColumn);
             }
 
-            if (secondRs.Rows.Count == 0 || secondRs.Columns.Count == 0)
+            if (secondRs.RowCount == 0 || secondRs.Columns.Count == 0)
             {
                 rs.Clear();
             }
             else
             {
-                var firstItem = secondRs.Rows[0];
-                foreach (DataRow row in rs.Rows)
+                var firstItem = secondRs[0];
+                foreach (var row in rs.Rows)
                     foreach (DataColumn column in secondRs.Columns)
                         row[initialColumnCount + column.Ordinal] = firstItem[column.Ordinal];
 
-                var newRows = new HashSet<DataRow>();
-                foreach (var item in secondRs.Rows.Cast<DataRow>().Skip(1))
+                var newRows = new HashSet<IResultRow>();
+                foreach (var item in secondRs.Rows.Skip(1))
                 {
-                    foreach (DataRow row in rs.Rows)
+                    foreach (var row in rs.Rows)
                     {
                         var newRow = rs.NewRow();
                         newRow.ItemArray = row.ItemArray;
@@ -53,7 +53,7 @@ namespace NBi.Core.ResultSet.Alteration.Merging
                     }
                 }
                 foreach (var newRow in newRows)
-                    rs.Rows.Add(newRow);
+                    rs.Add(newRow);
             }
             rs.AcceptChanges();
             return rs;

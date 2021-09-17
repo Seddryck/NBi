@@ -19,7 +19,7 @@ namespace NBi.NUnit.Query
         { }
 
         protected override bool doMatch(int actual)
-            => filterResultSet.Rows.Count == 1;
+            => filterResultSet.Rows.Count() == 1;
 
         public override void WriteDescriptionTo(NUnitCtr.MessageWriter writer)
         {
@@ -39,10 +39,10 @@ namespace NBi.NUnit.Query
         {
             if (Configuration.FailureReportProfile.Format == FailureReportFormat.Json)
                 return;
-            if (filterResultSet.Rows.Count == 0)
+            if (filterResultSet.Rows.Count() == 0)
                 writer.WriteLine($"No row validates the predicate '{filter.Describe()}'.");
             else
-                writer.WriteLine($"{filterResultSet.Rows.Count} rows validate the predicate '{filter.Describe()}'.");
+                writer.WriteLine($"{filterResultSet.Rows.Count()} rows validate the predicate '{filter.Describe()}'.");
         }
     }
 }

@@ -14,7 +14,7 @@ namespace NBi.Core.ResultSet.Lookup
             : base(settings)
         { }
 
-        public override KeyCollection GetColumns(DataRow row)
+        public override KeyCollection GetColumns(IResultRow row)
         {
             var keys = new List<object>();
             foreach (var setting in Settings)

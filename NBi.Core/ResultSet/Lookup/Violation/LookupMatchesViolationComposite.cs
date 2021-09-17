@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NBi.Extensibility;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data;
@@ -10,10 +11,10 @@ namespace NBi.Core.ResultSet.Lookup.Violation
 {
     public class LookupMatchesViolationComposite
     {
-        public DataRow CandidateRow { get; private set; }
+        public IResultRow CandidateRow { get; private set; }
         public ICollection<LookupMatchesViolationRecord> Records { get; private set; }
 
-        public LookupMatchesViolationComposite(DataRow candidateRow, ICollection<LookupMatchesViolationRecord> records) 
+        public LookupMatchesViolationComposite(IResultRow candidateRow, ICollection<LookupMatchesViolationRecord> records) 
             => (CandidateRow, Records) = (candidateRow, records);
     }
 }

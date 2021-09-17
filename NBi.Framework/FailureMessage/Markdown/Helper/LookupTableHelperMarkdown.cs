@@ -3,6 +3,7 @@ using NBi.Core;
 using NBi.Core.ResultSet;
 using NBi.Core.ResultSet.Lookup.Violation;
 using NBi.Core.Scalar.Presentation;
+using NBi.Extensibility;
 using NBi.Framework.Markdown.MarkdownLogExtension;
 using NBi.Framework.Sampling;
 using System;
@@ -23,7 +24,7 @@ namespace NBi.Framework.FailureMessage.Markdown.Helper
 
 
         protected override IEnumerable<ExtendedMetadata> BuildExtendedMetadatas(LookupMatchesViolationComposite row, IEnumerable<ColumnMetadata> metadatas)
-                => ExtendMetadata(row.CandidateRow.Table, metadatas);
+                => ExtendMetadata(row.CandidateRow.Parent, metadatas);
 
         protected override IEnumerable<TableRowExtended> RenderRows(IEnumerable<LookupMatchesViolationComposite> composites, IEnumerable<ExtendedMetadata> definitions)
         {
@@ -40,16 +41,16 @@ namespace NBi.Framework.FailureMessage.Markdown.Helper
             }
         }
 
-        private TableRowExtended RenderFirstRow(DataRow row, LookupMatchesViolationRecord record, IEnumerable<ExtendedMetadata> metadatas)
+        private TableRowExtended RenderFirstRow(IResultRow row, LookupMatchesViolationRecord record, IEnumerable<ExtendedMetadata> metadatas)
         {
             var cells = new List<TableCellExtended>();
-            for (int i = 0; i < row.Table.Columns.Count; i++)
+            for (int i = 0; i < row.Parent.Columns.Count; i++)
             {
-                if (record.ContainsKey(row.Table.Columns[i]))
+                if (record.ContainsKey(row.Parent.Columns[i]))
                 {
                     var displayValue = RenderCell(
                         row.IsNull(i) ? DBNull.Value : row.ItemArray[i]
-                        , record[row.Table.Columns[i]]
+                        , record[row.Parent.Columns[i]]
                         , metadatas.ElementAt(i).Type);
                     cells.Add(new TableCellExtended() { Text = displayValue });
                 }
@@ -62,16 +63,16 @@ namespace NBi.Framework.FailureMessage.Markdown.Helper
             return new TableRowExtended() { Cells = cells };
         }
 
-        private TableRowExtended RenderSupplementaryRow(DataRow row, LookupMatchesViolationRecord record, IEnumerable<ExtendedMetadata> metadatas)
+        private TableRowExtended RenderSupplementaryRow(IResultRow row, LookupMatchesViolationRecord record, IEnumerable<ExtendedMetadata> metadatas)
         {
             var cells = new List<TableCellExtended>();
-            for (int i = 0; i < row.Table.Columns.Count; i++)
+            for (int i = 0; i < row.Parent.Columns.Count; i++)
             {
-                if (record.ContainsKey(row.Table.Columns[i]))
+                if (record.ContainsKey(row.Parent.Columns[i]))
                 {
                     var displayValue = RenderCell(
                         row.IsNull(i) ? DBNull.Value : row.ItemArray[i]
-                        , record[row.Table.Columns[i]]
+                        , record[row.Parent.Columns[i]]
                         , metadatas.ElementAt(i).Type);
                     cells.Add(new TableCellExtended() { Text = displayValue });
                 }

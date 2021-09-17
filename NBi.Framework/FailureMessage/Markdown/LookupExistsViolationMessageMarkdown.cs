@@ -2,6 +2,7 @@
 using NBi.Core.ResultSet;
 using NBi.Core.ResultSet.Lookup;
 using NBi.Core.ResultSet.Lookup.Violation;
+using NBi.Extensibility;
 using NBi.Framework.FailureMessage.Common;
 using NBi.Framework.FailureMessage.Common.Helper;
 using NBi.Framework.FailureMessage.Markdown.Helper;
@@ -18,10 +19,10 @@ namespace NBi.Framework.FailureMessage.Markdown
     class LookupExistsViolationMessageMarkdown : LookupViolationMessageMarkdown
     {
 
-        public LookupExistsViolationMessageMarkdown(IDictionary<string, ISampler<DataRow>> samplers)
+        public LookupExistsViolationMessageMarkdown(IDictionary<string, ISampler<IResultRow>> samplers)
             : base(samplers) { }
 
-        protected override void RenderAnalysis(LookupViolationCollection violations, IEnumerable<ColumnMetadata> metadata, ISampler<DataRow> sampler, ColumnMappingCollection keyMappings, ColumnMappingCollection valueMappings, MarkdownContainer container)
+        protected override void RenderAnalysis(LookupViolationCollection violations, IEnumerable<ColumnMetadata> metadata, ISampler<IResultRow> sampler, ColumnMappingCollection keyMappings, ColumnMappingCollection valueMappings, MarkdownContainer container)
         {
             if (violations.Values.Any())
             {

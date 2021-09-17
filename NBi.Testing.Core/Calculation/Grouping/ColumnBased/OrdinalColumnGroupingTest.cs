@@ -28,8 +28,8 @@ namespace NBi.Testing.Core.Calculation.Grouping.ColumnBased
 
             var result = grouping.Execute(rs);
             Assert.That(result, Has.Count.EqualTo(2));
-            Assert.That(result[new KeyCollection(new[] { "alpha" })].Rows, Has.Count.EqualTo(3));
-            Assert.That(result[new KeyCollection(new[] { "beta" })].Rows, Has.Count.EqualTo(1));
+            Assert.That(result[new KeyCollection(new[] { "alpha" })].Rows.Count, Is.EqualTo(3));
+            Assert.That( result[new KeyCollection(new[] { "beta" })].Rows.Count, Is.EqualTo(1));
         }
 
         [Test]
@@ -44,9 +44,9 @@ namespace NBi.Testing.Core.Calculation.Grouping.ColumnBased
 
             var result = grouping.Execute(rs);
             Assert.That(result, Has.Count.EqualTo(3));
-            Assert.That(result[new KeyCollection(new object[] { "alpha", "1" })].Rows, Has.Count.EqualTo(2));
-            Assert.That(result[new KeyCollection(new object[] { "alpha", "2" })].Rows, Has.Count.EqualTo(1));
-            Assert.That(result[new KeyCollection(new object[] { "beta", "2" })].Rows, Has.Count.EqualTo(1));
+            Assert.That(result[new KeyCollection(new object[] { "alpha", "1" })].Rows.Count, Is.EqualTo(2));
+            Assert.That(result[new KeyCollection(new object[] { "alpha", "2" })].Rows.Count, Is.EqualTo(1));
+            Assert.That(result[new KeyCollection(new object[] { "beta", "2" })].Rows.Count, Is.EqualTo(1));
         }
 
         [Test]
@@ -66,9 +66,9 @@ namespace NBi.Testing.Core.Calculation.Grouping.ColumnBased
 
             var result = grouping.Execute(rs);
             Assert.That(result, Has.Count.EqualTo(3));
-            Assert.That(result[new KeyCollection(new object[] { "alpha", 1m })].Rows, Has.Count.EqualTo(2));
-            Assert.That(result[new KeyCollection(new object[] { "alpha", 2m })].Rows, Has.Count.EqualTo(1));
-            Assert.That(result[new KeyCollection(new object[] { "beta", 2m })].Rows, Has.Count.EqualTo(1));
+            Assert.That(result[new KeyCollection(new object[] { "alpha", 1m })].Rows.Count, Is.EqualTo(2));
+            Assert.That(result[new KeyCollection(new object[] { "alpha", 2m })].Rows.Count, Is.EqualTo(1));
+            Assert.That(result[new KeyCollection(new object[] { "beta", 2m })].Rows.Count, Is.EqualTo(1));
         }
     }
 }

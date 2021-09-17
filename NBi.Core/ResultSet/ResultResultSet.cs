@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using NBi.Extensibility;
+using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 
@@ -15,37 +16,28 @@ namespace NBi.Core.ResultSet
     {
         public bool Value { get; set; }
         public ResultSetDifferenceType Difference { get; set; }
-        public IEnumerable<DataRow> Missing { get; set; }
-        public IEnumerable<DataRow> Unexpected { get; set; }
-        public IEnumerable<DataRow> Duplicated { get; set; }
+        public IEnumerable<IResultRow> Missing { get; set; }
+        public IEnumerable<IResultRow> Unexpected { get; set; }
+        public IEnumerable<IResultRow> Duplicated { get; set; }
         public Sample NonMatchingValue { get; set; }
 
 
         public static ResultResultSet Matching
         {
-            get
-            {
-                return new ResultResultSet() { Difference = ResultSetDifferenceType.None };
-            }
+            get => new ResultResultSet() { Difference = ResultSetDifferenceType.None };
         }
 
         public static ResultResultSet NotMatching
         {
-            get
-            {
-                return new ResultResultSet() { Difference = ResultSetDifferenceType.Content };
-            }
+            get => new ResultResultSet() { Difference = ResultSetDifferenceType.Content };
         }
 
         public static ResultResultSet StructureNotComparable
         {
-            get
-            {
-                return new ResultResultSet() {Difference= ResultSetDifferenceType.Structure};
-            }
+            get => new ResultResultSet() {Difference= ResultSetDifferenceType.Structure};
         }
 
-        public static ResultResultSet Build(IEnumerable<DataRow> missingRows, IEnumerable<DataRow> unexpectedRows, IEnumerable<DataRow> duplicatedRows, IEnumerable<DataRow> keyMatchingRows, IEnumerable<DataRow> nonMatchingValueRows)
+        public static ResultResultSet Build(IEnumerable<IResultRow> missingRows, IEnumerable<IResultRow> unexpectedRows, IEnumerable<IResultRow> duplicatedRows, IEnumerable<IResultRow> keyMatchingRows, IEnumerable<IResultRow> nonMatchingValueRows)
         {
             ResultResultSet res = null;
 
@@ -63,20 +55,16 @@ namespace NBi.Core.ResultSet
         }
 
 
-        private static Sample GetSubset(IEnumerable<DataRow> rows, IEnumerable<DataRow> reference)
-        {
-            var subset = new List<DataRow>(rows.Count());
-            subset = rows.ToList();
-            return new Sample(subset, reference, rows.Count());
-        }
+        private static Sample GetSubset(IEnumerable<IResultRow> rows, IEnumerable<IResultRow> reference)
+            =>  new Sample(rows?.ToList() ?? new List<IResultRow>(0), reference, rows?.Count() ?? 0);
 
         public class Sample
         {
-            public IEnumerable<DataRow> Rows { get; set; }
-            public IEnumerable<DataRow> References { get; set; }
+            public IEnumerable<IResultRow> Rows { get; set; }
+            public IEnumerable<IResultRow> References { get; set; }
             public int Count { get; set; }
 
-            public Sample(IEnumerable<DataRow> rows, IEnumerable<DataRow> refs, int count)
+            public Sample(IEnumerable<IResultRow> rows, IEnumerable<IResultRow> refs, int count)
             {
                 Rows = rows;
                 References = refs;

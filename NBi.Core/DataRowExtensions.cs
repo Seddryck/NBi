@@ -11,7 +11,8 @@ namespace NBi.Core
 {
     public static class DataRowExtensions
     {
-        public static object GetValue(this DataRow row, IColumnIdentifier columnIdentifier) => columnIdentifier.GetValue(row);
+        public static object GetValue(this IResultRow row, IColumnIdentifier columnIdentifier) => columnIdentifier.GetValue(row);
+        internal static object GetValue(this DataRow row, IColumnIdentifier columnIdentifier) => columnIdentifier.GetValue(new DataRowResultSet(row));
     }
 
     public static class DataTableExtensions

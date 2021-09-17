@@ -37,7 +37,7 @@ namespace NBi.NUnit.ResultSetComparison
         {
             var factory = new LookupExistsViolationsMessageFormatterFactory();
             var msg = factory.Instantiate(Configuration.FailureReportProfile);
-            msg.Generate(rsReference.Rows.Cast<DataRow>(), rsCandidate.Rows.Cast<DataRow>(), violations, mappings, null);
+            msg.Generate(rsReference.Rows, rsCandidate.Rows, violations, mappings, null);
             return msg;
         }
         
@@ -64,8 +64,8 @@ namespace NBi.NUnit.ResultSetComparison
         {
             if (actual is IResultSetService)
                 return ProcessParallel((IResultSetService)actual);
-            else if (actual is ResultSet)
-                return doMatch((ResultSet)actual);
+            else if (actual is IResultSet)
+                return doMatch((IResultSet)actual);
             else
                 throw new ArgumentException($"The type of the actual object is '{actual.GetType().Name}' and is not supported for a constraint of type '{this.GetType().Name}'. Use a ResultSet or a ResultSetService.", nameof(actual));
         }
@@ -82,7 +82,7 @@ namespace NBi.NUnit.ResultSetComparison
             return Matches(rsCandidate);
         }
 
-        protected virtual bool doMatch(ResultSet actual)
+        protected virtual bool doMatch(IResultSet actual)
         {
             violations = Engine.Execute(actual, rsReference);
             var output = violations.Count() == 0;

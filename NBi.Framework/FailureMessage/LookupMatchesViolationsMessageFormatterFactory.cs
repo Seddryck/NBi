@@ -10,6 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Data;
+using NBi.Extensibility;
 
 namespace NBi.Framework.FailureMessage
 {
@@ -17,7 +18,7 @@ namespace NBi.Framework.FailureMessage
     {
         public ILookupViolationMessageFormatter Instantiate(IFailureReportProfile profile)
         {
-            var dataRowsFactory = new SamplersFactory<DataRow>();
+            var dataRowsFactory = new SamplersFactory<IResultRow>();
             var dataRowsSamplers = dataRowsFactory.InstantiateLookup(profile);
 
             var keysCollectionFactory = new SamplersFactory<KeyCollection>();

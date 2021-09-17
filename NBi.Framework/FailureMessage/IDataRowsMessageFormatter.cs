@@ -1,5 +1,6 @@
 ﻿using NBi.Core.ResultSet;
 using NBi.Core.ResultSet.Uniqueness;
+using NBi.Extensibility;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -11,10 +12,10 @@ namespace NBi.Framework.FailureMessage
 {
     public interface IDataRowsMessageFormatter
     {
-        void BuildComparaison(IEnumerable<DataRow> expectedRows, IEnumerable<DataRow> actualRows, ResultResultSet compareResult);
-        void BuildDuplication(IEnumerable<DataRow> actualRows, ResultUniqueRows result);
-        void BuildFilter(IEnumerable<DataRow> actualRows, IEnumerable<DataRow> filteredRows);
-        void BuildCount(IEnumerable<DataRow> actualRows);
+        void BuildComparaison(IEnumerable<IResultRow> expectedRows, IEnumerable<IResultRow> actualRows, ResultResultSet compareResult);
+        void BuildDuplication(IEnumerable<IResultRow> actualRows, ResultUniqueRows result);
+        void BuildFilter(IEnumerable<IResultRow> actualRows, IEnumerable<IResultRow> filteredRows);
+        void BuildCount(IEnumerable<IResultRow> actualRows);
 
         string RenderExpected();
         string RenderActual();

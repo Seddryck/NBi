@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NBi.Extensibility;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -14,7 +15,7 @@ namespace NBi.Core.ResultSet.Alteration.Lookup.Strategies.Missing
         public DefaultValueMissingStrategy(object defaultValue)
             => Value = defaultValue;
 
-        public void Execute(DataRow row, DataColumn originalColumn, DataColumn newColumn)
+        public void Execute(IResultRow row, DataColumn originalColumn, DataColumn newColumn)
             => row[newColumn.Ordinal] = Value;
     }
 }

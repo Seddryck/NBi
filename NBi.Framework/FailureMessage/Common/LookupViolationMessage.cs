@@ -2,6 +2,7 @@
 using NBi.Core.ResultSet;
 using NBi.Core.ResultSet.Lookup;
 using NBi.Core.ResultSet.Lookup.Violation;
+using NBi.Extensibility;
 using NBi.Framework.FailureMessage.Markdown.Helper;
 using NBi.Framework.Sampling;
 using System;
@@ -15,15 +16,15 @@ namespace NBi.Framework.FailureMessage.Common
 {
     abstract class LookupViolationMessage<T> : ILookupViolationMessageFormatter
     {
-        public IDictionary<string, ISampler<DataRow>> Samplers { get; }
+        public IDictionary<string, ISampler<IResultRow>> Samplers { get; }
 
         protected T reference;
         protected T candidate;
         protected T analysis;
 
-        public LookupViolationMessage(IDictionary<string, ISampler<DataRow>> samplers) => Samplers = samplers;
+        public LookupViolationMessage(IDictionary<string, ISampler<IResultRow>> samplers) => Samplers = samplers;
 
-        public void Generate(IEnumerable<DataRow> referenceRows, IEnumerable<DataRow> candidateRows, LookupViolationCollection violations, ColumnMappingCollection keyMappings, ColumnMappingCollection valueMappings)
+        public void Generate(IEnumerable<IResultRow> referenceRows, IEnumerable<IResultRow> candidateRows, LookupViolationCollection violations, ColumnMappingCollection keyMappings, ColumnMappingCollection valueMappings)
         {
             var metadata = BuildMetadata(keyMappings, ColumnRole.Key, x => x.ReferenceColumn)
                 .Union(BuildMetadata(valueMappings, ColumnRole.Value, x => x.ReferenceColumn));
@@ -46,9 +47,9 @@ namespace NBi.Framework.FailureMessage.Common
                 };
         }
 
-        protected abstract void RenderStandardTable(IEnumerable<DataRow> rows, IEnumerable<ColumnMetadata> metadata, ISampler<DataRow> sampler, string title, T writer);
+        protected abstract void RenderStandardTable(IEnumerable<IResultRow> rows, IEnumerable<ColumnMetadata> metadata, ISampler<IResultRow> sampler, string title, T writer);
 
-        protected abstract void RenderAnalysis(LookupViolationCollection violations, IEnumerable<ColumnMetadata> metadata, ISampler<DataRow> sampler, ColumnMappingCollection keyMappings, ColumnMappingCollection valueMappings, T writer);
+        protected abstract void RenderAnalysis(LookupViolationCollection violations, IEnumerable<ColumnMetadata> metadata, ISampler<IResultRow> sampler, ColumnMappingCollection keyMappings, ColumnMappingCollection valueMappings, T writer);
 
         public abstract string RenderReference();
         public abstract string RenderCandidate();

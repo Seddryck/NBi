@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NBi.Extensibility;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data;
@@ -12,19 +13,19 @@ namespace NBi.Core.ResultSet.Lookup.Violation
     {
         public RowViolationState State { get; private set; }
         public LookupViolationInformation(RowViolationState state) => State = state;
-        public abstract void AddCandidateRow(DataRow row);
-        public abstract IEnumerable<DataRow> Rows { get; }
+        public abstract void AddCandidateRow(IResultRow row);
+        public abstract IEnumerable<IResultRow> Rows { get; }
     }
 
     public class LookupExistsViolationInformation : LookupViolationInformation
     {
-        public ICollection<DataRow> CandidateRows { get; private set; } = new List<DataRow>();
+        public ICollection<IResultRow> CandidateRows { get; private set; } = new List<IResultRow>();
 
-        public override IEnumerable<DataRow> Rows => CandidateRows;
+        public override IEnumerable<IResultRow> Rows => CandidateRows;
 
         public LookupExistsViolationInformation(RowViolationState state) : base(state) { }
 
-        public override void AddCandidateRow(DataRow row) => CandidateRows.Add(row);
+        public override void AddCandidateRow(IResultRow row) => CandidateRows.Add(row);
     }
 
     public class LookupMatchesViolationInformation : LookupViolationInformation
@@ -32,9 +33,9 @@ namespace NBi.Core.ResultSet.Lookup.Violation
         public ICollection<LookupMatchesViolationComposite> CandidateRows { get; private set; } = new List<LookupMatchesViolationComposite>();
         public LookupMatchesViolationInformation(RowViolationState state)
             : base(state) { }
-        public override void AddCandidateRow(DataRow row) 
+        public override void AddCandidateRow(IResultRow row) 
             => CandidateRows.Add(new LookupMatchesViolationComposite(row, new List<LookupMatchesViolationRecord>()));
 
-        public override IEnumerable<DataRow> Rows => CandidateRows.Select(x => x.CandidateRow);
+        public override IEnumerable<IResultRow> Rows => CandidateRows.Select(x => x.CandidateRow);
     }
 }

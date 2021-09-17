@@ -48,16 +48,16 @@ namespace NBi.Testing.Core.ResultSet.Alteration.Merging
             Assert.That(result.Columns[1].ColumnName, Is.EqualTo("Column0"));
             Assert.That(result.Columns[2].ColumnName, Is.EqualTo("first"));
             Assert.That(result.Columns[3].ColumnName, Is.EqualTo("Column1"));
-            Assert.That(result.Rows[0][3], Is.EqualTo(DBNull.Value));
-            Assert.That(result.Rows[1][3], Is.EqualTo(DBNull.Value));
-            Assert.That(result.Rows[2][3], Is.EqualTo(DBNull.Value));
-            Assert.That(result.Rows[3][3], Is.Not.EqualTo(DBNull.Value));
-            Assert.That(result.Rows[4][3], Is.Not.EqualTo(DBNull.Value));
-            Assert.That(result.Rows[0][2], Is.Not.EqualTo(DBNull.Value));
-            Assert.That(result.Rows[1][2], Is.Not.EqualTo(DBNull.Value));
-            Assert.That(result.Rows[2][2], Is.Not.EqualTo(DBNull.Value));
-            Assert.That(result.Rows[3][2], Is.EqualTo(DBNull.Value));
-            Assert.That(result.Rows[4][2], Is.EqualTo(DBNull.Value));
+            Assert.That(result[0][3], Is.EqualTo(DBNull.Value));
+            Assert.That(result[1][3], Is.EqualTo(DBNull.Value));
+            Assert.That(result[2][3], Is.EqualTo(DBNull.Value));
+            Assert.That(result[3][3], Is.Not.EqualTo(DBNull.Value));
+            Assert.That(result[4][3], Is.Not.EqualTo(DBNull.Value));
+            Assert.That(result[0][2], Is.Not.EqualTo(DBNull.Value));
+            Assert.That(result[1][2], Is.Not.EqualTo(DBNull.Value));
+            Assert.That(result[2][2], Is.Not.EqualTo(DBNull.Value));
+            Assert.That(result[3][2], Is.EqualTo(DBNull.Value));
+            Assert.That(result[4][2], Is.EqualTo(DBNull.Value));
         }
 
         [Test()]
@@ -90,11 +90,11 @@ namespace NBi.Testing.Core.ResultSet.Alteration.Merging
 
             Assert.That(result.Rows.Count, Is.EqualTo(5));
             Assert.That(result.Columns.Count, Is.EqualTo(4));
-            Assert.That(result.Rows[0][3], Is.EqualTo(DBNull.Value));
-            Assert.That(result.Rows[1][3], Is.EqualTo(DBNull.Value));
-            Assert.That(result.Rows[2][3], Is.EqualTo(DBNull.Value));
-            Assert.That(result.Rows[3][3], Is.Not.EqualTo(DBNull.Value));
-            Assert.That(result.Rows[4][3], Is.Not.EqualTo(DBNull.Value));
+            Assert.That(result[0][3], Is.EqualTo(DBNull.Value));
+            Assert.That(result[1][3], Is.EqualTo(DBNull.Value));
+            Assert.That(result[2][3], Is.EqualTo(DBNull.Value));
+            Assert.That(result[3][3], Is.Not.EqualTo(DBNull.Value));
+            Assert.That(result[4][3], Is.Not.EqualTo(DBNull.Value));
         }
 
         [Test()]
@@ -111,11 +111,11 @@ namespace NBi.Testing.Core.ResultSet.Alteration.Merging
 
             Assert.That(result.Rows.Count, Is.EqualTo(5));
             Assert.That(result.Columns.Count, Is.EqualTo(3));
-            Assert.That(result.Rows[0][2], Is.Not.EqualTo(DBNull.Value));
-            Assert.That(result.Rows[1][2], Is.Not.EqualTo(DBNull.Value));
-            Assert.That(result.Rows[2][2], Is.Not.EqualTo(DBNull.Value));
-            Assert.That(result.Rows[3][2], Is.EqualTo(DBNull.Value));
-            Assert.That(result.Rows[4][2], Is.EqualTo(DBNull.Value));
+            Assert.That(result[0][2], Is.Not.EqualTo(DBNull.Value));
+            Assert.That(result[1][2], Is.Not.EqualTo(DBNull.Value));
+            Assert.That(result[2][2], Is.Not.EqualTo(DBNull.Value));
+            Assert.That(result[3][2], Is.EqualTo(DBNull.Value));
+            Assert.That(result[4][2], Is.EqualTo(DBNull.Value));
         }
     }
 }

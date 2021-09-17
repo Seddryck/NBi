@@ -19,7 +19,10 @@ namespace NBi.Core.ResultSet
         public DataColumn GetColumn(IResultSet rs) 
             => rs.Columns.Contains(Name) ? rs.Columns[Name] : null;
 
-        public object GetValue(DataRow dataRow) => dataRow[Name];
+        public DataColumn GetColumn(DataTable dataTable)
+            => dataTable.Columns.Contains(Name) ? dataTable.Columns[Name] : null;
+
+        public object GetValue(IResultRow dataRow) => dataRow[Name];
 
         public override int GetHashCode() => Name.GetHashCode();
 

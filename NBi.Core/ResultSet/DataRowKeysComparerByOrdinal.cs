@@ -18,15 +18,15 @@ namespace NBi.Core.ResultSet
             settings.ApplyTo(columnCount);
         }
         
-        protected override bool CheckKeysExist(DataRow dr)
+        protected override bool CheckKeysExist(IResultRow dr)
         {
-            return settings.GetLastKeyColumnOrdinal() < dr.Table.Columns.Count;
+            return settings.GetLastKeyColumnOrdinal() < dr.Parent.Columns.Count;
         }
         
-        public override KeyCollection GetKeys(DataRow row)
+        public override KeyCollection GetKeys(IResultRow row)
         {
             var keys = new List<object>();
-            for (int i = 0; i < row.Table.Columns.Count; i++)
+            for (int i = 0; i < row.Parent.Columns.Count; i++)
             {
                 if (settings.GetColumnRole(i) == ColumnRole.Key)
                 {

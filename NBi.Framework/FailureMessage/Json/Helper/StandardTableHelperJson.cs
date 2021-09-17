@@ -1,6 +1,7 @@
 ﻿using NBi.Core.ResultSet;
 using NBi.Core.Scalar.Comparer;
 using NBi.Core.Scalar.Presentation;
+using NBi.Extensibility;
 using NBi.Framework.FailureMessage.Markdown.Helper;
 using NBi.Framework.Sampling;
 using Newtonsoft.Json;
@@ -14,22 +15,22 @@ using System.Threading.Tasks;
 
 namespace NBi.Framework.FailureMessage.Json.Helper
 {
-    class StandardTableHelperJson : BaseTableHelperJson<DataRow>
+    class StandardTableHelperJson : BaseTableHelperJson<IResultRow>
     {
-        public StandardTableHelperJson(IEnumerable<DataRow> rows, IEnumerable<ColumnMetadata> definitions, ISampler<DataRow> sampler)
+        public StandardTableHelperJson(IEnumerable<IResultRow> rows, IEnumerable<ColumnMetadata> definitions, ISampler<IResultRow> sampler)
             : base(rows, definitions, sampler) { }
 
 
         protected override void RenderNonEmptyTable(JsonWriter writer)
         {
-            var extendedMetadata = ExtendMetadata(Rows.ElementAt(0).Table, Metadatas);
+            var extendedMetadata = ExtendMetadata(Rows.ElementAt(0).Parent, Metadatas);
             RenderNonEmptyTable(Rows, extendedMetadata, Sampler, writer);
         }
 
-        protected override void RenderRow(DataRow row, IEnumerable<ColumnType> columnTypes, JsonWriter writer)
+        protected override void RenderRow(IResultRow row, IEnumerable<ColumnType> columnTypes, JsonWriter writer)
         {
             writer.WriteStartArray();
-            for (int i = 0; i < row.Table.Columns.Count; i++)
+            for (int i = 0; i < row.Parent.Columns.Count; i++)
             {
                 RenderCell(row.IsNull(i) ? DBNull.Value : row.ItemArray[i], columnTypes.ElementAt(i), writer);
             }

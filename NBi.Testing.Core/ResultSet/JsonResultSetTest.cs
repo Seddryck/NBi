@@ -28,9 +28,9 @@ namespace NBi.Testing.Core.ResultSet
             var builder = new JsonResultSet();
             var result = builder.Build("[{ \"name\":\"John\" }]");
 
-            Assert.That(result.Rows, Has.Count.EqualTo(1));
-            Assert.That(result.Rows[0].ItemArray.Length, Is.EqualTo(1));
-            Assert.That(result.Rows[0].ItemArray[0], Is.EqualTo("John"));
+            Assert.That(result.Rows.Count(), Is.EqualTo(1));
+            Assert.That(result[0].ItemArray.Length, Is.EqualTo(1));
+            Assert.That(result[0][0], Is.EqualTo("John"));
         }
 
         [Test]
@@ -49,10 +49,10 @@ namespace NBi.Testing.Core.ResultSet
             var builder = new JsonResultSet();
             var result = builder.Build("[{ \"name\":\"John\" }, { \"name\":\"Paul\" }]");
 
-            Assert.That(result.Rows, Has.Count.EqualTo(2));
-            Assert.That(result.Rows[0].ItemArray.Length, Is.EqualTo(1));
-            Assert.That(result.Rows[0].ItemArray[0], Is.EqualTo("John"));
-            Assert.That(result.Rows[1].ItemArray[0], Is.EqualTo("Paul"));
+            Assert.That(result.Rows.Count(), Is.EqualTo(2));
+            Assert.That(result[0].ItemArray.Length, Is.EqualTo(1));
+            Assert.That(result[0][0], Is.EqualTo("John"));
+            Assert.That(result[1][0], Is.EqualTo("Paul"));
         }
 
 
@@ -73,10 +73,10 @@ namespace NBi.Testing.Core.ResultSet
             var builder = new JsonResultSet();
             var result = builder.Build("[{ \"name\":\"John\", \"age\":31 }]");
 
-            Assert.That(result.Rows, Has.Count.EqualTo(1));
-            Assert.That(result.Rows[0].ItemArray.Length, Is.EqualTo(2));
-            Assert.That(result.Rows[0].ItemArray[0], Is.EqualTo("John"));
-            Assert.That(result.Rows[0].ItemArray[1], Is.EqualTo(31));
+            Assert.That(result.Rows.Count(), Is.EqualTo(1));
+            Assert.That(result[0].ItemArray.Length, Is.EqualTo(2));
+            Assert.That(result[0][0], Is.EqualTo("John"));
+            Assert.That(result[0][1], Is.EqualTo(31));
         }
 
 
@@ -150,14 +150,14 @@ namespace NBi.Testing.Core.ResultSet
             var builder = new JsonResultSet();
             var result = builder.Build("[{ \"name\":\"John\", \"age\":31, \"children\":[{\"name\": \"Mike\"}, {\"name\": \"Helen\"}] }]");
 
-            Assert.That(result.Rows, Has.Count.EqualTo(2));
-            Assert.That(result.Rows[0].ItemArray.Length, Is.EqualTo(3));
-            Assert.That(result.Rows[0].ItemArray[0], Is.EqualTo("John"));
-            Assert.That(result.Rows[0].ItemArray[1], Is.EqualTo(31));
-            Assert.That(result.Rows[0].ItemArray[2], Is.EqualTo("Mike"));
-            Assert.That(result.Rows[1].ItemArray[0], Is.EqualTo("John"));
-            Assert.That(result.Rows[1].ItemArray[1], Is.EqualTo(31));
-            Assert.That(result.Rows[1].ItemArray[2], Is.EqualTo("Helen"));
+            Assert.That(result.Rows.Count(), Is.EqualTo(2));
+            Assert.That(result[0].ItemArray.Length, Is.EqualTo(3));
+            Assert.That(result[0][0], Is.EqualTo("John"));
+            Assert.That(result[0][1], Is.EqualTo(31));
+            Assert.That(result[0][2], Is.EqualTo("Mike"));
+            Assert.That(result[1][0], Is.EqualTo("John"));
+            Assert.That(result[1][1], Is.EqualTo(31));
+            Assert.That(result[1][2], Is.EqualTo("Helen"));
 
         }
 
@@ -167,16 +167,16 @@ namespace NBi.Testing.Core.ResultSet
             var builder = new JsonResultSet();
             var result = builder.Build("[{ \"name\":\"John\", \"age\":31, \"children\":[{\"name\": \"Mike\"}, {\"name\": \"Helen\", \"age\":5}] }]");
 
-            Assert.That(result.Rows, Has.Count.EqualTo(2));
-            Assert.That(result.Rows[0].ItemArray.Length, Is.EqualTo(4));
-            Assert.That(result.Rows[0].ItemArray[0], Is.EqualTo("John"));
-            Assert.That(result.Rows[0].ItemArray[1], Is.EqualTo(31));
-            Assert.That(result.Rows[0].ItemArray[2], Is.EqualTo("Mike"));
-            Assert.That(result.Rows[0].ItemArray[3], Is.EqualTo(DBNull.Value));
-            Assert.That(result.Rows[1].ItemArray[0], Is.EqualTo("John"));
-            Assert.That(result.Rows[1].ItemArray[1], Is.EqualTo(31));
-            Assert.That(result.Rows[1].ItemArray[2], Is.EqualTo("Helen"));
-            Assert.That(result.Rows[1].ItemArray[3], Is.EqualTo(5));
+            Assert.That(result.Rows.Count(), Is.EqualTo(2));
+            Assert.That(result[0].ItemArray.Length, Is.EqualTo(4));
+            Assert.That(result[0][0], Is.EqualTo("John"));
+            Assert.That(result[0][1], Is.EqualTo(31));
+            Assert.That(result[0][2], Is.EqualTo("Mike"));
+            Assert.That(result[0][3], Is.EqualTo(DBNull.Value));
+            Assert.That(result[1][0], Is.EqualTo("John"));
+            Assert.That(result[1][1], Is.EqualTo(31));
+            Assert.That(result[1][2], Is.EqualTo("Helen"));
+            Assert.That(result[1][3], Is.EqualTo(5));
 
         }
 
@@ -194,23 +194,23 @@ namespace NBi.Testing.Core.ResultSet
                 "]"
                 );
 
-            Assert.That(result.Rows, Has.Count.EqualTo(3));
-            Assert.That(result.Rows[0].ItemArray.Length, Is.EqualTo(5));
-            Assert.That(result.Rows[0].ItemArray[0], Is.EqualTo("John"));
-            Assert.That(result.Rows[0].ItemArray[1], Is.EqualTo("New York"));
-            Assert.That(result.Rows[0].ItemArray[2], Is.EqualTo(6));
-            Assert.That(result.Rows[0].ItemArray[3], Is.EqualTo(DBNull.Value));
-            Assert.That(result.Rows[0].ItemArray[4], Is.EqualTo("lawyer"));
-            Assert.That(result.Rows[1].ItemArray[0], Is.EqualTo("John"));
-            Assert.That(result.Rows[1].ItemArray[1], Is.EqualTo("New York"));
-            Assert.That(result.Rows[1].ItemArray[2], Is.EqualTo(5));
-            Assert.That(result.Rows[1].ItemArray[3], Is.EqualTo("Helen"));
-            Assert.That(result.Rows[1].ItemArray[4], Is.EqualTo("lawyer"));
-            Assert.That(result.Rows[2].ItemArray[0], Is.EqualTo("Andrew"));
-            Assert.That(result.Rows[2].ItemArray[1], Is.EqualTo("Chicago"));
-            Assert.That(result.Rows[2].ItemArray[2], Is.EqualTo(DBNull.Value));
-            Assert.That(result.Rows[2].ItemArray[3], Is.EqualTo(DBNull.Value));
-            Assert.That(result.Rows[2].ItemArray[4], Is.EqualTo("engineer"));
+            Assert.That(result.Rows.Count(), Is.EqualTo(3));
+            Assert.That(result[0].ItemArray.Length, Is.EqualTo(5));
+            Assert.That(result[0][0], Is.EqualTo("John"));
+            Assert.That(result[0][1], Is.EqualTo("New York"));
+            Assert.That(result[0][2], Is.EqualTo(6));
+            Assert.That(result[0][3], Is.EqualTo(DBNull.Value));
+            Assert.That(result[0][4], Is.EqualTo("lawyer"));
+            Assert.That(result[1][0], Is.EqualTo("John"));
+            Assert.That(result[1][1], Is.EqualTo("New York"));
+            Assert.That(result[1][2], Is.EqualTo(5));
+            Assert.That(result[1][3], Is.EqualTo("Helen"));
+            Assert.That(result[1][4], Is.EqualTo("lawyer"));
+            Assert.That(result[2][0], Is.EqualTo("Andrew"));
+            Assert.That(result[2][1], Is.EqualTo("Chicago"));
+            Assert.That(result[2][2], Is.EqualTo(DBNull.Value));
+            Assert.That(result[2][3], Is.EqualTo(DBNull.Value));
+            Assert.That(result[2][4], Is.EqualTo("engineer"));
         }
 
         [Test]

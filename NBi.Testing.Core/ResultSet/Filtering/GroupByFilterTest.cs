@@ -35,9 +35,9 @@ namespace NBi.Testing.Core.ResultSet.Filtering
             var rankingByGroup = new GroupByFilter(filter, grouping);
 
             var result = rankingByGroup.Apply(rs);
-            Assert.That(result.Rows, Has.Count.EqualTo(3));
-            Assert.That(result.Rows.Cast<DataRow>().Where(x => x[0].ToString()=="alpha").Count(), Is.EqualTo(2));
-            Assert.That(result.Rows.Cast<DataRow>().Where(x => x[0].ToString() == "beta").Count(), Is.EqualTo(1));
+            Assert.That(result.Rows.Count(), Is.EqualTo(3));
+            Assert.That(result.Rows.Where(x => x[0].ToString()=="alpha").Count(), Is.EqualTo(2));
+            Assert.That(result.Rows.Where(x => x[0].ToString() == "beta").Count(), Is.EqualTo(1));
         }
 
         [Test]
@@ -52,9 +52,9 @@ namespace NBi.Testing.Core.ResultSet.Filtering
             var rankingByGroup = new GroupByFilter(filter, new NoneGrouping());
 
             var result = rankingByGroup.Apply(rs);
-            Assert.That(result.Rows, Has.Count.EqualTo(2));
-            Assert.That(result.Rows.Cast<DataRow>().Where(x => x[0].ToString() == "alpha").Count(), Is.EqualTo(1));
-            Assert.That(result.Rows.Cast<DataRow>().Where(x => x[0].ToString() == "beta").Count(), Is.EqualTo(1));
+            Assert.That(result.Rows.Count(), Is.EqualTo(2));
+            Assert.That(result.Rows.Where(x => x[0].ToString() == "alpha").Count(), Is.EqualTo(1));
+            Assert.That(result.Rows.Where(x => x[0].ToString() == "beta").Count(), Is.EqualTo(1));
         }
     }
 }

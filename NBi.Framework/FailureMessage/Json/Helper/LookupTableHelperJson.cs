@@ -2,6 +2,7 @@
 using NBi.Core.ResultSet.Lookup.Violation;
 using NBi.Core.Scalar.Comparer;
 using NBi.Core.Scalar.Presentation;
+using NBi.Extensibility;
 using NBi.Framework.FailureMessage.Markdown.Helper;
 using NBi.Framework.Sampling;
 using Newtonsoft.Json;
@@ -22,7 +23,7 @@ namespace NBi.Framework.FailureMessage.Json.Helper
 
         protected override void RenderNonEmptyTable(JsonWriter writer)
         {
-            var extendedMetadatas = ExtendMetadata(Rows.ElementAt(0).CandidateRow.Table, Metadatas);
+            var extendedMetadatas = ExtendMetadata(Rows.ElementAt(0).CandidateRow.Parent, Metadatas);
             RenderNonEmptyTable(Rows, extendedMetadatas, Sampler, writer);
         }
 
@@ -44,16 +45,16 @@ namespace NBi.Framework.FailureMessage.Json.Helper
             writer.WriteEndArray(); //rows
         }
 
-        private void RenderFirstRow(DataRow row, LookupMatchesViolationRecord record, IEnumerable<ExtendedMetadata> metadatas, JsonWriter writer)
+        private void RenderFirstRow(IResultRow row, LookupMatchesViolationRecord record, IEnumerable<ExtendedMetadata> metadatas, JsonWriter writer)
         {
             writer.WriteStartArray();
-            for (int i = 0; i < row.Table.Columns.Count; i++)
+            for (int i = 0; i < row.Parent.Columns.Count; i++)
             {
-                if (record.ContainsKey(row.Table.Columns[i]))
+                if (record.ContainsKey(row.Parent.Columns[i]))
                 {
                     RenderCell(
                         row.IsNull(i) ? DBNull.Value : row.ItemArray[i]
-                        , record[row.Table.Columns[i]]
+                        , record[row.Parent.Columns[i]]
                         , metadatas.ElementAt(i).Type
                         , writer);
                 }
@@ -65,16 +66,16 @@ namespace NBi.Framework.FailureMessage.Json.Helper
             writer.WriteEndArray();
         }
 
-        private void RenderSupplementaryRow(DataRow row, LookupMatchesViolationRecord record, IEnumerable<ExtendedMetadata> metadatas, JsonWriter writer)
+        private void RenderSupplementaryRow(IResultRow row, LookupMatchesViolationRecord record, IEnumerable<ExtendedMetadata> metadatas, JsonWriter writer)
         {
             writer.WriteStartArray();
-            for (int i = 0; i < row.Table.Columns.Count; i++)
+            for (int i = 0; i < row.Parent.Columns.Count; i++)
             {
-                if (record.ContainsKey(row.Table.Columns[i]))
+                if (record.ContainsKey(row.Parent.Columns[i]))
                 {
                     RenderCell(
                         row.IsNull(i) ? DBNull.Value : row.ItemArray[i]
-                        , record[row.Table.Columns[i]]
+                        , record[row.Parent.Columns[i]]
                         , metadatas.ElementAt(i).Type
                         , writer);
                 }

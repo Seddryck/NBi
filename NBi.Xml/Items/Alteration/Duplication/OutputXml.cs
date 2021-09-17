@@ -1,5 +1,6 @@
 ﻿using NBi.Core.ResultSet;
 using NBi.Core.ResultSet.Alteration.Duplication;
+using NBi.Extensibility;
 using NBi.Xml.Variables;
 using System;
 using System.Collections.Generic;

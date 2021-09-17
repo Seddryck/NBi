@@ -25,7 +25,7 @@ namespace NBi.Core.Calculation.Grouping.CaseBased
             var dico = new Dictionary<ResultSet.KeyCollection, IResultSet>();
             stopWatch.Start();
 
-            foreach (DataRow row in resultSet.Rows)
+            foreach (var row in resultSet.Rows)
             {
                 Context.Switch(row);
                 var index = Cases.Select((p, i) => new { Predication = p, Index = i })

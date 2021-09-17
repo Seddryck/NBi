@@ -236,21 +236,21 @@ namespace NBi.Testing.Core.FlatFile
                 var reader = new CsvReaderProxy();
                 var dataTable = reader.Read(stream, Encoding.UTF8, 0, false, recordSeparator, fieldSeparator, '\"', '\"', "_", missingCell);
 
-                Assert.That(dataTable.Rows[0].ItemArray[0], Is.EqualTo("a"));
-                Assert.That(dataTable.Rows[0].ItemArray[1], Is.EqualTo("b"));
-                Assert.That(dataTable.Rows[0].ItemArray[2], Is.EqualTo("c"));
+                Assert.That(dataTable.Rows[0][0], Is.EqualTo("a"));
+                Assert.That(dataTable.Rows[0][1], Is.EqualTo("b"));
+                Assert.That(dataTable.Rows[0][2], Is.EqualTo("c"));
 
-                Assert.That(dataTable.Rows[1].ItemArray[0], Is.EqualTo("a"));
-                Assert.That(dataTable.Rows[1].ItemArray[1], Is.EqualTo("b"));
-                Assert.That(dataTable.Rows[1].ItemArray[2], Is.EqualTo("?"));
+                Assert.That(dataTable.Rows[1][0], Is.EqualTo("a"));
+                Assert.That(dataTable.Rows[1][1], Is.EqualTo("b"));
+                Assert.That(dataTable.Rows[1][2], Is.EqualTo("?"));
 
-                Assert.That(dataTable.Rows[2].ItemArray[0], Is.EqualTo("a"));
-                Assert.That(dataTable.Rows[2].ItemArray[1], Is.EqualTo("?"));
-                Assert.That(dataTable.Rows[2].ItemArray[2], Is.EqualTo("?"));
+                Assert.That(dataTable.Rows[2][0], Is.EqualTo("a"));
+                Assert.That(dataTable.Rows[2][1], Is.EqualTo("?"));
+                Assert.That(dataTable.Rows[2][2], Is.EqualTo("?"));
 
-                Assert.That(dataTable.Rows[3].ItemArray[0], Is.EqualTo("a"));
-                Assert.That(dataTable.Rows[3].ItemArray[1], Is.EqualTo("b"));
-                Assert.That(dataTable.Rows[3].ItemArray[2], Is.EqualTo("?"));
+                Assert.That(dataTable.Rows[3][0], Is.EqualTo("a"));
+                Assert.That(dataTable.Rows[3][1], Is.EqualTo("b"));
+                Assert.That(dataTable.Rows[3][2], Is.EqualTo("?"));
 
 
                 writer.Dispose();
@@ -271,21 +271,21 @@ namespace NBi.Testing.Core.FlatFile
                 var reader = new CsvReaderProxy();
                 var dataTable = reader.Read(stream, Encoding.UTF8, 0, false, recordSeparator, fieldSeparator, '\"', '\"', emptyCell, "_");
 
-                Assert.That(dataTable.Rows[0].ItemArray[0], Is.EqualTo("a"));
-                Assert.That(dataTable.Rows[0].ItemArray[1], Is.EqualTo("b"));
-                Assert.That(dataTable.Rows[0].ItemArray[2], Is.EqualTo("c"));
+                Assert.That(dataTable.Rows[0][0], Is.EqualTo("a"));
+                Assert.That(dataTable.Rows[0][1], Is.EqualTo("b"));
+                Assert.That(dataTable.Rows[0][2], Is.EqualTo("c"));
 
-                Assert.That(dataTable.Rows[1].ItemArray[0], Is.EqualTo("a"));
-                Assert.That(dataTable.Rows[1].ItemArray[1], Is.EqualTo("?"));
-                Assert.That(dataTable.Rows[1].ItemArray[2], Is.EqualTo("c"));
+                Assert.That(dataTable.Rows[1][0], Is.EqualTo("a"));
+                Assert.That(dataTable.Rows[1][1], Is.EqualTo("?"));
+                Assert.That(dataTable.Rows[1][2], Is.EqualTo("c"));
 
-                Assert.That(dataTable.Rows[2].ItemArray[0], Is.EqualTo("?"));
-                Assert.That(dataTable.Rows[2].ItemArray[1], Is.EqualTo("b"));
-                Assert.That(dataTable.Rows[2].ItemArray[2], Is.EqualTo("c"));
+                Assert.That(dataTable.Rows[2][0], Is.EqualTo("?"));
+                Assert.That(dataTable.Rows[2][1], Is.EqualTo("b"));
+                Assert.That(dataTable.Rows[2][2], Is.EqualTo("c"));
 
-                Assert.That(dataTable.Rows[3].ItemArray[0], Is.EqualTo("?"));
-                Assert.That(dataTable.Rows[3].ItemArray[1], Is.EqualTo("b"));
-                Assert.That(dataTable.Rows[3].ItemArray[2], Is.EqualTo("?"));
+                Assert.That(dataTable.Rows[3][0], Is.EqualTo("?"));
+                Assert.That(dataTable.Rows[3][1], Is.EqualTo("b"));
+                Assert.That(dataTable.Rows[3][2], Is.EqualTo("?"));
 
                 writer.Dispose();
             }

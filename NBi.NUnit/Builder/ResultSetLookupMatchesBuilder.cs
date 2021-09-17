@@ -13,6 +13,7 @@ using NBi.NUnit.ResultSetComparison;
 using NBi.Xml.Items.ResultSet.Lookup;
 using NBi.Core.Scalar.Comparer;
 using NBi.Xml.Settings;
+using NBi.Extensibility;
 
 namespace NBi.NUnit.Builder
 {

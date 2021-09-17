@@ -14,7 +14,6 @@ namespace NBi.Testing.Framework.FailureMessage.Markdown.Helper
         [Test]
         public void Build_TwoRows_5Lines()
         {
-            var dataSet = new DataSet();
             var dataTable = new DataTable() { TableName = "MyTable" };
             dataTable.Columns.Add(new DataColumn("Id"));
             dataTable.Columns["Id"].ExtendedProperties["NBi::Role"] = ColumnRole.Key;
@@ -22,9 +21,10 @@ namespace NBi.Testing.Framework.FailureMessage.Markdown.Helper
             dataTable.Columns.Add(new DataColumn("Boolean value"));
             dataTable.LoadDataRow(new object[] { "Alpha", 10, true }, false);
             dataTable.LoadDataRow(new object[] { "Beta", 20, false }, false);
+            var rs = new DataTableResultSet(dataTable);
 
             var msg = new TableHelperMarkdown(EngineStyle.ByIndex);
-            var value = msg.Build(dataTable.Rows.Cast<DataRow>()).ToMarkdown();
+            var value = msg.Build(rs.Rows).ToMarkdown();
 
             Assert.That(value.Count<char>(c => c == '\n'), Is.EqualTo(5));
 
@@ -41,7 +41,6 @@ namespace NBi.Testing.Framework.FailureMessage.Markdown.Helper
         [Test]
         public void Build_TwoRowsByOrdinal_FirstRow()
         {
-            var dataSet = new DataSet();
             var dataTable = new DataTable() { TableName = "MyTable" };
             dataTable.Columns.Add(new DataColumn("Id"));
             dataTable.Columns["Id"].ExtendedProperties["NBi::Role"] = ColumnRole.Key;
@@ -49,9 +48,10 @@ namespace NBi.Testing.Framework.FailureMessage.Markdown.Helper
             dataTable.Columns.Add(new DataColumn("Boolean value"));
             dataTable.LoadDataRow(new object[] { "Alpha", 10, true }, false);
             dataTable.LoadDataRow(new object[] { "Beta", 20, false }, false);
+            var rs = new DataTableResultSet(dataTable);
 
             var msg = new TableHelperMarkdown(EngineStyle.ByName);
-            var value = msg.Build(dataTable.Rows.Cast<DataRow>()).ToMarkdown();
+            var value = msg.Build(rs.Rows).ToMarkdown();
 
             Assert.That(value.Count<char>(c => c == '\n'), Is.EqualTo(5));
 
@@ -64,7 +64,6 @@ namespace NBi.Testing.Framework.FailureMessage.Markdown.Helper
         [Test]
         public void Build_TwoRowsByName_FirstRow()
         {
-            var dataSet = new DataSet();
             var dataTable = new DataTable() { TableName = "MyTable" };
             dataTable.Columns.Add(new DataColumn("Id"));
             dataTable.Columns["Id"].ExtendedProperties["NBi::Role"] = ColumnRole.Key;
@@ -72,9 +71,10 @@ namespace NBi.Testing.Framework.FailureMessage.Markdown.Helper
             dataTable.Columns.Add(new DataColumn("Boolean value"));
             dataTable.LoadDataRow(new object[] { "Alpha", 10, true }, false);
             dataTable.LoadDataRow(new object[] { "Beta", 20, false }, false);
+            var rs = new DataTableResultSet(dataTable);
 
             var msg = new TableHelperMarkdown(EngineStyle.ByIndex);
-            var value = msg.Build(dataTable.Rows.Cast<DataRow>()).ToMarkdown();
+            var value = msg.Build(rs.Rows).ToMarkdown();
 
             Assert.That(value.Count<char>(c => c == '\n'), Is.EqualTo(5));
 
@@ -87,7 +87,6 @@ namespace NBi.Testing.Framework.FailureMessage.Markdown.Helper
         [Test]
         public void Build_TwoRows_SeperationLineCorrectlyWritten()
         {
-            var dataSet = new DataSet();
             var dataTable = new DataTable() { TableName = "MyTable" };
             dataTable.Columns.Add(new DataColumn("Id"));
             dataTable.Columns["Id"].ExtendedProperties.Add("NBi::Role", ColumnRole.Key);
@@ -95,9 +94,10 @@ namespace NBi.Testing.Framework.FailureMessage.Markdown.Helper
             dataTable.Columns.Add(new DataColumn("Boolean value"));
             dataTable.LoadDataRow(new object[] { "Alpha", 10, true }, false);
             dataTable.LoadDataRow(new object[] { "Beta", 20, false }, false);
+            var rs = new DataTableResultSet(dataTable);
 
             var msg = new TableHelperMarkdown(EngineStyle.ByIndex);
-            var value = msg.Build(dataTable.Rows.Cast<DataRow>()).ToMarkdown();
+            var value = msg.Build(rs.Rows).ToMarkdown();
 
             var secondLineIndex = value.IndexOf('\n');
             var thirdLineIndex = value.IndexOf('\n', secondLineIndex + 1);
@@ -112,16 +112,16 @@ namespace NBi.Testing.Framework.FailureMessage.Markdown.Helper
         [Test]
         public void Build_TwoRows_ColumnDelimitersAlligned()
         {
-            var dataSet = new DataSet();
             var dataTable = new DataTable() { TableName = "MyTable" };
             dataTable.Columns.Add(new DataColumn("Id"));
             dataTable.Columns.Add(new DataColumn("Numeric value"));
             dataTable.Columns.Add(new DataColumn("Boolean value"));
             dataTable.LoadDataRow(new object[] { "Alpha", 10, true }, false);
             dataTable.LoadDataRow(new object[] { "Beta", 20, false }, false);
+            var rs = new DataTableResultSet(dataTable);
 
             var msg = new TableHelperMarkdown(EngineStyle.ByIndex);
-            var value = msg.Build(dataTable.Rows.Cast<DataRow>()).ToMarkdown();
+            var value = msg.Build(rs.Rows).ToMarkdown();
             var lines = value.Replace("\n", string.Empty).Split('\r');
 
             int pos = 0;
@@ -136,7 +136,6 @@ namespace NBi.Testing.Framework.FailureMessage.Markdown.Helper
         public void Build_TwoRows_NumericValuesNonRounded()
         {
             System.Threading.Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("en-us");
-            var dataSet = new DataSet();
             var dataTable = new DataTable() { TableName = "MyTable" };
             dataTable.Columns.Add(new DataColumn("Id"));
             var numericDataColumn = new DataColumn("Numeric value");
@@ -145,10 +144,10 @@ namespace NBi.Testing.Framework.FailureMessage.Markdown.Helper
             dataTable.Columns.Add(new DataColumn("Boolean value"));
             dataTable.LoadDataRow(new object[] { "Alpha", 10.752, true }, false);
             dataTable.LoadDataRow(new object[] { "Beta", 20.8445585, false }, false);
+            var rs = new DataTableResultSet(dataTable);
 
             var msg = new TableHelperMarkdown(EngineStyle.ByIndex);
-            var value = msg.Build(dataTable.Rows.Cast<DataRow>()).ToMarkdown();
-            var lines = value.Replace("\n", string.Empty).Split('\r');
+            var value = msg.Build(rs.Rows).ToMarkdown();
 
             Assert.That(value, Does.Contain("10.752 "));
             Assert.That(value, Does.Contain("20.8445585"));

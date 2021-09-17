@@ -36,14 +36,14 @@ namespace NBi.Core.Calculation
         {
             IList<ScoredObject> subset = new List<ScoredObject>();
             var scorer = new DataRowScorer(Operand, Aliases, Expressions);
-            foreach (DataRow row in rs.Rows)
+            foreach (var row in rs.Rows)
             {
                 var score = scorer.Execute(row);
                 InsertRow(score, ref subset);
             }
 
             var newRs = rs.Clone();
-            newRs.AddRange(subset.Select(x => x.Value as DataRow));
+            newRs.AddRange(subset.Select(x => x.Value as IResultRow));
             return newRs;
         }
 

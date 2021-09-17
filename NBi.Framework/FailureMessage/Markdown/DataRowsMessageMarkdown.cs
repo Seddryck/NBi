@@ -8,37 +8,38 @@ using NBi.Core.ResultSet;
 using NBi.Framework.FailureMessage.Markdown.Helper;
 using NBi.Framework.Sampling;
 using NBi.Core.ResultSet.Uniqueness;
+using NBi.Extensibility;
 
 namespace NBi.Framework.FailureMessage.Markdown
 {
     class DataRowsMessageMarkdown : IDataRowsMessageFormatter
     {
-        private readonly IDictionary<string, ISampler<DataRow>> samplers;
+        private readonly IDictionary<string, ISampler<IResultRow>> samplers;
         private readonly EngineStyle style;
 
         private MarkdownContainer expected;
         private MarkdownContainer actual;
         private MarkdownContainer analysis;
 
-        public DataRowsMessageMarkdown(EngineStyle style, IDictionary<string, ISampler<DataRow>> samplers)
+        public DataRowsMessageMarkdown(EngineStyle style, IDictionary<string, ISampler<IResultRow>> samplers)
         {
             this.style = style;
             this.samplers = samplers;
         }
 
-        public void BuildComparaison(IEnumerable<DataRow> expectedRows, IEnumerable<DataRow> actualRows, ResultResultSet compareResult)
+        public void BuildComparaison(IEnumerable<IResultRow> expectedRows, IEnumerable<IResultRow> actualRows, ResultResultSet compareResult)
         {
-            compareResult = compareResult ?? ResultResultSet.Build(new List<DataRow>(), new List<DataRow>(), new List<DataRow>(), new List<DataRow>(), new List<DataRow>());
+            compareResult = compareResult ?? ResultResultSet.Build(new List<IResultRow>(), new List<IResultRow>(), new List<IResultRow>(), new List<IResultRow>(), new List<IResultRow>());
 
             expected = BuildTable(style, expectedRows, samplers["expected"]);
             actual = BuildTable(style, actualRows, samplers["actual"]);
             analysis = BuildNonEmptyTable(style, compareResult.Unexpected, "Unexpected", samplers["analysis"]);
-            analysis.Append(BuildNonEmptyTable(style, compareResult.Missing ?? new List<DataRow>(), "Missing", samplers["analysis"]));
-            analysis.Append(BuildNonEmptyTable(style, compareResult.Duplicated ?? new List<DataRow>(), "Duplicated", samplers["analysis"]));
-            analysis.Append(BuildCompareTable(style, compareResult.NonMatchingValue.Rows ?? new List<DataRow>(), "Non matching value", samplers["analysis"]));
+            analysis.Append(BuildNonEmptyTable(style, compareResult.Missing ?? new List<IResultRow>(), "Missing", samplers["analysis"]));
+            analysis.Append(BuildNonEmptyTable(style, compareResult.Duplicated ?? new List<IResultRow>(), "Duplicated", samplers["analysis"]));
+            analysis.Append(BuildCompareTable(style, compareResult.NonMatchingValue.Rows ?? new List<IResultRow>(), "Non matching value", samplers["analysis"]));
         }
 
-        public void BuildDuplication(IEnumerable<DataRow> actualRows, ResultUniqueRows result)
+        public void BuildDuplication(IEnumerable<IResultRow> actualRows, ResultUniqueRows result)
         {
             actual = new MarkdownContainer();
             var sb = new StringBuilder();
@@ -52,32 +53,32 @@ namespace NBi.Framework.FailureMessage.Markdown
             analysis.Append(BuildNonEmptyTable(style, result.Rows, "Duplicated", samplers["analysis"]));
         }
 
-        public void BuildFilter(IEnumerable<DataRow> actualRows, IEnumerable<DataRow> filteredRows)
+        public void BuildFilter(IEnumerable<IResultRow> actualRows, IEnumerable<IResultRow> filteredRows)
         {
             actual = BuildTable(style, actualRows, samplers["actual"]);
             analysis = BuildTable(style, filteredRows, samplers["actual"]);
         }
-        public void BuildCount(IEnumerable<DataRow> actualRows)
+        public void BuildCount(IEnumerable<IResultRow> actualRows)
         {
             actual = BuildTable(style, actualRows, samplers["actual"]);
         }
 
-        private MarkdownContainer BuildTable(EngineStyle style, IEnumerable<DataRow> rows, ISampler<DataRow> sampler)
+        private MarkdownContainer BuildTable(EngineStyle style, IEnumerable<IResultRow> rows, ISampler<IResultRow> sampler)
         {
             var tableBuilder = new TableHelperMarkdown(style);
             return BuildTable(tableBuilder, rows, string.Empty, sampler);
         }
 
-        private MarkdownContainer BuildTable(TableHelperMarkdown tableBuilder, IEnumerable<DataRow> rows, string title, ISampler<DataRow> sampler)
+        private MarkdownContainer BuildTable(TableHelperMarkdown tableBuilder, IEnumerable<IResultRow> rows, string title, ISampler<IResultRow> sampler)
         {
-            rows = rows ?? new List<DataRow>();
+            rows = rows ?? new List<IResultRow>();
 
             sampler.Build(rows);
             var table = tableBuilder.Build(sampler.GetResult());
 
             var container = new MarkdownContainer();
 
-            if (!String.IsNullOrEmpty(title))
+            if (!string.IsNullOrEmpty(title))
             {
                 var titleText = string.Format($"{title} rows:");
                 container.Append(titleText.ToMarkdownSubHeader());
@@ -95,7 +96,7 @@ namespace NBi.Framework.FailureMessage.Markdown
             return container;
         }
 
-        private MarkdownContainer BuildNonEmptyTable(EngineStyle style, IEnumerable<DataRow> rows, string title, ISampler<DataRow> sampler)
+        private MarkdownContainer BuildNonEmptyTable(EngineStyle style, IEnumerable<IResultRow> rows, string title, ISampler<IResultRow> sampler)
         {
             var tableBuilder = new TableHelperMarkdown(style);
             if (rows !=null && rows.Count() > 0)
@@ -105,7 +106,7 @@ namespace NBi.Framework.FailureMessage.Markdown
         }
 
 
-        private MarkdownContainer BuildCompareTable(EngineStyle style, IEnumerable<DataRow> rows, string title, ISampler<DataRow> sampler)
+        private MarkdownContainer BuildCompareTable(EngineStyle style, IEnumerable<IResultRow> rows, string title, ISampler<IResultRow> sampler)
         {
             var tableBuilder = new CompareTableHelperMarkdown(style);
             if (rows.Count() > 0)
@@ -121,7 +122,7 @@ namespace NBi.Framework.FailureMessage.Markdown
 
         public string RenderExpected()
         {
-            if (samplers["expected"] is NoneSampler<DataRow>)
+            if (samplers["expected"] is NoneSampler<IResultRow>)
                 return "Display skipped.";
             else
                 return expected?.ToMarkdown();
@@ -129,7 +130,7 @@ namespace NBi.Framework.FailureMessage.Markdown
 
         public string RenderActual()
         {
-            if (samplers["actual"] is NoneSampler<DataRow>)
+            if (samplers["actual"] is NoneSampler<IResultRow>)
                 return "Display skipped.";
             else
                 return actual.ToMarkdown();
@@ -137,7 +138,7 @@ namespace NBi.Framework.FailureMessage.Markdown
 
         public string RenderAnalysis()
         {
-            if (samplers["analysis"] is NoneSampler<DataRow>)
+            if (samplers["analysis"] is NoneSampler<IResultRow>)
                 return "Display skipped.";
             else
                 return analysis.ToMarkdown();

@@ -33,9 +33,9 @@ namespace NBi.Testing.Core.ResultSet.Alteration.Extension
             var newRs = extender.Execute(rs);
 
             Assert.That(newRs.Columns.Count, Is.EqualTo(4));
-            Assert.That(newRs.Rows[0][3], Is.EqualTo(2));
-            Assert.That(newRs.Rows[1][3], Is.EqualTo(6));
-            Assert.That(newRs.Rows[2][3], Is.EqualTo(35));
+            Assert.That(newRs[0][3], Is.EqualTo(2));
+            Assert.That(newRs[1][3], Is.EqualTo(6));
+            Assert.That(newRs[2][3], Is.EqualTo(35));
         }
 
         [Test]
@@ -58,9 +58,9 @@ namespace NBi.Testing.Core.ResultSet.Alteration.Extension
 
             Assert.That(newRs.Columns.Count, Is.EqualTo(4));
             Assert.That(newRs.Columns[3].ColumnName, Is.EqualTo("d"));
-            Assert.That(newRs.Rows[0][3], Is.EqualTo("AL"));
-            Assert.That(newRs.Rows[1][3], Is.EqualTo("BE"));
-            Assert.That(newRs.Rows[2][3], Is.EqualTo("GAMMA"));
+            Assert.That(newRs[0][3], Is.EqualTo("AL"));
+            Assert.That(newRs[1][3], Is.EqualTo("BE"));
+            Assert.That(newRs[2][3], Is.EqualTo("GAMMA"));
         }
 
         [Test]
@@ -83,9 +83,9 @@ namespace NBi.Testing.Core.ResultSet.Alteration.Extension
 
             Assert.That(newRs.Columns.Count, Is.EqualTo(4));
             Assert.That(newRs.Columns[3].ColumnName, Is.EqualTo("d"));
-            Assert.That(newRs.Rows[0][3], Is.EqualTo("AL"));
-            Assert.That(newRs.Rows[1][3], Is.EqualTo("BE"));
-            Assert.That(newRs.Rows[2][3], Is.EqualTo("GA"));
+            Assert.That(newRs[0][3], Is.EqualTo("AL"));
+            Assert.That(newRs[1][3], Is.EqualTo("BE"));
+            Assert.That(newRs[2][3], Is.EqualTo("GA"));
         }
 
         [Test]
@@ -108,9 +108,9 @@ namespace NBi.Testing.Core.ResultSet.Alteration.Extension
 
             Assert.That(newRs.Columns.Count, Is.EqualTo(4));
             Assert.That(newRs.Columns[3].ColumnName, Is.EqualTo("d"));
-            Assert.That(newRs.Rows[0][3], Is.EqualTo("F"));
-            Assert.That(newRs.Rows[1][3], Is.EqualTo("FOO"));
-            Assert.That(newRs.Rows[2][3], Is.EqualTo("FOO"));
+            Assert.That(newRs[0][3], Is.EqualTo("F"));
+            Assert.That(newRs[1][3], Is.EqualTo("FOO"));
+            Assert.That(newRs[2][3], Is.EqualTo("FOO"));
         }
 
         [Test]

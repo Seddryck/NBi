@@ -38,7 +38,7 @@ namespace NBi.NUnit.Query
         {
             if (Configuration.FailureReportProfile.Format == FailureReportFormat.Json)
                 return;
-            var value = filterResultSet.Rows.Count;
+            var value = filterResultSet.Rows.Count();
             writer.WriteLine($"{value} row{(value > 1 ? "s" : string.Empty)} validate{(value == 1 ? "s" : string.Empty)} the predicate '{filter.Describe()}'.");
         }
     }

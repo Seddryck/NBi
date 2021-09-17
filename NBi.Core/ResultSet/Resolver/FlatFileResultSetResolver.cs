@@ -47,7 +47,7 @@ namespace NBi.Core.ResultSet.Resolver
             var rs = new DataTableResultSet(dataTable);
             stopWatch.Stop();
             Trace.WriteLineIf(NBiTraceSwitch.TraceInfo, $"Time needed to load data from flat file: {stopWatch.Elapsed:d'.'hh':'mm':'ss'.'fff'ms'}");
-            Trace.WriteLineIf(NBiTraceSwitch.TraceInfo, $"Result-set contains {dataTable.Rows.Count} row{(dataTable.Rows.Count > 1 ? "s" : string.Empty)} and {dataTable.Columns.Count} column{(dataTable.Columns.Count > 1 ? "s" : string.Empty)}");
+            Trace.WriteLineIf(NBiTraceSwitch.TraceInfo, $"Result-set contains {rs.RowCount} row{(rs.RowCount > 1 ? "s" : string.Empty)} and {rs.Columns.Count} column{(rs.Columns.Count > 1 ? "s" : string.Empty)}");
             return rs;
         }
 

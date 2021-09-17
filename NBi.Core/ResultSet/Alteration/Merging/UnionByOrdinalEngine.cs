@@ -28,8 +28,8 @@ namespace NBi.Core.ResultSet.Alteration.Merging
                 secondRs.Columns.Add(new DataColumn(rs.Columns[i].ColumnName, typeof(object)) { DefaultValue = DBNull.Value });
 
             //Import each row of the second dataset
-            foreach (DataRow row in secondRs.Rows)
-                rs.ImportRow(row);
+            foreach (var row in secondRs.Rows)
+                rs.Add(row);
             rs.AcceptChanges();
 
             return rs;

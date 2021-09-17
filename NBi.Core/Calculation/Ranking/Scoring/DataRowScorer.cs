@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace NBi.Core.Calculation.Ranking.Scoring
 {
-    class DataRowScorer : IScorer<DataRow>
+    class DataRowScorer : IScorer<IResultRow>
     {
         protected readonly IColumnIdentifier operand;
         protected readonly IEnumerable<IColumnExpression> expressions;
@@ -23,18 +23,18 @@ namespace NBi.Core.Calculation.Ranking.Scoring
             this.expressions = expressions;
         }
 
-        public ScoredObject Execute(DataRow row)
+        public ScoredObject Execute(IResultRow row)
             => new ScoredObject(GetValueFromRow(row, operand), row);
 
-        protected object GetValueFromRow(DataRow row, IColumnIdentifier identifier)
+        protected object GetValueFromRow(IResultRow row, IColumnIdentifier identifier)
         {
             if (identifier is ColumnOrdinalIdentifier)
             {
                 var ordinal = (identifier as ColumnOrdinalIdentifier).Ordinal;
-                if (ordinal <= row.Table.Columns.Count)
+                if (ordinal <= row.Parent.Columns.Count)
                     return row.ItemArray[ordinal];
                 else
-                    throw new ArgumentException($"The variable of the predicate is identified as '{identifier.Label}' but the column in position '{ordinal}' doesn't exist. The dataset only contains {row.Table.Columns.Count} columns.");
+                    throw new ArgumentException($"The variable of the predicate is identified as '{identifier.Label}' but the column in position '{ordinal}' doesn't exist. The dataset only contains {row.Parent.Columns.Count} columns.");
             }
 
             var name = (identifier as ColumnNameIdentifier).Name;
@@ -46,14 +46,14 @@ namespace NBi.Core.Calculation.Ranking.Scoring
             if (expression != null)
                 return EvaluateExpression(expression, row);
 
-            var column = row.Table.Columns.Cast<DataColumn>().SingleOrDefault(x => x.ColumnName == name);
+            var column = row.Parent.Columns.Cast<DataColumn>().SingleOrDefault(x => x.ColumnName == name);
             if (column != null)
                 return row[column.ColumnName];
 
             throw new ArgumentException($"The value '{name}' is not recognized as a column name or a column position or a column alias or an expression.");
         }
 
-        protected object EvaluateExpression(IColumnExpression expression, DataRow row)
+        protected object EvaluateExpression(IColumnExpression expression, IResultRow row)
         {
             var exp = new NCalc.Expression(expression.Value);
             var factory = new ColumnIdentifierFactory(); 
@@ -65,8 +65,5 @@ namespace NBi.Core.Calculation.Ranking.Scoring
 
             return exp.Evaluate();
         }
-
-        
-
     }
 }

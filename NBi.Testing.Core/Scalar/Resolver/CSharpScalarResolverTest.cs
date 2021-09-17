@@ -2,6 +2,7 @@
 using NBi.Core.Variable;
 using NUnit.Framework;
 using System;
+using System.IO;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -38,15 +39,18 @@ namespace NBi.Testing.Core.Scalar.Resolver
         [Test]
         public void Instantiate_GetValueXmlLinq_CorrectComputation()
         {
-            var xmlPath = new Uri(FileOnDisk.CreatePhysicalFile("PurchaseOrders.xml", "NBi.Testing.Core.Scalar.Resolver.Resources.PurchaseOrders.xml")).AbsolutePath;
-            string xmlDoc = string.Format(@"XDocument.Load(""{0}"").Root.Name.ToString()", xmlPath);
+            var xml = "<PurchaseOrders>" +
+                        "<PurchaseOrder>99503</PurchaseOrder>" +
+                        "<PurchaseOrder>99505</PurchaseOrder>" +
+                      "</PurchaseOrders>";
+            string xmlDoc = $@"XDocument.Load(new System.IO.StringReader(""{xml}"")).Root.Name.ToString()";
 
             var args = new CSharpScalarResolverArgs(xmlDoc);
             var resolver = new CSharpScalarResolver<string>(args);
 
             var output = resolver.Execute();
 
-            Assert.That(output, Is.EqualTo(XDocument.Load(xmlPath).Root.Name.ToString()));
+            Assert.That(output, Is.EqualTo(XDocument.Load(new StringReader(xml)).Root.Name.ToString()));
         }
 
         [Test]

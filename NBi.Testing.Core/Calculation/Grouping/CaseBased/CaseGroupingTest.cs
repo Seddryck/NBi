@@ -29,8 +29,8 @@ namespace NBi.Testing.Core.Calculation.Grouping.ColumnBased
 
             var result = grouping.Execute(rs);
             Assert.That(result, Has.Count.EqualTo(2));
-            Assert.That(result.ElementAt(0).Value.Rows, Has.Count.EqualTo(3));
-            Assert.That(result.ElementAt(1).Value.Rows, Has.Count.EqualTo(1));
+            Assert.That(result.ElementAt(0).Value.Rows.Count, Is.EqualTo(3));
+            Assert.That(result.ElementAt(1).Value.Rows.Count, Is.EqualTo(1));
         }
 
         [Test]
@@ -50,9 +50,9 @@ namespace NBi.Testing.Core.Calculation.Grouping.ColumnBased
 
             var result = grouping.Execute(rs);
             Assert.That(result, Has.Count.EqualTo(3));
-            Assert.That(result.ElementAt(0).Value.Rows, Has.Count.EqualTo(2));
-            Assert.That(result.ElementAt(1).Value.Rows, Has.Count.EqualTo(1));
-            Assert.That(result.ElementAt(2).Value.Rows, Has.Count.EqualTo(1));
+            Assert.That(result.ElementAt(0).Value.Rows.Count, Is.EqualTo(2));
+            Assert.That(result.ElementAt(1).Value.Rows.Count, Is.EqualTo(1));
+            Assert.That(result.ElementAt(2).Value.Rows.Count, Is.EqualTo(1));
         }
 
         [Test]
@@ -75,9 +75,9 @@ namespace NBi.Testing.Core.Calculation.Grouping.ColumnBased
 
             var result = grouping.Execute(rs);
             Assert.That(result, Has.Count.EqualTo(3));
-            Assert.That(result.ElementAt(0).Value.Rows, Has.Count.EqualTo(2));
-            Assert.That(result.ElementAt(1).Value.Rows, Has.Count.EqualTo(1));
-            Assert.That(result.ElementAt(2).Value.Rows, Has.Count.EqualTo(1));
+            Assert.That(result.ElementAt(0).Value.Rows.Count, Is.EqualTo(2));
+            Assert.That(result.ElementAt(1).Value.Rows.Count, Is.EqualTo(1));
+            Assert.That(result.ElementAt(2).Value.Rows.Count, Is.EqualTo(1));
         }
     }
 }

@@ -24,7 +24,7 @@ namespace NBi.Core.ResultSet.Filtering
             foreach (var group in groups)
             {
                 var filtered = Filter.Apply(group.Value);
-                newRs.AddRange(filtered.Rows.Cast<DataRow>());
+                newRs.AddRange(filtered.Rows);
             }
             return newRs;
         }

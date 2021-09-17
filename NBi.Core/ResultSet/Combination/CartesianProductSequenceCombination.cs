@@ -28,22 +28,22 @@ namespace NBi.Core.ResultSet.Combination
             else
             {
                 var firstItem = sequence[0];
-                foreach (DataRow row in rs.Rows)
-                    row[newColumn] = firstItem;
+                foreach (var row in rs.Rows)
+                    row[newColumn.Ordinal] = firstItem;
 
-                var newRows = new HashSet<DataRow>();
+                var newRows = new HashSet<IResultRow>();
                 foreach (var item in sequence.Cast<object>().Skip(1))
                 {
-                    foreach (DataRow row in rs.Rows)
+                    foreach (var row in rs.Rows)
                     {
                         var newRow = rs.NewRow();
                         newRow.ItemArray = row.ItemArray;
-                        newRow[newColumn] = item;
+                        newRow[newColumn.Ordinal] = item;
                         newRows.Add(newRow);
                     }
                 }
                 foreach (var newRow in newRows)
-                    rs.Rows.Add(newRow);
+                    rs.Add(newRow);
             }
             rs.AcceptChanges();
             return rs;

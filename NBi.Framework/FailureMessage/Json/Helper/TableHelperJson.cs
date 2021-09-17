@@ -1,6 +1,7 @@
 ﻿using NBi.Core.ResultSet;
 using NBi.Core.Scalar.Comparer;
 using NBi.Core.Scalar.Presentation;
+using NBi.Extensibility;
 using NBi.Framework.FailureMessage.Markdown.Helper;
 using NBi.Framework.Sampling;
 using Newtonsoft.Json;
@@ -16,10 +17,14 @@ namespace NBi.Framework.FailureMessage.Json
 {
     class TableHelperJson
     {
-        public void Execute(IEnumerable<DataRow> rows, ISampler<DataRow> sampler, JsonWriter writer)
-            => Execute(rows, sampler, BuildMetadataFromTable((rows ?? new DataRow[0]).Count() > 0 ? rows.ElementAt(0).Table : null), writer);
+        public void Execute(IEnumerable<IResultRow> rows, ISampler<IResultRow> sampler, JsonWriter writer)
+        {
+            rows = rows ?? Enumerable.Empty<IResultRow>();
+            Execute(rows, sampler, BuildMetadataFromTable(rows.Count() > 0 ? rows.ElementAt(0).Parent : null), writer);
+        }
+            
 
-        private IEnumerable<ColumnMetadata> BuildMetadataFromTable(DataTable table)
+        private IEnumerable<ColumnMetadata> BuildMetadataFromTable(IResultSet table)
         {
             if (table == null)
                 yield break;
@@ -36,9 +41,9 @@ namespace NBi.Framework.FailureMessage.Json
             }
         }
 
-        public void Execute(IEnumerable<DataRow> rows, ISampler<DataRow> sampler, IEnumerable<ColumnMetadata> metadata, JsonWriter writer)
+        public void Execute(IEnumerable<IResultRow> rows, ISampler<IResultRow> sampler, IEnumerable<ColumnMetadata> metadata, JsonWriter writer)
         {
-            rows = rows ?? new List<DataRow>();
+            rows = rows ?? new List<IResultRow>();
             sampler.Build(rows);
             var sampled = sampler.GetResult();
 
@@ -60,7 +65,7 @@ namespace NBi.Framework.FailureMessage.Json
                 writer.WriteStartArray();
                 var formatters = new List<IPresenter>();
 
-                var columns = sampled.ElementAt(0).Table.Columns;
+                var columns = sampled.ElementAt(0).Parent.Columns;
                 for (var i = 0; i < columns.Count; i++)
                 {
                     var meta = metadata.ElementAt(i);
@@ -99,11 +104,11 @@ namespace NBi.Framework.FailureMessage.Json
             writer.WriteEndObject();
         }
 
-        protected virtual void BuildRows(IEnumerable<DataRow> rows, IEnumerable<IPresenter> presenters, JsonWriter writer)
+        protected virtual void BuildRows(IEnumerable<IResultRow> rows, IEnumerable<IPresenter> presenters, JsonWriter writer)
         {
             writer.WritePropertyName("rows");
             writer.WriteStartArray();
-            foreach (DataRow row in rows)
+            foreach (IResultRow row in rows)
             {
 
                 writer.WriteStartArray();

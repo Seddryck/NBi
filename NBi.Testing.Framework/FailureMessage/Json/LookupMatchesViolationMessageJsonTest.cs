@@ -1,11 +1,7 @@
-﻿using Moq;
-using NBi.Core.Configuration;
-using NBi.Core.Configuration.FailureReport;
-using NBi.Core.ResultSet;
+﻿using NBi.Core.ResultSet;
 using NBi.Core.ResultSet.Lookup;
 using NBi.Core.ResultSet.Lookup.Violation;
-using NBi.Framework;
-using NBi.Framework.FailureMessage;
+using NBi.Extensibility;
 using NBi.Framework.FailureMessage.Json;
 using NBi.Framework.Sampling;
 using NUnit.Framework;
@@ -13,28 +9,11 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NBi.Testing.Framework.FailureMessage.Json
 {
     public class LookupMatchesViolationMessageJsonTest
     {
-        #region Helpers
-        private IEnumerable<DataRow> GetDataRows(int count)
-        {
-            var dataSet = new DataSet();
-            var dataTable = new DataTable() { TableName = "MyTable" };
-            dataTable.Columns.Add(new DataColumn("Id"));
-            dataTable.Columns.Add(new DataColumn("Numeric value"));
-            dataTable.Columns.Add(new DataColumn("Boolean value"));
-            for (int i = 0; i < count; i++)
-                dataTable.LoadDataRow(new object[] { "Alpha", i, true }, false);
-
-            return dataTable.Rows.Cast<DataRow>();
-        }
-        #endregion
-
         [Test]
         public void RenderMessage_FullSamples_Correct()
         {
@@ -44,6 +23,7 @@ namespace NBi.Testing.Framework.FailureMessage.Json
             referenceTable.LoadDataRow(new object[] { "Alpha", 15 }, false);
             referenceTable.LoadDataRow(new object[] { "Beta", 20 }, false);
             referenceTable.LoadDataRow(new object[] { "Delta", 30 }, false);
+            var rsReference = new DataTableResultSet(referenceTable);
 
             var candidateTable = new DataTable() { TableName = "MyTable" };
             candidateTable.Columns.Add(new DataColumn("ForeignKey"));
@@ -51,6 +31,7 @@ namespace NBi.Testing.Framework.FailureMessage.Json
             candidateTable.Columns.Add(new DataColumn("Boolean value"));
             candidateTable.LoadDataRow(new object[] { "Alpha", 10, true }, false);
             candidateTable.LoadDataRow(new object[] { "Beta", 20, false }, false);
+            var rsCandidate = new DataTableResultSet(candidateTable);
 
             var foreignKeyDefinition = new ColumnMetadata() { Identifier = new ColumnIdentifierFactory().Instantiate("ForeignKey"), Role = ColumnRole.Key };
             var numericDefinition = new ColumnMetadata() { Identifier = new ColumnIdentifierFactory().Instantiate("Numeric value"), Role = ColumnRole.Value };
@@ -59,25 +40,25 @@ namespace NBi.Testing.Framework.FailureMessage.Json
             var valueMappings = new ColumnMappingCollection() { new ColumnMapping(numericDefinition.Identifier, ColumnType.Numeric) };
 
             var information = new LookupMatchesViolationInformation(RowViolationState.Mismatch);
-            information.AddCandidateRow(candidateTable.Rows[0]);
+            information.AddCandidateRow(rsCandidate.Rows.ElementAt(0));
             information.CandidateRows.ElementAt(0).Records.Add(new LookupMatchesViolationRecord()
                 {
-                    { candidateTable.Columns[1] , new LookupMatchesViolationData(false, 15) },
+                    { rsCandidate.Columns[1] , new LookupMatchesViolationData(false, 15) },
                 });
             var violations = new LookupMatchesViolationCollection(keyMappings, valueMappings)
             {
                 { new KeyCollection(new[] { "Alpha" }), information }
             };
 
-            var samplers = new Dictionary<string, ISampler<DataRow>>()
+            var samplers = new Dictionary<string, ISampler<IResultRow>>()
             {
-                { "candidate", new FullSampler<DataRow>() },
-                { "reference", new FullSampler<DataRow>() },
-                { "analysis", new FullSampler<DataRow>() },
+                { "candidate", new FullSampler<IResultRow>() },
+                { "reference", new FullSampler<IResultRow>() },
+                { "analysis", new FullSampler<IResultRow>() },
             };
 
             var message = new LookupMatchesViolationMessageJson(samplers);
-            message.Generate(referenceTable.Rows.Cast<DataRow>(), candidateTable.Rows.Cast<DataRow>(), violations, keyMappings, valueMappings);
+            message.Generate(rsReference.Rows, rsCandidate.Rows, violations, keyMappings, valueMappings);
 
             var text = message.RenderMessage();
             Assert.That(text, Does.Contain("\"expected\":{\"total-rows\":3,\"table\""));
@@ -95,6 +76,7 @@ namespace NBi.Testing.Framework.FailureMessage.Json
             referenceTable.LoadDataRow(new object[] { "Alpha", 15 }, false);
             referenceTable.LoadDataRow(new object[] { "Beta", 20 }, false);
             referenceTable.LoadDataRow(new object[] { "Beta", 20 }, false);
+            var rsReference = new DataTableResultSet(referenceTable);
 
             var candidateTable = new DataTable() { TableName = "MyTable" };
             candidateTable.Columns.Add(new DataColumn("ForeignKey"));
@@ -102,6 +84,7 @@ namespace NBi.Testing.Framework.FailureMessage.Json
             candidateTable.Columns.Add(new DataColumn("Boolean value"));
             candidateTable.LoadDataRow(new object[] { "Alpha", 10, true }, false);
             candidateTable.LoadDataRow(new object[] { "Beta", 20, false }, false);
+            var rsCandidate = new DataTableResultSet(candidateTable);
 
             var foreignKeyDefinition = new ColumnMetadata() { Identifier = new ColumnIdentifierFactory().Instantiate("ForeignKey"), Role = ColumnRole.Key };
             var numericDefinition = new ColumnMetadata() { Identifier = new ColumnIdentifierFactory().Instantiate("Numeric value"), Role = ColumnRole.Value };
@@ -110,7 +93,7 @@ namespace NBi.Testing.Framework.FailureMessage.Json
             var valueMappings = new ColumnMappingCollection() { new ColumnMapping(numericDefinition.Identifier, ColumnType.Numeric) };
 
             var information = new LookupMatchesViolationInformation(RowViolationState.Mismatch);
-            information.AddCandidateRow(candidateTable.Rows[0]);
+            information.AddCandidateRow(rsCandidate.Rows.ElementAt(0));
             information.CandidateRows.ElementAt(0).Records.Add(new LookupMatchesViolationRecord()
                 {
                     { candidateTable.Columns[1] , new LookupMatchesViolationData(false, 15) },
@@ -120,15 +103,15 @@ namespace NBi.Testing.Framework.FailureMessage.Json
                 { new KeyCollection(new[] { "Alpha" }), information }
             };
 
-            var samplers = new Dictionary<string, ISampler<DataRow>>()
+            var samplers = new Dictionary<string, ISampler<IResultRow>>()
             {
-                { "candidate", new NoneSampler<DataRow>() },
-                { "reference", new NoneSampler<DataRow>() },
-                { "analysis", new NoneSampler<DataRow>() },
+                { "candidate", new NoneSampler<IResultRow>() },
+                { "reference", new NoneSampler<IResultRow>() },
+                { "analysis", new NoneSampler<IResultRow>() },
             };
 
             var message = new LookupMatchesViolationMessageJson(samplers);
-            message.Generate(referenceTable.Rows.Cast<DataRow>(), candidateTable.Rows.Cast<DataRow>(), violations, keyMappings, valueMappings);
+            message.Generate(rsReference.Rows, rsCandidate.Rows, violations, keyMappings, valueMappings);
 
             var text = message.RenderMessage();
             Assert.That(text, Does.Contain("\"expected\":{\"total-rows\":3}"));

@@ -113,7 +113,7 @@ namespace NBi.Testing.Unit.NUnit.Structure
                         });
 
 
-            var actuals = new string[] {};
+            var actuals = Array.Empty<string>();
 
             var commandStub = new Mock<IStructureDiscoveryCommand>();
             commandStub.Setup(cmd => cmd.Execute()).Returns(actuals);
@@ -215,7 +215,7 @@ namespace NBi.Testing.Unit.NUnit.Structure
                         });
 
 
-            var actuals = new string[] {};
+            var actuals = Array.Empty<string>();
 
             var commandStub = new Mock<IStructureDiscoveryCommand>();
             commandStub.Setup(cmd => cmd.Execute()).Returns(actuals);

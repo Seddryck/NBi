@@ -24,7 +24,7 @@ namespace NBi.Core.Scalar.Resolver
 
         public T Execute()
         {
-            var evaluation = Context.CurrentRow.GetValue(ColumnIdentifier);
+            var evaluation = Context.CurrentRow[ColumnIdentifier];
             var typedEvaluation = StrongTypingVariable(evaluation);
             return (T)typedEvaluation;
         }

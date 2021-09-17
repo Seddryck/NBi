@@ -30,9 +30,9 @@ namespace NBi.Testing.Core.ResultSet.Conversion
 
             Assert.That(rs.Columns[0].DataType, Is.EqualTo(typeof(decimal)));
             Assert.That(rs.Columns.Count, Is.EqualTo(2));
-            Assert.That(rs.Rows[0][0], Is.EqualTo(100.12));
-            Assert.That(rs.Rows[1][0], Is.EqualTo(100));
-            Assert.That(rs.Rows[2][0], Is.EqualTo(0.1));
+            Assert.That(rs[0][0], Is.EqualTo(100.12));
+            Assert.That(rs[1][0], Is.EqualTo(100));
+            Assert.That(rs[2][0], Is.EqualTo(0.1));
         }
 
         [Test]
@@ -52,9 +52,9 @@ namespace NBi.Testing.Core.ResultSet.Conversion
 
             Assert.That(rs.Columns[1].DataType, Is.EqualTo(typeof(decimal)));
             Assert.That(rs.Columns.Count, Is.EqualTo(2));
-            Assert.That(rs.Rows[0][1], Is.EqualTo(100.12));
-            Assert.That(rs.Rows[1][1], Is.EqualTo(100));
-            Assert.That(rs.Rows[2][1], Is.EqualTo(0.1));
+            Assert.That(rs[0][1], Is.EqualTo(100.12));
+            Assert.That(rs[1][1], Is.EqualTo(100));
+            Assert.That(rs[2][1], Is.EqualTo(0.1));
         }
 
         [Test]
@@ -74,9 +74,9 @@ namespace NBi.Testing.Core.ResultSet.Conversion
 
             Assert.That(rs.Columns[1].DataType, Is.EqualTo(typeof(decimal)));
             Assert.That(rs.Columns.Count, Is.EqualTo(3));
-            Assert.That(rs.Rows[0][1], Is.EqualTo(100.12));
-            Assert.That(rs.Rows[1][1], Is.EqualTo(100));
-            Assert.That(rs.Rows[2][1], Is.EqualTo(DBNull.Value));
+            Assert.That(rs[0][1], Is.EqualTo(100.12));
+            Assert.That(rs[1][1], Is.EqualTo(100));
+            Assert.That(rs[2][1], Is.EqualTo(DBNull.Value));
         }
 
         [Test]
@@ -96,9 +96,9 @@ namespace NBi.Testing.Core.ResultSet.Conversion
 
             Assert.That(rs.Columns[1].DataType, Is.EqualTo(typeof(DateTime)));
             Assert.That(rs.Columns.Count, Is.EqualTo(3));
-            Assert.That(rs.Rows[0][1], Is.EqualTo(new DateTime(2018,1,6)));
-            Assert.That(rs.Rows[1][1], Is.EqualTo(new DateTime(2015, 12, 17)));
-            Assert.That(rs.Rows[2][1], Is.EqualTo(new DateTime(2013, 1, 1)));
+            Assert.That(rs[0][1], Is.EqualTo(new DateTime(2018,1,6)));
+            Assert.That(rs[1][1], Is.EqualTo(new DateTime(2015, 12, 17)));
+            Assert.That(rs[2][1], Is.EqualTo(new DateTime(2013, 1, 1)));
         }
 
         [Test]
@@ -118,9 +118,9 @@ namespace NBi.Testing.Core.ResultSet.Conversion
 
             Assert.That(rs.Columns[1].DataType, Is.EqualTo(typeof(DateTime)));
             Assert.That(rs.Columns.Count, Is.EqualTo(3));
-            Assert.That(rs.Rows[0][1], Is.EqualTo(new DateTime(2018, 1, 6, 8,12,0)));
-            Assert.That(rs.Rows[1][1], Is.EqualTo(new DateTime(2015, 12, 17, 8, 12, 0)));
-            Assert.That(rs.Rows[2][1], Is.EqualTo(new DateTime(2019, 12, 31, 23, 59, 59)));
+            Assert.That(rs[0][1], Is.EqualTo(new DateTime(2018, 1, 6, 8,12,0)));
+            Assert.That(rs[1][1], Is.EqualTo(new DateTime(2015, 12, 17, 8, 12, 0)));
+            Assert.That(rs[2][1], Is.EqualTo(new DateTime(2019, 12, 31, 23, 59, 59)));
         }
     }
 }

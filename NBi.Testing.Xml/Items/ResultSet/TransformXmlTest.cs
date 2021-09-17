@@ -1,6 +1,7 @@
 ﻿#region Using directives
 using System.IO;
 using System.Reflection;
+using NBi.Extensibility;
 using NBi.Core.ResultSet;
 using NBi.Xml;
 using NBi.Xml.Constraints;

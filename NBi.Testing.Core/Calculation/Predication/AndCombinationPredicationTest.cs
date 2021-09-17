@@ -29,8 +29,7 @@ namespace NBi.Testing.Unit.Core.Calculation.Predication
             var predication = factory.Instantiate(new[] { leftPredication, RightPredication }, CombinationOperator.And);
 
             var context = Context.None;
-            var dt = new DataTable();
-            var row = dt.NewRow();
+            var row = new DataTableResultSet().NewRow();
             context.Switch(row);
 
             Assert.That(predication.Execute(context), Is.True);
@@ -46,8 +45,7 @@ namespace NBi.Testing.Unit.Core.Calculation.Predication
             var predication = factory.Instantiate(new[] { leftPredication, RightPredication }, CombinationOperator.And);
 
             var context = Context.None;
-            var dt = new DataTable();
-            var row = dt.NewRow();
+            var row = new DataTableResultSet().NewRow();
             context.Switch(row);
 
             Assert.That(predication.Execute(context), Is.False);
@@ -63,8 +61,7 @@ namespace NBi.Testing.Unit.Core.Calculation.Predication
             var predication = factory.Instantiate(new[] { leftPredication, RightPredication }, CombinationOperator.And);
 
             var context = Context.None;
-            var dt = new DataTable();
-            var row = dt.NewRow();
+            var row = new DataTableResultSet().NewRow();
             context.Switch(row);
 
             Assert.That(predication.Execute(context), Is.False);
@@ -82,8 +79,7 @@ namespace NBi.Testing.Unit.Core.Calculation.Predication
             var predication = factory.Instantiate(new[] { leftPredicationMock.Object, rightPredicationMock.Object }, CombinationOperator.And);
 
             var context = Context.None;
-            var dt = new DataTable();
-            var row = dt.NewRow();
+            var row = new DataTableResultSet().NewRow();
             context.Switch(row);
             predication.Execute(context);
 

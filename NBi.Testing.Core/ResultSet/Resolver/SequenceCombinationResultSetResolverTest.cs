@@ -50,9 +50,9 @@ namespace NBi.Testing.Core.ResultSet.Resolver
 
             Assert.That(rs.Columns.Count, Is.EqualTo(1));
             Assert.That(rs.Rows.Count, Is.EqualTo(3));
-            Assert.That(rs.Rows[0][0], Is.EqualTo(new DateTime(2015, 1, 1)));
-            Assert.That(rs.Rows[1][0], Is.EqualTo(new DateTime(2016, 1, 1)));
-            Assert.That(rs.Rows[2][0], Is.EqualTo(new DateTime(2017, 1, 1)));
+            Assert.That(rs[0][0], Is.EqualTo(new DateTime(2015, 1, 1)));
+            Assert.That(rs[1][0], Is.EqualTo(new DateTime(2016, 1, 1)));
+            Assert.That(rs[2][0], Is.EqualTo(new DateTime(2017, 1, 1)));
         }
 
         [Test()]
@@ -79,18 +79,18 @@ namespace NBi.Testing.Core.ResultSet.Resolver
 
             Assert.That(rs.Columns.Count, Is.EqualTo(2));
             Assert.That(rs.Rows.Count, Is.EqualTo(6));
-            Assert.That(rs.Rows[0][0], Is.EqualTo(new DateTime(2015, 1, 1)));
-            Assert.That(rs.Rows[1][0], Is.EqualTo(new DateTime(2016, 1, 1)));
-            Assert.That(rs.Rows[2][0], Is.EqualTo(new DateTime(2017, 1, 1)));
-            Assert.That(rs.Rows[3][0], Is.EqualTo(new DateTime(2015, 1, 1)));
-            Assert.That(rs.Rows[4][0], Is.EqualTo(new DateTime(2016, 1, 1)));
-            Assert.That(rs.Rows[5][0], Is.EqualTo(new DateTime(2017, 1, 1)));
-            Assert.That(rs.Rows[0][1], Is.EqualTo("fr"));
-            Assert.That(rs.Rows[1][1], Is.EqualTo("fr"));
-            Assert.That(rs.Rows[2][1], Is.EqualTo("fr"));
-            Assert.That(rs.Rows[3][1], Is.EqualTo("be"));
-            Assert.That(rs.Rows[4][1], Is.EqualTo("be"));
-            Assert.That(rs.Rows[5][1], Is.EqualTo("be"));
+            Assert.That(rs[0][0], Is.EqualTo(new DateTime(2015, 1, 1)));
+            Assert.That(rs[1][0], Is.EqualTo(new DateTime(2016, 1, 1)));
+            Assert.That(rs[2][0], Is.EqualTo(new DateTime(2017, 1, 1)));
+            Assert.That(rs[3][0], Is.EqualTo(new DateTime(2015, 1, 1)));
+            Assert.That(rs[4][0], Is.EqualTo(new DateTime(2016, 1, 1)));
+            Assert.That(rs[5][0], Is.EqualTo(new DateTime(2017, 1, 1)));
+            Assert.That(rs[0][1], Is.EqualTo("fr"));
+            Assert.That(rs[1][1], Is.EqualTo("fr"));
+            Assert.That(rs[2][1], Is.EqualTo("fr"));
+            Assert.That(rs[3][1], Is.EqualTo("be"));
+            Assert.That(rs[4][1], Is.EqualTo("be"));
+            Assert.That(rs[5][1], Is.EqualTo("be"));
         }
 
         [Test()]
@@ -123,13 +123,13 @@ namespace NBi.Testing.Core.ResultSet.Resolver
 
             Assert.That(rs.Columns.Count, Is.EqualTo(3));
             Assert.That(rs.Rows.Count, Is.EqualTo(12));
-            Assert.That(rs.Rows.Cast<DataRow>().Count(x => x.Field<decimal>(0) == 1), Is.EqualTo(6));
-            Assert.That(rs.Rows.Cast<DataRow>().Count(x => x.Field<decimal>(0) == 2), Is.EqualTo(6));
-            Assert.That(rs.Rows.Cast<DataRow>().Count(x => x.Field<DateTime>(1).Year == 2015), Is.EqualTo(4));
-            Assert.That(rs.Rows.Cast<DataRow>().Count(x => x.Field<DateTime>(1).Year == 2016), Is.EqualTo(4));
-            Assert.That(rs.Rows.Cast<DataRow>().Count(x => x.Field<DateTime>(1).Year == 2017), Is.EqualTo(4));
-            Assert.That(rs.Rows.Cast<DataRow>().Count(x => x.Field<string>(2) == "fr"), Is.EqualTo(6));
-            Assert.That(rs.Rows.Cast<DataRow>().Count(x => x.Field<string>(2) == "be"), Is.EqualTo(6));
+            Assert.That(rs.Rows.Count(x => x.Field<decimal>(0) == 1), Is.EqualTo(6));
+            Assert.That(rs.Rows.Count(x => x.Field<decimal>(0) == 2), Is.EqualTo(6));
+            Assert.That(rs.Rows.Count(x => x.Field<DateTime>(1).Year == 2015), Is.EqualTo(4));
+            Assert.That(rs.Rows.Count(x => x.Field<DateTime>(1).Year == 2016), Is.EqualTo(4));
+            Assert.That(rs.Rows.Count(x => x.Field<DateTime>(1).Year == 2017), Is.EqualTo(4));
+            Assert.That(rs.Rows.Count(x => x.Field<string>(2) == "fr"), Is.EqualTo(6));
+            Assert.That(rs.Rows.Count(x => x.Field<string>(2) == "be"), Is.EqualTo(6));
         }
 
         [Test()]
@@ -149,8 +149,8 @@ namespace NBi.Testing.Core.ResultSet.Resolver
 
             Assert.That(rs.Columns.Count, Is.EqualTo(1));
             Assert.That(rs.Rows.Count, Is.EqualTo(2));
-            Assert.That(rs.Rows.Cast<DataRow>().Count(x => x.Field<decimal>(0) == 1), Is.EqualTo(1));
-            Assert.That(rs.Rows.Cast<DataRow>().Count(x => x.Field<decimal>(0) == 2), Is.EqualTo(1));
+            Assert.That(rs.Rows.Count(x => x.Field<decimal>(0) == 1), Is.EqualTo(1));
+            Assert.That(rs.Rows.Count(x => x.Field<decimal>(0) == 2), Is.EqualTo(1));
         }
     }
 }

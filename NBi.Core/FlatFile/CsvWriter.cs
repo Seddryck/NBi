@@ -54,7 +54,7 @@ namespace NBi.Core.FlatFile
             {
                 int rowCount = 0;
                 int count = table.Rows.Count;
-                RaiseProgressStatus("writing row {0} of {1}", rowCount, count);
+                RaiseProgressStatus($"writing row {rowCount} of {count}");
 
                 for (int i = 0; i < table.Columns.Count; i++)
                 {

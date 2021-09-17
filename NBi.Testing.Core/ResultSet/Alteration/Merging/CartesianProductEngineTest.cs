@@ -54,7 +54,7 @@ namespace NBi.Testing.Core.ResultSet.Alteration.Merging
             var merge = new CartesianProductEngine(args);
             merge.Execute(firstRs);
 
-            Assert.That(firstRs.Rows.Count, Is.EqualTo(20));
+            Assert.That(firstRs.RowCount, Is.EqualTo(20));
             Assert.That(firstRs.Columns.Count, Is.EqualTo(5));
         }
 
@@ -67,7 +67,7 @@ namespace NBi.Testing.Core.ResultSet.Alteration.Merging
             var merge = new CartesianProductEngine(args);
             merge.Execute(firstRs);
 
-            Assert.That(firstRs.Rows.Count, Is.EqualTo(100));
+            Assert.That(firstRs.RowCount, Is.EqualTo(100));
             Assert.That(firstRs.Columns.Count, Is.EqualTo(5));
         }
 
@@ -80,7 +80,7 @@ namespace NBi.Testing.Core.ResultSet.Alteration.Merging
             var merge = new CartesianProductEngine(args);
             merge.Execute(firstRs);
 
-            Assert.That(firstRs.Rows.Count, Is.EqualTo(0));
+            Assert.That(firstRs.RowCount, Is.EqualTo(0));
             Assert.That(firstRs.Columns.Count, Is.EqualTo(5));
         }
     }

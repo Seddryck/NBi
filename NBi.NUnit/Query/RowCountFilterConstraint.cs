@@ -34,7 +34,7 @@ namespace NBi.NUnit.Query
         {
             var factory = new DataRowsMessageFormatterFactory();
             var msg = factory.Instantiate(Configuration.FailureReportProfile, EngineStyle.ByIndex);
-            msg.BuildFilter(actualResultSet.Rows.Cast<DataRow>(), filterResultSet.Rows.Cast<DataRow>());
+            msg.BuildFilter(actualResultSet.Rows, filterResultSet.Rows);
             return msg;
         }
         

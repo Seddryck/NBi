@@ -24,7 +24,7 @@ namespace NBi.Testing.Core.ResultSet.Resolver
             var primary = Mock.Of<IResultSetResolver>();
             Mock.Get(primary).Setup(x => x.Execute()).Throws(new ResultSetUnavailableException(null));
             var secondary = Mock.Of<IResultSetResolver>();
-            var expectedRs = new NBi.Core.ResultSet.DataTableResultSet();
+            var expectedRs = new NBi.Core.ResultSet.ResultSet();
             Mock.Get(secondary).Setup(x => x.Execute()).Returns(expectedRs);
 
             var args = new IfUnavailableResultSetResolverArgs(primary, secondary);
@@ -39,7 +39,7 @@ namespace NBi.Testing.Core.ResultSet.Resolver
         [Test]
         public void Execute_PrimarySuccessful_SecondaryNotExecuted()
         {
-            var expectedRs = new NBi.Core.ResultSet.DataTableResultSet();
+            var expectedRs = new NBi.Core.ResultSet.ResultSet();
             var primary = Mock.Of<IResultSetResolver>();
             Mock.Get(primary).Setup(x => x.Execute()).Returns(expectedRs);
             var secondary = Mock.Of<IResultSetResolver>();
@@ -57,7 +57,7 @@ namespace NBi.Testing.Core.ResultSet.Resolver
         [Test]
         public void Execute_PrimaryFailingSecondaryFailing_TertiaryNotExecuted()
         {
-            var expectedRs = new NBi.Core.ResultSet.DataTableResultSet();
+            var expectedRs = new NBi.Core.ResultSet.ResultSet();
             var primary = Mock.Of<IResultSetResolver>();
             Mock.Get(primary).Setup(x => x.Execute()).Throws(new ResultSetUnavailableException(null));
             var secondary = Mock.Of<IResultSetResolver>();

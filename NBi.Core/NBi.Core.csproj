@@ -717,7 +717,7 @@
     <Compile Include="ResultSet\IColumnDefinition.cs" />
     <Compile Include="ResultSet\IRow.cs" />
     <Compile Include="Scalar\Comparer\NumericComparer.cs" />
-    <Compile Include="ResultSet\DataTableResultSet.cs" />
+    <Compile Include="ResultSet\ResultSet.cs" />
     <Compile Include="ResultSet\Content.cs" />
     <Compile Include="ResultSet\Equivalence\EquivalerException.cs" />
     <Compile Include="ResultSet\SettingsResultSet.cs" />

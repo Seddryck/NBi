@@ -11,13 +11,12 @@ using NBi.Framework.FailureMessage.Markdown;
 using NBi.Framework;
 using NUnit.Framework;
 using NBi.Core.Configuration.FailureReport;
-using NBi.Extensibility;
 
 namespace NBi.NUnit.Query
 {
     public class UniqueRowsConstraint : NBiConstraint
     {
-        protected IResultSet actualResultSet;
+        protected ResultSet actualResultSet;
         private IDataRowsMessageFormatter failure;
 
         protected Evaluator Engine { get; set; }
@@ -40,28 +39,30 @@ namespace NBi.NUnit.Query
         /// <returns>true, if the result-set has unique rows</returns>
         public override bool Matches(object actual)
         {
-            switch(actual)
+            if (actual is IResultSetService)
             {
-                case IResultSetService rss: return Matches(rss.Execute());
-                case IResultSet rs: return DoMatch(rs);
-                default: throw new ArgumentException();
+                return Matches((actual as IResultSetService).Execute());
             }
-        }
-        protected bool DoMatch(IResultSet actual)
-        {
-            var result = Engine.Execute(actual);
-
-            if (!result.AreUnique || Configuration.FailureReportProfile.Mode == FailureReportMode.Always)
+            else if (actual is ResultSet)
             {
-                var factory = new DataRowsMessageFormatterFactory();
-                failure = factory.Instantiate(Configuration.FailureReportProfile, Engine is OrdinalEvaluator ? EngineStyle.ByIndex : EngineStyle.ByName);
-                failure.BuildDuplication(actualResultSet.Rows.Cast<DataRow>(), result);
+                actualResultSet = (ResultSet)actual;
+                var result = Engine.Execute(actualResultSet);
+
+                if (!result.AreUnique || Configuration.FailureReportProfile.Mode == FailureReportMode.Always)
+                {
+                    var factory = new DataRowsMessageFormatterFactory();
+                    failure = factory.Instantiate(Configuration.FailureReportProfile, Engine is OrdinalEvaluator ? EngineStyle.ByIndex : EngineStyle.ByName);
+                    failure.BuildDuplication(actualResultSet.Rows.Cast<DataRow>(), result);
+                }
+
+                if (result.AreUnique && Configuration?.FailureReportProfile.Mode == FailureReportMode.Always)
+                    Assert.Pass(failure.RenderMessage());
+
+                return result.AreUnique;
             }
+            else
+                throw new ArgumentException();
 
-            if (result.AreUnique && Configuration?.FailureReportProfile.Mode == FailureReportMode.Always)
-                Assert.Pass(failure.RenderMessage());
-
-            return result.AreUnique;
         }
 
         #region "Error report"

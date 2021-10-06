@@ -38,68 +38,54 @@ namespace NBi.Testing.Core.Scalar.Caster
         }
         #endregion
 
-        //Valid dates
         [Test]
-        public void IsValidDateTime_xxxxyyyy_True()
-        {
-            Assert.That(new DateTimeCaster().IsValid("10/10/2013"), Is.True);
-        }
+        [TestCase("2013-10-16")]    //  yyyy-mm-dd
+        [TestCase("16/10/2013")]    //  dd/mm/yyyy
+        [TestCase("10/16/2013")]    //  mm/dd/yyyy
+        [TestCase("10/11/2013")]    //  ambiguous mm or dd/mm or dd/yyyy
+        [TestCase("10/16/13")]      //  mm/dd/yy
+        [TestCase("5.12.78")]       //  d.m.yy
+        [TestCase("10.5.2013")]     //  d.m.yyyy
+        [TestCase("16-12")]         //  dd.mm
+        [TestCase("12/17")]         //  mm/dd
+        [TestCase("2020-09-08T13:42:29.190855+00:00")]      // RCF3339
+        [TestCase("2020-09-08T13:42:29.190855Z")]           // RCF3339
+        [TestCase("2020-09-08T13:42:29Z")]                  // RCF3339
+        [TestCase("2020-09-08T13:42:29.190855-05:00")]      // RCF3339
+        [TestCase("2020-09-08 13:42:29.190855+00:00")]      // close to RCF3339 but with a space rather than T
+        [TestCase("2020-09-08 13:42:29.190855Z")]           // close to RCF3339 but with a space rather than T
+        [TestCase("2020-09-08 13:42:29Z")]                  // close to RCF3339 but with a space rather than T
+        [TestCase("2020-09-08 13:42:29.190855-05:00")]      // close to RCF3339 but with a space rather than T
+        [TestCase("2020-09-08T13:42:29.190855Z")]           // close to RCF3339 but no timezone offset specified
+        [TestCase("2020-09-08 13:42:29.190855")]            // close to RCF3339 but uses a space and no timezone offset
+        public void IsValidDateTime_FromStringRepresentation_True(string value)
+            => Assert.That(new DateTimeCaster().IsValid(value), Is.True);
+
 
         [Test]
-        public void IsValidDateTime_ddmmyyyy_True()
-        {
-            Assert.That(new DateTimeCaster().IsValid("16/10/2013"), Is.True);
-        }
+        [TestCase("2013-10-16", 2013, 10, 16)]    //  yyyy-mm-dd
+        [TestCase("16/10/2013", 2013, 10, 16)]    //  dd/mm/yyyy
+        [TestCase("10/16/2013", 2013, 10, 16)]    //  mm/dd/yyyy
+        [TestCase("10/11/2013", 2013, 10, 11)]    //  ambiguous mm or dd/mm or dd/yyyy
+        [TestCase("10/16/13",   2013, 10, 16)]    //  mm/dd/yy
+        [TestCase("5.12.78",    1978, 05, 12)]    //  m.d.yy
+        [TestCase("10.5.2013",  2013, 10, 05)]    //  m.d.yyyy
+        
+        public void Execute_FromStringDateRepresentation_True(string value, int year, int month, int day)
+            => Assert.That(new DateTimeCaster().Execute(value), Is.EqualTo(new DateTime(year, month, day)));
 
-        [Test]
-        public void IsValidDateTime_mmddyyyy_True()
-        {
-            Assert.That(new DateTimeCaster().IsValid("10/16/2013"), Is.True);
-        }
-
-        [Test]
-        public void IsValidDateTime_ddmmyy_True()
-        {
-            Assert.That(new DateTimeCaster().IsValid("16/10/13"), Is.True);
-        }
-
-        [Test]
-        public void IsValidDateTime_mmddyy_True()
-        {
-            Assert.That(new DateTimeCaster().IsValid("10/16/13"), Is.True);
-        }
-
-        [Test]
-        public void IsValidDateTime_dmyy_True()
-        {
-            Assert.That(new DateTimeCaster().IsValid("5.12.78"), Is.True);
-        }
-
-        [Test]
-        public void IsValidDateTime_ddmyy_True()
-        {
-            
-            Assert.That(new DateTimeCaster().IsValid("10.5.2013"), Is.True);
-        }
-
-        [Test]
-        public void IsValidDateTime_yyyymmdd_True()
-        {
-            
-            Assert.That(new DateTimeCaster().IsValid("2013-10-16"), Is.True);
-        }
-
-        [Test]
-        public void IsValidDateTime_ddmm_True()
-        {
-            Assert.That(new DateTimeCaster().IsValid("16.12"), Is.True);
-        }
-
-        [Test]
-        public void IsValidDateTime_mmdd_True()
-        {
-            Assert.That(new DateTimeCaster().IsValid("12/17"), Is.True);
-        }
+        [TestCase("2020-09-08T13:42:29.190+00:00"   , 1599572549190)]      // RCF3339
+        [TestCase("2020-09-08 13:42:29.190+00:00"   , 1599572549190)]      // close to RCF3339 but with a space rather than T
+        [TestCase("2020-09-08T13:42:29.190Z"        , 1599572549190)]      // RCF3339
+        [TestCase("2020-09-08 13:42:29.190Z"        , 1599572549190)]      // close to RCF3339 but with a space rather than T
+        [TestCase("2020-09-08T13:42:29.190"         , 1599572549190)]      // close to RCF3339 but no timezone offset specified
+        [TestCase("2020-09-08 13:42:29.190"         , 1599572549190)]      // close to RCF3339 but uses a space and no timezone offset
+        [TestCase("2020-09-08T13:42:29.190-05:00", 1599590549190)]      // RCF3339
+        [TestCase("2020-09-08 13:42:29.190-05:00", 1599590549190)]      // close to RCF3339 but with a space rather than T
+        [TestCase("2020-09-08T13:42:29Z", 1599572549000)]                  // RCF3339
+        [TestCase("2020-09-08 13:42:29Z", 1599572549000)]                  // close to RCF3339 but with a space rather than T
+        public void Execute_FromStringDateRepresentationRFC3339_True(string value, long ticks)
+            => Assert.That(new DateTimeCaster().Execute(value), Is.EqualTo(DateTimeOffset.FromUnixTimeMilliseconds(ticks).DateTime));
 
         [Test]
         public void IsValidDateTime_String_False()

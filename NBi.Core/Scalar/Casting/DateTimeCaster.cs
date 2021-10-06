@@ -67,12 +67,12 @@ namespace NBi.Core.Scalar.Casting
 
             foreach (var culture in cultures)
             {
-               var result = DateTime.TryParse(value,
-                                       culture.DateTimeFormat,
-                                       DateTimeStyles.AllowWhiteSpaces,
-                                       out dateTime);
-               if (result)
-                   return true;
+                var result = DateTime.TryParse(value,
+                                        culture.DateTimeFormat,
+                                        DateTimeStyles.AllowWhiteSpaces | DateTimeStyles.AssumeUniversal | DateTimeStyles.AdjustToUniversal,
+                                        out dateTime);
+                if (result)
+                    return true;
             }
 
             return false;

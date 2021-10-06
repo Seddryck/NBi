@@ -1,6 +1,7 @@
 ﻿using NBi.Core.Injection;
 using NBi.Core.Scalar.Resolver;
 using NBi.Core.Transformation.Transformer.Native;
+using NBi.Core.Transformation.Transformer.Native.Text;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;

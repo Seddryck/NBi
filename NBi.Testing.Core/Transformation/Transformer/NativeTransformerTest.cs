@@ -17,7 +17,7 @@ namespace NBi.Testing.Core.Transformation.Transformer
         [Test]
         public void Execute_TextToLastCharsWithVariable_Valid()
         {
-            var variables = new Dictionary<string, ITestVariable>() { { "length", new GlobalVariable(new LiteralScalarResolver<int>(6)) } };
+            var variables = new Dictionary<string, IVariable>() { { "length", new GlobalVariable(new LiteralScalarResolver<int>(6)) } };
             var code = "text-to-last-chars(@length)";
             var provider = new NativeTransformer<string>(new ServiceLocator(), new Context(variables));
             provider.Initialize(code);
@@ -227,6 +227,21 @@ namespace NBi.Testing.Core.Transformation.Transformer
         public void Execute_NumericToMultiply_Valid(object value, object multiplicator, decimal expected)
         {
             var code = $"numeric-to-multiply({multiplicator})";
+            var provider = new NativeTransformer<decimal>(new ServiceLocator(), null);
+            provider.Initialize(code);
+
+            var result = provider.Execute(value);
+            Assert.That(result, Is.EqualTo(expected));
+        }
+
+        [Test]
+        [TestCase(10, 2, 5)]
+        [TestCase(10, 1, 10)]
+        [TestCase(-10, -2, 5)]
+        [TestCase(10, -1, -10)]
+        public void Execute_NumericToDivide_Valid(object value, object multiplicator, decimal expected)
+        {
+            var code = $"numeric-to-divide({multiplicator})";
             var provider = new NativeTransformer<decimal>(new ServiceLocator(), null);
             provider.Initialize(code);
 

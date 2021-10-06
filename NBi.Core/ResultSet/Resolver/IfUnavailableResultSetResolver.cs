@@ -8,7 +8,8 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using NBi.Extensibility.Query;
+using NBi.Extensibility;
+using NBi.Extensibility.Resolving;
 
 namespace NBi.Core.ResultSet.Resolver
 {
@@ -19,7 +20,7 @@ namespace NBi.Core.ResultSet.Resolver
         public IfUnavailableResultSetResolver(IfUnavailableResultSetResolverArgs args)
             => Args = args;
         
-        public ResultSet Execute()
+        public IResultSet Execute()
         {
             try
             { return Args.Primary.Execute(); }

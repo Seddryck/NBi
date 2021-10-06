@@ -1,9 +1,8 @@
 ﻿using Moq;
 using NBi.Core.Injection;
-using NBi.Core.Sequence.Resolver;
-using NBi.Core.Transformation;
 using NBi.Core.Transformation.Transformer;
 using NBi.Core.Variable.Instantiation;
+using NBi.Extensibility.Resolving;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;

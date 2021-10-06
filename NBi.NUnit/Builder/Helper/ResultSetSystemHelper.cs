@@ -1,5 +1,4 @@
-﻿using NBi.Core.Calculation;
-using NBi.Core.Calculation.Predicate;
+﻿using NBi.Core.Calculation.Predicate;
 using NBi.Core.Evaluate;
 using NBi.Core.Injection;
 using NBi.Core.ResultSet;
@@ -8,12 +7,12 @@ using NBi.Core.ResultSet.Alteration.Extension;
 using NBi.Core.ResultSet.Alteration.Renaming;
 using NBi.Core.ResultSet.Alteration.Summarization;
 using NBi.Core.ResultSet.Conversion;
-using NBi.Core.ResultSet.Resolver;
 using NBi.Core.Scalar.Conversion;
 using NBi.Core.Transformation;
 using NBi.Core.Variable;
 using NBi.Xml.Settings;
 using NBi.Xml.Systems;
+using NBi.Extensibility.Resolving;
 using System;
 using System.Linq;
 using System.Collections.Generic;
@@ -40,6 +39,10 @@ using NBi.Xml.Items.Calculation.Grouping;
 using NBi.Core.Calculation.Grouping.ColumnBased;
 using NBi.Core.Calculation.Grouping.CaseBased;
 using NBi.Core.Calculation.Predication;
+using NBi.Xml.Items.Alteration.Merging;
+using NBi.Core.ResultSet.Alteration.Merging;
+using NBi.Xml.Items.Alteration.Duplication;
+using NBi.Core.ResultSet.Alteration.Duplication;
 
 namespace NBi.NUnit.Builder.Helper
 {
@@ -47,9 +50,9 @@ namespace NBi.NUnit.Builder.Helper
     {
         protected ServiceLocator ServiceLocator { get; }
         protected SettingsXml.DefaultScope Scope { get; } = SettingsXml.DefaultScope.Everywhere;
-        protected IDictionary<string, ITestVariable> Variables { get; }
+        protected IDictionary<string, IVariable> Variables { get; }
 
-        public ResultSetSystemHelper(ServiceLocator serviceLocator, SettingsXml.DefaultScope scope, IDictionary<string, ITestVariable> variables)
+        public ResultSetSystemHelper(ServiceLocator serviceLocator, SettingsXml.DefaultScope scope, IDictionary<string, IVariable> variables)
             => (ServiceLocator, Scope, Variables) = (serviceLocator, scope, variables);
 
         public IResultSetResolver InstantiateResolver(ResultSetSystemXml resultSetXml)
@@ -82,6 +85,8 @@ namespace NBi.NUnit.Builder.Helper
                     case ProjectAwayXml x: yield return InstantiateProjectAway(x); break;
                     case ProjectXml x: yield return InstantiateProject(x); break;
                     case LookupReplaceXml x: yield return InstantiateLookupReplace(x, resultSetXml.Settings); break;
+                    case MergeXml x: yield return InstantiateMerging(x, resultSetXml.Settings); break;
+                    case DuplicateXml x: yield return InstantiateDuplicate(x); break;
                     default: throw new ArgumentException();
                 }
             }
@@ -92,7 +97,7 @@ namespace NBi.NUnit.Builder.Helper
             var context = new Context(Variables);
             var factory = new ResultSetFilterFactory(ServiceLocator);
 
-            if (filterXml.Ranking == null)
+            if (filterXml.Ranking == null && filterXml.Uniqueness == null)
             {
                 var expressions = new List<IColumnExpression>();
                 if (filterXml.Expression != null)
@@ -128,7 +133,7 @@ namespace NBi.NUnit.Builder.Helper
                 }
                 throw new ArgumentException();
             }
-            else
+            else if (filterXml.Ranking != null)
             {
                 var groupByArgs = BuildGroupByArgs(filterXml.Ranking.GroupBy, context);
                 var groupByFactory = new GroupByFactory();
@@ -137,6 +142,18 @@ namespace NBi.NUnit.Builder.Helper
                 var rankingGroupByArgs = new RankingGroupByArgs(groupBy, filterXml.Ranking.Option, filterXml.Ranking.Count, filterXml.Ranking.Operand, filterXml.Ranking.Type);
                 return factory.Instantiate(rankingGroupByArgs, context).Apply;
             }
+
+            else if (filterXml.Uniqueness != null)
+            {
+                var groupByArgs = BuildGroupByArgs(filterXml.Uniqueness.GroupBy, context);
+                var groupByFactory = new GroupByFactory();
+                var groupBy = groupByFactory.Instantiate(groupByArgs);
+
+                var uniquenessArgs = new UniquenessArgs(groupBy);
+                return factory.Instantiate(uniquenessArgs, context).Apply;
+            }
+
+            throw new ArgumentOutOfRangeException();
         }
 
         private IGroupByArgs BuildGroupByArgs(GroupByXml xml, Context context)
@@ -196,6 +213,26 @@ namespace NBi.NUnit.Builder.Helper
             return renamer.Execute;
         }
 
+        private Alter InstantiateMerging(MergeXml mergeXml, SettingsXml settingsXml)
+        {
+            var innerService = new ResultSetServiceBuilder();
+            mergeXml.ResultSet.Settings = settingsXml;
+            innerService.Setup(InstantiateResolver(mergeXml.ResultSet));
+            innerService.Setup(InstantiateAlterations(mergeXml.ResultSet));
+
+            var factory = new MergingFactory();
+
+            IMergingArgs args;
+            switch (mergeXml)
+            {
+                case UnionXml union: args = new UnionArgs(innerService.GetService(), union.ColumnIdentity); break;
+                default: args = new CartesianProductArgs(innerService.GetService()); break;
+            }
+
+            var merger = factory.Instantiate(args);
+            return merger.Execute;
+        }
+
         private Alter InstantiateTransform(TransformXml transformXml)
         {
             var identifierFactory = new ColumnIdentifierFactory();
@@ -212,7 +249,7 @@ namespace NBi.NUnit.Builder.Helper
             var aggregations = new List<ColumnAggregationArgs>()
                     {
                         new ColumnAggregationArgs(
-                            summarizeXml.Aggregation.Identifier,
+                            (summarizeXml.Aggregation as ColumnAggregationXml)?.Identifier,
                             summarizeXml.Aggregation.Function,
                             summarizeXml.Aggregation.ColumnType,
                             summarizeXml.Aggregation.Parameters.Select(x => scalarHelper.InstantiateResolver(summarizeXml.Aggregation.ColumnType, x)).ToList()
@@ -259,6 +296,43 @@ namespace NBi.NUnit.Builder.Helper
             var factory = new ProjectionFactory();
             var project = factory.Instantiate(new ProjectAwayArgs(projectXml.Columns.Select(x => x.Identifier)));
             return project.Execute;
+        }
+
+        private Alter InstantiateDuplicate(DuplicateXml duplicateXml)
+        {
+            var context = new Context(Variables);
+
+            //Predication
+            var predicationFactory = new PredicationFactory();
+            var predication = predicationFactory.True;
+            if (duplicateXml.Predication != null)
+            {
+                var helper = new PredicateArgsBuilder(ServiceLocator, context);
+                var predicateArgs = helper.Execute(duplicateXml.Predication.ColumnType, duplicateXml.Predication.Predicate);
+                var predicateFactory = new PredicateFactory();
+                var predicate = predicateFactory.Instantiate(predicateArgs);
+
+                predication = predicationFactory.Instantiate(predicate, duplicateXml.Predication.Operand);
+            }
+
+            //Times
+            var times = new ScalarHelper(ServiceLocator, context).InstantiateResolver<int>(duplicateXml.Times);
+
+            //Outputs
+            var outputs = new List<OutputArgs>();
+            foreach (var outputXml in duplicateXml.Outputs)
+                if (outputXml.Class == OutputClass.Script)
+                    outputs.Add(new OutputScriptArgs(ServiceLocator, context, outputXml.Identifier, outputXml.Script.Language, outputXml.Script.Code));
+            else if(outputXml.Class == OutputClass.Static)
+                    outputs.Add(new OutputValueArgs(outputXml.Identifier, outputXml.Value));
+                else
+                    outputs.Add(new OutputArgs(outputXml.Identifier, outputXml.Class));
+
+            //Duplicate
+            var args = new DuplicateArgs(predication, times, outputs);
+            var factory = new DuplicationFactory(ServiceLocator, context);
+            var duplicate = factory.Instantiate(args);
+            return duplicate.Execute;
         }
 
         private Alter InstantiateLookupReplace(LookupReplaceXml lookupReplaceXml, SettingsXml settingsXml)

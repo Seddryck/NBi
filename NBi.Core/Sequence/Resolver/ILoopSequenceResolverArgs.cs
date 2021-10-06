@@ -1,4 +1,5 @@
 ﻿using NBi.Core.Sequence.Resolver.Loop;
+using NBi.Extensibility.Resolving;
 using System;
 using System.Collections.Generic;
 using System.Linq;

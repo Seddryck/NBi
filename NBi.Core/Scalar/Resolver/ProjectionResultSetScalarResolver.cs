@@ -1,4 +1,6 @@
 ﻿using NBi.Core.ResultSet.Resolver;
+using NBi.Extensibility;
+using NBi.Extensibility.Resolving;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -1,4 +1,4 @@
-﻿using NBi.Core.Scalar.Resolver;
+﻿using NBi.Extensibility.Resolving;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +9,7 @@ namespace NBi.Core.Variable
 {
     public class VariableFactory
     {
-        public ITestVariable Instantiate(VariableScope scope, IScalarResolver resolver)
+        public IVariable Instantiate(VariableScope scope, IScalarResolver resolver)
         {
             switch (scope)
             {

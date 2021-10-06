@@ -16,15 +16,15 @@ namespace NBi.NUnit
     {
         private readonly ICollection<BuilderRegistration> registrations;
         private readonly IConfiguration configuration;
-        private readonly IDictionary<string, ITestVariable> variables;
+        private readonly IDictionary<string, IVariable> variables;
         private readonly ServiceLocator serviceLocator;
 
         public TestCaseFactory()
-            : this(Configuration.Default, new Dictionary<string, ITestVariable>(), null)
+            : this(Configuration.Default, new Dictionary<string, IVariable>(), null)
         {
         }
 
-        public TestCaseFactory(IConfiguration configuration, IDictionary<string, ITestVariable> variables, ServiceLocator serviceLocator)
+        public TestCaseFactory(IConfiguration configuration, IDictionary<string, IVariable> variables, ServiceLocator serviceLocator)
         {
             this.configuration = configuration;
             this.variables = variables;

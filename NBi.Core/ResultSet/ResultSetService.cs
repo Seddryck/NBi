@@ -1,5 +1,5 @@
 ﻿using NBi.Core.ResultSet.Alteration;
-using NBi.Core.ResultSet.Resolver;
+using NBi.Extensibility;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,7 +21,7 @@ namespace NBi.Core.ResultSet
             this.alterations = (alterations ?? new List<Alter>()).AsReadOnly();
         }
 
-        public ResultSet Execute()
+        public IResultSet Execute()
         {
             var rs = load.Invoke();
             foreach (var alteration in alterations)

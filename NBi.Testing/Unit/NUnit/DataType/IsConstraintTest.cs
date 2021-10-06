@@ -59,7 +59,6 @@ namespace NBi.Testing.Unit.NUnit.DataType
             }
 
             //Test conclusion   
-            Console.WriteLine(assertionText);
             Assert.That(assertionText, Does.Contain("ccc-name").And
                                             .StringContaining("table-name").And
                                             .StringContaining("perspective-name"));
@@ -96,7 +95,6 @@ namespace NBi.Testing.Unit.NUnit.DataType
             }
 
             //Test conclusion   
-            Console.WriteLine(assertionText);
             Assert.That(assertionText, Does.Contain("bit").And
                                             .StringContaining("int")
                                             );
@@ -133,7 +131,6 @@ namespace NBi.Testing.Unit.NUnit.DataType
             }
 
             //Test conclusion   
-            Console.WriteLine(assertionText);
             Assert.That(assertionText, Does.Contain("varchar").And
                                             .StringContaining("nvarchar").And
                                             .Not.StringContaining("10")
@@ -171,7 +168,6 @@ namespace NBi.Testing.Unit.NUnit.DataType
             }
 
             //Test conclusion   
-            Console.WriteLine(assertionText);
             Assert.That(assertionText, Does.Contain("varchar").And
                                             .StringContaining("decimal").And
                                             .Not.StringContaining("10").And
@@ -210,7 +206,6 @@ namespace NBi.Testing.Unit.NUnit.DataType
             }
 
             //Test conclusion   
-            Console.WriteLine(assertionText);
             Assert.That(assertionText, Does.Contain("varchar(10)").And
                                             .StringContaining("nvarchar(20)")
                                             );
@@ -247,7 +242,6 @@ namespace NBi.Testing.Unit.NUnit.DataType
             }
 
             //Test conclusion   
-            Console.WriteLine(assertionText);
             Assert.That(assertionText, Does.Contain("decimal(11,2)").And
                                             .StringContaining("decimal(10,3)")
                                             );

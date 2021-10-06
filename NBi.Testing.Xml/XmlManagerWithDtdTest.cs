@@ -17,9 +17,7 @@ namespace NBi.Testing.Xml.Unit
         public void Setup()
         {
             includedFilename = FileOnDisk.CreatePhysicalFile("TestSuiteIncludedTestSuite.xml", $"{GetType().Assembly.GetName().Name}.Resources.TestSuiteIncludedTestSuite.xml");
-            Console.WriteLine("Included file created at '{0}'", includedFilename);
             filename = FileOnDisk.CreatePhysicalFile("TestSuiteWithIncludeTestSuite.nbits", $"{GetType().Assembly.GetName().Name}.Resources.TestSuiteWithIncludeTestSuite.xml");
-            Console.WriteLine("Main file created at '{0}'", filename);
         }
             
         [Test]
@@ -51,9 +49,7 @@ namespace NBi.Testing.Xml.Unit
 
             //Recreate them in a subdirectory
             includedFilename = FileOnDisk.CreatePhysicalFile(@"Dtd\TestSuiteIncludedTestSuite.xml", $"{GetType().Assembly.GetName().Name}.Resources.TestSuiteIncludedTestSuite.xml");
-            Console.WriteLine("Included file created at '{0}'", includedFilename);
             filename = FileOnDisk.CreatePhysicalFile(@"Dtd\TestSuiteWithIncludeTestSuite.nbits", $"{GetType().Assembly.GetName().Name}.Resources.TestSuiteWithIncludeTestSuite.xml");
-            Console.WriteLine("Main file created at '{0}'", filename);
 
             var manager = new XmlManager();
             manager.Load(filename, true);

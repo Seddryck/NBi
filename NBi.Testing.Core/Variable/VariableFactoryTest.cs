@@ -22,8 +22,8 @@ namespace NBi.Testing.Core.Variable
             var resolver = new CSharpScalarResolver<object>(new CSharpScalarResolverArgs("DateTime.Now.Year"));
             var variable = factory.Instantiate(VariableScope.Global, resolver);
 
-            Assert.That(variable, Is.AssignableTo<ITestVariable>());
-            Assert.That(variable, Is.AssignableTo<TestVariable>());
+            Assert.That(variable, Is.AssignableTo<IVariable>());
+            Assert.That(variable, Is.AssignableTo<IRuntimeVariable>());
             Assert.That(variable, Is.TypeOf<GlobalVariable>());
         }
 
@@ -35,8 +35,8 @@ namespace NBi.Testing.Core.Variable
             var resolver = new QueryScalarResolver<object>(new QueryScalarResolverArgs(queryResolverArgsMock.Object), new ServiceLocator());
             var variable = factory.Instantiate(VariableScope.Global, resolver);
 
-            Assert.That(variable, Is.AssignableTo<ITestVariable>());
-            Assert.That(variable, Is.AssignableTo<TestVariable>());
+            Assert.That(variable, Is.AssignableTo<IVariable>());
+            Assert.That(variable, Is.AssignableTo<IRuntimeVariable>());
             Assert.That(variable, Is.TypeOf<GlobalVariable>());
         }
 

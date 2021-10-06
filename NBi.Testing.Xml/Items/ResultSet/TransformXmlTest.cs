@@ -145,7 +145,6 @@ namespace NBi.Testing.Xml.Unit.Items.ResultSet
 
             var manager = new XmlManager();
             var xml = manager.XmlSerializeFrom(root);
-            Console.WriteLine(xml);
             Assert.That(xml, Does.Contain("<transform "));
             Assert.That(xml, Does.Contain("column=\"#2\""));
         }
@@ -168,7 +167,6 @@ namespace NBi.Testing.Xml.Unit.Items.ResultSet
 
             var manager = new XmlManager();
             var xml = manager.XmlSerializeFrom(root);
-            Console.WriteLine(xml);
             Assert.That(xml, Does.Contain("<transform "));
             Assert.That(xml, Does.Contain("column=\"[MyName]\""));
         }

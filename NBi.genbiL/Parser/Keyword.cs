@@ -12,6 +12,7 @@ namespace NBi.GenbiL.Parser
         public static readonly Parser<string> Suite = Parse.IgnoreCase("Suite").Text().Token();
         public static readonly Parser<string> Consumable = Parse.IgnoreCase("Consumable").Text().Token();
         public static readonly Parser<string> Variable = Parse.IgnoreCase("Variable").Text().Token();
+        public static readonly Parser<string> CsvProfile = Parse.IgnoreCase("Csv-Profile").Text().Token();
 
         public static readonly Parser<string> Load = Parse.IgnoreCase("Load").Text().Token();
         public static readonly Parser<string> Add = Parse.IgnoreCase("Add").Text().Token();
@@ -63,5 +64,12 @@ namespace NBi.GenbiL.Parser
         public static readonly Parser<string> Right = Parse.IgnoreCase("Right").Text().Token();
         public static readonly Parser<string> All = Parse.IgnoreCase("All").Text().Token();
         public static readonly Parser<string> Optional = Parse.IgnoreCase("Optional").Text().Token();
+
+        public static readonly Parser<string> FieldSeparator = Parse.IgnoreCase("Field-Separator").Text().Token();
+        public static readonly Parser<string> RecordSeparator = Parse.IgnoreCase("Record-Separator").Text().Token();
+        public static readonly Parser<string> TextQualifier = Parse.IgnoreCase("Text-Qualifier").Text().Token();
+        public static readonly Parser<string> FirstRowHeader = Parse.IgnoreCase("First-Row-Header").Text().Token();
+        public static readonly Parser<string> EmptyCell = Parse.IgnoreCase("Empty-Cell").Text().Token();
+        public static readonly Parser<string> MissingCell = Parse.IgnoreCase("Missing-Cell").Text().Token();
     }
 }

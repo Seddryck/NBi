@@ -1,6 +1,5 @@
 ﻿using NBi.Core.Injection;
-using NBi.Core.Query;
-using NBi.Core.Query.Execution;
+using NBi.Extensibility;
 using NBi.Core.Query.Resolver;
 using System;
 using System.Collections.Generic;
@@ -9,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using NBi.Extensibility.Query;
+using NBi.Extensibility.Resolving;
 
 namespace NBi.Core.ResultSet.Resolver
 {
@@ -23,7 +23,7 @@ namespace NBi.Core.ResultSet.Resolver
             this.serviceLocator = serviceLocator;
         }
         
-        public ResultSet Execute()
+        public IResultSet Execute()
         {
             var cmd = Resolve();
             var rs = Load(cmd);

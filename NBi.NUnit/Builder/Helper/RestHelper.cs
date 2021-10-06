@@ -16,12 +16,12 @@ namespace NBi.NUnit.Builder.Helper
     public class RestHelper
     {
         private ServiceLocator ServiceLocator { get; }
-        private IDictionary<string, ITestVariable> Variables { get; }
+        private IDictionary<string, IVariable> Variables { get; }
         private SettingsXml Settings { get; } = SettingsXml.Empty;
         private SettingsXml.DefaultScope Scope { get; } = SettingsXml.DefaultScope.Everywhere;
 
-        public RestHelper(ServiceLocator serviceLocator, SettingsXml settings, SettingsXml.DefaultScope scope, IDictionary<string, ITestVariable> variables)
-            => (ServiceLocator, Settings, Scope, Variables) = (serviceLocator, settings ?? SettingsXml.Empty, scope, variables ?? new Dictionary<string, ITestVariable>());
+        public RestHelper(ServiceLocator serviceLocator, SettingsXml settings, SettingsXml.DefaultScope scope, IDictionary<string, IVariable> variables)
+            => (ServiceLocator, Settings, Scope, Variables) = (serviceLocator, settings ?? SettingsXml.Empty, scope, variables ?? new Dictionary<string, IVariable>());
 
         public RestEngine Execute(object rest)
         {

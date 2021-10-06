@@ -2,7 +2,9 @@
 using NBi.Core.Scalar.Resolver;
 using NBi.Core.Transformation.Transformer;
 using NBi.Core.Transformation.Transformer.Native;
+using NBi.Core.Transformation.Transformer.Native.Text;
 using NBi.Core.Variable;
+using NBi.Extensibility.Resolving;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
@@ -121,7 +123,7 @@ namespace NBi.Testing.Core.Transformation.Transformer
         [Test]
         public void Instantiate_ExistingWithParametersAndVariables_CorrectType()
         {
-            var variables = new Dictionary<string, ITestVariable>()
+            var variables = new Dictionary<string, IVariable>()
             {
                 { "avg", new GlobalVariable(new LiteralScalarResolver<decimal>(50)) },
                 { "min", new GlobalVariable(new LiteralScalarResolver<decimal>(10)) },
@@ -161,9 +163,15 @@ namespace NBi.Testing.Core.Transformation.Transformer
         [TestCase("text-to-html")]
         [TestCase("text-to-without-diacritics")]
         [TestCase("text-to-token-count")]
+        [TestCase("text-to-token-count(;)")]
+        [TestCase("text-to-token(2)")]
+        [TestCase("text-to-token(2,;)")]
         [TestCase("text-to-without-whitespaces")]
+        [TestCase("text-to-remove-chars(*)")]
         [TestCase("text-to-dateTime(yyyy.mm.dd hh:mm)")]
         [TestCase("text-to-dateTime(dddd dd mm yyyy hh:mm, fr-fr)")]
+        [TestCase("text-to-mask(BE-***.***.**)")]
+        [TestCase("mask-to-text(BE-***.***.**)")]
         [TestCase("html-to-text")]
         [TestCase("date-to-age")]
         [TestCase("utc-to-local(Brussels)")]
@@ -202,6 +210,7 @@ namespace NBi.Testing.Core.Transformation.Transformer
         [TestCase("numeric-to-subtract(10)")]
         [TestCase("numeric-to-subtract(10, 3)")]
         [TestCase("numeric-to-multiply(10)")]
+        [TestCase("numeric-to-divide(12)")]
         [TestCase("numeric-to-invert")]
         [TestCase("path-to-filename")]
         [TestCase("path-to-filename-without-extension")]

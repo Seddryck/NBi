@@ -36,7 +36,6 @@ namespace NBi.Testing.Framework.FailureMessage.Json.Helper
             using (var writer = new JsonTextWriter(sw))
             {
                 helper.Execute(dataTable.Rows.Cast<DataRow>(), new FullSampler<DataRow>(), writer);
-                Console.WriteLine(sb.ToString());
                 Assert.That(sb.ToString, Does.Contain("total-rows"));
                 Assert.That(sb.ToString, Does.Not.Contain("sampled-rows"));
             }
@@ -59,7 +58,6 @@ namespace NBi.Testing.Framework.FailureMessage.Json.Helper
             using (var writer = new JsonTextWriter(sw))
             {
                 helper.Execute(dataTable.Rows.Cast<DataRow>(), new BasicSampler<DataRow>(1, 1), writer);
-                Console.WriteLine(sb.ToString());
                 Assert.That(sb.ToString, Does.Contain("total-rows"));
                 Assert.That(sb.ToString, Does.Contain("sampled-rows"));
             }

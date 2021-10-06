@@ -1,6 +1,7 @@
 ﻿using NBi.Core.Injection;
 using NBi.Core.Scalar.Resolver;
 using NBi.Core.Transformation.Transformer.Native;
+using NBi.Core.Transformation.Transformer.Native.Text;
 using NBi.Core.Variable;
 using NUnit.Framework;
 using System;
@@ -36,7 +37,7 @@ namespace NBi.Testing.Core.Scalar.Resolver
         [Test]
         public void Execute_FunctionPrecededByFormat_CorrectValue()
         {
-            var variables = new Dictionary<string, ITestVariable>()
+            var variables = new Dictionary<string, IVariable>()
             {
                 { "myVar" , new GlobalVariable(new CSharpScalarResolver<object>( new CSharpScalarResolverArgs("10*10"))) },
             };

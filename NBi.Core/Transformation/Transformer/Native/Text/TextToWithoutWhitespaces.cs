@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.Transformation.Transformer.Native
+namespace NBi.Core.Transformation.Transformer.Native.Text
 {
     class TextToWithoutWhitespaces : AbstractTextTransformation
     {

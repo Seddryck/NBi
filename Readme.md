@@ -10,13 +10,14 @@ The main goal of this framework is to let users create tests with a declarative 
 **Releases:** [![nuget](https://img.shields.io/nuget/v/NBi.Framework.svg)](https://www.nuget.org/packages/NBi.Framework/)
 [![GitHub Release Date](https://img.shields.io/github/release-date/seddryck/nbi.svg)](https://github.com/Seddryck/NBi/releases/latest)
 [![licence badge](https://img.shields.io/badge/License-Apache%202.0-yellow.svg)](https://github.com/Seddryck/NBi/blob/master/LICENSE)
+ [![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2FSeddryck%2FNBi.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2FSeddryck%2FNBi?ref=badge_shield)
 
 **Latest RC and beta:** [![Pre-release](https://img.shields.io/github/tag-pre/seddryck/nbi.svg?color=%23ee41f4&label=Pre-release)](https://github.com/Seddryck/NBi/releases/)
 ![GitHub (Pre-)Release Date](https://img.shields.io/github/release-date-pre/Seddryck/NBi?label=Pre-release)
 [![nuget](https://img.shields.io/nuget/vpre/NBi.Framework.svg?color=%23427682&label=Beta)](https://www.nuget.org/packages/NBi.Framework/)
 
 **Dev. activity:** [![GitHub last commit](https://img.shields.io/github/last-commit/Seddryck/nbi.svg)](https://github.com/Seddryck/NBi/releases/latest)
-![Still maintained](https://img.shields.io/maintenance/yes/2020.svg)
+![Still maintained](https://img.shields.io/maintenance/yes/2021.svg)
 ![GitHub commits since tagged version](https://img.shields.io/github/commits-since/Seddryck/NBi/v1.21/develop)
 ![GitHub commits on v2.0](https://img.shields.io/github/commits-since/seddryck/nbi/v1.21/develop_v2?label=commits%20on%20v2.0)
 ![GitHub commit activity](https://img.shields.io/github/commit-activity/y/Seddryck/NBi)
@@ -37,7 +38,11 @@ Binaries for the different releases are hosted on [www.nbi.io](http://www.nbi.io
 The documentation is available on-line and is hosted on [www.nbi.io](http://www.nbi.io/docs/home/)
 
 ## Licenses ##
-NBi is available on the terms of Apache 2.0. NBi is also using several OSS projects as libraries. All these projects, and their respective licenses, are available in the folder "License". 
+NBi is available on the terms of Apache 2.0. NBi is also using several OSS projects as libraries. 
+
+Compatibility of licenses in checked by FOSSA app:
+
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2FSeddryck%2FNBi.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2FSeddryck%2FNBi?ref=badge_large)
 
 ## Bugs, issues and requests for features ##
 The list of bugs and feature's requests is hosted on [GitHub](https://github.com/Seddryck/NBi/issues)

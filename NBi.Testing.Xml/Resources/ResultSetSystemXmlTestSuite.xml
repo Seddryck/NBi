@@ -306,7 +306,69 @@
       </equal-to>
     </assert>
   </test>
-  <test name="Result-set is an empty result-set" uid="0018">
+  <test name="Alteration has a union" uid="0018">
+    <system-under-test>
+      <result-set>
+        <query>
+          <report path="/path/" name="MyReport" dataset="MyDataSet"/>
+        </query>
+        <alteration>
+          <union column-identity="name">
+            <result-set>
+              <row>
+                <cell>A</cell>
+                <cell>alpha</cell>
+              </row>
+              <row>
+                <cell>B</cell>
+                <cell>beta</cell>
+              </row>
+            </result-set>
+          </union>
+        </alteration>
+      </result-set>
+    </system-under-test>
+    <assert>
+      <equal-to>
+        <resultSet file="..\Csv\ResellerOrderCountByYearBefore2006.csv"/>
+      </equal-to>
+    </assert>
+  </test>
+  <test name="Alteration has a duplicate" uid="0019">
+    <system-under-test>
+      <result-set>
+        <query>
+          <report path="/path/" name="MyReport" dataset="MyDataSet"/>
+        </query>
+        <alteration>
+          <duplicate>
+            <predicate operand="[check]">
+              <more-than>150</more-than>
+            </predicate>
+            <times>@myVar</times>
+            <output identifier="myIndex" class="index"/>
+            <output identifier="myTotal" class="total"/>
+            <output identifier="myOriginal" class="is-original"/>
+            <output identifier="myDuplicable" class="is-duplicable"/>
+            <output identifier="myValue" class="script">
+              <script language="ncalc">
+                [myValue] / [myTotal] * ([myIndex] + 1)
+              </script>
+            </output>
+            <output identifier="myStatic" class="static">
+              <value>Monthly</value>
+            </output>
+          </duplicate>
+        </alteration>
+      </result-set>
+    </system-under-test>
+    <assert>
+      <equal-to>
+        <resultSet file="..\Csv\ResellerOrderCountByYearBefore2006.csv"/>
+      </equal-to>
+    </assert>
+  </test>
+  <test name="Result-set is an empty result-set" uid="0020">
     <system-under-test>
       <result-set>
         <empty column-count="4">
@@ -321,7 +383,7 @@
       </equal-to>
     </assert>
   </test>
-  <test name="Result-set has an if-unavailable" uid="0019">
+  <test name="Result-set has an if-unavailable" uid="0021">
     <system-under-test>
       <result-set>
         <xml-source>
@@ -344,6 +406,27 @@
     <assert>
       <equal-to>
         <result-set file="..\Csv\ResellerOrderCountByYearBefore2006.csv"/>
+      </equal-to>
+    </assert>
+  </test>
+  <test name="Result-set has an iteration" uid="0022">
+    <system-under-test>
+      <result-set>
+        <iteration>
+          <sequence name="month"  type="dateTime">
+            <loop-sentinel seed="2020-01-01" terminal="2020-03-01" step="1 month"/>
+          </sequence>
+        </iteration>
+        <result-set>
+          <file>
+            <path>Data_{@month:yyyy}_{@month:MM}.csv</path>
+          </file>
+        </result-set>
+      </result-set>
+    </system-under-test>
+    <assert>
+      <equal-to>
+        <result-set file="..\Csv\Data_2020.csv"/>
       </equal-to>
     </assert>
   </test>

@@ -1,5 +1,6 @@
 ﻿using NBi.Core.Variable;
 using NBi.Extensibility;
+using NBi.Extensibility.Resolving;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -19,7 +20,7 @@ namespace NBi.Core.Scalar.Resolver
             this.args = args;
         }
 
-        public GlobalVariableScalarResolver(string name, IDictionary<string, ITestVariable> variables)
+        public GlobalVariableScalarResolver(string name, IDictionary<string, IVariable> variables)
         {
             this.args = new GlobalVariableScalarResolverArgs(name, variables);
         }
@@ -63,7 +64,7 @@ namespace NBi.Core.Scalar.Resolver
             return output;
         }
 
-        private void CheckVariableExists(string name, IDictionary<string, ITestVariable> variables)
+        private void CheckVariableExists(string name, IDictionary<string, IVariable> variables)
         {
             if (!variables.ContainsKey(name))
             {
@@ -86,12 +87,12 @@ namespace NBi.Core.Scalar.Resolver
             }
         }
 
-        private object EvaluateVariable(ITestVariable variable)
+        private object EvaluateVariable(IVariable variable)
         {
             lock (locker)
             {
-                if (!variable.IsEvaluated())
-                variable.Evaluate();
+                if (variable is RuntimeVariable && !variable.IsEvaluated())
+                    (variable as RuntimeVariable).Evaluate();
             }
             return variable.GetValue();
         }

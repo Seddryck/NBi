@@ -8,6 +8,7 @@ using System.IO;
 using NBi.Core.Decoration.IO;
 using NBi.Core.Scalar.Resolver;
 using NBi.Core.Decoration.IO.Conditions;
+using NBi.Extensibility.Resolving;
 
 namespace NBi.Testing.Integration.Core.Decoration.IO.Conditions
 {

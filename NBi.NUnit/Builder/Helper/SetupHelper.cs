@@ -23,9 +23,9 @@ namespace NBi.NUnit.Builder.Helper
     public class SetupHelper
     {
         private readonly ServiceLocator serviceLocator;
-        private readonly IDictionary<string, ITestVariable> variables;
+        private readonly IDictionary<string, IVariable> variables;
 
-        public SetupHelper(ServiceLocator serviceLocator, IDictionary<string, ITestVariable> variables)
+        public SetupHelper(ServiceLocator serviceLocator, IDictionary<string, IVariable> variables)
         {
             this.serviceLocator = serviceLocator;
             this.variables = variables;
@@ -95,7 +95,7 @@ namespace NBi.NUnit.Builder.Helper
             var args = new
             {
                 xml.ConnectionString,
-                Version = helper.InstantiateResolver<int>(xml.TimeOut),
+                TimeOut = helper.InstantiateResolver<int>(xml.TimeOut),
             };
             return args.ActLike<IConnectionWaitCommandArgs>();
         }

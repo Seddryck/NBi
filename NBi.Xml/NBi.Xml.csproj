@@ -159,6 +159,11 @@
     <Compile Include="Items\Alteration\Conversion\TextToDateConverterXml.cs" />
     <Compile Include="Items\Alteration\Conversion\TextToNumericConverterXml.cs" />
     <Compile Include="Items\Alteration\Conversion\TextToDateTimeConverterXml.cs" />
+    <Compile Include="Items\Alteration\Duplication\DuplicateXml.cs" />
+    <Compile Include="Items\Alteration\Duplication\OutputXml.cs" />
+    <Compile Include="Items\Alteration\IterationXml.cs" />
+    <Compile Include="Items\Alteration\Merging\MergeXml.cs" />
+    <Compile Include="Items\Alteration\Merging\UnionXml.cs" />
     <Compile Include="Items\Alteration\Projection\ProjectXml.cs" />
     <Compile Include="Items\Alteration\Projection\AbstractProjectionXml.cs" />
     <Compile Include="Items\Alteration\Lookup\LookupReplaceXml.cs" />
@@ -185,6 +190,7 @@
     <Compile Include="Items\Api\Rest\RestXml.cs" />
     <Compile Include="Items\Calculation\CombinationPredicationXml.cs" />
     <Compile Include="Items\Calculation\Grouping\CaseXml.cs" />
+    <Compile Include="Items\Calculation\UniqueXml.cs" />
     <Compile Include="Items\EnvironmentXml.cs" />
     <Compile Include="Items\Calculation\Grouping\GroupByXml.cs" />
     <Compile Include="Items\Calculation\Ranking\BaseRankXml.cs" />
@@ -208,7 +214,7 @@
     <Compile Include="Items\ResultSet\Lookup\ColumnMappingXml.cs" />
     <Compile Include="Items\ResultSet\Lookup\InclusionXml.cs" />
     <Compile Include="Items\ResultSet\Lookup\JoinXml.cs" />
-    <Compile Include="Items\Alteration\Summarization\AggregationXml.cs" />
+    <Compile Include="Items\Alteration\Summarization\ColumnAggregationXml.cs" />
     <Compile Include="Items\Alteration\Summarization\SummarizeXml.cs" />
     <Compile Include="Items\SharedDatasetXml.cs" />
     <Compile Include="Items\Alteration\Transformation\TransformXml.cs" />
@@ -336,7 +342,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-    <None Include="packages.config" />
     <EmbeddedResource Include="Schema\BaseType.xsd">
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -365,6 +370,7 @@
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NBi.Core\NBi.Core.csproj">

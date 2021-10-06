@@ -73,7 +73,6 @@ namespace NBi.Testing.Acceptance.GenbiL
                 Assert.Inconclusive("Test Suite not generated!");
 
             var content = File.ReadAllText(TargetFilename);
-            Console.WriteLine(content);
             Assert.That(content, Does.Contain("<query connection-string=\"@tst\" timeout-milliSeconds=\"10000\">"));
             Assert.That(content, Does.Contain("<query connection-string=\"@tst\" timeout-milliSeconds=\"5000\">"));
             Assert.That(content, Does.Contain("<equal-to>"));

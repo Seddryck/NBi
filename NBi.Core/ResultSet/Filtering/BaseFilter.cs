@@ -1,6 +1,4 @@
-﻿using NBi.Core.Calculation.Predicate;
-using NBi.Core.Evaluate;
-using NBi.Core.ResultSet;
+﻿using NBi.Extensibility;
 using NBi.Core.Variable;
 using System;
 using System.Collections.Generic;
@@ -17,11 +15,11 @@ namespace NBi.Core.ResultSet.Filtering
         protected BaseFilter(Context context)
         => Context = context;
 
-        public ResultSet AntiApply(ResultSet rs) => Apply(rs, (x => !x));
+        public IResultSet AntiApply(IResultSet rs) => Apply(rs, (x => !x));
 
-        public ResultSet Apply(ResultSet rs) => Apply(rs, (x => x));
+        public IResultSet Apply(IResultSet rs) => Apply(rs, (x => x));
 
-        protected ResultSet Apply(ResultSet rs, Func<bool, bool> onApply)
+        protected IResultSet Apply(IResultSet rs, Func<bool, bool> onApply)
         {
             var filteredRs = new ResultSet();
             var table = rs.Table.Clone();

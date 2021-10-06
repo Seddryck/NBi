@@ -54,7 +54,6 @@ namespace NBi.Testing.Integration.Core.Decoration.Process.Commands
             stopWatch.Start();
             command.Execute();
             stopWatch.Stop();
-            Console.WriteLine($"Visible wait equal to { stopWatch.ElapsedMilliseconds} ms");
             Assert.That(stopWatch.ElapsedMilliseconds, Is.GreaterThanOrEqualTo(1000));
         }
     }

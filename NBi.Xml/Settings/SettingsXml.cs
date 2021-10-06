@@ -31,7 +31,10 @@ namespace NBi.Xml.Settings
             var value = 
                 CsvProfile.InternalFieldSeparator != GetDefaultValue<string>(x => x.InternalFieldSeparator)
                 || CsvProfile.InternalRecordSeparator != GetDefaultValue<string>(x => x.InternalRecordSeparator)
-                || CsvProfile.InternalTextQualifier != GetDefaultValue<string>(x => x.InternalTextQualifier);
+                || CsvProfile.InternalTextQualifier != GetDefaultValue<string>(x => x.InternalTextQualifier)
+                || CsvProfile.InternalEmptyCell != GetDefaultValue<string>(x => x.InternalEmptyCell)
+                || CsvProfile.InternalMissingCell != GetDefaultValue<string>(x => x.InternalMissingCell)
+                || CsvProfile.InternalFirstRowHeader != GetDefaultValue<bool>(x => x.InternalFirstRowHeader);
 
             return value;
         }

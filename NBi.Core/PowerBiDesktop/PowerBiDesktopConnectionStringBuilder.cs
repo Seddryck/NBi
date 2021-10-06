@@ -25,46 +25,57 @@ namespace NBi.Core.PowerBiDesktop
             return connectionString;
         }
 
+        private static async Task<System.Diagnostics.Process[]> DelayUntilServerIsRunningAsync(int delay = 2000, int timeout = 10000)
+        {
+            var end = DateTime.Now.AddMilliseconds(timeout);
+            var processes = System.Diagnostics.Process.GetProcessesByName("msmdsrv");
+            while (!processes.Any() && DateTime.Now < end)
+            {
+                await Task.Delay(delay);
+                processes = System.Diagnostics.Process.GetProcessesByName("msmdsrv");
+            }
+            return processes;
+        }
+
         protected virtual string BuildLocalConnectionString(string name)
         {
-            var processes = System.Diagnostics.Process.GetProcessesByName("msmdsrv");
-            if (processes==null || processes.Count()==0)
+            var task = Task.Run(async() => await DelayUntilServerIsRunningAsync());
+            var processes = task.Result;
+            if (!processes.Any())
             {
                 throw new ConnectionException
                         (
                             new InvalidOperationException("No process found with the name 'msmdsrv'. Are you sure your Power BI desktop solution is running?")
-                            , string.Format("PBIX = {0}", name)
+                            , $"PBIX = {name}"
                         );
             }
                 
-            var parentName = string.Format("{0} - Power BI Desktop", name);
-            var process = processes.FirstOrDefault(p => p.GetParent().MainWindowTitle == parentName);
+            var process = processes.FirstOrDefault(p => p.GetParent().MainWindowTitle == $"{name} - Power BI Desktop");
             if (process==null)
             {
                 var existingParentNameString = new StringBuilder();
                 foreach (var p in processes)
-		            existingParentNameString.AppendFormat("'{0}', '", p.GetParent().MainWindowTitle);
+		            existingParentNameString.Append($"'{p.GetParent().MainWindowTitle}', '");
 	            existingParentNameString = existingParentNameString.Remove(existingParentNameString.Length - 2, 2);
                 
                 throw new ConnectionException
                     (
-                        new NullReferenceException(string.Format("No parent process found with the name '{0}'. Existing parent names were {1}.", name, existingParentNameString))
-                        , string.Format("PBIX = {0}", name)
+                        new NullReferenceException($"No parent process found with the name '{name}'. Existing parent names were {existingParentNameString.ToString()}.")
+                        , $"PBIX = {name}"
                     );
             }
 
             var cmdLine = process.GetCommandLine();
             var workspace = GetWorkspace(cmdLine);
-            var portFile = string.Format("{0}\\msmdsrv.port.txt", workspace);
-            var port = GetPort(portFile);
+            var port = GetPort($"{workspace}\\msmdsrv.port.txt");
 
-            return string.Format("Data Source=localhost:{0};", port);
+            return $"Data Source=localhost:{port};";
         }
 
 
         private string GetWorkspace(string cmdLine)
         {
-            var rex = new System.Text.RegularExpressions.Regex("-s\\s\"(?<path>.*)\"");
+            var rex = new Regex("-s\\s\"(?<path>.*)\"");
             var m = rex.Matches(cmdLine);
             if (m.Count == 0)
                 throw new ArgumentException();

@@ -9,11 +9,11 @@ namespace NBi.Core.Variable.Instantiation
 {
     public class Instance
     {
-        public IDictionary<string, ITestVariable> Variables { get; }
+        public IDictionary<string, IVariable> Variables { get; }
         public IEnumerable<string> Categories { get; }
         public IDictionary<string, string> Traits { get; }
 
-        public Instance(IDictionary<string, ITestVariable> variables, IEnumerable<string> categories, IDictionary<string, string> traits)
+        public Instance(IDictionary<string, IVariable> variables, IEnumerable<string> categories, IDictionary<string, string> traits)
         {
             Variables = variables;
             Categories = categories ?? new List<string>();
@@ -31,7 +31,7 @@ namespace NBi.Core.Variable.Instantiation
         public class DefaultInstance : Instance
         {
             public DefaultInstance()
-                : base(new Dictionary<string, ITestVariable>(),null, null)
+                : base(new Dictionary<string, IVariable>(),null, null)
             { }
 
             public override string GetName() => string.Empty;

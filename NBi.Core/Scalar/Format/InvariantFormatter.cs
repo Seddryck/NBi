@@ -13,11 +13,11 @@ namespace NBi.Core.Scalar.Format
     class InvariantFormatter : IFormatter
     {
         private ServiceLocator ServiceLocator { get; }
-        private IDictionary<string, ITestVariable> Variables { get; }
+        private IDictionary<string, IVariable> Variables { get; }
 
         private const string SCALAR_PATTERN = @"{(@([\w\s\|\(\),-])+)[}:]";
 
-        public InvariantFormatter(ServiceLocator serviceLocator, IDictionary<string, ITestVariable> variables)
+        public InvariantFormatter(ServiceLocator serviceLocator, IDictionary<string, IVariable> variables)
             => (ServiceLocator, Variables) = (serviceLocator, variables);
 
         protected string Prepare(string text, out IList<IScalarResolverArgs> args)

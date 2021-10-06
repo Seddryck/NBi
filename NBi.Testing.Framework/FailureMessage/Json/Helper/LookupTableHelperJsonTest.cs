@@ -54,7 +54,6 @@ namespace NBi.Testing.Framework.FailureMessage.Json.Helper
             {
                 msg.Render(writer);
                 var value = sb.ToString();
-                Console.WriteLine(value);
                 Assert.That(value, Does.Contain(",\"rows\":[[\"Alpha\",{\"value\":\"10\",\"expectation\":\"15\"},\"True\"]]}"));
             }
         }

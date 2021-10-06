@@ -29,7 +29,6 @@ namespace NBi.Testing.Xml.Unit.Items
 
             var manager = new XmlManager();
             var xml = manager.XmlSerializeFrom(root, overrides);
-            Console.WriteLine(xml);
             Assert.That(xml, Does.Contain("<file>"));
             Assert.That(xml, Does.Contain("<path>c:\\myFile.txt</path>"));
             Assert.That(xml, Does.Contain("</file>"));
@@ -54,7 +53,6 @@ namespace NBi.Testing.Xml.Unit.Items
 
             var manager = new XmlManager();
             var xml = manager.XmlSerializeFrom(root, overrides);
-            Console.WriteLine(xml);
             Assert.That(xml, Does.Contain("<file>"));
             Assert.That(xml, Does.Contain("<path>c:\\myFile.txt</path>"));
             Assert.That(xml, Does.Contain("<parser name=\"myName\" />"));
@@ -78,7 +76,6 @@ namespace NBi.Testing.Xml.Unit.Items
 
             var manager = new XmlManager();
             var xml = manager.XmlSerializeFrom(root, overrides);
-            Console.WriteLine(xml);
             Assert.That(xml, Does.Contain("<file>"));
             Assert.That(xml, Does.Contain("<path>c:\\myFile.txt</path>"));
             Assert.That(xml, Does.Contain("<if-missing"));

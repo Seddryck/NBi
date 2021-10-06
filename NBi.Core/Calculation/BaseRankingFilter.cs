@@ -10,6 +10,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using NBi.Extensibility;
 
 namespace NBi.Core.Calculation
 {
@@ -28,10 +29,10 @@ namespace NBi.Core.Calculation
             this.Expressions = expressions;
         }
 
-        public ResultSet.ResultSet AntiApply(ResultSet.ResultSet rs)
+        public IResultSet AntiApply(IResultSet rs)
             => throw new NotImplementedException();
 
-        public ResultSet.ResultSet Apply(ResultSet.ResultSet rs)
+        public IResultSet Apply(IResultSet rs)
         {
             IList<ScoredObject> subset = new List<ScoredObject>();
             var scorer = new DataRowScorer(Operand, Aliases, Expressions);

@@ -1,4 +1,4 @@
-﻿using NBi.Core.Variable;
+﻿using NBi.Extensibility;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,8 +9,8 @@ namespace NBi.Core.ResultSet.Filtering
 {
     public interface IResultSetFilter
     {
-        ResultSet Apply(ResultSet rs);
-        ResultSet AntiApply(ResultSet rs);
+        IResultSet Apply(IResultSet rs);
+        IResultSet AntiApply(IResultSet rs);
 
         string Describe();
     }

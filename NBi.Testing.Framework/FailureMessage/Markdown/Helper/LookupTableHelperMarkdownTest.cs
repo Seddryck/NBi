@@ -49,8 +49,6 @@ namespace NBi.Testing.Framework.FailureMessage.Markdown.Helper
             msg.Render(container);
             var value = container.ToMarkdown();
 
-            Console.WriteLine(value);
-
             Assert.That(value.Count(c => c == '\n'), Is.EqualTo(6));
 
             var indexes = value.IndexOfAll('\n').ToArray();
@@ -94,8 +92,6 @@ namespace NBi.Testing.Framework.FailureMessage.Markdown.Helper
             var container = new MarkdownContainer();
             msg.Render(container);
             var value = container.ToMarkdown();
-
-            Console.WriteLine(value);
             Assert.That(value.Count(c => c == '\n'), Is.EqualTo(6));
             Assert.That(value, Does.Contain("| 10 <> 15"));
             Assert.That(value, Does.Contain("| True <> False"));
@@ -133,8 +129,6 @@ namespace NBi.Testing.Framework.FailureMessage.Markdown.Helper
             var container = new MarkdownContainer();
             msg.Render(container);
             var value = container.ToMarkdown();
-
-            Console.WriteLine(value);
             Assert.That(value.Count(c => c == '\n'), Is.EqualTo(6));
             Assert.That(value, Does.Contain("| 10   "));
             Assert.That(value, Does.Contain("| True <> False"));
@@ -184,7 +178,6 @@ namespace NBi.Testing.Framework.FailureMessage.Markdown.Helper
             msg.Render(container);
             var value = container.ToMarkdown();
 
-            Console.WriteLine(value);
             Assert.That(value.Count(c => c == '\n'), Is.EqualTo(8));
             Assert.That(value, Does.Contain("| 10   "));
             Assert.That(value, Does.Contain("| True <> False"));
@@ -239,7 +232,6 @@ namespace NBi.Testing.Framework.FailureMessage.Markdown.Helper
             msg.Render(container);
             var value = container.ToMarkdown();
 
-            Console.WriteLine(value);
             Assert.That(value.Count(c => c == '\n'), Is.EqualTo(11));
             Assert.That(value, Does.Contain("Result-set with 2 rows"));
             Assert.That(value, Does.Contain("#0 (Id) | #1 (ForeignKey) | #2 (Numeric value) | #3 (Boolean value)"));

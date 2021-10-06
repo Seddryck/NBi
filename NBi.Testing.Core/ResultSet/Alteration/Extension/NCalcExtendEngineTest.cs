@@ -4,6 +4,7 @@ using NBi.Core.ResultSet.Alteration.Extension;
 using NBi.Core.ResultSet.Resolver;
 using NBi.Core.Scalar.Resolver;
 using NBi.Core.Variable;
+using NBi.Extensibility.Resolving;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
@@ -75,7 +76,7 @@ namespace NBi.Testing.Core.ResultSet.Alteration.Extension
 
             var extender = new NCalcExtendEngine(
                 new ServiceLocator(),
-                new Context(new Dictionary<string, ITestVariable> { { "myVar", new GlobalVariable(new LiteralScalarResolver<decimal>(2)) } }),
+                new Context(new Dictionary<string, IVariable> { { "myVar", new GlobalVariable(new LiteralScalarResolver<decimal>(2)) } }),
                 new ColumnNameIdentifier("d"),
                 "[@myVar] * [b] * [c]"
                 );

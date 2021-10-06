@@ -1,6 +1,7 @@
 ﻿using Microsoft.CSharp;
 using NBi.Core.Assemblies;
 using NBi.Core.Scalar.Casting;
+using NBi.Extensibility.Resolving;
 using System;
 using System.CodeDom.Compiler;
 using System.Collections;

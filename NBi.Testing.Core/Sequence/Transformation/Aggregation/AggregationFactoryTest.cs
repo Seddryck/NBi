@@ -2,7 +2,7 @@
 using NBi.Core.Scalar.Resolver;
 using NBi.Core.Sequence.Transformation.Aggregation;
 using NBi.Core.Sequence.Transformation.Aggregation.Function;
-using NBi.Core.Sequence.Transformation.Aggregation.Strategy;
+using NBi.Extensibility.Resolving;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
@@ -27,6 +27,19 @@ namespace NBi.Testing.Unit.Core.Sequence.Transformation.Aggregation
             var aggregation = factory.Instantiate(columnType, function, Array.Empty<IScalarResolver>(), Array.Empty<IAggregationStrategy>());
             Assert.That(aggregation, Is.Not.Null);
             Assert.That(aggregation.Function, Is.TypeOf(expectedType));
+        }
+
+        [Test]
+        [TestCase(ColumnType.Numeric)]
+        [TestCase(ColumnType.Boolean)]
+        [TestCase(ColumnType.DateTime)]
+        [TestCase(ColumnType.Text)]
+        public void Instantiate_ColumnTypeCount_CorrectAggregation(ColumnType columnType)
+        {
+            var factory = new AggregationFactory();
+            var aggregation = factory.Instantiate(columnType, AggregationFunctionType.Count, Array.Empty<IScalarResolver>(), Array.Empty<IAggregationStrategy>());
+            Assert.That(aggregation, Is.Not.Null);
+            Assert.That(aggregation.Function, Is.InstanceOf<Count>());
         }
 
         [Test]

@@ -1,6 +1,4 @@
-﻿using NBi.Core.FlatFile;
-using NBi.Core.Query;
-using NBi.Core.Scalar.Resolver;
+﻿using NBi.Extensibility.Resolving;
 using NBi.Extensibility.FlatFile;
 using System;
 using System.Collections.Generic;

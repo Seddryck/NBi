@@ -56,8 +56,6 @@ namespace NBi.Testing.Core
                     Assert.Fail("An exception should have been thrown");
                 else
                 {
-                    //Test can continue
-                    Console.Out.WriteLine(nbiEx.Message);
                     Assert.That(nbiEx.Message, Does.Contain(connectionString));
                 }
             }

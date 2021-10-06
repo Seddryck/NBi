@@ -3,14 +3,19 @@ using NBi.Core.ResultSet;
 using NBi.Core.ResultSet.Resolver;
 using NBi.Core.Sequence.Resolver;
 using NBi.Core.Variable;
-using NBi.Core.DataSerialization;
 using NBi.Xml.Items;
+using NBi.Core.DataSerialization.Flattening;
+using NBi.Core.DataSerialization.Flattening.Xml;
+using NBi.Core.DataSerialization.Reader;
+using NBi.Core.DataSerialization.Flattening.Json;
+using NBi.Xml.Items.Hierarchical.Json;
 using NBi.Xml.Items.ResultSet;
 using NBi.Xml.Items.ResultSet.Combination;
 using NBi.Xml.Items.Hierarchical.Xml;
 using NBi.Xml.Settings;
 using NBi.Xml.Systems;
 using NBi.Xml.Variables.Sequence;
+using NBi.Extensibility.Resolving;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -18,15 +23,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using NBi.Xml.Items.Hierarchical.Json;
-using NBi.Core.Api.Rest;
-using NBi.Core.Api.Authentication;
-using NBi.Xml.Items.Api.Rest;
-using NBi.Xml.Items.Api.Authentication;
-using NBi.Core.DataSerialization.Flattening;
-using NBi.Core.DataSerialization.Flattening.Xml;
-using NBi.Core.DataSerialization.Reader;
-using NBi.Core.DataSerialization.Flattening.Json;
+using NBi.Xml.Items.Alteration;
 
 namespace NBi.NUnit.Builder.Helper
 {
@@ -37,14 +34,14 @@ namespace NBi.NUnit.Builder.Helper
         private object obj = null;
         private SettingsXml settings = null;
         private SettingsXml.DefaultScope scope = SettingsXml.DefaultScope.Everywhere;
-        private IDictionary<string, ITestVariable> Variables { get; set; } = new Dictionary<string, ITestVariable>();
+        private IDictionary<string, IVariable> Variables { get; set; } = new Dictionary<string, IVariable>();
         private ResultSetResolverArgs args = null;
 
         private ServiceLocator ServiceLocator { get; }
 
         public ResultSetResolverArgsBuilder(ServiceLocator serviceLocator) => this.ServiceLocator = serviceLocator;
 
-        public void Setup(object obj, SettingsXml settingsXml, SettingsXml.DefaultScope scope, IDictionary<string, ITestVariable> variables)
+        public void Setup(object obj, SettingsXml settingsXml, SettingsXml.DefaultScope scope, IDictionary<string, IVariable> variables)
         {
             this.obj = obj;
             this.settings = settingsXml;
@@ -86,7 +83,6 @@ namespace NBi.NUnit.Builder.Helper
             //Query
             else if (xml.Query != null)
                 return BuildQueryResolverArgs(xml.Query, scope);
-            //Sequences combination
             else if (xml.SequenceCombination != null)
                 return BuildSequenceCombinationResolverArgs(xml.SequenceCombination);
             else if (xml.Sequence != null)
@@ -97,7 +93,8 @@ namespace NBi.NUnit.Builder.Helper
                 return BuildJsonPathResolverArgs(xml.JsonSource);
             else if (xml.Empty != null)
                 return BuildEmptyResolverArgs(xml.Empty);
-            //ResultSet (embedded)
+            else if (xml.Iteration != null)
+                return BuildIterativeResultSetResolverArgs(xml.Iteration, xml.NestedResultSet);
             else if (xml.Rows != null)
                 return BuildEmbeddedResolverArgs(xml.Content);
 
@@ -167,6 +164,24 @@ namespace NBi.NUnit.Builder.Helper
         {
             Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceVerbose, "ResultSet defined in embedded resultSet.");
             return new ContentResultSetResolverArgs(content);
+        }
+
+        private ResultSetResolverArgs BuildIterativeResultSetResolverArgs(IterationXml iterationXml, ResultSetSystemXml nestedResultSetXml)
+        {
+            var sequenceFactory = new SequenceResolverFactory(ServiceLocator);
+            var builder = new SequenceResolverArgsBuilder(ServiceLocator);
+            builder.Setup(settings);
+            builder.Setup(Variables);
+            builder.Setup(iterationXml.Sequence.Type);
+            builder.Setup((object)iterationXml.Sequence.SentinelLoop ?? iterationXml.Sequence.Items);
+            builder.Build();
+            var sequenceResolver = sequenceFactory.Instantiate(iterationXml.Sequence.Type, builder.GetArgs());
+
+            var nestedHelper = new ResultSetSystemHelper(ServiceLocator, scope, Variables);
+            nestedResultSetXml.Settings = settings;
+            var nestedResultSetResolver = nestedHelper.InstantiateResolver(nestedResultSetXml);
+
+            return new IterativeResultSetResolverArgs(sequenceResolver, iterationXml.Sequence.Name, Variables, nestedResultSetResolver);
         }
 
         private ResultSetResolverArgs BuildQueryResolverArgs(QueryXml queryXml, SettingsXml.DefaultScope scope)
@@ -239,7 +254,8 @@ namespace NBi.NUnit.Builder.Helper
         private ResultSetResolverArgs BuildJsonPathResolverArgs(JsonSourceXml jsonSource)
         {
             Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceVerbose, "ResultSet defined through an json-source.");
-            var helper = new ScalarHelper(ServiceLocator, settings, scope, new Context(Variables));
+            var context = new Context(Variables);
+            var helper = new ScalarHelper(ServiceLocator, settings, scope, context);
 
             IReaderArgs reader = null;
             if (jsonSource.File != null)
@@ -257,6 +273,15 @@ namespace NBi.NUnit.Builder.Helper
                 var restHelper = new RestHelper(ServiceLocator, settings, scope, Variables);
                 reader = new RestReaderArgs(restHelper.Execute(jsonSource.Rest));
             }
+            else if (jsonSource.QueryScalar != null)
+            {
+                var builder = new ScalarResolverArgsBuilder(ServiceLocator, context);
+                builder.Setup(jsonSource.QueryScalar, settings, scope);
+                builder.Build();
+                var args = ServiceLocator.GetScalarResolverFactory().Instantiate<string>(builder.GetArgs());
+                reader = new ScalarReaderArgs(args);
+            }
+
 
             var selects = new List<IPathSelect>();
             var selectFactory = new PathFlattenizerFactory();

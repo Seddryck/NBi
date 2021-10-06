@@ -1,6 +1,6 @@
 ﻿using NBi.Core.Scalar.Casting;
 using NBi.Core.Scalar.Resolver;
-using NBi.Extensibility;
+using NBi.Extensibility.Resolving;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -134,6 +134,15 @@ namespace NBi.Core.Transformation.Transformer.Native
 
         protected override decimal EvaluateNumeric(decimal value)
             => value * Value.Execute();
+    }
+
+    class NumericToDivide : AbstractNumericArithmetic
+    {
+        public NumericToDivide(IScalarResolver<decimal> value)
+            : base(value) { }
+
+        protected override decimal EvaluateNumeric(decimal value)
+            => value / Value.Execute();
     }
 
     class NumericToInvert : AbstractNumericTransformation

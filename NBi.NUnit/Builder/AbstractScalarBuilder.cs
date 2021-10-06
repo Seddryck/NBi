@@ -6,7 +6,7 @@ using NBi.NUnit.Builder.Helper;
 using NBi.Core.Configuration;
 using NBi.Core.Injection;
 using NBi.Core.Variable;
-using NBi.Core.Scalar.Resolver;
+using NBi.Extensibility.Resolving;
 using NBi.Xml.Settings;
 
 namespace NBi.NUnit.Builder
@@ -15,7 +15,7 @@ namespace NBi.NUnit.Builder
     {
         protected ScalarXml SystemUnderTestXml { get; set; }
 
-        public override void Setup(AbstractSystemUnderTestXml sutXml, AbstractConstraintXml ctrXml, IConfiguration config, IDictionary<string, ITestVariable> variables, ServiceLocator serviceLocator)
+        public override void Setup(AbstractSystemUnderTestXml sutXml, AbstractConstraintXml ctrXml, IConfiguration config, IDictionary<string, IVariable> variables, ServiceLocator serviceLocator)
             => base.Setup(sutXml, ctrXml, config, variables, serviceLocator);
 
         protected override void BaseSetup(AbstractSystemUnderTestXml sutXml, AbstractConstraintXml ctrXml)

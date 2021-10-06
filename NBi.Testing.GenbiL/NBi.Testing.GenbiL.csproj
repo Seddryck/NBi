@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\packages\NUnit3TestAdapter.3.15.1\build\net35\NUnit3TestAdapter.props" Condition="Exists('..\packages\NUnit3TestAdapter.3.15.1\build\net35\NUnit3TestAdapter.props')" />
+  <Import Project="..\packages\NUnit3TestAdapter.4.0.0\build\net35\NUnit3TestAdapter.props" Condition="Exists('..\packages\NUnit3TestAdapter.4.0.0\build\net35\NUnit3TestAdapter.props')" />
   <Import Project="..\packages\NUnit.3.12.0\build\NUnit.props" Condition="Exists('..\packages\NUnit.3.12.0\build\NUnit.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -38,15 +38,12 @@
     <Reference Include="nunit.framework, Version=3.12.0.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
       <HintPath>..\packages\NUnit.3.12.0\lib\net45\nunit.framework.dll</HintPath>
     </Reference>
-    <Reference Include="Sprache, Version=2.2.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Sprache.2.2.0\lib\net45\Sprache.dll</HintPath>
+    <Reference Include="Sprache, Version=2.3.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Sprache.2.3.1\lib\net45\Sprache.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
-    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net461\System.ValueTuple.dll</HintPath>
-    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -81,10 +78,17 @@
     <Compile Include="Action\Case\TrimCaseActionTest.cs" />
     <Compile Include="Action\Consumable\AutoConsumableActionTest.cs" />
     <Compile Include="Action\Consumable\SetConsumableActionTest.cs" />
+    <Compile Include="Action\Setting\CsvProfile\EmptyCellActionTest.cs" />
+    <Compile Include="Action\Setting\CsvProfile\FieldSeparatorTest .cs" />
+    <Compile Include="Action\Setting\CsvProfile\FirstRowHeaderTest.cs" />
+    <Compile Include="Action\Setting\CsvProfile\MissingCellActionTest.cs" />
+    <Compile Include="Action\Setting\CsvProfile\RecordSeparatorActionTest.cs" />
+    <Compile Include="Action\Setting\CsvProfile\TextQualifierTest.cs" />
     <Compile Include="Action\Setting\ReferenceActionTest.cs" />
     <Compile Include="Action\Setting\DefaultActionTest.cs" />
     <Compile Include="Action\Suite\GenerateTestGroupBySuiteActionTest.cs" />
     <Compile Include="Action\Suite\GenerateTestSuiteActionTest.cs" />
+    <Compile Include="Action\Suite\SaveSuiteActionTest.cs" />
     <Compile Include="Action\Template\AddEmbeddedTemplateActionTest.cs" />
     <Compile Include="Action\Variable\IncludeVariableActionTest.cs" />
     <Compile Include="Parser\CaseParserTest.cs" />
@@ -92,6 +96,7 @@
     <Compile Include="Parser\ConsumableParserTest.cs" />
     <Compile Include="Parser\GrammarParserTest.cs" />
     <Compile Include="Parser\RecipeParserTest.cs" />
+    <Compile Include="Parser\CsvProfileParserTest.cs" />
     <Compile Include="Parser\SettingParserTest.cs" />
     <Compile Include="Parser\SuiteParserTest.cs" />
     <Compile Include="Parser\TemplateParserTest.cs" />
@@ -128,6 +133,6 @@
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\NUnit.3.12.0\build\NUnit.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\NUnit.3.12.0\build\NUnit.props'))" />
-    <Error Condition="!Exists('..\packages\NUnit3TestAdapter.3.15.1\build\net35\NUnit3TestAdapter.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\NUnit3TestAdapter.3.15.1\build\net35\NUnit3TestAdapter.props'))" />
+    <Error Condition="!Exists('..\packages\NUnit3TestAdapter.4.0.0\build\net35\NUnit3TestAdapter.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\NUnit3TestAdapter.4.0.0\build\net35\NUnit3TestAdapter.props'))" />
   </Target>
 </Project>

@@ -75,7 +75,7 @@ namespace NBi.Testing.Core.ResultSet.Alteration.Extension
 
             var extender = new NativeExtendEngine(
                 new ServiceLocator(),
-                new Context(new Dictionary<string, ITestVariable> { { "myVar", new GlobalVariable(new LiteralScalarResolver<decimal>(2)) } }),
+                new Context(new Dictionary<string, IVariable> { { "myVar", new GlobalVariable(new LiteralScalarResolver<decimal>(2)) } }),
                 new ColumnNameIdentifier("d"),
                 "[a] | text-to-first-chars(@myVar) | text-to-upper"
                 );
@@ -100,7 +100,7 @@ namespace NBi.Testing.Core.ResultSet.Alteration.Extension
 
             var extender = new NativeExtendEngine(
                 new ServiceLocator(),
-                new Context(new Dictionary<string, ITestVariable> { { "myVar", new GlobalVariable(new LiteralScalarResolver<string>("foo")) } }),
+                new Context(new Dictionary<string, IVariable> { { "myVar", new GlobalVariable(new LiteralScalarResolver<string>("foo")) } }),
                 new ColumnNameIdentifier("d"),
                 "@myVar | text-to-first-chars(#1) | text-to-upper"
                 );

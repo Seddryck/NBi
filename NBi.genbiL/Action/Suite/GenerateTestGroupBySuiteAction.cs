@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace NBi.GenbiL.Action.Suite
 {
-    class GenerateTestGroupBySuiteAction : GenerateSuiteAction<TestStandaloneXml>
+    public class GenerateTestGroupBySuiteAction : GenerateSuiteAction<TestStandaloneXml>
     {
         public GenerateTestGroupBySuiteAction(string groupByPattern)
             : base(false, groupByPattern) { }

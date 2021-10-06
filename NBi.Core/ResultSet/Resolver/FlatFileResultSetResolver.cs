@@ -1,8 +1,6 @@
-﻿using NBi.Core.FlatFile;
-using NBi.Core.Injection;
-using NBi.Core.Query;
-using NBi.Core.Scalar.Resolver;
+﻿using NBi.Core.Injection;
 using NBi.Extensibility;
+using NBi.Extensibility.Resolving;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -25,7 +23,7 @@ namespace NBi.Core.ResultSet.Resolver
             this.serviceLocator = serviceLocator;
         }
 
-        public virtual ResultSet Execute()
+        public virtual IResultSet Execute()
         {
             var path = args.Path.Execute();
             var file = (Path.IsPathRooted(path)) ? path : args.BasePath + path;
@@ -38,7 +36,7 @@ namespace NBi.Core.ResultSet.Resolver
                     return args.Redirection.Execute();
             }
             else
-                Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceInfo, $"Loading data from flat file '{file}'");
+                Trace.WriteLineIf(NBiTraceSwitch.TraceInfo, $"Loading data from flat file '{file}'");
 
             var stopWatch = new Stopwatch();
             stopWatch.Start();
@@ -49,8 +47,8 @@ namespace NBi.Core.ResultSet.Resolver
             var rs = new ResultSet();
             rs.Load(dataTable);
             stopWatch.Stop();
-            Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceInfo, $"Time needed to load data from flat file: {stopWatch.Elapsed:d'.'hh':'mm':'ss'.'fff'ms'}");
-            Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceInfo, $"Result-set contains {dataTable.Rows.Count} row{(dataTable.Rows.Count > 1 ? "s" : string.Empty)} and {dataTable.Columns.Count} column{(dataTable.Columns.Count > 1 ? "s" : string.Empty)}");
+            Trace.WriteLineIf(NBiTraceSwitch.TraceInfo, $"Time needed to load data from flat file: {stopWatch.Elapsed:d'.'hh':'mm':'ss'.'fff'ms'}");
+            Trace.WriteLineIf(NBiTraceSwitch.TraceInfo, $"Result-set contains {dataTable.Rows.Count} row{(dataTable.Rows.Count > 1 ? "s" : string.Empty)} and {dataTable.Columns.Count} column{(dataTable.Columns.Count > 1 ? "s" : string.Empty)}");
             return rs;
         }
 

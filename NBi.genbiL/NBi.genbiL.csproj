@@ -43,8 +43,8 @@
     <Reference Include="PocketCsvReader, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\PocketCsvReader.1.0.0\lib\net461\PocketCsvReader.dll</HintPath>
     </Reference>
-    <Reference Include="Sprache, Version=2.2.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Sprache.2.2.0\lib\net45\Sprache.dll</HintPath>
+    <Reference Include="Sprache, Version=2.3.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Sprache.2.3.1\lib\net45\Sprache.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -99,7 +99,14 @@
     <Compile Include="Action\IAction.cs" />
     <Compile Include="Action\Case\IMultiCaseAction.cs" />
     <Compile Include="Action\OperatorType.cs" />
+    <Compile Include="Action\Setting\CsvProfile\EmptyCellAction.cs" />
+    <Compile Include="Action\Setting\CsvProfile\FieldSeparatorAction.cs" />
+    <Compile Include="Action\Setting\CsvProfile\FirstRowHeaderAction.cs" />
+    <Compile Include="Action\Setting\CsvProfile\MissingCellAction.cs" />
+    <Compile Include="Action\Setting\CsvProfile\RecordSeparatorAction.cs" />
+    <Compile Include="Action\Setting\CsvProfile\TextQualifierAction.cs" />
     <Compile Include="Action\Setting\IncludeSettingAction.cs" />
+    <Compile Include="Action\Setting\ICsvProfile.cs" />
     <Compile Include="Action\Setting\ISettingAction.cs" />
     <Compile Include="Action\Setting\ParameterActionFactory.cs" />
     <Compile Include="Action\Setting\ParallelizeQueriesAction.cs" />
@@ -109,6 +116,7 @@
     <Compile Include="Action\Suite\GenerateSuiteAction.cs" />
     <Compile Include="Action\Suite\GenerateTestGroupBySuiteAction.cs" />
     <Compile Include="Action\Suite\IncludeSuiteAction.cs" />
+    <Compile Include="Action\Suite\IncludeSuiteFromStringAction.cs" />
     <Compile Include="Action\Suite\SaveSuiteAction.cs" />
     <Compile Include="Action\Suite\ISuiteAction.cs" />
     <Compile Include="Action\Template\AddEmbeddedTemplateAction.cs" />
@@ -128,6 +136,7 @@
     <Compile Include="Parser\Action.cs" />
     <Compile Include="Parser\Consumable.cs" />
     <Compile Include="Action\DirectionType.cs" />
+    <Compile Include="Parser\CsvProfile.cs" />
     <Compile Include="Parser\Valuable\Column.cs" />
     <Compile Include="Parser\Comment.cs" />
     <Compile Include="Parser\Valuable\IValuable.cs" />

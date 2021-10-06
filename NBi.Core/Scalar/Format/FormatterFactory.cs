@@ -17,7 +17,7 @@ namespace NBi.Core.Scalar.Format
             this.serviceLocator = serviceLocator;
         }
 
-        public IFormatter Instantiate(IDictionary<string, ITestVariable> globalVariables)
+        public IFormatter Instantiate(IDictionary<string, IVariable> globalVariables)
             => new InvariantFormatter(serviceLocator, globalVariables);
     }
 }

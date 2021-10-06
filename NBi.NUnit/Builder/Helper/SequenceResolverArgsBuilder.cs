@@ -2,7 +2,6 @@
 using NBi.Core.IO.Filtering;
 using NBi.Core.ResultSet;
 using NBi.Core.Scalar.Duration;
-using NBi.Core.Scalar.Resolver;
 using NBi.Core.Sequence.Resolver;
 using NBi.Core.Sequence.Resolver.Loop;
 using NBi.Core.Variable;
@@ -10,6 +9,7 @@ using NBi.Xml.Items;
 using NBi.Xml.Settings;
 using NBi.Xml.Variables.Custom;
 using NBi.Xml.Variables.Sequence;
+using NBi.Extensibility.Resolving;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -26,7 +26,7 @@ namespace NBi.NUnit.Builder.Helper
 
         private object obj = null;
         private SettingsXml settings = null;
-        private IDictionary<string, ITestVariable> Variables { get; set; } = new Dictionary<string, ITestVariable>();
+        private IDictionary<string, IVariable> Variables { get; set; } = new Dictionary<string, IVariable>();
         private SettingsXml.DefaultScope Scope { get; } = SettingsXml.DefaultScope.Everywhere;
         private ISequenceResolverArgs Args { get; set; } = null;
         private ColumnType columnType = ColumnType.Numeric;
@@ -52,7 +52,7 @@ namespace NBi.NUnit.Builder.Helper
             this.settings = settingsXml;
         }
 
-        public void Setup(IDictionary<string, ITestVariable> globalVariables)
+        public void Setup(IDictionary<string, IVariable> globalVariables)
         {
             this.Variables = globalVariables;
         }

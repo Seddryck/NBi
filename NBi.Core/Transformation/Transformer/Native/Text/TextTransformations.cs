@@ -1,6 +1,7 @@
 ﻿using NBi.Core.Scalar.Casting;
 using NBi.Core.Scalar.Resolver;
 using NBi.Extensibility;
+using NBi.Extensibility.Resolving;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -9,7 +10,7 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.Transformation.Transformer.Native
+namespace NBi.Core.Transformation.Transformer.Native.Text
 {
     abstract class AbstractTextTransformation : INativeTransformation
     {
@@ -110,7 +111,7 @@ namespace NBi.Core.Transformation.Transformer.Native
         public TextToFirstChars(IScalarResolver<int> length)
             : base(length) { }
 
-        protected override object EvaluateString(string value) 
+        protected override object EvaluateString(string value)
             => value.Length >= Length.Execute() ? value.Substring(0, Length.Execute()) : value;
     }
 
@@ -119,7 +120,7 @@ namespace NBi.Core.Transformation.Transformer.Native
         public TextToLastChars(IScalarResolver<int> length)
             : base(length) { }
 
-        protected override object EvaluateString(string value) 
+        protected override object EvaluateString(string value)
             => value.Length >= Length.Execute() ? value.Substring(value.Length - Length.Execute(), Length.Execute()) : value;
     }
 
@@ -129,7 +130,7 @@ namespace NBi.Core.Transformation.Transformer.Native
             : base(length) { }
 
         protected override object EvaluateString(string value)
-            => value.Length <= Length.Execute() ? "(empty)" : value.Substring(Length.Execute(), value.Length-Length.Execute());
+            => value.Length <= Length.Execute() ? "(empty)" : value.Substring(Length.Execute(), value.Length - Length.Execute());
     }
 
     class TextToSkipLastChars : AbstractTextLengthTransformation
@@ -159,7 +160,7 @@ namespace NBi.Core.Transformation.Transformer.Native
         public TextToPadRight(IScalarResolver<int> length, IScalarResolver<char> character)
             : base(length, character) { }
 
-        protected override object EvaluateString(string value) 
+        protected override object EvaluateString(string value)
             => value.Length >= Length.Execute() ? value : value.PadRight(Length.Execute(), Character.Execute());
     }
 
@@ -168,7 +169,7 @@ namespace NBi.Core.Transformation.Transformer.Native
         public TextToPadLeft(IScalarResolver<int> length, IScalarResolver<char> character)
             : base(length, character) { }
 
-        protected override object EvaluateString(string value) 
+        protected override object EvaluateString(string value)
             => value.Length >= Length.Execute() ? value : value.PadLeft(Length.Execute(), Character.Execute());
     }
 
@@ -211,38 +212,48 @@ namespace NBi.Core.Transformation.Transformer.Native
         protected override object EvaluateString(string value) => value.Length;
     }
 
+    class TextToToken : AbstractTextTransformation
+    {
+        public IScalarResolver<int> Index { get; }
+        public IScalarResolver<char> Separator { get; }
+        public TextToToken(IScalarResolver<int> index)
+            => (Index, Separator) = (index, null);
+        public TextToToken(IScalarResolver<int> index, IScalarResolver<char> separator)
+            => (Index, Separator) = (index, separator);
+        protected override object EvaluateBlank() => Separator == null || char.IsWhiteSpace(Separator.Execute()) ? "(null)" : "(blank)";
+        protected override object EvaluateEmpty() => "(null)";
+        protected override object EvaluateString(string value)
+        {
+            var tokenizer = Separator == null ? (ITokenizer)new WhitespaceTokenizer() : new Tokenizer(Separator.Execute());
+
+            var tokens = tokenizer.Execute(value);
+            var indexValue = Index.Execute();
+            if (indexValue < tokens.Length)
+                return tokens[indexValue];
+            else
+                return "(null)";
+        }
+    }
+
     class TextToTokenCount : TextToLength
     {
+        public IScalarResolver<char> Separator { get; }
+        public TextToTokenCount()
+            => Separator = null;
+        public TextToTokenCount(IScalarResolver<char> separator)
+            => Separator = separator;
+
         protected override object EvaluateBlank() => 0;
         protected override object EvaluateString(string value) => TokenCount(value);
 
         private int TokenCount(string value)
         {
-            if (!string.IsNullOrWhiteSpace(value))
-            {
-                int len = value.Length;
-                int count = 0;
-                bool tokenRunning = false;
-
-                for (int i = 0; i < len; i++)
-                {
-                    if (char.IsLetterOrDigit(value[i]) || char.Parse("-") == value[i])
-                    {
-                        if (!tokenRunning)
-                            count += 1;
-                        tokenRunning = true;
-                    }
-                    if (char.IsWhiteSpace(value[i]))
-                        tokenRunning = false;
-                }
-                return count;
-            }
-            else
-            {
-                return 0;
-            }
+            var tokenizer = Separator == null ? (ITokenizer)new WhitespaceTokenizer() : new Tokenizer(Separator.Execute());
+            return tokenizer.Execute(value).Count();
         }
     }
+
+
 
     class TextToDateTime : AbstractTextTransformation
     {
@@ -264,5 +275,83 @@ namespace NBi.Core.Transformation.Transformer.Native
 
             throw new NBiException($"Impossible to transform the value '{value}' into a date using the format '{Format}'");
         }
+    }
+
+    class TextToRemoveChars : AbstractTextTransformation
+    {
+        public IScalarResolver<char> CharToRemove { get; }
+        public TextToRemoveChars(IScalarResolver<char> charToRemove)
+            => CharToRemove = charToRemove;
+
+        protected override object EvaluateString(string value)
+        {
+            var stringBuilder = new StringBuilder();
+            foreach (var c in value)
+                if (!c.Equals(CharToRemove.Execute()))
+                    stringBuilder.Append(c);
+            return stringBuilder.ToString();
+        }
+
+        protected override object EvaluateBlank()
+        {
+            if (char.IsWhiteSpace(CharToRemove.Execute()))
+                return "(empty)";
+            else
+                return base.EvaluateBlank();
+        }
+    }
+
+    class TextToMask : AbstractTextTransformation
+    {
+        private char maskChar { get; } = '*';
+        public IScalarResolver<string> Mask { get; }
+        public TextToMask(IScalarResolver<string> mask)
+            => Mask = mask;
+
+        protected override object EvaluateString(string value)
+        {
+            var mask = Mask.Execute();
+            var stringBuilder = new StringBuilder();
+            var index = 0;
+            foreach (var c in mask)
+                if (c.Equals(maskChar))
+                    stringBuilder.Append(index < value.Length ? value[index++] : maskChar);
+                else
+                    stringBuilder.Append(c);
+            return stringBuilder.ToString();
+        }
+
+        protected override object EvaluateBlank()
+            => Mask.Execute();
+        protected override object EvaluateEmpty()
+            => Mask.Execute();
+    }
+
+    class MaskToText : AbstractTextTransformation
+    {
+        private char maskChar { get; } = '*';
+        public IScalarResolver<string> Mask { get; }
+        public MaskToText(IScalarResolver<string> mask)
+            => Mask = mask;
+
+        protected override object EvaluateString(string value)
+        {
+            var mask = Mask.Execute();
+            var stringBuilder = new StringBuilder();
+            if (mask.Length != value.Length)
+                return "(null)";
+
+            for (int i = 0; i < mask.Length; i++)
+                if (mask[i].Equals(maskChar) && !value[i].Equals(maskChar))
+                    stringBuilder.Append(value[i]);
+                else if (!mask[i].Equals(value[i]))
+                    return "(null)";
+            return stringBuilder.ToString();
+        }
+
+        protected override object EvaluateBlank()
+            => (Mask.Execute().Replace(maskChar.ToString(), "").Length == 0) ? "(blank)" : "(null)";
+        protected override object EvaluateEmpty()
+            => (Mask.Execute().Replace(maskChar.ToString(), "").Length == 0) ? "(empty)" : "(null)";
     }
 }

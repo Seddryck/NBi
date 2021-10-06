@@ -14,17 +14,17 @@ namespace NBi.Core.Variable
         public IEnumerable<IColumnAlias> Aliases { get; } = new List<IColumnAlias>();
         public IEnumerable<IColumnExpression> Expressions { get; } = new List<IColumnExpression>();
 
-        public IDictionary<string, ITestVariable> Variables { get; } = new Dictionary<string, ITestVariable>();
+        public IDictionary<string, IVariable> Variables { get; } = new Dictionary<string, IVariable>();
         public DataRow CurrentRow { get; private set; }
 
         public static Context None { get; } = new Context();
 
         private Context() { }
 
-        public Context(IDictionary<string, ITestVariable> variables)
+        public Context(IDictionary<string, IVariable> variables)
             => Variables = variables;
 
-        public Context(IDictionary<string, ITestVariable> variables, IEnumerable<IColumnAlias> aliases, IEnumerable<IColumnExpression> expressions)
+        public Context(IDictionary<string, IVariable> variables, IEnumerable<IColumnAlias> aliases, IEnumerable<IColumnExpression> expressions)
             : this(variables) => (Aliases, Expressions) = (aliases, expressions);
 
         public void Switch(DataRow currentRow)

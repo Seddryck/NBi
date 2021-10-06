@@ -8,6 +8,7 @@ using NUnitCtr = NUnit.Framework.Constraints;
 using NBi.Core.Query.Resolver;
 using NBi.Core.ResultSet.Resolver;
 using NBi.Extensibility.Query;
+using NBi.Extensibility;
 
 namespace NBi.NUnit.Query
 {
@@ -74,11 +75,11 @@ namespace NBi.NUnit.Query
         /// <returns></returns>
         public bool Process(IQuery actual)
         {
-            ResultSet rsActual = GetResultSet(actual);
+            IResultSet rsActual = GetResultSet(actual);
             return this.Matches(rsActual);
         }
 
-        protected ResultSet GetResultSet(IQuery query)
+        protected IResultSet GetResultSet(IQuery query)
         {
             var argsQuery = new QueryResolverArgs(query.Statement, query.ConnectionString, query.Parameters, query.TemplateTokens, query.Timeout, query.CommandType);
             var args = new QueryResultSetResolverArgs(argsQuery);

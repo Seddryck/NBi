@@ -22,6 +22,8 @@ using NBi.Xml.Items.Alteration.Lookup;
 using NBi.Xml.Variables.Sequence;
 using NBi.Xml.Items.Hierarchical.Xml;
 using NBi.Xml.Items.Hierarchical.Json;
+using NBi.Xml.Items.Alteration.Merging;
+using NBi.Xml.Items.Alteration.Duplication;
 
 namespace NBi.Xml.Systems
 {
@@ -81,6 +83,12 @@ namespace NBi.Xml.Systems
             }
         }
 
+        [XmlElement("iteration")]
+        public virtual IterationXml Iteration { get; set; } = null;
+
+        [XmlElement("result-set")]
+        public virtual ResultSetSystemXml NestedResultSet { get; set; } = null;
+
         [XmlElement("file")]
         public virtual FileXml File { get; set; } = new FileXml();
 
@@ -127,6 +135,9 @@ namespace NBi.Xml.Systems
             XmlArrayItem(Type = typeof(ProjectXml), ElementName = "project"),
             XmlArrayItem(Type = typeof(ProjectAwayXml), ElementName = "project-away"),
             XmlArrayItem(Type = typeof(LookupReplaceXml), ElementName = "lookup-replace"),
+            XmlArrayItem(Type = typeof(MergeXml), ElementName = "merge"),
+            XmlArrayItem(Type = typeof(UnionXml), ElementName = "union"),
+            XmlArrayItem(Type = typeof(DuplicateXml), ElementName = "duplicate"),
         ]
         public virtual List<AlterationXml> Alterations { get; set; }
 

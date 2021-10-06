@@ -44,11 +44,11 @@ namespace NBi.Xml.Items.Calculation.Ranking
         }
 
         [XmlElement(ElementName = "group-by")]
-        public GroupByXml  GroupBy { get; set; }
+        public GroupByXml GroupBy { get; set; }
 
         public RankingXml()
         {
             Type = ColumnType.Numeric;
         }
-}
+    }
 }

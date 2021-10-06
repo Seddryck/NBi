@@ -1,4 +1,5 @@
 ﻿using NBi.Core.Scalar.Resolver;
+using NBi.Extensibility.Resolving;
 using NBi.Core.Transformation.Transformer.Native;
 using NBi.Core.Variable;
 using NUnit.Framework;
@@ -7,12 +8,66 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using NBi.Core.Transformation.Transformer.Native.Text;
 
 namespace NBi.Testing.Core.Transformation.Transformer.Native
 {
     [TestFixture]
     public class TextTest
     {
+        [Test]
+        [TestCase(0, "1 2017-07-06      CUST0001", "1")]
+        [TestCase(1, "1 2017-07-06      CUST0001", "2017-07-06")]
+        [TestCase(2, "1 2017-07-06      CUST0001", "CUST0001")]
+        [TestCase(2, "1 2017-07-06  ,    CUST0001", "CUST0001")]
+        [TestCase(2, "1 2017-07-06          CUST0001", "CUST0001")]
+        [TestCase(100, "1 2017-07-06      CUST0001", "(null)")]
+        [TestCase(0, "(null)", "(null)")]
+        [TestCase(0, "(blank)", "(null)")]
+        [TestCase(0, "(empty)", "(null)")]
+        public void Execute_TextToToken_DefaultSeparator(int index, string value, string expected)
+        {
+            var function = new TextToToken(new LiteralScalarResolver<int>(index));
+            var result = function.Evaluate(value);
+            Assert.That(result, Is.EqualTo(expected));
+        }
+
+        [Test]
+        [TestCase(0, ';', "1;2017-07-06;CUST0001", "1")]
+        [TestCase(1, ',', "1,      2017-07-06 ,CUST0001", "      2017-07-06 ")]
+        [TestCase(2, '|', "1 | 2017-07-06 | CUST0001", " CUST0001")]
+        [TestCase(0, '|', "(null)", "(null)")]
+        [TestCase(0, '|', "(blank)", "(blank)")]
+        [TestCase(0, ' ', "(blank)", "(null)")]
+        [TestCase(0, '|', "(empty)", "(null)")]
+        public void Execute_TextToToken_CustomSeparator(int index, char separator, string value, string expected)
+        {
+            var function = new TextToToken(new LiteralScalarResolver<int>(index), new LiteralScalarResolver<char>(separator));
+            var result = function.Evaluate(value);
+            Assert.That(result, Is.EqualTo(expected));
+        }
+
+        [Test]
+        [TestCase("abc 123")]
+        [TestCase("abc 123 ")]
+        [TestCase(" abc 123")]
+        [TestCase("abc   123")]
+        [TestCase("  abc   123  ")]
+        [TestCase("  abc ,  123  ")]
+        public void Execute_TextToTokenAndTextToTokenCount_Aligned(string value)
+        {
+            var tokenCount = (int)new TextToTokenCount().Evaluate(value);
+
+            for (int i = 0; i < tokenCount; i++)
+            {
+                var nextTextToToken = new TextToToken(new LiteralScalarResolver<int>(i));
+                Assert.That(nextTextToToken.Evaluate(value), Is.Not.EqualTo("(null)"));
+            }
+
+            var textToToken = new TextToToken(new LiteralScalarResolver<int>(tokenCount));
+            Assert.That(textToToken.Evaluate(value), Is.EqualTo("(null)"));
+        }
+
         [Test]
         [TestCase("")]
         [TestCase("(null)")]
@@ -225,6 +280,8 @@ namespace NBi.Testing.Core.Transformation.Transformer.Native
         [TestCase(null, 0)]
         [TestCase("(empty)", 0)]
         [TestCase("(blank)", 0)]
+        [TestCase("1 2017-07-06      CUST0001", 3)]
+        [TestCase("1 2017-07-06          CUST0001", 3)]
         public void Execute_TokenCount_Valid(object value, int expected)
         {
             var function = new TextToTokenCount();
@@ -317,7 +374,7 @@ namespace NBi.Testing.Core.Transformation.Transformer.Native
         [Test]
         public void Execute_TextToLastCharsWithVariable_Valid()
         {
-            var args = new GlobalVariableScalarResolverArgs("length", new Dictionary<string, ITestVariable>() { { "length", new GlobalVariable(new LiteralScalarResolver<int>(6) )} });
+            var args = new GlobalVariableScalarResolverArgs("length", new Dictionary<string, IVariable>() { { "length", new GlobalVariable(new LiteralScalarResolver<int>(6) )} });
             var function = new TextToLastChars(new GlobalVariableScalarResolver<int>(args));
             var result = function.Evaluate("123456789");
             Assert.That(result, Is.EqualTo("456789"));
@@ -388,6 +445,51 @@ namespace NBi.Testing.Core.Transformation.Transformer.Native
         public void Execute_TextToDateTimeWithCulture_Valid(string value, string format, string culture, DateTime expected)
         {
             var function = new TextToDateTime(new LiteralScalarResolver<string>(format), new LiteralScalarResolver<string>(culture));
+            var result = function.Evaluate(value);
+            Assert.That(result, Is.EqualTo(expected));
+        }
+
+        [Test]
+        [TestCase("123*456*78", "*", "12345678")]
+        [TestCase("***123***456*78****", "*", "12345678")]
+        [TestCase("******", "*", "")]
+        [TestCase("(null)", "*", "(null)")]
+        [TestCase("(empty)", "*", "(empty)")]
+        [TestCase("(blank)", "*", "(blank)")]
+        [TestCase("(blank)", " ", "(empty)")]
+        public void Execute_TextToRemoveChars_Valid(string value, char charToRemove, string expected)
+        {
+            var function = new TextToRemoveChars(new LiteralScalarResolver<char>(charToRemove));
+            var result = function.Evaluate(value);
+            Assert.That(result, Is.EqualTo(expected));
+        }
+
+        [Test]
+        [TestCase("12345678", "BE-***.***.**", "BE-123.456.78")]
+        [TestCase("1234567890", "BE-***.***.**", "BE-123.456.78")]
+        [TestCase("12345", "BE-***.***.**", "BE-123.45*.**")]
+        [TestCase("(null)", "BE-***.***.**", "(null)")]
+        [TestCase("(empty)", "BE-***.***.**", "BE-***.***.**")]
+        [TestCase("(blank)", "BE-***.***.**", "BE-***.***.**")]
+        public void Execute_TextToMask_Valid(string value, string mask, string expected)
+        {
+            var function = new TextToMask(new LiteralScalarResolver<string>(mask));
+            var result = function.Evaluate(value);
+            Assert.That(result, Is.EqualTo(expected));
+        }
+
+        [Test]
+        [TestCase("12345678", "BE-***.***.**", "BE-123.456.78")]
+        [TestCase("12345", "BE-***.***.**", "BE-123.45*.**")]
+        [TestCase("(null)", "BE-***.***.**", "(null)")]
+        [TestCase("", "BE-***.***.**", "BE-***.***.**")]
+        [TestCase("(null)", "BE-***.***.**", "(empty)")]
+        [TestCase("(empty)", "********", "(empty)")]
+        [TestCase("(null)", "BE-***.***.**", "(blank)")]
+        [TestCase("(blank)", "********", "(blank)")]
+        public void Execute_MaskToText_Valid(string expected, string mask, string value)
+        {
+            var function = new MaskToText(new LiteralScalarResolver<string>(mask));
             var result = function.Evaluate(value);
             Assert.That(result, Is.EqualTo(expected));
         }

@@ -43,6 +43,6 @@ namespace NBi.Core.Transformation.Transformer.Native
         { }
 
         protected override object EvaluateDateTime(DateTime value) =>
-            TimeZoneInfo.ConvertTimeToUtc(value, InstantiateTimeZoneInfo(TimeZoneLabel.Execute()));
+            TimeZoneInfo.ConvertTimeToUtc(DateTime.SpecifyKind(value, DateTimeKind.Unspecified), InstantiateTimeZoneInfo(TimeZoneLabel.Execute()));
     }
 }

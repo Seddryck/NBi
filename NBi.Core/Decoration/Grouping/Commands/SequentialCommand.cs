@@ -8,19 +8,20 @@ using System.Threading.Tasks;
 
 namespace NBi.Core.Decoration.Grouping.Commands
 {
-    class SequentialCommand : IDecorationCommand
+    class SequentialCommand : IGroupCommand
     {
-        private readonly ISequentialCommandArgs args;
+        private readonly IEnumerable<IDecorationCommand> commands;
 
-        public SequentialCommand(ISequentialCommandArgs args) => this.args = args;
+        public SequentialCommand(IEnumerable<IDecorationCommand> commands) => this.commands = commands;
 
-        public void Execute() => Execute(args.Commands);
+        public bool RunOnce { get; set; }
+        public bool HasRun { get; set; }
+        public void Execute() => Execute(commands);
 
-        internal void Execute(IEnumerable<IDecorationCommandArgs> listOfArgs)
+        internal void Execute(IEnumerable<IDecorationCommand> commands)
         {
-            var factory = new DecorationFactory();
-            foreach (var args in listOfArgs)
-                factory.Instantiate(args).Execute();
+            foreach (var command in commands)
+                command.Execute();
         }
     }
 }

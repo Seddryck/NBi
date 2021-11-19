@@ -112,7 +112,7 @@ namespace NBi.NUnit.Runtime
                 Trace.WriteLineIf(NBiTraceSwitch.TraceInfo, $"Running test '{testName}' #{test.UniqueIdentifier}");
                 var allVariables = Variables.Union(localVariables).ToDictionary(x => x.Key, x=>x.Value);
                 ValidateConditions(test.Condition, allVariables);
-                ExecuteSetup(test.Setup, allVariables);
+                RunSetup(test.Setup, allVariables);
                 foreach (var sut in test.Systems)
                 {
                     if ((test?.Constraints.Count ?? 0) == 0)
@@ -153,32 +153,28 @@ namespace NBi.NUnit.Runtime
             }
         }
 
-        private void ExecuteSetup(SetupXml setup, IDictionary<string, IVariable> allVariables)
+        private void RunSetup(SetupXml setup, IDictionary<string, IVariable> allVariables)
         {
             var setupHelper = new SetupHelper(serviceLocator, allVariables);
-            var commands = setupHelper.Execute(setup.Commands);
+            var decorationCommandArgs = setupHelper.Execute(setup.Commands);
+            var decorationFactory = new DecorationFactory();
+            var commands = new List<IDecorationCommand>();
+            foreach (var decorationCommandArg in decorationCommandArgs)
+                commands.Add(decorationFactory.Instantiate(decorationCommandArg));
+            ExecuteSetup(commands);
+        }
 
+        internal void ExecuteSetup(IEnumerable<IDecorationCommand> commands)
+        { 
             try
             {
                 foreach (var command in commands)
                 {
-                    var skip = false;
-                    if (command is IGroupCommand)
+                    if (!((command is IGroupCommand groupCommand) && groupCommand.RunOnce && groupCommand.HasRun))
                     {
-                        var groupCommand = (command as IGroupCommand);
-                        if (groupCommand.RunOnce)
-                            skip = groupCommand.HasRun;
-                    }
-
-                    if (!skip)
-                    {
-                        var impl = new DecorationFactory().Instantiate(command);
-                        impl.Execute();
-                        if (command is IGroupCommand)
-                        {
-                            var groupCommand = (command as IGroupCommand);
-                            groupCommand.HasRun = true;
-                        }
+                        command.Execute();
+                        if (command is IGroupCommand executedGroupCommand)
+                            executedGroupCommand.HasRun = true;
                     }
                 }
             }

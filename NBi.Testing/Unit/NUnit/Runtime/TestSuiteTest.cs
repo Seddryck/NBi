@@ -6,11 +6,14 @@ using System.Linq;
 using System.Reflection;
 using Moq;
 using NBi.Core;
+using NBi.Core.Decoration.Grouping.Commands;
 using NBi.Core.ResultSet;
 using NBi.Extensibility;
 using NBi.NUnit.Runtime;
 using NBi.NUnit.Runtime.Configuration;
 using NBi.Xml;
+using NBi.Xml.Decoration;
+using NBi.Xml.Decoration.Command;
 using NBi.Xml.Items;
 using NBi.Xml.Systems;
 using NBi.Xml.Variables;
@@ -342,5 +345,133 @@ namespace NBi.Testing.Unit.NUnit.Runtime
             Assert.That(TestSuite.OverridenVariables["myVar"], Is.EqualTo(123.12));
         }
 
+
+
+        [Test]
+        public void ExecuteSetup_SingleDecoration_Executed()
+        {
+            var commandMock = new Mock<IDecorationCommand>();
+            commandMock.Setup(x => x.Execute());
+            var testSuite = new TestSuite();
+            testSuite.ExecuteSetup(new[] { commandMock.Object });
+            commandMock.Verify(x => x.Execute(), Times.Once());
+        }
+
+        [Test]
+        public void ExecuteSetup_MultipleDecorationImplicitGroup_ExecutedCorrectOrder()
+        {
+
+            var firstCommandMock = new Mock<IDecorationCommand>(MockBehavior.Strict);
+            var secondCommandMock = new Mock<IDecorationCommand>(MockBehavior.Strict);
+            var sequence = new MockSequence();
+            firstCommandMock.InSequence(sequence).Setup(x => x.Execute());
+            secondCommandMock.InSequence(sequence).Setup(x => x.Execute());
+
+            var testSuite = new TestSuite();
+            testSuite.ExecuteSetup(new[] { firstCommandMock.Object, secondCommandMock.Object });
+            firstCommandMock.Verify(x => x.Execute(), Times.Once());
+            secondCommandMock.Verify(x => x.Execute(), Times.Once());
+        }
+
+        [Test]
+        public void ExecuteSetup_MultipleDecorationExplicitGroupSequence_ExecutedCorrectOrder()
+        {
+            
+            var firstCommandMock = new Mock<IDecorationCommand>(MockBehavior.Strict);
+            var secondCommandMock = new Mock<IDecorationCommand>(MockBehavior.Strict);
+            var sequence = new MockSequence();
+            firstCommandMock.InSequence(sequence).Setup(x => x.Execute());
+            secondCommandMock.InSequence(sequence).Setup(x => x.Execute());
+
+            var groupCommand = new SequentialCommand(new[] { firstCommandMock.Object, secondCommandMock.Object });
+            
+            var testSuite = new TestSuite();
+            testSuite.ExecuteSetup(new[] { groupCommand });
+            firstCommandMock.Verify(x => x.Execute(), Times.Once());
+            secondCommandMock.Verify(x => x.Execute(), Times.Once());
+        }
+
+        [Test]
+        public void ExecuteSetup_MultipleDecorationExplicitGroupSequence_NotStartingBeforePreviousIsFinalized()
+        {
+
+            var firstCommandStub = new Mock<IDecorationCommand>(MockBehavior.Strict);
+            var secondCommandStub = new Mock<IDecorationCommand>(MockBehavior.Strict);
+            var sequence = new MockSequence();
+            Mock<IDecorationCommand> lastReturned = null;
+            firstCommandStub.InSequence(sequence).Setup(x => x.Execute()).Callback(() => { System.Threading.Thread.Sleep(100); lastReturned = firstCommandStub; });
+            secondCommandStub.InSequence(sequence).Setup(x => x.Execute()).Callback(() => { System.Threading.Thread.Sleep(10); lastReturned = secondCommandStub; });
+
+            var groupCommand = new SequentialCommand(new[] { firstCommandStub.Object, secondCommandStub.Object });
+
+            var testSuite = new TestSuite();
+            testSuite.ExecuteSetup(new[] { groupCommand });
+            Assert.That(lastReturned, Is.EqualTo(secondCommandStub));
+        }
+
+        [Test]
+        public void ExecuteSetup_MultipleDecorationExplicitGroupSequence_BothExecuted()
+        {
+
+            var firstCommandMock = new Mock<IDecorationCommand>();
+            var secondCommandMock = new Mock<IDecorationCommand>();
+            firstCommandMock.Setup(x => x.Execute());
+            secondCommandMock.Setup(x => x.Execute());
+
+            var groupCommand = new ParallelCommand(new[] { firstCommandMock.Object, secondCommandMock.Object });
+
+            var testSuite = new TestSuite();
+            testSuite.ExecuteSetup(new[] { groupCommand });
+            firstCommandMock.Verify(x => x.Execute(), Times.Once());
+            secondCommandMock.Verify(x => x.Execute(), Times.Once());
+        }
+
+        [Test]
+        public void ExecuteSetup_MultipleDecorationExplicitGroupParallel_ExecutedInParallel()
+        {
+            var firstCommandStub = new Mock<IDecorationCommand>(MockBehavior.Strict);
+            var secondCommandStub = new Mock<IDecorationCommand>(MockBehavior.Strict);
+            Mock<IDecorationCommand> lastReturned = null;
+            firstCommandStub.Setup(x => x.Execute()).Callback(() => { System.Threading.Thread.Sleep(100); lastReturned = firstCommandStub; });
+            secondCommandStub.Setup(x => x.Execute()).Callback(() => { System.Threading.Thread.Sleep(10); lastReturned = secondCommandStub; });
+
+            var groupCommand = new ParallelCommand(new[] { firstCommandStub.Object, secondCommandStub.Object });
+
+            var testSuite = new TestSuite();
+            testSuite.ExecuteSetup(new[] { groupCommand });
+            Assert.That(lastReturned, Is.EqualTo(firstCommandStub));
+        }
+
+        [Test]
+        public void ExecuteSetup_MultipleDecorationRunOnce_ExecutedOnce()
+        {
+            var commandMock = new Mock<IDecorationCommand>();
+            commandMock.Setup(x => x.Execute());
+
+            var groupCommand = new SequentialCommand(new[] { commandMock.Object }) { RunOnce = true };
+
+            var testSuite = new TestSuite();
+            testSuite.ExecuteSetup(new[] { groupCommand });
+            commandMock.Verify(x => x.Execute(), Times.Once());
+            testSuite.ExecuteSetup(new[] { groupCommand });
+            commandMock.Verify(x => x.Execute(), Times.Once());
+        }
+
+        [Test]
+        public void ExecuteSetup_MultipleDecorationRunMultiple_ExecutedMultiple()
+        {
+            var commandMock = new Mock<IDecorationCommand>();
+            commandMock.Setup(x => x.Execute());
+
+            var groupCommand = new SequentialCommand(new[] { commandMock.Object }) { RunOnce = false };
+
+            var testSuite = new TestSuite();
+            testSuite.ExecuteSetup(new[] { groupCommand });
+            commandMock.Verify(x => x.Execute(), Times.Exactly(1));
+            testSuite.ExecuteSetup(new[] { groupCommand });
+            commandMock.Verify(x => x.Execute(), Times.Exactly(2));
+            testSuite.ExecuteSetup(new[] { groupCommand });
+            commandMock.Verify(x => x.Execute(), Times.Exactly(3));
+        }
     }
 }

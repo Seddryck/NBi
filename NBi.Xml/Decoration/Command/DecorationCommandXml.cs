@@ -11,6 +11,9 @@ namespace NBi.Xml.Decoration.Command
     public abstract class DecorationCommandXml
     {
         [XmlIgnore()]
+        public Guid Guid { get; } = Guid.NewGuid();
+
+        [XmlIgnore()]
         public virtual SettingsXml Settings { get; set; }
 
         [XmlIgnore()]

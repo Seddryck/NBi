@@ -46,6 +46,8 @@ namespace NBi.NUnit.Runtime
         internal ConnectionStringsFinder ConnectionStringsFinder { get; set; }
         internal ConfigurationProvider ConfigurationProvider { get; private set; }
 
+        internal IDictionary<Guid, IDecorationCommand> Setups { get; } = new Dictionary<Guid, IDecorationCommand>();
+
         public TestSuite()
             : this(new XmlManager(), new TestSuiteProvider(), new ConfigurationProvider(), new ConnectionStringsFinder())
         { }
@@ -153,15 +155,31 @@ namespace NBi.NUnit.Runtime
             }
         }
 
-        private void RunSetup(SetupXml setup, IDictionary<string, IVariable> allVariables)
+        private void RunSetup(SetupXml setupXml, IDictionary<string, IVariable> allVariables)
         {
             var setupHelper = new SetupHelper(serviceLocator, allVariables);
-            var decorationCommandArgs = setupHelper.Execute(setup.Commands);
-            var decorationFactory = new DecorationFactory();
-            var commands = new List<IDecorationCommand>();
-            foreach (var decorationCommandArg in decorationCommandArgs)
-                commands.Add(decorationFactory.Instantiate(decorationCommandArg));
+            var commands = BuildSetup(setupHelper, setupXml);
             ExecuteSetup(commands);
+        }
+
+        internal IEnumerable<IDecorationCommand> BuildSetup(SetupHelper helper, SetupXml setupXml)
+        {
+            var commandArgs = helper.Execute(setupXml.Commands);
+            var factory = new DecorationFactory();
+
+            var commands = new List<IDecorationCommand>();
+            foreach (var arg in commandArgs)
+            {
+                if (Setups.ContainsKey(arg.Guid))
+                    commands.Add(Setups[arg.Guid]);
+                else
+                { 
+                    var command = factory.Instantiate(arg);
+                    Setups.Add(arg.Guid, command);
+                    commands.Add(command);
+                }
+            }
+            return commands;
         }
 
         internal void ExecuteSetup(IEnumerable<IDecorationCommand> commands)

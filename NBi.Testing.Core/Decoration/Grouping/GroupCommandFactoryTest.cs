@@ -47,23 +47,10 @@ namespace NBi.Testing.Core.Decoration.Grouping
         [Test]
         public void Get_ParallelCommandArgs_ParallelCommand()
         {
-            var command = Mock.Of<IResetCommandArgs>(
-                    m => m.ConnectionString == ConnectionStringReader.GetSqlClient() &&
-                    m.TableName == new LiteralScalarResolver<string>("MyTableToTruncate")
-                );
-
-            var otherCommand = Mock.Of<IResetCommandArgs>(
-                    m => m.ConnectionString == ConnectionStringReader.GetSqlClient() &&
-                    m.TableName == new LiteralScalarResolver<string>("MyOtherTableToTruncate")
-                );
-            var commands = new List<IDecorationCommandArgs>() { command, otherCommand };
-
-            var group = Mock.Of<IParallelCommandArgs>(
-                    g => g.Commands == commands
-                );
+            var group = Mock.Of<IParallelCommandArgs>();
             
             var factory = new GroupCommandFactory();
-            var impl = factory.Instantiate(group);
+            var impl = factory.Instantiate(group, null);
 
             Assert.That(impl, Is.TypeOf<ParallelCommand>());
         }
@@ -71,23 +58,10 @@ namespace NBi.Testing.Core.Decoration.Grouping
         [Test]
         public void Get_SequentialCommandArgs_SequentialCommand()
         {
-            var command = Mock.Of<IResetCommandArgs>(
-                    m => m.ConnectionString == ConnectionStringReader.GetSqlClient() &&
-                    m.TableName == new LiteralScalarResolver<string>("MyTableToTruncate")
-                );
-
-            var otherCommand = Mock.Of<IResetCommandArgs>(
-                    m => m.ConnectionString == ConnectionStringReader.GetSqlClient() &&
-                    m.TableName == new LiteralScalarResolver<string>("MyOtherTableToTruncate")
-                );
-            var commands = new List<IDecorationCommandArgs>() { command, otherCommand };
-
-            var group = Mock.Of<ISequentialCommandArgs>(
-                    g => g.Commands == commands
-                );
+            var group = Mock.Of<ISequentialCommandArgs>();
 
             var factory = new GroupCommandFactory();
-            var impl = factory.Instantiate(group);
+            var impl = factory.Instantiate(group, null);
 
             Assert.That(impl, Is.TypeOf<SequentialCommand>());
         }

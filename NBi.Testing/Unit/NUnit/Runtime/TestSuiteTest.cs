@@ -7,8 +7,11 @@ using System.Reflection;
 using Moq;
 using NBi.Core;
 using NBi.Core.Decoration.Grouping.Commands;
+using NBi.Core.Injection;
 using NBi.Core.ResultSet;
+using NBi.Core.Variable;
 using NBi.Extensibility;
+using NBi.NUnit.Builder.Helper;
 using NBi.NUnit.Runtime;
 using NBi.NUnit.Runtime.Configuration;
 using NBi.Xml;
@@ -472,6 +475,41 @@ namespace NBi.Testing.Unit.NUnit.Runtime
             commandMock.Verify(x => x.Execute(), Times.Exactly(2));
             testSuite.ExecuteSetup(new[] { groupCommand });
             commandMock.Verify(x => x.Execute(), Times.Exactly(3));
+        }
+
+        [Test]
+        public void BuildSetup_MultipleInstanceOfSingleDecorationArgs_InstantiatedOnce()
+        {
+            var commandXml = new ConnectionWaitXml();
+            var firstSetupXml = new SetupXml() { Commands = new List<DecorationCommandXml>() { commandXml } };
+            var secondSetupXml = new SetupXml() { Commands = new List<DecorationCommandXml>() { commandXml } };
+
+            var testSuite = new TestSuite();
+            var setupHelper = new SetupHelper(new ServiceLocator(), new Dictionary<string, IVariable>());
+            var commands = new List<IDecorationCommand>();
+            commands.AddRange(testSuite.BuildSetup(setupHelper, firstSetupXml));
+            commands.AddRange(testSuite.BuildSetup(setupHelper, secondSetupXml));
+            Assert.That(testSuite.Setups.Count(), Is.EqualTo(1));
+            Assert.That(commands.Count(), Is.EqualTo(2));
+            Assert.That(commands[0], Is.EqualTo(commands[1]));
+        }
+
+        [Test]
+        public void BuildSetup_MultipleInstanceOfSingleDecorationArgsAndOtherDecorations_InstantiatedEachOfThem()
+        {
+            var commandXml = new ConnectionWaitXml();
+            var firstSetupXml = new SetupXml() { Commands = new List<DecorationCommandXml>() { commandXml, new ConnectionWaitXml() } };
+            var secondSetupXml = new SetupXml() { Commands = new List<DecorationCommandXml>() { commandXml, new ConnectionWaitXml() } };
+
+            var testSuite = new TestSuite();
+            var setupHelper = new SetupHelper(new ServiceLocator(), new Dictionary<string, IVariable>());
+            var commands = new List<IDecorationCommand>();
+            commands.AddRange(testSuite.BuildSetup(setupHelper, firstSetupXml));
+            commands.AddRange(testSuite.BuildSetup(setupHelper, secondSetupXml));
+            Assert.That(testSuite.Setups.Count(), Is.EqualTo(3));
+            Assert.That(commands.Count(), Is.EqualTo(4));
+            Assert.That(commands[0], Is.EqualTo(commands[2]));
+            Assert.That(commands[1], Is.Not.EqualTo(commands[3]));
         }
     }
 }

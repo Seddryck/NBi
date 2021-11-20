@@ -58,7 +58,7 @@ namespace NBi.NUnit.Builder.Helper
                 case ServiceStopXml serviceStop: return BuildProcessStop(serviceStop);
                 case WaitXml wait: return BuildProcessWait(wait);
                 case CustomCommandXml custom: return BuildProcessCustom(custom);
-                case CommandGroupXml group: return BuildGroup(group.Commands, group.Parallel);
+                case CommandGroupXml group: return BuildGroup(group.Guid, group.Commands, group.Parallel);
                 default: throw new ArgumentOutOfRangeException();
             }
         }
@@ -68,6 +68,7 @@ namespace NBi.NUnit.Builder.Helper
             var helper = new ScalarHelper(serviceLocator, new Context(variables));
             var args = new
             {
+                xml.Guid,
                 Name = helper.InstantiateResolver<string>(xml.Name),
                 Path = helper.InstantiateResolver<string>(xml.Path),
                 xml.Settings?.BasePath,
@@ -82,6 +83,7 @@ namespace NBi.NUnit.Builder.Helper
             var helper = new ScalarHelper(serviceLocator, new Context(variables));
             var args = new
             {
+                xml.Guid,
                 Name = helper.InstantiateResolver<string>(xml.Name),
                 Path = helper.InstantiateResolver<string>(xml.Path),
                 Version = helper.InstantiateResolver<string>(xml.Version),
@@ -94,6 +96,7 @@ namespace NBi.NUnit.Builder.Helper
             var helper = new ScalarHelper(serviceLocator, new Context(variables));
             var args = new
             {
+                xml.Guid,
                 xml.ConnectionString,
                 TimeOut = helper.InstantiateResolver<int>(xml.TimeOut),
             };
@@ -104,6 +107,7 @@ namespace NBi.NUnit.Builder.Helper
             var helper = new ScalarHelper(serviceLocator, new Context(variables));
             var args = new
             {
+                xml.Guid,
                 TableName = helper.InstantiateResolver<string>(xml.TableName),
                 FileName = helper.InstantiateResolver<string>(xml.InternalFileName),
                 xml.ConnectionString
@@ -116,6 +120,7 @@ namespace NBi.NUnit.Builder.Helper
             var helper = new ScalarHelper(serviceLocator, new Context(variables));
             var args = new
             {
+                xml.Guid,
                 TableName = helper.InstantiateResolver<string>(xml.TableName),
                 xml.ConnectionString
             };
@@ -127,6 +132,7 @@ namespace NBi.NUnit.Builder.Helper
             var helper = new ScalarHelper(serviceLocator, new Context(variables));
             var args = new
             {
+                xml.Guid,
                 Name = helper.InstantiateResolver<string>(xml.FileName),
                 Path = helper.InstantiateResolver<string>(xml.Path),
                 xml.Settings?.BasePath
@@ -138,6 +144,7 @@ namespace NBi.NUnit.Builder.Helper
             var helper = new ScalarHelper(serviceLocator, new Context(variables));
             var args = new
             {
+                xml.Guid,
                 Path = helper.InstantiateResolver<string>(xml.Path),
                 Pattern = helper.InstantiateResolver<string>(xml.Pattern),
                 xml.Settings?.BasePath
@@ -150,6 +157,7 @@ namespace NBi.NUnit.Builder.Helper
             var helper = new ScalarHelper(serviceLocator, new Context(variables));
             var args = new
             {
+                xml.Guid,
                 Path = helper.InstantiateResolver<string>(xml.Path),
                 Extension = helper.InstantiateResolver<string>(xml.Extension),
                 xml.Settings?.BasePath
@@ -162,6 +170,7 @@ namespace NBi.NUnit.Builder.Helper
             var helper = new ScalarHelper(serviceLocator, new Context(variables));
             var args = new
             {
+                xml.Guid,
                 SourceName = helper.InstantiateResolver<string>(xml.FileName),
                 SourcePath = helper.InstantiateResolver<string>(xml.SourcePath),
                 DestinationName = helper.InstantiateResolver<string>(xml.FileName),
@@ -176,6 +185,7 @@ namespace NBi.NUnit.Builder.Helper
             var helper = new ScalarHelper(serviceLocator, new Context(variables));
             var args = new
             {
+                xml.Guid,
                 SourcePath = helper.InstantiateResolver<string>(xml.SourcePath),
                 DestinationPath = helper.InstantiateResolver<string>(xml.DestinationPath),
                 Pattern = helper.InstantiateResolver<string>(xml.Pattern),
@@ -189,6 +199,7 @@ namespace NBi.NUnit.Builder.Helper
             var helper = new ScalarHelper(serviceLocator, new Context(variables));
             var args = new
             {
+                xml.Guid,
                 SourcePath = helper.InstantiateResolver<string>(xml.SourcePath),
                 DestinationPath = helper.InstantiateResolver<string>(xml.DestinationPath),
                 Extension = helper.InstantiateResolver<string>(xml.Extension),
@@ -202,6 +213,7 @@ namespace NBi.NUnit.Builder.Helper
             var helper = new ScalarHelper(serviceLocator, new Context(variables));
             var args = new
             {
+                xml.Guid,
                 ProcessName = helper.InstantiateResolver<string>(xml.ProcessName),
             };
             return args.ActLike<IKillCommandArgs>();
@@ -212,6 +224,7 @@ namespace NBi.NUnit.Builder.Helper
             var helper = new ScalarHelper(serviceLocator, new Context(variables));
             var args = new
             {
+                xml.Guid,
                 Name = helper.InstantiateResolver<string>(xml.Name),
                 Path = helper.InstantiateResolver<string>(xml.Path),
                 xml.Settings?.BasePath,
@@ -226,6 +239,7 @@ namespace NBi.NUnit.Builder.Helper
             var helper = new ScalarHelper(serviceLocator, new Context(variables));
             var args = new
             {
+                xml.Guid,
                 ServiceName = helper.InstantiateResolver<string>(xml.ServiceName),
                 TimeOut = helper.InstantiateResolver<int>(xml.TimeOut),
             };
@@ -237,6 +251,7 @@ namespace NBi.NUnit.Builder.Helper
             var helper = new ScalarHelper(serviceLocator, new Context(variables));
             var args = new
             {
+                xml.Guid,
                 ServiceName = helper.InstantiateResolver<string>(xml.ServiceName),
                 TimeOut = helper.InstantiateResolver<int>(xml.TimeOut),
             };
@@ -258,6 +273,7 @@ namespace NBi.NUnit.Builder.Helper
             var helper = new ScalarHelper(serviceLocator, new Context(variables));
             var args = new
             {
+                xml.Guid,
                 AssemblyPath = helper.InstantiateResolver<string>(xml.AssemblyPath),
                 TypeName = helper.InstantiateResolver<string>(xml.TypeName),
                 Parameters = xml.Parameters.ToDictionary(x => x.Name, y => helper.InstantiateResolver<object>(y.StringValue)),
@@ -265,10 +281,14 @@ namespace NBi.NUnit.Builder.Helper
             return args.ActLike<ICustomCommandArgs>();
         }
 
-        private IGroupCommandArgs BuildGroup(IEnumerable<DecorationCommandXml> xmlCommands, bool isParallel)
+        private IGroupCommandArgs BuildGroup(Guid guid, IEnumerable<DecorationCommandXml> xmlCommands, bool isParallel)
         {
             var commands = Execute(xmlCommands).ToList();
-            var args = new { Commands = commands };
+            var args = new {
+                Guid = guid,
+                Commands = commands,
+            };
+
             switch (isParallel)
             {
                 case true: return args.ActLike<IParallelCommandArgs>();

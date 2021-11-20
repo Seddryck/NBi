@@ -257,7 +257,7 @@ namespace NBi.Testing.Unit.NUnit.Runtime
         }
 
         [Test]
-        [Ignore]
+        //[Ignore]
         public void AssertTestCase_TestCaseError_StackTraceIsFilledWithXml()
         {
             var sut = "not empty string";
@@ -287,7 +287,7 @@ namespace NBi.Testing.Unit.NUnit.Runtime
         }
 
         [Test]
-        [Ignore]
+        //[Ignore]
         public void AssertTestCase_TestCaseError_MessageIsAvailable()
         {
             var sut = "not empty string";

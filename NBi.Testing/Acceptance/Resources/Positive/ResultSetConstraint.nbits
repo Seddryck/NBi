@@ -1061,7 +1061,7 @@
             </rest>
             <json-path>
               <from>$.entries[*]</from>
-              <select>$.API</select>
+              <select>$.Link</select>
               <select>$.Cors</select>
             </json-path>
           </json-source>
@@ -1071,12 +1071,12 @@
         <superset-of keys="first" values-default-type="text">
           <result-set>
             <row>
-              <cell>Cat Facts</cell>
-              <cell>no</cell>
+              <cell>https://http.cat/</cell>
+              <cell>yes</cell>
             </row>
             <row>
-              <cell>RandomCat</cell>
-              <cell>yes</cell>
+              <cell>https://thedogapi.com/</cell>
+              <cell>no</cell>
             </row>
           </result-set>
         </superset-of>
@@ -1102,8 +1102,8 @@
         <equal-to keys="first" values-default-type="text">
           <result-set>
             <row>
-              <cell>Cat Facts</cell>
-              <cell>no</cell>
+              <cell>Axolotl</cell>
+              <cell>yes</cell>
             </row>
           </result-set>
         </equal-to>

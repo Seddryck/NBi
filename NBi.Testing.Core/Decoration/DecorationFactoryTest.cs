@@ -21,6 +21,7 @@ using System.Reflection;
 using NBi.Extensibility.Decoration;
 using NBi.Extensibility.Decoration.DataEngineering;
 using NBi.Core.Decoration.IO.Conditions;
+using System.Collections.Generic;
 
 namespace NBi.Testing.Core.Decoration.DataEngineering
 {
@@ -54,60 +55,62 @@ namespace NBi.Testing.Core.Decoration.DataEngineering
         }
         #endregion
 
-        private IDecorationCommandArgs GetCommandArgsMock(Type type)
+        private IDecorationCommandArgs GetCommandArgsFake(Type type)
         {
             switch (type)
             {
-                case Type x when x == typeof(IBatchRunCommandArgs): return Mock.Of<IBatchRunCommandArgs>(m => m.ConnectionString == ConnectionStringReader.GetSqlClient());
-                case Type x when x == typeof(ILoadCommandArgs): return Mock.Of<ILoadCommandArgs>(m => m.ConnectionString == ConnectionStringReader.GetSqlClient());
-                case Type x when x == typeof(IResetCommandArgs): return Mock.Of<IResetCommandArgs>(m => m.ConnectionString == ConnectionStringReader.GetSqlClient());
-                case Type x when x == typeof(IEtlRunCommandArgs): return Mock.Of<IEtlRunCommandArgs>();
-                case Type x when x == typeof(IConnectionWaitCommandArgs): return Mock.Of<IConnectionWaitCommandArgs>();
-                case Type x when x == typeof(IDeleteCommandArgs): return Mock.Of<IDeleteCommandArgs>();
-                case Type x when x == typeof(IDeletePatternCommandArgs): return Mock.Of<IDeletePatternCommandArgs>();
-                case Type x when x == typeof(IDeleteExtensionCommandArgs): return Mock.Of<IDeleteExtensionCommandArgs>();
-                case Type x when x == typeof(ICopyCommandArgs): return Mock.Of<ICopyCommandArgs>();
-                case Type x when x == typeof(ICopyPatternCommandArgs): return Mock.Of<ICopyPatternCommandArgs>();
-                case Type x when x == typeof(ICopyExtensionCommandArgs): return Mock.Of<ICopyExtensionCommandArgs>();
-                case Type x when x == typeof(IKillCommandArgs): return Mock.Of<IKillCommandArgs>();
-                case Type x when x == typeof(IRunCommandArgs): return Mock.Of<IRunCommandArgs>();
-                case Type x when x == typeof(IStartCommandArgs): return Mock.Of<IStartCommandArgs>();
-                case Type x when x == typeof(IStopCommandArgs): return Mock.Of<IStopCommandArgs>();
-                case Type x when x == typeof(IWaitCommandArgs): return Mock.Of<IWaitCommandArgs>();
-                case Type x when x == typeof(IParallelCommandArgs): return Mock.Of<IParallelCommandArgs>();
-                case Type x when x == typeof(ISequentialCommandArgs): return Mock.Of<ISequentialCommandArgs>();
-                case Type x when x == typeof(ICustomCommandArgs): return Mock.Of<ICustomCommandArgs>
+                case Type x when x == typeof(SqlBatchRunCommandArgs): return new SqlBatchRunCommandArgs(Guid.NewGuid(), ConnectionStringReader.GetSqlClient(), new LiteralScalarResolver<string>("name"), new LiteralScalarResolver<string>("path"), "basePath", new LiteralScalarResolver<string>("version"));
+                case Type x when x == typeof(TableLoadCommandArgs): return new TableLoadCommandArgs(Guid.NewGuid(), ConnectionStringReader.GetSqlClient(), new LiteralScalarResolver<string>("tablename"), new LiteralScalarResolver<string>("pathname"));
+                case Type x when x == typeof(TableTruncateCommandArgs): return new TableTruncateCommandArgs(Guid.NewGuid(), ConnectionStringReader.GetSqlClient(), new LiteralScalarResolver<string>("tablename"));
+                //case Type x when x == typeof(EtlRunCommandArgs): return new EtlRunCommandArgs(Guid.NewGuid(), );
+                case Type x when x == typeof(ConnectionWaitCommandArgs): return new ConnectionWaitCommandArgs(Guid.NewGuid(), ConnectionStringReader.GetSqlClient(), new LiteralScalarResolver<int>(100));
+                case Type x when x == typeof(IoDeleteCommandArgs): return new IoDeleteCommandArgs(Guid.NewGuid(), new LiteralScalarResolver<string>("name"), "basePath", new LiteralScalarResolver<string>("path"));
+                case Type x when x == typeof(IoDeletePatternCommandArgs): return new IoDeletePatternCommandArgs(Guid.NewGuid(), new LiteralScalarResolver<string>("pattern"), "basePath", new LiteralScalarResolver<string>("path"));
+                case Type x when x == typeof(IoDeleteExtensionCommandArgs): return new IoDeleteExtensionCommandArgs(Guid.NewGuid(), new LiteralScalarResolver<string>("extension"), "basePath", new LiteralScalarResolver<string>("path"));
+                case Type x when x == typeof(IoCopyCommandArgs): return new IoCopyCommandArgs(Guid.NewGuid(), new LiteralScalarResolver<string>("sourceName"), new LiteralScalarResolver<string>("sourcePath"), new LiteralScalarResolver<string>("destinationName"), new LiteralScalarResolver<string>("destinationPath"), "basePath");
+                case Type x when x == typeof(IoCopyPatternCommandArgs): return new IoCopyPatternCommandArgs(Guid.NewGuid(), new LiteralScalarResolver<string>("source"), new LiteralScalarResolver<string>("destinatin"), new LiteralScalarResolver<string>("pattern"), "basePath");
+                case Type x when x == typeof(IoCopyExtensionCommandArgs): return new IoCopyExtensionCommandArgs(Guid.NewGuid(), new LiteralScalarResolver<string>("source"), new LiteralScalarResolver<string>("destinatin"), new LiteralScalarResolver<string>("extension"), "basePath");
+                case Type x when x == typeof(ProcessKillCommandArgs): return new ProcessKillCommandArgs(Guid.NewGuid(), new LiteralScalarResolver<string>("name"));
+                case Type x when x == typeof(ProcessRunCommandArgs): return new ProcessRunCommandArgs(Guid.NewGuid(), new LiteralScalarResolver<string>("name"), new LiteralScalarResolver<string>("path"), "basePath", new LiteralScalarResolver<string>("name"), new LiteralScalarResolver<int>(100));
+                case Type x when x == typeof(ServiceStartCommandArgs): return new ServiceStartCommandArgs(Guid.NewGuid(), new LiteralScalarResolver<string>("name"), new LiteralScalarResolver<int>(100));
+                case Type x when x == typeof(ServiceStopCommandArgs): return new ServiceStopCommandArgs(Guid.NewGuid(), new LiteralScalarResolver<string>("name"), new LiteralScalarResolver<int>(100));
+                case Type x when x == typeof(WaitCommandArgs): return new WaitCommandArgs(Guid.NewGuid(), new LiteralScalarResolver<int>(100));
+                case Type x when x == typeof(GroupParallelCommandArgs): return new GroupParallelCommandArgs(Guid.NewGuid(), true, new List<IDecorationCommandArgs>());
+                case Type x when x == typeof(GroupSequentialCommandArgs): return new GroupSequentialCommandArgs(Guid.NewGuid(), true, new List<IDecorationCommandArgs>());
+                case Type x when x == typeof(CustomCommandArgs): return new CustomCommandArgs
                                         (
-                                            y => y.AssemblyPath == new LiteralScalarResolver<string>($@"{FileOnDisk.GetDirectoryPath()}\NBi.Testing.Core.dll")
-                                            && y.TypeName == new LiteralScalarResolver<string>("NBi.Testing.Core.Resources.CustomCommand")
+                                            Guid.NewGuid(),
+                                            new LiteralScalarResolver<string>($@"{FileOnDisk.GetDirectoryPath()}\NBi.Testing.Core.dll"),
+                                            new LiteralScalarResolver<string>("NBi.Testing.Core.Resources.CustomCommand"),
+                                            null
                                         );
                 default: throw new ArgumentOutOfRangeException();
             }
         }
 
         [Test]
-        [TestCase(typeof(IBatchRunCommandArgs), typeof(BatchRunCommand))]
-        [TestCase(typeof(ILoadCommandArgs), typeof(BulkLoadCommand))]
-        [TestCase(typeof(IResetCommandArgs), typeof(TruncateCommand))]
-        [TestCase(typeof(IEtlRunCommandArgs), typeof(EtlRunCommand))]
-        [TestCase(typeof(IConnectionWaitCommandArgs), typeof(ConnectionWaitCommand))]
-        [TestCase(typeof(IDeleteCommandArgs), typeof(DeleteCommand))]
-        [TestCase(typeof(IDeletePatternCommandArgs), typeof(DeletePatternCommand))]
-        [TestCase(typeof(IDeleteExtensionCommandArgs), typeof(DeleteExtensionCommand))]
-        [TestCase(typeof(ICopyCommandArgs), typeof(CopyCommand))]
-        [TestCase(typeof(ICopyPatternCommandArgs), typeof(CopyPatternCommand))]
-        [TestCase(typeof(ICopyExtensionCommandArgs), typeof(CopyExtensionCommand))]
-        [TestCase(typeof(IKillCommandArgs), typeof(KillCommand))]
-        [TestCase(typeof(IRunCommandArgs), typeof(RunCommand))]
-        [TestCase(typeof(IStartCommandArgs), typeof(StartCommand))]
-        [TestCase(typeof(IStopCommandArgs), typeof(StopCommand))]
-        [TestCase(typeof(IWaitCommandArgs), typeof(WaitCommand))]
-        [TestCase(typeof(IParallelCommandArgs), typeof(ParallelCommand))]
-        [TestCase(typeof(ISequentialCommandArgs), typeof(SequentialCommand))]
-        [TestCase(typeof(ICustomCommandArgs), typeof(CustomCommand))]
+        [TestCase(typeof(SqlBatchRunCommandArgs), typeof(BatchRunCommand))]
+        [TestCase(typeof(TableLoadCommandArgs), typeof(BulkLoadCommand))]
+        [TestCase(typeof(TableTruncateCommandArgs), typeof(TruncateCommand))]
+        //[TestCase(typeof(EtlRunCommandArgs), typeof(EtlRunCommand))]
+        [TestCase(typeof(ConnectionWaitCommandArgs), typeof(ConnectionWaitCommand))]
+        [TestCase(typeof(IoDeleteCommandArgs), typeof(DeleteCommand))]
+        [TestCase(typeof(IoDeletePatternCommandArgs), typeof(DeletePatternCommand))]
+        [TestCase(typeof(IoDeleteExtensionCommandArgs), typeof(DeleteExtensionCommand))]
+        [TestCase(typeof(IoCopyCommandArgs), typeof(CopyCommand))]
+        [TestCase(typeof(IoCopyPatternCommandArgs), typeof(CopyPatternCommand))]
+        [TestCase(typeof(IoCopyExtensionCommandArgs), typeof(CopyExtensionCommand))]
+        [TestCase(typeof(ProcessKillCommandArgs), typeof(KillCommand))]
+        [TestCase(typeof(ProcessRunCommandArgs), typeof(RunCommand))]
+        [TestCase(typeof(ServiceStartCommandArgs), typeof(StartCommand))]
+        [TestCase(typeof(ServiceStopCommandArgs), typeof(StopCommand))]
+        [TestCase(typeof(WaitCommandArgs), typeof(WaitCommand))]
+        [TestCase(typeof(GroupParallelCommandArgs), typeof(ParallelCommand))]
+        [TestCase(typeof(GroupSequentialCommandArgs), typeof(SequentialCommand))]
+        [TestCase(typeof(CustomCommandArgs), typeof(CustomCommand))]
         public void Get_IDecorationCommandArgs_CorrectCommand(Type argsType, Type commandType)
         {
-            var args = GetCommandArgsMock(argsType);
+            var args = GetCommandArgsFake(argsType);
 
             var factory = new DecorationFactory();
             var command = factory.Instantiate(args);

@@ -15,8 +15,8 @@ namespace NBi.Core.Decoration.DataEngineering
         {
             switch (args)
             {
-                case IConnectionWaitCommandArgs connectionWaitArgs: return new ConnectionWaitCommand(connectionWaitArgs);
-                case IEtlRunCommandArgs etlRunArgs: return new EtlRunCommand(etlRunArgs);
+                case ConnectionWaitCommandArgs connectionWaitArgs: return new ConnectionWaitCommand(connectionWaitArgs);
+                case EtlRunCommandArgs etlRunArgs: return new EtlRunCommand(etlRunArgs);
                 default:
                     {
                         var sessionFactory = new ClientProvider();

@@ -51,7 +51,7 @@ namespace NBi.Testing.Integration.Core.Decoration.IO.Commands
             foreach (var file in files)
                 File.AppendAllText(Path.Combine(DirectoryName, file), ".");
 
-            var copyPatternArgs = Mock.Of<ICopyPatternCommandArgs>
+            var copyPatternArgs = Mock.Of<IoCopyPatternCommandArgs>
             (
                 c => c.Pattern == new LiteralScalarResolver<string>(pattern)
                 && c.SourcePath == new LiteralScalarResolver<string>(DirectoryName)

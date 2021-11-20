@@ -7,9 +7,9 @@ namespace NBi.Core.Decoration.DataEngineering.Commands.SqlServer
 {
     class BulkLoadCommand : IDecorationCommand
     {
-        private readonly ILoadCommandArgs args;
+        private readonly TableLoadCommandArgs args;
 
-        public BulkLoadCommand(ILoadCommandArgs args) => this.args = args;
+        public BulkLoadCommand(TableLoadCommandArgs args) => this.args = args;
 
         public void Execute()
         {

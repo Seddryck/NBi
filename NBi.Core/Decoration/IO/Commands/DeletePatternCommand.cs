@@ -11,9 +11,9 @@ namespace NBi.Core.Decoration.IO.Commands
 {
     class DeletePatternCommand : IDecorationCommand
     {
-        private readonly IDeletePatternCommandArgs args;
+        private readonly IoDeletePatternCommandArgs args;
 
-        public DeletePatternCommand(IDeletePatternCommandArgs args) => this.args = args;
+        public DeletePatternCommand(IoDeletePatternCommandArgs args) => this.args = args;
 
         public void Execute()
         {

@@ -23,7 +23,7 @@ namespace NBi.Core.Decoration
                 case IDataEngineeringCommandArgs dataEngineeringArgs: return new DataEngineeringFactory().Instantiate(dataEngineeringArgs);
                 case IIoCommandArgs ioArgs: return new IOFactory().Instantiate(ioArgs);
                 case IProcessCommandArgs processArgs: return new ProcessCommandFactory().Instantiate(processArgs);
-                case ICustomCommandArgs customArgs: return new CustomCommandFactory().Instantiate(customArgs);
+                case CustomCommandArgs customArgs: return new CustomCommandFactory().Instantiate(customArgs);
                 default: throw new ArgumentOutOfRangeException();
             }
         }

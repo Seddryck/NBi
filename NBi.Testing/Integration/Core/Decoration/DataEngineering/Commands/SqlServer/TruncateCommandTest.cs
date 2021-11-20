@@ -62,7 +62,7 @@ namespace NBi.Testing.Integration.Core.Decoration.DataEngineering.Commands.SqlSe
             CreateTemporaryTable("Temporary", ConnectionStringReader.GetLocalSqlClient());
 
             //Mock the commandXml
-            var resetArgs = Mock.Of<IResetCommandArgs>(
+            var resetArgs = Mock.Of<TableTruncateCommandArgs>(
                 args => args.ConnectionString == ConnectionStringReader.GetLocalSqlClient()
                     && args.TableName == new LiteralScalarResolver<string>("Temporary")
                 );

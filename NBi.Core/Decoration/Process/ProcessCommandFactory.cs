@@ -12,11 +12,11 @@ namespace NBi.Core.Decoration.Process
         {
             switch (args)
             {
-                case IRunCommandArgs runArgs: return new RunCommand(runArgs);
-                case IKillCommandArgs killArgs: return new KillCommand(killArgs);
-                case IWaitCommandArgs waitArgs: return new WaitCommand(waitArgs);
-                case IStartCommandArgs startArgs: return new StartCommand(startArgs);
-                case IStopCommandArgs stopArgs: return new StopCommand(stopArgs);
+                case ProcessRunCommandArgs runArgs: return new RunCommand(runArgs);
+                case ProcessKillCommandArgs killArgs: return new KillCommand(killArgs);
+                case WaitCommandArgs waitArgs: return new WaitCommand(waitArgs);
+                case ServiceStartCommandArgs startArgs: return new StartCommand(startArgs);
+                case ServiceStopCommandArgs stopArgs: return new StopCommand(stopArgs);
                 default: throw new ArgumentException();
             }
         }

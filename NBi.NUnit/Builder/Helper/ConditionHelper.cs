@@ -46,7 +46,7 @@ namespace NBi.NUnit.Builder.Helper
             return new CustomConditionArgs(
                 helper.InstantiateResolver<string>(custom.AssemblyPath),
                 helper.InstantiateResolver<string>(custom.TypeName),
-                custom.Parameters.ToDictionary(x => x.Name, y => helper.InstantiateResolver<object>(y.StringValue) as IScalarResolver)
+                custom.Parameters.ToDictionary(x => x.Name, y => (IScalarResolver)helper.InstantiateResolver<string>(y.StringValue))
             );
         }
 

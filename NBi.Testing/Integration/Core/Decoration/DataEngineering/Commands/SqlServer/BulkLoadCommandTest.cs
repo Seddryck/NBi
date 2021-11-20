@@ -72,7 +72,7 @@ namespace NBi.Testing.Integration.Core.Decoration.DataEngineering.Commands.SqlSe
             var before = CountElementsInTable("Temporary", ConnectionStringReader.GetLocalSqlClient());
 
             //Mock the commandXml
-            var loadArgs = Mock.Of<ILoadCommandArgs>(
+            var loadArgs = Mock.Of<TableLoadCommandArgs>(
                 args => args.ConnectionString== ConnectionStringReader.GetLocalSqlClient()
 			        && args.TableName== new LiteralScalarResolver<string>("Temporary")
                     && args.FileName == new LiteralScalarResolver<string>(FileName)

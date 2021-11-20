@@ -11,9 +11,9 @@ namespace NBi.Core.Decoration.IO.Commands
 {
     class DeleteExtensionCommand : IDecorationCommand
     {
-        private readonly IDeleteExtensionCommandArgs args;
+        private readonly IoDeleteExtensionCommandArgs args;
 
-        public DeleteExtensionCommand(IDeleteExtensionCommandArgs args) => this.args = args;
+        public DeleteExtensionCommand(IoDeleteExtensionCommandArgs args) => this.args = args;
 
         public void Execute()
         {

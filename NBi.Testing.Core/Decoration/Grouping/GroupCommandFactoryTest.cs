@@ -47,8 +47,8 @@ namespace NBi.Testing.Core.Decoration.Grouping
         [Test]
         public void Get_ParallelCommandArgs_ParallelCommand()
         {
-            var group = Mock.Of<IParallelCommandArgs>();
-            
+            var group = new GroupParallelCommandArgs(Guid.NewGuid(), true, new List<IDecorationCommandArgs>());
+
             var factory = new GroupCommandFactory();
             var impl = factory.Instantiate(group, null);
 
@@ -58,7 +58,7 @@ namespace NBi.Testing.Core.Decoration.Grouping
         [Test]
         public void Get_SequentialCommandArgs_SequentialCommand()
         {
-            var group = Mock.Of<ISequentialCommandArgs>();
+            var group = new GroupSequentialCommandArgs(Guid.NewGuid(), true, new List<IDecorationCommandArgs>());
 
             var factory = new GroupCommandFactory();
             var impl = factory.Instantiate(group, null);

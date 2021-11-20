@@ -12,7 +12,7 @@ namespace NBi.Core.Decoration.Process.Commands
     {
         private readonly IScalarResolver<int> milliSeconds;
 
-        public WaitCommand(IWaitCommandArgs args)
+        public WaitCommand(WaitCommandArgs args)
 		{
             milliSeconds = args.MilliSeconds;
 		}

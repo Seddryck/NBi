@@ -44,7 +44,7 @@ namespace NBi.Testing.Integration.Core.Decoration.Process.Commands
         [Test]
         public void Execute_ExistingBatchWithoutArguments_Executed()
         {
-            var runArgs = Mock.Of<IRunCommandArgs>
+            var runArgs = Mock.Of<ProcessRunCommandArgs>
             (
                 c => c.Argument == new LiteralScalarResolver<string>(string.Empty)
                   && c.Path == new LiteralScalarResolver<string>(Path)
@@ -61,7 +61,7 @@ namespace NBi.Testing.Integration.Core.Decoration.Process.Commands
         [Test]
         public void Execute_InvalidBatchWithoutArguments_Exception()
         {
-            var runArgs = Mock.Of<IRunCommandArgs>
+            var runArgs = Mock.Of<ProcessRunCommandArgs>
             (
                 c => c.Argument == new LiteralScalarResolver<string>(string.Empty)
                   && c.Path == new LiteralScalarResolver<string>(Path)
@@ -76,7 +76,7 @@ namespace NBi.Testing.Integration.Core.Decoration.Process.Commands
         [Test]
         public void Execute_InvalidBatchWithoutArgumentsNoWait_Success()
         {
-            var runArgs = Mock.Of<IRunCommandArgs>
+            var runArgs = Mock.Of<ProcessRunCommandArgs>
             (
                 c => c.Argument == new LiteralScalarResolver<string>(string.Empty)
                   && c.Path == new LiteralScalarResolver<string>(Path)

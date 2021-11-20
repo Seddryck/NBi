@@ -44,7 +44,7 @@ namespace NBi.Testing.Integration.Core.Decoration.Process.Commands
         [Test]
         public void Execute_WaitOneSecond_DelayOfOnesecond()
         {
-            var waitArgs = Mock.Of<IWaitCommandArgs>
+            var waitArgs = Mock.Of<WaitCommandArgs>
             (
                 c => c.MilliSeconds == new LiteralScalarResolver<int>("1000")
             );

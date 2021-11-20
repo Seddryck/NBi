@@ -11,9 +11,9 @@ namespace NBi.Core.Decoration.IO.Commands
 {
     class CopyExtensionCommand : IDecorationCommand
     {
-        private readonly ICopyExtensionCommandArgs args;
+        private readonly IoCopyExtensionCommandArgs args;
 
-        public CopyExtensionCommand(ICopyExtensionCommandArgs args) => this.args = args;
+        public CopyExtensionCommand(IoCopyExtensionCommandArgs args) => this.args = args;
 
         public void Execute()
         {

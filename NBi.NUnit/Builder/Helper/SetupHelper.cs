@@ -1,6 +1,4 @@
-﻿using ImpromptuInterface;
-using NBi.Core;
-using NBi.Core.Assemblies.Decoration;
+﻿using NBi.Core.Assemblies.Decoration;
 using NBi.Core.Decoration;
 using NBi.Core.Decoration.DataEngineering;
 using NBi.Core.Decoration.Grouping;
@@ -10,6 +8,7 @@ using NBi.Core.Injection;
 using NBi.Core.Variable;
 using NBi.Extensibility.Decoration;
 using NBi.Extensibility.Decoration.DataEngineering;
+using NBi.Extensibility.Resolving;
 using NBi.Xml.Decoration.Command;
 using System;
 using System.Collections.Generic;
@@ -39,262 +38,147 @@ namespace NBi.NUnit.Builder.Helper
 
         protected virtual IDecorationCommandArgs Execute(DecorationCommandXml xmlCommand)
         {
+            var helper = new ScalarHelper(serviceLocator, new Context(variables));
+
             switch (xmlCommand)
             {
-                case SqlRunXml sqlRun: return BuildDataEngineeringBatchRun(sqlRun);
-                case EtlRunXml etlRun: return BuildDataEngineeringEtlRun(etlRun);
-                case ConnectionWaitXml connectionWait: return BuildDataEngineeringConnectionWait(connectionWait);
-                case TableLoadXml load: return BuildDataEngineeringTableLoad(load);
-                case TableResetXml reset: return BuildDataEngineeringTableReset(reset);
-                case FileDeleteXml fileDelete: return BuildIoDelete(fileDelete);
-                case FileDeletePatternXml deletePattern: return BuildIoDeletePattern(deletePattern);
-                case FileDeleteExtensionXml deleteExtension: return BuildIoDeleteExtension(deleteExtension);
-                case FileCopyXml fileCopy: return BuildIoCopy(fileCopy);
-                case FileCopyPatternXml filePattern: return BuildIoCopyPattern(filePattern);
-                case FileCopyExtensionXml fileExtension: return BuildIoCopyExtension(fileExtension);
-                case ExeKillXml exeKill: return BuildProcessKill(exeKill);
-                case ExeRunXml exeRun: return BuildProcessRun(exeRun);
-                case ServiceStartXml serviceStart: return BuildProcessStart(serviceStart);
-                case ServiceStopXml serviceStop: return BuildProcessStop(serviceStop);
-                case WaitXml wait: return BuildProcessWait(wait);
-                case CustomCommandXml custom: return BuildProcessCustom(custom);
-                case CommandGroupXml group: return BuildGroup(group.Guid, group.Commands, group.Parallel, group.RunOnce);
+                case SqlRunXml sqlRun:
+                    return new SqlBatchRunCommandArgs(
+                        sqlRun.Guid,
+                        sqlRun.ConnectionString,
+                        helper.InstantiateResolver<string>(sqlRun.Name),
+                        helper.InstantiateResolver<string>(sqlRun.Path),
+                        sqlRun.Settings?.BasePath,
+                        helper.InstantiateResolver<string>(sqlRun.Version)
+                    );
+                case EtlRunXml etlRun:
+                    //return new EtlRunCommandArgs(
+                    //    etlRun.Guid,
+
+                    //);
+                    return null;
+                case ConnectionWaitXml connectionWait:
+                    return new ConnectionWaitCommandArgs(
+                        connectionWait.Guid,
+                        connectionWait.ConnectionString,
+                        helper.InstantiateResolver<int>(connectionWait.TimeOut)
+                    );
+                case TableLoadXml load:
+                    return new TableLoadCommandArgs(
+                        load.Guid,
+                        load.ConnectionString,
+                        helper.InstantiateResolver<string>(load.TableName),
+                        helper.InstantiateResolver<string>(load.FileName)
+                    );
+                case TableResetXml reset:
+                    return new TableTruncateCommandArgs(
+                        reset.Guid,
+                        reset.ConnectionString,
+                        helper.InstantiateResolver<string>(reset.TableName)
+                    );
+                case FileDeleteXml ioDelete:
+                    return new IoDeleteCommandArgs(
+                        ioDelete.Guid,
+                        helper.InstantiateResolver<string>(ioDelete.FileName),
+                        ioDelete.Settings?.BasePath,
+                        helper.InstantiateResolver<string>(ioDelete.Path)
+                    );
+                case FileDeletePatternXml ioDeletePattern:
+                    return new IoDeletePatternCommandArgs(
+                        ioDeletePattern.Guid,
+                        helper.InstantiateResolver<string>(ioDeletePattern.Pattern),
+                        ioDeletePattern.Settings?.BasePath,
+                        helper.InstantiateResolver<string>(ioDeletePattern.Path)
+                    );
+                case FileDeleteExtensionXml ioDeleteExtension:
+                    return new IoDeleteExtensionCommandArgs(
+                        ioDeleteExtension.Guid,
+                        helper.InstantiateResolver<string>(ioDeleteExtension.Extension),
+                        ioDeleteExtension.Settings?.BasePath,
+                        helper.InstantiateResolver<string>(ioDeleteExtension.Path)
+                    );
+                case FileCopyXml ioCopy:
+                    return new IoCopyCommandArgs(
+                        ioCopy.Guid,
+                        helper.InstantiateResolver<string>(ioCopy.FileName),
+                        helper.InstantiateResolver<string>(ioCopy.SourcePath),
+                        helper.InstantiateResolver<string>(ioCopy.FileName),
+                        helper.InstantiateResolver<string>(ioCopy.DestinationPath),
+                        ioCopy.Settings?.BasePath
+                    );
+                case FileCopyPatternXml ioCopyPattern:
+                    return new IoCopyPatternCommandArgs(
+                        ioCopyPattern.Guid,
+                        helper.InstantiateResolver<string>(ioCopyPattern.SourcePath),
+                        helper.InstantiateResolver<string>(ioCopyPattern.DestinationPath),
+                        helper.InstantiateResolver<string>(ioCopyPattern.Pattern),
+                        ioCopyPattern.Settings?.BasePath
+                    );
+                case FileCopyExtensionXml ioCopyExtension:
+                    return new IoCopyExtensionCommandArgs(
+                        ioCopyExtension.Guid,
+                        helper.InstantiateResolver<string>(ioCopyExtension.SourcePath),
+                        helper.InstantiateResolver<string>(ioCopyExtension.DestinationPath),
+                        helper.InstantiateResolver<string>(ioCopyExtension.Extension),
+                        ioCopyExtension.Settings?.BasePath
+                    );
+                case ExeKillXml processKill:
+                    return new ProcessKillCommandArgs(
+                        processKill.Guid,
+                        helper.InstantiateResolver<string>(processKill.ProcessName)
+                    );
+                case ExeRunXml processRun:
+                    return new ProcessRunCommandArgs(
+                        processRun.Guid,
+                        helper.InstantiateResolver<string>(processRun.Name),
+                        helper.InstantiateResolver<string>(processRun.Path),
+                        processRun.Settings?.BasePath,
+                        helper.InstantiateResolver<string>(processRun.Argument),
+                        helper.InstantiateResolver<int>(processRun.TimeOut)
+                    );
+                case ServiceStartXml serviceStart:
+                    return new ServiceStartCommandArgs(
+                        serviceStart.Guid,
+                        helper.InstantiateResolver<string>(serviceStart.ServiceName),
+                        helper.InstantiateResolver<int>(serviceStart.TimeOut)
+                    );
+                case ServiceStopXml serviceStop:
+                    return new ServiceStopCommandArgs(
+                        serviceStop.Guid,
+                        helper.InstantiateResolver<string>(serviceStop.ServiceName),
+                        helper.InstantiateResolver<int>(serviceStop.TimeOut)
+                    );
+                case WaitXml wait:
+                    return new WaitCommandArgs(
+                        wait.Guid,
+                        helper.InstantiateResolver<int>(wait.MilliSeconds)
+                    );
+                case CustomCommandXml custom:
+                    return new CustomCommandArgs(
+                        custom.Guid,
+                        helper.InstantiateResolver<string>(custom.AssemblyPath),
+                        helper.InstantiateResolver<string>(custom.TypeName),
+                        custom.Parameters.ToDictionary(x => x.Name, y => (IScalarResolver)helper.InstantiateResolver<string>(y.StringValue))
+                    );
+                case CommandGroupXml group: 
+                    switch(group.Parallel)
+                    {
+                        case true:
+                            return new GroupParallelCommandArgs(
+                                group.Guid,
+                                group.RunOnce,
+                                Execute(group.Commands).ToList()
+                            );
+                        default:
+                            return new GroupSequentialCommandArgs(
+                                group.Guid,
+                                group.RunOnce,
+                                Execute(group.Commands).ToList()
+                            );
+                    }
                 default: throw new ArgumentOutOfRangeException();
             }
         }
 
-        private IBatchRunCommandArgs BuildDataEngineeringBatchRun(SqlRunXml xml)
-        {
-            var helper = new ScalarHelper(serviceLocator, new Context(variables));
-            var args = new
-            {
-                xml.Guid,
-                Name = helper.InstantiateResolver<string>(xml.Name),
-                Path = helper.InstantiateResolver<string>(xml.Path),
-                xml.Settings?.BasePath,
-                Version = helper.InstantiateResolver<string>(xml.Version),
-                xml.ConnectionString,
-            };
-            return args.ActLike<IBatchRunCommandArgs>();
-        }
-
-        private IEtlRunCommandArgs BuildDataEngineeringEtlRun(EtlRunXml xml)
-        {
-            var helper = new ScalarHelper(serviceLocator, new Context(variables));
-            var args = new
-            {
-                xml.Guid,
-                Name = helper.InstantiateResolver<string>(xml.Name),
-                Path = helper.InstantiateResolver<string>(xml.Path),
-                Version = helper.InstantiateResolver<string>(xml.Version),
-            };
-            return args.ActLike<IEtlRunCommandArgs>();
-        }
-
-        private IConnectionWaitCommandArgs BuildDataEngineeringConnectionWait(ConnectionWaitXml xml)
-        {
-            var helper = new ScalarHelper(serviceLocator, new Context(variables));
-            var args = new
-            {
-                xml.Guid,
-                xml.ConnectionString,
-                TimeOut = helper.InstantiateResolver<int>(xml.TimeOut),
-            };
-            return args.ActLike<IConnectionWaitCommandArgs>();
-        }
-        private ILoadCommandArgs BuildDataEngineeringTableLoad(TableLoadXml xml)
-        {
-            var helper = new ScalarHelper(serviceLocator, new Context(variables));
-            var args = new
-            {
-                xml.Guid,
-                TableName = helper.InstantiateResolver<string>(xml.TableName),
-                FileName = helper.InstantiateResolver<string>(xml.InternalFileName),
-                xml.ConnectionString
-            };
-            return args.ActLike<ILoadCommandArgs>();
-        }
-
-        private IResetCommandArgs BuildDataEngineeringTableReset(TableResetXml xml)
-        {
-            var helper = new ScalarHelper(serviceLocator, new Context(variables));
-            var args = new
-            {
-                xml.Guid,
-                TableName = helper.InstantiateResolver<string>(xml.TableName),
-                xml.ConnectionString
-            };
-            return args.ActLike<IResetCommandArgs>();
-        }
-
-        private IDeleteCommandArgs BuildIoDelete(FileDeleteXml xml)
-        {
-            var helper = new ScalarHelper(serviceLocator, new Context(variables));
-            var args = new
-            {
-                xml.Guid,
-                Name = helper.InstantiateResolver<string>(xml.FileName),
-                Path = helper.InstantiateResolver<string>(xml.Path),
-                xml.Settings?.BasePath
-            };
-            return args.ActLike<IDeleteCommandArgs>();
-        }
-        private IDeletePatternCommandArgs BuildIoDeletePattern(FileDeletePatternXml xml)
-        {
-            var helper = new ScalarHelper(serviceLocator, new Context(variables));
-            var args = new
-            {
-                xml.Guid,
-                Path = helper.InstantiateResolver<string>(xml.Path),
-                Pattern = helper.InstantiateResolver<string>(xml.Pattern),
-                xml.Settings?.BasePath
-            };
-            return args.ActLike<IDeletePatternCommandArgs>();
-        }
-
-        private IDeleteExtensionCommandArgs BuildIoDeleteExtension(FileDeleteExtensionXml xml)
-        {
-            var helper = new ScalarHelper(serviceLocator, new Context(variables));
-            var args = new
-            {
-                xml.Guid,
-                Path = helper.InstantiateResolver<string>(xml.Path),
-                Extension = helper.InstantiateResolver<string>(xml.Extension),
-                xml.Settings?.BasePath
-            };
-            return args.ActLike<IDeleteExtensionCommandArgs>();
-        }
-
-        private ICopyCommandArgs BuildIoCopy(FileCopyXml xml)
-        {
-            var helper = new ScalarHelper(serviceLocator, new Context(variables));
-            var args = new
-            {
-                xml.Guid,
-                SourceName = helper.InstantiateResolver<string>(xml.FileName),
-                SourcePath = helper.InstantiateResolver<string>(xml.SourcePath),
-                DestinationName = helper.InstantiateResolver<string>(xml.FileName),
-                DestinationPath = helper.InstantiateResolver<string>(xml.DestinationPath),
-                xml.Settings?.BasePath
-            };
-            return args.ActLike<ICopyCommandArgs>();
-        }
-
-        private ICopyPatternCommandArgs BuildIoCopyPattern(FileCopyPatternXml xml)
-        {
-            var helper = new ScalarHelper(serviceLocator, new Context(variables));
-            var args = new
-            {
-                xml.Guid,
-                SourcePath = helper.InstantiateResolver<string>(xml.SourcePath),
-                DestinationPath = helper.InstantiateResolver<string>(xml.DestinationPath),
-                Pattern = helper.InstantiateResolver<string>(xml.Pattern),
-                xml.Settings?.BasePath
-            };
-            return args.ActLike<ICopyPatternCommandArgs>();
-        }
-
-        private ICopyExtensionCommandArgs BuildIoCopyExtension(FileCopyExtensionXml xml)
-        {
-            var helper = new ScalarHelper(serviceLocator, new Context(variables));
-            var args = new
-            {
-                xml.Guid,
-                SourcePath = helper.InstantiateResolver<string>(xml.SourcePath),
-                DestinationPath = helper.InstantiateResolver<string>(xml.DestinationPath),
-                Extension = helper.InstantiateResolver<string>(xml.Extension),
-                xml.Settings?.BasePath
-            };
-            return args.ActLike<ICopyExtensionCommandArgs>();
-        }
-
-        private IKillCommandArgs BuildProcessKill(ExeKillXml xml)
-        {
-            var helper = new ScalarHelper(serviceLocator, new Context(variables));
-            var args = new
-            {
-                xml.Guid,
-                ProcessName = helper.InstantiateResolver<string>(xml.ProcessName),
-            };
-            return args.ActLike<IKillCommandArgs>();
-        }
-
-        private IRunCommandArgs BuildProcessRun(ExeRunXml xml)
-        {
-            var helper = new ScalarHelper(serviceLocator, new Context(variables));
-            var args = new
-            {
-                xml.Guid,
-                Name = helper.InstantiateResolver<string>(xml.Name),
-                Path = helper.InstantiateResolver<string>(xml.Path),
-                xml.Settings?.BasePath,
-                Argument = helper.InstantiateResolver<string>(xml.Argument),
-                TimeOut = helper.InstantiateResolver<int>(xml.TimeOut),
-            };
-            return args.ActLike<IRunCommandArgs>();
-        }
-
-        private IStartCommandArgs BuildProcessStart(ServiceStartXml xml)
-        {
-            var helper = new ScalarHelper(serviceLocator, new Context(variables));
-            var args = new
-            {
-                xml.Guid,
-                ServiceName = helper.InstantiateResolver<string>(xml.ServiceName),
-                TimeOut = helper.InstantiateResolver<int>(xml.TimeOut),
-            };
-            return args.ActLike<IStartCommandArgs>();
-        }
-
-        private IStopCommandArgs BuildProcessStop(ServiceStopXml xml)
-        {
-            var helper = new ScalarHelper(serviceLocator, new Context(variables));
-            var args = new
-            {
-                xml.Guid,
-                ServiceName = helper.InstantiateResolver<string>(xml.ServiceName),
-                TimeOut = helper.InstantiateResolver<int>(xml.TimeOut),
-            };
-            return args.ActLike<IStopCommandArgs>();
-        }
-
-        private IWaitCommandArgs BuildProcessWait(WaitXml xml)
-        {
-            var helper = new ScalarHelper(serviceLocator, new Context(variables));
-            var args = new
-            {
-                MilliSeconds = helper.InstantiateResolver<int>(xml.MilliSeconds),
-            };
-            return args.ActLike<IWaitCommandArgs>();
-        }
-
-        private ICustomCommandArgs BuildProcessCustom(CustomCommandXml xml)
-        {
-            var helper = new ScalarHelper(serviceLocator, new Context(variables));
-            var args = new
-            {
-                xml.Guid,
-                AssemblyPath = helper.InstantiateResolver<string>(xml.AssemblyPath),
-                TypeName = helper.InstantiateResolver<string>(xml.TypeName),
-                Parameters = xml.Parameters.ToDictionary(x => x.Name, y => helper.InstantiateResolver<object>(y.StringValue)),
-            };
-            return args.ActLike<ICustomCommandArgs>();
-        }
-
-        private IGroupCommandArgs BuildGroup(Guid guid, IEnumerable<DecorationCommandXml> xmlCommands, bool isParallel, bool runOnce)
-        {
-            var commands = Execute(xmlCommands).ToList();
-            var args = new {
-                Guid = guid,
-                RunOnce = runOnce,
-                Commands = commands,
-            };
-
-            switch (isParallel)
-            {
-                case true: return args.ActLike<IParallelCommandArgs>();
-                default: return args.ActLike<ISequentialCommandArgs>();
-            }
-        }
     }
 }

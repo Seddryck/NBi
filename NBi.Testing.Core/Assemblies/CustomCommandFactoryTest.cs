@@ -167,10 +167,11 @@ namespace NBi.Testing.Core.Assemblies
             var factory = new CustomCommandFactoryProxy();
             void instantiate() => factory.Instantiate
             (
-                Mock.Of<ICustomCommandArgs>(x =>
-                    x.AssemblyPath==new LiteralScalarResolver<string>(".") &&
-                    x.TypeName == new LiteralScalarResolver<string>("NotExistingType") &&
-                    x.Parameters == null
+                new CustomCommandArgs(
+                    Guid.NewGuid(),
+                    new LiteralScalarResolver<string>("."),
+                    new LiteralScalarResolver<string>("NotExistingType"),
+                    null
                 )
             );
             Assert.Throws<NBiException>(instantiate);
@@ -182,10 +183,11 @@ namespace NBi.Testing.Core.Assemblies
             var factory = new CustomCommandFactoryProxy();
             void instantiate() => factory.Instantiate
             (
-                Mock.Of<ICustomCommandArgs>(x =>
-                    x.AssemblyPath == new LiteralScalarResolver<string>(".") &&
-                    x.TypeName == new LiteralScalarResolver<string>("Namespace.NotExistingType") &&
-                    x.Parameters == null
+                new CustomCommandArgs(
+                    Guid.NewGuid(),
+                    new LiteralScalarResolver<string>("."),
+                    new LiteralScalarResolver<string>("Namespace.NotExistingType"),
+                    null
                 )
             );
             Assert.Throws<NBiException>(instantiate);
@@ -197,10 +199,11 @@ namespace NBi.Testing.Core.Assemblies
             var factory = new CustomCommandFactoryProxy();
             void instantiate() => factory.Instantiate
             (
-                Mock.Of<ICustomCommandArgs>(x =>
-                    x.AssemblyPath == new LiteralScalarResolver<string>(".") &&
-                    x.TypeName == new LiteralScalarResolver<string>(this.GetType().Name) &&
-                    x.Parameters == null
+                new CustomCommandArgs(
+                    Guid.NewGuid(),
+                    new LiteralScalarResolver<string>("."),
+                    new LiteralScalarResolver<string>(this.GetType().Name),
+                    null
                 )
             );
             Assert.Throws<NBiException>(instantiate);
@@ -212,10 +215,11 @@ namespace NBi.Testing.Core.Assemblies
             var factory = new CustomCommandFactoryProxy();
             void instantiate() => factory.Instantiate
             (
-                Mock.Of<ICustomCommandArgs>(x =>
-                    x.AssemblyPath == new LiteralScalarResolver<string>(".") &&
-                    x.TypeName == new LiteralScalarResolver<string>(typeof(CustomCommandWithMulipleCtors).Name) &&
-                    x.Parameters == new ReadOnlyDictionary<string, IScalarResolver>(new Dictionary<string, IScalarResolver>() {
+                new CustomCommandArgs(
+                    Guid.NewGuid(),
+                    new LiteralScalarResolver<string>("."),
+                    new LiteralScalarResolver<string>(typeof(CustomCommandWithMulipleCtors).Name),
+                    new ReadOnlyDictionary<string, IScalarResolver>(new Dictionary<string, IScalarResolver>() {
                         { "NotExistingParameter", new LiteralScalarResolver<string>("foo") }
                     })
                 )

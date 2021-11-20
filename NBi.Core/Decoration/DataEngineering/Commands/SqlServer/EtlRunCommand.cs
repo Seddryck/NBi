@@ -10,9 +10,9 @@ namespace NBi.Core.Decoration.DataEngineering
 {
     public class EtlRunCommand : IDecorationCommand
     {
-        private readonly IEtlRunCommandArgs args;
+        private readonly EtlRunCommandArgs args;
 
-        public EtlRunCommand(IEtlRunCommandArgs args) => this.args = args;
+        public EtlRunCommand(EtlRunCommandArgs args) => this.args = args;
 
         public void Execute() => Execute(args.Etl);
 

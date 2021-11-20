@@ -8,9 +8,9 @@ namespace NBi.Core.Decoration.Process.Commands
 {
     class KillCommand : IDecorationCommand
     {
-        private readonly IKillCommandArgs args;
+        private readonly ProcessKillCommandArgs args;
 
-        public KillCommand(IKillCommandArgs args) => this.args = args;
+        public KillCommand(ProcessKillCommandArgs args) => this.args = args;
 
         public void Execute() => Execute(args.ProcessName.Execute());
 

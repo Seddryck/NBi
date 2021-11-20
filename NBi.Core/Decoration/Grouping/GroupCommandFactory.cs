@@ -12,8 +12,8 @@ namespace NBi.Core.Decoration.Grouping
         {
             switch (args)
             {
-                case IParallelCommandArgs _: return new ParallelCommand(childrenCommands, args.RunOnce);
-                case ISequentialCommandArgs _: return new SequentialCommand(childrenCommands, args.RunOnce);
+                case GroupParallelCommandArgs _: return new ParallelCommand(childrenCommands, args.RunOnce);
+                case GroupSequentialCommandArgs _: return new SequentialCommand(childrenCommands, args.RunOnce);
                 default: throw new ArgumentOutOfRangeException();
             }
         }

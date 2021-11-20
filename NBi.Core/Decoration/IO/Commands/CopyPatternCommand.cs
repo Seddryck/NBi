@@ -11,9 +11,9 @@ namespace NBi.Core.Decoration.IO.Commands
 {
     class CopyPatternCommand : IDecorationCommand
     {
-        private readonly ICopyPatternCommandArgs args;
+        private readonly IoCopyPatternCommandArgs args;
 
-        public CopyPatternCommand(ICopyPatternCommandArgs args) => this.args = args;
+        public CopyPatternCommand(IoCopyPatternCommandArgs args) => this.args = args;
 
         public void Execute()
         {

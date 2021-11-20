@@ -45,7 +45,7 @@ namespace NBi.Testing.Integration.Core.Decoration.IO.Commands
             foreach (var file in files)
                 File.AppendAllText(Path.Combine(DirectoryName, file), ".");
 
-            var deletePatternArgs = Mock.Of<IDeletePatternCommandArgs>
+            var deletePatternArgs = Mock.Of<IoDeletePatternCommandArgs>
             (
                 c => c.Pattern == new LiteralScalarResolver<string>(pattern)
                 && c.Path == new LiteralScalarResolver<string>(DirectoryName)

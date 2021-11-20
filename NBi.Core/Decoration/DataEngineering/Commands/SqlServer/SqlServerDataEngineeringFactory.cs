@@ -15,9 +15,9 @@ namespace NBi.Core.Decoration.DataEngineering.Commands.SqlServer
 
             switch (args)
             {
-                case ILoadCommandArgs loadArgs: return new BulkLoadCommand(loadArgs);
-                case IResetCommandArgs resetArgs: return new TruncateCommand(resetArgs);
-                case IBatchRunCommandArgs batchRunArgs: return new BatchRunCommand(batchRunArgs);
+                case TableLoadCommandArgs loadArgs: return new BulkLoadCommand(loadArgs);
+                case TableTruncateCommandArgs resetArgs: return new TruncateCommand(resetArgs);
+                case SqlBatchRunCommandArgs batchRunArgs: return new BatchRunCommand(batchRunArgs);
                 default: throw new ArgumentException();
             }
         }

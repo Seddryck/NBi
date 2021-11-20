@@ -9,8 +9,8 @@ namespace NBi.Core.Decoration.Process.Commands
 {
     class StopCommand : IDecorationCommand
     {
-        private readonly IStopCommandArgs args;
-        public StopCommand(IStopCommandArgs args) => this.args = args;
+        private readonly ServiceStopCommandArgs args;
+        public StopCommand(ServiceStopCommandArgs args) => this.args = args;
 
         public void Execute() => Execute(args.ServiceName.Execute(), args.TimeOut.Execute());
 

@@ -13,7 +13,7 @@ namespace NBi.Core.Assemblies.Decoration
     {
         protected override string CustomKind => "custom command in a setup or cleanup";
 
-        public IDecorationCommand Instantiate(ICustomCommandArgs args)
+        public IDecorationCommand Instantiate(CustomCommandArgs args)
             => new CustomCommand(base.Instantiate(args));
     }
 }

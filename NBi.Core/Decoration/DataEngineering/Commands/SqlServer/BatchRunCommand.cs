@@ -14,9 +14,9 @@ namespace NBi.Core.Decoration.DataEngineering.Commands.SqlServer
 {
     class BatchRunCommand : IDecorationCommand
     {
-        private readonly IBatchRunCommandArgs args;
+        private readonly SqlBatchRunCommandArgs args;
 
-        public BatchRunCommand(IBatchRunCommandArgs args) => this.args = args;
+        public BatchRunCommand(SqlBatchRunCommandArgs args) => this.args = args;
 
         public void Execute() 
             => Execute(

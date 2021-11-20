@@ -13,12 +13,12 @@ namespace NBi.Core.Decoration.IO
         {
             switch (args)
             {
-                case IDeleteCommandArgs deleteArgs: return new DeleteCommand(deleteArgs);
-                case IDeletePatternCommandArgs patternArgs: return new DeletePatternCommand(patternArgs);
-                case IDeleteExtensionCommandArgs extensionArgs: return new DeleteExtensionCommand(extensionArgs);
-                case ICopyCommandArgs copyArgs: return new CopyCommand(copyArgs);
-                case ICopyPatternCommandArgs patternArgs: return new CopyPatternCommand(patternArgs);
-                case ICopyExtensionCommandArgs extensionArgs: return new CopyExtensionCommand(extensionArgs);
+                case IoDeleteCommandArgs deleteArgs: return new DeleteCommand(deleteArgs);
+                case IoDeletePatternCommandArgs patternArgs: return new DeletePatternCommand(patternArgs);
+                case IoDeleteExtensionCommandArgs extensionArgs: return new DeleteExtensionCommand(extensionArgs);
+                case IoCopyCommandArgs copyArgs: return new CopyCommand(copyArgs);
+                case IoCopyPatternCommandArgs patternArgs: return new CopyPatternCommand(patternArgs);
+                case IoCopyExtensionCommandArgs extensionArgs: return new CopyExtensionCommand(extensionArgs);
                 default: throw new ArgumentException();
             }
         }

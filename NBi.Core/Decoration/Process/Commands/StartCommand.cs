@@ -9,8 +9,8 @@ namespace NBi.Core.Decoration.Process.Commands
 {
     class StartCommand : IDecorationCommand
     {
-        private readonly IStartCommandArgs args;
-        public StartCommand(IStartCommandArgs args) => this.args = args;
+        private readonly ServiceStartCommandArgs args;
+        public StartCommand(ServiceStartCommandArgs args) => this.args = args;
 
         public void Execute() => Execute(args.ServiceName.Execute(), args.TimeOut.Execute());
 

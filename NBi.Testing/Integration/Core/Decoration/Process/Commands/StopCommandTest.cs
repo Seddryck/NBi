@@ -26,7 +26,7 @@ namespace NBi.Testing.Integration.Core.Decoration.Process.Commands
             service.WaitForStatus(ServiceControllerStatus.Running, timeout);
 
             //Mock the args and setup command
-            var args = Mock.Of<IStopCommandArgs>(
+            var args = Mock.Of<ServiceStopCommandArgs>(
                 stop => stop.ServiceName == new LiteralScalarResolver<string>(SERVICE_NAME)
                     && stop.TimeOut == new LiteralScalarResolver<int>("5000")
                 );
@@ -51,7 +51,7 @@ namespace NBi.Testing.Integration.Core.Decoration.Process.Commands
             service.WaitForStatus(ServiceControllerStatus.Stopped, timeout);
 
             //Mock the args and setup command
-            var args = Mock.Of<IStopCommandArgs>(
+            var args = Mock.Of<ServiceStopCommandArgs>(
                 stop => stop.ServiceName == new LiteralScalarResolver<string>(SERVICE_NAME)
                     && stop.TimeOut == new LiteralScalarResolver<int>("5000")
                 );

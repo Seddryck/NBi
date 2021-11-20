@@ -55,23 +55,23 @@ namespace NBi.Testing.Unit.NUnit.Builder.Helper
         }
 
         [Test]
-        [TestCase(typeof(SqlRunXml), typeof(IBatchRunCommandArgs))]
-        [TestCase(typeof(TableLoadXml), typeof(ILoadCommandArgs))]
-        [TestCase(typeof(TableResetXml), typeof(IResetCommandArgs))]
-        [TestCase(typeof(EtlRunXml), typeof(IEtlRunCommandArgs))]
-        [TestCase(typeof(ConnectionWaitXml), typeof(IConnectionWaitCommandArgs))]
-        [TestCase(typeof(FileDeleteXml), typeof(IDeleteCommandArgs))]
-        [TestCase(typeof(FileDeletePatternXml), typeof(IDeletePatternCommandArgs))]
-        [TestCase(typeof(FileDeleteExtensionXml), typeof(IDeleteExtensionCommandArgs))]
-        [TestCase(typeof(FileCopyXml), typeof(ICopyCommandArgs))]
-        [TestCase(typeof(FileCopyPatternXml), typeof(ICopyPatternCommandArgs))]
-        [TestCase(typeof(FileCopyExtensionXml), typeof(ICopyExtensionCommandArgs))]
-        [TestCase(typeof(ExeKillXml), typeof(IKillCommandArgs))]
-        [TestCase(typeof(ExeRunXml), typeof(IRunCommandArgs))]
-        [TestCase(typeof(ServiceStartXml), typeof(IStartCommandArgs))]
-        [TestCase(typeof(ServiceStopXml), typeof(IStopCommandArgs))]
-        [TestCase(typeof(WaitXml), typeof(IWaitCommandArgs))]
-        [TestCase(typeof(CustomCommandXml), typeof(ICustomCommandArgs))]
+        [TestCase(typeof(SqlRunXml), typeof(SqlBatchRunCommandArgs))]
+        [TestCase(typeof(TableLoadXml), typeof(TableLoadCommandArgs))]
+        [TestCase(typeof(TableResetXml), typeof(TableTruncateCommandArgs))]
+        [TestCase(typeof(EtlRunXml), typeof(EtlRunCommandArgs))]
+        [TestCase(typeof(ConnectionWaitXml), typeof(ConnectionWaitCommandArgs))]
+        [TestCase(typeof(FileDeleteXml), typeof(IoDeleteCommandArgs))]
+        [TestCase(typeof(FileDeletePatternXml), typeof(IoDeletePatternCommandArgs))]
+        [TestCase(typeof(FileDeleteExtensionXml), typeof(IoDeleteExtensionCommandArgs))]
+        [TestCase(typeof(FileCopyXml), typeof(IoCopyCommandArgs))]
+        [TestCase(typeof(FileCopyPatternXml), typeof(IoCopyPatternCommandArgs))]
+        [TestCase(typeof(FileCopyExtensionXml), typeof(IoCopyExtensionCommandArgs))]
+        [TestCase(typeof(ExeKillXml), typeof(ProcessKillCommandArgs))]
+        [TestCase(typeof(ExeRunXml), typeof(ProcessRunCommandArgs))]
+        [TestCase(typeof(ServiceStartXml), typeof(ServiceStartCommandArgs))]
+        [TestCase(typeof(ServiceStopXml), typeof(ServiceStopCommandArgs))]
+        [TestCase(typeof(WaitXml), typeof(WaitCommandArgs))]
+        [TestCase(typeof(CustomCommandXml), typeof(CustomCommandArgs))]
         public void Execute_DecorationCommand_CorrectlyTransformedToArgs(Type xmlType, Type argsType)
         {
             var xmlInstance = Activator.CreateInstance(xmlType);
@@ -91,8 +91,8 @@ namespace NBi.Testing.Unit.NUnit.Builder.Helper
         }
 
         [Test]
-        [TestCase(true, typeof(IParallelCommandArgs))]
-        [TestCase(false, typeof(ISequentialCommandArgs))]
+        [TestCase(true, typeof(GroupParallelCommandArgs))]
+        [TestCase(false, typeof(GroupSequentialCommandArgs))]
         public void Execute_GroupCommand_CorrectlyTransformedToArgs(bool isParallel, Type argsType)
         {
             var xml = new SetupXml()
@@ -117,8 +117,8 @@ namespace NBi.Testing.Unit.NUnit.Builder.Helper
             Assert.That(commandArgs, Is.AssignableTo(argsType));
 
             var groupCommandArgs = commandArgs as IGroupCommandArgs;
-            Assert.That(groupCommandArgs.Commands.ElementAt(0), Is.AssignableTo<IDeleteCommandArgs>());
-            Assert.That(groupCommandArgs.Commands.ElementAt(1), Is.AssignableTo<IKillCommandArgs>());
+            Assert.That(groupCommandArgs.Commands.ElementAt(0), Is.AssignableTo<IoDeleteCommandArgs>());
+            Assert.That(groupCommandArgs.Commands.ElementAt(1), Is.AssignableTo<ProcessKillCommandArgs>());
         }
 
         [Test]
@@ -159,17 +159,17 @@ namespace NBi.Testing.Unit.NUnit.Builder.Helper
             var helper = new SetupHelper(new ServiceLocator(), new Dictionary<string, IVariable>());
 
             var commandArgs = helper.Execute(xml.Commands).ElementAt(0);
-            Assert.That(commandArgs, Is.AssignableTo<ISequentialCommandArgs>());
+            Assert.That(commandArgs, Is.AssignableTo<GroupSequentialCommandArgs>());
 
             var groupCommandArgs = commandArgs as IGroupCommandArgs;
-            Assert.That(groupCommandArgs.Commands.ElementAt(0), Is.AssignableTo<IParallelCommandArgs>());
-            Assert.That(groupCommandArgs.Commands.ElementAt(1), Is.AssignableTo<IParallelCommandArgs>());
+            Assert.That(groupCommandArgs.Commands.ElementAt(0), Is.AssignableTo<GroupParallelCommandArgs>());
+            Assert.That(groupCommandArgs.Commands.ElementAt(1), Is.AssignableTo<GroupParallelCommandArgs>());
 
             foreach (var subGroup in groupCommandArgs.Commands)
             {
                 var subGroupCommandArgs = subGroup as IGroupCommandArgs;
-                Assert.That(subGroupCommandArgs.Commands.ElementAt(0), Is.AssignableTo<IDeleteCommandArgs>());
-                Assert.That(subGroupCommandArgs.Commands.ElementAt(1), Is.AssignableTo<IKillCommandArgs>());
+                Assert.That(subGroupCommandArgs.Commands.ElementAt(0), Is.AssignableTo<IoDeleteCommandArgs>());
+                Assert.That(subGroupCommandArgs.Commands.ElementAt(1), Is.AssignableTo<ProcessKillCommandArgs>());
             }
         }
 
@@ -195,7 +195,7 @@ namespace NBi.Testing.Unit.NUnit.Builder.Helper
             var myVar = new GlobalVariable(new LiteralScalarResolver<object>("bar-foo"));
             var helper = new SetupHelper(new ServiceLocator(), new Dictionary<string, IVariable>() {{ "myVar", myVar } });
 
-            var customCommandArgs = helper.Execute(xml.Commands).ElementAt(0) as ICustomCommandArgs;
+            var customCommandArgs = helper.Execute(xml.Commands).ElementAt(0) as CustomCommandArgs;
             Assert.That(customCommandArgs.AssemblyPath, Is.TypeOf<LiteralScalarResolver<string>>());
             Assert.That(customCommandArgs.AssemblyPath.Execute(), Is.EqualTo("NBi.Testing"));
             Assert.That(customCommandArgs.TypeName, Is.TypeOf<LiteralScalarResolver<string>>());
@@ -222,7 +222,7 @@ namespace NBi.Testing.Unit.NUnit.Builder.Helper
 
             var helper = new SetupHelper(new ServiceLocator(), new Dictionary<string, IVariable>());
 
-            var deleteCommandArgs = helper.Execute(xml.Commands).ElementAt(0) as IDeleteCommandArgs;
+            var deleteCommandArgs = helper.Execute(xml.Commands).ElementAt(0) as IoDeleteCommandArgs;
             Assert.That(deleteCommandArgs.Name, Is.TypeOf<LiteralScalarResolver<string>>());
             Assert.That(deleteCommandArgs.Name.Execute(), Is.EqualTo("foo.txt"));
         }
@@ -239,7 +239,7 @@ namespace NBi.Testing.Unit.NUnit.Builder.Helper
             var myVar = new GlobalVariable(new LiteralScalarResolver<object>("bar.txt"));
             var helper = new SetupHelper(new ServiceLocator(), new Dictionary<string, IVariable>() { { "myvar", myVar } });
 
-            var deleteCommandArgs = helper.Execute(xml.Commands).ElementAt(0) as IDeleteCommandArgs;
+            var deleteCommandArgs = helper.Execute(xml.Commands).ElementAt(0) as IoDeleteCommandArgs;
             Assert.That(deleteCommandArgs.Name, Is.TypeOf<GlobalVariableScalarResolver<string>>());
             Assert.That(deleteCommandArgs.Name.Execute(), Is.EqualTo("bar.txt"));
         }
@@ -256,7 +256,7 @@ namespace NBi.Testing.Unit.NUnit.Builder.Helper
             var myVar = new GlobalVariable(new LiteralScalarResolver<object>("bar"));
             var helper = new SetupHelper(new ServiceLocator(), new Dictionary<string, IVariable>() { { "myvar", myVar } });
 
-            var deleteCommandArgs = helper.Execute(xml.Commands).ElementAt(0) as IDeleteCommandArgs;
+            var deleteCommandArgs = helper.Execute(xml.Commands).ElementAt(0) as IoDeleteCommandArgs;
             Assert.That(deleteCommandArgs.Name, Is.TypeOf<FormatScalarResolver>());
             Assert.That(deleteCommandArgs.Name.Execute(), Is.EqualTo("bar.csv"));
         }
@@ -275,7 +275,7 @@ namespace NBi.Testing.Unit.NUnit.Builder.Helper
                     ));
             var helper = new SetupHelper(new ServiceLocator(), new Dictionary<string, IVariable>() { { "myvar", myVar } });
 
-            var deleteCommandArgs = helper.Execute(xml.Commands).ElementAt(0) as IDeleteCommandArgs;
+            var deleteCommandArgs = helper.Execute(xml.Commands).ElementAt(0) as IoDeleteCommandArgs;
             Assert.That(deleteCommandArgs.Name, Is.AssignableTo<IScalarResolver>());
             Assert.That(deleteCommandArgs.Name.Execute(), Is.EqualTo("FOO.TXT"));
             Assert.That(deleteCommandArgs.Name.Execute(), Is.Not.EqualTo("foo.txt"));

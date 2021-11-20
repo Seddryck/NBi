@@ -10,9 +10,9 @@ namespace NBi.Core.Decoration.IO.Commands
 {
     class DeleteCommand : IDecorationCommand
     {
-        private readonly IDeleteCommandArgs args;
+        private readonly IoDeleteCommandArgs args;
 
-        public DeleteCommand(IDeleteCommandArgs args) => this.args = args;
+        public DeleteCommand(IoDeleteCommandArgs args) => this.args = args;
 
         public void Execute()
             => Execute(PathExtensions.CombineOrRoot(args.BasePath, args.Path.Execute(), args.Name.Execute()));

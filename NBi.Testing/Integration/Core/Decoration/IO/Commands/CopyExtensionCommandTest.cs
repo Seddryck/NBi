@@ -49,7 +49,7 @@ namespace NBi.Testing.Integration.Core.Decoration.IO.Commands
             foreach (var file in files)
                 File.AppendAllText(Path.Combine(DirectoryName, file), ".");
 
-            var copyExtensionArgs = Mock.Of<ICopyExtensionCommandArgs>
+            var copyExtensionArgs = Mock.Of<IoCopyExtensionCommandArgs>
             (
                 c => c.Extension == new LiteralScalarResolver<string>(ext)
                 && c.SourcePath == new LiteralScalarResolver<string>(DirectoryName)

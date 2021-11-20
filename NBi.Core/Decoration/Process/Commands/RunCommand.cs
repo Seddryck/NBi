@@ -10,9 +10,9 @@ namespace NBi.Core.Decoration.Process.Commands
 {
     class RunCommand : IDecorationCommand
     {
-		private readonly IRunCommandArgs args;
+		private readonly ProcessRunCommandArgs args;
 
-        public RunCommand(IRunCommandArgs args) => this.args = args;
+        public RunCommand(ProcessRunCommandArgs args) => this.args = args;
 
         public void Execute()
             => Execute(PathExtensions.CombineOrRoot(args.BasePath, args.Path.Execute(), args.Name.Execute()), args.Argument.Execute(), args.TimeOut.Execute());

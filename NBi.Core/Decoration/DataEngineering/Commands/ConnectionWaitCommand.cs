@@ -14,9 +14,9 @@ namespace NBi.Core.Decoration.DataEngineering.Commands
 {
     class ConnectionWaitCommand : IDecorationCommand
     {
-        private readonly IConnectionWaitCommandArgs args;
+        private readonly ConnectionWaitCommandArgs args;
 
-        public ConnectionWaitCommand(IConnectionWaitCommandArgs args) => this.args = args;
+        public ConnectionWaitCommand(ConnectionWaitCommandArgs args) => this.args = args;
 
         public void Execute() => Execute(args.ConnectionString, args.TimeOut.Execute());
 

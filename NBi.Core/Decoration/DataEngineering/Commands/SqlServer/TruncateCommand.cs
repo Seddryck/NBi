@@ -8,9 +8,9 @@ namespace NBi.Core.Decoration.DataEngineering.Commands.SqlServer
 {
     class TruncateCommand : IDecorationCommand
     {
-        private readonly IResetCommandArgs args;
+        private readonly TableTruncateCommandArgs args;
 
-        public TruncateCommand(IResetCommandArgs args) => this.args = args;
+        public TruncateCommand(TableTruncateCommandArgs args) => this.args = args;
 
         public void Execute() => Execute(args.ConnectionString, args.TableName.Execute());
 

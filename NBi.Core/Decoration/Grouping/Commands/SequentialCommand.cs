@@ -12,7 +12,8 @@ namespace NBi.Core.Decoration.Grouping.Commands
     {
         private readonly IEnumerable<IDecorationCommand> commands;
 
-        public SequentialCommand(IEnumerable<IDecorationCommand> commands) => this.commands = commands;
+        public SequentialCommand(IEnumerable<IDecorationCommand> commands, bool runOnce)
+            => (this.commands, this.RunOnce) = (commands, runOnce);
 
         public bool RunOnce { get; set; }
         public bool HasRun { get; set; }

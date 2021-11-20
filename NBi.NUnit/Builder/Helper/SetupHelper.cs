@@ -58,7 +58,7 @@ namespace NBi.NUnit.Builder.Helper
                 case ServiceStopXml serviceStop: return BuildProcessStop(serviceStop);
                 case WaitXml wait: return BuildProcessWait(wait);
                 case CustomCommandXml custom: return BuildProcessCustom(custom);
-                case CommandGroupXml group: return BuildGroup(group.Guid, group.Commands, group.Parallel);
+                case CommandGroupXml group: return BuildGroup(group.Guid, group.Commands, group.Parallel, group.RunOnce);
                 default: throw new ArgumentOutOfRangeException();
             }
         }
@@ -281,11 +281,12 @@ namespace NBi.NUnit.Builder.Helper
             return args.ActLike<ICustomCommandArgs>();
         }
 
-        private IGroupCommandArgs BuildGroup(Guid guid, IEnumerable<DecorationCommandXml> xmlCommands, bool isParallel)
+        private IGroupCommandArgs BuildGroup(Guid guid, IEnumerable<DecorationCommandXml> xmlCommands, bool isParallel, bool runOnce)
         {
             var commands = Execute(xmlCommands).ToList();
             var args = new {
                 Guid = guid,
+                RunOnce = runOnce,
                 Commands = commands,
             };
 

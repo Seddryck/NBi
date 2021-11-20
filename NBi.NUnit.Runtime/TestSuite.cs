@@ -175,7 +175,8 @@ namespace NBi.NUnit.Runtime
                 else
                 { 
                     var command = factory.Instantiate(arg);
-                    Setups.Add(arg.Guid, command);
+                    if (command is IGroupCommand groupCommand && groupCommand.RunOnce)
+                        Setups.Add(arg.Guid, command);
                     commands.Add(command);
                 }
             }

@@ -10,5 +10,6 @@ namespace NBi.Core.Decoration.Grouping
     public interface IGroupCommandArgs : IDecorationCommandArgs
     {
         IEnumerable<IDecorationCommandArgs> Commands { get; }
+        bool RunOnce { get; }
     }
 }

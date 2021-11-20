@@ -7,8 +7,6 @@ namespace NBi.Core
 {
     public interface IGroupCommand : IDecorationCommand
     {
-        List<IDecorationCommand> Commands { get; set; }
-        bool Parallel { get; set; }
         bool RunOnce { get; set; }
         bool HasRun { get; set; }
     }

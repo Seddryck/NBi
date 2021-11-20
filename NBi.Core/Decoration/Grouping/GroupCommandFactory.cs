@@ -8,12 +8,12 @@ namespace NBi.Core.Decoration.Grouping
 {
     class GroupCommandFactory
     {
-        public IDecorationCommand Instantiate(IGroupCommandArgs args)
+        public IGroupCommand Instantiate(IGroupCommandArgs args, IEnumerable<IDecorationCommand> childrenCommands)
         {
             switch (args)
             {
-                case IParallelCommandArgs parallelArgs: return new ParallelCommand(parallelArgs);
-                case ISequentialCommandArgs sequentialArgs: return new SequentialCommand(sequentialArgs);
+                case IParallelCommandArgs _: return new ParallelCommand(childrenCommands, args.RunOnce);
+                case ISequentialCommandArgs _: return new SequentialCommand(childrenCommands, args.RunOnce);
                 default: throw new ArgumentOutOfRangeException();
             }
         }

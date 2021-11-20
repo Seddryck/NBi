@@ -11,14 +11,17 @@ namespace NBi.Xml.Decoration.Command
     public abstract class DecorationCommandXml
     {
         [XmlIgnore()]
-        public virtual Settings.SettingsXml Settings { get; set; }
+        public Guid Guid { get; } = Guid.NewGuid();
 
         [XmlIgnore()]
-        public virtual Settings.DefaultXml Default
+        public virtual SettingsXml Settings { get; set; }
+
+        [XmlIgnore()]
+        public virtual DefaultXml Default
         {
             get
             {
-                return Settings.GetDefault(Xml.Settings.SettingsXml.DefaultScope.Decoration);
+                return Settings.GetDefault(SettingsXml.DefaultScope.Decoration);
             }
         }
 

@@ -6,11 +6,17 @@ using System.Linq;
 using System.Reflection;
 using Moq;
 using NBi.Core;
+using NBi.Core.Decoration.Grouping.Commands;
+using NBi.Core.Injection;
 using NBi.Core.ResultSet;
+using NBi.Core.Variable;
 using NBi.Extensibility;
+using NBi.NUnit.Builder.Helper;
 using NBi.NUnit.Runtime;
 using NBi.NUnit.Runtime.Configuration;
 using NBi.Xml;
+using NBi.Xml.Decoration;
+using NBi.Xml.Decoration.Command;
 using NBi.Xml.Items;
 using NBi.Xml.Systems;
 using NBi.Xml.Variables;
@@ -251,7 +257,7 @@ namespace NBi.Testing.Unit.NUnit.Runtime
         }
 
         [Test]
-        [Ignore]
+        //[Ignore]
         public void AssertTestCase_TestCaseError_StackTraceIsFilledWithXml()
         {
             var sut = "not empty string";
@@ -281,7 +287,7 @@ namespace NBi.Testing.Unit.NUnit.Runtime
         }
 
         [Test]
-        [Ignore]
+        //[Ignore]
         public void AssertTestCase_TestCaseError_MessageIsAvailable()
         {
             var sut = "not empty string";
@@ -342,5 +348,209 @@ namespace NBi.Testing.Unit.NUnit.Runtime
             Assert.That(TestSuite.OverridenVariables["myVar"], Is.EqualTo(123.12));
         }
 
+
+
+        [Test]
+        public void ExecuteSetup_SingleDecoration_Executed()
+        {
+            var commandMock = new Mock<IDecorationCommand>();
+            commandMock.Setup(x => x.Execute());
+            var testSuite = new TestSuite();
+            testSuite.ExecuteSetup(new[] { commandMock.Object });
+            commandMock.Verify(x => x.Execute(), Times.Once());
+        }
+
+        [Test]
+        public void ExecuteSetup_MultipleDecorationImplicitGroup_ExecutedCorrectOrder()
+        {
+
+            var firstCommandMock = new Mock<IDecorationCommand>(MockBehavior.Strict);
+            var secondCommandMock = new Mock<IDecorationCommand>(MockBehavior.Strict);
+            var sequence = new MockSequence();
+            firstCommandMock.InSequence(sequence).Setup(x => x.Execute());
+            secondCommandMock.InSequence(sequence).Setup(x => x.Execute());
+
+            var testSuite = new TestSuite();
+            testSuite.ExecuteSetup(new[] { firstCommandMock.Object, secondCommandMock.Object });
+            firstCommandMock.Verify(x => x.Execute(), Times.Once());
+            secondCommandMock.Verify(x => x.Execute(), Times.Once());
+        }
+
+        [Test]
+        public void ExecuteSetup_MultipleDecorationExplicitGroupSequence_ExecutedCorrectOrder()
+        {
+            
+            var firstCommandMock = new Mock<IDecorationCommand>(MockBehavior.Strict);
+            var secondCommandMock = new Mock<IDecorationCommand>(MockBehavior.Strict);
+            var sequence = new MockSequence();
+            firstCommandMock.InSequence(sequence).Setup(x => x.Execute());
+            secondCommandMock.InSequence(sequence).Setup(x => x.Execute());
+
+            var groupCommand = new SequentialCommand(new[] { firstCommandMock.Object, secondCommandMock.Object }, false);
+            
+            var testSuite = new TestSuite();
+            testSuite.ExecuteSetup(new[] { groupCommand });
+            firstCommandMock.Verify(x => x.Execute(), Times.Once());
+            secondCommandMock.Verify(x => x.Execute(), Times.Once());
+        }
+
+        [Test]
+        public void ExecuteSetup_MultipleDecorationExplicitGroupSequence_NotStartingBeforePreviousIsFinalized()
+        {
+
+            var firstCommandStub = new Mock<IDecorationCommand>(MockBehavior.Strict);
+            var secondCommandStub = new Mock<IDecorationCommand>(MockBehavior.Strict);
+            var sequence = new MockSequence();
+            Mock<IDecorationCommand> lastReturned = null;
+            firstCommandStub.InSequence(sequence).Setup(x => x.Execute()).Callback(() => { System.Threading.Thread.Sleep(100); lastReturned = firstCommandStub; });
+            secondCommandStub.InSequence(sequence).Setup(x => x.Execute()).Callback(() => { System.Threading.Thread.Sleep(10); lastReturned = secondCommandStub; });
+
+            var groupCommand = new SequentialCommand(new[] { firstCommandStub.Object, secondCommandStub.Object }, false);
+
+            var testSuite = new TestSuite();
+            testSuite.ExecuteSetup(new[] { groupCommand });
+            Assert.That(lastReturned, Is.EqualTo(secondCommandStub));
+        }
+
+        [Test]
+        public void ExecuteSetup_MultipleDecorationExplicitGroupSequence_BothExecuted()
+        {
+
+            var firstCommandMock = new Mock<IDecorationCommand>();
+            var secondCommandMock = new Mock<IDecorationCommand>();
+            firstCommandMock.Setup(x => x.Execute());
+            secondCommandMock.Setup(x => x.Execute());
+
+            var groupCommand = new ParallelCommand(new[] { firstCommandMock.Object, secondCommandMock.Object }, false);
+
+            var testSuite = new TestSuite();
+            testSuite.ExecuteSetup(new[] { groupCommand });
+            firstCommandMock.Verify(x => x.Execute(), Times.Once());
+            secondCommandMock.Verify(x => x.Execute(), Times.Once());
+        }
+
+        [Test]
+        public void ExecuteSetup_MultipleDecorationExplicitGroupParallel_ExecutedInParallel()
+        {
+            var firstCommandStub = new Mock<IDecorationCommand>(MockBehavior.Strict);
+            var secondCommandStub = new Mock<IDecorationCommand>(MockBehavior.Strict);
+            Mock<IDecorationCommand> lastReturned = null;
+            firstCommandStub.Setup(x => x.Execute()).Callback(() => { System.Threading.Thread.Sleep(100); lastReturned = firstCommandStub; });
+            secondCommandStub.Setup(x => x.Execute()).Callback(() => { System.Threading.Thread.Sleep(10); lastReturned = secondCommandStub; });
+
+            var groupCommand = new ParallelCommand(new[] { firstCommandStub.Object, secondCommandStub.Object }, false);
+
+            var testSuite = new TestSuite();
+            testSuite.ExecuteSetup(new[] { groupCommand });
+            Assert.That(lastReturned, Is.EqualTo(firstCommandStub));
+        }
+
+        [Test]
+        public void ExecuteSetup_MultipleDecorationRunOnce_ExecutedOnce()
+        {
+            var commandMock = new Mock<IDecorationCommand>();
+            commandMock.Setup(x => x.Execute());
+
+            var groupCommand = new SequentialCommand(new[] { commandMock.Object }, true);
+
+            var testSuite = new TestSuite();
+            testSuite.ExecuteSetup(new[] { groupCommand });
+            commandMock.Verify(x => x.Execute(), Times.Once());
+            testSuite.ExecuteSetup(new[] { groupCommand });
+            commandMock.Verify(x => x.Execute(), Times.Once());
+        }
+
+        [Test]
+        public void ExecuteSetup_MultipleDecorationRunMultiple_ExecutedMultiple()
+        {
+            var commandMock = new Mock<IDecorationCommand>();
+            commandMock.Setup(x => x.Execute());
+
+            var groupCommand = new SequentialCommand(new[] { commandMock.Object }, false);
+
+            var testSuite = new TestSuite();
+            testSuite.ExecuteSetup(new[] { groupCommand });
+            commandMock.Verify(x => x.Execute(), Times.Exactly(1));
+            testSuite.ExecuteSetup(new[] { groupCommand });
+            commandMock.Verify(x => x.Execute(), Times.Exactly(2));
+            testSuite.ExecuteSetup(new[] { groupCommand });
+            commandMock.Verify(x => x.Execute(), Times.Exactly(3));
+        }
+
+        [Test]
+        public void BuildSetup_SameCommandWithoutRunOnce_InstantiatedMultipleTime()
+        {
+            var commandXml = new CommandGroupXml();
+            var firstSetupXml = new SetupXml() { Commands = new List<DecorationCommandXml>() { commandXml } };
+            var secondSetupXml = new SetupXml() { Commands = new List<DecorationCommandXml>() { commandXml } };
+
+            var testSuite = new TestSuite();
+            var setupHelper = new SetupHelper(new ServiceLocator(), new Dictionary<string, IVariable>());
+            var commands = new List<IDecorationCommand>();
+            commands.AddRange(testSuite.BuildSetup(setupHelper, firstSetupXml));
+            commands.AddRange(testSuite.BuildSetup(setupHelper, secondSetupXml));
+            Assert.That(commands.Count(), Is.EqualTo(2));
+            Assert.That(commands[0], Is.Not.EqualTo(commands[1]));
+        }
+
+        [Test]
+        public void BuildSetup_SameCommandWithRunOnce_InstantiatedOnce()
+        {
+            var commandXml = new CommandGroupXml() { RunOnce=true };
+            var firstSetupXml = new SetupXml() { Commands = new List<DecorationCommandXml>() { commandXml } };
+            var secondSetupXml = new SetupXml() { Commands = new List<DecorationCommandXml>() { commandXml } };
+
+            var testSuite = new TestSuite();
+            var setupHelper = new SetupHelper(new ServiceLocator(), new Dictionary<string, IVariable>());
+            var commands = new List<IDecorationCommand>();
+            commands.AddRange(testSuite.BuildSetup(setupHelper, firstSetupXml));
+            commands.AddRange(testSuite.BuildSetup(setupHelper, secondSetupXml));
+            Assert.That(commands.Count(), Is.EqualTo(2));
+            Assert.That(commands[0], Is.EqualTo(commands[1]));
+        }
+
+        [Test]
+        public void BuildSetup_SameCommandWithChildrenWithoutRunOnce_InstantiatedEachOfThem()
+        {
+            var commandXml = new ConnectionWaitXml();
+            var groupCommand = new CommandGroupXml() { RunOnce = false, Commands = new List<DecorationCommandXml>() { commandXml } };
+            var firstSetupXml = new SetupXml() { Commands = new List<DecorationCommandXml>() { groupCommand, new ConnectionWaitXml() } };
+            var secondSetupXml = new SetupXml() { Commands = new List<DecorationCommandXml>() { groupCommand, new ConnectionWaitXml() } };
+
+            var testSuite = new TestSuite();
+            var setupHelper = new SetupHelper(new ServiceLocator(), new Dictionary<string, IVariable>());
+            var commands = new List<IDecorationCommand>();
+            commands.AddRange(testSuite.BuildSetup(setupHelper, firstSetupXml));
+            commands.AddRange(testSuite.BuildSetup(setupHelper, secondSetupXml));
+            Assert.That(commands.Count(), Is.EqualTo(4));
+            Assert.That(commands[0], Is.Not.EqualTo(commands[1]));
+            Assert.That(commands[0], Is.Not.EqualTo(commands[2]));
+            Assert.That(commands[0], Is.Not.EqualTo(commands[3]));
+            Assert.That(commands[1], Is.Not.EqualTo(commands[2]));
+            Assert.That(commands[1], Is.Not.EqualTo(commands[3]));
+            Assert.That(commands[2], Is.Not.EqualTo(commands[3]));
+        }
+
+        [Test]
+        public void BuildSetup_SameCommandWithChildrenWithRunOnce_InstantiatedOnceForThisCommand()
+        {
+            var commandXml = new ConnectionWaitXml();
+            var groupCommand = new CommandGroupXml() { RunOnce = true, Commands = new List<DecorationCommandXml>() { commandXml } };
+            var firstSetupXml = new SetupXml() { Commands = new List<DecorationCommandXml>() { groupCommand, new ConnectionWaitXml() } };
+            var secondSetupXml = new SetupXml() { Commands = new List<DecorationCommandXml>() { groupCommand, new ConnectionWaitXml() } };
+
+            var testSuite = new TestSuite();
+            var setupHelper = new SetupHelper(new ServiceLocator(), new Dictionary<string, IVariable>());
+            var commands = new List<IDecorationCommand>();
+            commands.AddRange(testSuite.BuildSetup(setupHelper, firstSetupXml));
+            commands.AddRange(testSuite.BuildSetup(setupHelper, secondSetupXml));
+            Assert.That(commands.Count(), Is.EqualTo(4));
+            Assert.That(commands[0], Is.Not.EqualTo(commands[1]));
+            Assert.That(commands[0], Is.EqualTo(commands[2]));
+            Assert.That(commands[0], Is.Not.EqualTo(commands[3]));
+            Assert.That(commands[1], Is.Not.EqualTo(commands[2]));
+            Assert.That(commands[1], Is.Not.EqualTo(commands[3]));
+            Assert.That(commands[2], Is.Not.EqualTo(commands[3]));
+        }
     }
 }

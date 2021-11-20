@@ -3,25 +3,28 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using Tasks = System.Threading.Tasks;
 
 namespace NBi.Core.Decoration.Grouping.Commands
 {
-    class ParallelCommand : IDecorationCommand
+    class ParallelCommand : IGroupCommand
     {
-        private readonly IParallelCommandArgs args;
+        private readonly IEnumerable<IDecorationCommand> commands;
 
-        public ParallelCommand(IParallelCommandArgs args) => this.args = args;
+        public ParallelCommand(IEnumerable<IDecorationCommand> commands, bool runOnce) 
+            => (this.commands, this.RunOnce) = (commands, runOnce);
 
-        public void Execute() => Execute(args.Commands);
+        public bool RunOnce { get; set; }
+        public bool HasRun { get; set; }
 
-        internal void Execute(IEnumerable<IDecorationCommandArgs> listOfArgs)
+        public void Execute() => Execute(commands);
+
+        internal void Execute(IEnumerable<IDecorationCommand> commands)
         {
-            var factory = new DecorationFactory();
-            Parallel.ForEach
+            Tasks.Parallel.ForEach
                 (
-                    listOfArgs,
-                    x => factory.Instantiate(x).Execute()
+                    commands,
+                    x => x.Execute()
                 );
         }
     }

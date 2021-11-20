@@ -393,7 +393,6 @@ namespace NBi.Xml
         protected object DeserializeTo(string objectData, Type type)
         {
             var serializer = new XmlSerializer(type);
-            var result = string.Empty;
             using (var reader = new StringReader(objectData))
                 return serializer.Deserialize(reader);
         }
@@ -404,7 +403,6 @@ namespace NBi.Xml
         protected object DeserializeTo(string objectData, Type type, ReadWriteAttributes attr)
         {
             var serializer = new XmlSerializer(type, attr);
-            var result = string.Empty;
             using (var reader = new StringReader(objectData))
                 return serializer.Deserialize(reader);
         }

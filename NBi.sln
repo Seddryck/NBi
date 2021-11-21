@@ -12,6 +12,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".project", ".project", "{DA
 		appveyor.yml = appveyor.yml
 		AssemblyInfo.cs = AssemblyInfo.cs
 		GitVersion.yml = GitVersion.yml
+		install-roapi-for-testing.ps1 = install-roapi-for-testing.ps1
 		Readme.md = Readme.md
 		restore-database-for-testing.ps1 = restore-database-for-testing.ps1
 	EndProjectSection

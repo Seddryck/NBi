@@ -9,16 +9,17 @@ if (!($Env:Path -like "*7-Zip*")) {
     refreshenv
 }
 
-if (Test-Path "$localFolder\$archiveName" -OlderThan (Get-Date).AddHours(-10)) {
+if (Test-Path "$localFolder\$archiveName" -NewerThan (Get-Date).AddHours(-10)) {
+    Write-Host "Local copy of archive already existing (less than 10 hours old)"
+} else {
     Write-Host "Downloading roapi package ..."
-    if (($env:AppVeyor).ToLower() -eq "true") {
+    if ($env:AppVeyor -eq $null) {$appVeyor="false"} else {$appVeyor=$env:AppVeyor}
+    if ($appVeyor.ToLower() -eq "true") {
         Start-FileDownload "$downloadurl/$archiveName" -FileName "$localFolder\$archiveName"
     } else {
         Invoke-WebRequest -Uri "$downloadurl/$archiveName" -OutFile "$localFolder\$archiveName"
     }
     Write-Host "Roapi package downloaded"
-} else {
-    Write-Host "Local copy of archive already existing (less than 10 hours old)"
 }
 
 Write-Host "Extracting roapi from package ..."
@@ -39,8 +40,8 @@ if (!(Test-Path "$localFolder\$($archiveName.Substring(0, $archiveName.LastIndex
 $version = &("$localFolder\$exeName") -V
 Write-Host "$version installed in $localFolder"
 
-#&("$localFolder\$exeName") -c "./hello.yml"
-#&curl -v "http://127.0.0.1:8084/api/tables/cities?columns=LatD"
+&("$localFolder\$exeName") -c "./hello.yml"
+&curl -v "http://127.0.0.1:8084/api/tables/cities?columns=LatD"
 
 
 

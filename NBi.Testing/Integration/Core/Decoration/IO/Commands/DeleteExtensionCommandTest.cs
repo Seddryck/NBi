@@ -43,10 +43,12 @@ namespace NBi.Testing.Integration.Core.Decoration.IO.Commands
             foreach (var file in files)
                 File.AppendAllText(Path.Combine(DirectoryName, file), ".");
 
-            var deleteExtensionArgs = Mock.Of<IoDeleteExtensionCommandArgs>
+            var deleteExtensionArgs = new IoDeleteExtensionCommandArgs
             (
-                c => c.Extension == new LiteralScalarResolver<string>(ext)
-                && c.Path == new LiteralScalarResolver<string>(DirectoryName)
+                Guid.NewGuid()
+                , new LiteralScalarResolver<string>(ext)
+                , string.Empty
+                , new LiteralScalarResolver<string>(DirectoryName)
             );
 
             var command = new DeleteExtensionCommand(deleteExtensionArgs);

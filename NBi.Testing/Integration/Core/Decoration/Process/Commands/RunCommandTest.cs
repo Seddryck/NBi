@@ -44,12 +44,14 @@ namespace NBi.Testing.Integration.Core.Decoration.Process.Commands
         [Test]
         public void Execute_ExistingBatchWithoutArguments_Executed()
         {
-            var runArgs = Mock.Of<ProcessRunCommandArgs>
+            var runArgs = new ProcessRunCommandArgs
             (
-                c => c.Argument == new LiteralScalarResolver<string>(string.Empty)
-                  && c.Path == new LiteralScalarResolver<string>(Path)
-                  && c.Name == new LiteralScalarResolver<string>(BATCH_FILE)
-                  && c.TimeOut == new LiteralScalarResolver<int>(1000)
+                Guid.NewGuid()
+                , new LiteralScalarResolver<string>(BATCH_FILE)
+                , new LiteralScalarResolver<string>(Path)
+                , string.Empty
+                , new LiteralScalarResolver<string>(string.Empty)
+                , new LiteralScalarResolver<int>(1000)
             );
 
             var command = new RunCommand(runArgs);
@@ -61,12 +63,14 @@ namespace NBi.Testing.Integration.Core.Decoration.Process.Commands
         [Test]
         public void Execute_InvalidBatchWithoutArguments_Exception()
         {
-            var runArgs = Mock.Of<ProcessRunCommandArgs>
+            var runArgs = new ProcessRunCommandArgs
             (
-                c => c.Argument == new LiteralScalarResolver<string>(string.Empty)
-                  && c.Path == new LiteralScalarResolver<string>(Path)
-                  && c.Name == new LiteralScalarResolver<string>(INVALID_BATCH_FILE)
-                  && c.TimeOut == new LiteralScalarResolver<int>(1000)
+                Guid.NewGuid()
+                , new LiteralScalarResolver<string>(INVALID_BATCH_FILE)
+                , new LiteralScalarResolver<string>(Path)
+                , string.Empty
+                , new LiteralScalarResolver<string>(string.Empty)
+                , new LiteralScalarResolver<int>(1000)
             );
 
             var command = new RunCommand(runArgs);
@@ -76,12 +80,14 @@ namespace NBi.Testing.Integration.Core.Decoration.Process.Commands
         [Test]
         public void Execute_InvalidBatchWithoutArgumentsNoWait_Success()
         {
-            var runArgs = Mock.Of<ProcessRunCommandArgs>
+            var runArgs = new ProcessRunCommandArgs
             (
-                c => c.Argument == new LiteralScalarResolver<string>(string.Empty)
-                  && c.Path == new LiteralScalarResolver<string>(Path)
-                  && c.Name == new LiteralScalarResolver<string>(BATCH_FILE)
-                  && c.TimeOut == new LiteralScalarResolver<int>(0)
+                Guid.NewGuid()
+                , new LiteralScalarResolver<string>(BATCH_FILE)
+                , new LiteralScalarResolver<string>(Path)
+                , string.Empty
+                , new LiteralScalarResolver<string>(string.Empty)
+                , new LiteralScalarResolver<int>(0)
             );
 
             var command = new RunCommand(runArgs);

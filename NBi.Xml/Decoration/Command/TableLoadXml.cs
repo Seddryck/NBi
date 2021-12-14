@@ -24,9 +24,7 @@ namespace NBi.Xml.Decoration.Command
                 if (Path.IsPathRooted(InternalFileName))
                     file = InternalFileName;
                 else
-                    file = Settings.BasePath + InternalFileName;
-                if (!System.IO.File.Exists(file))
-                    throw new ExternalDependencyNotFoundException(file);
+                    file = (Settings?.BasePath ?? string.Empty) + InternalFileName;
 
                 return file;
             }

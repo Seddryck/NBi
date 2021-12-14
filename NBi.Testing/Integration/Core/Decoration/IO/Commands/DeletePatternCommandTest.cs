@@ -45,10 +45,12 @@ namespace NBi.Testing.Integration.Core.Decoration.IO.Commands
             foreach (var file in files)
                 File.AppendAllText(Path.Combine(DirectoryName, file), ".");
 
-            var deletePatternArgs = Mock.Of<IoDeletePatternCommandArgs>
+            var deletePatternArgs = new IoDeletePatternCommandArgs
             (
-                c => c.Pattern == new LiteralScalarResolver<string>(pattern)
-                && c.Path == new LiteralScalarResolver<string>(DirectoryName)
+                Guid.NewGuid()
+                , new LiteralScalarResolver<string>(pattern)
+                , string.Empty
+                , new LiteralScalarResolver<string>(DirectoryName)
             );
 
             var command = new DeletePatternCommand(deletePatternArgs);

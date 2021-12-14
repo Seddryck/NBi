@@ -51,11 +51,13 @@ namespace NBi.Testing.Integration.Core.Decoration.IO.Commands
             foreach (var file in files)
                 File.AppendAllText(Path.Combine(DirectoryName, file), ".");
 
-            var copyPatternArgs = Mock.Of<IoCopyPatternCommandArgs>
+            var copyPatternArgs = new IoCopyPatternCommandArgs
             (
-                c => c.Pattern == new LiteralScalarResolver<string>(pattern)
-                && c.SourcePath == new LiteralScalarResolver<string>(DirectoryName)
-                && c.DestinationPath == new LiteralScalarResolver<string>(CopyDirectoryName)
+                Guid.NewGuid()
+                , new LiteralScalarResolver<string>(DirectoryName)
+                , new LiteralScalarResolver<string>(CopyDirectoryName)
+                , new LiteralScalarResolver<string>(pattern)
+                , string.Empty
             );
 
             var command = new CopyPatternCommand(copyPatternArgs);

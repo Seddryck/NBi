@@ -49,11 +49,13 @@ namespace NBi.Testing.Integration.Core.Decoration.IO.Commands
             foreach (var file in files)
                 File.AppendAllText(Path.Combine(DirectoryName, file), ".");
 
-            var copyExtensionArgs = Mock.Of<IoCopyExtensionCommandArgs>
+            var copyExtensionArgs = new IoCopyExtensionCommandArgs
             (
-                c => c.Extension == new LiteralScalarResolver<string>(ext)
-                && c.SourcePath == new LiteralScalarResolver<string>(DirectoryName)
-                && c.DestinationPath == new LiteralScalarResolver<string>(CopyDirectoryName)
+                Guid.NewGuid()
+                , new LiteralScalarResolver<string>(DirectoryName)
+                , new LiteralScalarResolver<string>(CopyDirectoryName)
+                , new LiteralScalarResolver<string>(ext)
+                , string.Empty
             );
 
             var command = new CopyExtensionCommand(copyExtensionArgs);

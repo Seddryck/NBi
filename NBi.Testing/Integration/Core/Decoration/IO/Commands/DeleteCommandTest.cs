@@ -29,10 +29,12 @@ namespace NBi.Testing.Integration.Core.Decoration.IO.Commands
             var existingFile = @"Temp\Text.txt";
             File.WriteAllText(existingFile, "a little text");
 
-            var deleteArgs = Mock.Of<IoDeleteCommandArgs>
+            var deleteArgs = new IoDeleteCommandArgs
             (
-                c => c.Name == new LiteralScalarResolver<string>(Path.GetFileName(existingFile))
-                && c.Path == new LiteralScalarResolver<string>(Path.GetDirectoryName(existingFile))
+                Guid.NewGuid()
+                , new LiteralScalarResolver<string>(Path.GetFileName(existingFile))
+                , string.Empty
+                , new LiteralScalarResolver<string>(Path.GetDirectoryName(existingFile))
             );
 
             var command = new DeleteCommand(deleteArgs);
@@ -46,10 +48,12 @@ namespace NBi.Testing.Integration.Core.Decoration.IO.Commands
         {
             var nonExistingFile = @"Temp\nonExistingFile.txt";
 
-            var deleteArgs = Mock.Of<IoDeleteCommandArgs>
+            var deleteArgs = new IoDeleteCommandArgs
             (
-                c => c.Name == new LiteralScalarResolver<string>(Path.GetFileName(nonExistingFile))
-                && c.Path == new LiteralScalarResolver<string>(Path.GetDirectoryName(nonExistingFile))
+                Guid.NewGuid()
+                , new LiteralScalarResolver<string>(Path.GetFileName(nonExistingFile))
+                , string.Empty
+                , new LiteralScalarResolver<string>(Path.GetDirectoryName(nonExistingFile))
             );
 
             var command = new DeleteCommand(deleteArgs);
@@ -62,10 +66,12 @@ namespace NBi.Testing.Integration.Core.Decoration.IO.Commands
         {
             var nonExistingDirectory = @"NonExistingDirectory\File.txt";
 
-            var deleteArgs = Mock.Of<IoDeleteCommandArgs>
+            var deleteArgs = new IoDeleteCommandArgs
             (
-                c => c.Name == new LiteralScalarResolver<string>(Path.GetFileName(nonExistingDirectory))
-                && c.Path == new LiteralScalarResolver<string>(Path.GetDirectoryName(nonExistingDirectory))
+                Guid.NewGuid()
+                , new LiteralScalarResolver<string>(Path.GetFileName(nonExistingDirectory))
+                , string.Empty
+                , new LiteralScalarResolver<string>(Path.GetDirectoryName(nonExistingDirectory))
             );
 
             var command = new DeleteCommand(deleteArgs);

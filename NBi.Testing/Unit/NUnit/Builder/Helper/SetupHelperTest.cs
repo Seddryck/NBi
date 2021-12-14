@@ -58,7 +58,7 @@ namespace NBi.Testing.Unit.NUnit.Builder.Helper
         [TestCase(typeof(SqlRunXml), typeof(SqlBatchRunCommandArgs))]
         [TestCase(typeof(TableLoadXml), typeof(TableLoadCommandArgs))]
         [TestCase(typeof(TableResetXml), typeof(TableTruncateCommandArgs))]
-        [TestCase(typeof(EtlRunXml), typeof(EtlRunCommandArgs))]
+        //[TestCase(typeof(EtlRunXml), typeof(EtlRunCommandArgs))]
         [TestCase(typeof(ConnectionWaitXml), typeof(ConnectionWaitCommandArgs))]
         [TestCase(typeof(FileDeleteXml), typeof(IoDeleteCommandArgs))]
         [TestCase(typeof(FileDeletePatternXml), typeof(IoDeletePatternCommandArgs))]
@@ -202,12 +202,12 @@ namespace NBi.Testing.Unit.NUnit.Builder.Helper
             Assert.That(customCommandArgs.TypeName.Execute(), Is.EqualTo("CustomCommand"));
 
             Assert.That(customCommandArgs.Parameters, Has.Count.EqualTo(2));
-            Assert.That(customCommandArgs.Parameters["foo"], Is.TypeOf<LiteralScalarResolver<object>>());
-            var paramValue = customCommandArgs.Parameters["foo"] as LiteralScalarResolver<object>;
+            Assert.That(customCommandArgs.Parameters["foo"], Is.TypeOf<LiteralScalarResolver<string>>());
+            var paramValue = customCommandArgs.Parameters["foo"] as LiteralScalarResolver<string>;
             Assert.That(paramValue.Execute(), Is.EqualTo("bar"));
 
-            Assert.That(customCommandArgs.Parameters["quark"], Is.TypeOf<GlobalVariableScalarResolver<object>>());
-            var paramValue2 = customCommandArgs.Parameters["quark"] as GlobalVariableScalarResolver<object>;
+            Assert.That(customCommandArgs.Parameters["quark"], Is.TypeOf<GlobalVariableScalarResolver<string>>());
+            var paramValue2 = customCommandArgs.Parameters["quark"] as GlobalVariableScalarResolver<string>;
             Assert.That(paramValue2.Execute(), Is.EqualTo("bar-foo"));
         }
 

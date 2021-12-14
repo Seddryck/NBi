@@ -1,6 +1,8 @@
 ﻿using NBi.Core.FlatFile;
+using NBi.Extensibility;
 using System;
 using System.Data.SqlClient;
+using System.IO;
 using System.Linq;
 
 namespace NBi.Core.Decoration.DataEngineering.Commands.SqlServer
@@ -18,6 +20,9 @@ namespace NBi.Core.Decoration.DataEngineering.Commands.SqlServer
 
         internal void Execute(string connectionString, string tableName, string filename)
         {
+            if (!File.Exists(filename))
+                throw new ExternalDependencyNotFoundException(filename);
+
             using (var connection = new SqlConnection(connectionString))
             {
                 // make sure to enable triggers

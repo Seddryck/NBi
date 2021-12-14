@@ -36,12 +36,14 @@ namespace NBi.Testing.Integration.Core.Decoration.IO.Commands
             var targetFile = @"Temp\Target\TextCopy.txt";
             File.WriteAllText(existingFile, "a little text");
 
-            var copyArgs = Mock.Of<IoCopyCommandArgs>
+            var copyArgs = new IoCopyCommandArgs
             (
-                c => c.SourceName == new LiteralScalarResolver<string>(Path.GetFileName(existingFile))
-                && c.SourcePath == new LiteralScalarResolver<string>(Path.GetDirectoryName(existingFile))
-                && c.DestinationName == new LiteralScalarResolver<string>(Path.GetFileName(targetFile))
-                && c.DestinationPath == new LiteralScalarResolver<string>(Path.GetDirectoryName(targetFile))
+                Guid.NewGuid()
+                , new LiteralScalarResolver<string>(Path.GetFileName(existingFile))
+                , new LiteralScalarResolver<string>(Path.GetDirectoryName(existingFile))
+                , new LiteralScalarResolver<string>(Path.GetFileName(targetFile))
+                , new LiteralScalarResolver<string>(Path.GetDirectoryName(targetFile))
+                , string.Empty
             );
 
             var command = new CopyCommand(copyArgs);
@@ -58,12 +60,14 @@ namespace NBi.Testing.Integration.Core.Decoration.IO.Commands
             var targetFile = @"Temp\TargetNotExisting\TextCopy.txt";
             File.WriteAllText(existingFile, "a little text");
 
-            var copyArgs = Mock.Of<IoCopyCommandArgs>
+            var copyArgs = new IoCopyCommandArgs
             (
-                c => c.SourceName == new LiteralScalarResolver<string>(Path.GetFileName(existingFile))
-                && c.SourcePath == new LiteralScalarResolver<string>(Path.GetDirectoryName(existingFile))
-                && c.DestinationName == new LiteralScalarResolver<string>(Path.GetFileName(targetFile))
-                && c.DestinationPath == new LiteralScalarResolver<string>(Path.GetDirectoryName(targetFile))
+                Guid.NewGuid()
+                , new LiteralScalarResolver<string>(Path.GetFileName(existingFile))
+                , new LiteralScalarResolver<string>(Path.GetDirectoryName(existingFile))
+                , new LiteralScalarResolver<string>(Path.GetFileName(targetFile))
+                , new LiteralScalarResolver<string>(Path.GetDirectoryName(targetFile))
+                , string.Empty
             );
 
             var command = new CopyCommand(copyArgs);
@@ -79,12 +83,14 @@ namespace NBi.Testing.Integration.Core.Decoration.IO.Commands
             var nonExistingFile = @"Temp\nonExistingFile.txt";
             var targetFile = @"Temp\Target\TextCopy.txt";
 
-            var copyArgs = Mock.Of<IoCopyCommandArgs>
+            var copyArgs = new IoCopyCommandArgs
             (
-                c => c.SourceName == new LiteralScalarResolver<string>(Path.GetFileName(nonExistingFile))
-                && c.SourcePath == new LiteralScalarResolver<string>(Path.GetDirectoryName(nonExistingFile))
-                && c.DestinationName == new LiteralScalarResolver<string>(Path.GetFileName(targetFile))
-                && c.DestinationPath == new LiteralScalarResolver<string>(Path.GetDirectoryName(targetFile))
+                Guid.NewGuid()
+                , new LiteralScalarResolver<string>(Path.GetFileName(nonExistingFile))
+                , new LiteralScalarResolver<string>(Path.GetDirectoryName(nonExistingFile))
+                , new LiteralScalarResolver<string>(Path.GetFileName(targetFile))
+                , new LiteralScalarResolver<string>(Path.GetDirectoryName(targetFile))
+                , string.Empty
             );
 
             var command = new CopyCommand(copyArgs);

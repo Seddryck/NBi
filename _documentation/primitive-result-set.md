@@ -299,7 +299,37 @@ Most of the features described for an Xml are also available for a Json. You'll 
 <result-set>
 {% endhighlight %}
 
-Note that the default implementation of JSON path doesn't support to go back to a parent level. This version of Json Path is supporting ```!``` has a way to indicate that you'll like to go to the ancestror. This syntax is only supported at the beginning of the JSON path.
+Note that the default implementation of JSON path doesn't support to go back to a parent level. This version of Json Path is supporting ```!``` has a way to indicate that you'll like to go to the ancestor. This syntax is only supported at the beginning of the JSON path.
+
+### JSON from SQL query
+
+It's possible to extract a JSON from a database with the help of a SQL query. To achieve this, in the `json-source` element, the location of the JSON token must be specified with the help of a `query-scalar`. `connection-string` and other attributes related to the elements of the `query` family can be specified as usual.
+
+{% highlight xml %}
+<result-set>
+  <json-source>
+    <query-scalar>
+      select cast (
+        (
+          select
+            NationalIdNumber as [nid],
+            month(BirthDate) as [dob.month],
+            year(BirthDate) as [dob.year]
+          from
+            [HumanResources].[Employee] e
+          for json path
+        ) as nvarchar(max)
+      ) as x
+    </query-scalar>
+    <json-path>
+      <from>$.[*]</from>
+      <select>$.nid</select>
+      <select>$.dob.month</select>
+      <select>$.dob.year</select>
+    </json-path>
+  <json-source>
+<result-set>
+{% endhighlight %}
 
 ### Rest API
 

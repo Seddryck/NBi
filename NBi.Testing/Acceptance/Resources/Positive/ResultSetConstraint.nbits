@@ -1103,7 +1103,7 @@
           <result-set>
             <row>
               <cell>Axolotl</cell>
-              <cell>yes</cell>
+              <cell>no</cell>
             </row>
           </result-set>
         </equal-to>

@@ -56,6 +56,7 @@ Get-Process roapi* `
 
 #Extracting Roapi EXE from the ZIP file
 Write-Host "Extracting roapi from package ..."
+$defaultLocation = Get-Location
 Set-Location -Path "$localFolder\"
 &7z x -aoa "$localFolder\$archiveName"
 if (!(Test-Path "$localFolder\$($archiveName.Substring(0, $archiveName.LastIndexOf('.')))")){
@@ -118,3 +119,5 @@ if ($client.Connected) {
 } else {
     Write-Host "Roapi is not correctly started or has stopped."
 }
+
+Set-Location -Path "$defaultLocation"

@@ -2,8 +2,6 @@ version: build.{build}
 image: Visual Studio 2017
 init:
   - cmd: git config --global core.autocrlf true
-install:
-  - ps: .\restore-database-for-testing.ps1
 before_build:
 - cmd: >-
     gitversion /l console /output buildserver /updateAssemblyInfo /verbosity Minimal
@@ -18,6 +16,9 @@ after_build:
     $nuget_version = "$env:GitVersion_NuGetVersionV2"
 
     .\.packages\package-NBi.ps1 $nuget_version
+before_test:
+  - ps: .\install-roapi-for-testing.ps1
+  - ps: .\restore-database-for-testing.ps1
 test_script:
 - cmd: >-
     nunit3-console NBi.Testing.Core\bin\debug\NBi.Testing.Core.dll NBi.Testing.Framework\bin\debug\NBi.Testing.Framework.dll NBi.Testing.GenbiL\bin\debug\NBi.Testing.GenbiL.dll NBi.Testing.Xml\bin\debug\NBi.Testing.Xml.dll  --where "cat!=Acceptance and cat!=Olap and cat!=Etl and cat!=WindowsService and cat!=ReportServerDB and cat!=LocalSQL" --result=myresults.xml;format=AppVeyor

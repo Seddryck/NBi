@@ -1,0 +1,79 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<testSuite name="Acceptance Testing: ResultSet" xmlns="http://NBi/TestSuite">
+  <variables>
+    <variable name="one">
+      <script language="c-sharp">
+        2-1
+      </script>
+    </variable>
+  </variables>
+  <group name="roapi">
+    <test name="Result-set is the json-source with rest api" uid="0010">
+      <system-under-test>
+        <result-set>
+          <json-source>
+            <rest base-address="http://127.0.0.1:8084/">
+              <header name="Accept">application/json</header>
+              <path>api/tables/cities</path>
+              <parameter name="columns">State,City</parameter>
+              <parameter name="sort">LatD</parameter>
+              <parameter name="limit">3</parameter>
+            </rest>
+            <json-path>
+              <from>$.[*]</from>
+              <select>$.City</select>
+              <select>$.State</select>
+            </json-path>
+          </json-source>
+        </result-set>
+      </system-under-test>
+      <assert>
+        <equal-to keys="all">
+          <result-set>
+            <row>
+              <cell>West Palm Beach</cell>
+              <cell>FL</cell>
+            </row>
+            <row>
+              <cell>Tampa</cell>
+              <cell>FL</cell>
+            </row>
+            <row>
+              <cell>Sarasota</cell>
+              <cell>FL</cell>
+            </row>
+          </result-set>
+        </equal-to>
+      </assert>
+    </test>
+    <test name="Result-set is the json-source with rest api and variables" uid="0020">
+      <system-under-test>
+        <result-set>
+          <json-source>
+            <rest base-address="http://127.0.0.1:8084/">
+              <header name="Accept">application/json</header>
+			  <path>api/tables/cities</path>
+              <parameter name="columns">State,City</parameter>
+              <parameter name="sort">-LatD</parameter>
+            </rest>
+            <json-path>
+              <from>~$.[{@one}]</from>
+              <select>$.City</select>
+              <select>$.State</select>
+            </json-path>
+          </json-source>
+        </result-set>
+      </system-under-test>
+      <assert>
+        <equal-to keys="first" values-default-type="text">
+          <result-set>
+            <row>
+              <cell>Vancouver</cell>
+              <cell>BC</cell>
+            </row>
+          </result-set>
+        </equal-to>
+      </assert>
+    </test>
+  </group>
+</testSuite>

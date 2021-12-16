@@ -570,6 +570,10 @@
     <None Include="Acceptance\Resources\Positive\ExternalSettings.nbits.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <EmbeddedResource Include="Acceptance\Resources\Positive\Rest.nbits">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
     <None Include="Acceptance\Resources\Positive\Variable.nbits.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -622,6 +626,8 @@
     <None Include="Acceptance\Resources\Positive\Users.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="Acceptance\Resources\Roapi\cities.csv" />
+    <None Include="Acceptance\Resources\Roapi\default.yml" />
     <None Include="app.config" />
     <None Include="ConnectionString.azuredevops.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

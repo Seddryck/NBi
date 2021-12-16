@@ -51,6 +51,7 @@ namespace NBi.Testing.Acceptance
         [TestCase("MultipleInstance.nbits")]
         //[TestCase("PowerBiDesktop.nbits")]
         //[TestCase("EvaluateRows.nbits")]
+        [TestCase("Rest.nbits")]
         [Category("Acceptance")]
         public override void RunPositiveTestSuite(string filename)
             => base.RunPositiveTestSuite(filename);

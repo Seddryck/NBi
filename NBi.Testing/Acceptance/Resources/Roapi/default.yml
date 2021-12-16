@@ -1,0 +1,4 @@
+addr: 127.0.0.1:8084
+tables:
+  - name: "cities"
+    uri: "Data/cities.csv"

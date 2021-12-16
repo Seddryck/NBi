@@ -1,7 +1,7 @@
 #Define the constants
 $downloadUrl = "https://github.com/roapi/roapi/releases/latest/download"
 $archiveName = "roapi-http-windows.tar.gz"
-$localFolder = "c:\projects"
+$localFolder = "c:\projects\roapi"
 $exeName = "roapi-http.exe"
 $configFile = "default.yml"
 $port = 8084
@@ -28,6 +28,10 @@ foreach ($util in @("7-Zip", "curl")) {
     }
 }
 
+#Check if local folder exists and if not create it
+if (!(Test-Path -Path "$localFolder")){
+    New-Item "$localFolder" -ItemType "directory"
+}
 
 #Check if we need to download a new version of Roapi
 if (Test-Path "$localFolder\$archiveName" -NewerThan (Get-Date).AddHours(-10)) {

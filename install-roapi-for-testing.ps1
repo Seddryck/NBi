@@ -34,11 +34,11 @@ if (!(Test-Path -Path "$localFolder")){
 }
 
 #Check if we need to download a new version of Roapi
+if ($env:AppVeyor -eq $null) {$appVeyor="false"} else {$appVeyor=$env:AppVeyor}
 if (Test-Path "$localFolder\$archiveName" -NewerThan (Get-Date).AddHours(-10)) {
     Write-Host "Local copy of archive already existing (less than 10 hours old)"
 } else {
     Write-Host "Downloading roapi package ..."
-    if ($env:AppVeyor -eq $null) {$appVeyor="false"} else {$appVeyor=$env:AppVeyor}
     if ($appVeyor.ToLower() -eq "true") {
         Start-FileDownload "$downloadurl/$archiveName" -FileName "$localFolder\$archiveName"
     } else {
@@ -114,8 +114,10 @@ do {
 
 
 if ($client.Connected) {
-    Write-Host "Listing schemas"
-    &curl "127.0.0.1:$port/api/schema"
+    Write-Host "Retrieving schemas ..."
+    $schema = &curl "127.0.0.1:$port/api/schema"
+    Write-Host "List of loaded tables:"
+    (ConvertFrom-Json $schema.Content).psobject.properties.name
 } else {
     Write-Host "Roapi is not correctly started or has stopped."
 }

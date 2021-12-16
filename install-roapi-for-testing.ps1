@@ -3,7 +3,7 @@ $downloadUrl = "https://github.com/roapi/roapi/releases/latest/download"
 $archiveName = "roapi-http-windows.tar.gz"
 $localFolder = "c:\projects"
 $exeName = "roapi-http.exe"
-$configFile = ".\hello.yml"
+$configFile = "default.yml"
 $port = 8084
 
 
@@ -71,9 +71,19 @@ if (!(Test-Path "$localFolder\$($archiveName.Substring(0, $archiveName.LastIndex
 $version = &("$localFolder\$exeName") -V
 Write-Host "$version installed in $localFolder"
 
+#Copy data folder 
+if ($appVeyor.ToLower() -eq "true") {   
+    if (!(Test-Path -Path "$localFolder\Data")){
+        New-Item -Path "$localFolder" -Name "Data" -ItemType "directory"
+    }
+    Copy-Item -Path "$env:APPVEYOR_BUILD_FOLDER\NBi.Testing\Acceptance\Resources\Roapi\*" -Destination "$localFolder\Data" -Recurse
+    Write-Host "Files in the directory containing data:"
+    Get-ChildItem -Path "$localFolder\Data"
+}
+
 #Start roapi in an external process
 Write-Host "Starting roapi with config file $configFile"
-$roapi = Start-Process -FilePath ("$localFolder\$exeName") -ArgumentList @("-c", $configFile) -WorkingDirectory $localFolder -PassThru
+$roapi = Start-Process -FilePath ("$localFolder\$exeName") -ArgumentList @("-c", ".\Data\$configFile") -WorkingDirectory $localFolder -PassThru
 Write-Host "Process $($roapi.Name) with id $($roapi.Id) is responding"
 
 #Check if roapi is effectively started or not
@@ -97,5 +107,10 @@ do {
 	}
 }while(!$client.Connected -and $attempt -lt $max)
 
-Write-Host "Listing schemas"
-&curl "127.0.0.1:$port/api/schema"
+
+if ($client.Connected) {
+    Write-Host "Listing schemas"
+    &curl "127.0.0.1:$port/api/schema"
+} else {
+    Write-Host "Roapi is not correctly started or has stopped."
+}

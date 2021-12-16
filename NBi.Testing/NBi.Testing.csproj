@@ -627,7 +627,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="Acceptance\Resources\Roapi\cities.csv" />
-    <None Include="Acceptance\Resources\Roapi\roapi-config.yml" />
+    <None Include="Acceptance\Resources\Roapi\default.yml" />
     <None Include="app.config" />
     <None Include="ConnectionString.azuredevops.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

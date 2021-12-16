@@ -1,4 +1,4 @@
 addr: 127.0.0.1:8084
 tables:
   - name: "cities"
-    uri: "cities.csv"
+    uri: "Data\cities.csv"

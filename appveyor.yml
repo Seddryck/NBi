@@ -5,7 +5,7 @@ init:
 install:
   - ps: .\install-roapi-for-testing.ps1
   #- ps: .\restore-database-for-testing.ps1
-  - ps: Set-Location "$env:APPVEYOR_BUILD_FOLDER\\$env:APPVEYOR_PROJECT_NAME\\"
+  - ps: Set-Location "$env:APPVEYOR_BUILD_FOLDER\\"
 before_build:
 - cmd: >-
     gitversion /l console /output buildserver /updateAssemblyInfo /verbosity Minimal

@@ -1051,64 +1051,6 @@
         </equal-to>
       </assert>
     </test>
-    <test name="Result-set is the json-source with rest api" uid="0162">
-      <system-under-test>
-        <result-set>
-          <json-source>
-            <rest base-address="https://api.publicapis.org/">
-              <path>entries</path>
-              <parameter name="category">animals</parameter>
-            </rest>
-            <json-path>
-              <from>$.entries[*]</from>
-              <select>$.Link</select>
-              <select>$.Cors</select>
-            </json-path>
-          </json-source>
-        </result-set>
-      </system-under-test>
-      <assert>
-        <superset-of keys="first" values-default-type="text">
-          <result-set>
-            <row>
-              <cell>https://http.cat/</cell>
-              <cell>yes</cell>
-            </row>
-            <row>
-              <cell>https://thedogapi.com/</cell>
-              <cell>no</cell>
-            </row>
-          </result-set>
-        </superset-of>
-      </assert>
-    </test>
-    <test name="Result-set is the json-source with rest api and variables" uid="0163">
-      <system-under-test>
-        <result-set>
-          <json-source>
-            <rest base-address="https://api.publicapis.org/">
-              <path>entries</path>
-              <parameter name="category">animals</parameter>
-            </rest>
-            <json-path>
-              <from>~$.entries[{@one}]</from>
-              <select>$.API</select>
-              <select>$.Cors</select>
-            </json-path>
-          </json-source>
-        </result-set>
-      </system-under-test>
-      <assert>
-        <equal-to keys="first" values-default-type="text">
-          <result-set>
-            <row>
-              <cell>Axolotl</cell>
-              <cell>yes</cell>
-            </row>
-          </result-set>
-        </equal-to>
-      </assert>
-    </test>
     <test name="Result-set is the json-source with scalar-query" uid="0164">
       <system-under-test>
         <result-set>

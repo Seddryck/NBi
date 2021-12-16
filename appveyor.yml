@@ -4,6 +4,7 @@ init:
   - cmd: git config --global core.autocrlf true
 install:
   - ps: .\restore-database-for-testing.ps1
+  - ps: .\install-roapi-for-testing.ps1
 before_build:
 - cmd: >-
     gitversion /l console /output buildserver /updateAssemblyInfo /verbosity Minimal

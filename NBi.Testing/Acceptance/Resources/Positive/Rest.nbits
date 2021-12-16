@@ -8,12 +8,6 @@
     </variable>
   </variables>
   <group name="roapi">
-    <setup>
-      <tasks run-once="true">
-        <!--<exe-run name="roapi-http.exe" path="c:\projects\" arguments="-c ..\Roapi\roapi-config.yml"/>-->
-        <exe-run name="roapi-http.exe" path="c:\projects\" arguments="-c &quot;&quot;&quot;C:\Projects\hello.yml&quot;&quot;&quot;"/>
-      </tasks>
-    </setup>
     <test name="Result-set is the json-source with rest api" uid="0010">
       <system-under-test>
         <result-set>
@@ -56,14 +50,14 @@
       <system-under-test>
         <result-set>
           <json-source>
-            <rest base-address="https://127.0.0.1:8084/">
+            <rest base-address="http://127.0.0.1:8084/">
               <header name="Accept">application/json</header>
-              <path>api/tables/cities</path>
+			  <path>api/tables/cities</path>
               <parameter name="columns">State,City</parameter>
               <parameter name="sort">-LatD</parameter>
             </rest>
             <json-path>
-              <from>~$.entries[{@one}]</from>
+              <from>~$.[{@one}]</from>
               <select>$.City</select>
               <select>$.State</select>
             </json-path>
@@ -74,8 +68,8 @@
         <equal-to keys="first" values-default-type="text">
           <result-set>
             <row>
-              <cell>Regina</cell>
-              <cell>SA</cell>
+              <cell>Vancouver</cell>
+              <cell>BC</cell>
             </row>
           </result-set>
         </equal-to>

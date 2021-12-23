@@ -80,10 +80,10 @@ namespace NBi.Core.ResultSet.Equivalence
             foreach (var column in dt.Columns)
             {
                 column.SetProperties(
-                    settings.GetColumnRole(column.Ordinal).ToString()
-                    , settings.GetColumnType(column.Ordinal).ToString()
-                    , settings.GetTolerance(column.Ordinal)?.ToString()
-                    , settings.GetRounding(column.Ordinal)?.ToString()
+                    settings.GetColumnRole(column.Ordinal)
+                    , settings.GetColumnType(column.Ordinal)
+                    , settings.GetTolerance(column.Ordinal)
+                    , settings.GetRounding(column.Ordinal)
                 );
             }
         }

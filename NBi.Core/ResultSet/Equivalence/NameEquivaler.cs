@@ -93,10 +93,10 @@ namespace NBi.Core.ResultSet.Equivalence
             foreach (var column in dt.Columns)
             {
                 column.SetProperties(
-                    settings.GetColumnRole(column.Name).ToString()
-                    , settings.GetColumnType(column.Name).ToString()
-                    , settings.GetTolerance(column.Name)?.ToString()   
-                    , settings.GetRounding(column.Name)?.ToString()
+                    settings.GetColumnRole(column.Name)
+                    , settings.GetColumnType(column.Name)
+                    , settings.GetTolerance(column.Name)
+                    , settings.GetRounding(column.Name)
                 );
             }
         }

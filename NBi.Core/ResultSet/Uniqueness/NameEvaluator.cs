@@ -52,8 +52,8 @@ namespace NBi.Core.ResultSet.Uniqueness
             foreach (var column in dt.Columns)
             {
                 column.SetProperties(
-                    settings.GetColumnRole(column.Name).ToString()
-                    , settings.GetColumnType(column.Name).ToString()
+                    settings.GetColumnRole(column.Name)
+                    , settings.GetColumnType(column.Name)
                 );
             }
         }

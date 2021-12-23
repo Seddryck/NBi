@@ -55,7 +55,7 @@ namespace NBi.Testing.Core.ResultSet.Alteration.Merging
             merge.Execute(firstRs);
 
             Assert.That(firstRs.RowCount, Is.EqualTo(20));
-            Assert.That(firstRs.Columns.Count, Is.EqualTo(5));
+            Assert.That(firstRs.ColumnCount, Is.EqualTo(5));
         }
 
         [Test()]
@@ -68,7 +68,7 @@ namespace NBi.Testing.Core.ResultSet.Alteration.Merging
             merge.Execute(firstRs);
 
             Assert.That(firstRs.RowCount, Is.EqualTo(100));
-            Assert.That(firstRs.Columns.Count, Is.EqualTo(5));
+            Assert.That(firstRs.ColumnCount, Is.EqualTo(5));
         }
 
         [Test()]
@@ -81,7 +81,7 @@ namespace NBi.Testing.Core.ResultSet.Alteration.Merging
             merge.Execute(firstRs);
 
             Assert.That(firstRs.RowCount, Is.EqualTo(0));
-            Assert.That(firstRs.Columns.Count, Is.EqualTo(5));
+            Assert.That(firstRs.ColumnCount, Is.EqualTo(5));
         }
     }
 }

@@ -29,25 +29,25 @@ namespace NBi.Framework.FailureMessage.Common.Helper
 
         protected internal virtual IEnumerable<ExtendedMetadata> ExtendMetadata(IResultSet table, IEnumerable<ColumnMetadata> existingDefinitions)
         {
-            var metadataDico = new Dictionary<DataColumn, ColumnMetadata>();
+            var metadataDico = new Dictionary<IResultColumn, ColumnMetadata>();
             foreach (var definition in existingDefinitions)
                 metadataDico.Add(definition.Identifier.GetColumn(table), definition);
 
             var identifierFactory = new ColumnIdentifierFactory();
-            foreach (DataColumn dataColumn in table.Columns)
+            foreach (var dataColumn in table.Columns)
             {
                 var metadata = metadataDico.ContainsKey(dataColumn) 
                     ? new ExtendedMetadata()
                     {
                         Ordinal = dataColumn.Ordinal,
-                        Name = dataColumn.ColumnName,
+                        Name = dataColumn.Name,
                         Role = metadataDico[dataColumn].Role,
                         Type = metadataDico[dataColumn].Type
                     }
                     : new ExtendedMetadata()
                     {
                         Ordinal = dataColumn.Ordinal,
-                        Name = dataColumn.ColumnName,
+                        Name = dataColumn.Name,
                         Role = ColumnRole.Ignore,
                         Type = ColumnType.Text
                     };

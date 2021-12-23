@@ -17,11 +17,10 @@ namespace NBi.Core.ResultSet.Combination
 
         public IResultSet Execute(IResultSet rs)
         {
-            var newColumn = new DataColumn($"Column{rs.Columns.Count}", typeof(object));
-            rs.Columns.Add(newColumn);
+            var newColumn = rs.AddColumn($"Column{rs.ColumnCount}");
 
             var sequence = Resolver.Execute();
-            if (sequence.Count == 0 || rs.Columns.Count == 1)
+            if (sequence.Count == 0 || rs.ColumnCount == 1)
             {
                 rs.Clear();
             }

@@ -26,7 +26,7 @@ namespace NBi.Core.ResultSet.Alteration.Summarization
                 foreach (var groupBy in Args.GroupBys)
                 {
                     var column = groupBy.Identifier.GetColumn(rs);
-                    dataTable.Columns.Add(new DataColumn(column.ColumnName, column.DataType));
+                    dataTable.AddColumn(column.Name, column.DataType);
                 }
 
                 var factory = new AggregationFactory();
@@ -35,7 +35,7 @@ namespace NBi.Core.ResultSet.Alteration.Summarization
                 {
                     var columnName = ExtractColumnName(rs, aggregation);
 
-                    dataTable.Columns.Add(new DataColumn(columnName, MapType(aggregation.Function, aggregation.ColumnType)));
+                    dataTable.AddColumn(columnName, MapType(aggregation.Function, aggregation.ColumnType));
                     aggregations.Add(factory.Instantiate(aggregation));
                 }
 
@@ -75,9 +75,9 @@ namespace NBi.Core.ResultSet.Alteration.Summarization
 
             var column = aggregation.Identifier.GetColumn(rs);
 
-            var columnName = Args.Aggregations.Count(x => x.Identifier.GetColumn(rs) == new ColumnNameIdentifier(column.ColumnName).GetColumn(rs)) > 1
-                ? $"{column.ColumnName}_{aggregation.Function}"
-                : column.ColumnName;
+            var columnName = Args.Aggregations.Count(x => x.Identifier.GetColumn(rs).Equals(new ColumnNameIdentifier(column.Name).GetColumn(rs))) > 1
+                ? $"{column.Name}_{aggregation.Function}"
+                : column.Name;
             return columnName;
         }
 

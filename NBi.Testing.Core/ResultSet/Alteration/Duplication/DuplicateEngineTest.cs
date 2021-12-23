@@ -36,7 +36,7 @@ namespace NBi.Testing.Core.ResultSet.Alteration.Duplication
                 );
             var newRs = duplicator.Execute(rs);
 
-            Assert.That(newRs.Columns.Count, Is.EqualTo(3));
+            Assert.That(newRs.ColumnCount, Is.EqualTo(3));
             Assert.That(newRs.RowCount, Is.EqualTo(6));
             Assert.That(newRs[0][0], Is.EqualTo("Alpha"));
             Assert.That(newRs[1][0], Is.EqualTo("Alpha"));
@@ -65,7 +65,7 @@ namespace NBi.Testing.Core.ResultSet.Alteration.Duplication
                 );
             var newRs = duplicator.Execute(rs);
 
-            Assert.That(newRs.Columns.Count, Is.EqualTo(3));
+            Assert.That(newRs.ColumnCount, Is.EqualTo(3));
             Assert.That(newRs.RowCount, Is.EqualTo(5));
             Assert.That(newRs[0][0], Is.EqualTo("Alpha"));
             Assert.That(newRs[1][0], Is.EqualTo("Alpha"));
@@ -96,7 +96,7 @@ namespace NBi.Testing.Core.ResultSet.Alteration.Duplication
                 );
             var newRs = duplicator.Execute(rs);
 
-            Assert.That(newRs.Columns.Count, Is.EqualTo(3));
+            Assert.That(newRs.ColumnCount, Is.EqualTo(3));
             Assert.That(newRs.RowCount, Is.EqualTo(8));
             Assert.That(newRs[0][0], Is.EqualTo("Alpha"));
             Assert.That(newRs[1][0], Is.EqualTo("Alpha"));
@@ -124,8 +124,8 @@ namespace NBi.Testing.Core.ResultSet.Alteration.Duplication
                 );
             var newRs = duplicator.Execute(rs);
 
-            Assert.That(newRs.Columns.Count, Is.EqualTo(4));
-            Assert.That(newRs.Columns[3].ColumnName, Is.EqualTo("NewValue"));
+            Assert.That(newRs.ColumnCount, Is.EqualTo(4));
+            Assert.That(newRs.GetColumn(3).Name, Is.EqualTo("NewValue"));
             Assert.That(newRs.RowCount, Is.EqualTo(6));
             Assert.That(newRs[0][3], Is.EqualTo(DBNull.Value));
             Assert.That(newRs[1][3], Is.EqualTo("Static Value"));
@@ -151,8 +151,8 @@ namespace NBi.Testing.Core.ResultSet.Alteration.Duplication
                 );
             var newRs = duplicator.Execute(rs);
 
-            Assert.That(newRs.Columns.Count, Is.EqualTo(4));
-            Assert.That(newRs.Columns[3].ColumnName, Is.EqualTo("Index"));
+            Assert.That(newRs.ColumnCount, Is.EqualTo(4));
+            Assert.That(newRs.GetColumn(3).Name, Is.EqualTo("Index"));
             Assert.That(newRs.RowCount, Is.EqualTo(6));
             Assert.That(newRs[0][3], Is.EqualTo(DBNull.Value));
             Assert.That(newRs[1][3], Is.EqualTo(0));
@@ -183,8 +183,8 @@ namespace NBi.Testing.Core.ResultSet.Alteration.Duplication
                 );
             var newRs = duplicator.Execute(rs);
 
-            Assert.That(newRs.Columns.Count, Is.EqualTo(4));
-            Assert.That(newRs.Columns[3].ColumnName, Is.EqualTo("Total"));
+            Assert.That(newRs.ColumnCount, Is.EqualTo(4));
+            Assert.That(newRs.GetColumn(3).Name, Is.EqualTo("Total"));
             Assert.That(newRs.RowCount, Is.EqualTo(7));
             Assert.That(newRs[0][3], Is.EqualTo(DBNull.Value));
             Assert.That(newRs[1][3], Is.EqualTo(2));
@@ -216,8 +216,8 @@ namespace NBi.Testing.Core.ResultSet.Alteration.Duplication
                 );
             var newRs = duplicator.Execute(rs);
 
-            Assert.That(newRs.Columns.Count, Is.EqualTo(4));
-            Assert.That(newRs.Columns[3].ColumnName, Is.EqualTo("IsOriginal"));
+            Assert.That(newRs.ColumnCount, Is.EqualTo(4));
+            Assert.That(newRs.GetColumn(3).Name, Is.EqualTo("IsOriginal"));
             Assert.That(newRs.RowCount, Is.EqualTo(7));
             for (int i = 0; i < newRs.RowCount; i++)
                 Assert.That(newRs[i][3], Is.EqualTo(new[] { 0, 3, 6 }.Contains(i)));
@@ -244,8 +244,8 @@ namespace NBi.Testing.Core.ResultSet.Alteration.Duplication
                 );
             var newRs = duplicator.Execute(rs);
 
-            Assert.That(newRs.Columns.Count, Is.EqualTo(4));
-            Assert.That(newRs.Columns[3].ColumnName, Is.EqualTo("IsDuplicable"));
+            Assert.That(newRs.ColumnCount, Is.EqualTo(4));
+            Assert.That(newRs.GetColumn(3).Name, Is.EqualTo("IsDuplicable"));
             Assert.That(newRs.RowCount, Is.EqualTo(7));
             for (int i = 0; i < newRs.RowCount; i++)
                 Assert.That(newRs[i][3], Is.EqualTo(!new[] { 6 }.Contains(i)));
@@ -275,8 +275,8 @@ namespace NBi.Testing.Core.ResultSet.Alteration.Duplication
             );
             var newRs = duplicator.Execute(rs);
 
-            Assert.That(newRs.Columns.Count, Is.EqualTo(4));
-            Assert.That(newRs.Columns[3].ColumnName, Is.EqualTo("NewValue"));
+            Assert.That(newRs.ColumnCount, Is.EqualTo(4));
+            Assert.That(newRs.GetColumn(3).Name, Is.EqualTo("NewValue"));
             Assert.That(newRs.RowCount, Is.EqualTo(8));
             for (int i = 0; i < newRs.RowCount; i++)
                 if (new[] { 0, 3, 7 }.Contains(i))
@@ -291,7 +291,7 @@ namespace NBi.Testing.Core.ResultSet.Alteration.Duplication
             var args = new ObjectsResultSetResolverArgs(new[] { new object[] { "Alpha", 10, 2 }, new object[] { "Beta", 3, 3 }, new object[] { "Gamma", 30, 7 } });
             var resolver = new ObjectsResultSetResolver(args);
             var rs = resolver.Execute();
-            rs.Columns[1].ColumnName = "Value";
+            rs.GetColumn(1).Rename("Value");
 
             var context = new Context(null);
             var duplicator = new DuplicateEngine(
@@ -310,8 +310,8 @@ namespace NBi.Testing.Core.ResultSet.Alteration.Duplication
             );
             var newRs = duplicator.Execute(rs);
 
-            Assert.That(newRs.Columns.Count, Is.EqualTo(3));
-            Assert.That(newRs.Columns[1].ColumnName, Is.EqualTo("Value"));
+            Assert.That(newRs.ColumnCount, Is.EqualTo(3));
+            Assert.That(newRs.GetColumn(1).Name, Is.EqualTo("Value"));
             Assert.That(newRs.RowCount, Is.EqualTo(8));
             Assert.That(newRs[0][1], Is.EqualTo(10));
             Assert.That(newRs[1][1], Is.EqualTo(5));
@@ -329,7 +329,7 @@ namespace NBi.Testing.Core.ResultSet.Alteration.Duplication
             var args = new ObjectsResultSetResolverArgs(new[] { new object[] { "Alpha", 10, 2 }, new object[] { "Beta", 3, 3 }, new object[] { "Gamma", 30, 7 } });
             var resolver = new ObjectsResultSetResolver(args);
             var rs = resolver.Execute();
-            rs.Columns[1].ColumnName = "Value";
+            rs.GetColumn(1).Rename("Value");
 
             var serviceLocator = new ServiceLocator();
             var context = new Context(null);
@@ -354,8 +354,8 @@ namespace NBi.Testing.Core.ResultSet.Alteration.Duplication
             );
             var newRs = duplicator.Execute(rs);
 
-            Assert.That(newRs.Columns.Count, Is.EqualTo(5));
-            Assert.That(newRs.Columns[1].ColumnName, Is.EqualTo("Value"));
+            Assert.That(newRs.ColumnCount, Is.EqualTo(5));
+            Assert.That(newRs.GetColumn(1).Name, Is.EqualTo("Value"));
             Assert.That(newRs.RowCount, Is.EqualTo(8));
             Assert.That(newRs[0][1], Is.EqualTo(10));
             Assert.That(newRs[1][1], Is.EqualTo(5));
@@ -381,8 +381,8 @@ namespace NBi.Testing.Core.ResultSet.Alteration.Duplication
             var args = new ObjectsResultSetResolverArgs(rows.ToArray());
             var resolver = new ObjectsResultSetResolver(args);
             var rs = resolver.Execute();
-            rs.Columns[0].ColumnName = "a";
-            rs.Columns[1].ColumnName = "b";
+            rs.GetColumn(0).Rename("a");
+            rs.GetColumn(1).Rename("b");
 
             var stopWatch = new Stopwatch();
             stopWatch.Start();

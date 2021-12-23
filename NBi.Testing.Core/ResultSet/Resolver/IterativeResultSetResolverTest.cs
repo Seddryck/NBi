@@ -106,7 +106,7 @@ namespace NBi.Testing.Core.ResultSet.Resolver
             var result = resolver.Execute();
 
             Assert.That(result.Rows.Count, Is.EqualTo(0));
-            Assert.That(result.Columns.Count, Is.EqualTo(0));
+            Assert.That(result.ColumnCount, Is.EqualTo(0));
         }
     }
 }

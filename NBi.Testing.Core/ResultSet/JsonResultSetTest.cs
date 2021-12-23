@@ -18,8 +18,8 @@ namespace NBi.Testing.Core.ResultSet
             var builder = new JsonResultSet();
             var result = builder.Build("[{ \"name\":\"John\" }]");
 
-            Assert.That(result.Columns, Has.Count.EqualTo(1));
-            Assert.That(result.Columns[0].ColumnName, Is.EqualTo("name"));
+            Assert.That(result.ColumnCount, Is.EqualTo(1));
+            Assert.That(result.GetColumn(0).Name, Is.EqualTo("name"));
         }
 
         [Test]
@@ -39,8 +39,8 @@ namespace NBi.Testing.Core.ResultSet
             var builder = new JsonResultSet();
             var result = builder.Build("[{ \"name\":\"John\" }, { \"name\":\"Paul\" }]");
 
-            Assert.That(result.Columns, Has.Count.EqualTo(1));
-            Assert.That(result.Columns[0].ColumnName, Is.EqualTo("name"));
+            Assert.That(result.ColumnCount, Is.EqualTo(1));
+            Assert.That(result.GetColumn(0).Name, Is.EqualTo("name"));
         }
 
         [Test]
@@ -62,9 +62,9 @@ namespace NBi.Testing.Core.ResultSet
             var builder = new JsonResultSet();
             var result = builder.Build("[{ \"name\":\"John\", \"age\":31 }]");
 
-            Assert.That(result.Columns, Has.Count.EqualTo(2));
-            Assert.That(result.Columns[0].ColumnName, Is.EqualTo("name"));
-            Assert.That(result.Columns[1].ColumnName, Is.EqualTo("age"));
+            Assert.That(result.ColumnCount, Is.EqualTo(2));
+            Assert.That(result.GetColumn(0).Name, Is.EqualTo("name"));
+            Assert.That(result.GetColumn(1).Name, Is.EqualTo("age"));
         }
 
         [Test]
@@ -86,11 +86,11 @@ namespace NBi.Testing.Core.ResultSet
             var builder = new JsonResultSet();
             var result = builder.Build("[{ \"name\":\"John\", \"hometown\":\"New York\", \"children\":[{\"name\": \"Mike\", \"age\": \"6\"}, {\"name\": \"Helen\", \"age\": \"6\"}] }]");
 
-            Assert.That(result.Columns, Has.Count.EqualTo(4));
-            Assert.That(result.Columns[0].ColumnName, Is.EqualTo("name"));
-            Assert.That(result.Columns[1].ColumnName, Is.EqualTo("hometown"));
-            Assert.That(result.Columns[2].ColumnName, Is.EqualTo("children.name"));
-            Assert.That(result.Columns[3].ColumnName, Is.EqualTo("children.age"));
+            Assert.That(result.ColumnCount, Is.EqualTo(4));
+            Assert.That(result.GetColumn(0).Name, Is.EqualTo("name"));
+            Assert.That(result.GetColumn(1).Name, Is.EqualTo("hometown"));
+            Assert.That(result.GetColumn(2).Name, Is.EqualTo("children.name"));
+            Assert.That(result.GetColumn(3).Name, Is.EqualTo("children.age"));
         }
 
         [Test]
@@ -99,12 +99,12 @@ namespace NBi.Testing.Core.ResultSet
             var builder = new JsonResultSet();
             var result = builder.Build("[{ \"name\":\"John\", \"hometown\":\"New York\", \"children\":[{\"name\": \"Mike\", \"age\": \"6\"}, {\"name\": \"Helen\", \"age\": \"6\"}], \"job\": \"lawyer\" }]");
 
-            Assert.That(result.Columns, Has.Count.EqualTo(5));
-            Assert.That(result.Columns[0].ColumnName, Is.EqualTo("name"));
-            Assert.That(result.Columns[1].ColumnName, Is.EqualTo("hometown"));
-            Assert.That(result.Columns[2].ColumnName, Is.EqualTo("children.name"));
-            Assert.That(result.Columns[3].ColumnName, Is.EqualTo("children.age"));
-            Assert.That(result.Columns[4].ColumnName, Is.EqualTo("job"));
+            Assert.That(result.ColumnCount, Is.EqualTo(5));
+            Assert.That(result.GetColumn(0).Name, Is.EqualTo("name"));
+            Assert.That(result.GetColumn(1).Name, Is.EqualTo("hometown"));
+            Assert.That(result.GetColumn(2).Name, Is.EqualTo("children.name"));
+            Assert.That(result.GetColumn(3).Name, Is.EqualTo("children.age"));
+            Assert.That(result.GetColumn(4).Name, Is.EqualTo("job"));
         }
 
         [Test]
@@ -113,12 +113,12 @@ namespace NBi.Testing.Core.ResultSet
             var builder = new JsonResultSet();
             var result = builder.Build("[{ \"name\":\"John\", \"hometown\":\"New York\", \"children\":[{\"age\": \"6\"}, {\"name\": \"Helen\", \"age\": \"6\"}], \"job\": \"lawyer\" }]");
 
-            Assert.That(result.Columns, Has.Count.EqualTo(5));
-            Assert.That(result.Columns[0].ColumnName, Is.EqualTo("name"));
-            Assert.That(result.Columns[1].ColumnName, Is.EqualTo("hometown"));
-            Assert.That(result.Columns[2].ColumnName, Is.EqualTo("children.age").Or.EqualTo("children.name"));
-            Assert.That(result.Columns[3].ColumnName, Is.EqualTo("children.name").Or.EqualTo("children.age"));
-            Assert.That(result.Columns[4].ColumnName, Is.EqualTo("job"));
+            Assert.That(result.ColumnCount, Is.EqualTo(5));
+            Assert.That(result.GetColumn(0).Name, Is.EqualTo("name"));
+            Assert.That(result.GetColumn(1).Name, Is.EqualTo("hometown"));
+            Assert.That(result.GetColumn(2).Name, Is.EqualTo("children.age").Or.EqualTo("children.name"));
+            Assert.That(result.GetColumn(3).Name, Is.EqualTo("children.name").Or.EqualTo("children.age"));
+            Assert.That(result.GetColumn(4).Name, Is.EqualTo("job"));
         }
 
         [Test]
@@ -136,12 +136,12 @@ namespace NBi.Testing.Core.ResultSet
                 "]"
                 );
 
-            Assert.That(result.Columns, Has.Count.EqualTo(5));
-            Assert.That(result.Columns[0].ColumnName, Is.EqualTo("name"));
-            Assert.That(result.Columns[1].ColumnName, Is.EqualTo("hometown"));
-            Assert.That(result.Columns[2].ColumnName, Is.EqualTo("children.age").Or.EqualTo("children.name"));
-            Assert.That(result.Columns[3].ColumnName, Is.EqualTo("children.name").Or.EqualTo("children.age"));
-            Assert.That(result.Columns[4].ColumnName, Is.EqualTo("job"));
+            Assert.That(result.ColumnCount, Is.EqualTo(5));
+            Assert.That(result.GetColumn(0).Name, Is.EqualTo("name"));
+            Assert.That(result.GetColumn(1).Name, Is.EqualTo("hometown"));
+            Assert.That(result.GetColumn(2).Name, Is.EqualTo("children.age").Or.EqualTo("children.name"));
+            Assert.That(result.GetColumn(3).Name, Is.EqualTo("children.name").Or.EqualTo("children.age"));
+            Assert.That(result.GetColumn(4).Name, Is.EqualTo("job"));
         }
 
         [Test]

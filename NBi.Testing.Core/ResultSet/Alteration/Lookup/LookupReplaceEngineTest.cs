@@ -47,7 +47,7 @@ namespace NBi.Testing.Core.ResultSet.Alteration.Lookup
                 ));
 
             var result = engine.Execute(candidate);
-            Assert.That(result.Columns.Count, Is.EqualTo(3));
+            Assert.That(result.ColumnCount, Is.EqualTo(3));
             Assert.That(result.Rows.Count, Is.EqualTo(4));
             Assert.That(result.Rows.Select(x => x[1]).Distinct(), Does.Contain("alpha"));
             Assert.That(result.Rows.Select(x => x[1]).Distinct(), Does.Contain("beta"));
@@ -84,7 +84,7 @@ namespace NBi.Testing.Core.ResultSet.Alteration.Lookup
                 ));
 
             var result = engine.Execute(candidate);
-            Assert.That(result.Columns.Count, Is.EqualTo(3));
+            Assert.That(result.ColumnCount, Is.EqualTo(3));
             Assert.That(result.Rows.Count, Is.EqualTo(4));
             Assert.That(result.Rows.Select(x => x[1]).Distinct(), Does.Contain(10.2));
             Assert.That(result.Rows.Select(x => x[1]).Distinct(), Does.Contain(21.1));

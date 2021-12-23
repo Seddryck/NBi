@@ -17,28 +17,20 @@ namespace NBi.Core.ResultSet.Alteration.Projection
 
         public IResultSet Execute(IResultSet resultSet)
         {
-            var columns = new List<DataColumn>();
+            var columns = new List<IResultColumn>();
             foreach (var identifier in Identifiers)
             {
-                switch (identifier)
-                {
-                    case ColumnOrdinalIdentifier id:
-                        if (id.Ordinal < resultSet.Columns.Count)
-                            columns.Add(resultSet.Columns[id.Ordinal]);
-                        break;
-                    case ColumnNameIdentifier id:
-                        if (resultSet.Columns.Contains(id.Name))
-                            columns.Add(resultSet.Columns[id.Name]);
-                        break;
-                    default: throw new ArgumentException();
-                }
+                var column = resultSet.GetColumn(identifier);
+                if (column != null) 
+                    columns.Add(column);    
             }
 
             var i = 0;
-            while (i < resultSet.Columns.Count)
+            while (i < resultSet.ColumnCount)
             {
-                if (IsColumnToRemove(resultSet.Columns[i], columns))
-                    resultSet.Columns.RemoveAt(i);
+                var column = resultSet.GetColumn(i);
+                if (IsColumnToRemove(column, columns))
+                    column.Remove();
                 else
                     i++;
             }
@@ -48,7 +40,7 @@ namespace NBi.Core.ResultSet.Alteration.Projection
             {
                 if (columns[j].Ordinal>=moved)
                 {
-                    columns[j].SetOrdinal(moved);
+                    columns[j].Move(moved);
                     moved += 1;
                 }
             }
@@ -56,7 +48,7 @@ namespace NBi.Core.ResultSet.Alteration.Projection
             return resultSet;
         }
 
-        protected virtual bool IsColumnToRemove(DataColumn dataColumn, IEnumerable<DataColumn> columns)
+        protected virtual bool IsColumnToRemove(IResultColumn dataColumn, IEnumerable<IResultColumn> columns)
             => !columns.Contains(dataColumn);
     }
 }

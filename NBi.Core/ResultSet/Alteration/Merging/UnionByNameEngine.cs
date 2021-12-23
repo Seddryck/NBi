@@ -20,17 +20,17 @@ namespace NBi.Core.ResultSet.Alteration.Merging
             var secondRs = ResultSetResolver.Execute();
 
             //Add new columns to the original result-set
-            var existingColumns = rs.Columns.Cast<DataColumn>().Select(x => x.ColumnName);
-            foreach (DataColumn dataColumn in secondRs.Columns)
-                if (!existingColumns.Contains(dataColumn.ColumnName))
-                    rs.Columns.Add(new DataColumn(dataColumn.ColumnName, typeof(object)) { DefaultValue = DBNull.Value });
+            var existingColumns = rs.Columns.Select(x => x.Name);
+            foreach (var dataColumn in secondRs.Columns)
+                if (!existingColumns.Contains(dataColumn.Name))
+                    rs.AddColumn(dataColumn.Name);
 
             //Reorder and add not-existing column to the second result-set
-            foreach (DataColumn dataColumn in rs.Columns)
+            foreach (var dataColumn in rs.Columns)
             { 
-                if (!secondRs.Columns.Cast<DataColumn>().Any(x => x.ColumnName == dataColumn.ColumnName))
-                    secondRs.Columns.Add(new DataColumn(dataColumn.ColumnName, typeof(object)) { DefaultValue = DBNull.Value });
-                secondRs.Columns[dataColumn.ColumnName].SetOrdinal(dataColumn.Ordinal);
+                if (!secondRs.ContainsColumn(dataColumn.Name))
+                    secondRs.AddColumn(dataColumn.Name);
+                secondRs.GetColumn(dataColumn.Name).Move(dataColumn.Ordinal);
             }
 
             //Import each row of the second dataset

@@ -48,13 +48,13 @@ namespace NBi.Framework.FailureMessage.Json.Helper
         private void RenderFirstRow(IResultRow row, LookupMatchesViolationRecord record, IEnumerable<ExtendedMetadata> metadatas, JsonWriter writer)
         {
             writer.WriteStartArray();
-            for (int i = 0; i < row.Parent.Columns.Count; i++)
+            for (int i = 0; i < row.Parent.ColumnCount; i++)
             {
-                if (record.ContainsKey(row.Parent.Columns[i]))
+                if (record.ContainsKey(row.Parent.GetColumn(i)))
                 {
                     RenderCell(
                         row.IsNull(i) ? DBNull.Value : row.ItemArray[i]
-                        , record[row.Parent.Columns[i]]
+                        , record[row.Parent.GetColumn(i)]
                         , metadatas.ElementAt(i).Type
                         , writer);
                 }
@@ -69,13 +69,13 @@ namespace NBi.Framework.FailureMessage.Json.Helper
         private void RenderSupplementaryRow(IResultRow row, LookupMatchesViolationRecord record, IEnumerable<ExtendedMetadata> metadatas, JsonWriter writer)
         {
             writer.WriteStartArray();
-            for (int i = 0; i < row.Parent.Columns.Count; i++)
+            for (int i = 0; i < row.Parent.ColumnCount; i++)
             {
-                if (record.ContainsKey(row.Parent.Columns[i]))
+                if (record.ContainsKey(row.Parent.GetColumn(i)))
                 {
                     RenderCell(
                         row.IsNull(i) ? DBNull.Value : row.ItemArray[i]
-                        , record[row.Parent.Columns[i]]
+                        , record[row.Parent.GetColumn(i)]
                         , metadatas.ElementAt(i).Type
                         , writer);
                 }

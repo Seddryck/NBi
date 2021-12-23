@@ -10,6 +10,6 @@ namespace NBi.Core.ResultSet.Alteration.Lookup.Strategies.Missing
 {
     public interface IMissingStrategy
     {
-        void Execute(IResultRow row, DataColumn originalColumn, DataColumn newColumn);
+        void Execute(IResultRow row, IResultColumn originalColumn, IResultColumn newColumn);
     }
 }

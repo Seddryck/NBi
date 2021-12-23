@@ -29,14 +29,14 @@ namespace NBi.Framework.FailureMessage.Json
             if (table == null)
                 yield break;
 
-            foreach (DataColumn column in table.Columns)
+            foreach (var column in table.Columns)
             {
                 yield return new ColumnMetadata()
                 {
-                    Role = (ColumnRole)(column.ExtendedProperties["NBi::Role"] ?? ColumnRole.Key),
-                    Type = (ColumnType)(column.ExtendedProperties["NBi::Type"] ?? ColumnType.Text),
-                    Tolerance = (Tolerance)(column.ExtendedProperties["NBi::Tolerance"]),
-                    Rounding = (Rounding)(column.ExtendedProperties["NBi::Rounding"])
+                    Role = (ColumnRole)(column.GetProperty("Role") ?? ColumnRole.Key),
+                    Type = (ColumnType)(column.GetProperty("Type") ?? ColumnType.Text),
+                    Tolerance = (Tolerance)(column.GetProperty("Tolerance")),
+                    Rounding = (Rounding)(column.GetProperty("Rounding"))
                 };
             }
         }
@@ -65,16 +65,16 @@ namespace NBi.Framework.FailureMessage.Json
                 writer.WriteStartArray();
                 var formatters = new List<IPresenter>();
 
-                var columns = sampled.ElementAt(0).Parent.Columns;
-                for (var i = 0; i < columns.Count; i++)
+                var table = sampled.ElementAt(0).Parent;
+                for (var i = 0; i < table.ColumnCount; i++)
                 {
                     var meta = metadata.ElementAt(i);
 
                     writer.WriteStartObject();
                     writer.WritePropertyName("position");
-                    writer.WriteValue(columns[i].Ordinal);
+                    writer.WriteValue(table.GetColumn(i).Ordinal);
                     writer.WritePropertyName("name");
-                    writer.WriteValue(columns[i].ColumnName);
+                    writer.WriteValue(table.GetColumn(i).Name);
 
                     var cpFormatter = new ColumnPropertiesFormatter();
                     writer.WritePropertyName("role");

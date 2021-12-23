@@ -9,16 +9,15 @@ namespace NBi.Extensibility
 {
     public interface IResultSet
     {
-        DataColumnCollection Columns { get; }
+        IEnumerable<IResultColumn> Columns { get; }
         IEnumerable<IResultRow> Rows { get; }
         int RowCount { get; }
-        DataColumn GetColumn(IColumnIdentifier columnIdentifier);
+        IResultColumn GetColumn(IColumnIdentifier columnIdentifier);
 
         IResultRow NewRow();
         IResultRow Add(IResultRow row);
         void AddRange(IEnumerable<IResultRow> rows);
         IResultRow this[int index] { get; }
-        
         
         void AcceptChanges();
 
@@ -27,23 +26,14 @@ namespace NBi.Extensibility
 
         IResultSet Clone();
         void Clear();
-    }
 
-    public interface IResultRow
-    {
-        object this[int index] { get; set; }
-        object this[string columnName] { get; set; }
-        object this[IColumnIdentifier identifier] { get; }
-        object[] ItemArray { get; set; }
+        IResultColumn AddColumn(string name);
+        IResultColumn AddColumn(string name, Type type);
+        IResultColumn AddColumn(string name, int ordinal, Type type);
 
-        T Field<T>(int ordinal);
-        bool IsNull(int index);
-        bool IsNull(string columnName);
-        IResultSet Parent { get; }
-        void SetColumnError(string columnName, string message);
-        void SetColumnError(int index, string message);
-        string GetColumnError(int index);
-        string GetColumnError(string columnName);
-        void Delete();
+        bool ContainsColumn(string name);
+        IResultColumn GetColumn(string name);
+        IResultColumn GetColumn(int index);
+        int ColumnCount { get; }
     }
 }

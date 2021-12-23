@@ -194,6 +194,7 @@
     <Compile Include="ResultSet\Alteration\Merging\UnionArgs.cs" />
     <Compile Include="ResultSet\Alteration\Merging\UnionByOrdinalEngine.cs" />
     <Compile Include="ResultSet\Alteration\Merging\UnionByNameEngine.cs" />
+    <Compile Include="ResultSet\DataColumnResultSet.cs" />
     <Compile Include="ResultSet\DataRowResultSet.cs" />
     <Compile Include="ResultSet\Filtering\PredicationArgs.cs" />
     <Compile Include="ResultSet\Filtering\IFilteringArgs.cs" />

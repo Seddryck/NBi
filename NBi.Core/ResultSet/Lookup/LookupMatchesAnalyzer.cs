@@ -74,10 +74,10 @@ namespace NBi.Core.ResultSet.Lookup
                     violations.Register(keys, row);
                 else
                 {
-                    var setResults = new List<Dictionary<DataColumn, ComparerResult>>();
+                    var setResults = new List<Dictionary<IResultColumn, ComparerResult>>();
                     foreach (var valueFields in references[keys])
                     {
-                        var rowResults = new Dictionary<DataColumn, ComparerResult>();
+                        var rowResults = new Dictionary<IResultColumn, ComparerResult>();
                         var tuples = valueFields.Members.Zip(Values,
                             (x, c) => new {
                                 ReferenceValue = x,

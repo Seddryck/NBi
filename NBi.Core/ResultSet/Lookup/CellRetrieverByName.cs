@@ -27,7 +27,7 @@ namespace NBi.Core.ResultSet.Lookup
                 }
                 catch (ArgumentException ex)
                 {
-                    var columnNames = row.Parent.Columns.Cast<DataColumn>().Select(x => x.ColumnName);
+                    var columnNames = row.Parent.Columns.Select(x => x.Name);
                     throw new NBiException($"{ex.Message} This table contains the following column{(columnNames.Count()>1 ? "s" : string.Empty)}: '{string.Join("', '",  columnNames)}'.");
                 }
                 catch (FormatException)

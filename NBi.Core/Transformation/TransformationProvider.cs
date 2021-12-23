@@ -41,21 +41,15 @@ namespace NBi.Core.Transformation
                 var tsStart = DateTime.Now;
                 var transformer = cacheTransformers[identifier];
 
-                var newColumn = new DataColumn() { DataType = typeof(object) };
-                resultSet.Columns.Add(newColumn);
-
-                var ordinal = (identifier as ColumnOrdinalIdentifier)?.Ordinal ?? resultSet.Columns[(identifier as ColumnNameIdentifier).Name].Ordinal;
-                var originalName = resultSet.Columns[ordinal].ColumnName;
+                var newColumn = resultSet.AddColumn(Guid.NewGuid().ToString());
+                var originalColumn = resultSet.GetColumn(identifier);
 
                 foreach (var row in resultSet.Rows)
                 {
                     Context.Switch(row);
-                    row[newColumn.Ordinal] = transformer.Execute(row[ordinal]);
+                    row[newColumn.Ordinal] = transformer.Execute(row[originalColumn.Ordinal]);
                 }
-
-                resultSet.Columns.RemoveAt(ordinal);
-                newColumn.SetOrdinal(ordinal);
-                newColumn.ColumnName = originalName;
+                originalColumn.ReplaceBy(newColumn);
 
                 Trace.WriteLineIf(NBiTraceSwitch.TraceInfo, string.Format("Time needed to transform column {0}: {1}", identifier.Label, DateTime.Now.Subtract(tsStart).ToString(@"d\d\.hh\h\:mm\m\:ss\s\ \+fff\m\s")));
             }

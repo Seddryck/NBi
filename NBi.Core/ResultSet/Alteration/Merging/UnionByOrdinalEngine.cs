@@ -20,12 +20,12 @@ namespace NBi.Core.ResultSet.Alteration.Merging
             var secondRs = ResultSetResolver.Execute();
 
             //Add new columns to the original result-set
-            for (int i = rs.Columns.Count; i < secondRs.Columns.Count; i++)
-                rs.Columns.Add(new DataColumn(secondRs.Columns[i].ColumnName, typeof(object)) { DefaultValue = DBNull.Value });
+            for (int i = rs.ColumnCount; i < secondRs.ColumnCount; i++)
+                rs.AddColumn(secondRs.GetColumn(i).Name);
 
             //Add new columns to the second result-set
-            for (int i = secondRs.Columns.Count; i < rs.Columns.Count; i++)
-                secondRs.Columns.Add(new DataColumn(rs.Columns[i].ColumnName, typeof(object)) { DefaultValue = DBNull.Value });
+            for (int i = secondRs.ColumnCount; i < rs.ColumnCount; i++)
+                secondRs.AddColumn(rs.GetColumn(i).Name);
 
             //Import each row of the second dataset
             foreach (var row in secondRs.Rows)

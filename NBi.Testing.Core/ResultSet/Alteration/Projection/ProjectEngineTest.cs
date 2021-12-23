@@ -18,9 +18,9 @@ namespace NBi.Testing.Core.ResultSet.Alteration.Projection
         {
             var rs = new DataTableResultSet();
             rs.Load("a;1;120");
-            rs.Columns[0].ColumnName = "Foo";
-            rs.Columns[1].ColumnName = "Col1";
-            rs.Columns[2].ColumnName = "Col2";
+            rs.GetColumn(0).Rename("Foo");
+            rs.GetColumn(1).Rename("Col1");
+            rs.GetColumn(2).Rename("Col2");
 
             var factory = new ColumnIdentifierFactory();
             var id = factory.Instantiate(identifier);
@@ -28,8 +28,8 @@ namespace NBi.Testing.Core.ResultSet.Alteration.Projection
             var filter = new ProjectEngine(new ProjectArgs(new[] { id }));
             filter.Execute(rs);
 
-            Assert.That(rs.Columns.Count, Is.EqualTo(1));
-            Assert.That(rs.Columns[0].ColumnName, Is.EqualTo("Foo"));
+            Assert.That(rs.ColumnCount, Is.EqualTo(1));
+            Assert.That(rs.GetColumn(0).Name, Is.EqualTo("Foo"));
         }
 
         [TestCase("#0", "#2")]
@@ -39,18 +39,18 @@ namespace NBi.Testing.Core.ResultSet.Alteration.Projection
         {
             var rs = new DataTableResultSet();
             rs.Load("a;1;120");
-            rs.Columns[0].ColumnName = "Foo";
-            rs.Columns[1].ColumnName = "Col1";
-            rs.Columns[2].ColumnName = "Bar";
+            rs.GetColumn(0).Rename("Foo");
+            rs.GetColumn(1).Rename("Col1");
+            rs.GetColumn(2).Rename("Bar");
 
             var factory = new ColumnIdentifierFactory();
 
             var filter = new ProjectEngine(new ProjectArgs(new[] { factory.Instantiate(id1), factory.Instantiate(id2) }));
             filter.Execute(rs);
 
-            Assert.That(rs.Columns.Count, Is.EqualTo(2));
-            Assert.That(rs.Columns[0].ColumnName, Is.EqualTo("Foo"));
-            Assert.That(rs.Columns[1].ColumnName, Is.EqualTo("Bar"));
+            Assert.That(rs.ColumnCount, Is.EqualTo(2));
+            Assert.That(rs.GetColumn(0).Name, Is.EqualTo("Foo"));
+            Assert.That(rs.GetColumn(1).Name, Is.EqualTo("Bar"));
         }
 
         [TestCase("#2", "#0")]
@@ -60,18 +60,18 @@ namespace NBi.Testing.Core.ResultSet.Alteration.Projection
         {
             var rs = new DataTableResultSet();
             rs.Load("a;1;120");
-            rs.Columns[0].ColumnName = "Foo";
-            rs.Columns[1].ColumnName = "Col1";
-            rs.Columns[2].ColumnName = "Bar";
+            rs.GetColumn(0).Rename("Foo");
+            rs.GetColumn(1).Rename("Col1");
+            rs.GetColumn(2).Rename("Bar");
 
             var factory = new ColumnIdentifierFactory();
 
             var project = new ProjectEngine(new ProjectArgs(new[] { factory.Instantiate(id1), factory.Instantiate(id2) }));
             project.Execute(rs);
 
-            Assert.That(rs.Columns.Count, Is.EqualTo(2));
-            Assert.That(rs.Columns[0].ColumnName, Is.EqualTo("Bar"));
-            Assert.That(rs.Columns[1].ColumnName, Is.EqualTo("Foo"));
+            Assert.That(rs.ColumnCount, Is.EqualTo(2));
+            Assert.That(rs.GetColumn(0).Name, Is.EqualTo("Bar"));
+            Assert.That(rs.GetColumn(1).Name, Is.EqualTo("Foo"));
         }
 
         [TestCase("#0", "#0")]
@@ -82,16 +82,16 @@ namespace NBi.Testing.Core.ResultSet.Alteration.Projection
         {
             var rs = new DataTableResultSet();
             rs.Load("a;1;120");
-            rs.Columns[0].ColumnName = "Foo";
-            rs.Columns[1].ColumnName = "Col1";
-            rs.Columns[2].ColumnName = "Col2";
+            rs.GetColumn(0).Rename("Foo");
+            rs.GetColumn(1).Rename("Col1");
+            rs.GetColumn(2).Rename("Col2");
 
             var factory = new ColumnIdentifierFactory();
 
             var filter = new ProjectEngine(new ProjectArgs(new[] { factory.Instantiate(id1), factory.Instantiate(id2) }));
             filter.Execute(rs);
 
-            Assert.That(rs.Columns.Count, Is.EqualTo(1));
+            Assert.That(rs.ColumnCount, Is.EqualTo(1));
         }
 
         [TestCase("#1", "#1")]
@@ -103,18 +103,18 @@ namespace NBi.Testing.Core.ResultSet.Alteration.Projection
         {
             var rs = new DataTableResultSet();
             rs.Load("a;1;120");
-            rs.Columns[0].ColumnName = "Col1";
-            rs.Columns[1].ColumnName = "Foo";
-            rs.Columns[2].ColumnName = "Bar";
+            rs.GetColumn(0).Rename("Col1");
+            rs.GetColumn(1).Rename("Foo");
+            rs.GetColumn(2).Rename("Bar");
 
             var factory = new ColumnIdentifierFactory();
 
             var filter = new ProjectEngine(new ProjectArgs(new[] { factory.Instantiate("#2"), factory.Instantiate(id1), factory.Instantiate(id2) }));
             filter.Execute(rs);
 
-            Assert.That(rs.Columns.Count, Is.EqualTo(2));
-            Assert.That(rs.Columns[0].ColumnName, Is.EqualTo("Bar"));
-            Assert.That(rs.Columns[1].ColumnName, Is.EqualTo("Foo"));
+            Assert.That(rs.ColumnCount, Is.EqualTo(2));
+            Assert.That(rs.GetColumn(0).Name, Is.EqualTo("Bar"));
+            Assert.That(rs.GetColumn(1).Name, Is.EqualTo("Foo"));
         }
 
         [TestCase("#999")]
@@ -124,16 +124,16 @@ namespace NBi.Testing.Core.ResultSet.Alteration.Projection
         {
             var rs = new DataTableResultSet();
             rs.Load("a;1;120");
-            rs.Columns[0].ColumnName = "Foo";
-            rs.Columns[1].ColumnName = "Col1";
-            rs.Columns[2].ColumnName = "Col2";
+            rs.GetColumn(0).Rename("Foo");
+            rs.GetColumn(1).Rename("Col1");
+            rs.GetColumn(2).Rename("Col2");
 
             var factory = new ColumnIdentifierFactory();
 
             var filter = new ProjectEngine(new ProjectArgs(new[] { factory.Instantiate(id) }));
             filter.Execute(rs);
 
-            Assert.That(rs.Columns.Count, Is.EqualTo(0));
+            Assert.That(rs.ColumnCount, Is.EqualTo(0));
         }
     }
 }

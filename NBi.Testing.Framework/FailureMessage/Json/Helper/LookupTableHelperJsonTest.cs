@@ -39,7 +39,7 @@ namespace NBi.Testing.Framework.FailureMessage.Json.Helper
             {
                 new LookupMatchesViolationRecord()
                 {
-                    { candidateTable.Columns[1] , new LookupMatchesViolationData(false, 15) },
+                    { rsCandidate.GetColumn(1) , new LookupMatchesViolationData(false, 15) },
                 },
             };
             var association = new LookupMatchesViolationComposite(rsCandidate.Rows.ElementAt(0), records);

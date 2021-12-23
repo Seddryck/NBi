@@ -35,9 +35,9 @@ namespace NBi.Testing.Core.Scalar.Resolver
         {
             using (var dt = new DataTableResultSet())
             {
-                dt.Columns.Add("a", typeof(int));
-                dt.Columns.Add("b", typeof(int));
-                dt.Columns.Add("c", typeof(int));
+                dt.AddColumn("a", typeof(int));
+                dt.AddColumn("b", typeof(int));
+                dt.AddColumn("c", typeof(int));
                 var row = dt.NewRow();
                 var context = new Context(null);
                 row.ItemArray = new object[] { 2, 5, 3 };
@@ -56,9 +56,9 @@ namespace NBi.Testing.Core.Scalar.Resolver
         {
             using (var dt = new DataTableResultSet())
             {
-                dt.Columns.Add("a", typeof(int));
-                dt.Columns.Add("b", typeof(int));
-                dt.Columns.Add("c", typeof(int));
+                dt.AddColumn("a", typeof(int));
+                dt.AddColumn("b", typeof(int));
+                dt.AddColumn("c", typeof(int));
                 var row = dt.NewRow();
                 row.ItemArray = new object[] { 2, 5, 3 };
                 var context = new Context(null);
@@ -77,9 +77,9 @@ namespace NBi.Testing.Core.Scalar.Resolver
         {
             using (var dt = new DataTableResultSet())
             {
-                dt.Columns.Add("a", typeof(int));
-                dt.Columns.Add("b", typeof(int));
-                dt.Columns.Add("c", typeof(int));
+                dt.AddColumn("a", typeof(int));
+                dt.AddColumn("b", typeof(int));
+                dt.AddColumn("c", typeof(int));
                 var row = dt.NewRow();
                 row.ItemArray = new object[] { 2, 5, 3 };
                 var context = new Context(null);
@@ -98,9 +98,9 @@ namespace NBi.Testing.Core.Scalar.Resolver
         {
             using (var dt = new DataTableResultSet())
             {
-                dt.Columns.Add("a", typeof(int));
-                dt.Columns.Add("b", typeof(int));
-                dt.Columns.Add("c", typeof(int));
+                dt.AddColumn("a", typeof(int));
+                dt.AddColumn("b", typeof(int));
+                dt.AddColumn("c", typeof(int));
                 var row = dt.NewRow();
                 row.ItemArray = new object[] { 2, 5, 3 };
                 var context = new Context(new Dictionary<string, IVariable> { { "myVar", new GlobalVariable(new LiteralScalarResolver<decimal>(10)) } });

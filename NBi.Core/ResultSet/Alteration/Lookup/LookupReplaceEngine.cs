@@ -33,7 +33,7 @@ namespace NBi.Core.ResultSet.Alteration.Lookup
             var candidateKeyBuilder = BuildColumnsRetriever(Args.Mapping, x => x.CandidateColumn);
 
             var originalColumn = candidate.GetColumn(Args.Mapping.CandidateColumn);
-            var newColumn = candidate.Columns.Add($"tmp_{originalColumn.ColumnName}", typeof(object));
+            var newColumn = candidate.AddColumn($"tmp_{originalColumn.Name}");
             foreach (var row in candidate.Rows)
             {
                 var candidateKeys = candidateKeyBuilder.GetColumns(row);
@@ -42,12 +42,9 @@ namespace NBi.Core.ResultSet.Alteration.Lookup
                 else
                     Args.MissingStrategy.Execute(row, originalColumn, newColumn);
             }
-            
+
             //Replace the original column by the new column
-            newColumn.SetOrdinal(originalColumn.Ordinal);
-            var columnName = originalColumn.ColumnName;
-            candidate.Columns.Remove(originalColumn);
-            newColumn.ColumnName = columnName;
+            originalColumn.ReplaceBy(newColumn);
 
             Trace.WriteLineIf(NBiTraceSwitch.TraceInfo, $"Performed lookup replacement (based on keys) for the {candidate.RowCount} rows from candidate table [{stopWatch.Elapsed:d'.'hh':'mm':'ss'.'fff'ms'}]");
             candidate.AcceptChanges();

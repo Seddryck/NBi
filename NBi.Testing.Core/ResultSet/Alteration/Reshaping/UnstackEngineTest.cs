@@ -29,9 +29,9 @@ namespace NBi.Testing.Core.ResultSet.Alteration.Reshaping
                     }
                 ));
             var rs = resolver.Execute();
-            rs.Columns[0].ColumnName = "keyColumn";
-            rs.Columns[1].ColumnName = "headerColumn";
-            rs.Columns[2].ColumnName = "valueColumn";
+            rs.GetColumn(0).Rename("keyColumn");
+            rs.GetColumn(1).Rename("headerColumn");
+            rs.GetColumn(2).Rename("valueColumn");
 
             var args = new UnstackArgs(
                     new ColumnNameIdentifier("headerColumn"),
@@ -42,10 +42,10 @@ namespace NBi.Testing.Core.ResultSet.Alteration.Reshaping
             var unstack = new UnstackEngine(args);
             var result = unstack.Execute(rs);
             Assert.That(result, Is.Not.Null);
-            Assert.That(result.Columns.Count, Is.EqualTo(3));
-            Assert.That(result.Columns.Cast<DataColumn>().Any(x => x.ColumnName == "keyColumn"));
-            Assert.That(result.Columns.Cast<DataColumn>().Any(x => x.ColumnName == "A"));
-            Assert.That(result.Columns.Cast<DataColumn>().Any(x => x.ColumnName == "B"));
+            Assert.That(result.ColumnCount, Is.EqualTo(3));
+            Assert.That(result.Columns.Any(x => x.Name == "keyColumn"));
+            Assert.That(result.Columns.Any(x => x.Name == "A"));
+            Assert.That(result.Columns.Any(x => x.Name == "B"));
             Assert.That(result.Rows.Count, Is.EqualTo(2));
             Assert.That(Convert.ToInt32(result.Rows.Single(x => x["keyColumn"] as string == "alpha")["A"]) == 1);
             Assert.That(Convert.ToInt32(result.Rows.Single(x => x["keyColumn"] as string == "alpha")["B"]) == 2);
@@ -66,10 +66,10 @@ namespace NBi.Testing.Core.ResultSet.Alteration.Reshaping
                     }
                 ));
             var rs = resolver.Execute();
-            rs.Columns[0].ColumnName = "keyColumn";
-            rs.Columns[1].ColumnName = "headerColumn";
-            rs.Columns[2].ColumnName = "value1Column";
-            rs.Columns[3].ColumnName = "value2Column";
+            rs.GetColumn(0).Rename("keyColumn");
+            rs.GetColumn(1).Rename("headerColumn");
+            rs.GetColumn(2).Rename("value1Column");
+            rs.GetColumn(3).Rename("value2Column");
 
             var args = new UnstackArgs(
                     new ColumnNameIdentifier("headerColumn"),
@@ -80,12 +80,12 @@ namespace NBi.Testing.Core.ResultSet.Alteration.Reshaping
             var unstack = new UnstackEngine(args);
             var result = unstack.Execute(rs);
             Assert.That(result, Is.Not.Null);
-            Assert.That(result.Columns.Count, Is.EqualTo(5));
-            Assert.That(result.Columns.Cast<DataColumn>().Any(x => x.ColumnName == "keyColumn"));
-            Assert.That(result.Columns.Cast<DataColumn>().Any(x => x.ColumnName == "A_value1Column"));
-            Assert.That(result.Columns.Cast<DataColumn>().Any(x => x.ColumnName == "B_value1Column"));
-            Assert.That(result.Columns.Cast<DataColumn>().Any(x => x.ColumnName == "A_value2Column"));
-            Assert.That(result.Columns.Cast<DataColumn>().Any(x => x.ColumnName == "B_value2Column"));
+            Assert.That(result.ColumnCount, Is.EqualTo(5));
+            Assert.That(result.Columns.Any(x => x.Name == "keyColumn"));
+            Assert.That(result.Columns.Any(x => x.Name == "A_value1Column"));
+            Assert.That(result.Columns.Any(x => x.Name == "B_value1Column"));
+            Assert.That(result.Columns.Any(x => x.Name == "A_value2Column"));
+            Assert.That(result.Columns.Any(x => x.Name == "B_value2Column"));
             Assert.That(result.Rows.Count, Is.EqualTo(2));
             Assert.That(Convert.ToInt32(result.Rows.Single(x => x["keyColumn"] as string == "alpha")["A_value1Column"]) == 1);
             Assert.That(Convert.ToInt32(result.Rows.Single(x => x["keyColumn"] as string == "alpha")["B_value1Column"]) == 2);
@@ -111,10 +111,10 @@ namespace NBi.Testing.Core.ResultSet.Alteration.Reshaping
                     }
                 ));
             var rs = resolver.Execute();
-            rs.Columns[0].ColumnName = "key1Column";
-            rs.Columns[1].ColumnName = "key2Column";
-            rs.Columns[2].ColumnName = "headerColumn";
-            rs.Columns[3].ColumnName = "valueColumn";
+            rs.GetColumn(0).Rename("key1Column");
+            rs.GetColumn(1).Rename("key2Column");
+            rs.GetColumn(2).Rename("headerColumn");
+            rs.GetColumn(3).Rename("valueColumn");
 
             var args = new UnstackArgs(
                     new ColumnNameIdentifier("headerColumn"),
@@ -128,11 +128,11 @@ namespace NBi.Testing.Core.ResultSet.Alteration.Reshaping
             var unstack = new UnstackEngine(args);
             var result = unstack.Execute(rs);
             Assert.That(result, Is.Not.Null);
-            Assert.That(result.Columns.Count, Is.EqualTo(4));
-            Assert.That(result.Columns.Cast<DataColumn>().Any(x => x.ColumnName == "key1Column"));
-            Assert.That(result.Columns.Cast<DataColumn>().Any(x => x.ColumnName == "key2Column"));
-            Assert.That(result.Columns.Cast<DataColumn>().Any(x => x.ColumnName == "A"));
-            Assert.That(result.Columns.Cast<DataColumn>().Any(x => x.ColumnName == "B"));
+            Assert.That(result.ColumnCount, Is.EqualTo(4));
+            Assert.That(result.Columns.Any(x => x.Name == "key1Column"));
+            Assert.That(result.Columns.Any(x => x.Name == "key2Column"));
+            Assert.That(result.Columns.Any(x => x.Name == "A"));
+            Assert.That(result.Columns.Any(x => x.Name == "B"));
             Assert.That(result.Rows.Count, Is.EqualTo(3));
             Assert.That(Convert.ToInt32(result.Rows.Single(x => x["key1Column"] as string == "alpha" && x["key2Column"] as string == "one")["A"]) == 1);
             Assert.That(Convert.ToInt32(result.Rows.Single(x => x["key1Column"] as string == "alpha" && x["key2Column"] as string == "one")["B"]) == 2);
@@ -155,9 +155,9 @@ namespace NBi.Testing.Core.ResultSet.Alteration.Reshaping
                     }
                 ));
             var rs = resolver.Execute();
-            rs.Columns[0].ColumnName = "keyColumn";
-            rs.Columns[1].ColumnName = "headerColumn";
-            rs.Columns[2].ColumnName = "valueColumn";
+            rs.GetColumn(0).Rename("keyColumn");
+            rs.GetColumn(1).Rename("headerColumn");
+            rs.GetColumn(2).Rename("valueColumn");
 
             var args = new UnstackArgs(
                     new ColumnNameIdentifier("headerColumn"),
@@ -169,11 +169,11 @@ namespace NBi.Testing.Core.ResultSet.Alteration.Reshaping
             var unstack = new UnstackEngine(args);
             var result = unstack.Execute(rs);
             Assert.That(result, Is.Not.Null);
-            Assert.That(result.Columns.Count, Is.EqualTo(4));
-            Assert.That(result.Columns.Cast<DataColumn>().Any(x => x.ColumnName == "keyColumn"));
-            Assert.That(result.Columns.Cast<DataColumn>().Any(x => x.ColumnName == "A"));
-            Assert.That(result.Columns.Cast<DataColumn>().Any(x => x.ColumnName == "B"));
-            Assert.That(result.Columns.Cast<DataColumn>().Any(x => x.ColumnName == "C"));
+            Assert.That(result.ColumnCount, Is.EqualTo(4));
+            Assert.That(result.Columns.Any(x => x.Name == "keyColumn"));
+            Assert.That(result.Columns.Any(x => x.Name == "A"));
+            Assert.That(result.Columns.Any(x => x.Name == "B"));
+            Assert.That(result.Columns.Any(x => x.Name == "C"));
             Assert.That(result.Rows.Count, Is.EqualTo(2));
             Assert.That(result.Rows.Single(x => x["keyColumn"] as string == "alpha")["C"] == DBNull.Value);
             Assert.That(result.Rows.Single(x => x["keyColumn"] as string == "alpha")["C"] == DBNull.Value);
@@ -192,9 +192,9 @@ namespace NBi.Testing.Core.ResultSet.Alteration.Reshaping
                     }
                 ));
             var rs = resolver.Execute();
-            rs.Columns[0].ColumnName = "keyColumn";
-            rs.Columns[1].ColumnName = "headerColumn";
-            rs.Columns[2].ColumnName = "valueColumn";
+            rs.GetColumn(0).Rename("keyColumn");
+            rs.GetColumn(1).Rename("headerColumn");
+            rs.GetColumn(2).Rename("valueColumn");
 
             var args = new UnstackArgs(
                     new ColumnNameIdentifier("headerColumn"),
@@ -206,12 +206,12 @@ namespace NBi.Testing.Core.ResultSet.Alteration.Reshaping
             var unstack = new UnstackEngine(args);
             var result = unstack.Execute(rs);
             Assert.That(result, Is.Not.Null);
-            Assert.That(result.Columns.Count, Is.EqualTo(3));
-            Assert.That(result.Columns.Cast<DataColumn>().Any(x => x.ColumnName == "keyColumn"));
-            Assert.That(result.Columns.Cast<DataColumn>().Any(x => x.ColumnName == "A"));
-            Assert.That(result.Columns.Cast<DataColumn>().Any(x => x.ColumnName == "B"));
-            Assert.That(result.Columns.Cast<DataColumn>().Count(x => x.ColumnName == "A") == 1);
-            Assert.That(result.Columns.Cast<DataColumn>().Count(x => x.ColumnName == "B") == 1);
+            Assert.That(result.ColumnCount, Is.EqualTo(3));
+            Assert.That(result.Columns.Any(x => x.Name == "keyColumn"));
+            Assert.That(result.Columns.Any(x => x.Name == "A"));
+            Assert.That(result.Columns.Any(x => x.Name == "B"));
+            Assert.That(result.Columns.Count(x => x.Name == "A") == 1);
+            Assert.That(result.Columns.Count(x => x.Name == "B") == 1);
         }
 
         [Test]
@@ -229,9 +229,9 @@ namespace NBi.Testing.Core.ResultSet.Alteration.Reshaping
 
             var resolver = new ObjectsResultSetResolver(new ObjectsResultSetResolverArgs(values));
             var rs = resolver.Execute();
-            rs.Columns[0].ColumnName = "keyColumn";
-            rs.Columns[1].ColumnName = "headerColumn";
-            rs.Columns[2].ColumnName = "valueColumn";
+            rs.GetColumn(0).Rename("keyColumn");
+            rs.GetColumn(1).Rename("headerColumn");
+            rs.GetColumn(2).Rename("valueColumn");
 
             var args = new UnstackArgs(
                     new ColumnNameIdentifier("headerColumn"),

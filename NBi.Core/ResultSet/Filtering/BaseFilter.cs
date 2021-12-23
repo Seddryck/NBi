@@ -29,12 +29,12 @@ namespace NBi.Core.ResultSet.Filtering
                 Context.Switch(row);
                 if (onApply(RowApply(Context)))
                 {
-                    if (table.RowCount == 0 && table.Columns.Count != rs.Columns.Count)
+                    if (table.RowCount == 0 && table.ColumnCount != rs.ColumnCount)
                     {
-                        foreach (DataColumn column in rs.Columns)
+                        foreach (var column in rs.Columns)
                         {
-                            if (!table.Columns.Cast<DataColumn>().Any(x => x.ColumnName == column.ColumnName))
-                                table.Columns.Add(column.ColumnName, typeof(object));
+                            if (!table.ContainsColumn(column.Name))
+                                table.AddColumn(column.Name);
                         }
                     }
                     table.Add(row);

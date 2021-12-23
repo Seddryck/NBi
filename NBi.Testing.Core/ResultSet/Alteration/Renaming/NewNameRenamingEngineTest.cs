@@ -29,7 +29,7 @@ namespace NBi.Testing.Core.ResultSet.Alteration.Renaming
                 );
             var newRs = renamer.Execute(rs);
 
-            Assert.That(newRs.Columns[1].ColumnName, Is.EqualTo("myNewName"));
+            Assert.That(newRs.GetColumn(1).Name, Is.EqualTo("myNewName"));
         }
 
         [Test]
@@ -38,7 +38,7 @@ namespace NBi.Testing.Core.ResultSet.Alteration.Renaming
             var args = new ObjectsResultSetResolverArgs(new[] { new[] { "100,12", "Alpha" }, new[] { "100", "Beta" }, new[] { "0,1", "Gamma" } });
             var resolver = new ObjectsResultSetResolver(args);
             var rs = resolver.Execute();
-            rs.Columns[1].ColumnName = "myOldName";
+            rs.GetColumn(1).Rename("myOldName");
 
             var renamer = new NewNameRenamingEngine(
                 new ColumnNameIdentifier("myOldName"),
@@ -46,8 +46,8 @@ namespace NBi.Testing.Core.ResultSet.Alteration.Renaming
                 );
             var newRs = renamer.Execute(rs);
 
-            Assert.That(newRs.Columns[1].ColumnName, Is.EqualTo("myNewName"));
-            Assert.That(newRs.Columns.Cast<DataColumn>().Any(c => c.ColumnName == "myOldName"), Is.False);
+            Assert.That(newRs.GetColumn(1).Name, Is.EqualTo("myNewName"));
+            Assert.That(newRs.Columns.Any(c => c.Name == "myOldName"), Is.False);
         }
 
         [Test]
@@ -79,7 +79,7 @@ namespace NBi.Testing.Core.ResultSet.Alteration.Renaming
                 );
             var newRs = renamer.Execute(rs);
 
-            Assert.That(newRs.Columns.Cast<DataColumn>().Any(c => c.ColumnName == "unexistingColumn"), Is.False);
+            Assert.That(newRs.Columns.Any(c => c.Name == "unexistingColumn"), Is.False);
         }
     }
 }

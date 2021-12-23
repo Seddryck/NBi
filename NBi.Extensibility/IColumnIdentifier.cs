@@ -10,8 +10,7 @@ namespace NBi.Extensibility
     public interface IColumnIdentifier
     {
         string Label { get; }
-        DataColumn GetColumn(IResultSet rs);
-        DataColumn GetColumn(DataTable dataTable);
+        IResultColumn GetColumn(IResultSet rs);
         object GetValue(IResultRow dataRow);
     }
 }

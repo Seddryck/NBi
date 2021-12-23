@@ -17,6 +17,6 @@ namespace NBi.Core
 
     public static class DataTableExtensions
     {
-        public static DataColumn GetColumn(this IResultSet table, IColumnIdentifier columnIdentifier) => columnIdentifier.GetColumn(table);
+        public static IResultColumn GetColumn(this IResultSet table, IColumnIdentifier columnIdentifier) => columnIdentifier.GetColumn(table);
     }
 }

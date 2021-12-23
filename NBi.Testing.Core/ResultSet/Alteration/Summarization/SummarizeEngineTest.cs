@@ -22,8 +22,8 @@ namespace NBi.Testing.Core.ResultSet.Alteration.Summarization
             var args = new ObjectsResultSetResolverArgs(new[] { new object[] { "alpha", 1 }, new object[] { "alpha", 2 }, new object[] { "beta", 3 }, new object[] { "alpha", 4 } });
             var resolver = new ObjectsResultSetResolver(args);
             var rs = resolver.Execute();
-            rs.Columns[0].ColumnName = "keyColumn";
-            rs.Columns[1].ColumnName = "valueColumn";
+            rs.GetColumn(0).Rename("keyColumn");
+            rs.GetColumn(1).Rename("valueColumn");
             return rs;
         }
 
@@ -36,8 +36,8 @@ namespace NBi.Testing.Core.ResultSet.Alteration.Summarization
             var args = new ObjectsResultSetResolverArgs(values);
             var resolver = new ObjectsResultSetResolver(args);
             var rs = resolver.Execute();
-            rs.Columns[0].ColumnName = "keyColumn";
-            rs.Columns[1].ColumnName = "valueColumn";
+            rs.GetColumn(0).Rename("keyColumn");
+            rs.GetColumn(1).Rename("valueColumn");
             return rs;
         }
 
@@ -56,7 +56,7 @@ namespace NBi.Testing.Core.ResultSet.Alteration.Summarization
             var summarize = new SummarizeEngine(args);
             var result = summarize.Execute(rs);
             Assert.That(result, Is.Not.Null);
-            Assert.That(result.Columns.Count, Is.EqualTo(2));
+            Assert.That(result.ColumnCount, Is.EqualTo(2));
             Assert.That(result.Rows.Any(x => x["keyColumn"] as string == "alpha"));
             Assert.That(result.Rows.Any(x => x["keyColumn"] as string == "beta"));
             Assert.That(result.Rows.Count, Is.EqualTo(2));
@@ -71,9 +71,9 @@ namespace NBi.Testing.Core.ResultSet.Alteration.Summarization
                 new ObjectsResultSetResolverArgs(
                     new[] { new object[] { "alpha", "foo", 1 }, new object[] { "alpha", "foo", 2 }, new object[] { "beta", "foo", 3 }, new object[] { "alpha", "bar", 4 } })
                 ).Execute();
-            rs.Columns[0].ColumnName = "ColumnA";
-            rs.Columns[1].ColumnName = "ColumnB";
-            rs.Columns[2].ColumnName = "valueColumn";
+            rs.GetColumn(0).Rename("ColumnA");
+            rs.GetColumn(1).Rename("ColumnB");
+            rs.GetColumn(2).Rename("valueColumn");
 
             var args = new SummarizeArgs(
                     new List<ColumnAggregationArgs>()
@@ -88,7 +88,7 @@ namespace NBi.Testing.Core.ResultSet.Alteration.Summarization
             var summarize = new SummarizeEngine(args);
             var result = summarize.Execute(rs);
             Assert.That(result, Is.Not.Null);
-            Assert.That(result.Columns.Count, Is.EqualTo(3));
+            Assert.That(result.ColumnCount, Is.EqualTo(3));
             Assert.That(result.Rows.Any(x => x["ColumnA"] as string == "alpha" && x["ColumnB"] as string == "foo"));
             Assert.That(result.Rows.Any(x => x["ColumnA"] as string == "beta"  && x["ColumnB"] as string == "foo"));
             Assert.That(result.Rows.Any(x => x["ColumnA"] as string == "alpha" && x["ColumnB"] as string == "bar"));
@@ -102,9 +102,9 @@ namespace NBi.Testing.Core.ResultSet.Alteration.Summarization
                 new ObjectsResultSetResolverArgs(
                     new[] { new object[] { "alpha", "foo", 1 }, new object[] { "alpha", "foo", 2 }, new object[] { "beta", "foo", 3 }, new object[] { "alpha", "bar", 4 } })
                 ).Execute();
-            rs.Columns[0].ColumnName = "ColumnB";
-            rs.Columns[1].ColumnName = "ColumnA";
-            rs.Columns[2].ColumnName = "valueColumn";
+            rs.GetColumn(0).Rename("ColumnB");
+            rs.GetColumn(1).Rename("ColumnA");
+            rs.GetColumn(2).Rename("valueColumn");
 
             var args = new SummarizeArgs(
                     new List<ColumnAggregationArgs>()
@@ -119,7 +119,7 @@ namespace NBi.Testing.Core.ResultSet.Alteration.Summarization
             var summarize = new SummarizeEngine(args);
             var result = summarize.Execute(rs);
             Assert.That(result, Is.Not.Null);
-            Assert.That(result.Columns.Count, Is.EqualTo(3));
+            Assert.That(result.ColumnCount, Is.EqualTo(3));
             Assert.That(result.Rows.Any(x => x["ColumnB"] as string == "alpha" && x["ColumnA"] as string == "foo"));
             Assert.That(result.Rows.Any(x => x["ColumnB"] as string == "beta"  && x["ColumnA"] as string == "foo"));
             Assert.That(result.Rows.Any(x => x["ColumnB"] as string == "alpha" && x["ColumnA"] as string == "bar"));
@@ -145,7 +145,7 @@ namespace NBi.Testing.Core.ResultSet.Alteration.Summarization
             var summarize = new SummarizeEngine(args);
             var result = summarize.Execute(rs);
             Assert.That(result, Is.Not.Null);
-            Assert.That(result.Columns.Count, Is.EqualTo(4));
+            Assert.That(result.ColumnCount, Is.EqualTo(4));
             Assert.That(result.Rows.Any(x => x["keyColumn"] as string == "alpha"));
             Assert.That(result.Rows.Any(x => x["keyColumn"] as string == "beta"));
             Assert.That(result.Rows.Count, Is.EqualTo(2));
@@ -172,7 +172,7 @@ namespace NBi.Testing.Core.ResultSet.Alteration.Summarization
             var summarize = new SummarizeEngine(args);
             var result = summarize.Execute(rs);
             Assert.That(result, Is.Not.Null);
-            Assert.That(result.Columns.Count, Is.EqualTo(1));
+            Assert.That(result.ColumnCount, Is.EqualTo(1));
             Assert.That(result.Rows.Count, Is.EqualTo(1));
             Assert.That(Convert.ToInt32(result[0][0]) == 10);
         }
@@ -195,7 +195,7 @@ namespace NBi.Testing.Core.ResultSet.Alteration.Summarization
             var summarize = new SummarizeEngine(args);
             var result = summarize.Execute(rs);
             Assert.That(result, Is.Not.Null);
-            Assert.That(result.Columns.Count, Is.EqualTo(3));
+            Assert.That(result.ColumnCount, Is.EqualTo(3));
             Assert.That(result.Rows.Count, Is.EqualTo(1));
             Assert.That(Convert.ToInt32(result[0][0]) == 10);
             Assert.That(Convert.ToInt32(result[0][1]) == 1);

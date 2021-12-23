@@ -19,17 +19,16 @@ namespace NBi.Core.ResultSet.Alteration.Merging
         {
             var secondRs = Args.ResultSetResolver.Execute();
 
-            var initialColumnCount = rs.Columns.Count;
-            foreach (DataColumn dataColumn in secondRs.Columns)
+            var initialColumnCount = rs.ColumnCount;
+            foreach (var dataColumn in secondRs.Columns)
             {
-                while (rs.Columns.Contains(dataColumn.ColumnName))
-                    dataColumn.ColumnName = $"{dataColumn.ColumnName}_1";
+                while (rs.ContainsColumn(dataColumn.Name))
+                    rs.GetColumn(dataColumn.Name).Rename($"{dataColumn.Name}_1");
 
-                var newColumn = new DataColumn(dataColumn.ColumnName, dataColumn.DataType);
-                rs.Columns.Add(newColumn);
+                rs.AddColumn(dataColumn.Name, dataColumn.DataType);
             }
 
-            if (secondRs.RowCount == 0 || secondRs.Columns.Count == 0)
+            if (secondRs.RowCount == 0 || secondRs.ColumnCount == 0)
             {
                 rs.Clear();
             }
@@ -37,7 +36,7 @@ namespace NBi.Core.ResultSet.Alteration.Merging
             {
                 var firstItem = secondRs[0];
                 foreach (var row in rs.Rows)
-                    foreach (DataColumn column in secondRs.Columns)
+                    foreach (var column in secondRs.Columns)
                         row[initialColumnCount + column.Ordinal] = firstItem[column.Ordinal];
 
                 var newRows = new HashSet<IResultRow>();
@@ -47,7 +46,7 @@ namespace NBi.Core.ResultSet.Alteration.Merging
                     {
                         var newRow = rs.NewRow();
                         newRow.ItemArray = row.ItemArray;
-                        foreach (DataColumn column in secondRs.Columns)
+                        foreach (var column in secondRs.Columns)
                             newRow[initialColumnCount + column.Ordinal] = item[column.Ordinal];
                         newRows.Add(newRow);
                     }

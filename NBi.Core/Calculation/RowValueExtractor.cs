@@ -27,10 +27,10 @@ namespace NBi.Core.Calculation
             if (identifier is ColumnOrdinalIdentifier)
             {
                 var ordinal = (identifier as ColumnOrdinalIdentifier).Ordinal;
-                if (ordinal <= context.CurrentRow.Parent.Columns.Count)
+                if (ordinal <= context.CurrentRow.Parent.ColumnCount)
                     return context.CurrentRow.ItemArray[ordinal];
                 else
-                    throw new ArgumentException($"The variable of the predicate is identified as '{identifier.Label}' but the column in position '{ordinal}' doesn't exist. The dataset only contains {context.CurrentRow.Parent.Columns.Count} columns.");
+                    throw new ArgumentException($"The variable of the predicate is identified as '{identifier.Label}' but the column in position '{ordinal}' doesn't exist. The dataset only contains {context.CurrentRow.Parent.ColumnCount} columns.");
             }
 
             var name = (identifier as ColumnNameIdentifier).Name;
@@ -43,21 +43,18 @@ namespace NBi.Core.Calculation
             {
                 var result = EvaluateExpression(expression, context);
                 var expColumnName = $"exp::{name}";
-                if (!context.CurrentRow.Parent.Columns.Contains(expColumnName))
-                {
-                    var newColumn = new DataColumn(expColumnName, typeof(object));
-                    context.CurrentRow.Parent.Columns.Add(newColumn);
-                }
+                if (!context.CurrentRow.Parent.ContainsColumn(expColumnName))
+                    context.CurrentRow.Parent.AddColumn(expColumnName);
 
                 context.CurrentRow[expColumnName] = result;
                 return result;
             }
 
-            var column = context.CurrentRow.Parent.Columns.Cast<DataColumn>().SingleOrDefault(x => string.Equals(x.ColumnName, name, StringComparison.OrdinalIgnoreCase));
+            var column = context.CurrentRow.Parent.GetColumn(name);
             if (column != null)
-                return context.CurrentRow[column.ColumnName];
+                return context.CurrentRow[column.Name];
 
-            var existingNames = context.CurrentRow.Parent.Columns.Cast<DataColumn>().Select(x => x.ColumnName)
+            var existingNames = context.CurrentRow.Parent.Columns.Select(x => x.Name)
                 .Union(context.Aliases.Select(x => x.Name)
                 .Union(context.Expressions.Select(x => x.Name)));
 

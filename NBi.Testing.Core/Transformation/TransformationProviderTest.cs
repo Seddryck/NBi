@@ -21,8 +21,8 @@ namespace NBi.Testing.Core.Transformation
         {
             var resultSet = new DataTableResultSet();
             resultSet.Load("aaaa;10");
-            resultSet.Columns[0].ColumnName = "MyCol0";
-            resultSet.Columns[1].ColumnName = "MyCol1";
+            resultSet.GetColumn(0).Rename("MyCol0");
+            resultSet.GetColumn(1).Rename("MyCol1");
 
             var transformation = Mock.Of<ITransformationInfo>
                 (
@@ -35,9 +35,9 @@ namespace NBi.Testing.Core.Transformation
             provider.Add(new ColumnOrdinalIdentifier(0), transformation);
             provider.Transform(resultSet);
 
-            Assert.That(resultSet.Columns[0].ColumnName, Is.EqualTo("MyCol0"));
-            Assert.That(resultSet.Columns[1].ColumnName, Is.EqualTo("MyCol1"));
-            Assert.That(resultSet.Columns.Count, Is.EqualTo(2));
+            Assert.That(resultSet.GetColumn(0).Name, Is.EqualTo("MyCol0"));
+            Assert.That(resultSet.GetColumn(1).Name, Is.EqualTo("MyCol1"));
+            Assert.That(resultSet.ColumnCount, Is.EqualTo(2));
         }
 
         [Test]

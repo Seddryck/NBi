@@ -16,11 +16,8 @@ namespace NBi.Core.ResultSet
         public ColumnNameIdentifier(string name)
             => Name = name;
 
-        public DataColumn GetColumn(IResultSet rs) 
-            => rs.Columns.Contains(Name) ? rs.Columns[Name] : null;
-
-        public DataColumn GetColumn(DataTable dataTable)
-            => dataTable.Columns.Contains(Name) ? dataTable.Columns[Name] : null;
+        public IResultColumn GetColumn(IResultSet rs) 
+            => rs.ContainsColumn(Name) ? rs.GetColumn(Name) : null;
 
         public object GetValue(IResultRow dataRow) => dataRow[Name];
 

@@ -19,10 +19,9 @@ namespace NBi.Core.ResultSet
 
         protected override bool CheckKeysExist(IResultRow dr)
         {
-            var missingColumns = new List<string>();
             foreach (var columnName in settings.GetKeyNames())
             {
-                if (!dr.Parent.Columns.Contains(columnName))
+                if (!dr.Parent.ContainsColumn(columnName))
                     return false;
             }
             return true;

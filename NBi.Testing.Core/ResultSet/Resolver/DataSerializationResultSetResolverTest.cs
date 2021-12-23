@@ -29,7 +29,7 @@ namespace NBi.Testing.Core.ResultSet.Resolver
             var resolver = new DataSerializationResultSetResolver(args);
 
             var rs = resolver.Execute();
-            Assert.That(rs.Columns.Count, Is.EqualTo(1));
+            Assert.That(rs.ColumnCount, Is.EqualTo(1));
             Assert.That(rs.Rows.Count, Is.EqualTo(1));
             Assert.That(rs[0][0], Is.EqualTo("example glossary"));
         }

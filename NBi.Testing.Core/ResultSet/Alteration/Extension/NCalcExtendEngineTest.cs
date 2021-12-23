@@ -33,7 +33,7 @@ namespace NBi.Testing.Core.ResultSet.Alteration.Extension
                 );
             var newRs = extender.Execute(rs);
 
-            Assert.That(newRs.Columns.Count, Is.EqualTo(4));
+            Assert.That(newRs.ColumnCount, Is.EqualTo(4));
             Assert.That(newRs[0][3], Is.EqualTo(2));
             Assert.That(newRs[1][3], Is.EqualTo(6));
             Assert.That(newRs[2][3], Is.EqualTo(35));
@@ -45,9 +45,9 @@ namespace NBi.Testing.Core.ResultSet.Alteration.Extension
             var args = new ObjectsResultSetResolverArgs(new[] { new object[] { "Alpha", 1, 2 }, new object[] { "Beta", 3, 2 }, new object[] { "Gamma", 5, 7 } });
             var resolver = new ObjectsResultSetResolver(args);
             var rs = resolver.Execute();
-            rs.Columns[0].ColumnName = "a";
-            rs.Columns[1].ColumnName = "b";
-            rs.Columns[2].ColumnName = "c";
+            rs.GetColumn(0).Rename("a");
+            rs.GetColumn(1).Rename("b");
+            rs.GetColumn(2).Rename("c");
 
             var extender = new NCalcExtendEngine(
                 new ServiceLocator(),
@@ -57,8 +57,8 @@ namespace NBi.Testing.Core.ResultSet.Alteration.Extension
                 );
             var newRs = extender.Execute(rs);
 
-            Assert.That(newRs.Columns.Count, Is.EqualTo(4));
-            Assert.That(newRs.Columns[3].ColumnName, Is.EqualTo("d"));
+            Assert.That(newRs.ColumnCount, Is.EqualTo(4));
+            Assert.That(newRs.GetColumn(3).Name, Is.EqualTo("d"));
             Assert.That(newRs[0][3], Is.EqualTo(2));
             Assert.That(newRs[1][3], Is.EqualTo(6));
             Assert.That(newRs[2][3], Is.EqualTo(35));
@@ -70,9 +70,9 @@ namespace NBi.Testing.Core.ResultSet.Alteration.Extension
             var args = new ObjectsResultSetResolverArgs(new[] { new object[] { "Alpha", 1, 2 }, new object[] { "Beta", 3, 2 }, new object[] { "Gamma", 5, 7 } });
             var resolver = new ObjectsResultSetResolver(args);
             var rs = resolver.Execute();
-            rs.Columns[0].ColumnName = "a";
-            rs.Columns[1].ColumnName = "b";
-            rs.Columns[2].ColumnName = "c";
+            rs.GetColumn(0).Rename("a");
+            rs.GetColumn(1).Rename("b");
+            rs.GetColumn(2).Rename("c");
 
             var extender = new NCalcExtendEngine(
                 new ServiceLocator(),
@@ -82,8 +82,8 @@ namespace NBi.Testing.Core.ResultSet.Alteration.Extension
                 );
             var newRs = extender.Execute(rs);
 
-            Assert.That(newRs.Columns.Count, Is.EqualTo(4));
-            Assert.That(newRs.Columns[3].ColumnName, Is.EqualTo("d"));
+            Assert.That(newRs.ColumnCount, Is.EqualTo(4));
+            Assert.That(newRs.GetColumn(3).Name, Is.EqualTo("d"));
             Assert.That(newRs[0][3], Is.EqualTo(4));
             Assert.That(newRs[1][3], Is.EqualTo(12));
             Assert.That(newRs[2][3], Is.EqualTo(70));
@@ -102,8 +102,8 @@ namespace NBi.Testing.Core.ResultSet.Alteration.Extension
             var args = new ObjectsResultSetResolverArgs(rows.ToArray());
             var resolver = new ObjectsResultSetResolver(args);
             var rs = resolver.Execute();
-            rs.Columns[0].ColumnName = "a";
-            rs.Columns[1].ColumnName = "b";
+            rs.GetColumn(0).Rename("a");
+            rs.GetColumn(1).Rename("b");
 
             var stopWatch = new Stopwatch();
             stopWatch.Start();

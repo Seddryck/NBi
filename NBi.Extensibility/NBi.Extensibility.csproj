@@ -62,6 +62,8 @@
     <Compile Include="IColumnIdentifier.cs" />
     <Compile Include="IEtlRunResult.cs" />
     <Compile Include="IExecutable.cs" />
+    <Compile Include="IResultColumn.cs" />
+    <Compile Include="IResultRow.cs" />
     <Compile Include="IResultSet.cs" />
     <Compile Include="ITemplateEngine.cs" />
     <Compile Include="NBiException.cs" />

@@ -25,11 +25,11 @@ namespace NBi.Core.ResultSet.Uniqueness
             if (!AreUnique)
             {
                 var dt = new DataTableResultSet();
-                dt.Columns.Add(new DataColumn("Occurence", typeof(int)));
+                dt.AddColumn("Occurence", typeof(int));
                 int i = 0;
                 foreach (var key in Values.ElementAt(0).Keys.Members)
                 {
-                    dt.Columns.Add(new DataColumn($"#{i}"));
+                    dt.AddColumn($"#{i}");
                     i++;
                 }
                 foreach (var value in Values)

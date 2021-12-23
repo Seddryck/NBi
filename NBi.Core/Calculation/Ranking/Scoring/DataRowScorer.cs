@@ -31,10 +31,10 @@ namespace NBi.Core.Calculation.Ranking.Scoring
             if (identifier is ColumnOrdinalIdentifier)
             {
                 var ordinal = (identifier as ColumnOrdinalIdentifier).Ordinal;
-                if (ordinal <= row.Parent.Columns.Count)
+                if (ordinal <= row.Parent.ColumnCount)
                     return row.ItemArray[ordinal];
                 else
-                    throw new ArgumentException($"The variable of the predicate is identified as '{identifier.Label}' but the column in position '{ordinal}' doesn't exist. The dataset only contains {row.Parent.Columns.Count} columns.");
+                    throw new ArgumentException($"The variable of the predicate is identified as '{identifier.Label}' but the column in position '{ordinal}' doesn't exist. The dataset only contains {row.Parent.ColumnCount} columns.");
             }
 
             var name = (identifier as ColumnNameIdentifier).Name;
@@ -46,9 +46,9 @@ namespace NBi.Core.Calculation.Ranking.Scoring
             if (expression != null)
                 return EvaluateExpression(expression, row);
 
-            var column = row.Parent.Columns.Cast<DataColumn>().SingleOrDefault(x => x.ColumnName == name);
+            var column = row.Parent.GetColumn(name);
             if (column != null)
-                return row[column.ColumnName];
+                return row[column.Name];
 
             throw new ArgumentException($"The value '{name}' is not recognized as a column name or a column position or a column alias or an expression.");
         }

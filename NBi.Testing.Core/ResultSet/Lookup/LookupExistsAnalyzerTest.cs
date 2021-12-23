@@ -122,7 +122,7 @@ namespace NBi.Testing.Core.ResultSet.Lookup
         {
             var child = BuildDataTable(new[] { "Key0", "Key1" }, new[] { "Foo", "Bar" }, new object[] { 0, 1 });
             var reference = BuildDataTable(new[] { "Key0", "Key1", "Key2" }, new[] { "Foo", "Bar",  "Fie" }, new object[] { 1, 2, 3 });
-            reference.Columns[2].SetOrdinal(0);
+            reference.GetColumn(2).Move(0);
 
             var referencer = new LookupExistsAnalyzer(BuildColumnMapping(2, 1));
             var violations = referencer.Execute(child, reference);
@@ -134,7 +134,7 @@ namespace NBi.Testing.Core.ResultSet.Lookup
         {
             var child = BuildDataTable(new[] { "Key0", "Key1", "Key2" }, new[] { "Foo", "Bar", "Bar" }, new object[] { 1, 2, 2 });
             var reference = BuildDataTable(new[] { "Key0", "Key1" }, new[] { "Foo", "Bar" }, new object[] { 0, 1 });
-            reference.Columns[2].SetOrdinal(0);
+            reference.GetColumn(2).Move(0);
 
             var referencer = new LookupExistsAnalyzer(BuildColumnMapping(2, 1));
             var violations = referencer.Execute(child, reference);
@@ -146,7 +146,7 @@ namespace NBi.Testing.Core.ResultSet.Lookup
         {
             var child = BuildDataTable(new[] { "Key0", "Key1" }, new[] { "Foo", "Bar" }, new object[] { 0, 1 });
             var reference = BuildDataTable(new[] { "Key0", "Key1", "Key2" }, new[] { "Foo", "Bar", "Fie" }, new object[] { 1, 2, 3 });
-            reference.Columns[1].SetOrdinal(0);
+            reference.GetColumn(1).Move(0);
 
             var mapping = new ColumnMappingCollection
             {
@@ -163,7 +163,7 @@ namespace NBi.Testing.Core.ResultSet.Lookup
         {
             var child = BuildDataTable(new[] { "Key0", "Key1", "Key2" }, new[] { "Foo", "Bar", "Fie" }, new object[] { 1, 2, 3 });
             var reference = BuildDataTable(new[] { "Key0", "Key1" }, new[] { "Foo", "Bar" }, new object[] { 0, 1 });
-            reference.Columns[1].SetOrdinal(0);
+            reference.GetColumn(1).Move(0);
 
             var mapping = new ColumnMappingCollection
             {
@@ -247,7 +247,7 @@ namespace NBi.Testing.Core.ResultSet.Lookup
         {
             var child = BuildDataTable(new[] { "Key0", "Key1", "Key0" }, new[] { "Foo", "Bar", "Foo" }, new object[] { 0, 1, 0 });
             var reference = BuildDataTable(new[] { "Key0", "Key1", "Key1" }, new[] { "Foo", "Bar", "Bar" }, new[] { "0.000", "1.0", "2" });
-            reference.Columns["two"].SetOrdinal(1);
+            reference.GetColumn("two").Move(1);
 
             var mapping = new ColumnMappingCollection
             {
@@ -265,8 +265,8 @@ namespace NBi.Testing.Core.ResultSet.Lookup
         {
             var child = BuildDataTable(new[] { "Key0", "Key1", "Key0" }, new[] { "Foo", "Bar", "Foo" }, new object[] { 0, 1, 0 });
             var reference = BuildDataTable(new[] { "Key0", "Key1", "Key1" }, new[] { "Foo", "Bar", "Bar" }, new[] { "0.000", "1.0", "2" });
-            reference.Columns["two"].SetOrdinal(1);
-            reference.Columns["two"].ColumnName = "myColumn";
+            reference.GetColumn("two").Move(1);
+            reference.GetColumn("two").Rename("myColumn");
 
             var mapping = new ColumnMappingCollection
             {
@@ -284,8 +284,8 @@ namespace NBi.Testing.Core.ResultSet.Lookup
         {
             var child = BuildDataTable(new[] { "Key0", "Key1", "Key0" }, new[] { "Foo", "Bar", "Foo" }, new object[] { 0, 1, 0 });
             var reference = BuildDataTable(new[] { "Key0", "Key1", "Key1" }, new[] { "Foo", "Bar", "Bar" }, new[] { "0.000", "1.0", "2" });
-            reference.Columns["two"].SetOrdinal(1);
-            reference.Columns["two"].ColumnName = "myColumn";
+            reference.GetColumn("two").Move(1);
+            reference.GetColumn("two").Rename("myColumn");
 
             var mapping = new ColumnMappingCollection
             {

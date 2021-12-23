@@ -33,7 +33,7 @@ namespace NBi.Core.ResultSet.Resolver
         private IResultSet Initialize(ISequenceResolver resolver)
         {
             var dataTable = new DataTable();
-            var newColumn = new DataColumn($"Column{dataTable.Columns.Count}", typeof(object));
+            var newColumn = new DataColumn($"Column0", typeof(object));
             dataTable.Columns.Add(newColumn);
             var sequence = resolver.Execute();
             foreach (var item in sequence)

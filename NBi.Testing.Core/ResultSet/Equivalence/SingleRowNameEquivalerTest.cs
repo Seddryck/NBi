@@ -56,9 +56,9 @@ namespace NBi.Testing.Core.ResultSet.Equivalence
 
             var comparer = new SingleRowNameEquivaler(new SettingsSingleRowNameResultSet(ColumnType.Numeric, null, new List<IColumnDefinition>() { myColumnDefinition }));
             var reference = BuildDataTable(new double[] { 0, 1 });
-            reference.Columns[0].ColumnName = "A";
+            reference.GetColumn(0).Rename("A");
             var actual = BuildDataTable(new double[] { 2, 1 });
-            actual.Columns[0].ColumnName = "A";
+            actual.GetColumn(0).Rename("A");
 
             //Call the method to test
             var res = comparer.Compare(reference, actual);
@@ -80,9 +80,9 @@ namespace NBi.Testing.Core.ResultSet.Equivalence
 
             var comparer = new SingleRowNameEquivaler(new SettingsSingleRowNameResultSet(ColumnType.Numeric, null, new List<IColumnDefinition>() { myColumnDefinition }));
             var reference = BuildDataTable(new double[] { 0, 1 });
-            reference.Columns[0].ColumnName = "A";
+            reference.GetColumn(0).Rename("A");
             var actual = BuildDataTable(new double[] { 0.05, 1 });
-            actual.Columns[0].ColumnName = "A";
+            actual.GetColumn(0).Rename("A");
 
             //Call the method to test
             var res = comparer.Compare(reference, actual);
@@ -112,7 +112,7 @@ namespace NBi.Testing.Core.ResultSet.Equivalence
 
             if (useless != null)
                 for (int i = 0; i < useless.Length; i++)
-                    dr.SetField<string>(dt.Columns[values.Length + i], useless[i]);
+                    dr.SetField(dt.Columns[values.Length + i], useless[i]);
 
             dt.Rows.Add(dr);
 

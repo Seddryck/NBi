@@ -25,7 +25,7 @@ namespace NBi.Testing.Core.ResultSet.Alteration.Merging
             var result = merge.Execute(rs1);
 
             Assert.That(result.Rows.Count, Is.EqualTo(5));
-            Assert.That(result.Columns.Count, Is.EqualTo(3));
+            Assert.That(result.ColumnCount, Is.EqualTo(3));
         }
 
         [Test()]
@@ -33,8 +33,8 @@ namespace NBi.Testing.Core.ResultSet.Alteration.Merging
         {
             var args1 = new ObjectsResultSetResolverArgs(new[] { new object[] { "Alpha", 1, 2 }, new object[] { "Beta", 3, 2 }, new object[] { "Gamma", 5, 7 } });
             var rs1 = new ObjectsResultSetResolver(args1).Execute();
-            rs1.Columns[1].ColumnName = "first";
-            rs1.Columns[2].SetOrdinal(0);
+            rs1.GetColumn(1).Rename("first");
+            rs1.GetColumn(2).Move(0);
 
             var args2 = new ObjectsResultSetResolverArgs(new[] { new object[] { "Delta", 10, 5 }, new object[] { "Epsilon", 7, 3 } });
             var rs2 = new ResultSetService(new ObjectsResultSetResolver(args2).Execute, null);
@@ -43,11 +43,11 @@ namespace NBi.Testing.Core.ResultSet.Alteration.Merging
             var result = merge.Execute(rs1);
 
             Assert.That(result.Rows.Count, Is.EqualTo(5));
-            Assert.That(result.Columns.Count, Is.EqualTo(4));
-            Assert.That(result.Columns[0].ColumnName, Is.EqualTo("Column2"));
-            Assert.That(result.Columns[1].ColumnName, Is.EqualTo("Column0"));
-            Assert.That(result.Columns[2].ColumnName, Is.EqualTo("first"));
-            Assert.That(result.Columns[3].ColumnName, Is.EqualTo("Column1"));
+            Assert.That(result.ColumnCount, Is.EqualTo(4));
+            Assert.That(result.GetColumn(0).Name, Is.EqualTo("Column2"));
+            Assert.That(result.GetColumn(1).Name, Is.EqualTo("Column0"));
+            Assert.That(result.GetColumn(2).Name, Is.EqualTo("first"));
+            Assert.That(result.GetColumn(3).Name, Is.EqualTo("Column1"));
             Assert.That(result[0][3], Is.EqualTo(DBNull.Value));
             Assert.That(result[1][3], Is.EqualTo(DBNull.Value));
             Assert.That(result[2][3], Is.EqualTo(DBNull.Value));
@@ -73,7 +73,7 @@ namespace NBi.Testing.Core.ResultSet.Alteration.Merging
             var result = merge.Execute(rs1);
 
             Assert.That(result.Rows.Count, Is.EqualTo(5));
-            Assert.That(result.Columns.Count, Is.EqualTo(3));
+            Assert.That(result.ColumnCount, Is.EqualTo(3));
         }
 
         [Test()]
@@ -89,7 +89,7 @@ namespace NBi.Testing.Core.ResultSet.Alteration.Merging
             var result = merge.Execute(rs1);
 
             Assert.That(result.Rows.Count, Is.EqualTo(5));
-            Assert.That(result.Columns.Count, Is.EqualTo(4));
+            Assert.That(result.ColumnCount, Is.EqualTo(4));
             Assert.That(result[0][3], Is.EqualTo(DBNull.Value));
             Assert.That(result[1][3], Is.EqualTo(DBNull.Value));
             Assert.That(result[2][3], Is.EqualTo(DBNull.Value));
@@ -110,7 +110,7 @@ namespace NBi.Testing.Core.ResultSet.Alteration.Merging
             var result = merge.Execute(rs1);
 
             Assert.That(result.Rows.Count, Is.EqualTo(5));
-            Assert.That(result.Columns.Count, Is.EqualTo(3));
+            Assert.That(result.ColumnCount, Is.EqualTo(3));
             Assert.That(result[0][2], Is.Not.EqualTo(DBNull.Value));
             Assert.That(result[1][2], Is.Not.EqualTo(DBNull.Value));
             Assert.That(result[2][2], Is.Not.EqualTo(DBNull.Value));

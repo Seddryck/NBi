@@ -21,13 +21,13 @@ namespace NBi.Core.ResultSet.Resolver
             var dataTable = new DataTableResultSet();
             if (Args.Identifiers != null)
                 foreach (var identifier in Args.Identifiers)
-                    dataTable.Columns.Add(new DataColumn(identifier.Name, typeof(object)));
+                    dataTable.AddColumn(identifier.Name);
 
-            if (Args.ColumnCount!=null && dataTable.Columns.Count< Args.ColumnCount.Execute())
+            if (Args.ColumnCount!=null && dataTable.ColumnCount< Args.ColumnCount.Execute())
             {
-                var missingColumnCount = Args.ColumnCount.Execute() - dataTable.Columns.Count;
+                var missingColumnCount = Args.ColumnCount.Execute() - dataTable.ColumnCount;
                 for (int i = 0; i < missingColumnCount; i++)
-                    dataTable.Columns.Add(new DataColumn($"Column_{dataTable.Columns.Count}", typeof(object)));
+                    dataTable.AddColumn($"Column_{dataTable.ColumnCount}");
             }
             return dataTable;
         }

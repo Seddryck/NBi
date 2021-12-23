@@ -37,10 +37,10 @@ namespace NBi.Core.ResultSet.Alteration.Duplication
                     switch (output.Identifier)
                     {
                         case ColumnNameIdentifier identifier:
-                            result.Columns.Add(new DataColumn(identifier.Name, typeof(object)) { DefaultValue = DBNull.Value });
+                            result.AddColumn(identifier.Name);
                             break;
                         case ColumnOrdinalIdentifier identifier:
-                            result.Columns.Add(new DataColumn($"Column_{identifier.Ordinal}", typeof(object)) { DefaultValue = DBNull.Value });
+                            result.AddColumn($"Column_{identifier.Ordinal}");
                             break;
                         default:
                             break;
@@ -59,7 +59,7 @@ namespace NBi.Core.ResultSet.Alteration.Duplication
                 {
                     if (output.Strategy.IsApplicable(true))
                     {
-                        var columnName = result.GetColumn(output.Identifier).ColumnName;
+                        var columnName = result.GetColumn(output.Identifier).Name;
                         importedRow[columnName] = output.Strategy.Execute(true, isDuplicated, times, 0);
                     }
                 }
@@ -74,7 +74,7 @@ namespace NBi.Core.ResultSet.Alteration.Duplication
                         {
                             if (output.Strategy.IsApplicable(false))
                             {
-                                var columnName = result.GetColumn(output.Identifier).ColumnName;
+                                var columnName = result.GetColumn(output.Identifier).Name;
                                 duplicatedRow[columnName] = output.Strategy.Execute(false, true, times, i);
                                 Context.Switch(duplicatedRow);
                             }

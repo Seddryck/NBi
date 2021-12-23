@@ -43,7 +43,7 @@
 //            var identifiers = new List<IColumnIdentifier>();
 //            var result = true;
 //            int i = 0;
-//            while (result && i<resultSet.Columns.Count)
+//            while (result && i<resultSet.ColumnCount)
 //            {
 //                var currentIdentifier = new ColumnPositionIdentifier(i);
 //                predicateInfo.Operand = currentIdentifier;
@@ -62,10 +62,10 @@
 //            if (identifier is ColumnPositionIdentifier)
 //            {
 //                var ordinal = (identifier as ColumnPositionIdentifier).Position;
-//                if (ordinal <= row.Table.Columns.Count)
+//                if (ordinal <= row.table.ColumnCount)
 //                    return row.ItemArray[ordinal];
 //                else
-//                    throw new ArgumentException($"The variable of the predicate is identified as '{identifier.Label}' but the column in position '{ordinal}' doesn't exist. The dataset only contains {row.Table.Columns.Count} columns.");
+//                    throw new ArgumentException($"The variable of the predicate is identified as '{identifier.Label}' but the column in position '{ordinal}' doesn't exist. The dataset only contains {row.table.ColumnCount} columns.");
 //            }
 
 //            var name = (identifier as ColumnNameIdentifier).Name;
@@ -78,7 +78,7 @@
 //            {
 //                var result = EvaluateExpression(expression, row);
 //                var expColumnName = $"exp::{name}";
-//                if (!row.Table.Columns.Contains(expColumnName))
+//                if (!row.Table.ContainsColumn(expColumnName))
 //                {
 //                    var newColumn = new DataColumn(expColumnName, typeof(object));
 //                    row.Table.Columns.Add(newColumn);
@@ -88,9 +88,9 @@
 //                return result;
 //            }
 
-//            var column = row.Table.Columns.Cast<DataColumn>().SingleOrDefault(x => x.ColumnName == name);
+//            var column = row.Table.Columns.Cast<DataColumn>().SingleOrDefault(x => x.Name == name);
 //            if (column != null)
-//                return row[column.ColumnName];
+//                return row[column.Name];
 
 //            throw new ArgumentException($"The value '{name}' is not recognized as a column name or a column position or a column alias or an expression.");
 //        }

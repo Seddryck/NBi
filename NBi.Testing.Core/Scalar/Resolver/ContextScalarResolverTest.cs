@@ -19,7 +19,7 @@ namespace NBi.Testing.Core.Scalar.Resolver
         {
             var rs = new DataTableResultSet();
             rs.Load(new[] { new object[] { "a", 1 }, new object[] { "b", 2 } });
-            rs.Columns[0].ColumnName = "Foo";
+            rs.GetColumn(0).Rename("Foo");
 
             var context = Context.None;
             var args = new ContextScalarResolverArgs(context, new ColumnNameIdentifier("Foo"));
@@ -48,7 +48,7 @@ namespace NBi.Testing.Core.Scalar.Resolver
         {
             var rs = new DataTableResultSet();
             rs.Load(new[] { new object[] { "a", 1 }, new object[] { "b", 2 } });
-            rs.Columns[0].ColumnName = "Foo";
+            rs.GetColumn(0).Rename("Foo");
 
             var context = Context.None;
             var args = new ContextScalarResolverArgs(context, new ColumnNameIdentifier("Foo"));

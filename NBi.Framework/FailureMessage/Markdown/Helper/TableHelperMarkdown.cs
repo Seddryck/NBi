@@ -54,7 +54,7 @@ namespace NBi.Framework.FailureMessage.Markdown.Helper
             foreach (IResultRow dataRow in dataRows)
             {
                 var cells = new List<TableCellExtended>();
-                for (int i = 0; i < dataRow.Parent.Columns.Count; i++)
+                for (int i = 0; i < dataRow.Parent.ColumnCount; i++)
                 {
                     var text = GetText(columnTypes, dataRow, i);
                     cells.Add(new TableCellExtended() { Text = text });
@@ -82,7 +82,7 @@ namespace NBi.Framework.FailureMessage.Markdown.Helper
         {
             var headers = new List<TableColumnExtended>();
             columnTypes = new List<ColumnType>();
-            foreach (DataColumn dataColumn in dataRows.ElementAt(0).Parent.Columns)
+            foreach (var dataColumn in dataRows.ElementAt(0).Parent.Columns)
             {
                 var formatter = new ColumnPropertiesFormatter();
                 var tableColumn = new TableColumnExtended();
@@ -90,10 +90,10 @@ namespace NBi.Framework.FailureMessage.Markdown.Helper
                 switch (style)
                 {
                     case EngineStyle.ByIndex:
-                        headerCell.Text = $"#{headers.Count} ({dataColumn.ColumnName})";
+                        headerCell.Text = $"#{headers.Count} ({dataColumn.Name})";
                         break;
                     case EngineStyle.ByName:
-                        headerCell.Text = $"{dataColumn.ColumnName}";
+                        headerCell.Text = $"{dataColumn.Name}";
                         break;
                     default:
                         throw new ArgumentOutOfRangeException();
@@ -101,12 +101,12 @@ namespace NBi.Framework.FailureMessage.Markdown.Helper
                 
                 tableColumn.HeaderCell = headerCell;
                 
-                if (dataColumn.ExtendedProperties.Count > 0)
+                if (dataColumn.HasProperties())
                 {
-                    var role = (ColumnRole)(dataColumn.ExtendedProperties["NBi::Role"] ?? ColumnRole.Key);
-                    var type = (ColumnType)(dataColumn.ExtendedProperties["NBi::Type"] ?? ColumnType.Text);
-                    var tolerance = (Tolerance)(dataColumn.ExtendedProperties["NBi::Tolerance"]);
-                    var rounding = (Rounding)(dataColumn.ExtendedProperties["NBi::Rounding"]);
+                    var role = (ColumnRole)(dataColumn.GetProperty("Role") ?? ColumnRole.Key);
+                    var type = (ColumnType)(dataColumn.GetProperty("Type") ?? ColumnType.Text);
+                    var tolerance = (Tolerance)(dataColumn.GetProperty("Tolerance"));
+                    var rounding = (Rounding)(dataColumn.GetProperty("Rounding"));
                     columnTypes.Add(type);
 
                     var subHeader = formatter.GetText(role, type, tolerance, rounding);

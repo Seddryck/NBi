@@ -44,13 +44,13 @@ namespace NBi.Framework.FailureMessage.Markdown.Helper
         private TableRowExtended RenderFirstRow(IResultRow row, LookupMatchesViolationRecord record, IEnumerable<ExtendedMetadata> metadatas)
         {
             var cells = new List<TableCellExtended>();
-            for (int i = 0; i < row.Parent.Columns.Count; i++)
+            for (int i = 0; i < row.Parent.ColumnCount; i++)
             {
-                if (record.ContainsKey(row.Parent.Columns[i]))
+                if (record.ContainsKey(row.Parent.GetColumn(i)))
                 {
                     var displayValue = RenderCell(
                         row.IsNull(i) ? DBNull.Value : row.ItemArray[i]
-                        , record[row.Parent.Columns[i]]
+                        , record[row.Parent.GetColumn(i)]
                         , metadatas.ElementAt(i).Type);
                     cells.Add(new TableCellExtended() { Text = displayValue });
                 }
@@ -66,13 +66,13 @@ namespace NBi.Framework.FailureMessage.Markdown.Helper
         private TableRowExtended RenderSupplementaryRow(IResultRow row, LookupMatchesViolationRecord record, IEnumerable<ExtendedMetadata> metadatas)
         {
             var cells = new List<TableCellExtended>();
-            for (int i = 0; i < row.Parent.Columns.Count; i++)
+            for (int i = 0; i < row.Parent.ColumnCount; i++)
             {
-                if (record.ContainsKey(row.Parent.Columns[i]))
+                if (record.ContainsKey(row.Parent.GetColumn(i)))
                 {
                     var displayValue = RenderCell(
                         row.IsNull(i) ? DBNull.Value : row.ItemArray[i]
-                        , record[row.Parent.Columns[i]]
+                        , record[row.Parent.GetColumn(i)]
                         , metadatas.ElementAt(i).Type);
                     cells.Add(new TableCellExtended() { Text = displayValue });
                 }

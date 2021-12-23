@@ -40,7 +40,7 @@ namespace NBi.Core.ResultSet.Equivalence
         {
             var stopWatch = new Stopwatch();
 
-            var columnsCount = Math.Max(y.Columns.Count, x.Columns.Count);
+            var columnsCount = Math.Max(y.ColumnCount, x.ColumnCount);
 
             PreliminaryChecks(x, y);
 
@@ -169,7 +169,7 @@ namespace NBi.Core.ResultSet.Equivalence
             return sb.ToString();
         }
 
-        protected bool IsNumericField(DataColumn dataColumn)
+        protected bool IsNumericField(IResultColumn dataColumn)
         {
             return
                 dataColumn.DataType == typeof(Byte) ||
@@ -185,16 +185,13 @@ namespace NBi.Core.ResultSet.Equivalence
                 dataColumn.DataType == typeof(UInt64);
         }
 
-        protected bool IsDateTimeField(DataColumn dataColumn)
-        {
-            return
-                dataColumn.DataType == typeof(DateTime);
-        }
+        protected bool IsDateTimeField(IResultColumn dataColumn)
+            => dataColumn.DataType == typeof(DateTime);
 
 
-        protected void CheckSettingsFirstRowCell(ColumnRole columnRole, ColumnType columnType, DataColumn dataColumn, object value, string[] messages)
+        protected void CheckSettingsFirstRowCell(ColumnRole columnRole, ColumnType columnType, IResultColumn dataColumn, object value, string[] messages)
         {
-            var columnName = dataColumn.ColumnName;
+            var columnName = dataColumn.Name;
             if (!DBNull.Value.Equals(value))
             {
                 if (columnRole != ColumnRole.Ignore)
@@ -225,29 +222,6 @@ namespace NBi.Core.ResultSet.Equivalence
                     }
                 }
             }
-        }
-
-        protected void WriteSettingsToDataTableProperties(DataColumn column, ColumnRole role, ColumnType type, Tolerance tolerance, Rounding rounding)
-        {
-            if (column.ExtendedProperties.ContainsKey("NBi::Role"))
-                column.ExtendedProperties["NBi::Role"] = role;
-            else
-                column.ExtendedProperties.Add("NBi::Role", role);
-
-            if (column.ExtendedProperties.ContainsKey("NBi::Type"))
-                column.ExtendedProperties["NBi::Type"] = type;
-            else
-                column.ExtendedProperties.Add("NBi::Type", type);
-
-            if (column.ExtendedProperties.ContainsKey("NBi::Tolerance"))
-                column.ExtendedProperties["NBi::Tolerance"] = tolerance;
-            else
-                column.ExtendedProperties.Add("NBi::Tolerance", tolerance);
-
-            if (column.ExtendedProperties.ContainsKey("NBi::Rounding"))
-                column.ExtendedProperties["NBi::Rounding"] = rounding;
-            else
-                column.ExtendedProperties.Add("NBi::Rounding", rounding);
         }
     }
 }

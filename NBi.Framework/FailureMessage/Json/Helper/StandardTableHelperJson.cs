@@ -30,7 +30,7 @@ namespace NBi.Framework.FailureMessage.Json.Helper
         protected override void RenderRow(IResultRow row, IEnumerable<ColumnType> columnTypes, JsonWriter writer)
         {
             writer.WriteStartArray();
-            for (int i = 0; i < row.Parent.Columns.Count; i++)
+            for (int i = 0; i < row.Parent.ColumnCount; i++)
             {
                 RenderCell(row.IsNull(i) ? DBNull.Value : row.ItemArray[i], columnTypes.ElementAt(i), writer);
             }

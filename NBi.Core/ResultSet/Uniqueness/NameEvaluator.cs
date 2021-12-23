@@ -49,14 +49,11 @@ namespace NBi.Core.ResultSet.Uniqueness
 
         protected void WriteSettingsToDataTableProperties(IResultSet dt, SettingsNameResultSet settings)
         {
-            foreach (DataColumn column in dt.Columns)
+            foreach (var column in dt.Columns)
             {
-                WriteSettingsToDataTableProperties(
-                    column
-                    , settings.GetColumnRole(column.ColumnName)
-                    , settings.GetColumnType(column.ColumnName)
-                    , null
-                    , null
+                column.SetProperties(
+                    settings.GetColumnRole(column.Name).ToString()
+                    , settings.GetColumnType(column.Name).ToString()
                 );
             }
         }
@@ -66,21 +63,21 @@ namespace NBi.Core.ResultSet.Uniqueness
             var missingColumns = new List<KeyValuePair<string, string>>();
             foreach (var columnName in settings.GetKeyNames())
             {
-                if (!dt.Columns.Contains(columnName))
+                if (!dt.ContainsColumn(columnName))
                     missingColumns.Add(new KeyValuePair<string, string>(columnName, "key"));
             }
 
             foreach (var columnName in settings.GetValueNames())
             {
-                if (!dt.Columns.Contains(columnName))
+                if (!dt.ContainsColumn(columnName))
                     missingColumns.Add(new KeyValuePair<string, string>(columnName, "value"));
             }
 
             if (missingColumns.Count > 0)
             {
                 var allColumnsHaveNoName = true;
-                foreach (DataColumn column in dt.Columns)
-                    allColumnsHaveNoName &= column.ColumnName.StartsWith("No name");
+                foreach (var column in dt.Columns)
+                    allColumnsHaveNoName &= column.Name.StartsWith("No name");
 
                 var exception = string.Format("You've defined {0} column{1} named '{2}' as key{1} or value{1} but there is no column with {3} name{1} in the resultset. {4}When using comparison by columns' name, you must ensure that all columns defined as keys and values are effectively available in the result-set."
                     , missingColumns.Count > 1 ? "some" : "a"
@@ -100,13 +97,13 @@ namespace NBi.Core.ResultSet.Uniqueness
                 return;
 
             var dr = dt[0];
-            for (int i = 0; i < dt.Columns.Count; i++)
+            for (int i = 0; i < dt.ColumnCount; i++)
             {
-                var columnName = dt.Columns[i].ColumnName;
+                var columnName = dt.GetColumn(i).Name;
                 CheckSettingsFirstRowCell(
                         settings.GetColumnRole(columnName)
                         , settings.GetColumnType(columnName)
-                        , dt.Columns[columnName]
+                        , dt.GetColumn(columnName)
                         , dr.IsNull(columnName) ? DBNull.Value : dr[columnName]
                         , new string[]
                             {
@@ -121,10 +118,11 @@ namespace NBi.Core.ResultSet.Uniqueness
         protected void RemoveIgnoredColumns(IResultSet dt, SettingsNameResultSet settings)
         {
             var i = 0;
-            while (i < dt.Columns.Count)
+
+            while (i < dt.ColumnCount)
             {
-                if (settings.GetColumnRole(dt.Columns[i].ColumnName) == ColumnRole.Ignore)
-                    dt.Columns.RemoveAt(i);
+                if (settings.GetColumnRole(dt.GetColumn(i).Name) == ColumnRole.Ignore)
+                    dt.GetColumn(i).Remove();
                 else
                     i++;
             }

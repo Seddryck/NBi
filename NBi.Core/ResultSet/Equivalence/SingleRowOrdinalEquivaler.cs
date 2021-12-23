@@ -51,7 +51,7 @@ namespace NBi.Core.ResultSet.Equivalence
             if (missingRows.Count == 0 && unexpectedRows.Count == 0)
             {
                 chrono = DateTime.Now;
-                var columnsCount = Math.Max(y.Parent.Columns.Count, x.Parent.Columns.Count);
+                var columnsCount = Math.Max(y.Parent.ColumnCount, x.Parent.ColumnCount);
                 if (Settings == null)
                     BuildDefaultSettings(columnsCount);
                 else

@@ -52,7 +52,7 @@ namespace NBi.Testing.Core.ResultSet
             var rs = new DataTableResultSet();
             rs.Load(objects);
 
-            Assert.That(rs.Columns.Count, Is.EqualTo(3));
+            Assert.That(rs.ColumnCount, Is.EqualTo(3));
             Assert.That(rs.Rows.Count, Is.EqualTo(2));
         }
 
@@ -82,7 +82,7 @@ namespace NBi.Testing.Core.ResultSet
             var rs = new DataTableResultSet();
             rs.Load(objects);
 
-            Assert.That(rs.Columns.Count, Is.EqualTo(2));
+            Assert.That(rs.ColumnCount, Is.EqualTo(2));
             Assert.That(rs.Rows.Count, Is.EqualTo(3));
 
             Assert.That(rs[0][0], Is.EqualTo("CY 2001"));

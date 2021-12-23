@@ -52,24 +52,24 @@ namespace NBi.Testing.Core.ResultSet.Combination
         public void Execute_TwentyRowsAndSequenceOfTwo_OneAdditionalColumn()
         {
             var (rs, resolver) = Initialize();
-            var initColumnCount = rs.Columns.Count;
+            var initColumnCount = rs.ColumnCount;
             var combination = new CartesianProductSequenceCombination(resolver);
             combination.Execute(rs);
 
-            Assert.That(rs.Columns.Count, Is.EqualTo(initColumnCount + 1));
+            Assert.That(rs.ColumnCount, Is.EqualTo(initColumnCount + 1));
         }
 
         [Test()]
         public void Execute_TwentyRowsAndSequenceOfZero_EmptyResultSet()
         {
             var rs = Initialize().rs;
-            var initColumnCount = rs.Columns.Count;
+            var initColumnCount = rs.ColumnCount;
 
             var resolver = new ListSequenceResolver<DateTime>(new ListSequenceResolverArgs(new List<IScalarResolver>()));
             var combination = new CartesianProductSequenceCombination(resolver);
             combination.Execute(rs);
 
-            Assert.That(rs.Columns.Count, Is.EqualTo(initColumnCount + 1));
+            Assert.That(rs.ColumnCount, Is.EqualTo(initColumnCount + 1));
             Assert.That(rs.Rows.Count, Is.EqualTo(0));
         }
 
@@ -79,12 +79,12 @@ namespace NBi.Testing.Core.ResultSet.Combination
             var (rs, resolver) = Initialize();
             rs.Clear();
             rs.AcceptChanges();
-            var initColumnCount = rs.Columns.Count;
+            var initColumnCount = rs.ColumnCount;
 
             var combination = new CartesianProductSequenceCombination(resolver);
             combination.Execute(rs);
 
-            Assert.That(rs.Columns.Count, Is.EqualTo(initColumnCount + 1));
+            Assert.That(rs.ColumnCount, Is.EqualTo(initColumnCount + 1));
             Assert.That(rs.Rows.Count, Is.EqualTo(0));
         }
     }

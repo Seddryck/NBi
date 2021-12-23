@@ -23,7 +23,7 @@ namespace NBi.Framework.FailureMessage.Markdown.Helper
             foreach (var dataRow in dataRows)
             {
                 var cells = new List<TableCellExtended>();
-                for (int i = 0; i < dataRow.Parent.Columns.Count; i++)
+                for (int i = 0; i < dataRow.Parent.ColumnCount; i++)
                 {
                     var text = GetText(columnTypes, dataRow, i);
                     var compared = GetCompareText(columnTypes, dataRow, i);

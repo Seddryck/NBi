@@ -78,10 +78,11 @@ namespace NBi.Core.ResultSet.Equivalence
         protected void RemoveIgnoredColumns(IResultSet dt, SettingsNameResultSet settings)
         {
             var i = 0;
-            while (i < dt.Columns.Count)
+            while (i < dt.ColumnCount)
             {
-                if (settings.GetColumnRole(dt.Columns[i].ColumnName) == ColumnRole.Ignore)
-                    dt.Columns.RemoveAt(i);
+                var column = dt.GetColumn(i);
+                if (settings.GetColumnRole(column.Name) == ColumnRole.Ignore)
+                    column.Remove();
                 else
                     i++;
             }
@@ -89,31 +90,29 @@ namespace NBi.Core.ResultSet.Equivalence
 
         protected void WriteSettingsToDataTableProperties(IResultSet dt, SettingsNameResultSet settings)
         {
-            foreach (DataColumn column in dt.Columns)
+            foreach (var column in dt.Columns)
             {
-                WriteSettingsToDataTableProperties(
-                    column
-                    , settings.GetColumnRole(column.ColumnName)
-                    , settings.GetColumnType(column.ColumnName)
-                    , settings.GetTolerance(column.ColumnName)
-                    , settings.GetRounding(column.ColumnName)
+                column.SetProperties(
+                    settings.GetColumnRole(column.Name).ToString()
+                    , settings.GetColumnType(column.Name).ToString()
+                    , settings.GetTolerance(column.Name)?.ToString()   
+                    , settings.GetRounding(column.Name)?.ToString()
                 );
             }
         }
-
 
         protected void CheckSettingsAndDataTable(IResultSet dt, SettingsNameResultSet settings)
         {
             var missingColumns = new List<KeyValuePair<string,string>>();
             foreach (var columnName in settings.GetKeyNames())
             {
-                if (!dt.Columns.Contains(columnName))
+                if (!dt.ContainsColumn(columnName))
                     missingColumns.Add(new KeyValuePair<string, string>(columnName, "key"));
             }
 
             foreach (var columnName in settings.GetValueNames())
             {
-                if (!dt.Columns.Contains(columnName))
+                if (!dt.ContainsColumn(columnName))
                     missingColumns.Add(new KeyValuePair<string, string>(columnName, "value"));
             }
 
@@ -136,13 +135,13 @@ namespace NBi.Core.ResultSet.Equivalence
                 return;
 
             var dr = dt[0];
-            for (int i = 0; i < dt.Columns.Count; i++)
+            for (int i = 0; i < dt.ColumnCount; i++)
             {
-                var columnName = dt.Columns[i].ColumnName;
+                var columnName = dt.GetColumn(i).Name;
                 CheckSettingsFirstRowCell(
                         settings.GetColumnRole(columnName)
                         , settings.GetColumnType(columnName)
-                        , dt.Columns[columnName]
+                        , dt.GetColumn(columnName)
                         , dr.IsNull(columnName) ? DBNull.Value : dr[columnName]
                         , new string[]
                             {

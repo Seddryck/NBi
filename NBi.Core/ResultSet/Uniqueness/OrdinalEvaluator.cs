@@ -32,7 +32,7 @@ namespace NBi.Core.ResultSet.Uniqueness
 
         protected override void PreliminaryChecks(IResultSet x)
         {
-            var columnsCount = x.Columns.Count;
+            var columnsCount = x.ColumnCount;
             if (Settings == null)
                 BuildDefaultSettings(columnsCount);
             else
@@ -45,20 +45,17 @@ namespace NBi.Core.ResultSet.Uniqueness
 
         protected override DataRowKeysComparer BuildDataRowsKeyComparer(IResultSet x)
         {
-            return new DataRowKeysComparerByOrdinal(Settings, x.Columns.Count);
+            return new DataRowKeysComparerByOrdinal(Settings, x.ColumnCount);
         }
 
 
         protected void WriteSettingsToDataTableProperties(IResultSet dt, SettingsOrdinalResultSet settings)
         {
-            foreach (DataColumn column in dt.Columns)
+            foreach (var column in dt.Columns)
             {
-                WriteSettingsToDataTableProperties(
-                    column
-                    , settings.GetColumnRole(column.Ordinal)
-                    , settings.GetColumnType(column.Ordinal)
-                    , null
-                    , null
+                column.SetProperties(
+                    settings.GetColumnRole(column.Ordinal).ToString()
+                    , settings.GetColumnType(column.Ordinal).ToString()
                 );
             }
         }
@@ -66,14 +63,14 @@ namespace NBi.Core.ResultSet.Uniqueness
         protected void CheckSettingsAndDataTable(IResultSet dt, SettingsOrdinalResultSet settings)
         {
             var max = settings.GetMaxColumnOrdinalDefined();
-            if (dt.Columns.Count <= max)
+            if (dt.ColumnCount <= max)
             {
                 var exception = string.Format("You've defined a column with an index of {0}, meaning that your result set would have at least {1} columns but your result set has only {2} columns."
                     , max
                     , max + 1
-                    , dt.Columns.Count);
+                    , dt.ColumnCount);
 
-                if (dt.Columns.Count == max && settings.GetMinColumnOrdinalDefined() == 1)
+                if (dt.ColumnCount == max && settings.GetMinColumnOrdinalDefined() == 1)
                     exception += " You've no definition for a column with an index of 0. Are you sure you'vent started to index at 1 in place of 0?";
 
                 throw new EquivalerException(exception);
@@ -86,12 +83,12 @@ namespace NBi.Core.ResultSet.Uniqueness
                 return;
 
             var dr = dt[0];
-            for (int i = 0; i < dt.Columns.Count; i++)
+            for (int i = 0; i < dt.ColumnCount; i++)
             {
                 CheckSettingsFirstRowCell(
                         settings.GetColumnRole(i)
                         , settings.GetColumnType(i)
-                        , dt.Columns[i]
+                        , dt.GetColumn(i)
                         , dr.IsNull(i) ? DBNull.Value : dr[i]
                         , new string[]
                             {

@@ -13,9 +13,9 @@ namespace NBi.Core.ResultSet
 
         private DataTable Table { get; set; }
 
-        public DataColumnCollection Columns
+        public IEnumerable<IResultColumn> Columns
         {
-            get => Table.Columns;
+            get { foreach (DataColumn column in Table.Columns) { yield return new DataColumnResultSet(column); } }
         }
 
         public IEnumerable<IResultRow> Rows
@@ -23,11 +23,40 @@ namespace NBi.Core.ResultSet
             get { foreach (DataRow row in Table.Rows) { yield return new DataRowResultSet(row); } }
         }
 
-        public int RowCount { get => Rows.Count(); }
+        public int RowCount { get => Table.Rows.Count; }
+
+        public IResultColumn AddColumn(string name)
+            => AddColumn(name, typeof(object));
+
+        public IResultColumn AddColumn(string name, Type type)
+        {
+            if (Table.Columns.Contains(name))
+                throw new NBiException($"Can't add the column '{name}' because this column is already existing in the result-set.");
+
+            var column = Table.Columns.Add(name, type);
+            column.DefaultValue = DBNull.Value;
+            return new DataColumnResultSet(column);
+        }
+
+        public IResultColumn AddColumn(string name, int ordinal, Type type)
+        {
+            AddColumn(name, type);
+            Table.Columns[name].SetOrdinal(ordinal);
+            return new DataColumnResultSet(Table.Columns[name]);
+        }
 
 
-        public DataColumn GetColumn(IColumnIdentifier columnIdentifier)
+        public int ColumnCount { get => Table.Columns.Count; }
+        public bool ContainsColumn(string name)
+            => Table.Columns.Contains(name);
+
+        public IResultColumn GetColumn(IColumnIdentifier columnIdentifier)
             => columnIdentifier.GetColumn(this);
+
+        public IResultColumn GetColumn(string name)
+            => new DataColumnResultSet(Table.Columns[name]);
+        public IResultColumn GetColumn(int ordinal)
+            => new DataColumnResultSet(Table.Columns[ordinal]);
 
         public DataTableResultSet()
             => Table = new DataTable();
@@ -88,7 +117,7 @@ namespace NBi.Core.ResultSet
             {
                 //Build structure
                 for (int i = 0; i < fields.Length; i++)
-                    Columns.Add(string.Format("Column{0}", i), typeof(string));
+                    Table.Columns.Add(string.Format("Column{0}", i), typeof(string));
 
                 Table.BeginLoadData();
                 for (int i = 0; i < fields.Count(); i++)
@@ -113,12 +142,12 @@ namespace NBi.Core.ResultSet
                 for (int i = 0; i < objects.First().Length; i++)
                 {
                     if (objects.First().ElementAt(i) == null)
-                        Columns.Add(string.Format("Column{0}", i), typeof(string));
+                        Table.Columns.Add($"Column{i}", typeof(string));
                     else
-                        Columns.Add(string.Format("Column{0}", i), objects.First().ElementAt(i).GetType());
+                        Table.Columns.Add($"Column{i}", objects.First().ElementAt(i).GetType());
                 }
 
-                //load each row one by one
+                 //load each row one by one
                 Table.BeginLoadData();
                 foreach (var obj in objects)
                 {

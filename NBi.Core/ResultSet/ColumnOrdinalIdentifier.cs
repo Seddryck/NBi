@@ -19,11 +19,8 @@ namespace NBi.Core.ResultSet
             Ordinal = position;
         }
 
-        public DataColumn GetColumn(IResultSet rs) 
-            => Ordinal < rs.Columns.Count ? rs.Columns[Ordinal] : null;
-
-        public DataColumn GetColumn(DataTable dataTable)
-            => Ordinal < dataTable.Columns.Count ? dataTable.Columns[Ordinal] : null;
+        public IResultColumn GetColumn(IResultSet rs) 
+            => Ordinal < rs.ColumnCount ? rs.GetColumn(Ordinal) : null;
 
         public object GetValue(IResultRow dataRow) => dataRow[Ordinal];
 

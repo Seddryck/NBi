@@ -33,16 +33,16 @@ namespace NBi.Core.ResultSet.Alteration.Extension
             switch (newColumn)
             {
                 case ColumnOrdinalIdentifier o:
-                    if (o.Ordinal >= rs.Columns.Count)
-                        return rs.Columns.Add($"NO_NAME_{rs.Columns.Count}", typeof(object)).Ordinal;
+                    if (o.Ordinal >= rs.ColumnCount)
+                        return rs.AddColumn($"NO_NAME_{rs.ColumnCount}").Ordinal;
                     else
                     {
-                        rs.Columns.Add($"NO_NAME_{o.Ordinal}", typeof(object)).SetOrdinal(o.Ordinal);
+                        rs.AddColumn($"NO_NAME_{o.Ordinal}", o.Ordinal, typeof(object));
                         return o.Ordinal;
                     };
                 case ColumnNameIdentifier n:
-                    return (rs.Columns.Cast<DataColumn>().FirstOrDefault(x => x.ColumnName == n.Name)
-                        ?? rs.Columns.Add(n.Name, typeof(object))).Ordinal;
+                    return (rs.Columns.FirstOrDefault(x => x.Name == n.Name)
+                        ?? rs.AddColumn(n.Name)).Ordinal;
                 default:
                     throw new ArgumentException();
             }

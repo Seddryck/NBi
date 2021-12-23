@@ -48,7 +48,7 @@ namespace NBi.Testing.Core.ResultSet.Resolver
             var resolver = new SequenceCombinationResultSetResolver(args);
             var rs = resolver.Execute();
 
-            Assert.That(rs.Columns.Count, Is.EqualTo(1));
+            Assert.That(rs.ColumnCount, Is.EqualTo(1));
             Assert.That(rs.Rows.Count, Is.EqualTo(3));
             Assert.That(rs[0][0], Is.EqualTo(new DateTime(2015, 1, 1)));
             Assert.That(rs[1][0], Is.EqualTo(new DateTime(2016, 1, 1)));
@@ -77,7 +77,7 @@ namespace NBi.Testing.Core.ResultSet.Resolver
             );
             var rs = resolver.Execute();
 
-            Assert.That(rs.Columns.Count, Is.EqualTo(2));
+            Assert.That(rs.ColumnCount, Is.EqualTo(2));
             Assert.That(rs.Rows.Count, Is.EqualTo(6));
             Assert.That(rs[0][0], Is.EqualTo(new DateTime(2015, 1, 1)));
             Assert.That(rs[1][0], Is.EqualTo(new DateTime(2016, 1, 1)));
@@ -121,7 +121,7 @@ namespace NBi.Testing.Core.ResultSet.Resolver
             );
             var rs = resolver.Execute();
 
-            Assert.That(rs.Columns.Count, Is.EqualTo(3));
+            Assert.That(rs.ColumnCount, Is.EqualTo(3));
             Assert.That(rs.Rows.Count, Is.EqualTo(12));
             Assert.That(rs.Rows.Count(x => x.Field<decimal>(0) == 1), Is.EqualTo(6));
             Assert.That(rs.Rows.Count(x => x.Field<decimal>(0) == 2), Is.EqualTo(6));
@@ -147,7 +147,7 @@ namespace NBi.Testing.Core.ResultSet.Resolver
             );
             var rs = resolver.Execute();
 
-            Assert.That(rs.Columns.Count, Is.EqualTo(1));
+            Assert.That(rs.ColumnCount, Is.EqualTo(1));
             Assert.That(rs.Rows.Count, Is.EqualTo(2));
             Assert.That(rs.Rows.Count(x => x.Field<decimal>(0) == 1), Is.EqualTo(1));
             Assert.That(rs.Rows.Count(x => x.Field<decimal>(0) == 2), Is.EqualTo(1));

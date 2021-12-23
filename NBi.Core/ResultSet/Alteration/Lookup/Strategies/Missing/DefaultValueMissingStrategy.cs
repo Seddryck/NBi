@@ -15,7 +15,7 @@ namespace NBi.Core.ResultSet.Alteration.Lookup.Strategies.Missing
         public DefaultValueMissingStrategy(object defaultValue)
             => Value = defaultValue;
 
-        public void Execute(IResultRow row, DataColumn originalColumn, DataColumn newColumn)
+        public void Execute(IResultRow row, IResultColumn originalColumn, IResultColumn newColumn)
             => row[newColumn.Ordinal] = Value;
     }
 }

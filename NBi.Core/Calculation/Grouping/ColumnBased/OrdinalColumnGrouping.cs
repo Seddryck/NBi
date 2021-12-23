@@ -18,6 +18,6 @@ namespace NBi.Core.Calculation.Grouping.ColumnBased
             : base(settings, context) { }
 
         protected override DataRowKeysComparer BuildDataRowsKeyComparer(IResultSet x)
-            => new DataRowKeysComparerByOrdinal(Settings, x.Columns.Count);
+            => new DataRowKeysComparerByOrdinal(Settings, x.ColumnCount);
     }
 }

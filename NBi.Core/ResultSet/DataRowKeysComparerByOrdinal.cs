@@ -20,13 +20,13 @@ namespace NBi.Core.ResultSet
         
         protected override bool CheckKeysExist(IResultRow dr)
         {
-            return settings.GetLastKeyColumnOrdinal() < dr.Parent.Columns.Count;
+            return settings.GetLastKeyColumnOrdinal() < dr.Parent.ColumnCount;
         }
         
         public override KeyCollection GetKeys(IResultRow row)
         {
             var keys = new List<object>();
-            for (int i = 0; i < row.Parent.Columns.Count; i++)
+            for (int i = 0; i < row.Parent.ColumnCount; i++)
             {
                 if (settings.GetColumnRole(i) == ColumnRole.Key)
                 {

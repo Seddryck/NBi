@@ -18,10 +18,10 @@ namespace NBi.Core.ResultSet.Analyzer
         {
             List<RowHelper> rows;
             {
-                var keys = x.Keys.Intersect(y.Keys);
+                var keys = y.Keys.Intersect(x.Keys);
                 rows = new List<RowHelper>(keys.Count());
                 foreach (var i in keys)
-                    rows.Add(x[i]);
+                    rows.Add(y[i]);
             }
             return rows;
         }

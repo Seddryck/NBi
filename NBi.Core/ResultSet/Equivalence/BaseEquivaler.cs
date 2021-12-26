@@ -48,12 +48,12 @@ namespace NBi.Core.ResultSet.Equivalence
 
             stopWatch.Start();
             BuildRowDictionary(x, xDict, keyComparer, false);
-            Trace.WriteLineIf(NBiTraceSwitch.TraceInfo, string.Format("Building first rows dictionary: {0} [{1}]", x.RowCount, stopWatch.Elapsed.ToString(@"d\d\.hh\h\:mm\m\:ss\s\ \+fff\m\s")));
+            Trace.WriteLineIf(NBiTraceSwitch.TraceInfo, $"Building first rows dictionary: {x.RowCount} [{stopWatch.Elapsed:d\\d\\.hh\\h\\:mm\\m\\:ss\\s\\ \\+fff\\m\\s}]");
             stopWatch.Reset();
 
             stopWatch.Start();
             BuildRowDictionary(y, yDict, keyComparer, true);
-            Trace.WriteLineIf(NBiTraceSwitch.TraceInfo, string.Format("Building second rows dictionary: {0} [{1}]", y.RowCount, stopWatch.Elapsed.ToString(@"d\d\.hh\h\:mm\m\:ss\s\ \+fff\m\s")));
+            Trace.WriteLineIf(NBiTraceSwitch.TraceInfo, $"Building second rows dictionary: {y.RowCount} [{stopWatch.Elapsed:d\\d\\.hh\\h\\:mm\\m\\:ss\\s\\ \\+fff\\m\\s}]");
             stopWatch.Reset();
 
             var missingRowsAnalyzer = analyzers.FirstOrDefault(a => a.GetType() == typeof(MissingRowsAnalyzer));
@@ -67,7 +67,8 @@ namespace NBi.Core.ResultSet.Equivalence
 
             stopWatch.Start();
             var nonMatchingValueRows = !CanSkipValueComparison() ? CompareSets(keyMatchingRows) : new List<IResultRow>();
-            Trace.WriteLineIf(NBiTraceSwitch.TraceInfo, string.Format("Rows with a matching key but without matching value: {0} [{1}]", nonMatchingValueRows.Count(), stopWatch.Elapsed.ToString(@"d\d\.hh\h\:mm\m\:ss\s\ \+fff\m\s")));
+            Trace.WriteLineIf(NBiTraceSwitch.TraceInfo
+                , $"Rows with a matching key but without matching value: {nonMatchingValueRows.Count()} [{stopWatch.Elapsed:d\\d\\.hh\\h\\:mm\\m\\:ss\\s\\ \\+fff\\m\\s}]");
             stopWatch.Reset();
 
             var duplicatedRows = new List<IResultRow>(); // Dummy placeholder

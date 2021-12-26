@@ -75,7 +75,7 @@ namespace NBi.Testing.Acceptance
 
         [Test]
         [TestCase("DataRowsMessage.nbits")]
-        //[TestCase("ItemsMessage.nbits")]
+        [TestCase("ItemsMessage.nbits")]
         [Category("Acceptance")]
         public override void RunNegativeTestSuite(string filename)
             => base.RunNegativeTestSuite(filename);

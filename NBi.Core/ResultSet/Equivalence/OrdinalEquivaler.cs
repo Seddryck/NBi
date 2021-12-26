@@ -59,18 +59,18 @@ namespace NBi.Core.ResultSet.Equivalence
                     var x = rx.IsNull(i) ? DBNull.Value : rx[i];
                     var y = ry.IsNull(i) ? DBNull.Value : ry[i];
                     var rounding = Settings.IsRounding(i) ? Settings.GetRounding(i) : null;
-                    var result = CellComparer.Compare(x, y, Settings.GetColumnType(i), Settings.GetTolerance(i), rounding);
+                    var result = CellComparer.Compare(y, x, Settings.GetColumnType(i), Settings.GetTolerance(i), rounding);
 
                     if (!result.AreEqual)
                     {
-                        ry.SetColumnError(i, result.Message);
+                        rx.SetColumnError(i, result.Message);
                         if (!isRowOnError)
                             isRowOnError = true;
                     }
                 }
             }
             if (isRowOnError)
-                return ry;
+                return rx;
             else
                 return null;
         }

@@ -71,18 +71,14 @@ namespace NBi.Testing.Acceptance
         [TestCase("CustomFlatFileParser.nbits")]
         [Category("Acceptance")]
         public override void RunPositiveTestSuiteWithConfig(string filename)
-        {
-            base.RunPositiveTestSuiteWithConfig(filename);
-        }
+            => base.RunPositiveTestSuiteWithConfig(filename);
 
         [Test]
         [TestCase("DataRowsMessage.nbits")]
-        [TestCase("ItemsMessage.nbits")]
+        //[TestCase("ItemsMessage.nbits")]
         [Category("Acceptance")]
         public override void RunNegativeTestSuite(string filename)
-        {
-            base.RunNegativeTestSuite(filename);
-        }
+            => base.RunNegativeTestSuite(filename);
 
         [Test]
         //[TestCase("Config-Full-Json.nbits")]
@@ -91,15 +87,11 @@ namespace NBi.Testing.Acceptance
         [TestCase("Scoring-Json.nbits")]
         [Category("Acceptance")]
         public override void RunNegativeTestSuiteWithConfig(string filename)
-        {
-            base.RunNegativeTestSuiteWithConfig(filename);
-        }
+            => base.RunNegativeTestSuiteWithConfig(filename);
 
         [Test]
         [TestCase("Ignored.nbits")]
         public override void RunIgnoredTests(string filename)
-        {
-            base.RunIgnoredTests(filename);
-        }
+            => base.RunIgnoredTests(filename);
     }
 }

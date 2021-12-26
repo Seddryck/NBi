@@ -10,18 +10,15 @@ namespace NBi.Core.ResultSet.Analyzer
     {
         protected override string Sentence
         {
-            get { return "Missing rows"; }
+            get => "Missing rows";
         }
-        
+
         protected override List<RowHelper> ExtractRows(Dictionary<KeyCollection, RowHelper> x, Dictionary<KeyCollection, RowHelper> y)
         {
-            List<RowHelper> rows;
-            {
-                var keys = x.Keys.Except(y.Keys);
-                rows = new List<RowHelper>(keys.Count());
-                foreach (var i in keys)
-                    rows.Add(x[i]);
-            }
+            var keys = y.Keys.Except(x.Keys);
+            var rows = new List<RowHelper>(keys.Count());
+            foreach (var i in keys)
+                rows.Add(y[i]);
             return rows;
         }
     }

@@ -95,11 +95,11 @@ namespace NBi.Core.ResultSet.Equivalence
             int i = 0;
 
             var nonMatchingValueRows = new List<IResultRow>();
-            foreach (var rxHelper in keyMatchingRows)
+            foreach (var ryHelper in keyMatchingRows)
             {
                 i++;
                 stopWatch.Restart();
-                var ryHelper = yDict[rxHelper.Keys];
+                var rxHelper = xDict[ryHelper.Keys];
                 var rx = rxHelper.DataRowObj;
                 var ry = ryHelper.DataRowObj;
 

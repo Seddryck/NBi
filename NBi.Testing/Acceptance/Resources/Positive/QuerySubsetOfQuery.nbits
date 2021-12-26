@@ -1,34 +1,76 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <testSuite name="Acceptance Testing: query equalTo query" xmlns="http://NBi/TestSuite">
-  <settings>
-    <default apply-to="system-under-test">
-      <connectionString>Data Source=(local)\SQL2017;Initial Catalog=AdventureWorks2017;User Id=sa;password=Password12!</connectionString>
-    </default>
-    <default apply-to="assert">
-      <connectionString>Data Source=(local)\SQL2017;Initial Catalog=AdventureWorks2017;User Id=sa;password=Password12!</connectionString>
-    </default>
-  </settings>
-  <test name="'Reseller Order Count' by year for 2006 and 2007 are return by the query" uid="0001">
-    <system-under-test>
-      <result-set>
-        <query>
-          SELECT 'CY 2006', 1015.0
-          UNION ALL SELECT 'CY 2007', 1521.0
-        </query>
-      </result-set>
-    </system-under-test>
-    <assert>
-      <subset-of>
-        <column index="0" role="key" type="text"/>
-        <column index="1" role="value" type="numeric"/>
-        <query>
-          SELECT 'CY 2005', 366.0
-          UNION ALL SELECT 'CY 2006', 1015.0
-          UNION ALL SELECT 'CY 2007', 1521.0
-          UNION ALL SELECT 'CY 2008', 894.0
-          UNION ALL SELECT 'CY 2009', NULL
-        </query>
-      </subset-of>
-    </assert>
-  </test>
+	<settings>
+		<default apply-to="system-under-test">
+			<connectionString>Data Source=(local)\SQL2017;Initial Catalog=AdventureWorks2017;User Id=sa;password=Password12!</connectionString>
+		</default>
+		<default apply-to="assert">
+			<connectionString>Data Source=(local)\SQL2017;Initial Catalog=AdventureWorks2017;User Id=sa;password=Password12!</connectionString>
+		</default>
+	</settings>
+	<test name="'Reseller Order Count' by year for 2006 and 2007 are return by the query" uid="0001">
+		<system-under-test>
+			<result-set>
+				<row>
+					<cell>CY 2006</cell>
+					<cell>1015.0</cell>
+				</row>
+				<row>
+					<cell>CY 2007</cell>
+					<cell>1521.0</cell>
+				</row>
+			</result-set>
+		</system-under-test>
+		<assert>
+			<subset-of>
+				<column index="0" role="key" type="text"/>
+				<column index="1" role="value" type="numeric"/>
+				<result-set>
+					<row>
+						<cell>CY 2005</cell>
+						<cell>366.0</cell>
+					</row>
+					<row>
+						<cell>CY 2006</cell>
+						<cell>1015.0</cell>
+					</row>
+					<row>
+						<cell>CY 2007</cell>
+						<cell>1521.0</cell>
+					</row>
+					<row>
+						<cell>CY 2008</cell>
+						<cell>894.0</cell>
+					</row>
+					<row>
+						<cell>CY 2009</cell>
+						<cell />
+					</row>
+				</result-set>
+			</subset-of>
+		</assert>
+	</test>
+	<test name="'Reseller Order Count' by year for 2006 and 2007 are return by the query" uid="0002">
+		<system-under-test>
+			<result-set>
+				<query>
+					SELECT 'CY 2006', 1015.0
+					UNION ALL SELECT 'CY 2007', 1521.0
+				</query>
+			</result-set>
+		</system-under-test>
+		<assert>
+			<subset-of>
+				<column index="0" role="key" type="text"/>
+				<column index="1" role="value" type="numeric"/>
+				<query>
+					SELECT 'CY 2005', 366.0
+					UNION ALL SELECT 'CY 2006', 1015.0
+					UNION ALL SELECT 'CY 2007', 1521.0
+					UNION ALL SELECT 'CY 2008', 894.0
+					UNION ALL SELECT 'CY 2009', NULL
+				</query>
+			</subset-of>
+		</assert>
+	</test>
 </testSuite>

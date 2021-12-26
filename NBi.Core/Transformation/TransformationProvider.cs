@@ -51,7 +51,7 @@ namespace NBi.Core.Transformation
                 }
                 originalColumn.ReplaceBy(newColumn);
 
-                Trace.WriteLineIf(NBiTraceSwitch.TraceInfo, string.Format("Time needed to transform column {0}: {1}", identifier.Label, DateTime.Now.Subtract(tsStart).ToString(@"d\d\.hh\h\:mm\m\:ss\s\ \+fff\m\s")));
+                Trace.WriteLineIf(NBiTraceSwitch.TraceInfo, $"Time needed to transform column {identifier.Label}: {DateTime.Now.Subtract(tsStart):d\\d\\.hh\\h\\:mm\\m\\:ss\\s\\ \\+fff\\m\\s}");
             }
 
             return resultSet;

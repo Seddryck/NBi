@@ -47,7 +47,7 @@ namespace NBi.Core.ResultSet.Uniqueness
 
             stopWatch.Start();
             BuildRowDictionary(x, keyComparer, dict);
-            Trace.WriteLineIf(NBiTraceSwitch.TraceInfo, string.Format("Building dictionary: {0} [{1}]", x.RowCount, stopWatch.Elapsed.ToString(@"d\d\.hh\h\:mm\m\:ss\s\ \+fff\m\s")));
+            Trace.WriteLineIf(NBiTraceSwitch.TraceInfo, $"Building dictionary: {x.RowCount} [{stopWatch.Elapsed:d\\d\\.hh\\h\\:mm\\m\\:ss\\s\\ \\+fff\\m\\s}]");
             stopWatch.Reset();
 
             var duplicatedRows = dict.Where(r => r.Value > 1);

@@ -11,15 +11,12 @@ namespace NBi.Core.ResultSet.Equivalence
     {
         public override EngineStyle Style
         {
-            get
-            {
-                return EngineStyle.ByName;
-            }
+            get => EngineStyle.ByName;
         }
 
         private new SettingsNameResultSet Settings
         {
-            get { return base.Settings as SettingsNameResultSet; }
+            get => base.Settings as SettingsNameResultSet;
         }
 
         public NameEquivaler(IEnumerable<IRowsAnalyzer> analyzers, SettingsNameResultSet settings)
@@ -47,9 +44,7 @@ namespace NBi.Core.ResultSet.Equivalence
         }
 
         protected override DataRowKeysComparer BuildDataRowsKeyComparer(IResultSet x)
-        {
-            return new DataRowKeysComparerByName(Settings);
-        }
+            => new DataRowKeysComparerByName(Settings);
 
         protected override IResultRow CompareRows(IResultRow rx, IResultRow ry)
         {
@@ -59,7 +54,7 @@ namespace NBi.Core.ResultSet.Equivalence
                 var x = rx.IsNull(columnName) ? DBNull.Value : rx[columnName];
                 var y = ry.IsNull(columnName) ? DBNull.Value : ry[columnName];
                 var rounding = Settings.IsRounding(columnName) ? Settings.GetRounding(columnName) : null;
-                var result = base.CellComparer.Compare(x, y, Settings.GetColumnType(columnName), Settings.GetTolerance(columnName), rounding);
+                var result = CellComparer.Compare(x, y, Settings.GetColumnType(columnName), Settings.GetTolerance(columnName), rounding);
 
                 if (!result.AreEqual)
                 {

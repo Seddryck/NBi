@@ -793,6 +793,7 @@
     <EmbeddedResource Include="Acceptance\Resources\Csv\PurchaseOrders.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
+    <EmbeddedResource Include="Acceptance\Resources\Negative\DataRowsMessage-0005.txt" />
     <Content Include="Acceptance\Resources\Query\ResellerOrderCount.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

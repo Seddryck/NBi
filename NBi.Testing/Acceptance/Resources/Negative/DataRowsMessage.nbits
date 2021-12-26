@@ -8,17 +8,75 @@
 			<connectionString>Data Source=(local)\SQL2017;Initial Catalog=AdventureWorks2017;User Id=sa;password=Password12!</connectionString>
 		</default>
 	</settings>
+	<test name="'Reseller Order Count" uid="0005">
+		<system-under-test>
+			<result-set>
+				<row>
+					<cell>CY 2003</cell>
+					<cell>155</cell>
+				</row>
+				<row>
+					<cell>CY 2004</cell>
+					<cell>1212</cell>
+				</row>
+				<row>
+					<cell>CY 2005</cell>
+					<cell>366</cell>
+				</row>
+				<row>
+					<cell>CY 2006</cell>
+					<cell>1015</cell>
+				</row>
+				<row>
+					<cell>CY 2008</cell>
+					<cell>1752</cell>
+				</row>
+				<row>
+					<cell>CY 2009</cell>
+					<cell />
+				</row>
+			</result-set>
+		</system-under-test>
+		<assert>
+			<equal-to>
+				<column index="0" role="key" type="text"/>
+				<column index="1" role="value" type="numeric" tolerance="0.01"/>
+				<result-set>
+					<row>
+						<cell>CY 2005</cell>
+						<cell>366</cell>
+					</row>
+					<row>
+						<cell>CY 2006</cell>
+						<cell>1015</cell>
+					</row>
+					<row>
+						<cell>CY 2007</cell>
+						<cell>1521</cell>
+					</row>
+					<row>
+						<cell>CY 2008</cell>
+						<cell>894</cell>
+					</row>
+					<row>
+						<cell>CY 2009</cell>
+						<cell />
+					</row>
+				</result-set>
+			</equal-to>
+		</assert>
+	</test>
 	<test name="'Reseller Order Count' by year before 2006" uid="0010">
 		<system-under-test>
 			<execution>
-        <query>
-          SELECT 'CY 2003', 155
-          UNION ALL SELECT 'CY 2004', 1212
-          UNION ALL SELECT 'CY 2005', 366
-          UNION ALL SELECT 'CY 2006', 1015
-          UNION ALL SELECT 'CY 2008', 1752
-          UNION ALL SELECT 'CY 2009', NULL
-        </query>
+				<query>
+					SELECT 'CY 2003', 155
+					UNION ALL SELECT 'CY 2004', 1212
+					UNION ALL SELECT 'CY 2005', 366
+					UNION ALL SELECT 'CY 2006', 1015
+					UNION ALL SELECT 'CY 2008', 1752
+					UNION ALL SELECT 'CY 2009', NULL
+				</query>
 			</execution>
 		</system-under-test>
 		<assert>
@@ -26,35 +84,35 @@
 				<column index="0" role="key" type="text"/>
 				<column index="1" role="value" type="numeric" tolerance="0.01"/>
 				<query>
-          SELECT 'CY 2005', 366
-          UNION ALL SELECT 'CY 2006', 1015
-          UNION ALL SELECT 'CY 2007', 1521
-          UNION ALL SELECT 'CY 2008', 894
-          UNION ALL SELECT 'CY 2009', NULL
-        </query>
+					SELECT 'CY 2005', 366
+					UNION ALL SELECT 'CY 2006', 1015
+					UNION ALL SELECT 'CY 2007', 1521
+					UNION ALL SELECT 'CY 2008', 894
+					UNION ALL SELECT 'CY 2009', NULL
+				</query>
 			</equalTo>
 		</assert>
 	</test>
-  <test name="All values are greater than 20" uid="0020">
-    <system-under-test>
-      <result-set>
-        <row>
-          <cell>5</cell>
-        </row>
-        <row>
-          <cell>15</cell>
-        </row>
-        <row>
-          <cell>25</cell>
-        </row>
-      </result-set>
-    </system-under-test>
-    <assert>
-      <all-rows>
-        <predicate operand="#0" type="numeric">
-          <more-than>20</more-than>
-        </predicate>
-      </all-rows>
-    </assert>
-  </test>
+	<test name="All values are greater than 20" uid="0020">
+		<system-under-test>
+			<result-set>
+				<row>
+					<cell>5</cell>
+				</row>
+				<row>
+					<cell>15</cell>
+				</row>
+				<row>
+					<cell>25</cell>
+				</row>
+			</result-set>
+		</system-under-test>
+		<assert>
+			<all-rows>
+				<predicate operand="#0" type="numeric">
+					<more-than>20</more-than>
+				</predicate>
+			</all-rows>
+		</assert>
+	</test>
 </testSuite>

@@ -142,10 +142,10 @@ In the following example, all the values within the column in position 0 and the
   <alteration>
     <transform identifier="#0" original-type="numeric">
       <script language="native">numeric-to-multiply(#1) | numeric-to-clip(0, [ColC])</script>
-    </extend>
-    <extend identifier="[ColD]" original-type="text">
+    </transform>
+    <transform identifier="[ColD]" original-type="text">
       <script language="native"> text-to-upper</script>
-    </extend>
+    </transform>
   </alteration>
 </result-set>
 {% endhighlight %}

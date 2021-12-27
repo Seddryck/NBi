@@ -17,7 +17,7 @@ namespace NBi.Testing.Core.ResultSet.Alteration.Merging
 {
     public class CartesianProductEngineTest
     {
-        private (IResultSet firstRs, IResultSetService service) Initialize(int count)
+        private (IResultSet firstRs, IResultSetResolver resolver) Initialize(int count)
         {
             var dataTable = new DataTable() { TableName = "MyTable" };
             dataTable.Columns.Add(new DataColumn("Id"));

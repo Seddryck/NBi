@@ -7,5 +7,8 @@ using System.Threading.Tasks;
 
 namespace NBi.Core.ResultSet.Alteration
 {
-    public delegate IResultSet Alter(IResultSet resultSet);
+    public interface IAlteration
+    {
+        IResultSet Execute(IResultSet resultSet);
+    }
 }

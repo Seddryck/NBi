@@ -11,20 +11,20 @@ namespace NBi.Core.ResultSet.Resolver
 {
     class AlterationResultSetResolver : IResultSetResolver
     {
-        public AlterationResultSetResolver(IResultSetResolver embededResultSetResolver, IEnumerable<Alter> alter)
+        public AlterationResultSetResolver(IResultSetResolver embededResultSetResolver, IEnumerable<IAlteration> alter)
         {
             EmbededResultSetResolver = embededResultSetResolver;
             Alterations = alter;
         }
 
         private IResultSetResolver EmbededResultSetResolver { get; }
-        private IEnumerable<Alter> Alterations { get; }
+        private IEnumerable<IAlteration> Alterations { get; }
 
         public IResultSet Execute()
         {
             var resultSet = EmbededResultSetResolver.Execute();
             foreach (var alteration in Alterations)
-                resultSet = alteration.Invoke(resultSet);
+                resultSet = alteration.Execute(resultSet);
 
             return resultSet;
         }

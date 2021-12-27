@@ -7,8 +7,6 @@ using NBi.Extensibility;
 
 namespace NBi.Core.ResultSet.Alteration.Summarization
 {
-    public interface ISummarizationEngine
-    {
-        IResultSet Execute(IResultSet rs);
-    }
+    public interface ISummarizationEngine : IAlteration
+    { }
 }

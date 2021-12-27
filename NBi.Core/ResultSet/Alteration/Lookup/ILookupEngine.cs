@@ -7,8 +7,6 @@ using System.Threading.Tasks;
 
 namespace NBi.Core.ResultSet.Alteration.Lookup
 {
-    public interface ILookupEngine
-    {
-        IResultSet Execute(IResultSet rs);
-    }
+    public interface ILookupEngine : IAlteration
+    { }
 }

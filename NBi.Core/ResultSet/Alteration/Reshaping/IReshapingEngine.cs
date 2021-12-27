@@ -7,8 +7,6 @@ using System.Threading.Tasks;
 
 namespace NBi.Core.ResultSet.Alteration.Reshaping
 {
-    public interface IReshapingEngine
-    {
-        IResultSet Execute(IResultSet rs);
-    }
+    public interface IReshapingEngine : IAlteration
+    { }
 }

@@ -7,8 +7,6 @@ using NBi.Extensibility;
 
 namespace NBi.Core.ResultSet.Alteration.Renaming
 {
-    public interface IRenamingEngine
-    {
-        IResultSet Execute(IResultSet rs);
-    }
+    public interface IRenamingEngine : IAlteration
+    { }
 }

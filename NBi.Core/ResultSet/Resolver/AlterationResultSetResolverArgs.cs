@@ -12,9 +12,9 @@ namespace NBi.Core.ResultSet.Resolver
     public class AlterationResultSetResolverArgs : ResultSetResolverArgs
     {
         public IResultSetResolver Resolver { get; }
-        public IEnumerable<Alter> Alterations { get; }
+        public IEnumerable<IAlteration> Alterations { get; }
 
-        public AlterationResultSetResolverArgs(IResultSetResolver resolver, IEnumerable<Alter> alterations)
+        public AlterationResultSetResolverArgs(IResultSetResolver resolver, IEnumerable<IAlteration> alterations)
             => (Resolver, Alterations) = (resolver, alterations);
     }
 }

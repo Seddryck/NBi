@@ -21,7 +21,7 @@ namespace NBi.Testing.Core.ResultSet.Resolver
             var embeddedResolverMock = new Mock<IResultSetResolver>();
             embeddedResolverMock.Setup(r => r.Execute()).Returns(new DataTableResultSet());
 
-            var resolver = new AlterationResultSetResolver(embeddedResolverMock.Object, new List<Alter>());
+            var resolver = new AlterationResultSetResolver(embeddedResolverMock.Object, new List<IAlteration>());
             resolver.Execute();
 
             embeddedResolverMock.Verify(l => l.Execute(), Times.Once);
@@ -36,7 +36,7 @@ namespace NBi.Testing.Core.ResultSet.Resolver
             var embeddedresolverMock = new Mock<IResultSetResolver>();
             embeddedresolverMock.Setup(r => r.Execute()).Returns(rs);
             
-            var resolver = new AlterationResultSetResolver(embeddedresolverMock.Object, new List<Alter>());
+            var resolver = new AlterationResultSetResolver(embeddedresolverMock.Object, new List<IAlteration>());
             var result = resolver.Execute();
 
             Assert.That(result, Is.EqualTo(rs));
@@ -57,15 +57,15 @@ namespace NBi.Testing.Core.ResultSet.Resolver
             var embeddedResolverMock = new Mock<IResultSetResolver>();
             embeddedResolverMock.Setup(r => r.Execute()).Returns(rs);
 
-            var alterMock = new Mock<Alter>();
-            alterMock.Setup(t => t.Invoke(rs)).Returns(new DataTableResultSet());
+            var alterMock = new Mock<IAlteration>();
+            alterMock.Setup(t => t.Execute(rs)).Returns(new DataTableResultSet());
 
-            var resolver = new AlterationResultSetResolver(embeddedResolverMock.Object, new List<Alter>() { alterMock.Object });
+            var resolver = new AlterationResultSetResolver(embeddedResolverMock.Object, new List<IAlteration>() { alterMock.Object });
             var result = resolver.Execute();
 
             Assert.That(result, Is.Not.EqualTo(rs));
             embeddedResolverMock.Verify(l => l.Execute(), Times.Once);
-            alterMock.Verify(t => t.Invoke(rs), Times.Once);
+            alterMock.Verify(t => t.Execute(rs), Times.Once);
         }
 
         [Test]
@@ -78,20 +78,20 @@ namespace NBi.Testing.Core.ResultSet.Resolver
             embeddedresolverMock.Setup(r => r.Execute()).Returns(rs);
 
             var intermediateResultSet = new DataTableResultSet();
-            var alterMock1 = new Mock<Alter>();
-            alterMock1.Setup(t => t.Invoke(rs)).Returns(intermediateResultSet);
+            var alterMock1 = new Mock<IAlteration>();
+            alterMock1.Setup(t => t.Execute(rs)).Returns(intermediateResultSet);
 
             var finalResultSet = new DataTableResultSet();
-            var alterMock2 = new Mock<Alter>();
-            alterMock2.Setup(t => t.Invoke(intermediateResultSet)).Returns(finalResultSet);
+            var alterMock2 = new Mock<IAlteration>();
+            alterMock2.Setup(t => t.Execute(intermediateResultSet)).Returns(finalResultSet);
 
-            var resolver = new AlterationResultSetResolver(embeddedresolverMock.Object, new List<Alter>() { alterMock1.Object, alterMock2.Object });
+            var resolver = new AlterationResultSetResolver(embeddedresolverMock.Object, new List<IAlteration>() { alterMock1.Object, alterMock2.Object });
             var result = resolver.Execute();
 
             Assert.That(intermediateResultSet, Is.Not.EqualTo(finalResultSet));
             embeddedresolverMock.Verify(l => l.Execute(), Times.Once);
-            alterMock1.Verify(t => t.Invoke(rs), Times.Once);
-            alterMock2.Verify(t => t.Invoke(intermediateResultSet), Times.Once);
+            alterMock1.Verify(t => t.Execute(rs), Times.Once);
+            alterMock2.Verify(t => t.Execute(intermediateResultSet), Times.Once);
         }
     }
 }

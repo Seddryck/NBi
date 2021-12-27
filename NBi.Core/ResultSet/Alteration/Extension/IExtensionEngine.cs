@@ -7,8 +7,6 @@ using NBi.Extensibility;
 
 namespace NBi.Core.ResultSet.Alteration.Extension
 {
-    public interface IExtensionEngine
-    {
-        IResultSet Execute(IResultSet rs);
-    }
+    public interface IExtensionEngine : IAlteration
+    { }
 }

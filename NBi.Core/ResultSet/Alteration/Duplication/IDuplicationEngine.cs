@@ -7,8 +7,6 @@ using System.Threading.Tasks;
 
 namespace NBi.Core.ResultSet.Alteration.Duplication
 {
-    public interface IDuplicationEngine
-    {
-        IResultSet Execute(IResultSet rs);
-    }
+    public interface IDuplicationEngine : IAlteration
+    {}
 }

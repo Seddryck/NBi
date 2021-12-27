@@ -7,8 +7,6 @@ using NBi.Extensibility;
 
 namespace NBi.Core.ResultSet.Alteration.Projection
 {
-    public interface IProjectionEngine
-    {
-        IResultSet Execute(IResultSet rs);
-    }
+    public interface IProjectionEngine : IAlteration
+    { }
 }

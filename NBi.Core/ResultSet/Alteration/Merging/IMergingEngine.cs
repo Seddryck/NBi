@@ -7,8 +7,6 @@ using NBi.Extensibility;
 
 namespace NBi.Core.ResultSet.Alteration.Merging
 {
-    public interface IMergingEngine
-    {
-        IResultSet Execute(IResultSet rs);
-    }
+    public interface IMergingEngine : IAlteration
+    { }
 }

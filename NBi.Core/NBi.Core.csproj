@@ -492,7 +492,7 @@
     <Compile Include="Report\SharedDatasetRequest.cs" />
     <Compile Include="Report\ReportDataSetRequest.cs" />
     <Compile Include="Report\ReportingCommand.cs" />
-    <Compile Include="ResultSet\Alteration\Alter.cs" />
+    <Compile Include="ResultSet\Alteration\IAlteration.cs" />
     <Compile Include="ResultSet\Alteration\Extension\NativeExtendEngine.cs" />
     <Compile Include="ResultSet\Alteration\Extension\NCalcExtendEngine.cs" />
     <Compile Include="ResultSet\Alteration\Lookup\LookupReplaceArgs.cs" />

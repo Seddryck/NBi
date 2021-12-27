@@ -12,8 +12,13 @@ namespace NBi.Core.ResultSet.Filtering
     public abstract class BaseFilter : IResultSetFilter
     {
         protected Context Context { get; }
+        protected Func<IResultSet, IResultSet> Execution { get; }
+
         protected BaseFilter(Context context)
-        => Context = context;
+        => (Context, Execution) = (context, Apply);
+
+        public IResultSet Execute(IResultSet rs)
+            => Execution.Invoke(rs);
 
         public IResultSet AntiApply(IResultSet rs) => Apply(rs, (x => !x));
 

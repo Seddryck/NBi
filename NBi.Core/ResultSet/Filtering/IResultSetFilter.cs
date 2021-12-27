@@ -1,4 +1,5 @@
-﻿using NBi.Extensibility;
+﻿using NBi.Core.ResultSet.Alteration;
+using NBi.Extensibility;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace NBi.Core.ResultSet.Filtering
 {
-    public interface IResultSetFilter
+    public interface IResultSetFilter : IAlteration
     {
         IResultSet Apply(IResultSet rs);
         IResultSet AntiApply(IResultSet rs);

@@ -1,4 +1,5 @@
-﻿using NBi.Core.Scalar.Conversion;
+﻿using NBi.Core.ResultSet.Alteration;
+using NBi.Core.Scalar.Conversion;
 using NBi.Extensibility;
 using System;
 using System.Collections.Generic;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace NBi.Core.ResultSet.Conversion
 {
-    public class ConverterEngine
+    public class ConverterEngine : IAlteration
     {
         private readonly string column;
         private readonly IConverter converter;

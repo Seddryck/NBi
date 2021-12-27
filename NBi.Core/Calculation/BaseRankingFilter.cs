@@ -20,14 +20,19 @@ namespace NBi.Core.Calculation
         protected ColumnType ColumnType { get; }
         protected IEnumerable<IColumnAlias> Aliases { get; }
         protected IEnumerable<IColumnExpression> Expressions { get; }
+        protected Func<IResultSet, IResultSet> Execution { get; }
 
         protected BaseRankingFilter(IColumnIdentifier operand, ColumnType columnType, IEnumerable<IColumnAlias> aliases, IEnumerable<IColumnExpression> expressions)
         {
-            this.Operand = operand;
-            this.ColumnType = columnType;
-            this.Aliases = aliases;
-            this.Expressions = expressions;
+            Operand = operand;
+            ColumnType = columnType;
+            Aliases = aliases;
+            Expressions = expressions;
+            Execution = Apply;
         }
+
+        public IResultSet Execute(IResultSet rs)
+            => Execution.Invoke(rs);    
 
         public IResultSet AntiApply(IResultSet rs)
             => throw new NotImplementedException();

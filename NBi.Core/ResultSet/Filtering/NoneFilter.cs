@@ -9,6 +9,14 @@ namespace NBi.Core.ResultSet.Filtering
 {
     class NoneFilter : IResultSetFilter
     {
+        protected Func<IResultSet, IResultSet> Execution { get; }
+
+        public NoneFilter()
+            => Execution = Apply;
+
+        public IResultSet Execute(IResultSet rs)
+            => Execution.Invoke(rs);
+
         public IResultSet Apply(IResultSet rs)
             => rs ?? throw new ArgumentNullException();
 

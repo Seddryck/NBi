@@ -1,5 +1,6 @@
 ﻿using NBi.Core.Injection;
 using NBi.Core.ResultSet;
+using NBi.Core.ResultSet.Alteration;
 using NBi.Core.Variable;
 using NBi.Extensibility;
 using System;
@@ -12,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace NBi.Core.Transformation
 {
-    public class TransformationProvider
+    public class TransformationProvider : IAlteration
     {
         private IDictionary<IColumnIdentifier, ITransformer> cacheTransformers;
         private readonly TransformerFactory factory;
@@ -34,7 +35,7 @@ namespace NBi.Core.Transformation
             cacheTransformers.Add(indentifier, transformer);
         }
 
-        public virtual IResultSet Transform(IResultSet resultSet)
+        public virtual IResultSet Execute(IResultSet resultSet)
         {
             foreach (var identifier in cacheTransformers.Keys)
             {

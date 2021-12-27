@@ -67,7 +67,7 @@ namespace NBi.NUnit.Builder.Helper
             return resolver;
         }
 
-        public IEnumerable<Alter> InstantiateAlterations(ResultSetSystemXml resultSetXml)
+        public IEnumerable<IAlteration> InstantiateAlterations(ResultSetSystemXml resultSetXml)
         {
             if ((resultSetXml.Alterations?.Count ?? 0) == 0)
                 yield break;
@@ -93,7 +93,7 @@ namespace NBi.NUnit.Builder.Helper
             }
         }
 
-        private Alter InstantiateFilter(FilterXml filterXml)
+        private IAlteration InstantiateFilter(FilterXml filterXml)
         {
             var context = new Context(Variables);
             var factory = new ResultSetFilterFactory(ServiceLocator);
@@ -113,7 +113,7 @@ namespace NBi.NUnit.Builder.Helper
                                 (
                                     new PredicationArgs(filterXml.Predication.Operand, args)
                                     , context
-                                ).Apply;
+                                );
                 }
                 if (filterXml.Combination != null)
                 {
@@ -130,7 +130,7 @@ namespace NBi.NUnit.Builder.Helper
                                     filterXml.Combination.Operator
                                     , predicationArgs
                                     , context
-                                ).Apply;
+                                );
                 }
                 throw new ArgumentException();
             }
@@ -141,7 +141,7 @@ namespace NBi.NUnit.Builder.Helper
                 var groupBy = groupByFactory.Instantiate(groupByArgs);
 
                 var rankingGroupByArgs = new RankingGroupByArgs(groupBy, filterXml.Ranking.Option, filterXml.Ranking.Count, filterXml.Ranking.Operand, filterXml.Ranking.Type);
-                return factory.Instantiate(rankingGroupByArgs, context).Apply;
+                return factory.Instantiate(rankingGroupByArgs, context);
             }
 
             else if (filterXml.Uniqueness != null)
@@ -151,7 +151,7 @@ namespace NBi.NUnit.Builder.Helper
                 var groupBy = groupByFactory.Instantiate(groupByArgs);
 
                 var uniquenessArgs = new UniquenessArgs(groupBy);
-                return factory.Instantiate(uniquenessArgs, context).Apply;
+                return factory.Instantiate(uniquenessArgs, context);
             }
 
             throw new ArgumentOutOfRangeException();
@@ -185,15 +185,15 @@ namespace NBi.NUnit.Builder.Helper
             throw new ArgumentOutOfRangeException();
         }
 
-        private Alter InstantiateConvert(ConvertXml convertXml)
+        private IAlteration InstantiateConvert(ConvertXml convertXml)
         {
             var factory = new ConverterFactory();
             var converter = factory.Instantiate(convertXml.Converter.From, convertXml.Converter.To, convertXml.Converter.DefaultValue, convertXml.Converter.Culture);
-            var engine = new ConverterEngine(convertXml.Column, converter);
-            return engine.Execute;
+            var convertion = new ConverterEngine(convertXml.Column, converter);
+            return convertion;
         }
 
-        private Alter InstantiateRename(RenamingXml renameXml)
+        private IAlteration InstantiateRename(RenamingXml renameXml)
         {
             var helper = new ScalarHelper(ServiceLocator, new Context(Variables));
             var newName = helper.InstantiateResolver<string>(renameXml.NewName);
@@ -210,11 +210,11 @@ namespace NBi.NUnit.Builder.Helper
             }
 
             var factory = new RenamingFactory();
-            var renamer = factory.Instantiate(new NewNameRenamingArgs(renameXml.Identifier, newName, strategy));
-            return renamer.Execute;
+            var renaming = factory.Instantiate(new NewNameRenamingArgs(renameXml.Identifier, newName, strategy));
+            return renaming;
         }
 
-        private Alter InstantiateMerging(MergeXml mergeXml, SettingsXml settingsXml)
+        private IAlteration InstantiateMerging(MergeXml mergeXml, SettingsXml settingsXml)
         {
             mergeXml.ResultSet.Settings = settingsXml;
 
@@ -233,19 +233,18 @@ namespace NBi.NUnit.Builder.Helper
                 default: args = new CartesianProductArgs(innerResolver); break;
             }
 
-            var merger = factory.Instantiate(args);
-            return merger.Execute;
+            var merge = factory.Instantiate(args);
+            return merge;
         }
 
-        private Alter InstantiateTransform(TransformXml transformXml)
+        private IAlteration InstantiateTransform(TransformXml transformXml)
         {
-            var identifierFactory = new ColumnIdentifierFactory();
             var provider = new TransformationProvider(new ServiceLocator(), new Context(Variables));
             provider.Add(transformXml.Identifier, transformXml);
-            return provider.Transform;
+            return provider;
         }
 
-        private Alter InstantiateSummarize(SummarizeXml summarizeXml)
+        private IAlteration InstantiateSummarize(SummarizeXml summarizeXml)
         {
             var scalarHelper = new ScalarHelper(ServiceLocator, null);
 
@@ -261,48 +260,48 @@ namespace NBi.NUnit.Builder.Helper
                     };
             var groupBys = summarizeXml.GroupBy?.Columns?.Cast<IColumnDefinitionLight>() ?? new List<IColumnDefinitionLight>();
 
-            var summarizer = factory.Instantiate(new SummarizeArgs(aggregations, groupBys));
-            return summarizer.Execute;
+            var summarization = factory.Instantiate(new SummarizeArgs(aggregations, groupBys));
+            return summarization;
         }
 
-        private Alter InstantiateExtend(ExtendXml extendXml)
+        private IAlteration InstantiateExtend(ExtendXml extendXml)
         {
             var factory = new ExtensionFactory(ServiceLocator, new Context(Variables));
-            var extender = factory.Instantiate(new ExtendArgs
+            var extension = factory.Instantiate(new ExtendArgs
                 (
                     extendXml.Identifier
                     , extendXml.Script?.Code ?? throw new ArgumentException("Script cannot be empty or null")
                     , extendXml.Script.Language
                 ));
-            return extender.Execute;
+            return extension;
         }
 
-        private Alter InstantiateUnstack(UnstackXml unstackXml)
+        private IAlteration InstantiateUnstack(UnstackXml unstackXml)
         {
             var factory = new ReshapingFactory();
             var header = unstackXml.Header.Column.Identifier;
             var groupBys = unstackXml.GroupBy?.Columns?.Cast<IColumnDefinitionLight>() ?? new List<IColumnDefinitionLight>();
             var values = unstackXml.Header.EnforcedValues.Select(x => new ColumnNameIdentifier(x));
 
-            var reshaper = factory.Instantiate(new UnstackArgs(header, groupBys, values));
-            return reshaper.Execute;
+            var reshaping = factory.Instantiate(new UnstackArgs(header, groupBys, values));
+            return reshaping;
         }
 
-        private Alter InstantiateProject(ProjectXml projectXml)
+        private IAlteration InstantiateProject(ProjectXml projectXml)
         {
             var factory = new ProjectionFactory();
-            var project = factory.Instantiate(new ProjectArgs(projectXml.Columns.Select(x => x.Identifier)));
-            return project.Execute;
+            var projection = factory.Instantiate(new ProjectArgs(projectXml.Columns.Select(x => x.Identifier)));
+            return projection;
         }
 
-        private Alter InstantiateProjectAway(ProjectAwayXml projectXml)
+        private IAlteration InstantiateProjectAway(ProjectAwayXml projectXml)
         {
             var factory = new ProjectionFactory();
-            var project = factory.Instantiate(new ProjectAwayArgs(projectXml.Columns.Select(x => x.Identifier)));
-            return project.Execute;
+            var projection = factory.Instantiate(new ProjectAwayArgs(projectXml.Columns.Select(x => x.Identifier)));
+            return projection;
         }
 
-        private Alter InstantiateDuplicate(DuplicateXml duplicateXml)
+        private IAlteration InstantiateDuplicate(DuplicateXml duplicateXml)
         {
             var context = new Context(Variables);
 
@@ -335,11 +334,11 @@ namespace NBi.NUnit.Builder.Helper
             //Duplicate
             var args = new DuplicateArgs(predication, times, outputs);
             var factory = new DuplicationFactory(ServiceLocator, context);
-            var duplicate = factory.Instantiate(args);
-            return duplicate.Execute;
+            var duplication = factory.Instantiate(args);
+            return duplication;
         }
 
-        private Alter InstantiateLookupReplace(LookupReplaceXml lookupReplaceXml, SettingsXml settingsXml)
+        private IAlteration InstantiateLookupReplace(LookupReplaceXml lookupReplaceXml, SettingsXml settingsXml)
         {
             lookupReplaceXml.ResultSet.Settings = settingsXml;
             var resolverArgs = new AlterationResultSetResolverArgs(
@@ -375,7 +374,7 @@ namespace NBi.NUnit.Builder.Helper
                         strategy
                 ));
 
-            return lookup.Execute;
+            return lookup;
         }
 
         private IEnumerable<ColumnMapping> BuildMappings(JoinXml joinXml)

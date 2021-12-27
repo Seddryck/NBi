@@ -9,14 +9,18 @@ using System.Threading.Tasks;
 
 namespace NBi.Core.ResultSet.Filtering
 {
-    class GroupByFilter: IResultSetFilter
+    class GroupByFilter : IResultSetFilter
     {
         protected IResultSetFilter Filter { get; }
         protected IGroupBy GroupBy { get; }
+        protected Func<IResultSet, IResultSet> Execution { get; }
 
         public GroupByFilter(IResultSetFilter filter, IGroupBy groupBy)
-            => (Filter, GroupBy) = (filter, groupBy);
-        
+            => (Filter, GroupBy, Execution) = (filter, groupBy, Apply);
+
+        public IResultSet Execute(IResultSet rs)
+            => Execution.Invoke(rs);
+
         public IResultSet Apply(IResultSet rs)
         {
             var newRs = rs.Clone();

@@ -33,7 +33,7 @@ namespace NBi.Testing.Core.Transformation
 
             var provider = new TransformationProvider(new ServiceLocator(), Context.None);
             provider.Add(new ColumnOrdinalIdentifier(0), transformation);
-            provider.Transform(resultSet);
+            provider.Execute(resultSet);
 
             Assert.That(resultSet.GetColumn(0).Name, Is.EqualTo("MyCol0"));
             Assert.That(resultSet.GetColumn(1).Name, Is.EqualTo("MyCol1"));
@@ -55,7 +55,7 @@ namespace NBi.Testing.Core.Transformation
 
             var provider = new TransformationProvider(new ServiceLocator(), Context.None);
             provider.Add(new ColumnOrdinalIdentifier(0), transformation);
-            provider.Transform(resultSet);
+            provider.Execute(resultSet);
 
             Assert.That(resultSet[0][0], Is.EqualTo("a"));
         }
@@ -75,7 +75,7 @@ namespace NBi.Testing.Core.Transformation
 
             var provider = new TransformationProvider(new ServiceLocator(), Context.None);
             provider.Add(new ColumnOrdinalIdentifier(0), transformation);
-            provider.Transform(resultSet);
+            provider.Execute(resultSet);
 
             Assert.That(resultSet[0][0], Is.EqualTo("aaaa"));
         }
@@ -95,7 +95,7 @@ namespace NBi.Testing.Core.Transformation
 
             var provider = new TransformationProvider(new ServiceLocator(), Context.None);
             provider.Add(new ColumnOrdinalIdentifier(0), transformation);
-            provider.Transform(resultSet);
+            provider.Execute(resultSet);
 
             Assert.That(resultSet[0][0], Is.EqualTo("123456"));
             Assert.That(resultSet[1][0], Is.EqualTo("ab"));
@@ -116,7 +116,7 @@ namespace NBi.Testing.Core.Transformation
 
             var provider = new TransformationProvider(new ServiceLocator(), Context.None);
             provider.Add(new ColumnOrdinalIdentifier(0), transformation);
-            provider.Transform(resultSet);
+            provider.Execute(resultSet);
 
             Assert.That(resultSet[0][0], Is.EqualTo("(null)"));
         }
@@ -156,7 +156,7 @@ namespace NBi.Testing.Core.Transformation
 
             var provider = new TransformationProvider(new ServiceLocator(), Context.None);
             provider.Add(new ColumnOrdinalIdentifier(0), transformation);
-            provider.Transform(resultSet);
+            provider.Execute(resultSet);
 
             Assert.That(resultSet[0][0], Is.EqualTo(202));
         }

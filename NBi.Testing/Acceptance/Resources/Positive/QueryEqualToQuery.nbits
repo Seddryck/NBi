@@ -1,646 +1,673 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <testSuite name="Acceptance Testing: query equalTo query" xmlns="http://NBi/TestSuite">
-  <settings>
-    <default apply-to="system-under-test">
-      <connection-string>Data Source=(local)\SQL2017;Initial Catalog=AdventureWorks2017;User Id=sa;password=Password12!</connection-string>
-    </default>
-    <default apply-to="assert">
-      <connection-string>Data Source=(local)\SQL2017;Initial Catalog=AdventureWorks2017;User Id=sa;password=Password12!</connection-string>
-    </default>
-  </settings>
-  <variables>
-    <variable name="TwoThousandAndFive">
-      <script>
-        new DateTime(2005,1,1)
-      </script>
-    </variable>
-  </variables>
-  <test name="'Reseller Order Count' by year before 2006" uid="0001">
-    <system-under-test>
-      <result-set>
-        <query>
-          SELECT @cyYear, 366
-          <parameter name="cyYear" sql-type="varchar(10)">~CY {@TwoThousandAndFive:yyyy}</parameter>
-        </query>
-      </result-set>
-    </system-under-test>
-    <assert>
-      <equal-to>
-        <query>
-          SELECT 'CY 2005', 366.0
-        </query>
-      </equal-to>
-    </assert>
-  </test>
-  <test name="'Reseller Order Count' by year before 2006" uid="0001">
-    <condition>
-      <service-running name="MSOLAP$SQL2017" />
-    </condition>
-    <system-under-test>
-      <result-set>
-        <query name="MDX Except" connection-string="Provider=MSOLAP.4;Data Source=(local)\SQL2017;Initial Catalog='Adventure Works DW 2012';localeidentifier=1049">
-          WITH MEMBER
-          [Measures].[Reseller Order Count Divided by 7]
-          AS
-          [Measures].[Reseller Order Count]/7
-          SELECT
-          [Measures].[Reseller Order Count Divided by 7] ON 0,
-          EXCEPT({[Date].[Calendar Year].Children},{[Date].[Calendar Year].[CY 2010]}) ON 1
-          FROM
-          [Adventure Works]
-        </query>
-      </result-set>
-    </system-under-test>
-    <assert>
-      <equal-to>
-        <column index="0" role="key" type="text"/>
-        <column index="1" role="value" type="numeric" tolerance="0.01"/>
-        <query>
-          SELECT 'CY 2005', 366.0/7
-          UNION ALL SELECT 'CY 2006', 1015.0/7
-          UNION ALL SELECT 'CY 2007', 1521.0/7
-          UNION ALL SELECT 'CY 2008', 894.0/7
-          UNION ALL SELECT 'CY 2009', NULL
-        </query>
-      </equal-to>
-    </assert>
-  </test>
-  <test name="'Reseller Order Count' by year before 2006" uid="0001" ignore="false">
-    <condition>
-      <service-running name="MSOLAP$SQL2017" />
-    </condition>
-    <system-under-test>
-      <result-set>
-        <query name="MDX Except" connectionString="Provider=MSOLAP.4;Data Source=(local)\SQL2017;Initial Catalog='Adventure Works DW 2012';localeidentifier=1049">
-          select
-          [Measures].[Internet Order Count] on 0,
-          [Date].[Date].Children  on 1
-          from
-          [Adventure Works]
-        </query>
-      </result-set>
-    </system-under-test>
-    <assert>
-      <equalTo>
-        <query connectionString="Provider=MSOLAP.4;Data Source=(local)\SQL2017;Initial Catalog='Adventure Works DW 2012';localeidentifier=1049">
-          select
-          [Measures].[Internet Order Count] on 0,
-          [Date].[Date].Children  on 1
-          from
-          [Adventure Works]
-        </query>
-      </equalTo>
-    </assert>
-  </test>
-  <group name="group">
-    <test name="Test Select 1" uid="0001">
-      <category>Shared</category>
-      <system-under-test>
-        <result-set>
-          <query>
-            <![CDATA[
+	<settings>
+		<default apply-to="system-under-test">
+			<connection-string>Data Source=(local)\SQL2017;Initial Catalog=AdventureWorks2017;User Id=sa;password=Password12!</connection-string>
+		</default>
+		<default apply-to="assert">
+			<connection-string>Data Source=(local)\SQL2017;Initial Catalog=AdventureWorks2017;User Id=sa;password=Password12!</connection-string>
+		</default>
+	</settings>
+	<variables>
+		<variable name="TwoThousandAndFive">
+			<script>
+				new DateTime(2005,1,1)
+			</script>
+		</variable>
+	</variables>
+	<test name="CSharp dateTime to string">
+		<system-under-test>
+			<result-set>
+				<row>
+					<cell>10.2016</cell>
+				</row>
+				<row>
+					<cell>11.2016</cell>
+				</row>
+			</result-set>
+		</system-under-test>
+		<assert>
+			<equal-to>
+				<column index="0" role="key" type="text">
+					<transformation original-type="dateTime">String.Format("{0:00}.{1}", value.Month, value.Year)</transformation>
+				</column>
+				<result-set>
+					<row>
+						<cell>2016-10-11</cell>
+					</row>
+					<row>
+						<cell>2016-11-22</cell>
+					</row>
+				</result-set>
+			</equal-to>
+		</assert>
+	</test>
+	<!--<test name="'Reseller Order Count' by year before 2006" uid="0001">
+		<system-under-test>
+			<result-set>
+				<query>
+					SELECT @cyYear, 366
+					<parameter name="cyYear" sql-type="varchar(10)">~CY {@TwoThousandAndFive:yyyy}</parameter>
+				</query>
+			</result-set>
+		</system-under-test>
+		<assert>
+			<equal-to>
+				<query>
+					SELECT 'CY 2005', 366.0
+				</query>
+			</equal-to>
+		</assert>
+	</test>
+	<test name="'Reseller Order Count' by year before 2006" uid="0001">
+		<condition>
+			<service-running name="MSOLAP$SQL2017" />
+		</condition>
+		<system-under-test>
+			<result-set>
+				<query name="MDX Except" connection-string="Provider=MSOLAP.4;Data Source=(local)\SQL2017;Initial Catalog='Adventure Works DW 2012';localeidentifier=1049">
+					WITH MEMBER
+					[Measures].[Reseller Order Count Divided by 7]
+					AS
+					[Measures].[Reseller Order Count]/7
+					SELECT
+					[Measures].[Reseller Order Count Divided by 7] ON 0,
+					EXCEPT({[Date].[Calendar Year].Children},{[Date].[Calendar Year].[CY 2010]}) ON 1
+					FROM
+					[Adventure Works]
+				</query>
+			</result-set>
+		</system-under-test>
+		<assert>
+			<equal-to>
+				<column index="0" role="key" type="text"/>
+				<column index="1" role="value" type="numeric" tolerance="0.01"/>
+				<query>
+					SELECT 'CY 2005', 366.0/7
+					UNION ALL SELECT 'CY 2006', 1015.0/7
+					UNION ALL SELECT 'CY 2007', 1521.0/7
+					UNION ALL SELECT 'CY 2008', 894.0/7
+					UNION ALL SELECT 'CY 2009', NULL
+				</query>
+			</equal-to>
+		</assert>
+	</test>
+	<test name="'Reseller Order Count' by year before 2006" uid="0001" ignore="false">
+		<condition>
+			<service-running name="MSOLAP$SQL2017" />
+		</condition>
+		<system-under-test>
+			<result-set>
+				<query name="MDX Except" connectionString="Provider=MSOLAP.4;Data Source=(local)\SQL2017;Initial Catalog='Adventure Works DW 2012';localeidentifier=1049">
+					select
+					[Measures].[Internet Order Count] on 0,
+					[Date].[Date].Children  on 1
+					from
+					[Adventure Works]
+				</query>
+			</result-set>
+		</system-under-test>
+		<assert>
+			<equalTo>
+				<query connectionString="Provider=MSOLAP.4;Data Source=(local)\SQL2017;Initial Catalog='Adventure Works DW 2012';localeidentifier=1049">
+					select
+					[Measures].[Internet Order Count] on 0,
+					[Date].[Date].Children  on 1
+					from
+					[Adventure Works]
+				</query>
+			</equalTo>
+		</assert>
+	</test>
+	<group name="group">
+		<test name="Test Select 1" uid="0001">
+			<category>Shared</category>
+			<system-under-test>
+				<result-set>
+					<query>
+						<![CDATA[
 					SELECT 'OK'
 					]]>
-          </query>
-        </result-set>
-      </system-under-test>
-      <assert>
-        <equalTo>
-          <resultSet>
-            <row>
-              <cell>OK</cell>
-            </row>
-          </resultSet>
-        </equalTo>
-      </assert>
-    </test>
-    <group name="group">
-      <test name="Test Select 1" uid="0001">
-        <category>Shared</category>
-        <system-under-test>
-          <result-set>
-            <query>
-              <![CDATA[
+					</query>
+				</result-set>
+			</system-under-test>
+			<assert>
+				<equalTo>
+					<resultSet>
+						<row>
+							<cell>OK</cell>
+						</row>
+					</resultSet>
+				</equalTo>
+			</assert>
+		</test>
+		<group name="group">
+			<test name="Test Select 1" uid="0001">
+				<category>Shared</category>
+				<system-under-test>
+					<result-set>
+						<query>
+							<![CDATA[
 							SELECT 'OK'
 							]]>
-            </query>
-          </result-set>
-        </system-under-test>
-        <assert>
-          <equalTo>
-            <resultSet>
-              <row>
-                <cell>OK</cell>
-              </row>
-            </resultSet>
-          </equalTo>
-        </assert>
-      </test>
-      <group name="group">
-        <test name="Test Select 1" uid="0001">
-          <category>Shared</category>
-          <system-under-test>
-            <result-set>
-              <query>
-                <![CDATA[
+						</query>
+					</result-set>
+				</system-under-test>
+				<assert>
+					<equalTo>
+						<resultSet>
+							<row>
+								<cell>OK</cell>
+							</row>
+						</resultSet>
+					</equalTo>
+				</assert>
+			</test>
+			<group name="group">
+				<test name="Test Select 1" uid="0001">
+					<category>Shared</category>
+					<system-under-test>
+						<result-set>
+							<query>
+								<![CDATA[
 									SELECT 'OK'
 									]]>
-              </query>
-            </result-set>
-          </system-under-test>
-          <assert>
-            <equalTo>
-              <resultSet>
-                <row>
-                  <cell>OK</cell>
-                </row>
-              </resultSet>
-            </equalTo>
-          </assert>
-        </test>
-      </group>
-    </group>
-  </group>
-  <group name="Non Text Keys">
-    <test name="Keys as Date">
-      <system-under-test>
-        <result-set>
-          <query>
-            <![CDATA[
+							</query>
+						</result-set>
+					</system-under-test>
+					<assert>
+						<equalTo>
+							<resultSet>
+								<row>
+									<cell>OK</cell>
+								</row>
+							</resultSet>
+						</equalTo>
+					</assert>
+				</test>
+			</group>
+		</group>
+	</group>
+	<group name="Non Text Keys">
+		<test name="Keys as Date">
+			<system-under-test>
+				<result-set>
+					<query>
+						<![CDATA[
 									select cast('2015-12-17' as date) as [key], 100.0 as [value]
                   union all select cast('2015-12-18' as date) as [key], 77 as [value]
 	              ]]>
-          </query>
-        </result-set>
-      </system-under-test>
-      <assert>
-        <equalTo>
-          <column index="0" role="key" type="dateTime"/>
-          <query>
-            <![CDATA[
+					</query>
+				</result-set>
+			</system-under-test>
+			<assert>
+				<equalTo>
+					<column index="0" role="key" type="dateTime"/>
+					<query>
+						<![CDATA[
 									select cast('17/12/2015' as varchar(10)) as [key], 100.0 as [value]
                   union all select cast('18/12/2015' as varchar(10)) as [key], 77 as [value]
 	              ]]>
-          </query>
-        </equalTo>
-      </assert>
-    </test>
-    <test name="Keys as DateTime">
-      <system-under-test>
-        <result-set>
-          <query>
-            <![CDATA[
+					</query>
+				</equalTo>
+			</assert>
+		</test>
+		<test name="Keys as DateTime">
+			<system-under-test>
+				<result-set>
+					<query>
+						<![CDATA[
 									select cast('2015-12-01 08:16:52' as datetime) as [key], 100.0 as [value]
                   union all select cast('2015-12-02 08:45:00' as datetime) as [key], 77 as [value]
 	              ]]>
-          </query>
-        </result-set>
-      </system-under-test>
-      <assert>
-        <equalTo>
-          <column index="0" role="key" type="dateTime"/>
-          <query>
-            <![CDATA[
+					</query>
+				</result-set>
+			</system-under-test>
+			<assert>
+				<equalTo>
+					<column index="0" role="key" type="dateTime"/>
+					<query>
+						<![CDATA[
 									select cast('12/1/2015 08:16:52' as varchar(20)) as [key], 100.0 as [value]
                   union all select cast('12/2/2015 08:45' as varchar(20)) as [key], 77 as [value]
 	              ]]>
-          </query>
-        </equalTo>
-      </assert>
-    </test>
-    <test name="Keys as Numeric">
-      <system-under-test>
-        <result-set>
-          <query>
-            <![CDATA[
+					</query>
+				</equalTo>
+			</assert>
+		</test>
+		<test name="Keys as Numeric">
+			<system-under-test>
+				<result-set>
+					<query>
+						<![CDATA[
 									select cast(57 as bigint) as [key], 100.0 as [value]
                   union all select cast(58 as bigint) as [key], 77 as [value]
 	              ]]>
-          </query>
-        </result-set>
-      </system-under-test>
-      <assert>
-        <equalTo>
-          <column index="0" role="key" type="numeric"/>
-          <query>
-            <![CDATA[
+					</query>
+				</result-set>
+			</system-under-test>
+			<assert>
+				<equalTo>
+					<column index="0" role="key" type="numeric"/>
+					<query>
+						<![CDATA[
 									select cast(57 as tinyint) as [key], 100.0 as [value]
                   union all select cast(58 as tinyint) as [key], 77 as [value]
 	              ]]>
-          </query>
-        </equalTo>
-      </assert>
-    </test>
-    <test name="Keys as Boolean">
-      <system-under-test>
-        <result-set>
-          <query>
-            <![CDATA[
+					</query>
+				</equalTo>
+			</assert>
+		</test>
+		<test name="Keys as Boolean">
+			<system-under-test>
+				<result-set>
+					<query>
+						<![CDATA[
 									select cast(1 as bit) as [key], 100.0 as [value]
                   union all select cast(0 as bit) as [key], 77 as [value]
 	              ]]>
-          </query>
-        </result-set>
-      </system-under-test>
-      <assert>
-        <equalTo>
-          <column index="0" role="key" type="boolean"/>
-          <query>
-            <![CDATA[
+					</query>
+				</result-set>
+			</system-under-test>
+			<assert>
+				<equalTo>
+					<column index="0" role="key" type="boolean"/>
+					<query>
+						<![CDATA[
 									select cast('true' as varchar(10)) as [key], 100.0 as [value]
                   union all select cast('no' as varchar(10)) as [key], 77 as [value]
 	              ]]>
-          </query>
-        </equalTo>
-      </assert>
-    </test>
-  </group>
-  <group name="Connection strings">
-    <test name="Sql Native vs ODBC">
-      <system-under-test>
-        <result-set>
-          <query connectionString="Data Source=(local)\SQL2017;Initial Catalog=AdventureWorks2017;User Id=sa;password=Password12!">
-            select 'OK';
-          </query>
-        </result-set>
-      </system-under-test>
-      <assert>
-        <equalTo>
-          <query connectionString="Driver={ODBC Driver 13 for SQL Server};Server=tcp:.\SQL2017,1433;Database=AdventureWorks2017;Uid=sa;Pwd=Password12!;Encrypt=yes;TrustServerCertificate=yes;Connection Timeout=30;">
-            select 'OK';
-          </query>
-        </equalTo>
-      </assert>
-    </test>
-    <test name="Sql Native vs OLEDB">
-      <system-under-test>
-        <result-set>
-          <query connectionString="Data Source=(local)\SQL2017;Initial Catalog=AdventureWorks2017;User Id=sa;password=Password12!">
-            select 'OK';
-          </query>
-        </result-set>
-      </system-under-test>
-      <assert>
-        <equalTo>
-          <query connectionString="Provider=SQLNCLI11;Server=.\SQL2017;Database=AdventureWorks2017;UId=sa;Pwd=Password12!;">
-            select 'OK';
-          </query>
-        </equalTo>
-      </assert>
-    </test>
-  </group>
-  <group name="Transformers">
-    <test name="CSharp dateTime to string">
-      <system-under-test>
-        <result-set>
-          <query>
-            select '10.2016' union all select '11.2016'
-          </query>
-        </result-set>
-      </system-under-test>
-      <assert>
-        <equalTo>
-          <column index="0" role="key" type="text">
-            <transformation original-type="dateTime">String.Format("{0:00}.{1}", value.Month, value.Year)</transformation>
-          </column>
-          <query>
-            select cast('2016-10-10' as DateTime) union all select cast('2016-11-22' as DateTime)
-          </query>
-        </equalTo>
-      </assert>
-    </test>
-    <test name="CSharp string to string and decimal to decimal">
-      <system-under-test>
-        <result-set>
-          <query>
-            select '10.2016', 121 union all select '11.2016',242
-          </query>
-        </result-set>
-      </system-under-test>
-      <assert>
-        <equalTo>
-          <column index="0" role="key" type="text">
-            <transformation original-type="text">value.Substring(5,2) + "." + value.Substring(0,4)</transformation>
-          </column>
-          <column index="1" role="value" type="numeric">
-            <transformation original-type="numeric">value * Convert.ToDecimal(1.21)</transformation>
-          </column>
-          <query>
-            select '2016.10', 100 union all select '2016.11', 200
-          </query>
-        </equalTo>
-      </assert>
-    </test>
-    <test name="CSharp string to string and decimal to decimal (with Tolerance)">
-      <system-under-test>
-        <result-set>
-          <query>
-            select '10.2016', 121 union all select '11.2016',242
-          </query>
-        </result-set>
-      </system-under-test>
-      <assert>
-        <equalTo>
-          <column index="0" role="key" type="text">
-            <transformation original-type="text">value.Substring(5,2) + "." + value.Substring(0,4)</transformation>
-          </column>
-          <column index="1" role="value" type="numeric" tolerance="10%">
-            <transformation original-type="numeric">value * Convert.ToDecimal(1.21)</transformation>
-          </column>
-          <query>
-            select '2016.10', 100 union all select '2016.11', 210
-          </query>
-        </equalTo>
-      </assert>
-    </test>
-    <test name="NCalc decimal to decimal">
-      <system-under-test>
-        <result-set>
-          <query>
-            select '10.2016', cast(121 as decimal(10,3)) union all select '11.2016', cast(242 as decimal(10,3))
-          </query>
-        </result-set>
-      </system-under-test>
-      <assert>
-        <equalTo>
-          <column index="0" role="key" type="text"/>
-          <column index="1" role="value" type="numeric">
-            <transformation language="ncalc" original-type="numeric">value *1.21</transformation>
-          </column>
-          <query>
-            select '10.2016', 100 union all select '11.2016', 200
-          </query>
-        </equalTo>
-      </assert>
-    </test>
-    <test name="NCalc float to decimal">
-      <system-under-test>
-        <result-set>
-          <query>
-            select '10.2016', cast(121 as float) union all select '11.2016', cast(242 as float)
-          </query>
-        </result-set>
-      </system-under-test>
-      <assert>
-        <equalTo>
-          <column index="0" role="key" type="text"/>
-          <column index="1" role="value" type="numeric">
-            <transformation language="ncalc" original-type="numeric">value *1.21</transformation>
-          </column>
-          <query>
-            select '10.2016', 100 union all select '11.2016', 200
-          </query>
-        </equalTo>
-      </assert>
-    </test>
-    <test name="Native trim and blank-to-null">
-      <system-under-test>
-        <result-set>
-          <query>
-            select 'alpha', null union all select 'beta', null
-          </query>
-        </result-set>
-      </system-under-test>
-      <assert>
-        <equalTo>
-          <column index="0" role="key" type="text">
-            <transformation language="native" original-type="text">text-to-trim</transformation>
-          </column>
-          <column index="1" role="value" type="text">
-            <transformation language="native" original-type="text">blank-to-null</transformation>
-          </column>
-          <query>
-            select ' alpha   ', '' union all select '  beta   ', '   '
-          </query>
-        </equalTo>
-      </assert>
-    </test>
-    <test name="Native length">
-      <system-under-test>
-        <result-set>
-          <query>
-            select 'alpha', LEN('alpha') union all select 'beta', LEN('beta')
-          </query>
-        </result-set>
-      </system-under-test>
-      <assert>
-        <equalTo>
-          <column index="1" role="value" type="numeric">
-            <transformation language="native" original-type="text">text-to-length</transformation>
-          </column>
-          <query>
-            select 'alpha', 'alpha' union all select 'beta', 'beta'
-          </query>
-        </equalTo>
-      </assert>
-    </test>
-  </group>
-  <group name="Single row queries">
-    <test name="Text, numeric, bool, dateTime, Text">
-      <system-under-test>
-        <result-set>
-          <query>
-            select 'alpha', '10.250', 'true', '2016-12-10', 'beta'
-          </query>
-        </result-set>
-      </system-under-test>
-      <assert>
-        <equalTo behavior="single-row" values-default-type="text">
-          <column index="1" role="value" type="numeric"/>
-          <column index="2" role="value" type="boolean"/>
-          <column index="3" role="value" type="dateTime"/>
-          <query>
-            select 'alpha', cast(10.25 as float) , cast(1 as bit), cast('2016-12-10' as DateTime), 'beta'
-          </query>
-        </equalTo>
-      </assert>
-    </test>
-    <test name="Text, numeric, bool, dateTime, Text">
-      <system-under-test>
-        <result-set>
-          <query>
-            select 'alpha' as 'A', '10.250' as 'B', 'true' as 'C', '2016-12-10' as 'D', 'beta' as 'E'
-          </query>
-        </result-set>
-      </system-under-test>
-      <assert>
-        <equalTo behavior="single-row" values-default-type="text">
-          <column name="B" role="value" type="numeric"/>
-          <column name="C" role="value" type="boolean"/>
-          <column name="D" role="value" type="dateTime"/>
-          <query>
-            select 'alpha' as 'A', cast(10.25 as float) as 'B', cast(1 as bit) as 'C', cast('2016-12-10' as DateTime) as 'D', 'beta' as 'E'
-          </query>
-        </equalTo>
-      </assert>
-    </test>
-  </group>
-  <group name="Compare by name">
-    <test name="equalTo definition">
-      <system-under-test>
-        <result-set>
-          <query>select 'Alpha' as 'Key', '100' as 'Value1', 100.0 as Value2 union all select 'Beta' as 'Key', '120', 100.00 as Value2</query>
-        </result-set>
-      </system-under-test>
-      <assert>
-        <equalTo keys-names="Key" values-names="Value1, Value2">
-          <query>
-            select '100' as 'Value1', null as 'Ignore', 'Alpha' as 'Key', 100.00 as Value2  union all select '120' as 'Value1', 'Youpla' as 'Ignore', 'Beta' as 'Key', 100 as Value2
-          </query>
-        </equalTo>
-      </assert>
-    </test>
-    <test name="column definition">
-      <system-under-test>
-        <result-set>
-          <query>select 'Alpha' as 'Key', '100' as 'Value' union all select 'Beta' as 'Key', '120'</query>
-        </result-set>
-      </system-under-test>
-      <assert>
-        <equalTo>
-          <column name="Key" role="key" type="text"/>
-          <column name="Value" role="value" type="numeric"/>
-          <query>
-            select '100' as 'Value', null as 'Ignore', 'Alpha' as 'Key'  union all select '120' as 'Value', 'Youpla' as 'Ignore', 'Beta' as 'Key'
-          </query>
-        </equalTo>
-      </assert>
-    </test>
-    <test name="column definition + equalTo definition">
-      <system-under-test>
-        <result-set>
-          <query>select 'Alpha' as 'KeyField', '2016-12-10' as 'Value' union all select 'Beta' as 'KeyField', '2016-02-02'</query>
-        </result-set>
-      </system-under-test>
-      <assert>
-        <equalTo keys-names="KeyField">
-          <column name="Value" role="value" type="dateTime"/>
-          <query>
-            select '2016-12-10' as [Value], null as 'Ignore', 'Alpha' as KeyField  union all select '2016-02-02' as 'Value', 'Youpla' as 'Ignore', 'Beta' as 'Key'
-          </query>
-        </equalTo>
-      </assert>
-    </test>
-    <test name="Date for value definition">
-      <system-under-test>
-        <result-set>
-          <query>select 'Alpha' as 'KeyField', '2016-12-10' as 'Value' union all select 'Beta' as 'KeyField', '2016-02-02'</query>
-        </result-set>
-      </system-under-test>
-      <assert>
-        <equalTo keys-names="KeyField">
-          <column name="Value" role="value" type="dateTime"/>
-          <query>
-            select '2016-12-10' as [Value], null as 'Ignore', 'Alpha' as KeyField  union all select '2016-02-02' as 'Value', 'Youpla' as 'Ignore', 'Beta' as 'Key'
-          </query>
-        </equalTo>
-      </assert>
-    </test>
-    <test name="Numeric for Key definition">
-      <system-under-test>
-        <result-set>
-          <query>select '10' as 'KeyField', '2016-12-10' as 'Value' union all select '12.0' as 'KeyField', '2016-02-02'</query>
-        </result-set>
-      </system-under-test>
-      <assert>
-        <equalTo values-names="Value" values-default-type="dateTime">
-          <column name="KeyField" role="key" type="numeric"/>
-          <resultSet>
-            <row>
-              <cell column-name="Value">2016-12-10</cell>
-              <cell column-name="KeyField">10</cell>
-            </row>
-            <row>
-              <cell>2016-02-02</cell>
-              <cell>12</cell>
-            </row>
-          </resultSet>
-        </equalTo>
-      </assert>
-    </test>
-  </group>
-  <group name="Tolerance">
-    <test name="No text tolerance">
-      <system-under-test>
-        <result-set>
-          <query>
-            select 1 as [key], 'Saskatchewan' as [value]
-            union all select 2, 'Michigan'
-            union all select 3, 'Chihuahua'
-          </query>
-        </result-set>
-      </system-under-test>
-      <assert>
-        <equalTo values-default-type="text">
-          <query>
-            select 1 as [key], 'Saskatchewan' as [value]
-            union all select 2, 'Michigan'
-            union all select 3, 'Chihuahua'
-          </query>
-        </equalTo>
-      </assert>
-    </test>
-    <test name="Text tolerance as default tolerance">
-      <system-under-test>
-        <result-set>
-          <query>
-            select 1 as [key], 'Saskatcheone' as [value]
-            union all select 2, 'Michigane'
-            union all select 3, 'Chihuawa'
-          </query>
-        </result-set>
-      </system-under-test>
-      <assert>
-        <equalTo tolerance="Levenshtein(5)" values-default-type="text">
-          <query>
-            select 1 as [key], 'Saskatchewan' as [value]
-            union all select 2, 'Michigan'
-            union all select 3, 'Chihuahua'
-          </query>
-        </equalTo>
-      </assert>
-    </test>
-    <test name="Text tolerance as column tolerance">
-      <system-under-test>
-        <result-set>
-          <query>
-            select 1 as [key], 'Saskatcheone' as [value]
-            union all select 2, 'Michigane'
-            union all select 3, 'Chihuawa'
-          </query>
-        </result-set>
-      </system-under-test>
-      <assert>
-        <equalTo>
-          <column index="1" role="value" type="text" tolerance="Levenshtein(5)"/>
-          <query>
-            select 1 as [key], 'Saskatchewan' as [value]
-            union all select 2, 'Michigan'
-            union all select 3, 'Chihuahua'
-          </query>
-        </equalTo>
-      </assert>
-    </test>
-    <test name="Ignore-case tolerance as column tolerance" uid="0075">
-      <system-under-test>
-        <result-set>
-          <query>
-            select 1 as [key], 'Toronto' as [value]
-            union all select 2, 'Ottawa'
-            union all select 3, 'Vancouver'
-          </query>
-        </result-set>
-      </system-under-test>
-      <assert>
-        <equalTo>
-          <column index="1" role="value" type="text" tolerance="Ignore-case"/>
-          <query>
-            select 1 as [key], 'TORONTO' as [value]
-            union all select 2, 'OTTawa'
-            union all select 3, 'VancouveR'
-          </query>
-        </equalTo>
-      </assert>
-    </test>
-  </group>
+					</query>
+				</equalTo>
+			</assert>
+		</test>
+	</group>
+	<group name="Connection strings">
+		<test name="Sql Native vs ODBC">
+			<system-under-test>
+				<result-set>
+					<query connectionString="Data Source=(local)\SQL2017;Initial Catalog=AdventureWorks2017;User Id=sa;password=Password12!">
+						select 'OK';
+					</query>
+				</result-set>
+			</system-under-test>
+			<assert>
+				<equalTo>
+					<query connectionString="Driver={ODBC Driver 13 for SQL Server};Server=tcp:.\SQL2017,1433;Database=AdventureWorks2017;Uid=sa;Pwd=Password12!;Encrypt=yes;TrustServerCertificate=yes;Connection Timeout=30;">
+						select 'OK';
+					</query>
+				</equalTo>
+			</assert>
+		</test>
+		<test name="Sql Native vs OLEDB">
+			<system-under-test>
+				<result-set>
+					<query connectionString="Data Source=(local)\SQL2017;Initial Catalog=AdventureWorks2017;User Id=sa;password=Password12!">
+						select 'OK';
+					</query>
+				</result-set>
+			</system-under-test>
+			<assert>
+				<equalTo>
+					<query connectionString="Provider=SQLNCLI11;Server=.\SQL2017;Database=AdventureWorks2017;UId=sa;Pwd=Password12!;">
+						select 'OK';
+					</query>
+				</equalTo>
+			</assert>
+		</test>
+	</group>
+	<group name="Transformers">
+		<test name="CSharp dateTime to string">
+			<system-under-test>
+				<result-set>
+					<query>
+						select '10.2016' union all select '11.2016'
+					</query>
+				</result-set>
+			</system-under-test>
+			<assert>
+				<equalTo>
+					<column index="0" role="key" type="text">
+						<transformation original-type="dateTime">String.Format("{0:00}.{1}", value.Month, value.Year)</transformation>
+					</column>
+					<query>
+						select cast('2016-10-10' as DateTime) union all select cast('2016-11-22' as DateTime)
+					</query>
+				</equalTo>
+			</assert>
+		</test>
+		<test name="CSharp string to string and decimal to decimal">
+			<system-under-test>
+				<result-set>
+					<query>
+						select '10.2016', 121 union all select '11.2016',242
+					</query>
+				</result-set>
+			</system-under-test>
+			<assert>
+				<equalTo>
+					<column index="0" role="key" type="text">
+						<transformation original-type="text">value.Substring(5,2) + "." + value.Substring(0,4)</transformation>
+					</column>
+					<column index="1" role="value" type="numeric">
+						<transformation original-type="numeric">value * Convert.ToDecimal(1.21)</transformation>
+					</column>
+					<query>
+						select '2016.10', 100 union all select '2016.11', 200
+					</query>
+				</equalTo>
+			</assert>
+		</test>
+		<test name="CSharp string to string and decimal to decimal (with Tolerance)">
+			<system-under-test>
+				<result-set>
+					<query>
+						select '10.2016', 121 union all select '11.2016',242
+					</query>
+				</result-set>
+			</system-under-test>
+			<assert>
+				<equalTo>
+					<column index="0" role="key" type="text">
+						<transformation original-type="text">value.Substring(5,2) + "." + value.Substring(0,4)</transformation>
+					</column>
+					<column index="1" role="value" type="numeric" tolerance="10%">
+						<transformation original-type="numeric">value * Convert.ToDecimal(1.21)</transformation>
+					</column>
+					<query>
+						select '2016.10', 100 union all select '2016.11', 210
+					</query>
+				</equalTo>
+			</assert>
+		</test>
+		<test name="NCalc decimal to decimal">
+			<system-under-test>
+				<result-set>
+					<query>
+						select '10.2016', cast(121 as decimal(10,3)) union all select '11.2016', cast(242 as decimal(10,3))
+					</query>
+				</result-set>
+			</system-under-test>
+			<assert>
+				<equalTo>
+					<column index="0" role="key" type="text"/>
+					<column index="1" role="value" type="numeric">
+						<transformation language="ncalc" original-type="numeric">value *1.21</transformation>
+					</column>
+					<query>
+						select '10.2016', 100 union all select '11.2016', 200
+					</query>
+				</equalTo>
+			</assert>
+		</test>
+		<test name="NCalc float to decimal">
+			<system-under-test>
+				<result-set>
+					<query>
+						select '10.2016', cast(121 as float) union all select '11.2016', cast(242 as float)
+					</query>
+				</result-set>
+			</system-under-test>
+			<assert>
+				<equalTo>
+					<column index="0" role="key" type="text"/>
+					<column index="1" role="value" type="numeric">
+						<transformation language="ncalc" original-type="numeric">value *1.21</transformation>
+					</column>
+					<query>
+						select '10.2016', 100 union all select '11.2016', 200
+					</query>
+				</equalTo>
+			</assert>
+		</test>
+		<test name="Native trim and blank-to-null">
+			<system-under-test>
+				<result-set>
+					<query>
+						select 'alpha', null union all select 'beta', null
+					</query>
+				</result-set>
+			</system-under-test>
+			<assert>
+				<equalTo>
+					<column index="0" role="key" type="text">
+						<transformation language="native" original-type="text">text-to-trim</transformation>
+					</column>
+					<column index="1" role="value" type="text">
+						<transformation language="native" original-type="text">blank-to-null</transformation>
+					</column>
+					<query>
+						select ' alpha   ', '' union all select '  beta   ', '   '
+					</query>
+				</equalTo>
+			</assert>
+		</test>
+		<test name="Native length">
+			<system-under-test>
+				<result-set>
+					<query>
+						select 'alpha', LEN('alpha') union all select 'beta', LEN('beta')
+					</query>
+				</result-set>
+			</system-under-test>
+			<assert>
+				<equalTo>
+					<column index="1" role="value" type="numeric">
+						<transformation language="native" original-type="text">text-to-length</transformation>
+					</column>
+					<query>
+						select 'alpha', 'alpha' union all select 'beta', 'beta'
+					</query>
+				</equalTo>
+			</assert>
+		</test>
+	</group>
+	<group name="Single row queries">
+		<test name="Text, numeric, bool, dateTime, Text">
+			<system-under-test>
+				<result-set>
+					<query>
+						select 'alpha', '10.250', 'true', '2016-12-10', 'beta'
+					</query>
+				</result-set>
+			</system-under-test>
+			<assert>
+				<equalTo behavior="single-row" values-default-type="text">
+					<column index="1" role="value" type="numeric"/>
+					<column index="2" role="value" type="boolean"/>
+					<column index="3" role="value" type="dateTime"/>
+					<query>
+						select 'alpha', cast(10.25 as float) , cast(1 as bit), cast('2016-12-10' as DateTime), 'beta'
+					</query>
+				</equalTo>
+			</assert>
+		</test>
+		<test name="Text, numeric, bool, dateTime, Text">
+			<system-under-test>
+				<result-set>
+					<query>
+						select 'alpha' as 'A', '10.250' as 'B', 'true' as 'C', '2016-12-10' as 'D', 'beta' as 'E'
+					</query>
+				</result-set>
+			</system-under-test>
+			<assert>
+				<equalTo behavior="single-row" values-default-type="text">
+					<column name="B" role="value" type="numeric"/>
+					<column name="C" role="value" type="boolean"/>
+					<column name="D" role="value" type="dateTime"/>
+					<query>
+						select 'alpha' as 'A', cast(10.25 as float) as 'B', cast(1 as bit) as 'C', cast('2016-12-10' as DateTime) as 'D', 'beta' as 'E'
+					</query>
+				</equalTo>
+			</assert>
+		</test>
+	</group>
+	<group name="Compare by name">
+		<test name="equalTo definition">
+			<system-under-test>
+				<result-set>
+					<query>select 'Alpha' as 'Key', '100' as 'Value1', 100.0 as Value2 union all select 'Beta' as 'Key', '120', 100.00 as Value2</query>
+				</result-set>
+			</system-under-test>
+			<assert>
+				<equalTo keys-names="Key" values-names="Value1, Value2">
+					<query>
+						select '100' as 'Value1', null as 'Ignore', 'Alpha' as 'Key', 100.00 as Value2  union all select '120' as 'Value1', 'Youpla' as 'Ignore', 'Beta' as 'Key', 100 as Value2
+					</query>
+				</equalTo>
+			</assert>
+		</test>
+		<test name="column definition">
+			<system-under-test>
+				<result-set>
+					<query>select 'Alpha' as 'Key', '100' as 'Value' union all select 'Beta' as 'Key', '120'</query>
+				</result-set>
+			</system-under-test>
+			<assert>
+				<equalTo>
+					<column name="Key" role="key" type="text"/>
+					<column name="Value" role="value" type="numeric"/>
+					<query>
+						select '100' as 'Value', null as 'Ignore', 'Alpha' as 'Key'  union all select '120' as 'Value', 'Youpla' as 'Ignore', 'Beta' as 'Key'
+					</query>
+				</equalTo>
+			</assert>
+		</test>
+		<test name="column definition + equalTo definition">
+			<system-under-test>
+				<result-set>
+					<query>select 'Alpha' as 'KeyField', '2016-12-10' as 'Value' union all select 'Beta' as 'KeyField', '2016-02-02'</query>
+				</result-set>
+			</system-under-test>
+			<assert>
+				<equalTo keys-names="KeyField">
+					<column name="Value" role="value" type="dateTime"/>
+					<query>
+						select '2016-12-10' as [Value], null as 'Ignore', 'Alpha' as KeyField  union all select '2016-02-02' as 'Value', 'Youpla' as 'Ignore', 'Beta' as 'Key'
+					</query>
+				</equalTo>
+			</assert>
+		</test>
+		<test name="Date for value definition">
+			<system-under-test>
+				<result-set>
+					<query>select 'Alpha' as 'KeyField', '2016-12-10' as 'Value' union all select 'Beta' as 'KeyField', '2016-02-02'</query>
+				</result-set>
+			</system-under-test>
+			<assert>
+				<equalTo keys-names="KeyField">
+					<column name="Value" role="value" type="dateTime"/>
+					<query>
+						select '2016-12-10' as [Value], null as 'Ignore', 'Alpha' as KeyField  union all select '2016-02-02' as 'Value', 'Youpla' as 'Ignore', 'Beta' as 'Key'
+					</query>
+				</equalTo>
+			</assert>
+		</test>
+		<test name="Numeric for Key definition">
+			<system-under-test>
+				<result-set>
+					<query>select '10' as 'KeyField', '2016-12-10' as 'Value' union all select '12.0' as 'KeyField', '2016-02-02'</query>
+				</result-set>
+			</system-under-test>
+			<assert>
+				<equalTo values-names="Value" values-default-type="dateTime">
+					<column name="KeyField" role="key" type="numeric"/>
+					<resultSet>
+						<row>
+							<cell column-name="Value">2016-12-10</cell>
+							<cell column-name="KeyField">10</cell>
+						</row>
+						<row>
+							<cell>2016-02-02</cell>
+							<cell>12</cell>
+						</row>
+					</resultSet>
+				</equalTo>
+			</assert>
+		</test>
+	</group>
+	<group name="Tolerance">
+		<test name="No text tolerance">
+			<system-under-test>
+				<result-set>
+					<query>
+						select 1 as [key], 'Saskatchewan' as [value]
+						union all select 2, 'Michigan'
+						union all select 3, 'Chihuahua'
+					</query>
+				</result-set>
+			</system-under-test>
+			<assert>
+				<equalTo values-default-type="text">
+					<query>
+						select 1 as [key], 'Saskatchewan' as [value]
+						union all select 2, 'Michigan'
+						union all select 3, 'Chihuahua'
+					</query>
+				</equalTo>
+			</assert>
+		</test>
+		<test name="Text tolerance as default tolerance">
+			<system-under-test>
+				<result-set>
+					<query>
+						select 1 as [key], 'Saskatcheone' as [value]
+						union all select 2, 'Michigane'
+						union all select 3, 'Chihuawa'
+					</query>
+				</result-set>
+			</system-under-test>
+			<assert>
+				<equalTo tolerance="Levenshtein(5)" values-default-type="text">
+					<query>
+						select 1 as [key], 'Saskatchewan' as [value]
+						union all select 2, 'Michigan'
+						union all select 3, 'Chihuahua'
+					</query>
+				</equalTo>
+			</assert>
+		</test>
+		<test name="Text tolerance as column tolerance">
+			<system-under-test>
+				<result-set>
+					<query>
+						select 1 as [key], 'Saskatcheone' as [value]
+						union all select 2, 'Michigane'
+						union all select 3, 'Chihuawa'
+					</query>
+				</result-set>
+			</system-under-test>
+			<assert>
+				<equalTo>
+					<column index="1" role="value" type="text" tolerance="Levenshtein(5)"/>
+					<query>
+						select 1 as [key], 'Saskatchewan' as [value]
+						union all select 2, 'Michigan'
+						union all select 3, 'Chihuahua'
+					</query>
+				</equalTo>
+			</assert>
+		</test>
+		<test name="Ignore-case tolerance as column tolerance" uid="0075">
+			<system-under-test>
+				<result-set>
+					<query>
+						select 1 as [key], 'Toronto' as [value]
+						union all select 2, 'Ottawa'
+						union all select 3, 'Vancouver'
+					</query>
+				</result-set>
+			</system-under-test>
+			<assert>
+				<equalTo>
+					<column index="1" role="value" type="text" tolerance="Ignore-case"/>
+					<query>
+						select 1 as [key], 'TORONTO' as [value]
+						union all select 2, 'OTTawa'
+						union all select 3, 'VancouveR'
+					</query>
+				</equalTo>
+			</assert>
+		</test>
+	</group>-->
 </testSuite>

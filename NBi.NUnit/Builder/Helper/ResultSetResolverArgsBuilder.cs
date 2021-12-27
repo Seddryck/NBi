@@ -75,15 +75,20 @@ namespace NBi.NUnit.Builder.Helper
 
         private ResultSetResolverArgs BuildResultSetSystemXml(ResultSetSystemXml xml, IEnumerable<IAlteration> alterations)
         {
+            ResultSetResolverArgs args;
+            if (xml?.IfUnavailable?.ResultSet != null)
+                args = BuildIfUnavaibleResultSetResolverArgs(BuildInternalResultSetSystemXml(xml), BuildResultSetSystemXml(xml.IfUnavailable.ResultSet, alterations));
+            else
+                args = BuildInternalResultSetSystemXml(xml);
+
             if ((Alterations?.Count() ?? 0) > 0)
             {
-                var helper = new ResultSetSystemHelper(ServiceLocator, SettingsXml.DefaultScope.Assert, Variables);
-                return new AlterationResultSetResolverArgs(helper.InstantiateResolver(xml), alterations);
+                var factory = ServiceLocator.GetResultSetResolverFactory();
+                var embedded = factory.Instantiate(args);
+                args = new AlterationResultSetResolverArgs(embedded, alterations);
             }
-            else if (xml?.IfUnavailable?.ResultSet != null)
-                return BuildIfUnavaibleResultSetResolverArgs(BuildInternalResultSetSystemXml(xml), BuildResultSetSystemXml(xml.IfUnavailable.ResultSet, alterations));
-            else
-                return BuildInternalResultSetSystemXml(xml);
+            
+            return args;
         }
 
         private ResultSetResolverArgs BuildInternalResultSetSystemXml(ResultSetSystemXml xml)

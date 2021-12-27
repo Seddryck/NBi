@@ -34,7 +34,7 @@ namespace NBi.Core.Calculation.Grouping.CaseBased
                 var key = new ResultSet.KeyCollection(new object[] { index });
                 if (!dico.ContainsKey(key))
                     dico.Add(key, resultSet.Clone());
-                dico[key].Add(row);
+                dico[key].AddRow(row);
             }
 
             Trace.WriteLineIf(NBiTraceSwitch.TraceInfo, $"Building rows' groups by cases: {dico.Count} [{stopWatch.Elapsed.ToString(@"d\d\.hh\h\:mm\m\:ss\s\ \+fff\m\s")}");

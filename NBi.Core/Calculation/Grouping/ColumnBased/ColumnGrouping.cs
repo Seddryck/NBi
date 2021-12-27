@@ -32,7 +32,7 @@ namespace NBi.Core.Calculation.Grouping.ColumnBased
                 var key = keyComparer.GetKeys(row);
                 if (!dico.ContainsKey(key))
                     dico.Add(key, resultSet.Clone());
-                dico[key].Add(row);
+                dico[key].AddRow(row);
             }
             Trace.WriteLineIf(NBiTraceSwitch.TraceInfo, $"Building rows' groups: {dico.Count} [{stopWatch.Elapsed:d\\d\\.hh\\h\\:mm\\m\\:ss\\s\\ \\+fff\\m\\s})]");
             return dico;

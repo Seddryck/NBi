@@ -26,30 +26,23 @@ namespace NBi.Core.ResultSet.Uniqueness
             {
                 var dt = new DataTableResultSet();
                 dt.AddColumn("Occurence", typeof(int));
-                int i = 0;
+
                 foreach (var key in Values.ElementAt(0).Keys.Members)
-                {
-                    dt.AddColumn($"#{i}");
-                    i++;
-                }
+                    dt.AddColumn(Guid.NewGuid().ToString());
+
                 foreach (var value in Values)
                 {
-                    var dr = dt.NewRow();
-                    dr[0] = value.OccurenceCount;
-                    i = 0;
-                    foreach (var key in value.Keys.Members)
-                    {
-                        dr[$"#{i}"] = key;
-                        i++;
-                    }
-                    dt.Add(dr);
+                    var items = new List<object>(value.Keys.Members.Count() + 1);
+                    items.Add(value.OccurenceCount);
+                    items.AddRange(value.Keys.Members);
+                    dt.AddRow(items.ToArray());
                 }
                 Rows = dt.Rows;
             }
         }
     }
 
-    
+
 
 
 

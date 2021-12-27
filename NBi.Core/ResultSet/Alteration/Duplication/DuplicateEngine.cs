@@ -54,7 +54,7 @@ namespace NBi.Core.ResultSet.Alteration.Duplication
                 var isDuplicated = Predication.Execute(Context);
                 var times = Times.Execute();
 
-                var importedRow = result.Add(row);
+                var importedRow = result.AddRow(row);
                 foreach (var output in Outputs)
                 {
                     if (output.Strategy.IsApplicable(true))
@@ -69,7 +69,7 @@ namespace NBi.Core.ResultSet.Alteration.Duplication
                     for (int i = 0; i < times; i++)
                     {
                         Context.Switch(importedRow);
-                        var duplicatedRow = result.Add(importedRow);
+                        var duplicatedRow = result.AddRow(importedRow);
                         foreach (var output in Outputs)
                         {
                             if (output.Strategy.IsApplicable(false))

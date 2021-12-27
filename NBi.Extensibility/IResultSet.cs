@@ -9,31 +9,35 @@ namespace NBi.Extensibility
 {
     public interface IResultSet
     {
-        IEnumerable<IResultColumn> Columns { get; }
-        IEnumerable<IResultRow> Rows { get; }
-        int RowCount { get; }
-        IResultColumn GetColumn(IColumnIdentifier columnIdentifier);
-
-        IResultRow NewRow();
-        IResultRow Add(IResultRow row);
-        void AddRange(IEnumerable<IResultRow> rows);
-        IResultRow this[int index] { get; }
-        
-        void AcceptChanges();
-
-        void InsertAt(IResultRow row, int index);
-        void RemoveAt(int index);
-
+        //Whole result-set
         IResultSet Clone();
         void Clear();
+
+
+        //Columns
+        IEnumerable<IResultColumn> Columns { get; }
+        int ColumnCount { get; }
+        
+        IResultColumn GetColumn(IColumnIdentifier columnIdentifier);
+        IResultColumn GetColumn(string name);
+        IResultColumn GetColumn(int index);
 
         IResultColumn AddColumn(string name);
         IResultColumn AddColumn(string name, Type type);
         IResultColumn AddColumn(string name, int ordinal, Type type);
 
         bool ContainsColumn(string name);
-        IResultColumn GetColumn(string name);
-        IResultColumn GetColumn(int index);
-        int ColumnCount { get; }
+
+        //Rows 
+        IEnumerable<IResultRow> Rows { get; }
+        int RowCount { get; }
+
+        IResultRow this[int index] { get; }
+
+        IResultRow NewRow();
+        IResultRow AddRow(IResultRow row);
+        IResultRow AddRow(object[] itemArray);
+        void AddRange(IEnumerable<IResultRow> rows);
+        void AcceptChanges();
     }
 }

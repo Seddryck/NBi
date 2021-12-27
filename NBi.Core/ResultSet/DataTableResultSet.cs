@@ -64,16 +64,19 @@ namespace NBi.Core.ResultSet
         public DataTableResultSet(DataTable table)
             => Table = table;
 
-        public IResultRow Add(IResultRow row)
+        public IResultRow AddRow(IResultRow row)
+            => AddRow(row.ItemArray);
+
+        public IResultRow AddRow(object[] itemArray)
         {
             var newRow = Table.NewRow();
-            newRow.ItemArray = row.ItemArray;
+            newRow.ItemArray = itemArray;
             Table.Rows.Add(newRow);
             return new DataRowResultSet(newRow);
         }
 
         public void AddRange(IEnumerable<IResultRow> rows)
-        { foreach (var row in rows) { Add(row); } }
+        { foreach (var row in rows) { AddRow(row); } }
 
         public IResultRow this[int index]
         {
@@ -94,19 +97,6 @@ namespace NBi.Core.ResultSet
 
         public void Clear()
             => Table.Clear();
-
-        public void InsertAt(IResultRow row, int index)
-        {
-            switch (row)
-            {
-                case DataRow r: Table.Rows.InsertAt(r, index); break;
-                default:
-                    throw new NotImplementedException();
-            }
-        }
-        public void RemoveAt(int index)
-            => Table.Rows.RemoveAt(index);
-
 
         public void Load(string record)
         {

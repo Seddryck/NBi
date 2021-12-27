@@ -58,10 +58,7 @@ namespace NBi.Core.ResultSet.Alteration.Summarization
                         var aggrResult = aggregation.Implementation.Execute(inputs);
                         values.Add(aggrResult);
                     }
-
-                    var row = dataTable.NewRow();
-                    row.ItemArray = values.ToArray();
-                    dataTable.Add(row);
+                    dataTable.AddRow(values.ToArray());
                 }
                 dataTable.AcceptChanges();
                 return dataTable;

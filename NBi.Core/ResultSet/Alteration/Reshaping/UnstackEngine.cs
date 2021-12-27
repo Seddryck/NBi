@@ -77,7 +77,7 @@ namespace NBi.Core.ResultSet.Alteration.Reshaping
                                 throw new ArgumentException();
                         }
                     newRow.ItemArray = itemArray;
-                    dataTable.Add(newRow);
+                    dataTable.AddRow(newRow);
                 }
                 dataTable.AcceptChanges();
                 return dataTable;

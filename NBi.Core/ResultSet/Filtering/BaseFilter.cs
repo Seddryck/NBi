@@ -37,7 +37,7 @@ namespace NBi.Core.ResultSet.Filtering
                                 table.AddColumn(column.Name);
                         }
                     }
-                    table.Add(row);
+                    table.AddRow(row);
                 }
             }
 

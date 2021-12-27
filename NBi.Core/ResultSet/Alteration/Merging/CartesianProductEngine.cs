@@ -52,7 +52,7 @@ namespace NBi.Core.ResultSet.Alteration.Merging
                     }
                 }
                 foreach (var newRow in newRows)
-                    rs.Add(newRow);
+                    rs.AddRow(newRow);
             }
             rs.AcceptChanges();
             return rs;

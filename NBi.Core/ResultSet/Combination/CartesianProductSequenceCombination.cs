@@ -42,7 +42,7 @@ namespace NBi.Core.ResultSet.Combination
                     }
                 }
                 foreach (var newRow in newRows)
-                    rs.Add(newRow);
+                    rs.AddRow(newRow);
             }
             rs.AcceptChanges();
             return rs;

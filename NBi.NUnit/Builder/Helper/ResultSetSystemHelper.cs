@@ -224,7 +224,7 @@ namespace NBi.NUnit.Builder.Helper
         {
             mergeXml.ResultSet.Settings = settingsXml;
             var innerResolver = InstantiateResolver(mergeXml.ResultSet);
-            
+
             var factory = new MergingFactory();
 
             IMergingArgs args;
@@ -327,7 +327,7 @@ namespace NBi.NUnit.Builder.Helper
             foreach (var outputXml in duplicateXml.Outputs)
                 if (outputXml.Class == OutputClass.Script)
                     outputs.Add(new OutputScriptArgs(ServiceLocator, context, outputXml.Identifier, outputXml.Script.Language, outputXml.Script.Code));
-            else if(outputXml.Class == OutputClass.Static)
+                else if (outputXml.Class == OutputClass.Static)
                     outputs.Add(new OutputValueArgs(outputXml.Identifier, outputXml.Value));
                 else
                     outputs.Add(new OutputArgs(outputXml.Identifier, outputXml.Class));

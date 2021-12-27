@@ -93,7 +93,7 @@ namespace NBi.NUnit.Builder.Helper
                 var embedded = factory.Instantiate(args);
                 args = new AlterationResultSetResolverArgs(embedded, allAlterations);
             }
-            
+
             return args;
         }
 

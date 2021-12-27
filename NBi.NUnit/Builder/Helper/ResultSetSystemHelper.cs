@@ -73,7 +73,7 @@ namespace NBi.NUnit.Builder.Helper
             return factory.Instantiate(alteredArgs);
         }
 
-        protected IEnumerable<IAlteration> InstantiateAlterations(ResultSetSystemXml resultSetXml)
+        public IEnumerable<IAlteration> InstantiateAlterations(ResultSetSystemXml resultSetXml)
         {
             if ((resultSetXml.Alterations?.Count ?? 0) == 0)
                 yield break;

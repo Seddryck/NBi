@@ -36,7 +36,7 @@ namespace NBi.NUnit.Builder.Helper
         private SettingsXml settings = null;
         private SettingsXml.DefaultScope scope = SettingsXml.DefaultScope.Everywhere;
         private IDictionary<string, IVariable> Variables { get; set; } = new Dictionary<string, IVariable>();
-        private IEnumerable<IAlteration> Alterations { get; set; }
+        private IEnumerable<IAlteration> ExternalAlterations { get; set; }
         private ResultSetResolverArgs args = null;
 
         private ServiceLocator ServiceLocator { get; }
@@ -53,7 +53,7 @@ namespace NBi.NUnit.Builder.Helper
         }
 
         public void Setup(IAlteration alteration)
-            => Alterations = new[] { alteration };
+            => ExternalAlterations = new[] { alteration };
 
         public void Build()
         {
@@ -62,7 +62,7 @@ namespace NBi.NUnit.Builder.Helper
 
             switch (obj)
             {
-                case ResultSetSystemXml x: args = BuildResultSetSystemXml(x, Alterations); break;
+                case ResultSetSystemXml x: args = BuildResultSetSystemXml(x); break;
                 case ResultSetXml x: args = BuildResultSetXml(x); break;
                 case IfMissingXml x when !(x?.File?.IsEmpty() ?? false): args = BuildFlatFileResultSetResolverArgs(x.File); break;
                 case QueryXml x: args = BuildQueryResolverArgs(x, scope); break;
@@ -73,19 +73,25 @@ namespace NBi.NUnit.Builder.Helper
 
         }
 
-        private ResultSetResolverArgs BuildResultSetSystemXml(ResultSetSystemXml xml, IEnumerable<IAlteration> alterations)
+        private ResultSetResolverArgs BuildResultSetSystemXml(ResultSetSystemXml xml)
         {
             ResultSetResolverArgs args;
             if (xml?.IfUnavailable?.ResultSet != null)
-                args = BuildIfUnavaibleResultSetResolverArgs(BuildInternalResultSetSystemXml(xml), BuildResultSetSystemXml(xml.IfUnavailable.ResultSet, alterations));
+                args = BuildIfUnavaibleResultSetResolverArgs(BuildInternalResultSetSystemXml(xml), BuildResultSetSystemXml(xml.IfUnavailable.ResultSet));
             else
                 args = BuildInternalResultSetSystemXml(xml);
 
-            if ((Alterations?.Count() ?? 0) > 0)
+            var internalAlterations = (xml.Alterations?.Count ?? 0) > 0
+                                        ? new ResultSetSystemHelper(ServiceLocator, scope, Variables).InstantiateAlterations(xml)
+                                        : Enumerable.Empty<IAlteration>();
+
+            var allAlterations = internalAlterations.Union(ExternalAlterations ?? Enumerable.Empty<IAlteration>());
+
+            if (allAlterations.Count() > 0)
             {
                 var factory = ServiceLocator.GetResultSetResolverFactory();
                 var embedded = factory.Instantiate(args);
-                args = new AlterationResultSetResolverArgs(embedded, alterations);
+                args = new AlterationResultSetResolverArgs(embedded, allAlterations);
             }
             
             return args;

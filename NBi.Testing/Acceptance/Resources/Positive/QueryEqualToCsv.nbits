@@ -7,17 +7,24 @@
 					<cell>A</cell>
 					<cell>105</cell>
 				</row>
-				<row>
-					<cell>B</cell>
-					<cell />
-				</row>
 			</result-set>
 		</system-under-test>
 		<assert>
 			<equal-to>
 				<column index="0" role="key" type="text"/>
 				<column index="1" role="value" type="numeric"/>
-				<result-set file="..\Csv\NullValues.csv"/>
+				<result-set>
+					<file>
+						<path>..\Csv\NullValues.csv</path>
+					</file>
+					<alteration>
+						<filter>
+							<predicate operand="#0" type="text">
+								<less-than>B</less-than>
+							</predicate>
+						</filter>
+					</alteration>
+				</result-set>
 			</equal-to>
 		</assert>
 	</test>

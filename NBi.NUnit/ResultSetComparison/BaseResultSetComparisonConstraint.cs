@@ -30,7 +30,7 @@ namespace NBi.NUnit.ResultSetComparison
         {
             var factory = new DataRowsMessageFormatterFactory();
             var msg = factory.Instantiate(Configuration.FailureReportProfile, Engine.Style);
-            msg.BuildComparaison(expectedResultSet.Rows.Cast<IResultRow>(), actualResultSet.Rows.Cast<IResultRow>(), result);
+            msg.BuildComparaison(expectedResultSet.Rows, actualResultSet.Rows, result);
             return msg;
         }
      

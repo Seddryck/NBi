@@ -24,6 +24,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using NBi.Xml.Items.Alteration;
+using NBi.Core.ResultSet.Alteration;
 
 namespace NBi.NUnit.Builder.Helper
 {
@@ -35,6 +36,7 @@ namespace NBi.NUnit.Builder.Helper
         private SettingsXml settings = null;
         private SettingsXml.DefaultScope scope = SettingsXml.DefaultScope.Everywhere;
         private IDictionary<string, IVariable> Variables { get; set; } = new Dictionary<string, IVariable>();
+        private IEnumerable<IAlteration> Alterations { get; set; }
         private ResultSetResolverArgs args = null;
 
         private ServiceLocator ServiceLocator { get; }
@@ -50,6 +52,9 @@ namespace NBi.NUnit.Builder.Helper
             isSetup = true;
         }
 
+        public void Setup(IAlteration alteration)
+            => Alterations = new[] { alteration };
+
         public void Build()
         {
             if (!isSetup)
@@ -57,7 +62,7 @@ namespace NBi.NUnit.Builder.Helper
 
             switch (obj)
             {
-                case ResultSetSystemXml x: args = BuildResultSetSystemXml(x); break;
+                case ResultSetSystemXml x: args = BuildResultSetSystemXml(x, Alterations); break;
                 case ResultSetXml x: args = BuildResultSetXml(x); break;
                 case IfMissingXml x when !(x?.File?.IsEmpty() ?? false): args = BuildFlatFileResultSetResolverArgs(x.File); break;
                 case QueryXml x: args = BuildQueryResolverArgs(x, scope); break;
@@ -65,12 +70,18 @@ namespace NBi.NUnit.Builder.Helper
                 case JsonSourceXml x: args = BuildJsonPathResolverArgs(x); break;
                 default: throw new ArgumentException();
             }
+
         }
 
-        private ResultSetResolverArgs BuildResultSetSystemXml(ResultSetSystemXml xml)
+        private ResultSetResolverArgs BuildResultSetSystemXml(ResultSetSystemXml xml, IEnumerable<IAlteration> alterations)
         {
-            if (xml?.IfUnavailable?.ResultSet != null)
-                return BuildIfUnavaibleResultSetResolverArgs(BuildInternalResultSetSystemXml(xml), BuildResultSetSystemXml(xml.IfUnavailable.ResultSet));
+            if ((Alterations?.Count() ?? 0) > 0)
+            {
+                var helper = new ResultSetSystemHelper(ServiceLocator, SettingsXml.DefaultScope.Assert, Variables);
+                return new AlterationResultSetResolverArgs(helper.InstantiateResolver(xml), alterations);
+            }
+            else if (xml?.IfUnavailable?.ResultSet != null)
+                return BuildIfUnavaibleResultSetResolverArgs(BuildInternalResultSetSystemXml(xml), BuildResultSetSystemXml(xml.IfUnavailable.ResultSet, alterations));
             else
                 return BuildInternalResultSetSystemXml(xml);
         }

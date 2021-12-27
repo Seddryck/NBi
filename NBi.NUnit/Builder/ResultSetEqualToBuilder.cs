@@ -50,12 +50,12 @@ namespace NBi.NUnit.Builder
                     transformationProvider.Add(columnDef.Identifier, columnDef.Transformation);
             }
 
-            if (ConstraintXml.BaseItem is QueryXml)
-                ctr = InstantiateConstraint(((QueryXml)(ConstraintXml.BaseItem)), ConstraintXml.Settings, transformationProvider);
+            if (ConstraintXml.BaseItem is QueryXml xml)
+                ctr = InstantiateConstraint(xml, ConstraintXml.Settings, transformationProvider);
             else if (ConstraintXml.ResultSetOld != null)
                 ctr = InstantiateConstraint(ConstraintXml.ResultSetOld, ConstraintXml.Settings, transformationProvider);
             else if (ConstraintXml.ResultSet != null)
-                ctr = InstantiateConstraint(ConstraintXml.ResultSet, ConstraintXml.Settings);
+                ctr = InstantiateConstraint(ConstraintXml.ResultSet, ConstraintXml.Settings, transformationProvider);
             else if (ConstraintXml.XmlSource != null)
                 ctr = InstantiateConstraint(ConstraintXml.XmlSource, ConstraintXml.Settings, transformationProvider);
 
@@ -110,6 +110,7 @@ namespace NBi.NUnit.Builder
         {
             var argsBuilder = new ResultSetResolverArgsBuilder(ServiceLocator);
             argsBuilder.Setup(obj, settings, SettingsXml.DefaultScope.Assert, Variables);
+            argsBuilder.Setup(transformation);
             argsBuilder.Build();
 
             var factory = ServiceLocator.GetResultSetResolverFactory();

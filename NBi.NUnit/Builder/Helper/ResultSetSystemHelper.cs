@@ -64,10 +64,16 @@ namespace NBi.NUnit.Builder.Helper
 
             var factory = ServiceLocator.GetResultSetResolverFactory();
             var resolver = factory.Instantiate(argsBuilder.GetArgs());
-            return resolver;
+
+            if ((resultSetXml.Alterations?.Count ?? 0) == 0)
+                return resolver;
+
+            var alterations = InstantiateAlterations(resultSetXml);
+            var alteredArgs = new AlterationResultSetResolverArgs(resolver, alterations);
+            return factory.Instantiate(alteredArgs);
         }
 
-        public IEnumerable<IAlteration> InstantiateAlterations(ResultSetSystemXml resultSetXml)
+        protected IEnumerable<IAlteration> InstantiateAlterations(ResultSetSystemXml resultSetXml)
         {
             if ((resultSetXml.Alterations?.Count ?? 0) == 0)
                 yield break;
@@ -217,12 +223,7 @@ namespace NBi.NUnit.Builder.Helper
         private IAlteration InstantiateMerging(MergeXml mergeXml, SettingsXml settingsXml)
         {
             mergeXml.ResultSet.Settings = settingsXml;
-
-            var resolverArgs = new AlterationResultSetResolverArgs(
-                    InstantiateResolver(mergeXml.ResultSet),
-                    InstantiateAlterations(mergeXml.ResultSet)
-                );
-            var innerResolver = new ResultSetResolverFactory(ServiceLocator).Instantiate(resolverArgs);
+            var innerResolver = InstantiateResolver(mergeXml.ResultSet);
             
             var factory = new MergingFactory();
 
@@ -341,11 +342,7 @@ namespace NBi.NUnit.Builder.Helper
         private IAlteration InstantiateLookupReplace(LookupReplaceXml lookupReplaceXml, SettingsXml settingsXml)
         {
             lookupReplaceXml.ResultSet.Settings = settingsXml;
-            var resolverArgs = new AlterationResultSetResolverArgs(
-                    InstantiateResolver(lookupReplaceXml.ResultSet),
-                    InstantiateAlterations(lookupReplaceXml.ResultSet)
-                );
-            var innerResolver = new ResultSetResolverFactory(ServiceLocator).Instantiate(resolverArgs);
+            var innerResolver = InstantiateResolver(lookupReplaceXml.ResultSet);
 
             var factory = new LookupFactory();
 

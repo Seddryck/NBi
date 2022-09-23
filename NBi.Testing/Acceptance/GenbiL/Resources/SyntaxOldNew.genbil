@@ -1,9 +1,0 @@
-﻿case scope 'structure';
-case load file 'Acceptance\GenbiL\Resources\SyntaxOldNew.csv';
-
-template add file 'Acceptance\GenbiL\Resources\SyntaxOld.nbitt';
-template add file 'Acceptance\GenbiL\Resources\SyntaxNew.nbitt';
-
-suite generate;
-suite save as 'Acceptance\GenbiL\Resources\SyntaxOldNew.nbits';
-

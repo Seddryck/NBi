@@ -1,6 +1,0 @@
-﻿case load file 'Acceptance\GenbiL\Resources\ResultSetFile.csv';
-
-template load file 'Acceptance\GenbiL\Resources\ResultSetFile.nbitt';
-suite generate;
-suite save as 'Acceptance\GenbiL\Resources\ResultSetFile.nbits';
-

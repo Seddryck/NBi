@@ -1,5 +1,0 @@
-﻿ticket;dimension;hierarchy;level;property;order;regex;valuefrom;valueto;table;column;sorting
-91675;Policy;Policies hierarchy;Financial driver;Code;specific;^[A-Z][a-z]{3,50}$;;;MacroPolicyDriver;Name;SortOrder
-91675;Policy;Policies hierarchy;Macro-policy;Code;specific;^[A-Z]\d$;;;MacroPolicy;Name;Code
-91676;Agent;Agent fullname;Agent fullname;Firstname;alphabetic;;;;Agent;Name;
-91676;Agent;Agent profile;Experience;;alphabetic;;;;Agent;XP;

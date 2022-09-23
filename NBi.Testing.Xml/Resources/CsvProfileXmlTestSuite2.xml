@@ -1,6 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<testSuite name="The TestSuite" xmlns="http://NBi/TestSuite">
-  <settings>
-    <csv-profile empty-cell="empty value" missing-cell="missing value" first-row-header="true"/>
-  </settings>
-</testSuite>

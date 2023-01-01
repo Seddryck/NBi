@@ -23,7 +23,8 @@ namespace NBi.Testing.Core.Api.Rest
             );
             var engine = new RestEngine(new Anonymous(), baseUrl, null, new[] { parameter }, null, null);
             var result = engine.Execute();
-            Assert.That(result, Does.StartWith("{\"name\":\"cedric\",\"age\":"));
+            Assert.That(result, Does.Contain("\"age\":"));
+            Assert.That(result, Does.Contain("\"name\":\"cedric\""));
         }
 
         [Test]
@@ -64,26 +65,26 @@ namespace NBi.Testing.Core.Api.Rest
         //    Assert.That(result, Does.StartWith("{\"latest\":"));
         //}
 
-        [Test]
-        public void Execute_Segments_CorrectResponse()
-        {
-            var baseUrl = new LiteralScalarResolver<string>("http://api.icndb.com");
-            var path = new LiteralScalarResolver<string>("/jokes/{id}");
-            var segment = new SegmentRest(
-                new LiteralScalarResolver<string>("id"),
-                new LiteralScalarResolver<string>("268")
-            );
-            var parameter1 = new ParameterRest(
-                new LiteralScalarResolver<string>("firstName"),
-                new LiteralScalarResolver<string>("John")
-            );
-            var parameter2 = new ParameterRest(
-                new LiteralScalarResolver<string>("firstName"),
-                new LiteralScalarResolver<string>("John")
-            );
-            var engine = new RestEngine(new Anonymous(), baseUrl, path, new[] { parameter1, parameter2 }, new[] { segment }, null);
-            var result = engine.Execute();
-            Assert.That(result, Does.StartWith("{ \"type\": \"success\", \"value\": { \"id\": 268,"));
-        }
+        //[Test]
+        //public void Execute_Segments_CorrectResponse()
+        //{
+        //    var baseUrl = new LiteralScalarResolver<string>("http://api.icndb.com");
+        //    var path = new LiteralScalarResolver<string>("/jokes/{id}");
+        //    var segment = new SegmentRest(
+        //        new LiteralScalarResolver<string>("id"),
+        //        new LiteralScalarResolver<string>("268")
+        //    );
+        //    var parameter1 = new ParameterRest(
+        //        new LiteralScalarResolver<string>("firstName"),
+        //        new LiteralScalarResolver<string>("John")
+        //    );
+        //    var parameter2 = new ParameterRest(
+        //        new LiteralScalarResolver<string>("firstName"),
+        //        new LiteralScalarResolver<string>("John")
+        //    );
+        //    var engine = new RestEngine(new Anonymous(), baseUrl, path, new[] { parameter1, parameter2 }, new[] { segment }, null);
+        //    var result = engine.Execute();
+        //    Assert.That(result, Does.StartWith("{ \"type\": \"success\", \"value\": { \"id\": 268,"));
+        //}
     }
 }

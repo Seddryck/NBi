@@ -2,6 +2,7 @@ version: build.{build}
 image: Visual Studio 2022
 init:
   - cmd: git config --global core.autocrlf true
+  - ps: $env:IGNORE_NORMALISATION_GIT_HEAD_MOVE = 1
 install:
   - ps: .\restore-database-for-testing.ps1
 before_build:

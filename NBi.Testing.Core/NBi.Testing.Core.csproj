@@ -44,6 +44,9 @@
     <Reference Include="Deedle, Version=2.4.3.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Deedle.2.4.3\lib\netstandard2.0\Deedle.dll</HintPath>
     </Reference>
+    <Reference Include="Dynamitey, Version=2.0.10.189, Culture=neutral, PublicKeyToken=cbf53ea3aeb972c6, processorArchitecture=MSIL">
+      <HintPath>..\packages\Dynamitey.2.0.10.189\lib\net40\Dynamitey.dll</HintPath>
+    </Reference>
     <Reference Include="FSharp.Core, Version=7.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\FSharp.Core.7.0.0\lib\netstandard2.0\FSharp.Core.dll</HintPath>
     </Reference>
@@ -56,8 +59,8 @@
     <Reference Include="Microsoft.Identity.Client, Version=4.43.0.0, Culture=neutral, PublicKeyToken=0a613f4dd989e8ae, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Identity.Client.4.43.0\lib\net461\Microsoft.Identity.Client.dll</HintPath>
     </Reference>
-    <Reference Include="Moq, Version=4.18.0.0, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
-      <HintPath>..\packages\Moq.4.18.4\lib\net462\Moq.dll</HintPath>
+    <Reference Include="Moq, Version=4.16.0.0, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
+      <HintPath>..\packages\Moq.4.16.1\lib\net45\Moq.dll</HintPath>
     </Reference>
     <Reference Include="NCalc, Version=1.5.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\NCalc-Edge.1.5.0\lib\net35\NCalc.dll</HintPath>

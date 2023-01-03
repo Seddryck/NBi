@@ -5,7 +5,7 @@
       <connectionString>Provider=MSOLAP.4;Data Source=(local)\SQL2019;Initial Catalog='Adventure Works DW 2012';localeidentifier=1049</connectionString>
     </default>
     <reference name="SqlAdvenureWorks2012">
-      <connectionString>Data Source=(local)\SQL2019;Initial Catalog=AdventureWorks2017;User Id=sa;password=Password12!</connectionString>
+      <connectionString>Data Source=(local)\SQL2019;Initial Catalog=AdventureWorks2019;User Id=sa;password=Password12!</connectionString>
     </reference>
   </settings>
   <test name="'Reseller Orders' count, year by year, between 2005 and 2008" uid="0001">
@@ -296,7 +296,7 @@
     <system-under-test>
       <result-set>
         <query
-					connectionString="Data Source=(local)\SQL2019;Initial Catalog=AdventureWorks2017;User Id=sa;password=Password12!"
+					connectionString="Data Source=(local)\SQL2019;Initial Catalog=AdventureWorks2019;User Id=sa;password=Password12!"
 				>
           select
           [Name], [CountryRegionCode]
@@ -330,7 +330,7 @@
     <system-under-test>
       <result-set>
         <query
-					connectionString="Data Source=(local)\SQL2019;Initial Catalog=AdventureWorks2017;User Id=sa;password=Password12!"
+					connectionString="Data Source=(local)\SQL2019;Initial Catalog=AdventureWorks2019;User Id=sa;password=Password12!"
 				>
           select
           [Name], [CountryRegionCode]
@@ -365,7 +365,7 @@
     <system-under-test>
       <result-set>
         <query
-					connectionString="Data Source=(local)\SQL2019;Initial Catalog=AdventureWorks2017;User Id=sa;password=Password12!"
+					connectionString="Data Source=(local)\SQL2019;Initial Catalog=AdventureWorks2019;User Id=sa;password=Password12!"
 				>
           select
           [Name], [CountryRegionCode]
@@ -399,7 +399,7 @@
     <system-under-test>
       <result-set>
         <query
-		connectionString="Data Source=(local)\SQL2019;Initial Catalog=AdventureWorks2017;User Id=sa;password=Password12!"
+		connectionString="Data Source=(local)\SQL2019;Initial Catalog=AdventureWorks2019;User Id=sa;password=Password12!"
 	>
           select cast ('2015-12-16' as date), 412.25
           union all select cast ('2015-12-17' as date), 725.0
@@ -426,7 +426,7 @@
     <system-under-test>
       <result-set>
         <query
-		connectionString="Data Source=(local)\SQL2019;Initial Catalog=AdventureWorks2017;User Id=sa;password=Password12!"
+		connectionString="Data Source=(local)\SQL2019;Initial Catalog=AdventureWorks2019;User Id=sa;password=Password12!"
 	>
           select
           'Cédric Charlier'
@@ -469,7 +469,7 @@
     <system-under-test>
       <result-set>
         <query
-		connectionString="Data Source=(local)\SQL2019;Initial Catalog=AdventureWorks2017;User Id=sa;password=Password12!"
+		connectionString="Data Source=(local)\SQL2019;Initial Catalog=AdventureWorks2019;User Id=sa;password=Password12!"
 	>
           select
           'Water'
@@ -504,7 +504,7 @@
     <system-under-test>
       <result-set>
         <query
-		connectionString="Data Source=(local)\SQL2019;Initial Catalog=AdventureWorks2017;User Id=sa;password=Password12!"
+		connectionString="Data Source=(local)\SQL2019;Initial Catalog=AdventureWorks2019;User Id=sa;password=Password12!"
 	>
           select
           'Water'

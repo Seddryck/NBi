@@ -2,10 +2,10 @@
 <testSuite name="The TestSuite" xmlns="http://NBi/TestSuite">
   <settings>
     <default apply-to="setup-cleanup">
-      <connectionString>Data Source=(local)\SQL2019;Initial Catalog=AdventureWorks2017;Integrated Security=true</connectionString>
+      <connectionString>Data Source=(local)\SQL2019;Initial Catalog=AdventureWorks2019;Integrated Security=true</connectionString>
     </default>
     <default apply-to="system-under-test">
-      <connectionString>Data Source=(local)\SQL2019;Initial Catalog=AdventureWorks2017;Integrated Security=true</connectionString>
+      <connectionString>Data Source=(local)\SQL2019;Initial Catalog=AdventureWorks2019;Integrated Security=true</connectionString>
     </default>
   </settings>
   <group name="Check decorations">

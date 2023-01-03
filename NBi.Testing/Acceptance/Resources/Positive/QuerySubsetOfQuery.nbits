@@ -2,10 +2,10 @@
 <testSuite name="Acceptance Testing: query equalTo query" xmlns="http://NBi/TestSuite">
   <settings>
     <default apply-to="system-under-test">
-      <connectionString>Data Source=(local)\SQL2019;Initial Catalog=AdventureWorks2017;User Id=sa;password=Password12!</connectionString>
+      <connectionString>Data Source=(local)\SQL2019;Initial Catalog=AdventureWorks2019;User Id=sa;password=Password12!</connectionString>
     </default>
     <default apply-to="assert">
-      <connectionString>Data Source=(local)\SQL2019;Initial Catalog=AdventureWorks2017;User Id=sa;password=Password12!</connectionString>
+      <connectionString>Data Source=(local)\SQL2019;Initial Catalog=AdventureWorks2019;User Id=sa;password=Password12!</connectionString>
     </default>
   </settings>
   <test name="'Reseller Order Count' by year for 2006 and 2007 are return by the query" uid="0001">

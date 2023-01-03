@@ -26,7 +26,7 @@
   <test name="'Reseller Order Count' by year before 2006 (csv)" uid="0002">
 		<system-under-test>
 			<result-set>
-				<query name="SQL Query" connectionString="Data Source=(local)\SQL2019;Initial Catalog=AdventureWorks2017;User Id=sa;password=Password12!">
+				<query name="SQL Query" connectionString="Data Source=(local)\SQL2019;Initial Catalog=AdventureWorks2019;User Id=sa;password=Password12!">
 					SELECT
 					  'A', 105
           UNION ALL
@@ -46,7 +46,7 @@
   <test name="Query equal " uid="0003">
     <system-under-test>
       <result-set>
-        <query name="SQL Query" connectionString="Data Source=(local)\SQL2019;Initial Catalog=AdventureWorks2017;User Id=sa;password=Password12!">
+        <query name="SQL Query" connectionString="Data Source=(local)\SQL2019;Initial Catalog=AdventureWorks2019;User Id=sa;password=Password12!">
           SELECT
           'A', 105
         </query>
@@ -74,7 +74,7 @@
 	<test name="Ignore column is effectively ignored" uid="0001">
 		<system-under-test>
 			<result-set>
-				<query connectionString="Data Source=(local)\SQL2019;Initial Catalog=AdventureWorks2017;User Id=sa;password=Password12!">
+				<query connectionString="Data Source=(local)\SQL2019;Initial Catalog=AdventureWorks2019;User Id=sa;password=Password12!">
 					select
 					'Key',
 					'Wrong', /*Should be ignored*/

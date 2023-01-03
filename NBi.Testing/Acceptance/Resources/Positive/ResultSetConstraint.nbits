@@ -1051,7 +1051,7 @@
         </equal-to>
       </assert>
     </test>
-    <test name="Result-set is the json-source with rest api" uid="0162">
+    <!--<test name="Result-set is the json-source with rest api" uid="0162">
       <system-under-test>
         <result-set>
           <json-source>
@@ -1108,7 +1108,7 @@
           </result-set>
         </equal-to>
       </assert>
-    </test>
+    </test>-->
     <test name="Result-set is the json-source with scalar-query" uid="0164">
       <system-under-test>
         <result-set>

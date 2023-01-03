@@ -266,7 +266,7 @@
       </system-under-test>
       <assert>
         <equalTo>
-          <query connectionString="Driver={ODBC Driver 13 for SQL Server};Server=tcp:.\SQL2017,1433;Database=AdventureWorks2019;Uid=sa;Pwd=Password12!;Encrypt=yes;TrustServerCertificate=yes;Connection Timeout=30;">
+          <query connectionString="Driver={ODBC Driver 13 for SQL Server};Server=tcp:.\SQL2019,1433;Database=AdventureWorks2019;Uid=sa;Pwd=Password12!;Encrypt=yes;TrustServerCertificate=yes;Connection Timeout=30;">
             select 'OK';
           </query>
         </equalTo>
@@ -282,7 +282,7 @@
       </system-under-test>
       <assert>
         <equalTo>
-          <query connectionString="Provider=SQLNCLI11;Server=.\SQL2017;Database=AdventureWorks2019;UId=sa;Pwd=Password12!;">
+          <query connectionString="Provider=SQLNCLI11;Server=.\SQL2019;Database=AdventureWorks2019;UId=sa;Pwd=Password12!;">
             select 'OK';
           </query>
         </equalTo>

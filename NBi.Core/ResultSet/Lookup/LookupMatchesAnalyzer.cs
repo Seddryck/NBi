@@ -69,11 +69,9 @@ namespace NBi.Core.ResultSet.Lookup
             foreach (DataRow row in table.Rows)
             {
                 var keys = keyRetriever.GetColumns(row);
-                // Lines removed to fix bug #701
-                //if (!references.ContainsKey(keys))
-                //    violations.Register(keys, row);
-                //else
-                //{
+
+                if (references.ContainsKey(keys))
+                {
                     var setResults = new List<Dictionary<DataColumn, ComparerResult>>();
                     foreach (var valueFields in references[keys])
                     {
@@ -114,7 +112,7 @@ namespace NBi.Core.ResultSet.Lookup
                         }
                         violations.Register(keys, composite);
                     }
-                //}
+                }
             }
             return violations;
         }

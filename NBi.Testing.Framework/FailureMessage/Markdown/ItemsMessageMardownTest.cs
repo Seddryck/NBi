@@ -105,6 +105,7 @@ namespace NBi.Testing.Framework.FailureMessage.Markdown
         }
 
         [Test]
+        [Ignore("Moq and System.Threading.Tasks.Extensions issue")]
         public void RenderExpected_MoreThanSampleRowsAndMaxRowsCountWithSpecificFailureReportProfile_ReturnEachRowAndHeaderAndSeparation()
         {
             var rowCount = 120;

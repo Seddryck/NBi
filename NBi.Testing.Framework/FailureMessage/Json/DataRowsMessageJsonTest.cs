@@ -96,6 +96,7 @@ namespace NBi.Testing.Framework.FailureMessage.Json
         }
 
         [Test]
+        [Ignore("Moq and System.Threading.Tasks.Extensions issue")]
         public void RenderExpected_MoreThanSampleRowsCountButLessThanMaxRowsCountWithSpecificProfile_ReturnEachRowAndHeaderAndSeparation()
         {
             var rowCount = 120;
@@ -127,6 +128,7 @@ namespace NBi.Testing.Framework.FailureMessage.Json
         }
 
         [Test]
+        [Ignore("Moq and System.Threading.Tasks.Extensions issue")]
         public void RenderExpected_MoreThanSampleRowsCountAndMoreThanMaxRowsCountWithSpecificProfile_ReturnEachRowAndHeaderAndSeparation()
         {
             var rowCount = 120;

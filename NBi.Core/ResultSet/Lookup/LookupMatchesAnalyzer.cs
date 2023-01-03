@@ -69,9 +69,8 @@ namespace NBi.Core.ResultSet.Lookup
             foreach (DataRow row in table.Rows)
             {
                 var keys = keyRetriever.GetColumns(row);
-                if (!references.ContainsKey(keys))
-                    violations.Register(keys, row);
-                else
+
+                if (references.ContainsKey(keys))
                 {
                     var setResults = new List<Dictionary<DataColumn, ComparerResult>>();
                     foreach (var valueFields in references[keys])

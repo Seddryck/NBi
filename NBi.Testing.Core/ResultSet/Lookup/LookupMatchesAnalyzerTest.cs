@@ -108,14 +108,14 @@ namespace NBi.Testing.Core.ResultSet.Lookup
         }
 
         [Test]
-        public void Execute_MissingKeyInReference_OneViolation()
+        public void Execute_MissingKeyInReference_NoViolation()
         {
             var candidate = BuildDataTable(new[] { "Key0", "Key1" }, new object[] { 0, 1 });
             var reference = BuildDataTable(new[] { "Key0", "Key2", "Key2", "Key0", "Key2" }, new object[] { 0, 1, 1, 1, 1 });
 
             var analyzer = new LookupMatchesAnalyzer(BuildColumnMapping(1), BuildColumnMapping(1, 1));
             var violations = analyzer.Execute(candidate, reference);
-            Assert.That(violations.Count(), Is.EqualTo(1));
+            Assert.That(violations.Count(), Is.EqualTo(0));
         }
 
         [Test]

@@ -2,10 +2,10 @@
 <testSuite name="Acceptance Testing: members ordering" xmlns="http://NBi/TestSuite">
 	<settings>
 		<default apply-to="system-under-test">
-			<connectionString>Provider=MSOLAP.4;Data Source=(local)\SQL2017;Initial Catalog='Adventure Works DW 2012';localeidentifier=1033</connectionString>
+			<connectionString>Provider=MSOLAP.4;Data Source=(local)\SQL2019;Initial Catalog='Adventure Works DW 2012';localeidentifier=1033</connectionString>
 		</default>
 		<default apply-to="assert">
-			<connectionString>Data Source=(local)\SQL2017;Initial Catalog=AdventureWorks2017;User Id=sa;password=Password12!</connectionString>
+			<connectionString>Data Source=(local)\SQL2019;Initial Catalog=AdventureWorks2019;User Id=sa;password=Password12!</connectionString>
 		</default>
 	</settings>
 	<test name="Members of department bellow 'Corporate' are in the following list" uid="0001">
@@ -101,7 +101,7 @@
       <equivalentTo>
         <members children-of="Corporate" >
           <hierarchy caption="Departments" dimension="Department" perspective="Adventure Works"
-						connectionString="Provider=MSOLAP.4;Data Source=(local)\SQL2017;Initial Catalog='Adventure Works DW 2012';localeidentifier=1033"
+						connectionString="Provider=MSOLAP.4;Data Source=(local)\SQL2019;Initial Catalog='Adventure Works DW 2012';localeidentifier=1033"
 					/>
         </members>
       </equivalentTo>

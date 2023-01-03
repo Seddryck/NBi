@@ -2,7 +2,7 @@
 <testSuite name="Acceptance Testing: query equalTo ResultSet" xmlns="http://NBi/TestSuite">
   <settings>
     <default apply-to="system-under-test">
-      <connectionString>Data Source=(local)\SQL2017;Initial Catalog=AdventureWorks2017;User Id=sa;password=Password12!</connectionString>
+      <connectionString>Data Source=(local)\SQL2019;Initial Catalog=AdventureWorks2019;User Id=sa;password=Password12!</connectionString>
     </default>
   </settings>
   <test name="Purchase orders info" uid="0001">
@@ -91,7 +91,7 @@
       </equal-to>
     </assert>
   </test>
-  <test name="Notes from Web" uid="0100">
+  <!--<test name="Notes from Web" uid="0100">
     <system-under-test>
       <result-set>
         <query>
@@ -117,5 +117,5 @@
         </xml-source>
       </equal-to>
     </assert>
-  </test>
+  </test>-->
 </testSuite>

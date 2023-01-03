@@ -4,7 +4,7 @@ case load query
 {
 	select '3' as decimalDigit, '.' as decimalSeparator, ',' as thousandSeparator
 }
-on 'Data Source=(local)\SQL2017;Initial Catalog=AdventureWorks2017;User Id=sa;password=Password12!';
+on 'Data Source=(local)\SQL2019;Initial Catalog=AdventureWorks2017;User Id=sa;password=Password12!';
 
 //Load the template from a file
 template load file 'Acceptance\GenbiL\Resources\MatchPattern.nbitt';

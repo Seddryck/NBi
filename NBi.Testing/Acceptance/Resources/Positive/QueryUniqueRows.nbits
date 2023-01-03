@@ -2,7 +2,7 @@
 <testSuite name="Acceptance Testing: query equalTo Csv" xmlns="http://NBi/TestSuite">
   <settings>
     <default apply-to="system-under-test">
-      <connectionString>Data Source=(local)\SQL2017;Initial Catalog=AdventureWorks2017;User Id=sa;password=Password12!</connectionString>
+      <connectionString>Data Source=(local)\SQL2019;Initial Catalog=AdventureWorks2017;User Id=sa;password=Password12!</connectionString>
     </default>
   </settings>
   <test name="query with all columns as keys" uid="0001">

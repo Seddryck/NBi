@@ -38,7 +38,7 @@ case load query
 	union all 
 	select 'fourth-hierarchy' as hierarchy, 'second-dimension' as dimension, 'first-perspective' as perspective
 }
-on 'Data Source=(local)\SQL2017;Initial Catalog=AdventureWorks2017;User Id=sa;password=Password12!';
+on 'Data Source=(local)\SQL2019;Initial Catalog=AdventureWorks2017;User Id=sa;password=Password12!';
 case filter on column 'dimension' values like 'first-%' ;
 case move column 'dimension' to right;
 case move column 'perspective' to left;

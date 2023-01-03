@@ -1017,7 +1017,7 @@
         </equal-to>
       </assert>
     </test>
-    <test name="Result-set is the json-source with remote url" uid="0161">
+    <!--<test name="Result-set is the json-source with remote url" uid="0161">
       <system-under-test>
         <result-set>
           <json-source>
@@ -1050,7 +1050,7 @@
           </result-set>
         </equal-to>
       </assert>
-    </test>
+    </test>-->
     <!--<test name="Result-set is the json-source with rest api" uid="0162">
       <system-under-test>
         <result-set>

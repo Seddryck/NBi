@@ -91,7 +91,7 @@
       </equal-to>
     </assert>
   </test>
-  <test name="Notes from Web" uid="0100">
+  <!--<test name="Notes from Web" uid="0100">
     <system-under-test>
       <result-set>
         <query>
@@ -117,5 +117,5 @@
         </xml-source>
       </equal-to>
     </assert>
-  </test>
+  </test>-->
 </testSuite>

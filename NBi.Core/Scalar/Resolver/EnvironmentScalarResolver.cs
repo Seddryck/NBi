@@ -18,7 +18,7 @@ namespace NBi.Core.Scalar.Resolver
 
         public T Execute()
         {
-            var value = Environment.GetEnvironmentVariable(args.Name, EnvironmentVariableTarget.User);
+            var value = Environment.GetEnvironmentVariable(args.Name);
             return (T)Convert.ChangeType(value, typeof(T));
         }
 

@@ -12,9 +12,9 @@ namespace NBi.Testing.Core.Scalar.Resolver
     public class EnvironmentScalarResolverTest
     {
         [SetUp]
-        public void CreateEnvironmentVariable() => Environment.SetEnvironmentVariable("NBiTesting", "the_value", EnvironmentVariableTarget.User);
+        public void CreateEnvironmentVariable() => Environment.SetEnvironmentVariable("NBiTesting", "the_value");
         [TearDown]
-        public void DeleteEnvironmentVariable() => Environment.SetEnvironmentVariable("NBiTesting", null, EnvironmentVariableTarget.User);
+        public void DeleteEnvironmentVariable() => Environment.SetEnvironmentVariable("NBiTesting", null);
 
         [Test]
         public void Instantiate_GetValueObject_CorrectRead()

@@ -7,7 +7,7 @@ case filter on column 'dimension' values not like 'exclude%';
 case scope 'hierarchy';
 case load query 
 	'Acceptance\GenbiL\Resources\hierarchy.sql' 
-	on 'Data Source=(local)\SQL2019;Initial Catalog=AdventureWorks2019;User Id=sa;password=Password12!';
+	on 'Data Source=(local)\SQL2022;Initial Catalog=AdventureWorks2019;User Id=sa;password=Password12!';
 case filter on column 'hierarchy' values not equal 'third-hierarchy' ;
 case remove column 'perspective';
 

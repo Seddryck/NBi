@@ -2,7 +2,7 @@
 <testSuite name="Acceptance Testing: query equal-to ResultSet" xmlns="http://NBi/TestSuite">
   <settings>
     <default apply-to="everywhere">
-      <connectionString>Data Source=(local)\SQL2019;Initial Catalog=AdventureWorks2019;User Id=sa;password=Password12!</connectionString>
+      <connectionString>Data Source=(local)\SQL2022;Initial Catalog=AdventureWorks2019;User Id=sa;password=Password12!</connectionString>
     </default>
   </settings>
 	<test name="'Reseller Order Count' by year between 2005 and 2009" uid="0001">
@@ -11,7 +11,7 @@
     </condition>
 		<system-under-test>
 			<result-set>
-				<query name="MDX Except" connectionString="Provider=MSOLAP.4;Data Source=(local)\SQL2019;Initial Catalog='Adventure Works DW 2012';localeidentifier=1033">
+				<query name="MDX Except" connectionString="Provider=MSOLAP.4;Data Source=(local)\SQL2022;Initial Catalog='Adventure Works DW 2012';localeidentifier=1033">
 					SELECT
 					[Measures].[Reseller Order Count] ON 0,
 					{[Date].[Calendar Year].[CY 2005]:[Date].[Calendar Year].[CY 2009]} ON 1

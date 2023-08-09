@@ -2,7 +2,7 @@
 <testSuite name="All-rows TestSuite" xmlns="http://NBi/TestSuite">
   <settings>
     <default apply-to="system-under-test">
-      <connectionString>Data Source=(local)\SQL2019;Initial Catalog=AdventureWorks2019;User Id=sa;password=Password12!</connectionString>
+      <connectionString>Data Source=(local)\SQL2022;Initial Catalog=AdventureWorks2019;User Id=sa;password=Password12!</connectionString>
     </default>
   </settings>
   <variables>
@@ -408,7 +408,7 @@
   <test name="Instances are defined through a query" uid="0080">
     <instance-settling>
       <local-variable name="month" type="dateTime">
-        <query-sequence connection-string="Data Source=(local)\SQL2019;Initial Catalog=AdventureWorks2019;User Id=sa;password=Password12!">
+        <query-sequence connection-string="Data Source=(local)\SQL2022;Initial Catalog=AdventureWorks2019;User Id=sa;password=Password12!">
           select '2016-01-01' union all select '2016-02-01' union all select '2016-03-01'
         </query-sequence>
       </local-variable>

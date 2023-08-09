@@ -2,16 +2,16 @@
 <testSuite name="Acceptance Testing: ResultSet" xmlns="http://NBi/TestSuite">
   <settings>
     <default apply-to="system-under-test">
-      <connectionString>Data Source=(local)\SQL2019;Initial Catalog=AdventureWorks2019;User Id=sa;password=Password12!</connectionString>
+      <connectionString>Data Source=(local)\SQL2022;Initial Catalog=AdventureWorks2019;User Id=sa;password=Password12!</connectionString>
     </default>                                                                         
     <default apply-to="assert">                                                        
-      <connectionString>Data Source=(local)\SQL2019;Initial Catalog=AdventureWorks2019;User Id=sa;password=Password12!</connectionString>
+      <connectionString>Data Source=(local)\SQL2022;Initial Catalog=AdventureWorks2019;User Id=sa;password=Password12!</connectionString>
     </default>
     <default apply-to="variable">
-      <connectionString>Data Source=(local)\SQL2019;Initial Catalog=AdventureWorks2019;User Id=sa;password=Password12!</connectionString>
+      <connectionString>Data Source=(local)\SQL2022;Initial Catalog=AdventureWorks2019;User Id=sa;password=Password12!</connectionString>
     </default>
     <reference name="ref1">
-      <connectionString>Data Source=(local)\SQL2019;Initial Catalog=AdventureWorks2019;User Id=sa;password=Password12!</connectionString>
+      <connectionString>Data Source=(local)\SQL2022;Initial Catalog=AdventureWorks2019;User Id=sa;password=Password12!</connectionString>
     </reference>
   </settings>
   <variables>
@@ -438,7 +438,7 @@
       <system-under-test>
         <resultSet>
           <query>
-            <report source="Data Source=(local)\SQL2019;Initial Catalog=ReportServer;Integrated Security=True;"
+            <report source="Data Source=(local)\SQL2022;Initial Catalog=ReportServer;Integrated Security=True;"
                 path="/AdventureWorks 2012/"
                 name="Store_Contacts"
                 dataset="Stores"
@@ -2549,7 +2549,7 @@
                 <using>[FooBarId]</using>
               </join>
               <result-set>
-                <query connection-string="Data Source=(local)\SQL2019;Initial Catalog=AdventureWorks2019;User Id=sa;password=Password12!">
+                <query connection-string="Data Source=(local)\SQL2022;Initial Catalog=AdventureWorks2019;User Id=sa;password=Password12!">
                   select 1 as FooBarId, 'Foo' as ValueX union all select 2, 'Bar'
                 </query>
               </result-set>

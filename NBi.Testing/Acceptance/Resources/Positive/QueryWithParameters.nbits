@@ -2,10 +2,10 @@
 <testSuite name="Acceptance Testing: query equalTo ResultSet" xmlns="http://NBi/TestSuite">
 	<settings>
 		<default apply-to="system-under-test">
-			<connectionString>Provider=MSOLAP.4;Data Source=(local)\SQL2019;Initial Catalog='Adventure Works DW 2012'</connectionString>
+			<connectionString>Provider=MSOLAP.4;Data Source=(local)\SQL2022;Initial Catalog='Adventure Works DW 2012'</connectionString>
 		</default>
 		<reference name="SqlAdvenureWorks2012">
-			<connectionString>Data Source=(local)\SQL2019;Initial Catalog=AdventureWorks2019;User Id=sa;password=Password12!</connectionString>
+			<connectionString>Data Source=(local)\SQL2022;Initial Catalog=AdventureWorks2019;User Id=sa;password=Password12!</connectionString>
 		</reference>
 	</settings>
 	<test name="Faster Than for SQL with parameter" uid="0001">
@@ -205,7 +205,7 @@
 			<equalTo>
 				<column index="0" role="key" type="text"/>
 				<column index="1" role="value" type="numeric" tolerance="0.01"/>
-				<query name="MDX" connectionString="Provider=MSOLAP.4;Data Source=(local)\SQL2019;Initial Catalog='Adventure Works DW 2012'">
+				<query name="MDX" connectionString="Provider=MSOLAP.4;Data Source=(local)\SQL2022;Initial Catalog='Adventure Works DW 2012'">
 					SELECT
 					[Measures].[Reseller Order Count] ON 0,
 					STRTOMEMBER(@YearMember) ON 1
@@ -247,7 +247,7 @@
 			<equalTo>
 				<column index="0" role="key" type="text"/>
 				<column index="1" role="value" type="numeric" tolerance="0.01"/>
-				<query name="MDX" connectionString="Provider=MSOLAP.4;Data Source=(local)\SQL2019;Initial Catalog='Adventure Works DW 2012'">
+				<query name="MDX" connectionString="Provider=MSOLAP.4;Data Source=(local)\SQL2022;Initial Catalog='Adventure Works DW 2012'">
 					SELECT
 					[Measures].[Reseller Order Count] ON 0,
 					STRTOMEMBER(@YearMember) ON 1

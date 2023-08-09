@@ -2,10 +2,10 @@
 <testSuite name="Acceptance Testing: query equalTo query" xmlns="http://NBi/TestSuite">
   <settings>
     <default apply-to="system-under-test">
-      <connection-string>Data Source=(local)\SQL2019;Initial Catalog=AdventureWorks2019;User Id=sa;password=Password12!</connection-string>
+      <connection-string>Data Source=(local)\SQL2022;Initial Catalog=AdventureWorks2019;User Id=sa;password=Password12!</connection-string>
     </default>
     <default apply-to="assert">
-      <connection-string>Data Source=(local)\SQL2019;Initial Catalog=AdventureWorks2019;User Id=sa;password=Password12!</connection-string>
+      <connection-string>Data Source=(local)\SQL2022;Initial Catalog=AdventureWorks2019;User Id=sa;password=Password12!</connection-string>
     </default>
   </settings>
   <variables>
@@ -38,7 +38,7 @@
     </condition>
     <system-under-test>
       <result-set>
-        <query name="MDX Except" connection-string="Provider=MSOLAP.4;Data Source=(local)\SQL2019;Initial Catalog='Adventure Works DW 2012';localeidentifier=1049">
+        <query name="MDX Except" connection-string="Provider=MSOLAP.4;Data Source=(local)\SQL2022;Initial Catalog='Adventure Works DW 2012';localeidentifier=1049">
           WITH MEMBER
           [Measures].[Reseller Order Count Divided by 7]
           AS
@@ -71,7 +71,7 @@
     </condition>
     <system-under-test>
       <result-set>
-        <query name="MDX Except" connectionString="Provider=MSOLAP.4;Data Source=(local)\SQL2019;Initial Catalog='Adventure Works DW 2012';localeidentifier=1049">
+        <query name="MDX Except" connectionString="Provider=MSOLAP.4;Data Source=(local)\SQL2022;Initial Catalog='Adventure Works DW 2012';localeidentifier=1049">
           select
           [Measures].[Internet Order Count] on 0,
           [Date].[Date].Children  on 1
@@ -82,7 +82,7 @@
     </system-under-test>
     <assert>
       <equalTo>
-        <query connectionString="Provider=MSOLAP.4;Data Source=(local)\SQL2019;Initial Catalog='Adventure Works DW 2012';localeidentifier=1049">
+        <query connectionString="Provider=MSOLAP.4;Data Source=(local)\SQL2022;Initial Catalog='Adventure Works DW 2012';localeidentifier=1049">
           select
           [Measures].[Internet Order Count] on 0,
           [Date].[Date].Children  on 1
@@ -259,14 +259,14 @@
     <test name="Sql Native vs ODBC">
       <system-under-test>
         <result-set>
-          <query connectionString="Data Source=(local)\SQL2019;Initial Catalog=AdventureWorks2019;User Id=sa;password=Password12!">
+          <query connectionString="Data Source=(local)\SQL2022;Initial Catalog=AdventureWorks2019;User Id=sa;password=Password12!">
             select 'OK';
           </query>
         </result-set>
       </system-under-test>
       <assert>
         <equalTo>
-          <query connectionString="Driver={ODBC Driver 13 for SQL Server};Server=tcp:.\SQL2019,1433;Database=AdventureWorks2019;Uid=sa;Pwd=Password12!;Encrypt=yes;TrustServerCertificate=yes;Connection Timeout=30;">
+          <query connectionString="Driver={ODBC Driver 13 for SQL Server};Server=tcp:.\SQL2022,1433;Database=AdventureWorks2019;Uid=sa;Pwd=Password12!;Encrypt=yes;TrustServerCertificate=yes;Connection Timeout=30;">
             select 'OK';
           </query>
         </equalTo>
@@ -275,14 +275,14 @@
     <test name="Sql Native vs OLEDB">
       <system-under-test>
         <result-set>
-          <query connectionString="Data Source=(local)\SQL2019;Initial Catalog=AdventureWorks2019;User Id=sa;password=Password12!">
+          <query connectionString="Data Source=(local)\SQL2022;Initial Catalog=AdventureWorks2019;User Id=sa;password=Password12!">
             select 'OK';
           </query>
         </result-set>
       </system-under-test>
       <assert>
         <equalTo>
-          <query connectionString="Provider=SQLNCLI11;Server=.\SQL2019;Database=AdventureWorks2019;UId=sa;Pwd=Password12!;">
+          <query connectionString="Provider=SQLNCLI11;Server=.\SQL2022;Database=AdventureWorks2019;UId=sa;Pwd=Password12!;">
             select 'OK';
           </query>
         </equalTo>

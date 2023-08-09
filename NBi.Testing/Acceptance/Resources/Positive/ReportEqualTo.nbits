@@ -2,7 +2,7 @@
 <testSuite name="Acceptance Testing: query equalTo Csv" xmlns="http://NBi/TestSuite">
 	<settings>
 		<default apply-to="system-under-test">
-			<connectionString>Data Source=(local)\SQL2019;Initial Catalog=AdventureWorks2019;User Id=sa;password=Password12!</connectionString>
+			<connectionString>Data Source=(local)\SQL2022;Initial Catalog=AdventureWorks2019;User Id=sa;password=Password12!</connectionString>
 		</default>
 	</settings>
 	<test name="Validate the different business entities" uid="0001">
@@ -12,7 +12,7 @@
 		</condition>
 		<system-under-test>
 			<execution>
-				<report source="Data Source=(local)\SQL2019;Initial Catalog=ReportServer;Integrated Security=True;"
+				<report source="Data Source=(local)\SQL2022;Initial Catalog=ReportServer;Integrated Security=True;"
 						path="/AdventureWorks 2012/"
 						name="Store_Contacts"
 						dataset="Stores"
@@ -34,7 +34,7 @@
 		</condition>
 		<system-under-test>
 			<execution>
-				<report source="Data Source=(local)\SQL2019;Initial Catalog=ReportServer;Integrated Security=True;"
+				<report source="Data Source=(local)\SQL2022;Initial Catalog=ReportServer;Integrated Security=True;"
 						path="/AdventureWorks 2012/"
 						name="Store_Contacts"
 						dataset="StoreContacts"
@@ -90,7 +90,7 @@
     <system-under-test>
       <execution>
         <shared-dataset
-            source="Data Source=(local)\SQL2019;Initial Catalog=ReportServer;Integrated Security=True;"
+            source="Data Source=(local)\SQL2022;Initial Catalog=ReportServer;Integrated Security=True;"
 						path="/AdventureWorks Sample Reports/"
 						name="SalesEmployees"
 				/>

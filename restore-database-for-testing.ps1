@@ -23,5 +23,9 @@ else
     Write-Host "Module dbatools installed"
 }
 
+Write-Host "Switching default SQL Server connection encryption ..."
+Set-DbatoolsConfig -FullName sql.connection.trustcert -Value $true
+Set-DbatoolsConfig -FullName sql.connection.encrypt -Value $false
+
 Write-Host "Restoring AdventureWorks$mssqlVersion on $env:computername\SQL$mssqlVersion ..."
 Restore-DbaDatabase -SqlInstance $env:computername\SQL$mssqlVersion -Path c:\projects\AdventureWorks$mssqlVersion.bak

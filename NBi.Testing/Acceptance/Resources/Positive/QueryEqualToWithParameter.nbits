@@ -2,7 +2,7 @@
 <testSuite name="Acceptance Testing: query equal-to with parameters" xmlns="http://NBi/TestSuite">
   <settings>
     <default apply-to="everywhere">
-      <connection-string>Data Source=(local)\SQL2019;Initial Catalog=AdventureWorks2019;User Id=sa;password=Password12!</connection-string>
+      <connection-string>Data Source=(local)\SQL2022;Initial Catalog=AdventureWorks2022;User Id=sa;password=Password12!</connection-string>
       <parameter name="@CurrencyCode" sql-type="varchar">AED</parameter>
     </default>
   </settings>

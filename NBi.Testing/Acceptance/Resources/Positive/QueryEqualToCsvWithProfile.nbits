@@ -9,7 +9,7 @@
     </condition>
 		<system-under-test>
       <result-set>
-				<query connection-string="Provider=MSOLAP.4;Data Source=(local)\SQL2019;Initial Catalog='Adventure Works DW 2012';localeidentifier=1049">
+				<query connection-string="Provider=MSOLAP.4;Data Source=(local)\SQL2022;Initial Catalog='Adventure Works DW 2012';localeidentifier=1049">
 					SELECT
 					[Measures].[Reseller Order Count] ON 0,
 					{[Date].[Calendar Year].[CY 2005]:[Date].[Calendar Year].[CY 2008]} ON 1
@@ -29,7 +29,7 @@
   <test name="'Reseller Order Count' by year before 2006 (csv)" uid="0001">
     <system-under-test>
       <result-set>
-        <query connection-string="Data Source=(local)\SQL2019;Initial Catalog=AdventureWorks2019;User Id=sa;password=Password12!">
+        <query connection-string="Data Source=(local)\SQL2022;Initial Catalog=AdventureWorks2022;User Id=sa;password=Password12!">
           SELECT [Key]=1,Val1='2',Val3=NULL,Val3='3'
           UNION
           SELECT [Key]=4,Val1=NULL,Val2='3',Val3=''

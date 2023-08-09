@@ -2,7 +2,7 @@
 <testSuite name="Acceptance Testing: query equal-to ResultSet" xmlns="http://NBi/TestSuite">
 	<settings>
 		<reference name="myConnStr">
-			<connectionString>Provider=MSOLAP.4;Data Source=(local)\SQL2019;Initial Catalog='Adventure Works DW 2012';localeidentifier=1049</connectionString>
+			<connectionString>Provider=MSOLAP.4;Data Source=(local)\SQL2022;Initial Catalog='Adventure Works DW 2012';localeidentifier=1049</connectionString>
 		</reference>
 	</settings>
 	<test name="'Reseller Order Count' by year before 2006" uid="0001">

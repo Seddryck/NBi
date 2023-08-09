@@ -2,7 +2,7 @@
 <testSuite name="The Query TestSuite" xmlns="http://NBi/TestSuite">
 	<settings>
 		<default apply-to="system-under-test">
-			<connectionString>Data Source=(local)\SQL2019;Initial Catalog=AdventureWorks2019;User Id=sa;password=Password12!</connectionString>
+			<connectionString>Data Source=(local)\SQL2022;Initial Catalog=AdventureWorks2022;User Id=sa;password=Password12!</connectionString>
 		</default>
 	</settings>
 	<test name="Validation calculation of LineTotal" uid="0001">
@@ -78,7 +78,7 @@
     </condition>
     <system-under-test>
       <execution>
-        <query connectionString="Provider=MSOLAP.4;Data Source=(local)\SQL2019;Initial Catalog='Adventure Works DW 2012';localeidentifier=1033">
+        <query connectionString="Provider=MSOLAP.4;Data Source=(local)\SQL2022;Initial Catalog='Adventure Works DW 2012';localeidentifier=1033">
           select {
           [Measures].[Internet Sales Amount]  
           , [Measures].[Internet Total Product Cost] 

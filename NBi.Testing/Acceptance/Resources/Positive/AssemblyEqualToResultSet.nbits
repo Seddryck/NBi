@@ -2,7 +2,7 @@
 <testSuite name="Acceptance Testing: query equalTo Csv" xmlns="http://NBi/TestSuite">
 	<settings>
 		<default apply-to="system-under-test">
-			<connectionString>Provider=MSOLAP.4;Data Source=(local)\SQL2019;Initial Catalog='Adventure Works DW 2012';localeidentifier=1049</connectionString>
+			<connectionString>Provider=MSOLAP.4;Data Source=(local)\SQL2022;Initial Catalog='Adventure Works DW 2012';localeidentifier=1049</connectionString>
 		</default>
 	</settings>
 	<test name="'Reseller Order Count' for year 2008, query built by assembly" uid="0001">

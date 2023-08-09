@@ -5,7 +5,7 @@
 			<connectionString>Provider=MSOLAP.4;Data Source=(local)\SQL2022;Initial Catalog='Adventure Works DW 2012';localeidentifier=1033</connectionString>
 		</default>
     <reference name="Dwh">
-      <connectionString>Data Source=(local)\SQL2022;Initial Catalog=AdventureWorks2019;User Id=sa;password=Password12!</connectionString>
+      <connectionString>Data Source=(local)\SQL2022;Initial Catalog=AdventureWorks2022;User Id=sa;password=Password12!</connectionString>
     </reference>
 	</settings>
 	<test name="In dimension 'Customers', hierarchy 'State-Provinces', level 'State-Provinces' a property 'capital' is not existing " uid="0001">

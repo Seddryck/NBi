@@ -2,7 +2,7 @@
 <testSuite name="Acceptance Testing: query equal-to ResultSet" xmlns="http://NBi/TestSuite">
   <settings>
     <default apply-to="everywhere">
-      <connectionString>Data Source=(local)\SQL2022;Initial Catalog=AdventureWorks2019;User Id=sa;password=Password12!</connectionString>
+      <connectionString>Data Source=(local)\SQL2022;Initial Catalog=AdventureWorks2022;User Id=sa;password=Password12!</connectionString>
     </default>
   </settings>
 	<test name="'Reseller Order Count' by year between 2005 and 2009" uid="0001">

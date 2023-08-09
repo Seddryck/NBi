@@ -2,7 +2,7 @@
 <testSuite name="The Query TestSuite" xmlns="http://NBi/TestSuite">
 	<settings>
 		<default apply-to="everywhere">
-			<connectionString>Data Source=(local)\SQL2022;Initial Catalog=AdventureWorks2019;User Id=sa;password=Password12!</connectionString>
+			<connectionString>Data Source=(local)\SQL2022;Initial Catalog=AdventureWorks2022;User Id=sa;password=Password12!</connectionString>
 		</default>
 	</settings>
 	<test name="Simply Ignored" uid="0001">

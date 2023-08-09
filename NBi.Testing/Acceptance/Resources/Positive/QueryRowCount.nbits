@@ -2,10 +2,10 @@
 <testSuite name="Acceptance Testing: query equalTo Csv" xmlns="http://NBi/TestSuite">
   <settings>
     <default apply-to="system-under-test">
-      <connection-string>Data Source=(local)\SQL2022;Initial Catalog=AdventureWorks2019;User Id=sa;password=Password12!</connection-string>
+      <connection-string>Data Source=(local)\SQL2022;Initial Catalog=AdventureWorks2022;User Id=sa;password=Password12!</connection-string>
     </default>
     <default apply-to="assert">
-      <connection-string>Data Source=(local)\SQL2022;Initial Catalog=AdventureWorks2019;User Id=sa;password=Password12!</connection-string>
+      <connection-string>Data Source=(local)\SQL2022;Initial Catalog=AdventureWorks2022;User Id=sa;password=Password12!</connection-string>
     </default>
   </settings>
   <variables>
@@ -14,7 +14,7 @@
     </variable>
     <variable name="ThreeQuery">
       <query-scalar
-        connectionString="Data Source=(local)\SQL2022;Initial Catalog=AdventureWorks2019;User Id=sa;password=Password12!"
+        connectionString="Data Source=(local)\SQL2022;Initial Catalog=AdventureWorks2022;User Id=sa;password=Password12!"
       >
         select 3
       </query-scalar>

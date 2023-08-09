@@ -87,7 +87,7 @@
     </system-under-test>
     <assert>
       <ordered rule="specific">
-        <one-column-query connectionString="Data Source=(local)\SQL2022;Initial Catalog=AdventureWorks2019;User Id=sa;password=Password12!">
+        <one-column-query connectionString="Data Source=(local)\SQL2022;Initial Catalog=AdventureWorks2022;User Id=sa;password=Password12!">
           select 'Actual' union all select 'Budget' union all select 'Forecast'
         </one-column-query>
       </ordered>

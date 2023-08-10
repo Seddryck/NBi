@@ -10,21 +10,21 @@ The main goal of this framework is to let users create tests with a declarative 
 **Releases:** [![nuget](https://img.shields.io/nuget/v/NBi.Framework.svg)](https://www.nuget.org/packages/NBi.Framework/)
 [![GitHub Release Date](https://img.shields.io/github/release-date/seddryck/nbi.svg)](https://github.com/Seddryck/NBi/releases/latest)
 [![licence badge](https://img.shields.io/badge/License-Apache%202.0-yellow.svg)](https://github.com/Seddryck/NBi/blob/master/LICENSE)
- [![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2FSeddryck%2FNBi.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2FSeddryck%2FNBi?ref=badge_shield)
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2FSeddryck%2FNBi.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2FSeddryck%2FNBi?ref=badge_shield)
 
 **Latest RC and beta:** [![Pre-release](https://img.shields.io/github/tag-pre/seddryck/nbi.svg?color=%23ee41f4&label=Pre-release)](https://github.com/Seddryck/NBi/releases/)
 ![GitHub (Pre-)Release Date](https://img.shields.io/github/release-date-pre/Seddryck/NBi?label=Pre-release)
 [![nuget](https://img.shields.io/nuget/vpre/NBi.Framework.svg?color=%23427682&label=Beta)](https://www.nuget.org/packages/NBi.Framework/)
 
 **Dev. activity:** [![GitHub last commit](https://img.shields.io/github/last-commit/Seddryck/nbi.svg)](https://github.com/Seddryck/NBi/releases/latest)
-![Still maintained](https://img.shields.io/maintenance/yes/2021.svg)
+![Still maintained](https://img.shields.io/maintenance/yes/2023.svg)
 ![GitHub commits since tagged version](https://img.shields.io/github/commits-since/Seddryck/NBi/v1.21/develop)
 ![GitHub commits on v2.0](https://img.shields.io/github/commits-since/seddryck/nbi/v1.21/develop_v2?label=commits%20on%20v2.0)
 ![GitHub commit activity](https://img.shields.io/github/commit-activity/y/Seddryck/NBi)
 
 **Continuous integration builds:** [![Build status](https://ci.appveyor.com/api/projects/status/t5m0hr57vnsdv0v7?svg=true)](https://ci.appveyor.com/project/Seddryck/nbi)
-[![Build Status](https://seddryck.visualstudio.com/NBi/_apis/build/status/NBi-CI?branchName=develop)](https://seddryck.visualstudio.com/NBi/_apis/build/status/NBi-CI?branchName=develop)
 [![Tests](https://img.shields.io/appveyor/tests/seddryck/nbi.svg)](https://ci.appveyor.com/project/Seddryck/nbi/build/tests)
+[![CodeFactor](https://www.codefactor.io/repository/github/seddryck/nbi/badge)](https://www.codefactor.io/repository/github/seddryck/nbi)
 
 **Status:** [![stars badge](https://img.shields.io/github/stars/Seddryck/NBi.svg)](https://github.com/Seddryck/NBi/stargazers)
 [![Bugs badge](https://img.shields.io/github/issues/Seddryck/NBi/bug.svg?color=red&label=Bugs)](https://github.com/Seddryck/NBi/issues?utf8=%E2%9C%93&q=is:issue+is:open+label:bug+)

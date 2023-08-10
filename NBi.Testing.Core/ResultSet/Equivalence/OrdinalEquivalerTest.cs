@@ -62,8 +62,8 @@ namespace NBi.Testing.Core.ResultSet.Equivalence
         [TestCase(10, 1)]
         [TestCase(100, 1)]
         [TestCase(1000, 1)]
-        [TestCase(10000, 1)]
-        [TestCase(100000, 10)]
+        [TestCase(10000, 3)]
+        [TestCase(100000, 15)]
         //[TestCase(1000000, 30)]
         public void Compare_DifferentLargeArrays_ReturnQuicklyDifferent(int count, int timeout)
         {

@@ -1,8 +1,10 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using NBi.GenbiL;
 using NBi.UI.Genbi.View.TestSuiteGenerator;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace NBi.UI.Genbi.Command.Macro
 {
@@ -73,8 +75,10 @@ namespace NBi.UI.Genbi.Command.Macro
                 generator.Load(filename);
                 generator.Execute();
             }
-            catch
+            catch (Exception ex)
             {
+                File.WriteAllText("error.txt", String.Format("Exception generated during execution of the macro.\r\n\r\n{0}", ex.Message));
+                File.AppendAllText("error.txt", String.Format("\nInner Exception.\r\n\r\n{0}", ex.InnerException));
                 return;
             }
         }

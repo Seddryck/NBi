@@ -32,9 +32,7 @@ namespace NBi.Core.Api.Authentication
                 => (Name, Value) = (name, value);
 
             public void Authenticate(IRestClient client, IRestRequest request)
-            {
-                request.AddHeader(Name, Value);
-            }
+                => request.AddHeader(Name, Value);
         }
     }
 }

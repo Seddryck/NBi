@@ -1,0 +1,437 @@
+repo_name: Seddryck/NBi
+report_id: 81f2d280d57c150a573726c363d890b4
+repo_type: Public
+timestamp: '2023-11-12T20:24:46+00:00'
+requested_by: Seddryck
+provider: github
+branch: develop
+detected_tools_count: 33
+tools:
+- name: ASP.NET
+  description: An open source web framework for building modern web apps and services
+    with .NET
+  website_url: https://www.asp.net/
+  version: 4.6.2
+  open_source: true
+  hosted_saas: false
+  category: Languages & Frameworks
+  sub_category: Languages
+  image_url: https://img.stackshare.io/service/6755/2c45151a4a11d3a3c8e71bb34dd069d6_400x400.png
+  detection_source_url: NBi.Core/NBi.Core.csproj
+  detection_source: NBi.genbiL/NBi.genbiL.csproj
+  last_updated_by: Cédric L. Charlier
+  last_updated_on: 2015-02-14 22:04:30.000000000 Z
+- name: C#
+  description: Simple, general-purpose, object-oriented programming language for the
+    .NET platform
+  website_url: http://csharp.net
+  open_source: true
+  hosted_saas: false
+  category: Languages & Frameworks
+  sub_category: Languages
+  image_url: https://img.stackshare.io/service/1015/1200px-C_Sharp_wordmark.svg.png
+  detection_source: Repo Metadata
+- name: F#
+  description: Strongly-typed, functional-first programming language for writing simple
+    code to solve complex problems
+  website_url: http://fsharp.org/
+  version: 7.0.0
+  license: MIT
+  open_source: true
+  hosted_saas: false
+  category: Languages & Frameworks
+  sub_category: Languages
+  image_url: https://img.stackshare.io/service/2155/yRNL7yTW.png
+  detection_source_url: NBi.Core/packages.config
+  detection_source: NBi.Testing.Core/packages.config
+  last_updated_by: Cédric L. Charlier
+  last_updated_on: 2015-05-30 12:29:56.000000000 Z
+- name: SQL
+  description: It is a domain-specific language used in programming
+  website_url: https://en.wikipedia.org/wiki/SQL
+  open_source: true
+  hosted_saas: false
+  category: Languages & Frameworks
+  sub_category: Languages
+  image_url: https://img.stackshare.io/service/2271/default_068d33483bba6b81ee13fbd4dc7aab9780896a54.png
+  detection_source: NBi.Testing/Integration/Core/Resources/query.sql
+  last_updated_by: Cédric L. Charlier
+  last_updated_on: 2015-05-30 12:29:56.000000000 Z
+- name: ".NET"
+  description: A free, cross-platform, open source developer platform for building
+    many different types of applications
+  website_url: http://www.microsoft.com/net/
+  license: MIT
+  open_source: true
+  hosted_saas: false
+  category: Languages & Frameworks
+  sub_category: Frameworks (Full Stack)
+  image_url: https://img.stackshare.io/service/1014/IoPy1dce_400x400.png
+  detection_source: NBi.Testing/packages.config
+  last_updated_by: Cédric L. Charlier
+  last_updated_on: 2015-05-30 12:29:56.000000000 Z
+- name: Castle Core
+  description: It provides common Castle Project abstractions including logging services
+  website_url: https://github.com/castleproject/Core
+  open_source: true
+  hosted_saas: false
+  category: Monitoring
+  sub_category: Logging Tools
+  image_url: https://img.stackshare.io/service/20916/default_6d17162c9963bc83521ee29cf394f349c95173f3.png
+  detection_source: NBi.Testing/packages.config
+  last_updated_by: Cédric L. Charlier
+  last_updated_on: 2023-01-03 02:21:02.000000000 Z
+- name: Git
+  description: Fast, scalable, distributed revision control system
+  website_url: http://git-scm.com/
+  open_source: true
+  hosted_saas: false
+  category: Build, Test, Deploy
+  sub_category: Version Control System
+  image_url: https://img.stackshare.io/service/1046/git.png
+  detection_source: Repo Metadata
+- name: GitHub Actions
+  description: Automate your workflow from idea to production
+  website_url: https://github.com/features/actions
+  open_source: false
+  hosted_saas: true
+  category: Build, Test, Deploy
+  sub_category: Continuous Integration
+  image_url: https://img.stackshare.io/service/11563/actions.png
+  detection_source: ".github/workflows/combine-prs.yml"
+  last_updated_by: Cédric L. Charlier
+  last_updated_on: 2023-01-01 17:12:33.000000000 Z
+- name: Moq
+  description: The most popular and friendly mocking framework for .NET
+  website_url: https://github.com/Moq/moq4
+  open_source: true
+  hosted_saas: false
+  category: Build, Test, Deploy
+  sub_category: Testing Frameworks
+  image_url: https://img.stackshare.io/service/1628/1434934.png
+  detection_source: NBi.Testing/packages.config
+  last_updated_by: Cédric L. Charlier
+  last_updated_on: 2019-07-15 22:23:49.000000000 Z
+- name: NUnit
+  description: An open-source unit testing framework
+  website_url: http://www.nunit.org/
+  open_source: false
+  hosted_saas: false
+  category: Build, Test, Deploy
+  sub_category: Testing Frameworks
+  image_url: https://img.stackshare.io/service/2371/jZ6MYx5Y_400x400.png
+  detection_source: NBi.Testing/packages.config
+  last_updated_by: Cédric L. Charlier
+  last_updated_on: 2023-08-10 17:55:48.000000000 Z
+- name: Ninject
+  description: The ninja of .net dependency injectors
+  website_url: http://www.ninject.org
+  open_source: true
+  hosted_saas: false
+  category: Build, Test, Deploy
+  sub_category: Game Development
+  image_url: https://img.stackshare.io/service/3173/default_85e419b9c60b158340e534d5006d949015ec16e4.png
+  detection_source: NBi.NUnit.Runtime/packages.config
+  last_updated_by: Cédric L. Charlier
+  last_updated_on: 2023-01-03 01:34:29.000000000 Z
+- name: NuGet
+  description: The package manager for .NET
+  website_url: https://www.nuget.org/
+  open_source: false
+  hosted_saas: false
+  category: Build, Test, Deploy
+  sub_category: Package Managers
+  image_url: https://img.stackshare.io/service/2637/6I3oEOP4_400x400.jpg
+  detection_source: NBi.Testing/packages.config
+  last_updated_by: Cédric L. Charlier
+  last_updated_on: 2015-05-30 12:29:56.000000000 Z
+- name: Visual Studio
+  description: State-of-the-art tools and services that you can use to create great
+    apps for devices, the cloud, and everything in between.
+  website_url: http://msdn.microsoft.com/en-us/vstudio/aa718325.aspx
+  open_source: false
+  hosted_saas: false
+  category: Build, Test, Deploy
+  sub_category: Integrated Development Environment
+  image_url: https://img.stackshare.io/service/1451/SR2hUhQN.png
+  detection_source: NBi.sln
+  last_updated_by: Cédric L. Charlier
+  last_updated_on: 2023-01-01 16:15:22.000000000 Z
+- name: PowerShell
+  description: A task automation and configuration management framework
+  website_url: https://docs.microsoft.com/en-us/powershell/
+  open_source: false
+  hosted_saas: false
+  category: Languages & Frameworks
+  sub_category: Languages
+  image_url: https://img.stackshare.io/service/3681/powershell-logo.png
+  detection_source: Repo Metadata
+- name: RestSharp
+  description: Simple REST and HTTP API Client for .NET
+  website_url: https://restsharp.dev/
+  license: Apache-2.0
+  open_source: true
+  hosted_saas: false
+  category: Application Utilities
+  sub_category: API Tools
+  image_url: https://img.stackshare.io/service/20915/default_445d4e39e5f74faa53e6902cd6d552ff56c3a0a3.png
+  detection_source: NBi.Core/packages.config
+  last_updated_by: Cédric L. Charlier
+  last_updated_on: 2023-08-10 19:07:00.000000000 Z
+- name: Antlr
+  description: ANother Tool for Language Recognition
+  package_url: https://www.nuget.org/Antlr
+  version: 3.5.0
+  license: Other
+  open_source: true
+  hosted_saas: false
+  category: Libraries
+  sub_category: NuGet Packages
+  image_url: https://img.stackshare.io/package/13151/default_048f7c1081704627a12b8b5e168cfdbc9f28fb33.png
+  detection_source_url: NBi.Core/packages.config
+  detection_source: NBi.Testing.Core/packages.config
+  last_updated_by: Cédric L. Charlier
+  last_updated_on: 2023-01-03 01:34:29.000000000 Z
+- name: Antlr3.Runtime
+  description: The runtime library for parsers generated by the C# target of ANTLR
+    3
+  package_url: https://www.nuget.org/Antlr3.Runtime
+  version: 3.5.1
+  license: Other
+  open_source: true
+  hosted_saas: false
+  category: Libraries
+  sub_category: NuGet Packages
+  image_url: https://img.stackshare.io/package/14561/default_2cdecae299b16f7e5120392b94415caf67b24d08.png
+  detection_source_url: NBi.Core/packages.config
+  detection_source: NBi.genbiL/packages.config
+  last_updated_by: Cédric L. Charlier
+  last_updated_on: 2023-08-10 17:42:36.000000000 Z
+- name: Deedle
+  description: Deedle implements an efficient and robust frame and series data structures
+    for manipulating with structured data
+  package_url: https://www.nuget.org/Deedle
+  version: 2.4.3
+  license: BSD-2-Clause
+  open_source: true
+  hosted_saas: false
+  category: Libraries
+  sub_category: NuGet Packages
+  image_url: https://img.stackshare.io/package/14739/default_ed2dff93c8ef09716d4634464fe3965af887d3ba.png
+  detection_source_url: NBi.Core/packages.config
+  detection_source: NBi.Testing.Core/packages.config
+  last_updated_by: Cédric L. Charlier
+  last_updated_on: 2023-01-03 02:21:02.000000000 Z
+- name: Dynamitey
+  description: ''
+  package_url: https://www.nuget.org/Dynamitey
+  version: 2.0.10
+  license: Apache-2.0
+  open_source: true
+  hosted_saas: false
+  category: Libraries
+  sub_category: NuGet Packages
+  image_url: https://img.stackshare.io/package/14494/default_173ec891280076d3562de36695be599c5f63d489.png
+  detection_source_url: NBi.NUnit.Runtime/packages.config
+  detection_source: NBi.Testing/packages.config
+  last_updated_by: Cédric L. Charlier
+  last_updated_on: 2023-01-03 01:34:29.000000000 Z
+- name: FSharp.Core
+  description: FSharp.Core redistributables from Visual F# Tools version 10.6 For
+    F# 4.7
+  package_url: https://www.nuget.org/FSharp.Core
+  version: 7.0.0
+  license: MIT
+  open_source: true
+  hosted_saas: false
+  category: Libraries
+  sub_category: NuGet Packages
+  image_url: https://img.stackshare.io/package/12867/default_d56a77cbb06d3dae6daef9669108e3e01d2494af.png
+  detection_source_url: NBi.Core/packages.config
+  detection_source: NBi.Testing.Core/packages.config
+  last_updated_by: Cédric L. Charlier
+  last_updated_on: 2023-08-10 19:07:00.000000000 Z
+- name: ImpromptuInterface
+  description: A Lightweight Duck Casting Framework for dynamic C#
+  package_url: https://www.nuget.org/ImpromptuInterface
+  version: 7.0.1
+  license: Apache-2.0
+  open_source: true
+  hosted_saas: false
+  category: Libraries
+  sub_category: NuGet Packages
+  image_url: https://img.stackshare.io/package/13836/default_e1674c8c6a68d9256ef572438afba2230ecc5522.png
+  detection_source_url: NBi.NUnit/packages.config
+  detection_source: NBi.NUnit/packages.config
+  last_updated_by: Cédric L. Charlier
+  last_updated_on: 2023-01-03 01:34:29.000000000 Z
+- name: Microsoft.Bcl.AsyncInterfaces
+  description: Provides the IAsyncEnumerable&lt;T&gt; and IAsyncDisposable interfaces
+    and helper types for .NET Standard 2.0
+  package_url: https://www.nuget.org/Microsoft.Bcl.AsyncInterfaces
+  version: 7.0.0
+  license: MIT
+  open_source: true
+  hosted_saas: false
+  category: Libraries
+  sub_category: NuGet Packages
+  image_url: https://img.stackshare.io/package/13612/default_8262e69d511886f07f1af08ca996ce9684bb574b.png
+  detection_source_url: NBi.Core/packages.config
+  detection_source: NBi.Core/packages.config
+  last_updated_by: Cédric L. Charlier
+  last_updated_on: 2023-08-10 18:06:51.000000000 Z
+- name: NUnit.Runners
+  description: This package is now obsolete and has been replaced by the NUnit.Console
+    package
+  package_url: https://www.nuget.org/NUnit.Runners
+  version: 2.7.1
+  open_source: false
+  hosted_saas: false
+  category: Libraries
+  sub_category: NuGet Packages
+  image_url: https://img.stackshare.io/package/13862/default_f71362d5cdd81a1583eb441b931fae9d72ff1211.png
+  detection_source_url: NBi.NUnit.Runtime/packages.config
+  detection_source: NBi.Testing/packages.config
+  last_updated_by: Cédric L. Charlier
+  last_updated_on: 2023-08-10 17:55:48.000000000 Z
+- name: NUnit3TestAdapter
+  description: A package including the NUnit 3 TestAdapter for Visual Studio 2012
+    onwards
+  package_url: https://www.nuget.org/NUnit3TestAdapter
+  version: 4.5.0
+  license: MIT
+  open_source: true
+  hosted_saas: false
+  category: Libraries
+  sub_category: NuGet Packages
+  image_url: https://img.stackshare.io/package/13216/default_e23dabba1be2c69fbf5fc50bdc46cbffbe6ca2cb.png
+  detection_source_url: NBi.Testing.Core/packages.config
+  detection_source: NBi.Testing.Xml/packages.config
+  last_updated_by: Cédric L. Charlier
+  last_updated_on: 2023-08-10 18:05:40.000000000 Z
+- name: NUnitTestAdapter
+  description: The NUnit TestAdapter for Visual Studio 2012 and newer for NUnit 2
+  package_url: https://www.nuget.org/NUnitTestAdapter
+  version: 2.3.0
+  open_source: false
+  hosted_saas: false
+  category: Libraries
+  sub_category: NuGet Packages
+  image_url: https://img.stackshare.io/package/14014/default_eda5fda8a13db51fe1af0908a714036e1ba79510.png
+  detection_source_url: NBi.Testing/packages.config
+  detection_source: NBi.Testing/packages.config
+  last_updated_by: Cédric L. Charlier
+  last_updated_on: 2023-08-10 17:55:48.000000000 Z
+- name: Newtonsoft.Json
+  description: Json.NET is a popular high-performance JSON framework for .NET
+  package_url: https://www.nuget.org/Newtonsoft.Json
+  version: 13.0.3
+  license: MIT
+  open_source: true
+  hosted_saas: false
+  category: Libraries
+  sub_category: NuGet Packages
+  image_url: https://img.stackshare.io/package/nuget/image.png
+  detection_source_url: NBi.Core/packages.config
+  detection_source: NBi.Testing/packages.config
+  last_updated_by: Cédric L. Charlier
+  last_updated_on: 2023-08-10 18:06:51.000000000 Z
+- name: Sprache
+  description: Sprache is a simple
+  package_url: https://www.nuget.org/Sprache
+  version: 2.3.1
+  license: MIT
+  open_source: true
+  hosted_saas: false
+  category: Libraries
+  sub_category: NuGet Packages
+  image_url: https://img.stackshare.io/package/13233/default_cadeaa4a9968284dcd1223273394c410c31c9d09.png
+  detection_source_url: NBi.Testing.GenbiL/packages.config
+  detection_source: NBi.genbiL/packages.config
+  last_updated_by: Cédric L. Charlier
+  last_updated_on: 2023-01-03 01:34:29.000000000 Z
+- name: System.Buffers
+  description: Provides resource pooling of any type for performance-critical applications
+    that allocate and deallocate objects frequently
+  package_url: https://www.nuget.org/System.Buffers
+  version: 4.5.1
+  open_source: false
+  hosted_saas: false
+  category: Libraries
+  sub_category: NuGet Packages
+  image_url: https://img.stackshare.io/package/13038/default_a0b0eac5a401515996bd8fc359ffcfbc844cbe90.png
+  detection_source_url: NBi.Core/packages.config
+  detection_source: NBi.Core/packages.config
+  last_updated_by: Cédric L. Charlier
+  last_updated_on: 2023-08-10 17:42:36.000000000 Z
+- name: System.Memory
+  description: Provides types for efficient representation and pooling of managed
+  package_url: https://www.nuget.org/System.Memory
+  version: 4.5.5
+  open_source: false
+  hosted_saas: false
+  category: Libraries
+  sub_category: NuGet Packages
+  image_url: https://img.stackshare.io/package/12974/default_d871263d8798790404638a4d3692cc70b6389166.png
+  detection_source_url: NBi.Core/packages.config
+  detection_source: NBi.Core/packages.config
+  last_updated_by: Cédric L. Charlier
+  last_updated_on: 2023-08-10 17:42:36.000000000 Z
+- name: System.Numerics.Vectors
+  description: Provides hardware-accelerated numeric types, suitable for high-performance
+    processing and graphics applications
+  package_url: https://www.nuget.org/System.Numerics.Vectors
+  version: 4.5.0
+  open_source: false
+  hosted_saas: false
+  category: Libraries
+  sub_category: NuGet Packages
+  image_url: https://img.stackshare.io/package/13087/default_1b8be57b16f1f491c0e5f67e5d1021f4df68ea30.png
+  detection_source_url: NBi.Core/packages.config
+  detection_source: NBi.Core/packages.config
+  last_updated_by: Cédric L. Charlier
+  last_updated_on: 2023-08-10 17:42:36.000000000 Z
+- name: System.Text.Encodings.Web
+  description: Provides types for encoding and escaping strings for use in JavaScript,
+    HyperText Markup Language
+  package_url: https://www.nuget.org/System.Text.Encodings.Web
+  version: 7.0.0
+  license: MIT
+  open_source: true
+  hosted_saas: false
+  category: Libraries
+  sub_category: NuGet Packages
+  image_url: https://img.stackshare.io/package/13209/default_42e87535b59c0cd77a89678c1c4ed24abc143f58.png
+  detection_source_url: NBi.Core/packages.config
+  detection_source: NBi.Core/packages.config
+  last_updated_by: Cédric L. Charlier
+  last_updated_on: 2023-08-10 17:42:36.000000000 Z
+- name: System.Text.Json
+  description: Provides high-performance and low-allocating types that serialize objects
+    to JavaScript Object Notation
+  package_url: https://www.nuget.org/System.Text.Json
+  version: 7.0.3
+  license: MIT
+  open_source: true
+  hosted_saas: false
+  category: Libraries
+  sub_category: NuGet Packages
+  image_url: https://img.stackshare.io/package/13031/default_ed36ff3c005af695725e05bb15ea5b1f03de31f3.png
+  detection_source_url: NBi.Core/packages.config
+  detection_source: NBi.Core/packages.config
+  last_updated_by: Cédric L. Charlier
+  last_updated_on: 2023-08-10 18:06:51.000000000 Z
+- name: System.Threading.Tasks.Extensions
+  description: Provides additional types that simplify the work of writing concurrent
+    and asynchronous code
+  package_url: https://www.nuget.org/System.Threading.Tasks.Extensions
+  version: 4.5.4
+  open_source: false
+  hosted_saas: false
+  category: Libraries
+  sub_category: NuGet Packages
+  image_url: https://img.stackshare.io/package/12998/default_aa8a6e377c22dbeff795489a5ab127b1d597b5ed.png
+  detection_source_url: NBi.Core/packages.config
+  detection_source: NBi.Testing/packages.config
+  last_updated_by: Cédric L. Charlier
+  last_updated_on: 2023-08-10 19:07:00.000000000 Z

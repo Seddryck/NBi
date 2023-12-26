@@ -11,7 +11,7 @@
 
 //namespace NBi.Core.ResultSet.Alteration.ColumnBased
 //{
-//    class HoldWhileCondition : IAlteration
+//    class ProjectWhileEngine : IAlteration
 //    {
 //        protected IPredicateInfo predicateInfo;
 //        protected readonly IEnumerable<IColumnExpression> expressions;
@@ -43,7 +43,7 @@
 //            var identifiers = new List<IColumnIdentifier>();
 //            var result = true;
 //            int i = 0;
-//            while (result && i<resultSet.ColumnCount)
+//            while (result && i < resultSet.ColumnCount)
 //            {
 //                var currentIdentifier = new ColumnPositionIdentifier(i);
 //                predicateInfo.Operand = currentIdentifier;

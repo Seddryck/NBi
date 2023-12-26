@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Data;
-using System.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 using System.Linq;
 using NBi.Core.Decoration.DataEngineering;
 using NBi.Core.Decoration.DataEngineering.Commands;

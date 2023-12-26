@@ -1,4 +1,6 @@
-﻿namespace NBi.Core.Analysis
+﻿using NBi.Core.Analysis.Request;
+
+namespace NBi.Core.Analysis
 {
     public class DiscoverCommand
     {
@@ -6,10 +8,10 @@
         public string Perspective { get; set; }
         public string Path { get; set; }
         public string MeasureGroup { get; set; }
-        public DiscoverTarget Target { get; protected set; }
+        public DiscoveryTarget Target { get; protected set; }
         public string Function { get; set; }
 
-        public DiscoverCommand(DiscoverTarget target, string connectionString)
+        public DiscoverCommand(DiscoveryTarget target, string connectionString)
         {
             Target = target;
             ConnectionString = connectionString;

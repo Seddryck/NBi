@@ -1,7 +1,7 @@
 ﻿using NBi.Core.FlatFile;
 using NBi.Extensibility;
 using System;
-using System.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 using System.IO;
 using System.Linq;
 

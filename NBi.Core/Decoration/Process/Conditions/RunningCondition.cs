@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.ServiceProcess;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,6 +19,9 @@ namespace NBi.Core.Decoration.Process.Conditions
 
         internal bool Validate(string serviceName, int timeOut)
         {
+            if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+                throw new NotSupportedException();
+
             if (!ServiceController.GetServices().Any(serviceController => serviceController.ServiceName.Equals(serviceName)))
                 return false;
 

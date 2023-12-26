@@ -1,7 +1,7 @@
 ﻿using NBi.Core.Decoration.IO;
 using NBi.Core.Decoration.IO.Commands;
 using System;
-using System.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 using System.Linq;
 
 

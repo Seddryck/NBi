@@ -1,5 +1,5 @@
-﻿using System.Linq;
-using System.Collections.Generic;
+﻿using NBi.Extensibility;
+using NCalc.Domain;
 using System.Xml.Serialization;
 
 namespace NBi.Core.ResultSet
@@ -26,15 +26,15 @@ namespace NBi.Core.ResultSet
 
         private KeysChoice KeysDef { get; set; }
         private ValuesChoice ValuesDef { get; set; }
-        private ICollection<IColumn> ColumnsDef { get; set; }
+        private ICollection<IColumnDefinition> ColumnsDef { get; set; }
         private decimal DefaultTolerance { get; set; }
 
         public bool IsKey(int index)
         {
-            if (ColumnsDef.Any( c => c.Index==index && c.Role!=ColumnRole.Key))
+            if (ColumnsDef.Any( c => c.Identifier==new ColumnOrdinalIdentifier(index) && c.Role!=ColumnRole.Key))
                 return false;
             
-            if (ColumnsDef.Any( c => c.Index==index && c.Role==ColumnRole.Key))
+            if (ColumnsDef.Any( c => c.Identifier == new ColumnOrdinalIdentifier(index) && c.Role==ColumnRole.Key))
                 return true;
 
             switch (KeysDef)
@@ -52,10 +52,10 @@ namespace NBi.Core.ResultSet
 
         public bool IsValue(int index)
         {
-            if (ColumnsDef.Any(c => c.Index == index && c.Role != ColumnRole.Value))
+            if (ColumnsDef.Any(c => c.Identifier == new ColumnOrdinalIdentifier(index) && c.Role != ColumnRole.Value))
                 return false;
 
-            if (ColumnsDef.Any(c => c.Index == index && c.Role == ColumnRole.Value))
+            if (ColumnsDef.Any(c => c.Identifier == new ColumnOrdinalIdentifier(index) && c.Role == ColumnRole.Value))
                 return true;
 
             switch (ValuesDef)
@@ -89,10 +89,10 @@ namespace NBi.Core.ResultSet
 
         public bool IsNumeric(int index)
         {
-            if (ColumnsDef.Any(c => c.Index == index && c.Type != ColumnType.Numeric))
+            if (ColumnsDef.Any(c => c.Identifier == new ColumnOrdinalIdentifier(index) && c.Type != ColumnType.Numeric))
                 return false;
 
-            if (ColumnsDef.Any(c => c.Index == index && c.Type == ColumnType.Numeric))
+            if (ColumnsDef.Any(c => c.Identifier == new ColumnOrdinalIdentifier(index) && c.Type == ColumnType.Numeric))
                 return true;
 
             return IsValue(index);
@@ -100,8 +100,8 @@ namespace NBi.Core.ResultSet
 
         public decimal GetTolerance(int index)
         {
-            var col = ColumnsDef.FirstOrDefault(c => c.Index == index);
-            return col == null ? DefaultTolerance : col.Tolerance;
+            var col = ColumnsDef.FirstOrDefault(c => c.Identifier == new ColumnOrdinalIdentifier(index));
+            return col == null ? DefaultTolerance : Convert.ToDecimal(col.Tolerance);
         }
 
         public int GetLastColumnIndex()
@@ -142,7 +142,7 @@ namespace NBi.Core.ResultSet
         //}
 
 
-        public ResultSetComparaisonSettings(KeysChoice keysDef, ValuesChoice valuesDef, ICollection<IColumn> columnsDef)
+        public ResultSetComparaisonSettings(KeysChoice keysDef, ValuesChoice valuesDef, ICollection<IColumnDefinition> columnsDef)
             : this(keysDef, valuesDef, 0, columnsDef)
         {
         }
@@ -152,7 +152,7 @@ namespace NBi.Core.ResultSet
         {
         }
 
-        public ResultSetComparaisonSettings(KeysChoice keysDef, ValuesChoice valuesDef, decimal defaultTolerance, ICollection<IColumn> columnsDef)
+        public ResultSetComparaisonSettings(KeysChoice keysDef, ValuesChoice valuesDef, decimal defaultTolerance, ICollection<IColumnDefinition> columnsDef)
         {
             KeysDef = keysDef;
             ValuesDef = valuesDef;
@@ -160,7 +160,7 @@ namespace NBi.Core.ResultSet
             if (columnsDef != null)
                 ColumnsDef = columnsDef;
             else
-                ColumnsDef = new List<IColumn>(0);
+                ColumnsDef = new List<IColumnDefinition>(0);
         }
 
         //public ResultSetComparaisonSettings() : this (new List<int>() {0}, new List<int>() {1}, 0)

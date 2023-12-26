@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Antlr4.StringTemplate;
-using NBi.Extensibility.Query;
+﻿using Antlr4.StringTemplate;
 
 namespace NBi.Core
 {

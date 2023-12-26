@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Common;
-using System.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -37,7 +37,7 @@ namespace NBi.Core.Query.Client
         private string ValidateNative(SqlConnectionStringBuilder csb, string connectionString)
         {
             if (!string.IsNullOrEmpty(csb.DataSource) && !string.IsNullOrEmpty(csb.InitialCatalog))
-                return "System.Data.SqlClient";
+                return "System.Microsoft.SqlClient";
             return string.Empty;
         }
 

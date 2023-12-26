@@ -6,7 +6,7 @@ using System.Reflection;
 using System.Data.Common;
 using System.Collections.Generic;
 using NBi.Core.Query.Execution;
-using System.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 
 namespace NBi.Core.Query.Format
 {

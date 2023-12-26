@@ -1,5 +1,4 @@
 ﻿using System;
-using Microsoft.AnalysisServices.AdomdClient;
 
 namespace NBi.Core.Analysis.Member
 {

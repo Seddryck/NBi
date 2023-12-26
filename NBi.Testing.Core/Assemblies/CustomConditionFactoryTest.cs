@@ -4,7 +4,7 @@ using NBi.Core.Assemblies.Decoration;
 using NBi.Core.Scalar.Resolver;
 using NBi.Extensibility;
 using NBi.Extensibility.Decoration;
-using NBi.Testing.Core.Assemblies.Resource;
+using Resource;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
@@ -14,7 +14,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Testing.Core.Assemblies
+namespace NBi.Core.Testing.Assemblies
 {
     public class CustomConditionFactoryTest
     {

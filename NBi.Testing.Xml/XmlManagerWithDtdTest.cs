@@ -4,7 +4,7 @@ using NUnit.Framework;
 using System.Xml;
 using System.IO;
 
-namespace NBi.Testing.Xml.Unit
+namespace NBi.Xml.Testing.Unit
 {
     [TestFixture]
     [Parallelizable(ParallelScope.None)]

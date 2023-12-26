@@ -13,7 +13,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Testing.Core.ResultSet.Alteration.Lookup
+namespace NBi.Core.Testing.ResultSet.Alteration.Lookup
 {
     public class LookupReplaceEngineTest
     {

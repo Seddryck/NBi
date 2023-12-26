@@ -8,7 +8,7 @@ using System.Diagnostics;
 using NBi.Core.ResultSet.Equivalence;
 #endregion
 
-namespace NBi.Testing.Core.ResultSet.Equivalence
+namespace NBi.Core.Testing.ResultSet.Equivalence
 {
     [TestFixture]
     public class SingleRowOrdinalEquivalerTest

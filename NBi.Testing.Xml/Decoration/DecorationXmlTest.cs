@@ -5,7 +5,7 @@ using NBi.Xml.Decoration;
 using NBi.Xml.Decoration.Command;
 using NUnit.Framework;
 
-namespace NBi.Testing.Xml.Unit.Decoration
+namespace NBi.Xml.Testing.Unit.Decoration
 {
     [TestFixture]
     public class DecorationXmlTest : BaseXmlTest

@@ -10,7 +10,7 @@ using Moq;
 using NBi.Core.ResultSet;
 using NBi.Core.Injection;
 
-namespace NBi.Testing.Core.Transformation
+namespace NBi.Core.Testing.Transformation
 {
     [TestFixture]
     public class TransformerFactoryTest
@@ -31,7 +31,7 @@ namespace NBi.Testing.Core.Transformation
             var factory = new TransformerFactory(new ServiceLocator(), null);
             var provider = factory.Instantiate(info);
 
-            Assert.IsInstanceOf(result, provider);
+            Assert.That(provider, Is.InstanceOf(result));
         }
 
         [Test]
@@ -50,7 +50,7 @@ namespace NBi.Testing.Core.Transformation
             var factory = new TransformerFactory(new ServiceLocator(), null);
             var provider = factory.Instantiate(info);
 
-            Assert.IsInstanceOf(result, provider);
+            Assert.That(provider, Is.InstanceOf(result));
         }
 
         [Test]

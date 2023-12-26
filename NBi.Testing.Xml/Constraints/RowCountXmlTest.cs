@@ -14,7 +14,7 @@ using System.Diagnostics;
 using System.Collections.Generic;
 #endregion
 
-namespace NBi.Testing.Xml.Unit.Constraints
+namespace NBi.Xml.Testing.Unit.Constraints
 {
     [TestFixture]
     public class RowCountXmlTest : BaseXmlTest

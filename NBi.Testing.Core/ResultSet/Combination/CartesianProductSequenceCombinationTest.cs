@@ -12,7 +12,7 @@ using NBi.Extensibility;
 using NBi.Extensibility.Resolving;
 using Rs = NBi.Core.ResultSet;
 
-namespace NBi.Testing.Core.ResultSet.Combination
+namespace NBi.Core.Testing.ResultSet.Combination
 {
     public class CartesianProductSequenceCombinationTest
     {

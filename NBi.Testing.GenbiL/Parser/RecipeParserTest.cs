@@ -9,7 +9,7 @@ using NUnit.Framework;
 using Sprache;
 using NBi.GenbiL.Action;
 
-namespace NBi.Testing.GenbiL.Parser
+namespace NBi.GenbiL.Testing.Parser
 {
     [TestFixture]
     public class RecipeParserTest

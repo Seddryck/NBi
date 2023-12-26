@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using Sprache;
 
-namespace NBi.Testing.GenbiL.Parser
+namespace NBi.GenbiL.Testing.Parser
 {
     class CommentParserTest
     {

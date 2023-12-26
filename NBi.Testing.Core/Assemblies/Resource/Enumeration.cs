@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace NBi.Testing.Core.Assemblies.Resource
+namespace Resource
 {
     enum Enumeration
     {

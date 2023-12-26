@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Testing.Core.Query.Client
+namespace NBi.Core.Testing.Query.Client
 {
     [TestFixture]
     public class PowerBIClientFactoryTest

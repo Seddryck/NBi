@@ -10,8 +10,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using NBi.Extensibility.Query;
+using NBi.Testing;
 
-namespace NBi.Testing.Core.Query.Resolver
+namespace NBi.Core.Testing.Query.Resolver
 {
     [TestFixture]
     public class SharedDataSetQueryResolverTest

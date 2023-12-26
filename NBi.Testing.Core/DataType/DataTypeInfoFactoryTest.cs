@@ -12,7 +12,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
 
-namespace NBi.Testing.Core.DataType
+namespace NBi.Core.Testing.DataType
 {
     public class DataTypeInfoFactoryTest
     {

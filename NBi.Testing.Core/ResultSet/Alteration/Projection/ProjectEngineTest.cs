@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Testing.Core.ResultSet.Alteration.Projection
+namespace NBi.Core.Testing.ResultSet.Alteration.Projection
 {
     public class ProjectEngineTest
     {

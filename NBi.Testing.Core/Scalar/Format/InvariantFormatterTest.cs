@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Testing.Core.Scalar.Format
+namespace NBi.Core.Testing.Scalar.Format
 {
     public class InvariantFormatterTest
     {

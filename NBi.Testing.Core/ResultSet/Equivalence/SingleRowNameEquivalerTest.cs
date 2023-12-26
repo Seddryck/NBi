@@ -10,7 +10,7 @@ using Moq;
 using NBi.Core.Scalar.Comparer;
 #endregion
 
-namespace NBi.Testing.Core.ResultSet.Equivalence
+namespace NBi.Core.Testing.ResultSet.Equivalence
 {
     [TestFixture]
     public class SingleRowNameEquivalerTest

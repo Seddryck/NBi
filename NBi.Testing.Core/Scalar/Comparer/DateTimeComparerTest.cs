@@ -5,7 +5,7 @@ using NBi.Core.Scalar.Comparer;
 using NBi.Extensibility;
 using NUnit.Framework;
 
-namespace NBi.Testing.Core.Scalar.Comparer
+namespace NBi.Core.Testing.Scalar.Comparer
 {
     [TestFixture]
     public class DateTimeComparerTest

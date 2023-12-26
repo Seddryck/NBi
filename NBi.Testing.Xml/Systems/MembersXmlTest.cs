@@ -5,7 +5,7 @@ using NBi.Xml.Items;
 using NBi.Xml.Systems;
 using NUnit.Framework;
 
-namespace NBi.Testing.Xml.Unit.Systems
+namespace NBi.Xml.Testing.Unit.Systems
 {
     [TestFixture]
     public class MembersXmlTest : BaseXmlTest

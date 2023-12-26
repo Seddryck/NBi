@@ -11,7 +11,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Testing.Core.Calculation.Predicate.Text
+namespace NBi.Core.Testing.Calculation.Predicate.Text
 {
     public class TextAnyOfTest
     {

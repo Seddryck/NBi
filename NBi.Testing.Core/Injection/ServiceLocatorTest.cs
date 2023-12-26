@@ -19,7 +19,7 @@ using NBi.Extensibility.Query;
 using NBi.Extensibility;
 using NBi.Core.Scalar.Format;
 
-namespace NBi.Testing.Core.Injection
+namespace NBi.Core.Testing.Injection
 {
     public class ServiceLocatorTest
     {
@@ -57,7 +57,7 @@ namespace NBi.Testing.Core.Injection
             var locator = new ServiceLocator();
             var obj = locator.GetSessionFactory();
             Assert.That(obj, Is.Not.Null);
-            Assert.IsInstanceOf<ClientProvider>(obj);
+            Assert.That(obj, Is.InstanceOf<ClientProvider>());
         }
 
         [Test]
@@ -85,7 +85,7 @@ namespace NBi.Testing.Core.Injection
             var locator = new ServiceLocator();
             var obj = locator.GetCommandFactory();
             Assert.That(obj, Is.Not.Null);
-            Assert.IsInstanceOf<CommandProvider>(obj);
+            Assert.That(obj, Is.InstanceOf<CommandProvider>());
         }
 
         [Test]
@@ -103,7 +103,7 @@ namespace NBi.Testing.Core.Injection
             var locator = new ServiceLocator();
             var obj = locator.GetResultSetResolverFactory();
             Assert.That(obj, Is.Not.Null);
-            Assert.IsInstanceOf<ResultSetResolverFactory>(obj);
+            Assert.That(obj, Is.InstanceOf<ResultSetResolverFactory>());
         }
 
         [Test]
@@ -135,7 +135,7 @@ namespace NBi.Testing.Core.Injection
             var locator = new ServiceLocator();
             var obj = locator.GetQueryResolverFactory();
             Assert.That(obj, Is.Not.Null);
-            Assert.IsInstanceOf<QueryResolverFactory>(obj);
+            Assert.That(obj, Is.InstanceOf<QueryResolverFactory>());
         }
 
         [Test]
@@ -167,7 +167,7 @@ namespace NBi.Testing.Core.Injection
             var locator = new ServiceLocator();
             var obj = locator.GetScalarResolverFactory();
             Assert.That(obj, Is.Not.Null);
-            Assert.IsInstanceOf<ScalarResolverFactory>(obj);
+            Assert.That(obj, Is.InstanceOf<ScalarResolverFactory>());
         }
 
         [Test]
@@ -186,7 +186,7 @@ namespace NBi.Testing.Core.Injection
             var locator = new ServiceLocator();
             var obj = locator.GetFormatterFactory();
             Assert.That(obj, Is.Not.Null);
-            Assert.IsInstanceOf<FormatterFactory>(obj);
+            Assert.That(obj, Is.InstanceOf<FormatterFactory>());
         }
 
         [Test]
@@ -218,7 +218,7 @@ namespace NBi.Testing.Core.Injection
             var locator = new ServiceLocator();
             var obj = locator.GetConfiguration();
             Assert.That(obj, Is.Not.Null);
-            Assert.IsInstanceOf<IConfiguration>(obj);
+            Assert.That(obj, Is.InstanceOf<IConfiguration>());
         }
 
         [Test]
@@ -237,7 +237,7 @@ namespace NBi.Testing.Core.Injection
             var locator = new ServiceLocator();
             var obj = locator.GetExecutionEngineFactory();
             Assert.That(obj, Is.Not.Null);
-            Assert.IsInstanceOf<ExecutionEngineFactory>(obj);
+            Assert.That(obj, Is.InstanceOf<ExecutionEngineFactory>());
         }
 
         [Test]

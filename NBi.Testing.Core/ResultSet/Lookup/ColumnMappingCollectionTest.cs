@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Testing.Core.ResultSet.Lookup
+namespace NBi.Core.Testing.ResultSet.Lookup
 {
     public class ColumnMappingCollectionTest
     {

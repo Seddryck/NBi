@@ -7,7 +7,7 @@ using NUnit.Framework;
 using Sprache;
 using NBi.GenbiL.Action.Variable;
 
-namespace NBi.Testing.GenbiL.Parser
+namespace NBi.GenbiL.Testing.Parser
 {
     [TestFixture]
     public class VariableParserTest

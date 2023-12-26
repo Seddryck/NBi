@@ -4,7 +4,7 @@ using System.Linq;
 using NBi.Core.Query;
 using NUnit.Framework;
 
-namespace NBi.Testing.Core.Query
+namespace NBi.Core.Testing.Query
 {
     [TestFixture]
     public class DbTypeBuilderTest

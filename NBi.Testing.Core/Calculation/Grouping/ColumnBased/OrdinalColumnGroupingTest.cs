@@ -12,7 +12,7 @@ using System.Text;
 using System.Threading.Tasks;
 using static NBi.Core.ResultSet.SettingsOrdinalResultSet;
 
-namespace NBi.Testing.Core.Calculation.Grouping.ColumnBased
+namespace NBi.Core.Testing.Calculation.Grouping.ColumnBased
 {
     public class OrdinalColumnGroupingTest
     {

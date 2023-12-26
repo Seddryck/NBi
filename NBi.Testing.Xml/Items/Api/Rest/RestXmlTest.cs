@@ -13,7 +13,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 
-namespace NBi.Testing.Xml.Items.Api.Rest
+namespace NBi.Xml.Testing.Items.Api.Rest
 {
     [TestFixture]
     public class RestXmlTest : BaseXmlTest

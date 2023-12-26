@@ -6,7 +6,7 @@ using NBi.Xml.Constraints;
 using NBi.Xml.Items.Format;
 using NUnit.Framework;
 
-namespace NBi.Testing.Xml.Unit.Items
+namespace NBi.Xml.Testing.Unit.Items
 {
     [TestFixture]
     public class FormatXmlTest : BaseXmlTest

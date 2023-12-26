@@ -3,7 +3,7 @@ using System.Linq;
 using NBi.Core.Evaluate;
 using NUnit.Framework;
 
-namespace NBi.Testing.Core.Evaluate
+namespace NBi.Core.Testing.Evaluate
 {
     [TestFixture]
     public class ExpressionComparableTest

@@ -4,9 +4,10 @@ using Moq;
 using NBi.Core;
 using NBi.Core.Query;
 using NBi.Core.ResultSet;
+using NBi.Testing;
 using NUnit.Framework;
 
-namespace NBi.Testing.Core
+namespace NBi.Core.Testing
 {
     [TestFixture]
     public class ResultSetManagerTest

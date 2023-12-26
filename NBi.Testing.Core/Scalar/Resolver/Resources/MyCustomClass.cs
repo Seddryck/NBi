@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Testing.Core.Scalar.Resolver.Resources
+namespace NBi.Core.Testing.Scalar.Resolver.Resources
 {
     public class MyCustomClass : IScalarResolver
     {

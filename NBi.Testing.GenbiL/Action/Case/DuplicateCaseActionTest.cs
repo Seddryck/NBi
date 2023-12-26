@@ -10,7 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Testing.GenbiL.Action.Case
+namespace NBi.GenbiL.Testing.Action.Case
 {
     public class DuplicateCaseActionTest
     {

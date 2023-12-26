@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Testing.Core.Transformation.Transformer.Native
+namespace NBi.Core.Testing.Transformation.Transformer.Native
 {
     [TestFixture]
     public class PathTest

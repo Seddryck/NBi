@@ -11,7 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using NBi.Core.Injection;
 
-namespace NBi.Testing.Core.ResultSet.Resolver
+namespace NBi.Core.Testing.ResultSet.Resolver
 {
     public class SequenceCartesianProductResultSetResolverTest
     {

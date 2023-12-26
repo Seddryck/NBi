@@ -2,6 +2,7 @@
 using NBi.Core.Structure.Olap;
 using NBi.Core.Structure.Relational;
 using NBi.Core.Structure.Tabular;
+using NBi.Testing;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
@@ -11,7 +12,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
 
-namespace NBi.Testing.Core.Structure
+namespace NBi.Core.Testing.Structure
 {
     public class StructureDiscoveryFactoryProviderTest
     {

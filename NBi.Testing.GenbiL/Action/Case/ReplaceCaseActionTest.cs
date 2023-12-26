@@ -10,7 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using NBi.GenbiL.Stateful;
 
-namespace NBi.Testing.GenbiL.Action.Case
+namespace NBi.GenbiL.Testing.Action.Case
 {
     public class ReplaceCaseActionTest
     {

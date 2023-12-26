@@ -8,7 +8,7 @@ using NBi.Core.Assemblies;
 using NUnit.Framework;
 
 #endregion
-namespace NBi.Testing.Core.Assemblies
+namespace NBi.Core.Testing.Assemblies
 {
     [TestFixture]
     public class TypeConverterTest
@@ -75,11 +75,11 @@ namespace NBi.Testing.Core.Assemblies
             var tc = new TypeConverter();
 
             //Call the method to test
-            var actual = tc.Convert("Beta", typeof(NBi.Testing.Core.Assemblies.Resource.Enumeration));
+            var actual = tc.Convert("Beta", typeof(Resource.Enumeration));
 
             //Assertion
-            Assert.That(actual, Is.InstanceOf<NBi.Testing.Core.Assemblies.Resource.Enumeration>());
-            Assert.That(actual, Is.EqualTo(NBi.Testing.Core.Assemblies.Resource.Enumeration.Beta));
+            Assert.That(actual, Is.InstanceOf<Resource.Enumeration>());
+            Assert.That(actual, Is.EqualTo(Resource.Enumeration.Beta));
         }
 
         [Test]

@@ -11,8 +11,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using NBi.Extensibility.Query;
+using NBi.Testing;
 
-namespace NBi.Testing.Core.Query.Command
+namespace NBi.Core.Testing.Query.Command
 {
     [TestFixture]
     public class OleDbCommandFactoryTest
@@ -29,7 +30,7 @@ namespace NBi.Testing.Core.Query.Command
 
             var factory = new OleDbCommandFactory();
             var cmd = factory.Instantiate(conn, query, null);
-            Assert.IsInstanceOf<OleDbCommand>(cmd.Implementation);
+            Assert.That(cmd.Implementation, Is.InstanceOf<OleDbCommand>());
             Assert.That((cmd.Implementation as OleDbCommand).CommandTimeout, Is.EqualTo(5));
         }
 
@@ -45,7 +46,7 @@ namespace NBi.Testing.Core.Query.Command
 
             var factory = new OleDbCommandFactory();
             var cmd = factory.Instantiate(conn, query, null);
-            Assert.IsInstanceOf<OleDbCommand>(cmd.Implementation);
+            Assert.That(cmd.Implementation, Is.InstanceOf<OleDbCommand>());
             Assert.That((cmd.Implementation as OleDbCommand).CommandTimeout, Is.EqualTo(0));
         }
 
@@ -61,7 +62,7 @@ namespace NBi.Testing.Core.Query.Command
 
             var factory = new OleDbCommandFactory();
             var cmd = factory.Instantiate(conn, query, null);
-            Assert.IsInstanceOf<OleDbCommand>(cmd.Implementation);
+            Assert.That(cmd.Implementation, Is.InstanceOf<OleDbCommand>());
             Assert.That((cmd.Implementation as OleDbCommand).CommandTimeout, Is.EqualTo(30));
         }
 
@@ -76,7 +77,7 @@ namespace NBi.Testing.Core.Query.Command
 
             var factory = new OleDbCommandFactory();
             var cmd = factory.Instantiate(conn, query, null);
-            Assert.IsInstanceOf<OleDbCommand>(cmd.Implementation);
+            Assert.That(cmd.Implementation, Is.InstanceOf<OleDbCommand>());
             Assert.That((cmd.Implementation as OleDbCommand).CommandType, Is.EqualTo(System.Data.CommandType.Text));
         }
 
@@ -91,7 +92,7 @@ namespace NBi.Testing.Core.Query.Command
 
             var factory = new OleDbCommandFactory();
             var cmd = factory.Instantiate(conn, query, null);
-            Assert.IsInstanceOf<OleDbCommand>(cmd.Implementation);
+            Assert.That(cmd.Implementation, Is.InstanceOf<OleDbCommand>());
             Assert.That((cmd.Implementation as OleDbCommand).CommandType, Is.EqualTo(System.Data.CommandType.StoredProcedure));
         }
     }

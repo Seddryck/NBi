@@ -5,7 +5,7 @@ using NBi.Xml;
 using NBi.Xml.Constraints;
 using NUnit.Framework;
 
-namespace NBi.Testing.Xml.Unit.Constraints
+namespace NBi.Xml.Testing.Unit.Constraints
 {
     [TestFixture]
     public class EvaluateRowsXmlTest : BaseXmlTest

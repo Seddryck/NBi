@@ -1,8 +1,4 @@
-﻿using System;
-using System.Linq;
-using System.Runtime.Remoting.Messaging;
-using System.Text;
-using NBi.GenbiL.Stateful;
+﻿using NBi.GenbiL.Stateful;
 using NBi.Xml.Settings;
 
 namespace NBi.GenbiL.Action.Setting.CsvProfile

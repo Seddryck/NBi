@@ -2,7 +2,7 @@
 using NBi.Core.Analysis.Request;
 using NUnit.Framework;
 
-namespace NBi.Testing.Core.Analysis.Metadata.Adomd
+namespace NBi.Core.Testing.Analysis.Metadata.Adomd
 {
     //[TestFixture]
     //public class MeasureGroupLinkedToDiscoveryCommandTest

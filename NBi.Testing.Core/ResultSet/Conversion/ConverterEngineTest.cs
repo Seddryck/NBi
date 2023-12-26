@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Testing.Core.ResultSet.Conversion
+namespace NBi.Core.Testing.ResultSet.Conversion
 {
     public class ConverterEngineTest
     {

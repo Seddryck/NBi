@@ -12,7 +12,7 @@ using System;
 using System.Collections.Generic;
 #endregion
 
-namespace NBi.Testing.Xml.Unit.Settings
+namespace NBi.Xml.Testing.Unit.Settings
 {
     [TestFixture]
     public class CsvProfileXmlTest

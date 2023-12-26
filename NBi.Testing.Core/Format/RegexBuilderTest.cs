@@ -5,7 +5,7 @@ using Moq;
 using NBi.Core.Format;
 using NUnit.Framework;
 
-namespace NBi.Testing.Core.Format
+namespace NBi.Core.Testing.Format
 {
     [TestFixture]
     public class RegexBuilderTest

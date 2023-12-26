@@ -16,7 +16,7 @@ using System.Text;
 using System.Threading.Tasks;
 using static NBi.Core.ResultSet.SettingsOrdinalResultSet;
 
-namespace NBi.Testing.Core.ResultSet.Filtering
+namespace NBi.Core.Testing.ResultSet.Filtering
 {
     public class UniquenessFilterTest
     {

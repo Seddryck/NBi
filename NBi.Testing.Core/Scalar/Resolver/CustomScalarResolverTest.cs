@@ -1,6 +1,6 @@
 ﻿using Moq;
 using NBi.Core.Scalar.Resolver;
-using NBi.Testing.Core.Scalar.Resolver.Resources;
+using NBi.Core.Testing.Scalar.Resolver.Resources;
 using NBi.Extensibility.Resolving;
 using NUnit.Framework;
 using System;
@@ -10,7 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Testing.Core.Scalar.Resolver
+namespace NBi.Core.Testing.Scalar.Resolver
 {
     public class CustomScalarResolverTest
     {

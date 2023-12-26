@@ -14,7 +14,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 
-namespace NBi.Testing.Xml.Unit.Items.Calculation
+namespace NBi.Xml.Testing.Unit.Items.Calculation
 {
     public class PredicateXmlTest : BaseXmlTest
     { 

@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Testing.Core.FlatFile
+namespace NBi.Core.Testing.FlatFile
 {
     class CsvWriterTest
     {

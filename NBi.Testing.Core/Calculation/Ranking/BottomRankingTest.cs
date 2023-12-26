@@ -13,7 +13,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Testing.Core.Calculation.Ranking
+namespace NBi.Core.Testing.Calculation.Ranking
 {
     public class BottomRankingTest
     {

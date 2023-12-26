@@ -10,7 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Testing.Core.FlatFile
+namespace NBi.Core.Testing.FlatFile
 {
     public class FlatFileReaderFactoryTest
     {
@@ -60,7 +60,7 @@ namespace NBi.Testing.Core.FlatFile
 
             var factory = localServiceLocator.GetFlatFileReaderFactory();
             var engine = factory.Instantiate(string.Empty, CsvProfile.SemiColumnDoubleQuote);
-            Assert.IsInstanceOf<CsvReader>(engine);
+            Assert.That(engine, Is.InstanceOf<CsvReader>());
         }
 
         [Test]
@@ -76,7 +76,7 @@ namespace NBi.Testing.Core.FlatFile
 
             var factory = localServiceLocator.GetFlatFileReaderFactory();
             var engine = factory.Instantiate("fake", null);
-            Assert.IsInstanceOf<FakeFlatFileReader>(engine);
+            Assert.That(engine, Is.InstanceOf<FakeFlatFileReader>());
         }
 
         [Test]
@@ -93,9 +93,9 @@ namespace NBi.Testing.Core.FlatFile
             config.LoadExtensions(extensions);
 
             var factory = localServiceLocator.GetFlatFileReaderFactory();
-            Assert.IsInstanceOf<FakeFlatFileReader2>(factory.Instantiate("correct", null));
-            Assert.IsInstanceOf<FakeFlatFileReader>(factory.Instantiate("fake", null));
-            Assert.IsInstanceOf<FakeFlatFileReader3>(factory.Instantiate("other", null));
+            Assert.That(factory.Instantiate("correct", null), Is.InstanceOf<FakeFlatFileReader2>());
+            Assert.That(factory.Instantiate("fake", null), Is.InstanceOf<FakeFlatFileReader>());
+            Assert.That(factory.Instantiate("other", null), Is.InstanceOf<FakeFlatFileReader3>());
         }
 
         [Test]

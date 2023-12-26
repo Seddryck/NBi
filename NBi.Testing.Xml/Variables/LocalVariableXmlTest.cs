@@ -14,7 +14,7 @@ using System.Reflection;
 using NBi.Core.ResultSet;
 using NBi.Xml.Variables.Custom;
 
-namespace NBi.Testing.Xml.Unit.Variables
+namespace NBi.Xml.Testing.Unit.Variables
 {
     public class LocalVariableXmlTest : BaseXmlTest
     {

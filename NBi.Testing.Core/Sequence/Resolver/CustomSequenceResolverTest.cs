@@ -1,6 +1,6 @@
 ﻿using NBi.Core.Scalar.Resolver;
 using NBi.Core.Sequence.Resolver;
-using NBi.Testing.Core.Sequence.Resolver.Resources;
+using NBi.Core.Testing.Sequence.Resolver.Resources;
 using NBi.Extensibility.Resolving;
 using NUnit.Framework;
 using System;
@@ -10,7 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Testing.Core.Sequence.Resolver
+namespace NBi.Core.Testing.Sequence.Resolver
 {
     public class CustomSequenceResolverTest
     {

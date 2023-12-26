@@ -12,7 +12,7 @@ using System.Text;
 using System.Diagnostics;
 using NBi.Xml.SerializationOption;
 
-namespace NBi.Testing.Xml.Unit.Items
+namespace NBi.Xml.Testing.Unit.Items
 {
     [TestFixture]
     public class QueryXmlTest : BaseXmlTest
@@ -135,7 +135,7 @@ namespace NBi.Testing.Xml.Unit.Items
 
         //    var query = ((EqualToXml)ts.Tests[testNr].Constraints[0]).BaseItem;
 
-        //    Assert.IsInstanceOf<OneRowQueryXml>(query);
+        //    Assert.That(, Is.InstanceOf<OneRowQueryXml>(query);
         //}
 
         [Test]

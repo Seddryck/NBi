@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Testing.Core.Scalar.Duration
+namespace NBi.Core.Testing.Scalar.Duration
 {
     public class DurationConverterTest
     {

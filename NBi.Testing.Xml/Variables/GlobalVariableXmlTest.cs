@@ -12,7 +12,7 @@ using System.Diagnostics;
 using NBi.Xml.Items;
 using NBi.Xml.Variables.Custom;
 
-namespace NBi.Testing.Xml.Unit.Variables
+namespace NBi.Xml.Testing.Unit.Variables
 {
     public class GlobalVariableXmlTest
     {

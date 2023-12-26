@@ -57,7 +57,7 @@ namespace NBi.Testing.Integration.Core.Query.Command
                 );
             var factory = new CommandProvider();
             var cmd = factory.Instantiate(conn, query).Implementation;
-            Assert.IsInstanceOf<SqlCommand>(cmd);
+            Assert.That(cmd, Is.InstanceOf<SqlCommand>());
 
             (cmd as SqlCommand).Connection.Open();
             var dr = (cmd as SqlCommand).ExecuteReader(System.Data.CommandBehavior.CloseConnection);
@@ -78,7 +78,7 @@ namespace NBi.Testing.Integration.Core.Query.Command
                 );
             var factory = new CommandProvider();
             var cmd = factory.Instantiate(conn, query).Implementation;
-            Assert.IsInstanceOf<SqlCommand>(cmd);
+            Assert.That(cmd, Is.InstanceOf<SqlCommand>());
 
             (cmd as SqlCommand).Connection.Open();
             var dr = (cmd as SqlCommand).ExecuteReader(System.Data.CommandBehavior.CloseConnection);
@@ -99,7 +99,7 @@ namespace NBi.Testing.Integration.Core.Query.Command
                 );
             var factory = new CommandProvider();
             var cmd = factory.Instantiate(conn, query).Implementation;
-            Assert.IsInstanceOf<SqlCommand>(cmd);
+            Assert.That(cmd, Is.InstanceOf<SqlCommand>());
 
             (cmd as SqlCommand).Connection.Open();
             var dr = (cmd as SqlCommand).ExecuteReader(System.Data.CommandBehavior.CloseConnection);
@@ -122,7 +122,7 @@ namespace NBi.Testing.Integration.Core.Query.Command
                 });
             var factory = new CommandProvider();
             var cmd = factory.Instantiate(conn, query).Implementation;
-            Assert.IsInstanceOf<SqlCommand>(cmd);
+            Assert.That(cmd, Is.InstanceOf<SqlCommand>());
 
             (cmd as SqlCommand).Connection.Open();
             var dr = (cmd as SqlCommand).ExecuteReader(System.Data.CommandBehavior.CloseConnection);

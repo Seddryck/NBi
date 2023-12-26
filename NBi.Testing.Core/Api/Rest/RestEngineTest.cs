@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Testing.Core.Api.Rest
+namespace NBi.Core.Testing.Api.Rest
 {
     public class RestEngineTest
     {

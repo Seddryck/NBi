@@ -2,7 +2,7 @@
 using NBi.GenbiL.Stateful;
 using NUnit.Framework;
 
-namespace NBi.Testing.GenbiL.Action.Setting.CsvProfile
+namespace NBi.GenbiL.Testing.Action.Setting.CsvProfile
 {
     public class RecordSeparatorActionTest
     {

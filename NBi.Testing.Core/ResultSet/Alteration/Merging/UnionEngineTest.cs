@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Testing.Core.ResultSet.Alteration.Merging
+namespace NBi.Core.Testing.ResultSet.Alteration.Merging
 {
     public class UnionEngineTest
     {

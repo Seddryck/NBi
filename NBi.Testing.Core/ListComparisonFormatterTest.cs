@@ -4,7 +4,7 @@ using System.Linq;
 using NBi.Core;
 using NUnit.Framework;
 
-namespace NBi.Testing.Core
+namespace NBi.Core.Testing
 {
     [TestFixture]
     public class ListComparisonFormatterTest

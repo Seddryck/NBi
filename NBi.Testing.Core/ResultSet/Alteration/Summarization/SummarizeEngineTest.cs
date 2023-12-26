@@ -13,7 +13,7 @@ using Moq;
 using System.Data;
 using System.Diagnostics;
 
-namespace NBi.Testing.Core.ResultSet.Alteration.Summarization
+namespace NBi.Core.Testing.ResultSet.Alteration.Summarization
 {
     public class SummarizeEngineTest
     {

@@ -11,9 +11,9 @@ namespace NBi.Extensibility
         object this[int index] { get; set; }
         object this[string columnName] { get; set; }
         object this[IColumnIdentifier identifier] { get; }
-        object[] ItemArray { get; set; }
+        object?[] ItemArray { get; set; }
 
-        T Field<T>(int ordinal);
+        T? Field<T>(int ordinal);
         bool IsNull(int index);
         bool IsNull(string columnName);
         IResultSet Parent { get; }

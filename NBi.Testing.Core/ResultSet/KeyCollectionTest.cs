@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using NUnit.Framework;
 using NBi.Core.ResultSet;
 
-namespace NBi.Testing.Core.ResultSet
+namespace NBi.Core.Testing.ResultSet
 {
     public class KeyCollectionTest
     {

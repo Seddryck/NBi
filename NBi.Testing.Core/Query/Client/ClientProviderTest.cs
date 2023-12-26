@@ -6,13 +6,13 @@ using System;
 using System.Collections.Generic;
 using System.Data.Odbc;
 using System.Data.OleDb;
-using System.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using NBi.Extensibility.Query;
 
-namespace NBi.Testing.Core.Query.Client
+namespace NBi.Core.Testing.Query.Client
 {
     [TestFixture]
     public class ClientProviderTest
@@ -63,7 +63,7 @@ namespace NBi.Testing.Core.Query.Client
             var factory = new ClientProvider();
             factory.RegisterFactories(new[] { typeof(FakeSessionFactory) });
             var connection = factory.Instantiate("fake://MyConnectionString");
-            Assert.IsInstanceOf<FakeSession>(connection);
+            Assert.That(connection, Is.InstanceOf<FakeSession>());
         }
 
         [Test]

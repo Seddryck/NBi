@@ -5,8 +5,9 @@ using System.Reflection;
 using NBi.Core.Report;
 using NUnit.Framework;
 using System.Data;
+using NBi.Testing;
 
-namespace NBi.Testing.Core.Report
+namespace NBi.Core.Testing.Report
 {
     [TestFixture]
     public class FileReportingParserTest
@@ -53,7 +54,7 @@ namespace NBi.Testing.Core.Report
         protected void CreateReportFile(string filename)
         {
             string file = @"\Temp\" + filename + ".rdl";
-            var resource = "NBi.Testing.Core.Report.Resources." + filename + ".rdl";
+            var resource = "NBi.Core.Testing.Report.Resources." + filename + ".rdl";
             var physicalFilename = FileOnDisk.CreatePhysicalFile(file, resource);
             ReportFileDirectory = Path.GetDirectoryName(physicalFilename) + Path.DirectorySeparatorChar.ToString();
         }
@@ -61,7 +62,7 @@ namespace NBi.Testing.Core.Report
         protected void CreateSharedDataSet(string filename)
         {
             string file = @"\Temp\" + filename + ".rsd";
-            var resource = "NBi.Testing.Core.Report.Resources." + filename + ".rsd";
+            var resource = "NBi.Core.Testing.Report.Resources." + filename + ".rsd";
             var physicalFilename = FileOnDisk.CreatePhysicalFile(file, resource);
             ReportFileDirectory = Path.GetDirectoryName(physicalFilename) + Path.DirectorySeparatorChar.ToString();
         }

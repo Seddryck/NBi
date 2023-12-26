@@ -9,7 +9,7 @@ using NBi.Core.Scalar.Comparer;
 using NBi.Core.ResultSet.Equivalence;
 #endregion
 
-namespace NBi.Testing.Core.ResultSet
+namespace NBi.Core.Testing.ResultSet
 {
     [TestFixture]
     public class SettingsIndexResultSetTest

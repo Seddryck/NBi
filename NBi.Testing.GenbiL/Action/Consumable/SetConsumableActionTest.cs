@@ -10,7 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Testing.GenbiL.Action.Consumable
+namespace NBi.GenbiL.Testing.Action.Consumable
 {
     public class SetConsumableActionTest
     {

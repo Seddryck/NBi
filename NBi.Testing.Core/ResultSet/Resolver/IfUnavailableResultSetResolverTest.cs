@@ -14,7 +14,7 @@ using NBi.Core.ResultSet;
 using Moq;
 using NBi.Extensibility.Resolving;
 
-namespace NBi.Testing.Core.ResultSet.Resolver
+namespace NBi.Core.Testing.ResultSet.Resolver
 {
     public class IfUnavailableResultSetResolverTest
     {

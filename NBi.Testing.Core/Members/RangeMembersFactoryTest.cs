@@ -4,7 +4,7 @@ using System.Linq;
 using NBi.Core.Members.Ranges;
 using NUnit.Framework;
 
-namespace NBi.Testing.Core.Members
+namespace NBi.Core.Testing.Members
 {
     [TestFixture]
     public class RangeMembersFactoryTest

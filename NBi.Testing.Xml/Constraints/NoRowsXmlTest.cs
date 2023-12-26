@@ -9,7 +9,7 @@ using NBi.Xml.Constraints.Comparer;
 using NBi.Core.ResultSet;
 #endregion
 
-namespace NBi.Testing.Xml.Unit.Constraints
+namespace NBi.Xml.Testing.Unit.Constraints
 {
     [TestFixture]
     public class NoRowsXmlTest : BaseXmlTest

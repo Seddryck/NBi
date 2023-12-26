@@ -10,7 +10,7 @@ using NBi.Xml.Settings;
 using NUnit.Framework;
 using NBi.Xml.Systems;
 
-namespace NBi.Testing.Xml.Unit.Items
+namespace NBi.Xml.Testing.Unit.Items
 {
     [TestFixture]
     public class RoutineXmlTest

@@ -6,7 +6,7 @@ using NBi.Core.Scalar.Casting;
 using NBi.Core;
 using NBi.Extensibility;
 
-namespace NBi.Testing.Core.Scalar.Caster
+namespace NBi.Core.Testing.Scalar.Caster
 {
     [TestFixture]
     public class NumericCasterTest

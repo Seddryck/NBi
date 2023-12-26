@@ -10,7 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Testing.Core.Query
+namespace NBi.Core.Testing.Query
 {
     public class QueryParameterTest
     {

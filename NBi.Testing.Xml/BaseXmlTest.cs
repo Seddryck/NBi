@@ -7,7 +7,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Testing.Xml
+namespace NBi.Xml.Testing
 {
     public abstract class BaseXmlTest
     {

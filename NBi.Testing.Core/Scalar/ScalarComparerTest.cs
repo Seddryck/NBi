@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Testing.Core.Scalar
+namespace NBi.Core.Testing.Scalar
 {
     public class ScalarComparerTest
     {

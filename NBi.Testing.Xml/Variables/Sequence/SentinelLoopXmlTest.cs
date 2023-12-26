@@ -14,7 +14,7 @@ using System.Reflection;
 using NBi.Core.ResultSet;
 using NBi.Xml.Variables.Sequence;
 
-namespace NBi.Testing.Xml.Unit.Variables.Sequence
+namespace NBi.Xml.Testing.Unit.Variables.Sequence
 {
     public class SentinelLoopXmlTest : BaseXmlTest
     {

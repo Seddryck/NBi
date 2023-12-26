@@ -3,7 +3,7 @@ using System.Linq;
 using NBi.Core.Scalar.Comparer;
 using NUnit.Framework;
 
-namespace NBi.Testing.Core.Scalar.Comparer
+namespace NBi.Core.Testing.Scalar.Comparer
 {
     [TestFixture]
     public class NumericRoundingTest

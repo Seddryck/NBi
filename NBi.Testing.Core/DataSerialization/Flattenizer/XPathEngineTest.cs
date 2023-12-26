@@ -11,7 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
-namespace NBi.Testing.Core.DataSerialization.Flattenizer
+namespace NBi.Core.Testing.DataSerialization.Flattenizer
 {
     public class XPathStreamEngineTest
     {

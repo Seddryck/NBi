@@ -9,7 +9,7 @@ using NBi.Core.ResultSet.Analyzer;
 using NBi.Core.ResultSet.Equivalence;
 #endregion
 
-namespace NBi.Testing.Core.ResultSet.Equivalence
+namespace NBi.Core.Testing.ResultSet.Equivalence
 {
     [TestFixture]
     public class NameComparerTest

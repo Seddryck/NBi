@@ -13,8 +13,9 @@ using System.Text;
 using System.Threading.Tasks;
 using NBi.Extensibility.Query;
 using NBi.Extensibility;
+using NBi.Testing;
 
-namespace NBi.Testing.Core.Query.Execution
+namespace NBi.Core.Testing.Query.Execution
 {
     public class ExecutionEngineFactoryTest
     {
@@ -30,7 +31,7 @@ namespace NBi.Testing.Core.Query.Execution
 
             var factory = serviceLocator.GetExecutionEngineFactory();
             var engine = factory.Instantiate(query);
-            Assert.IsInstanceOf<SqlExecutionEngine>(engine);
+            Assert.That(engine, Is.InstanceOf<SqlExecutionEngine>());
         }
 
         [Test]
@@ -43,7 +44,7 @@ namespace NBi.Testing.Core.Query.Execution
 
             var factory = serviceLocator.GetExecutionEngineFactory();
             var engine = factory.Instantiate(query);
-            Assert.IsInstanceOf<AdomdExecutionEngine>(engine);
+            Assert.That(engine, Is.InstanceOf<AdomdExecutionEngine>());
         }
 
         [Test]
@@ -56,7 +57,7 @@ namespace NBi.Testing.Core.Query.Execution
 
             var factory = serviceLocator.GetExecutionEngineFactory();
             var engine = factory.Instantiate(query);
-            Assert.IsInstanceOf<OdbcExecutionEngine>(engine);
+            Assert.That(engine, Is.InstanceOf<OdbcExecutionEngine>());
         }
 
         [Test]
@@ -69,7 +70,7 @@ namespace NBi.Testing.Core.Query.Execution
 
             var factory = serviceLocator.GetExecutionEngineFactory();
             var engine = factory.Instantiate(query);
-            Assert.IsInstanceOf<OleDbExecutionEngine>(engine);
+            Assert.That(engine, Is.InstanceOf<OleDbExecutionEngine>());
         }
 
         #region Fake
@@ -138,7 +139,7 @@ namespace NBi.Testing.Core.Query.Execution
             factory.RegisterEngines(new[] { typeof(FakeExecutionEngine) });
 
             var engine = factory.Instantiate(query);
-            Assert.IsInstanceOf<FakeExecutionEngine>(engine);
+            Assert.That(engine, Is.InstanceOf<FakeExecutionEngine>());
         }
 
         [Test]
@@ -158,7 +159,7 @@ namespace NBi.Testing.Core.Query.Execution
 
             var factory = localServiceLocator.GetExecutionEngineFactory();
             var engine = factory.Instantiate(query);
-            Assert.IsInstanceOf<FakeExecutionEngine>(engine);
+            Assert.That(engine, Is.InstanceOf<FakeExecutionEngine>());
         }
     }
 }

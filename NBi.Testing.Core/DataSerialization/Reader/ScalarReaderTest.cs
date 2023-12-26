@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Testing.Core.DataSerialization.Reader
+namespace NBi.Core.Testing.DataSerialization.Reader
 {
     public class ScalarReaderTest
     {

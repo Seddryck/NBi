@@ -5,7 +5,7 @@ using NBi.Core;
 using NBi.Extensibility;
 using NUnit.Framework;
 
-namespace NBi.Testing.Core
+namespace NBi.Core.Testing
 {
     [TestFixture]
     public class ConnectionExceptionTest

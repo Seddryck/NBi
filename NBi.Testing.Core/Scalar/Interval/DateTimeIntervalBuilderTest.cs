@@ -4,7 +4,7 @@ using NBi.Core.ResultSet;
 using NUnit.Framework;
 using NBi.Core.Scalar.Interval;
 
-namespace NBi.Testing.Core.Scalar.Interval
+namespace NBi.Core.Testing.Scalar.Interval
 {
     [TestFixture]
     public class DateTimeIntervalBuilderTest

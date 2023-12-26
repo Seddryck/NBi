@@ -5,7 +5,7 @@ using NUnit.Framework;
 using System;
 using System.IO;
 
-namespace NBi.Testing.GenbiL.Action.Suite
+namespace NBi.GenbiL.Testing.Action.Suite
 {
     [TestFixture]
     public class SaveSuiteActionTest

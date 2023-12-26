@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+  <ItemGroup>
+    <ProjectReference Include="..\NBi.Core\NBi.Core.csproj" />
+    <ProjectReference Include="..\NBi.genbiL\NBi.GenbiL.csproj" />
+    <ProjectReference Include="..\NBi.Xml\NBi.Xml.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <EmbeddedResource Include="Templating\Resources\OrderedFull.nbitt" />
+    <EmbeddedResource Include="Templating\Resources\OrderedLight.nbitt" />
+  </ItemGroup>
+</Project>

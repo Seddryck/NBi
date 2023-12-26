@@ -15,7 +15,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 
-namespace NBi.Testing.Xml.Unit.Constraints
+namespace NBi.Xml.Testing.Unit.Constraints
 {
     [TestFixture]
     public class LookupMatchesXmlTest : BaseXmlTest

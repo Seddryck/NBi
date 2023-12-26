@@ -10,7 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using NBi.Core.ResultSet;
 
-namespace NBi.Testing.Core.Scalar.Resolver
+namespace NBi.Core.Testing.Scalar.Resolver
 {
     public class ContextScalarResolverTest
     {

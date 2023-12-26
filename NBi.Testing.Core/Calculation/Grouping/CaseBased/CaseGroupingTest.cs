@@ -12,7 +12,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Testing.Core.Calculation.Grouping.ColumnBased
+namespace NBi.Core.Testing.Calculation.Grouping.ColumnBased
 {
     public class CaseGroupingTest
     {

@@ -2,7 +2,7 @@
 using System;
 using System.Data.Odbc;
 using System.Data.OleDb;
-using System.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 using Microsoft.AnalysisServices.AdomdClient;
 using NBi.Core.Query.Client;
 using NUnit.Framework;
@@ -11,7 +11,7 @@ using NBi.Core.PowerBiDesktop;
 
 #endregion
 
-namespace NBi.Testing.Core.Query.Client
+namespace NBi.Core.Testing.Query.Client
 {
     [TestFixture]
     public class SqlClientFactoryTest

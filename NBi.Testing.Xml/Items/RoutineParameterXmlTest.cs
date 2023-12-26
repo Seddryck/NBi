@@ -11,7 +11,7 @@ using NUnit.Framework;
 using NBi.Xml.Systems;
 using NBi.Xml.Items.Filters;
 
-namespace NBi.Testing.Xml.Unit.Items
+namespace NBi.Xml.Testing.Unit.Items
 {
     [TestFixture]
     public class RoutineParameterXmlTest

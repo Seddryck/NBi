@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Testing.Core.Scalar.Presentation
+namespace NBi.Core.Testing.Scalar.Presentation
 {
     public class NumericPresenterTest
     {

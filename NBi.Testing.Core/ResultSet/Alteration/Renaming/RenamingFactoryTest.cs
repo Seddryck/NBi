@@ -10,7 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Testing.Core.ResultSet.Alteration.Renaming
+namespace NBi.Core.Testing.ResultSet.Alteration.Renaming
 {
     public class RenamingFactoryTest
     {

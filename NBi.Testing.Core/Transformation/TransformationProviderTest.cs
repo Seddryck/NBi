@@ -11,7 +11,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Testing.Core.Transformation
+namespace NBi.Core.Testing.Transformation
 {
     [TestFixture]
     public class TransformationProviderTest

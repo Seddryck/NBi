@@ -4,7 +4,7 @@ using NBi.Xml;
 using NUnit.Framework;
 using NBi.Xml.Settings;
 
-namespace NBi.Testing.Xml.Unit
+namespace NBi.Xml.Testing.Unit
 {
     [TestFixture]
     public class TraitXmlTest : BaseXmlTest

@@ -13,7 +13,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Rs = NBi.Core.ResultSet;
 
-namespace NBi.Testing.Core.ResultSet.Alteration.Merging
+namespace NBi.Core.Testing.ResultSet.Alteration.Merging
 {
     public class CartesianProductEngineTest
     {

@@ -12,7 +12,7 @@ using NBi.Core.Transformation;
 using NBi.Xml.Items.Alteration.Transform;
 #endregion
 
-namespace NBi.Testing.Xml.Unit.Constraints
+namespace NBi.Xml.Testing.Unit.Constraints
 {
     [TestFixture]
     public class SupersetOfXmlTest : BaseXmlTest

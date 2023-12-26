@@ -1,18 +1,17 @@
 ﻿using Moq;
-using NBi.Core.Query;
 using NBi.Core.Query.Command;
 using NBi.Core.Query.Client;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Data.Common;
-using System.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using NBi.Extensibility.Query;
 
-namespace NBi.Testing.Core.Query.Command
+namespace NBi.Core.Testing.Query.Command
 {
     [TestFixture]
     public class SqlCommandFactoryTest
@@ -29,7 +28,7 @@ namespace NBi.Testing.Core.Query.Command
 
             var factory = new SqlCommandFactory();
             var cmd = factory.Instantiate(conn, query, null);
-            Assert.IsInstanceOf<SqlCommand>(cmd.Implementation);
+            Assert.That(cmd.Implementation, Is.InstanceOf<SqlCommand>());
             Assert.That((cmd.Implementation as SqlCommand).CommandTimeout, Is.EqualTo(5));
         }
 
@@ -45,7 +44,7 @@ namespace NBi.Testing.Core.Query.Command
 
             var factory = new SqlCommandFactory();
             var cmd = factory.Instantiate(conn, query, null);
-            Assert.IsInstanceOf<SqlCommand>(cmd.Implementation);
+            Assert.That(cmd.Implementation, Is.InstanceOf<SqlCommand>());
             Assert.That((cmd.Implementation as SqlCommand).CommandTimeout, Is.EqualTo(0));
         }
 
@@ -61,7 +60,7 @@ namespace NBi.Testing.Core.Query.Command
 
             var factory = new SqlCommandFactory();
             var cmd = factory.Instantiate(conn, query, null);
-            Assert.IsInstanceOf<SqlCommand>(cmd.Implementation);
+            Assert.That(cmd.Implementation, Is.InstanceOf<SqlCommand>());
             Assert.That((cmd.Implementation as SqlCommand).CommandTimeout, Is.EqualTo(30));
         }
 
@@ -76,7 +75,7 @@ namespace NBi.Testing.Core.Query.Command
 
             var factory = new SqlCommandFactory();
             var cmd = factory.Instantiate(conn, query, null);
-            Assert.IsInstanceOf<SqlCommand>(cmd.Implementation);
+            Assert.That(cmd.Implementation, Is.InstanceOf<SqlCommand>());
             Assert.That((cmd.Implementation as SqlCommand).CommandType, Is.EqualTo(System.Data.CommandType.Text));
         }
 
@@ -91,7 +90,7 @@ namespace NBi.Testing.Core.Query.Command
 
             var factory = new SqlCommandFactory();
             var cmd = factory.Instantiate(conn, query, null);
-            Assert.IsInstanceOf<SqlCommand>(cmd.Implementation);
+            Assert.That(cmd.Implementation, Is.InstanceOf<SqlCommand>());
             Assert.That((cmd.Implementation as SqlCommand).CommandType, Is.EqualTo(System.Data.CommandType.StoredProcedure));
         }
     }

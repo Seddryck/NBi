@@ -12,7 +12,7 @@ using Moq;
 using System.Data;
 using System.Diagnostics;
 
-namespace NBi.Testing.Core.ResultSet.Alteration.Reshaping
+namespace NBi.Core.Testing.ResultSet.Alteration.Reshaping
 {
     public class UnstackEngineTest
     {

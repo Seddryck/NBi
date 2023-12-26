@@ -3,7 +3,7 @@ using System.Reflection;
 using NBi.Xml;
 using NUnit.Framework;
 
-namespace NBi.Testing.Xml.Unit
+namespace NBi.Xml.Testing.Unit
 {
     [TestFixture]
     public class DescriptionXmlTest : BaseXmlTest

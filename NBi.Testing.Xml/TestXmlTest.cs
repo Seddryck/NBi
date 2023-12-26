@@ -12,7 +12,7 @@ using NBi.Xml.Systems;
 using NUnit.Framework;
 using System.Xml;
 
-namespace NBi.Testing.Xml.Unit
+namespace NBi.Xml.Testing.Unit
 {
     [TestFixture]
     public class TestXmlTest

@@ -8,7 +8,7 @@ using System.IO;
 using System.Text;
 using System.Diagnostics;
 
-namespace NBi.Testing.Xml.Unit
+namespace NBi.Xml.Testing.Unit
 {
     [TestFixture]
     public class TestSuiteWithVariablesTest

@@ -6,7 +6,7 @@ using NBi.GenbiL.Parser;
 using NUnit.Framework;
 using Sprache;
 
-namespace NBi.Testing.GenbiL.Parser
+namespace NBi.GenbiL.Testing.Parser
 {
     [TestFixture]
     public class TemplateParserTest

@@ -10,7 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Testing.Core.Calculation.Predicate.Numeric
+namespace NBi.Core.Testing.Calculation.Predicate.Numeric
 {
     public class NumericModuloTest
     {

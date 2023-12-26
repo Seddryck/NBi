@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Testing.GenbiL.Action.Suite
+namespace NBi.GenbiL.Testing.Action.Suite
 {
     public class GenerateTestGroupBySuiteActionTest
     {

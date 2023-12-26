@@ -18,7 +18,7 @@ using NBi.Xml.Variables;
 using NBi.Core.Transformation;
 #endregion
 
-namespace NBi.Testing.Xml.Unit.Constraints
+namespace NBi.Xml.Testing.Unit.Constraints
 {
     [TestFixture]
     public class AllRowsXmlTest : BaseXmlTest

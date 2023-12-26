@@ -15,7 +15,7 @@ using NBi.Core.ResultSet;
 using NBi.Xml.Variables.Sequence;
 using NBi.Core.Calculation;
 
-namespace NBi.Testing.Xml.Unit.Variables.Sequence
+namespace NBi.Xml.Testing.Unit.Variables.Sequence
 {
     public class FileLoopXmlTest : BaseXmlTest
     {

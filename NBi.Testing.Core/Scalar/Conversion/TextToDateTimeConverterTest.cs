@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Testing.Core.Scalar.Conversion
+namespace NBi.Core.Testing.Scalar.Conversion
 {
     public class TextToDateTimeConverterTest
     {

@@ -9,8 +9,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using System.Xml.XPath;
+using NBi.Testing;
 
-namespace NBi.Testing.Core.Scalar.Resolver
+namespace NBi.Core.Testing.Scalar.Resolver
 {
     public class CSharpScalarResolverTest
     {
@@ -57,7 +58,7 @@ namespace NBi.Testing.Core.Scalar.Resolver
         public void Instantiate_GetValueXmlXpath_CorrectComputation()
         {
             var xPath = "./PurchaseOrders/PurchaseOrder/Address/Name";
-            var xmlPath = new Uri(FileOnDisk.CreatePhysicalFile("PurchaseOrders.xml", "NBi.Testing.Core.Scalar.Resolver.Resources.PurchaseOrders.xml")).AbsolutePath;
+            var xmlPath = new Uri(FileOnDisk.CreatePhysicalFile("PurchaseOrders.xml", "NBi.Core.Testing.Scalar.Resolver.Resources.PurchaseOrders.xml")).AbsolutePath;
             string xmlDoc = string.Format(@"XDocument.Load(""{0}"").XPathSelectElement(""{1}"").Value.ToString()", xmlPath, xPath);
 
             var args = new CSharpScalarResolverArgs(xmlDoc);

@@ -10,7 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using NBi.Core.Transformation.Transformer.Native.Text;
 
-namespace NBi.Testing.Core.Transformation.Transformer.Native
+namespace NBi.Core.Testing.Transformation.Transformer.Native
 {
     [TestFixture]
     public class TextTest

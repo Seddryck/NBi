@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using System.Reflection;
 
-namespace NBi.Testing.Xml
+namespace NBi.Xml.Testing
 {
     public class FileOnDisk
     {

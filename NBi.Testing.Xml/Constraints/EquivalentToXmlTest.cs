@@ -10,7 +10,7 @@ using NBi.Xml.Items.Ranges;
 using NUnit.Framework;
 #endregion
 
-namespace NBi.Testing.Xml.Unit.Constraints
+namespace NBi.Xml.Testing.Unit.Constraints
 {
     [TestFixture]
     public class EquivalentToXmlTest : BaseXmlTest

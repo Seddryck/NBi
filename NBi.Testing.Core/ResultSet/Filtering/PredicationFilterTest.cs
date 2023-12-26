@@ -15,7 +15,7 @@ using NBi.Core.Calculation.Predicate;
 using NBi.Core.Variable;
 using NBi.Core.ResultSet.Filtering;
 
-namespace NBi.Testing.Core.ResultSet.Filtering
+namespace NBi.Core.Testing.ResultSet.Filtering
 {
     public class PredicationFilterTest
     {

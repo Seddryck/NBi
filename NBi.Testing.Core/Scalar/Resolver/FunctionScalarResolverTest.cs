@@ -10,7 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Testing.Core.Scalar.Resolver
+namespace NBi.Core.Testing.Scalar.Resolver
 {
     [TestFixture]
     public class FunctionScalarResolverTest

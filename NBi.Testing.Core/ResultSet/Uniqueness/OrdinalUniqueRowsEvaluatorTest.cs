@@ -8,7 +8,7 @@ using NBi.Core.ResultSet.Uniqueness;
 using System.Data;
 using NBi.Core.ResultSet;
 
-namespace NBi.Testing.Core.ResultSet.Uniqueness
+namespace NBi.Core.Testing.ResultSet.Uniqueness
 {
     public class OrdinalUniqueRowsEvaluatorTest
     {

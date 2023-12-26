@@ -11,7 +11,7 @@ using System.Diagnostics;
 
 #endregion
 
-namespace NBi.Testing.Core.ResultSet
+namespace NBi.Core.Testing.ResultSet
 {
     [TestFixture]
     public class ResultSetTest

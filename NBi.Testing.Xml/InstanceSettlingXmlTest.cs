@@ -15,7 +15,7 @@ using NBi.Xml.Settings;
 using NBi.Core.Transformation;
 using NBi.Core.ResultSet;
 
-namespace NBi.Testing.Xml.Unit
+namespace NBi.Xml.Testing.Unit
 {
     public class InstanceSettlingXmlTest : BaseXmlTest
     {

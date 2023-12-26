@@ -5,10 +5,11 @@ using System.Data.OleDb;
 using System.Data.SqlClient;
 using Microsoft.AnalysisServices.AdomdClient;
 using NBi.Core.Assemblies;
+using NBi.Testing;
 using NUnit.Framework;
 
 #endregion
-namespace NBi.Testing.Core.Assemblies
+namespace NBi.Core.Testing.Assemblies
 {
     [TestFixture]
     public class AssemblyManagerTest
@@ -47,10 +48,10 @@ namespace NBi.Testing.Core.Assemblies
             var am = new AssemblyManager();
 
             //Call the method to test
-            var actual = am.GetInstance(FileOnDisk.GetDirectoryPath() + "NBi.Testing.Core.dll", "NBi.Testing.Core.Assemblies.Resource.Klass", null);
+            var actual = am.GetInstance(FileOnDisk.GetDirectoryPath() + "NBi.Core.Testing.dll", "Resource.Klass", null);
 
             //Assertion
-            Assert.IsInstanceOf<NBi.Testing.Core.Assemblies.Resource.Klass>(actual);
+            Assert.That(actual, Is.InstanceOf<Resource.Klass>());
             Assert.That(actual, Is.Not.Null);
         }
 
@@ -59,7 +60,7 @@ namespace NBi.Testing.Core.Assemblies
         {
             //Build the SUT
             var am = new AssemblyManager();
-            var klass = new NBi.Testing.Core.Assemblies.Resource.Klass();
+            var klass = new Resource.Klass();
             var paramDico = new Dictionary<string, object>() { { "paramString", "MyString" } };
 
             //Call the method to test
@@ -90,7 +91,7 @@ namespace NBi.Testing.Core.Assemblies
         {
             //Build the SUT
             var am = new AssemblyManager();
-            var klass = new NBi.Testing.Core.Assemblies.Resource.Klass();
+            var klass = new Resource.Klass();
             var paramDico = new Dictionary<string, object>()
             { 
                 //Reverse param order to ensure they are correctly re-ordered!
@@ -112,10 +113,10 @@ namespace NBi.Testing.Core.Assemblies
             var am = new AssemblyManager();
             
             //Call the method to test
-            var actual = am.GetStatic(FileOnDisk.GetDirectoryPath() + "NBi.Testing.Core.dll", "NBi.Testing.Core.Assemblies.Resource.StaticKlass");
+            var actual = am.GetStatic(FileOnDisk.GetDirectoryPath() + "NBi.Core.Testing.dll", "Resource.StaticKlass");
 
             //Assertion
-            Assert.That(actual.FullName,Is.EqualTo("NBi.Testing.Core.Assemblies.Resource.StaticKlass"));
+            Assert.That(actual.FullName,Is.EqualTo("Resource.StaticKlass"));
         }
 
         [Test]

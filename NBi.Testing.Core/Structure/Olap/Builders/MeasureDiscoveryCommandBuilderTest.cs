@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Testing.Core.Structure.Olap.Builders
+namespace NBi.Core.Testing.Structure.Olap.Builders
 {
     public class MeasureDiscoveryCommandBuilderTest
     {

@@ -22,8 +22,9 @@ using NBi.Extensibility.Decoration;
 using NBi.Extensibility.Decoration.DataEngineering;
 using NBi.Core.Decoration.IO.Conditions;
 using System.Collections.Generic;
+using NBi.Testing;
 
-namespace NBi.Testing.Core.Decoration.DataEngineering
+namespace NBi.Core.Testing.Decoration.DataEngineering
 {
     [TestFixture]
     public class DecorationFactoryTest
@@ -80,8 +81,8 @@ namespace NBi.Testing.Core.Decoration.DataEngineering
                 case Type x when x == typeof(CustomCommandArgs): return new CustomCommandArgs
                                         (
                                             Guid.NewGuid(),
-                                            new LiteralScalarResolver<string>($@"{FileOnDisk.GetDirectoryPath()}\NBi.Testing.Core.dll"),
-                                            new LiteralScalarResolver<string>("NBi.Testing.Core.Resources.CustomCommand"),
+                                            new LiteralScalarResolver<string>($@"{FileOnDisk.GetDirectoryPath()}\NBi.Core.Testing.dll"),
+                                            new LiteralScalarResolver<string>("NBi.Core.Testing.Resources.CustomCommand"),
                                             null
                                         );
                 default: throw new ArgumentOutOfRangeException();
@@ -127,8 +128,8 @@ namespace NBi.Testing.Core.Decoration.DataEngineering
                 case Type x when x == typeof(FileExistsConditionArgs): return new FileExistsConditionArgs (string.Empty, null, null, null);
                 case Type x when x == typeof(ICustomConditionArgs): return Mock.Of<ICustomConditionArgs>
                         (
-                            y => y.AssemblyPath == new LiteralScalarResolver<string>($@"{FileOnDisk.GetDirectoryPath()}\NBi.Testing.Core.dll")
-                            && y.TypeName == new LiteralScalarResolver<string>("NBi.Testing.Core.Resources.CustomConditionTrue")
+                            y => y.AssemblyPath == new LiteralScalarResolver<string>($@"{FileOnDisk.GetDirectoryPath()}\NBi.Core.Testing.dll")
+                            && y.TypeName == new LiteralScalarResolver<string>("NBi.Core.Testing.Resources.CustomConditionTrue")
                         );
                 default: throw new ArgumentOutOfRangeException();
             }

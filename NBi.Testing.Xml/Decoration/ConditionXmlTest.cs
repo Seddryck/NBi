@@ -7,7 +7,7 @@ using NBi.Xml.Decoration;
 using NBi.Xml.Decoration.Condition;
 using NUnit.Framework;
 
-namespace NBi.Testing.Xml.Unit.Decoration
+namespace NBi.Xml.Testing.Unit.Decoration
 {
     [TestFixture]
     public class ConditionXmlTest : BaseXmlTest

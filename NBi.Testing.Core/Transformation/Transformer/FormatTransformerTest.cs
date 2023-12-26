@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Testing.Core.Transformation.Transformer
+namespace NBi.Core.Testing.Transformation.Transformer
 {
     [TestFixture]
     public class FormatTransformerTest

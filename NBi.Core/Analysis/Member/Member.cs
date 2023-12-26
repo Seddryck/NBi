@@ -12,16 +12,6 @@ namespace NBi.Core.Analysis.Member
         public int Ordinal { get; set; }
         public int LevelNumber { get; set; }
 
-        public Member()
-        {
-
-        }
-
-        public Member(string caption)
-        {
-            Caption = caption;
-        }
-
         public Member(string uniqueName, string caption, int ordinal, int levelNumber)
         {
             UniqueName=uniqueName;
@@ -45,7 +35,7 @@ namespace NBi.Core.Analysis.Member
             }
             
             // Calls CaseInsensitiveComparer.Compare with the parameters reversed.
-            int IComparer.Compare(Object x, Object y)
+            int IComparer.Compare(object x, object y)
             {
                 if (x is Member && y is StringComparerHelper)
                     return internalComparer.Compare(((StringComparerHelper)y).Value, ((Member)x).Caption);

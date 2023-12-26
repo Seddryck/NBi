@@ -3,7 +3,7 @@ using System.Linq;
 using NBi.Core.Members.Predefined;
 using NUnit.Framework;
 
-namespace NBi.Testing.Core.Members
+namespace NBi.Core.Testing.Members
 {
     [TestFixture]
     public class PredefinedMembersFactoryTest

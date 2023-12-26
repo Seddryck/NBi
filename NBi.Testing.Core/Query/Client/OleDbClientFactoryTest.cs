@@ -13,7 +13,7 @@ using NBi.Core.Configuration;
 
 #endregion
 
-namespace NBi.Testing.Core.Query.Client
+namespace NBi.Core.Testing.Query.Client
 {
     [TestFixture]
     public class OleDbClientFactoryTest

@@ -12,8 +12,9 @@ using System.Text;
 using System.Threading.Tasks;
 using NBi.Extensibility.Query;
 using NBi.Extensibility;
+using NBi.Testing;
 
-namespace NBi.Testing.Core.Query.Performance
+namespace NBi.Core.Testing.Query.Performance
 {
     public class PerformanceEngineFactoryTest
     {
@@ -27,7 +28,7 @@ namespace NBi.Testing.Core.Query.Performance
 
             var factory = new PerformanceEngineFactory();
             var engine = factory.Instantiate(query);
-            Assert.IsInstanceOf<SqlPerformanceEngine>(engine);
+            Assert.That(engine, Is.InstanceOf<SqlPerformanceEngine>());
         }
 
         [Test]
@@ -40,7 +41,7 @@ namespace NBi.Testing.Core.Query.Performance
 
             var factory = new PerformanceEngineFactory();
             var engine = factory.Instantiate(query);
-            Assert.IsInstanceOf<AdomdPerformanceEngine>(engine);
+            Assert.That(engine, Is.InstanceOf<AdomdPerformanceEngine>());
         }
 
         [Test]
@@ -53,7 +54,7 @@ namespace NBi.Testing.Core.Query.Performance
 
             var factory = new PerformanceEngineFactory();
             var engine = factory.Instantiate(query);
-            Assert.IsInstanceOf<OdbcPerformanceEngine>(engine);
+            Assert.That(engine, Is.InstanceOf<OdbcPerformanceEngine>());
         }
 
         [Test]
@@ -66,7 +67,7 @@ namespace NBi.Testing.Core.Query.Performance
 
             var factory = new PerformanceEngineFactory();
             var engine = factory.Instantiate(query);
-            Assert.IsInstanceOf<OleDbPerformanceEngine>(engine);
+            Assert.That(engine, Is.InstanceOf<OleDbPerformanceEngine>());
         }
 
         #region Fake
@@ -135,7 +136,7 @@ namespace NBi.Testing.Core.Query.Performance
         //    factory.RegisterEngines(new[] { typeof(FakePerformanceEngine) });
 
         //    var engine = factory.Instantiate(query);
-        //    Assert.IsInstanceOf<FakePerformanceEngine>(engine);
+        //    Assert.That(, Is.InstanceOf<FakePerformanceEngine>(engine);
         //}
     }
 }

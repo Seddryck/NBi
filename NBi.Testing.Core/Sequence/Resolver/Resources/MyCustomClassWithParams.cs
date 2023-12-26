@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Testing.Core.Sequence.Resolver.Resources
+namespace NBi.Core.Testing.Sequence.Resolver.Resources
 {
     public class MyCustomClassWithParams : ISequenceResolver
     {

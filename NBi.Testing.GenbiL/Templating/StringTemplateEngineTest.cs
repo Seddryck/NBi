@@ -12,7 +12,7 @@ using System.Globalization;
 using NBi.GenbiL.Templating;
 using NBi.Xml;
 
-namespace NBi.Testing.GenbiL.Templating
+namespace NBi.GenbiL.Testing.Templating
 {
     [TestFixture]
     public class StringTemplateEngineTest

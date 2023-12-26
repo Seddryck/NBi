@@ -11,7 +11,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Testing.Core.Calculation.Predicate
+namespace NBi.Core.Testing.Calculation.Predicate
 {
     public class PredicateReferenceTest
     {

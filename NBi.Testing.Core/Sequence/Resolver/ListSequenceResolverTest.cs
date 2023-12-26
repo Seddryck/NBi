@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Testing.Core.Sequence.Resolver
+namespace NBi.Core.Testing.Sequence.Resolver
 {
     [TestFixture]
     public class ListSequenceResolverTest

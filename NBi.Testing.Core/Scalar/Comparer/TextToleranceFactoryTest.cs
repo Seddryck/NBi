@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace NBi.Testing.Core.Scalar.Comparer
+namespace NBi.Core.Testing.Scalar.Comparer
 {
     public class TextToleranceFactoryTest
     {

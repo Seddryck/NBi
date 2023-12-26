@@ -3,7 +3,7 @@ using NUnit.Framework;
 using NBi.Core.Structure;
 using NBi.Core.Structure.Olap.Builders;
 
-namespace NBi.Testing.Core.Structure.Olap.Builders
+namespace NBi.Core.Testing.Structure.Olap.Builders
 {
     [TestFixture]
     public class HierarchyDiscoveryCommandBuilderTest

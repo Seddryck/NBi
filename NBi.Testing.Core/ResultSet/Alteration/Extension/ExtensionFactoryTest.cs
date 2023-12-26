@@ -11,7 +11,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Testing.Core.ResultSet.Alteration.Extension
+namespace NBi.Core.Testing.ResultSet.Alteration.Extension
 {
     public class ExtensionFactoryTest
     {

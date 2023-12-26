@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Testing.Core.Assemblies.Resource
+namespace Resource
 {
     class CustomCommandWithMulipleCtors : ICustomCommand
     {

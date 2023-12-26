@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Testing.Core.ResultSet
+namespace NBi.Core.Testing.ResultSet
 {
     [TestFixture]
     class JsonResultSetTest

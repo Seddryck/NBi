@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Testing.Core.Sequence.Resolver.Loop
+namespace NBi.Core.Testing.Sequence.Resolver.Loop
 {
     [TestFixture]
     public class CountDateTimeLoopStrategyTest

@@ -11,7 +11,7 @@ using System.Diagnostics;
 using NBi.Xml.Items.ResultSet;
 #endregion
 
-namespace NBi.Testing.Xml.Unit.Constraints
+namespace NBi.Xml.Testing.Unit.Constraints
 {
     [TestFixture]
     public class UniqueRowsXmlTest : BaseXmlTest

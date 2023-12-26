@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Testing.Core.ResultSet.Equivalence
+namespace NBi.Core.Testing.ResultSet.Equivalence
 {
     [TestFixture]
     public class SettingsComparerBuilderTest

@@ -11,7 +11,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Testing.GenbiL.Action.Variable
+namespace NBi.GenbiL.Testing.Action.Variable
 {
     [TestFixture]
     public class IncludeVariableActionTest

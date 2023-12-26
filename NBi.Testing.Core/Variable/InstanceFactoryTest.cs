@@ -10,7 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Testing.Core.Variable
+namespace NBi.Core.Testing.Variable
 {
     public class InstanceFactoryTest
     {

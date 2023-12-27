@@ -7,18 +7,23 @@ using System.Threading.Tasks;
 
 namespace NBi.Core.Structure.Olap.Builders
 {
-    abstract class AbstractDiscoveryCommandBuilder : IDiscoveryCommandBuilder
+    abstract class AbstractDiscoveryCommandBuilder
+        (
+            string captionName
+            , string displayFolderName
+            , string tableName
+            , string visibleName
+        )
+        : IDiscoveryCommandBuilder
     {
         protected abstract string BasicCommandText { get; }
-        private string commandText;
-        private IEnumerable<IPostCommandFilter> postFilters;
-        private bool isBuild=false;
+        private string? commandText;
+        private IEnumerable<IPostCommandFilter> postFilters = [];
 
-
-        protected string CaptionName { get; set; }
-        protected string DisplayFolderName { get; set; }
-        protected string TableName { get; set; }
-        protected string VisibleName { get; set; }
+        protected string CaptionName { get; set; } = captionName;
+        protected string DisplayFolderName { get; set; } = displayFolderName;
+        protected string TableName { get; set; } = tableName;
+        protected string VisibleName { get; set; } = visibleName;
 
 
         public void Build(IEnumerable<IFilter> filters)
@@ -36,39 +41,31 @@ namespace NBi.Core.Structure.Olap.Builders
                 commandText += " and " + valueFilter;
 
             postFilters = allFilters.Where(f => f is IPostCommandFilter).Cast<IPostCommandFilter>();
-            isBuild = true;
         }
 
         protected abstract IEnumerable<IFilter> BuildCaptionFilters(IEnumerable<CaptionFilter> filters);
         protected virtual IEnumerable<ICommandFilter> BuildNonCaptionFilters(IEnumerable<IFilter> filters)
-        {
-            return new List<ICommandFilter>();
-        }
+            => new List<ICommandFilter>();
 
         protected string BuildCommandText()
         {
             string visibleFilter = string.Empty;
             if (!string.IsNullOrEmpty(VisibleName))
-                visibleFilter = string.Format(" and {0}_is_visible", VisibleName);
+                visibleFilter = $" and {VisibleName}_is_visible";
 
             string displayFolderField = "''";
             if (!string.IsNullOrEmpty(DisplayFolderName))
-                displayFolderField = string.Format("{0}_display_folder", DisplayFolderName);
+                displayFolderField = $"{DisplayFolderName}_display_folder";
 
             return string.Format(BasicCommandText, CaptionName, displayFolderField, TableName, visibleFilter);
         }
 
         public string GetCommandText()
-        {
-            if (!isBuild)
-                throw new InvalidOperationException();
-
-            return commandText;
-        }
+            => commandText ?? throw new InvalidOperationException();
 
         public IEnumerable<IPostCommandFilter> GetPostFilters()
         {
-            if (!isBuild)
+            if (commandText is null)
                 throw new InvalidOperationException();
 
             return postFilters;

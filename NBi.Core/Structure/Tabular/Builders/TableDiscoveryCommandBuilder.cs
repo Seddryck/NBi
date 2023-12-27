@@ -10,10 +10,8 @@ namespace NBi.Core.Structure.Tabular.Builders
     class TableDiscoveryCommandBuilder : TabularDiscoveryCommandBuilder
     {
         public TableDiscoveryCommandBuilder()
-        {
-            CaptionName = "table_name";
-            TableName = "tables";
-        }
+            :base("table_name", string.Empty, "tables", string.Empty)
+        { }
 
         protected override IEnumerable<IFilter> BuildCaptionFilters(IEnumerable<CaptionFilter> filters)
         {

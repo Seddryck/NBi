@@ -144,7 +144,7 @@ namespace NBi.Core.Testing.ResultSet.Alteration.Duplication
 
             var duplicator = new DuplicateEngine(
                 new ServiceLocator(),
-                new Context(null),
+                Context.None,
                 new PredicationFactory().True,
                 new LiteralScalarResolver<int>(1),
                 new List<OutputArgs>() { new OutputArgs(new ColumnNameIdentifier("Index"), OutputClass.Index) }

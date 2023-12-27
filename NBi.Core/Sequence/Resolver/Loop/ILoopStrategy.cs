@@ -3,7 +3,7 @@
     public interface ILoopStrategy
     {
         bool IsOngoing();
-        object GetNext();
+        object? GetNext();
     }
 
     public interface ILoopStrategy<T> : ILoopStrategy

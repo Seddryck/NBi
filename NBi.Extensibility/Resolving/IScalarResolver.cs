@@ -11,6 +11,6 @@ namespace NBi.Extensibility.Resolving
 
     public interface IScalarResolver<T> : IScalarResolver
     {
-        new T Execute();
+        new T? Execute();
     }
 }

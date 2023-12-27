@@ -14,14 +14,9 @@ namespace NBi.Core.Structure.Relational.Builders
             get { return "select [{0}_name] from INFORMATION_SCHEMA.{1} where 1=1"; }
         }
 
-        protected virtual string ProcedureType { get; set; }
-        
-
         public RoutineDiscoveryCommandBuilder()
-        {
-            CaptionName = "routine";
-            TableName = "routines";
-        }
+            : base("routine", "routines")
+        { }
 
         protected override IEnumerable<ICommandFilter> BuildCaptionFilters(IEnumerable<CaptionFilter> filters)
         {

@@ -3,6 +3,7 @@ using NBi.Core.ResultSet;
 using NBi.Core.Transformation.Transformer;
 using NBi.Core.Transformation.Transformer.Native;
 using NBi.Core.Variable;
+using NBi.Extensibility.Resolving;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -35,28 +36,22 @@ namespace NBi.Core.Scalar.Resolver
                     var suffix = tokens.Last().Trim().ToCharArray().Last();
                     var functions = tokens.Skip(1);
                     var factory = ServiceLocator.GetScalarResolverFactory();
-                    IScalarResolverArgs args = null;
 
                     var columnIdentifierFactory = new ColumnIdentifierFactory();
 
-                    switch (prefix)
+                    IScalarResolverArgs args = prefix switch
                     {
-                        case '@':
-                            args = new GlobalVariableScalarResolverArgs(firstToken.Substring(1), Context?.Variables);
-                            break;
-                        case '~':
-                            args = new FormatScalarResolverArgs(firstToken.Substring(1), Context?.Variables);
-                            break;
-                        case '[' when firstToken.ToCharArray().Last() == ']' && !firstToken.Contains(';') && MatchExternalBrakets(firstToken).Count==1:
-                        case '#':
-                            args = new ContextScalarResolverArgs(Context, columnIdentifierFactory.Instantiate(firstToken));
-                            break;
-                        default:
-                            args = new LiteralScalarResolverArgs(firstToken);
-                            break;
-                    }
+                        '@' => new GlobalVariableScalarResolverArgs(firstToken.Substring(1), Context.Variables),
+                        '~' => new FormatScalarResolverArgs(firstToken[1..], Context.Variables),
+                        '[' when firstToken.ToCharArray().Last() == ']'
+                                && !firstToken.Contains(';')
+                                && MatchExternalBrakets(firstToken).Count == 1
+                                => new ContextScalarResolverArgs(Context, columnIdentifierFactory.Instantiate(firstToken)),
+                        '#' => new ContextScalarResolverArgs(Context, columnIdentifierFactory.Instantiate(firstToken)),
+                        _ => new LiteralScalarResolverArgs(firstToken)
+                    };
 
-                    if (functions.Count() > 0)
+                    if (functions.Any())
                     {
                         var transformations = new List<INativeTransformation>();
                         var nativeTransformationFactory = new NativeTransformationFactory(ServiceLocator, Context);

@@ -44,27 +44,17 @@ namespace NBi.Core.Transformation
                     throw new ArgumentOutOfRangeException();
             }
 
-            Type providerType;
-            switch (info.Language)
+            var providerType = info.Language switch
             {
-                case LanguageType.CSharp:
-                    providerType = typeof(CSharpTransformer<>);
-                    break;
-                case LanguageType.NCalc:
-                    providerType = typeof(NCalcTransformer<>);
-                    break;
-                case LanguageType.Format:
-                    providerType = typeof(FormatTransformer<>);
-                    break;
-                case LanguageType.Native:
-                    providerType = typeof(NativeTransformer<>);
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
-
+                LanguageType.CSharp => typeof(CSharpTransformer<>),
+                LanguageType.NCalc => typeof(NCalcTransformer<>),
+                LanguageType.Format => typeof(FormatTransformer<>),
+                LanguageType.Native => typeof(NativeTransformer<>),
+                _ => throw new ArgumentOutOfRangeException(),
+            };
             var provider = providerType.MakeGenericType(valueType);
-            var transformer = (ITransformer)Activator.CreateInstance(provider, new object[] { ServiceLocator, Context });
+            var transformer = (ITransformer)(Activator.CreateInstance(provider, [ServiceLocator, Context])
+                                ?? throw new NullReferenceException());
 
             return transformer;
         }

@@ -41,31 +41,29 @@ namespace NBi.Core.Structure
         public IStructureDiscoveryFactory Instantiate(string connectionString)
         {
             var sessionFactory = new ClientProvider();
-            var connection = sessionFactory.Instantiate(connectionString).CreateNew() as IDbConnection;
+            var connection = sessionFactory.Instantiate(connectionString).CreateNew() as IDbConnection
+                ?? throw new NullReferenceException();
             var dbType = MapConnectionTypeToDatabaseType(connection);
 
-            if (!dico.Keys.Contains(dbType))
+            if (!dico.TryGetValue(dbType, out var value))
                 throw new ArgumentException();
 
-            var factoryType = dico[dbType];
-            var ctor = factoryType.GetConstructor(new Type[]{typeof(IDbConnection)});
+            var factoryType = value;
+            var ctor = factoryType.GetConstructor([typeof(IDbConnection)]) ?? throw new NullReferenceException();
             var factory = (IStructureDiscoveryFactory)ctor.Invoke(new object[] { connection });
 
             return factory;
         }
 
         protected virtual string MapConnectionTypeToDatabaseType(IDbConnection connection)
-        {
-            if (connection is SqlConnection)
-                return Relational;
-            if (connection is OleDbConnection)
-                return Relational;
-            if (connection is OdbcConnection)
-                return Relational;
-            if (connection is AdomdConnection)
-                return InquireFurtherAnalysisService(connection.ConnectionString);
-            throw new ArgumentOutOfRangeException();
-        }
+            => connection switch
+            {
+                SqlConnection => Relational,
+                OleDbConnection => Relational,
+                OdbcConnection => Relational,
+                AdomdConnection => InquireFurtherAnalysisService(connection.ConnectionString),
+                _ => throw new NotImplementedException()
+            };
 
         protected virtual string InquireFurtherAnalysisService(string connectionString)
         {
@@ -80,7 +78,7 @@ namespace NBi.Core.Structure
                         new AdomdRestriction("ObjectExpansion", "ReferenceOnly")
                     };
                     var ds = conn.GetSchemaDataSet("DISCOVER_XML_METADATA", restrictions);
-                    var xml = ds.Tables[0].Rows[0].ItemArray[0].ToString();
+                    var xml = ds.Tables[0]?.Rows[0]?.ItemArray[0]?.ToString() ?? string.Empty;
                     var doc = new XmlDocument();
                     doc.LoadXml(xml);
                     parsedMode = ParseXmlaResponse(doc);
@@ -104,9 +102,9 @@ namespace NBi.Core.Structure
 
         }
 
-        protected string ParseXmlaResponse(XmlDocument doc)
+        protected virtual string ParseXmlaResponse(XmlDocument doc)
         {
-            var root = doc.DocumentElement;
+            var root = doc.DocumentElement ?? throw new InvalidDataException();
 
             var nm = new XmlNamespaceManager(doc.NameTable);
             nm.AddNamespace("ddl300", "http://schemas.microsoft.com/analysisservices/2011/engine/300");

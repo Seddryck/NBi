@@ -35,7 +35,7 @@ namespace NBi.Core.Transformation.Transformer.Native
             return EvaluateNumeric(numeric);
         }
 
-        protected virtual object EvaluateNull() => null;
+        protected virtual object? EvaluateNull() => null;
         protected abstract decimal EvaluateNumeric(decimal numeric);
     }
 

@@ -9,7 +9,7 @@ namespace NBi.Core.Variable
 {
     public interface IVariable
     {
-        object GetValue();
+        object? GetValue();
         bool IsEvaluated();
     }
     interface ILoadtimeVariable : IVariable { }

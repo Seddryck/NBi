@@ -16,20 +16,29 @@ namespace NBi.Core.Scalar
             return System.Collections.Comparer.DefaultInvariant.Compare(x, y);
         }
 
-        public int Compare(IScalarResolver<T> x, IScalarResolver<T> y)
+        public int Compare(IScalarResolver<T>? x, IScalarResolver<T>? y)
         {
+            if (x is null || y is null)
+                return -1;
             return Compare(x.Execute(), y.Execute());
         }
 
-        public int Compare(object x, object y)
+        public int Compare(object? x, object? y)
         {
-            if (x is IScalarResolver<T>) 
-                x = ((IScalarResolver<T>)x).Execute();
+            if (x is IScalarResolver<T> xResolver) 
+                x = xResolver.Execute();
 
-            if (y is IScalarResolver<T>)
-                y = ((IScalarResolver<T>)y).Execute();
+            if (y is IScalarResolver<T> yResolver)
+                y = yResolver.Execute();
 
-            return Compare((T)x, (T)y);
+            if (x is null && y is null)
+                return 0;
+            if (x is null && y is not null)
+                return -1;
+            if (x is not null && y is null)
+                return 1;
+
+            return Compare((T)x!, (T)y!);
         }
     }
 }

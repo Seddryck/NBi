@@ -12,20 +12,18 @@ namespace NBi.Core.Variable
 {
     public abstract class RuntimeVariable : IRuntimeVariable
     {
-        private object value;
-        private bool isEvaluated;
-        private readonly IScalarResolver resolver;
+        private object? value;
+        private bool isEvaluated = false;
+        private IScalarResolver Resolver { get; }
 
         public RuntimeVariable(IScalarResolver resolver)
-        {
-            this.resolver = resolver;
-        }
+            => Resolver = resolver;
 
         public void Evaluate()
         {
             var stopWatch = new Stopwatch();
             stopWatch.Start();
-            value = resolver.Execute();
+            value = Resolver.Execute();
             isEvaluated = true;
 
             Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceVerbose, $"Time needed for evaluation of the variable: {stopWatch.Elapsed.ToString(@"d\d\.hh\h\:mm\m\:ss\s\ \+fff\m\s")}");
@@ -35,7 +33,7 @@ namespace NBi.Core.Variable
             Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceVerbose, msg.ToString(invariantCulture));
         }
 
-        public virtual object GetValue()
+        public virtual object? GetValue()
         {
             if (!IsEvaluated())
                 Evaluate();

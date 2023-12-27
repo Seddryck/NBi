@@ -13,7 +13,7 @@ namespace NBi.Core.Assemblies.Decoration
 
         public CustomCondition(ICustomCondition target) => Target = target;
 
-        public string Message { get; set; }
+        public string? Message { get; set; }
 
         public bool Validate()
         {

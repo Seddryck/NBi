@@ -25,7 +25,7 @@ namespace NBi.Core.Sequence.Resolver
         {
             var resolvers = new List<IScalarResolver<T>>();
             foreach (var value in values)
-                resolvers.Add(new LiteralScalarResolver<T>(value));
+                resolvers.Add(new LiteralScalarResolver<T>(value ?? throw new NotSupportedException()));
 
             args = new ListSequenceResolverArgs(resolvers);
         }

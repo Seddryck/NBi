@@ -6,14 +6,12 @@ namespace NBi.Core.Analysis.Request
 {
     public class BaseDiscoveryRequest
     {
-        public string ConnectionString { get; set; }
+        public string ConnectionString { get; }
         protected IDictionary<DiscoveryTarget, IFilter> Filters { get; set; }
-        internal IList<Validation> Validations { get; set; }
+        internal IList<Validation> Validations { get; set; } = [];
 
-        public BaseDiscoveryRequest()
-        {
-            Filters = new Dictionary<DiscoveryTarget, IFilter>();
-        }
+        public BaseDiscoveryRequest(string connectionString)
+            => (ConnectionString, Filters) = (connectionString, new Dictionary<DiscoveryTarget, IFilter>());
 
         protected void AddFilters(IEnumerable<IFilter> filters)
         {
@@ -24,7 +22,7 @@ namespace NBi.Core.Analysis.Request
         public void SpecifyFilter(IFilter filter)
         {
             if (filter == null)
-                throw new ArgumentNullException("filter");
+                throw new ArgumentNullException(nameof(filter));
             
             if (Filters.ContainsKey(filter.Target))
                 Filters[filter.Target] = filter;
@@ -32,18 +30,13 @@ namespace NBi.Core.Analysis.Request
                 Filters.Add(filter.Target, filter);
         }
 
-        public IFilter GetFilter(DiscoveryTarget target)
-        {
-            if (Filters.ContainsKey(target))
-                return Filters[target];
-            else
-                return null;
-        }
+        public IFilter? GetFilter(DiscoveryTarget target)
+            => Filters.TryGetValue(target, out var value)
+                ? value
+                : null;
 
         public IEnumerable<IFilter> GetAllFilters()
-        {
-            return Filters.Values.ToArray();
-        }
+            => Filters.Values.ToArray();
 
         public virtual string Path
         {
@@ -55,19 +48,19 @@ namespace NBi.Core.Analysis.Request
                 if (dim == null)
                     return path;
 
-                path = string.Format("[{0}]", dim.Value);
+                path = $"[{dim.Value}]";
 
                 var hie = GetFilter(DiscoveryTarget.Hierarchies);
                 if (hie == null)
                     return path;
 
-                path = string.Format("{0}.[{1}]", path, hie.Value);
+                path = $"{path}.[{hie.Value}]";
 
                 var lev = GetFilter(DiscoveryTarget.Levels);
                 if (lev == null)
                     return path;
 
-                path = string.Format("{0}.[{1}]", path, lev.Value);
+                path = $"{path}.[{lev.Value}]";
                 return path;
             }
         }

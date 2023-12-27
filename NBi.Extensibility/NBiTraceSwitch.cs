@@ -6,8 +6,8 @@ namespace NBi.Extensibility
 {
     public class NBiTraceSwitch
     {
-        private static volatile TraceSwitch instance;
-        private readonly static object syncRoot = new Object();
+        private static volatile TraceSwitch? instance;
+        private readonly static object syncRoot = new();
 
         private NBiTraceSwitch() { }
 
@@ -16,13 +16,10 @@ namespace NBi.Extensibility
             get
             {
                 if (instance == null)
-                {
                     lock (syncRoot)
                     {
-                        if (instance == null)
-                            instance = new TraceSwitch("NBi", "NBi trace", "3");
+                        instance ??= new TraceSwitch("NBi", "NBi trace", "3");
                     }
-                }
 
                 return instance;
             }
@@ -30,47 +27,16 @@ namespace NBi.Extensibility
 
         public static TraceLevel Level
         {
-            get
-            {
-                return Instance.Level;
-            }
-            set
-            {
-                Instance.Level = value;
-            }
+            get => Instance.Level;
+            set => Instance.Level = value;
         }
 
-        public static bool TraceError
-        {
-            get
-            {
-                return Instance.TraceError;
-            }
-        }
+        public static bool TraceError => Instance.TraceError;
 
-        public static bool TraceWarning
-        {
-            get
-            {
-                return Instance.TraceWarning;
-            }
-        }
+        public static bool TraceWarning => Instance.TraceWarning;
 
-        public static bool TraceInfo
-        {
-            get
-            {
-                return Instance.TraceInfo;
-            }
-        }
+        public static bool TraceInfo => Instance.TraceInfo;
 
-        public static bool TraceVerbose
-        {
-            get
-            {
-                return Instance.TraceVerbose;
-            }
-        }
-
+        public static bool TraceVerbose => Instance.TraceVerbose;
     }
 }

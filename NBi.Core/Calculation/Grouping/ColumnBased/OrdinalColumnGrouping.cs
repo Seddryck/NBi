@@ -12,7 +12,8 @@ namespace NBi.Core.Calculation.Grouping.ColumnBased
 {
     class OrdinalColumnGrouping : ColumnGrouping
     {
-        protected new SettingsOrdinalResultSet Settings { get => base.Settings as SettingsOrdinalResultSet; }
+        protected new SettingsOrdinalResultSet Settings
+            => (base.Settings as SettingsOrdinalResultSet)!;
 
         public OrdinalColumnGrouping(SettingsOrdinalResultSet settings, Context context)
             : base(settings, context) { }

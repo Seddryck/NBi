@@ -1,33 +1,27 @@
 ﻿using NBi.Core.Injection;
 using NBi.Core.Variable;
-using System;
-using System.CodeDom.Compiler;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
+using NCalc;
 
 namespace NBi.Core.Transformation.Transformer
 {
     class NCalcTransformer<T> : ITransformer
     {
-        private ServiceLocator ServiceLocator { get; }
         protected Context Context { get; }
-        private NCalc.Expression method;
+        private Expression? method;
 
-        public NCalcTransformer() : this(null, null) { }
-        public NCalcTransformer(ServiceLocator serviceLocator, Context context)
-            => (ServiceLocator, Context) = (serviceLocator, context);
+        public NCalcTransformer() 
+            : this(null, Context.None) { }
+        public NCalcTransformer(ServiceLocator? serviceLocator, Context context)
+            => (Context) = (context);
 
         public void Initialize(string code)
         {
-           method = new NCalc.Expression(code);
+           method = new Expression(code);
         }
 
         public object Execute(object value)
         {
-            if (method == null)
+            if (method is null)
                 throw new InvalidOperationException();
 
             if (method.Parameters.ContainsKey("value"))

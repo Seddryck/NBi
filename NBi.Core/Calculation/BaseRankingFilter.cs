@@ -48,12 +48,11 @@ namespace NBi.Core.Calculation
             }
 
             var newRs = rs.Clone();
-            newRs.AddRange(subset.Select(x => x.Value as IResultRow));
+            newRs.AddRange(subset.Select(x => x.Value as IResultRow ?? throw new InvalidOperationException()));
             return newRs;
         }
 
         protected abstract void InsertRow(ScoredObject score, ref IList<ScoredObject> subset);
-        
 
         public abstract string Describe();
     }

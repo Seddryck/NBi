@@ -37,23 +37,23 @@ namespace NBi.Core.ResultSet
             return obj;
         }
 
-        public bool Equals(KeyCollection other)
+        public bool Equals(KeyCollection? other)
         {
             if (other == null && this == null)
                 return true;
             if (other == null || this == null)
                 return false;
-            if (other.Members == null && this.Members == null)
+            if (other.Members == null && Members == null)
                 return true;
-            if (other.Members == null || this.Members == null)
+            if (other.Members == null || Members == null)
                 return false;
 
-            if (other.Members.Length != this.Members.Length)
+            if (other.Members.Length != Members.Length)
                 return false;
 
-            for (int i = 0; i < this.Members.Length; i++)
+            for (int i = 0; i < Members.Length; i++)
             {
-                if (!GetGenericValue(other.Members[i]).Equals(GetGenericValue(this.Members[i])))
+                if (!GetGenericValue(other.Members[i]).Equals(GetGenericValue(Members[i])))
                     return false;
             }
             return true;

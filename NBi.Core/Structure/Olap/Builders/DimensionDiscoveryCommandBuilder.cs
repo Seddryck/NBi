@@ -16,11 +16,8 @@ namespace NBi.Core.Structure.Olap.Builders
         }
 
         public DimensionDiscoveryCommandBuilder()
-        {
-            CaptionName = "dimension";
-            TableName = "dimensions";
-            VisibleName = "dimension";
-        }
+            : base("dimension", string.Empty, "dimensions", "dimension")
+        { }
 
         protected override IEnumerable<IFilter> BuildCaptionFilters(IEnumerable<CaptionFilter> filters)
         {

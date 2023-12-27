@@ -23,12 +23,12 @@ namespace NBi.Core.Analysis.Request.FactoryValidations
             this.filters = filters;
         }
 
-        protected IFilter GetSpecificFilter(DiscoveryTarget discoveryTarget, IEnumerable<IFilter> filters)
+        protected IFilter? GetSpecificFilter(DiscoveryTarget discoveryTarget, IEnumerable<IFilter> filters)
         {
             return filters.FirstOrDefault(f => f.Target == discoveryTarget);
         }
 
-        protected IFilter GetSpecificFilter(DiscoveryTarget discoveryTarget)
+        protected IFilter? GetSpecificFilter(DiscoveryTarget discoveryTarget)
         {
             return GetSpecificFilter(discoveryTarget, Filters);
         }

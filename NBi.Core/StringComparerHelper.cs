@@ -2,16 +2,15 @@
 {
     public class StringComparerHelper
     {
-        public string Value { get; set; }
+        public string Value { get; }
+
+        private StringComparerHelper(string value)
+            => Value = value;
 
         public static StringComparerHelper Build(string value)
-        {
-            return new StringComparerHelper() { Value = value };
-        }
+            => new (value);
 
         public override string ToString()
-        {
-            return Value.ToString();
-        }
+            => Value.ToString();
     }
 }

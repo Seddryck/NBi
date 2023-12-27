@@ -100,9 +100,9 @@
 //            var exp = new NCalc.Expression(expression.Value);
 //            var factory = new ColumnIdentifierFactory();
 
-//            exp.EvaluateParameter += delegate (string name, NCalc.ParameterArgs args)
+//            exp.EvaluateParameter += delegate (string name, NCalc.ParameterArgs Args)
 //            {
-//                args.Result = GetValueFromRow(row, factory.Instantiate(name));
+//                Args.Result = GetValueFromRow(row, factory.Instantiate(name));
 //            };
 
 //            return exp.Evaluate();

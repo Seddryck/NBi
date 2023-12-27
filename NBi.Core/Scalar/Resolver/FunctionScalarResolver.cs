@@ -13,14 +13,14 @@ namespace NBi.Core.Scalar.Resolver
 
         public FunctionScalarResolver(FunctionScalarResolverArgs args) => Args = args;
 
-        public T Execute()
+        public T? Execute()
         {
             var value = Args.Resolver.Execute();
             foreach (var transformation in Args.Transformations)
                 value = transformation.Evaluate(value);
-            return (T)value;
+            return (T?)value;
         }
 
-        object IResolver.Execute() => Execute();
+        object? IResolver.Execute() => Execute();
     }
 }

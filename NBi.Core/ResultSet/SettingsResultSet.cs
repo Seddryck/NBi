@@ -6,7 +6,7 @@ using NBi.Core.Scalar.Comparer;
 
 namespace NBi.Core.ResultSet
 {
-	public abstract class SettingsResultSet<T> : ISettingsResultSet
+	public abstract class SettingsResultSet<T> : ISettingsResultSet where T : notnull
     {
         protected IDictionary<T, ColumnRole> cacheRole = new Dictionary<T, ColumnRole>();
         protected IDictionary<T, ColumnType> cacheType = new Dictionary<T, ColumnType>();
@@ -14,10 +14,10 @@ namespace NBi.Core.ResultSet
         protected ColumnType ValuesDefaultType { get; private set; }
 		protected IReadOnlyCollection<IColumnDefinition> ColumnsDef { get; private set; }
 
-        private Tolerance defaultTolerance;
+        private Tolerance defaultTolerance = NumericAbsoluteTolerance.None;
         protected Tolerance DefaultTolerance
         {
-            get { return defaultTolerance ?? NumericAbsoluteTolerance.None;}
+            get { return defaultTolerance; }
             private set { defaultTolerance = value; }
         }
 

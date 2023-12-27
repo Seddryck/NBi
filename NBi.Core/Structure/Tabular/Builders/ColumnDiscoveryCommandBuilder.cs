@@ -10,10 +10,8 @@ namespace NBi.Core.Structure.Tabular.Builders
     class ColumnDiscoveryCommandBuilder : TabularDiscoveryCommandBuilder
     {
         public ColumnDiscoveryCommandBuilder()
-        {
-            CaptionName = "column_name";
-            TableName = "columns";
-        }
+            : base("column_name", string.Empty, "columns", string.Empty)
+        { }
 
         protected override IEnumerable<IFilter> BuildCaptionFilters(IEnumerable<CaptionFilter> filters)
         {

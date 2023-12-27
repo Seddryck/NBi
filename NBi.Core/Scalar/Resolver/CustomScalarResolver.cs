@@ -20,13 +20,13 @@ namespace NBi.Core.Scalar.Resolver
 
         protected override string CustomKind => "custom evaluation of a scalar";
 
-        public T Execute()
+        public T? Execute()
         {
             var instance = Instantiate(Args);
             var value = instance.Execute();
-            return (T)Convert.ChangeType(value, typeof(T));
+            return (T?)Convert.ChangeType(value, typeof(T));
         }
 
-        object IResolver.Execute() => Execute();
+        object? IResolver.Execute() => Execute();
     }
 }

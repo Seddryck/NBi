@@ -10,11 +10,8 @@ namespace NBi.Core.Structure.Olap.Builders
     class PerspectiveDiscoveryCommandBuilder : MultidimensionalDiscoveryCommandBuilder
     {
         public PerspectiveDiscoveryCommandBuilder()
-        {
-            CaptionName="cube";
-            TableName="dimensions";
-            VisibleName="dimension";
-        }
+            : base("cube", string.Empty, "dimensions", "dimension")
+        { }
 
         protected override string BasicCommandText
         {

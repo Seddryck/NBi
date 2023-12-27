@@ -52,10 +52,10 @@ namespace NBi.Core.ResultSet
                         throw new NBiException(msg);
                     }
                     else
-                        throw ex;
+                        throw;
                 }
             }
-            return new KeyCollection(keys.ToArray());
+            return new KeyCollection([.. keys]);
         }
     }
 }

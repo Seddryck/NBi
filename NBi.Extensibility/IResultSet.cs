@@ -18,9 +18,9 @@ namespace NBi.Extensibility
         IEnumerable<IResultColumn> Columns { get; }
         int ColumnCount { get; }
         
-        IResultColumn GetColumn(IColumnIdentifier columnIdentifier);
-        IResultColumn GetColumn(string name);
-        IResultColumn GetColumn(int index);
+        IResultColumn? GetColumn(IColumnIdentifier columnIdentifier);
+        IResultColumn? GetColumn(string name);
+        IResultColumn? GetColumn(int index);
 
         IResultColumn AddColumn(string name);
         IResultColumn AddColumn(string name, Type type);

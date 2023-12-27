@@ -9,6 +9,6 @@ namespace NBi.Core.Api.Authentication
 {
     public interface IAuthentication
     {
-        IAuthenticator GetAuthenticator();
+        IAuthenticator? GetAuthenticator();
     }
 }

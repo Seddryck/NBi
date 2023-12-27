@@ -14,13 +14,12 @@ namespace NBi.Core.Transformation.Transformer
 {
     class FormatTransformer<T> : ITransformer
     {
-        private ServiceLocator ServiceLocator { get; }
         protected Context Context { get; }
-        private string method;
+        private string? method;
 
-        public FormatTransformer() : this(null, null) { }
-        public FormatTransformer(ServiceLocator serviceLocator, Context context)
-            => (ServiceLocator, Context) = (serviceLocator, context);
+        public FormatTransformer() : this(null, Context.None) { }
+        public FormatTransformer(ServiceLocator? serviceLocator, Context context)
+            => (Context) = (context);
 
         public void Initialize(string code)
         {
@@ -36,7 +35,7 @@ namespace NBi.Core.Transformation.Transformer
             var caster = factory.Instantiate();
             var typedValue = caster.Execute(value);
 
-            var transformedValue = String.Format(method, typedValue);
+            var transformedValue = string.Format(method, typedValue);
 
             return transformedValue;
         }

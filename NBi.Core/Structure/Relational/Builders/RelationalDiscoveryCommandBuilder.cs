@@ -6,20 +6,18 @@ using System.Threading.Tasks;
 
 namespace NBi.Core.Structure.Relational.Builders
 {
-    abstract class RelationalDiscoveryCommandBuilder : IDiscoveryCommandBuilder
+    abstract class RelationalDiscoveryCommandBuilder(string captionName, string tableName) : IDiscoveryCommandBuilder
     {
         protected virtual string BasicCommandText 
         {
-            get { return "select [{0}_name] from INFORMATION_SCHEMA.{1} where 1=1"; }
+            get => "select [{0}_name] from INFORMATION_SCHEMA.{1} where 1=1";
         }
 
-        private string commandText;
-        private IEnumerable<IPostCommandFilter> postFilters;
-        private bool isBuild = false;
+        private string? commandText;
+        private IEnumerable<IPostCommandFilter> postFilters = [];
 
-
-        protected string CaptionName { get; set; }
-        protected string TableName { get; set; }
+        protected string CaptionName { get; set; } = captionName;
+        protected string TableName { get; set; } = tableName;
 
         public void Build(IEnumerable<IFilter> filters)
         {
@@ -36,33 +34,21 @@ namespace NBi.Core.Structure.Relational.Builders
                 commandText += " and " + valueFilter;
 
             postFilters = allFilters.Where(f => f is IPostCommandFilter).Cast<IPostCommandFilter>();
-            isBuild = true;
         }
-
-
 
         protected abstract IEnumerable<ICommandFilter> BuildCaptionFilters(IEnumerable<CaptionFilter> filters);
         protected virtual IEnumerable<IFilter> BuildNonCaptionFilters(IEnumerable<IFilter> filters)
-        {
-            return new List<ICommandFilter>();
-        }
+            => new List<ICommandFilter>();
 
         protected string BuildCommandText()
-        {
-            return string.Format(BasicCommandText, CaptionName, TableName);
-        }
+            => string.Format(BasicCommandText, CaptionName, TableName);
 
         public string GetCommandText()
-        {
-            if (!isBuild)
-                throw new InvalidOperationException();
-
-            return commandText;
-        }
+            =>  commandText ?? throw new InvalidOperationException();
 
         public IEnumerable<IPostCommandFilter> GetPostFilters()
         {
-            if (!isBuild)
+            if (commandText is null)
                 throw new InvalidOperationException();
 
             return postFilters;

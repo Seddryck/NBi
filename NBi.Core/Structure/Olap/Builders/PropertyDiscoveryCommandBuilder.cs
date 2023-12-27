@@ -10,12 +10,9 @@ namespace NBi.Core.Structure.Olap.Builders
     class PropertyDiscoveryCommandBuilder : MultidimensionalDiscoveryCommandBuilder
     {
         public PropertyDiscoveryCommandBuilder()
-        {
-            CaptionName = "property";
-            TableName = "properties";
-            VisibleName = "property";
-        }
-
+            : base("property", string.Empty, "properties", "property")
+        { }
+        
         protected override IEnumerable<IFilter> BuildCaptionFilters(IEnumerable<CaptionFilter> filters)
         {
             yield return new CommandFilter("[property_type]=1");

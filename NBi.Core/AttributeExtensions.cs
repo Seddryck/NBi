@@ -8,7 +8,7 @@ namespace NBi.Core
 {
     public static class AttributeExtensions
     {
-        public static TValue GetAttributeValue<TAttribute, TValue>(
+        public static TValue? GetAttributeValue<TAttribute, TValue>(
             this Type type,
             Func<TAttribute, TValue> valueSelector)
             where TAttribute : Attribute
@@ -19,7 +19,7 @@ namespace NBi.Core
             {
                 return valueSelector(att);
             }
-            return default(TValue);
+            return default;
         }
     }
 }

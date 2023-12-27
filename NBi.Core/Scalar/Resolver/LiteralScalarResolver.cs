@@ -20,30 +20,23 @@ namespace NBi.Core.Scalar.Resolver
 
         internal LiteralScalarResolver(object value)
         {
-            this.args = new LiteralScalarResolverArgs(value);
+            args = new LiteralScalarResolverArgs(value);
         }
 
-        public T Execute()
+        public T? Execute()
         {
-            IFormatProvider formatProvider = System.Globalization.NumberFormatInfo.InvariantInfo;
-            if (typeof(T) == typeof(DateTime))
-                formatProvider = System.Globalization.DateTimeFormatInfo.InvariantInfo;
-
-            var converter = TypeDescriptor.GetConverter(typeof(T));
-
             var output = ConvertValue(args.Object);
-
             Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceVerbose, $"Literal evaluated to: {output}");
             return output;
         }
 
-        private T ConvertValue(object value)
+        private T? ConvertValue(object value)
         {
             var converter = TypeDescriptor.GetConverter(typeof(T));
 
             if (converter.CanConvertFrom(args.Object.GetType()))
                 try
-                { return (T)converter.ConvertFrom(null, System.Globalization.CultureInfo.InvariantCulture, value); }
+                { return (T?)converter.ConvertFrom(null, System.Globalization.CultureInfo.InvariantCulture, value); }
                 catch (Exception)
                 { throw new ArgumentException($"Cannot convert the value '{value}' to a '{typeof(T).Name}'"); }
             else
@@ -53,6 +46,6 @@ namespace NBi.Core.Scalar.Resolver
                 { throw new ArgumentException($"Cannot convert the value '{value}' to a '{typeof(T).Name}'"); }
         }
 
-        object IResolver.Execute() => Execute();
+        object? IResolver.Execute() => Execute();
     }
 }

@@ -12,11 +12,11 @@ namespace NBi.Core.Variable
     public class Context
     {
 
-        public IEnumerable<IColumnAlias> Aliases { get; } = new List<IColumnAlias>();
-        public IEnumerable<IColumnExpression> Expressions { get; } = new List<IColumnExpression>();
+        public IEnumerable<IColumnAlias> Aliases { get; } = [];
+        public IEnumerable<IColumnExpression> Expressions { get; } = [];
 
         public IDictionary<string, IVariable> Variables { get; } = new Dictionary<string, IVariable>();
-        public IResultRow CurrentRow { get; private set; }
+        public IResultRow? CurrentRow { get; private set; }
 
         public static Context None { get; } = new Context();
 

@@ -5,9 +5,9 @@ using System.Text;
 
 namespace NBi.Core.Analysis.Member
 {
-    public class PatternValue
+    public class PatternValue(Pattern pattern, string text)
     {
-        public Pattern Pattern { get; set; }
-        public string Text { get; set; }
+        public Pattern Pattern { get; set; } = pattern;
+        public string Text { get; set; } =  text;
     }
 }

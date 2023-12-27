@@ -8,6 +8,6 @@ namespace NBi.Extensibility.Resolving
 {
     public interface IResolver
     {
-        object Execute();
+        object? Execute();
     }
 }

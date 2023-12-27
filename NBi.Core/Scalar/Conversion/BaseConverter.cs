@@ -12,14 +12,23 @@ namespace NBi.Core.Scalar.Conversion
 {
     abstract class BaseConverter<T, U> : IConverter
     {
-        public object DefaultValue { get; }
+        public object? DefaultValue { get; }
 
-        public Type DestinationType => typeof(U);
+        public Type DestinationType
+        {
+            get
+            {
+                var type = typeof(U);
+                if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Nullable<>))
+                    return Nullable.GetUnderlyingType(type)!;
+                return type;
+            }
+        }
 
         private readonly IPredicate predicate;
         private readonly CultureInfo cultureInfo;
 
-        public BaseConverter(CultureInfo cultureInfo, object defaultValue)
+        public BaseConverter(CultureInfo cultureInfo, object? defaultValue)
         {
             var info = GetPredicateArgs(cultureInfo);
             var predicateFactory = new PredicateFactory();

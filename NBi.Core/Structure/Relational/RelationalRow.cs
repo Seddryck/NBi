@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace NBi.Core.Structure.Relational
 {
-    class RelationalRow
+    class RelationalRow (string caption)
     {
-        public string Caption { get; set; }
+        public string Caption { get; set; } = caption;
     }
 }

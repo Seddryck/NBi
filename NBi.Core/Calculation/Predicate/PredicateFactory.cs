@@ -16,7 +16,7 @@ namespace NBi.Core.Calculation.Predicate
     {
         internal IPredicate Instantiate(ComparerType comparerType, ColumnType columnType, bool not, IResolver reference)
             => Instantiate(comparerType, columnType, not, reference, "en-us", StringComparison.OrdinalIgnoreCase, null);
-        internal IPredicate Instantiate(ComparerType comparerType, ColumnType columnType, bool not, IResolver reference, string culture, StringComparison stringComparison, object secondOperand)
+        internal IPredicate Instantiate(ComparerType comparerType, ColumnType columnType, bool not, IResolver? reference, string? culture, StringComparison? stringComparison, object? secondOperand)
         {
             switch (columnType)
             {
@@ -33,15 +33,15 @@ namespace NBi.Core.Calculation.Predicate
                         case ComparerType.NullOrEmpty: return new TextNullOrEmpty(not);
                         case ComparerType.LowerCase: return new TextLowerCase(not);
                         case ComparerType.UpperCase: return new TextUpperCase(not);
-                        case ComparerType.StartsWith: return new TextStartsWith(not, (IScalarResolver)reference, stringComparison);
-                        case ComparerType.EndsWith: return new TextEndsWith(not, (IScalarResolver)reference, stringComparison);
-                        case ComparerType.Contains: return new TextContains(not, (IScalarResolver)reference, stringComparison);
-                        case ComparerType.MatchesRegex: return new TextMatchesRegex(not, (IScalarResolver)reference, stringComparison);
+                        case ComparerType.StartsWith: return new TextStartsWith(not, (IScalarResolver)reference, stringComparison ?? throw new InvalidOperationException());
+                        case ComparerType.EndsWith: return new TextEndsWith(not, (IScalarResolver)reference, stringComparison ?? throw new InvalidOperationException());
+                        case ComparerType.Contains: return new TextContains(not, (IScalarResolver)reference, stringComparison ?? throw new InvalidOperationException());
+                        case ComparerType.MatchesRegex: return new TextMatchesRegex(not, (IScalarResolver)reference, stringComparison ?? throw new InvalidOperationException());
                         case ComparerType.MatchesNumeric: return new TextMatchesNumeric(not, culture);
                         case ComparerType.MatchesDate: return new TextMatchesDate(not, culture);
                         case ComparerType.MatchesTime: return new TextMatchesTime(not, culture);
                         case ComparerType.MatchesDateTime: return new TextMatchesDateTime(not, culture);
-                        case ComparerType.AnyOf: return new TextAnyOf(not, (ISequenceResolver)reference, stringComparison);
+                        case ComparerType.AnyOf: return new TextAnyOf(not, (ISequenceResolver)reference, stringComparison ?? throw new InvalidOperationException());
                         default:
                             throw new ArgumentOutOfRangeException($"Text columns don't support  the '{comparerType.ToString().ToDashedCase()}' comparer.");
                     }

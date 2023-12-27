@@ -16,12 +16,12 @@ namespace NBi.Core.Scalar.Resolver
             this.args = args;
         }
 
-        public T Execute()
+        public T? Execute()
         {
             var value = Environment.GetEnvironmentVariable(args.Name, EnvironmentVariableTarget.User);
-            return (T)Convert.ChangeType(value, typeof(T));
+            return (T?)Convert.ChangeType(value, typeof(T));
         }
 
-        object IResolver.Execute() => Execute();
+        object? IResolver.Execute() => Execute();
     }
 }

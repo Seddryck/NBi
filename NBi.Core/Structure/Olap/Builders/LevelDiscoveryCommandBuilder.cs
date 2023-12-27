@@ -10,11 +10,8 @@ namespace NBi.Core.Structure.Olap.Builders
     class LevelDiscoveryCommandBuilder : MultidimensionalDiscoveryCommandBuilder
     {
         public LevelDiscoveryCommandBuilder()
-        {
-            CaptionName = "level";
-            TableName = "levels";
-            VisibleName = "level";
-        }
+            : base("level", string.Empty, "levels", "level")
+        { }
 
         protected override IEnumerable<IFilter> BuildCaptionFilters(IEnumerable<CaptionFilter> filters)
         {

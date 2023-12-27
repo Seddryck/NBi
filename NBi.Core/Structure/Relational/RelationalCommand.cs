@@ -23,7 +23,7 @@ namespace NBi.Core.Structure.Relational
         {
             var values = new List<RelationalRow>();
 
-            command.Connection.Open();
+            (command.Connection ?? throw new InvalidOperationException()).Open();
             var rdr = ExecuteReader(command);
             while (rdr.Read())
             {
@@ -43,8 +43,7 @@ namespace NBi.Core.Structure.Relational
 
         protected virtual RelationalRow BuildRow(IDataReader rdr)
         {
-            var row = new RelationalRow();
-            row.Caption = rdr.GetString(0);
+            var row = new RelationalRow(rdr.GetString(0));
             return row;
         }
 
@@ -52,14 +51,13 @@ namespace NBi.Core.Structure.Relational
         {
             Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceInfo, cmd.CommandText);
 
-            IDataReader rdr = null;
             try
             {
-                rdr = cmd.ExecuteReader();
+                var rdr = cmd.ExecuteReader();
                 return rdr;
             }
             catch (Exception ex)
-            { throw new ConnectionException(ex, cmd.Connection.ConnectionString); }
+            { throw new ConnectionException(ex, cmd.Connection?.ConnectionString ?? "Connection-string not set."); }
         }
     }
 }

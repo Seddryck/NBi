@@ -17,12 +17,12 @@ namespace NBi.Core.Structure.Olap
         private readonly AdomdConnection connection;
         public OlapStructureDiscoveryFactory(IDbConnection connection)
         {
-            this.connection = connection as AdomdConnection;
+            this.connection = connection as AdomdConnection ?? throw new ArgumentException();
         }
 
         public StructureDiscoveryCommand Instantiate(Target target, TargetType type, IEnumerable<IFilter> filters)
         {
-            if (!(connection is AdomdConnection))
+            if (connection is not AdomdConnection)
                 throw new ArgumentException();
 
             var builder = InstantiateBuilder(target, type);
@@ -34,7 +34,7 @@ namespace NBi.Core.Structure.Olap
 
             var description = new CommandDescription(target, filters);
 
-            OlapCommand command = null;
+            OlapCommand? command;
             if ((target == Target.MeasureGroups && type == TargetType.Object) || target == Target.Perspectives)
                 command = new DistinctOlapCommand(cmd, postFilters, description);
             else if (target == Target.Dimensions && type == TargetType.Object)
@@ -44,7 +44,7 @@ namespace NBi.Core.Structure.Olap
             else
                 command = new OlapCommand(cmd, postFilters, description);
 
-            return command;
+            return command!;
         }
 
         protected virtual IDiscoveryCommandBuilder InstantiateBuilder(Target target, TargetType type)

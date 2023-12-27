@@ -64,11 +64,10 @@ namespace NBi.Core.Calculation.Ranking
         protected virtual bool RowCompare<T>(ScoredObject oldObj, ScoredObject newObj)
         {
             var factory = new PredicateFactory();
-            var predicateArgs = new ReferencePredicateArgs()
+            var predicateArgs = new ReferencePredicateArgs(new LiteralScalarResolver<T>(oldObj.Score))
             {
                 ColumnType = ColumnType,
                 ComparerType = GetComparerType(),
-                Reference = new LiteralScalarResolver<T>(oldObj.Score)
             };
             var predicate = factory.Instantiate(predicateArgs);
             return predicate.Execute(newObj.Score);

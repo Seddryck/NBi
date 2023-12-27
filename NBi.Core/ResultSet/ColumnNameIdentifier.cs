@@ -16,23 +16,23 @@ namespace NBi.Core.ResultSet
         public ColumnNameIdentifier(string name)
             => Name = name;
 
-        public IResultColumn GetColumn(IResultSet rs) 
+        public IResultColumn? GetColumn(IResultSet rs) 
             => rs.ContainsColumn(Name) ? rs.GetColumn(Name) : null;
 
         public object GetValue(IResultRow dataRow) => dataRow[Name];
 
         public override int GetHashCode() => Name.GetHashCode();
 
-        public override bool Equals(object value)
+        public override bool Equals(object? value)
         {
-            switch (value)
+            return value switch
             {
-                case ColumnNameIdentifier x: return Equals(x);
-                default: return false;
-            }
+                ColumnNameIdentifier x => Equals(x),
+                _ => false,
+            };
         }
 
-        public bool Equals(ColumnNameIdentifier other)
-            => !(other is null) && Name == other.Name;
+        public bool Equals(ColumnNameIdentifier? other)
+            => other is not null && Name == other.Name;
     }
 }

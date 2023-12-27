@@ -12,7 +12,7 @@ namespace NBi.Core.Analysis.Member
 {
     public class MembersCommand
     {
-        public event ProgressStatusHandler ProgressStatusChanged;
+        public event ProgressStatusHandler? ProgressStatusChanged;
 
         public string ConnectionString { get; private set; }
         public string Function { get; private set; }
@@ -21,7 +21,7 @@ namespace NBi.Core.Analysis.Member
         public IEnumerable<PatternValue> ExcludedPatterns { get; private set; }
 
         public MembersCommand(string connectionString, string function, string memberCaption)
-            : this(connectionString,function,memberCaption,null, null)
+            : this(connectionString,function,memberCaption, [], [])
         {}
 
         public MembersCommand(string connectionString, string function, string memberCaption, IEnumerable<string> excludedMembers, IEnumerable<PatternValue> excludedPatterns)
@@ -41,18 +41,18 @@ namespace NBi.Core.Analysis.Member
         protected IDbCommand CreateCommand()
         {
             var factory = new ClientProvider();
-            var conn = factory.Instantiate(ConnectionString).CreateNew() as IDbConnection;
+            var conn = factory.Instantiate(ConnectionString).CreateNew() as IDbConnection
+                        ?? throw new NotSupportedException();
             
             var cmd = conn.CreateCommand();
             return cmd;
         }
 
-        protected AdomdDataReader ExecuteReader(AdomdCommand cmd)
+        protected virtual AdomdDataReader ExecuteReader(AdomdCommand cmd)
         {
-            AdomdDataReader rdr = null;
             try
             {
-                rdr = cmd.ExecuteReader();
+                var rdr = cmd.ExecuteReader();
                 return rdr;
             }
             catch (AdomdConnectionException ex)
@@ -63,19 +63,17 @@ namespace NBi.Core.Analysis.Member
 
         protected CellSet ExecuteCellSet(AdomdCommand cmd)
         {
-            CellSet cs = null;
             try
             {
                 cmd.Connection.Open();
-                cs = cmd.ExecuteCellSet();
+                var cs = cmd.ExecuteCellSet();
                 cmd.Connection.Close();
+                return cs;
             }
             catch (AdomdConnectionException ex)
             { throw new ConnectionException(ex, cmd.Connection.ConnectionString); }
             catch (AdomdErrorResponseException ex)
             { throw new ConnectionException(ex, cmd.Connection.ConnectionString); }
-
-            return cs;
         }
 
 
@@ -89,12 +87,12 @@ namespace NBi.Core.Analysis.Member
             using (var cmd = CreateCommand())
             {
                 var path = BuildPath(filters);
-                var perspective = GetPerspective(filters);
+                var perspective = GetPerspective(filters) ?? throw new NotSupportedException();
                 var commandText = Build(perspective.Value, path, Function, MemberCaption, ExcludedMembers, ExcludedPatterns);
                 cmd.CommandText = commandText;
-                if (!(cmd is AdomdCommand))
+                if (cmd is not AdomdCommand)
                     throw new NotImplementedException();
-                var cs = ExecuteCellSet(cmd as AdomdCommand);
+                var cs = ExecuteCellSet((cmd as AdomdCommand)!);
                 // Traverse the response (The response is on first line!!!) 
                 var i = 0;
                 foreach (var position in cs.Axes[1].Positions)
@@ -114,7 +112,7 @@ namespace NBi.Core.Analysis.Member
             return list;
         }
   
-        private CaptionFilter GetPerspective(IEnumerable<IFilter> filters)
+        private CaptionFilter? GetPerspective(IEnumerable<IFilter> filters)
         {
             var perFilter = FindFilterOrNull(filters, DiscoveryTarget.Perspectives);
             return perFilter;
@@ -126,58 +124,57 @@ namespace NBi.Core.Analysis.Member
             if (setFilter != null)
                 return string.Format("[{0}]", setFilter.Value);
 
-            var dimFilter = FindFilterOrNull(filters, DiscoveryTarget.Dimensions);
+            var dimFilter = FindFilterOrNull(filters, DiscoveryTarget.Dimensions) 
+                ?? throw new NotSupportedException();
 
-            var hieFilter = FindFilterOrNull(filters, DiscoveryTarget.Hierarchies);
-            if (hieFilter == null)
-                return string.Format("[{0}]", dimFilter.Value);
+            var hierarchyFilter = FindFilterOrNull(filters, DiscoveryTarget.Hierarchies);
+            if (hierarchyFilter == null)
+                return $"[{dimFilter.Value}]";
             
             var levFilter = FindFilterOrNull(filters, DiscoveryTarget.Levels);
             if (levFilter == null)
-                return string.Format("[{0}].[{1}]", dimFilter.Value, hieFilter.Value);
+                return $"[{dimFilter.Value}].[{hierarchyFilter.Value}]";
             else
-                return string.Format("[{0}].[{1}].[{2}]", dimFilter.Value, hieFilter.Value, levFilter.Value);
+                return $"[{dimFilter.Value}].[{hierarchyFilter.Value}].[{levFilter.Value}]";
         }
 
-        protected CaptionFilter FindFilterOrNull(IEnumerable<IFilter> filters, DiscoveryTarget target)
+        protected virtual CaptionFilter? FindFilterOrNull(IEnumerable<IFilter> filters, DiscoveryTarget target)
         {
             var filter = filters.FirstOrDefault(f => f is CaptionFilter && ((CaptionFilter)f).Target == target);
-            return (CaptionFilter)filter;
+            return (CaptionFilter?)filter;
         }
 
         public string Build(string perspective, string path, string function, string memberCaption)
         {
-            return Build(perspective, path, function,memberCaption, null, null);
+            return Build(perspective, path, function,memberCaption, [], []);
         }
 
         public string Build(string perspective, string path, string function, string memberCaption, IEnumerable<string> exludedMembers, IEnumerable<PatternValue> excludedPatterns)
         {
             var members = string.Empty;
             if (string.IsNullOrEmpty(function))
-                members = string.Format("{0}", path);
+                members = $"{path}";
             else if (string.IsNullOrEmpty(memberCaption))
-                members = string.Format("{0}.{1}", path, function);
+                members = $"{path}.{function}";
             else
-                members = string.Format("{0}.[{2}].{1}", path, function, memberCaption);
+                members = $"{path}.[{function}].{memberCaption}";
 
             if (exludedMembers!=null && exludedMembers.Count()>0)
             {
                 foreach (var excl in exludedMembers)
-                    members = string.Format("{0}-{1}.[{2}]", members, path, excl);
-                members = string.Format("{0}{1}{2}", "{", members, "}");
+                    members = $"{members}-{path}.[{excl}]";
+                members = $"{"{"}{members}{"}"}";
             }
 
             if (ExcludedPatterns != null && ExcludedPatterns.Count() > 0)
             {
                 var hierarchyPath = BuildHierarchyPath(path);
                 var exclPattern = BuildExcludedPatterns(hierarchyPath, excludedPatterns);
-                members = string.Format("filter({0}, {1})"
-                    , members
-                    , exclPattern);                
+                members = $"filter({members}, {exclPattern})";                
             }
                             
             var commandText = string.Empty;
-            commandText = string.Format("select {0} on 0, {1} on 1 from [{2}]", "{}", members, perspective);
+            commandText = $"select {"{}"} on 0, {members} on 1 from [{perspective}]";
 
             Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceInfo, commandText);
             return commandText;

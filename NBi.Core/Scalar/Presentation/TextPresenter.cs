@@ -15,7 +15,7 @@ namespace NBi.Core.Scalar.Presentation
             {
                 case string x: return PresentString(x);
                 default:
-                    return PresentString(value.ToString());
+                    return PresentString(value.ToString()!);
             }
         }
 

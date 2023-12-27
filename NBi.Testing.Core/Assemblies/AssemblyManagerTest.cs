@@ -51,8 +51,8 @@ namespace NBi.Core.Testing.Assemblies
             var actual = am.GetInstance(FileOnDisk.GetDirectoryPath() + "NBi.Core.Testing.dll", "Resource.Klass", null);
 
             //Assertion
-            Assert.That(actual, Is.InstanceOf<Resource.Klass>());
             Assert.That(actual, Is.Not.Null);
+            Assert.That(actual, Is.InstanceOf(typeof(Resource.Klass)));
         }
 
         [Test]

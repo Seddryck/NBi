@@ -23,7 +23,7 @@ namespace NBi.Core.Sequence.Resolver.Loop
         public U Step { get; }
         protected bool FirstLoop { get; set; }
 
-        object ILoopStrategy.GetNext() => GetNext();
+        object? ILoopStrategy.GetNext() => GetNext();
         public T GetNext()
         {
             if (FirstLoop)

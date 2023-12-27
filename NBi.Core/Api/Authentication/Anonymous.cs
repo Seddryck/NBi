@@ -9,6 +9,6 @@ namespace NBi.Core.Api.Authentication
 {
     public class Anonymous : IAuthentication
     {
-        public IAuthenticator GetAuthenticator() => null;
+        public IAuthenticator? GetAuthenticator() => null;
     }
 }

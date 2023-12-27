@@ -12,7 +12,8 @@ namespace NBi.Core.Calculation.Grouping.ColumnBased
 {
     class NameColumnGrouping : ColumnGrouping
     {
-        protected new SettingsNameResultSet Settings { get => base.Settings as SettingsNameResultSet; }
+        protected new SettingsNameResultSet Settings 
+            => (base.Settings as SettingsNameResultSet)!; 
 
         public NameColumnGrouping(SettingsNameResultSet settings, Context context)
             : base(settings, context) { }

@@ -9,17 +9,14 @@ namespace NBi.Core.Configuration.FailureReport
     public class FailureReportProfile : IFailureReportProfile
     {
         protected internal FailureReportProfile ()
-	    {
+	    { }
 
-	    }
-
-        private static IFailureReportProfile @default;
+        private static IFailureReportProfile? @default;
         public static IFailureReportProfile Default
         {
             get
             {
-                if (@default == null)
-                    @default = new FailureReportProfile()
+                @default ??= new FailureReportProfile()
                     {
                         MaxSampleItem = 10,
                         ThresholdSampleItem = 15,
@@ -47,12 +44,12 @@ namespace NBi.Core.Configuration.FailureReport
 
         public FailureReportMode Mode { get; set; }
 
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
-            if (obj == null)
+            if (obj is null)
                 return false;
 
-            if (!(obj is FailureReportProfile))
+            if (obj is not FailureReportProfile)
                 return false;
 
             return (((FailureReportProfile)obj).ExpectedSet == this.ExpectedSet

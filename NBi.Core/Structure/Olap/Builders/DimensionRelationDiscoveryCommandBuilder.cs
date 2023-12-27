@@ -16,11 +16,8 @@ namespace NBi.Core.Structure.Olap.Builders
         }
 
         public DimensionRelationDiscoveryCommandBuilder()
-        {
-            CaptionName = "dimension";
-            TableName = "measuregroup_dimensions";
-            VisibleName = "dimension";
-        }
+            : base("dimension", string.Empty, "measuregroup_dimensions", "dimension")
+        { }
 
         protected override IEnumerable<IFilter> BuildCaptionFilters(IEnumerable<CaptionFilter> filters)
         {

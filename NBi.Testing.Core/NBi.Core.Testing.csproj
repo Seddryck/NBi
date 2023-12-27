@@ -1,12 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
   <ItemGroup>
-    <PackageReference Include="Deedle" Version="2.4.3.0" /> 
-    <PackageReference Include="FSharp.Core" Version="8.0.0.0" />
-    <PackageReference Include="Microsoft.AnalysisServices.AdomdClient.retail.amd64" Version="19.72.0" />
-    <PackageReference Include="Moq" Version="4.16.0.0" />
-    <PackageReference Include="NCalc-Edge" Version="1.5.0.0" />
-    <PackageReference Include="PocketCsvReader" Version="1.0.0.0" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.8.0" />
+    <PackageReference Include="NUnit" Version="3.12.0" />
+    <!--<PackageReference Include="NUnit.Analyzers" Version="3.10.0" />-->
+    <PackageReference Include="NUnit3TestAdapter" Version="4.5.0" />
+    <PackageReference Include="Appveyor.TestLogger" Version="2.0.0" />
+    <PackageReference Include="Moq" Version="4.20.70" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NBi.Core\NBi.Core.csproj" />

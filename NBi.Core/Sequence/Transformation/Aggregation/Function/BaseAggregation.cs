@@ -14,12 +14,12 @@ namespace NBi.Core.Sequence.Transformation.Aggregation.Function
 
         public BaseAggregation(ICaster<T> caster) => Caster = caster;
 
-        public object Execute(IEnumerable<object> values)
+        public object? Execute(IEnumerable<object> values)
         {
             var series = values.Select(x => Caster.Execute(x)).ToOrdinalSeries();
             return Execute(series);
         }
 
-        protected abstract T Execute(Series<int, T> series);
+        protected abstract T? Execute(Series<int, T>? series);
     }
 }

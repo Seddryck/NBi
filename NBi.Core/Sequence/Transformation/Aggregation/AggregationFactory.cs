@@ -22,12 +22,12 @@ namespace NBi.Core.Sequence.Transformation.Aggregation
             var typeName = $"{Enum.GetName(typeof(AggregationFunctionType), function)}{Enum.GetName(typeof(ColumnType), columnType)}";
             var type = GetType().Assembly.GetType($"{@namespace}{typeName}", false, true) ?? throw new ArgumentException($"No aggregation named '{typeName}' has been found in the namespace '{@namespace}'.");
 
-            if ((parameters?.Count() ?? 0) == 0)
-                return new Aggregation((IAggregationFunction)(type.GetConstructor(Type.EmptyTypes).Invoke(Array.Empty<object>())), missingValue, emptySeries);
+            if ((parameters?.Length ?? 0) == 0)
+                return new Aggregation((IAggregationFunction)(type.GetConstructor(Type.EmptyTypes) ?? throw new NullReferenceException()).Invoke([]), missingValue, emptySeries);
             else
             {
-                var ctor = type.GetConstructors().Where(x => x.IsPublic && (x.GetParameters().Count() == parameters.Count())).FirstOrDefault()
-                    ?? throw new ArgumentException($"No public constructor for the aggregation '{function}' expecting {parameters.Count()} parameters.");
+                var ctor = type.GetConstructors().Where(x => x.IsPublic && (x.GetParameters().Length == parameters!.Length)).FirstOrDefault()
+                    ?? throw new ArgumentException($"No public constructor for the aggregation '{function}' expecting {parameters!.Length} parameters.");
                 return new Aggregation((IAggregationFunction)ctor.Invoke(parameters), missingValue, emptySeries);
             }
         }

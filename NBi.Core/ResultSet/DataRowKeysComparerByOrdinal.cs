@@ -50,7 +50,7 @@ namespace NBi.Core.ResultSet
                             throw new NBiException(msg);
                         }
                         else
-                            throw ex;
+                            throw;
                     }
                 }
             }

@@ -11,12 +11,8 @@ namespace NBi.Core.Structure.Olap.Builders
     class MeasureDiscoveryCommandBuilder : MultidimensionalDiscoveryCommandBuilder
     {
         public MeasureDiscoveryCommandBuilder()
-        {
-            CaptionName = "measure";
-            DisplayFolderName = "measure";
-            TableName = "measures";
-            VisibleName = "measure";
-        }
+            : base("measure", "measure", "measures", "measure")
+        { }
 
         protected override IEnumerable<IFilter> BuildCaptionFilters(IEnumerable<CaptionFilter> filters)
         {

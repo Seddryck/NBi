@@ -32,7 +32,7 @@ namespace NBi.Core.Scalar.Resolver
             => (instantiateHandler
                 .MakeGenericMethod(type)
                 .Invoke(this, new[] { args }))
-                as IScalarResolver;
+                as IScalarResolver ?? throw new NotSupportedException();
 
         public IScalarResolver<T> Instantiate<T>(IScalarResolverArgs args)
         {

@@ -29,7 +29,7 @@ namespace NBi.Core.Decoration.DataEngineering
             if (types.Count() > 1)
                 throw new InvalidOperationException($"Found more than one class implementing '{typeof(IBatchRunnerFactory).Name}' in '{assembly.FullName}'.");
 
-            return Activator.CreateInstance(types.ElementAt(0)) as IBatchRunnerFactory;
+            return Activator.CreateInstance(types.ElementAt(0)) as IBatchRunnerFactory ?? throw new NullReferenceException();
         }
 
         private static string AssemblyDirectory

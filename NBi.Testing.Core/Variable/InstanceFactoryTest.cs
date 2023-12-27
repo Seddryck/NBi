@@ -30,17 +30,17 @@ namespace NBi.Core.Testing.Variable
             var thirdTransformation = new NativeTransformer<DateTime>(new ServiceLocator(), null);;
             thirdTransformation.Initialize("dateTime-to-add(7)");
 
-            var args = new DerivedVariableInstanceArgs()
-            {
-                Name = "main",
-                Resolver = resolver.Object,
-                Derivations = new Dictionary<string, DerivationArgs>()
+            var args = new DerivedVariableInstanceArgs
+            (
+                "main",
+                resolver.Object,
+                new Dictionary<string, DerivationArgs>()
                 {
-                    { "first", new DerivationArgs() { Source = "main", Transformer = firstTransformation } },
-                    { "second", new DerivationArgs() { Source = "main", Transformer = secondTransformation } },
-                    { "third", new DerivationArgs() { Source = "second", Transformer = thirdTransformation } }
+                    { "first", new DerivationArgs("main", firstTransformation) },
+                    { "second", new DerivationArgs("main", secondTransformation) },
+                    { "third", new DerivationArgs("second", thirdTransformation) }
                 }
-            };
+            );
 
             var factory = new InstanceFactory();
             var instances = factory.Instantiate(args);

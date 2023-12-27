@@ -10,10 +10,8 @@ namespace NBi.Core.Structure.Relational.Builders
     class ColumnDiscoveryCommandBuilder : RelationalDiscoveryCommandBuilder
     {
         public ColumnDiscoveryCommandBuilder()
-        {
-            CaptionName = "column";
-            TableName = "columns";
-        }
+            : base("column", "columns")
+        { }
 
         protected override IEnumerable<ICommandFilter> BuildCaptionFilters(IEnumerable<CaptionFilter> filters)
         {

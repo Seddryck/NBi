@@ -9,7 +9,7 @@ namespace NBi.Core.Analysis.Member
     {
         public void Add(string caption)
         {
-            this.Add(new Member(caption));
+            Add(new Member(caption, caption, 0, 0));
         }
 
         public IEnumerable<string> ToCaptions()

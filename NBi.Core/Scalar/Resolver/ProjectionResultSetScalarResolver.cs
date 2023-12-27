@@ -19,16 +19,16 @@ namespace NBi.Core.Scalar.Resolver
             this.factory = factory;
         }
 
-        public T Execute()
+        public T? Execute()
         {
             var resolver = factory.Instantiate(args.ResultSetArgs);
             var resultSet = resolver.Execute();
 
             var projectionResult = args.Projection(resultSet);
 
-            return (T)Convert.ChangeType(projectionResult, typeof(T));
+            return (T?)Convert.ChangeType(projectionResult, typeof(T));
         }
 
-        object IResolver.Execute() => Execute();
+        object? IResolver.Execute() => Execute();
     }
 }

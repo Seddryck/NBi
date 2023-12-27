@@ -32,7 +32,7 @@ namespace NBi.Core.Assemblies
             if (type == null)
                 throw new ArgumentException(string.Format("Type {0} not found in assembly located at '{1}'", typeName, assemblyPath), "typeName");
 
-            var classInstance = Activator.CreateInstance(type, ctorParameters);
+            var classInstance = Activator.CreateInstance(type, ctorParameters) ?? throw new NullReferenceException();
             return classInstance;
         }
 

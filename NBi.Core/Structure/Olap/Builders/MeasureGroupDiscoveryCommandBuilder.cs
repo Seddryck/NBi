@@ -15,11 +15,8 @@ namespace NBi.Core.Structure.Olap.Builders
         }
 
         public MeasureGroupDiscoveryCommandBuilder()
-        {
-            CaptionName = "measuregroup";
-            TableName = "measures";
-            VisibleName = "measure";
-        }
+            : base("measuregroup", string.Empty, "measures", "measure")
+        { }
 
         protected override IEnumerable<IFilter> BuildCaptionFilters(IEnumerable<CaptionFilter> filters)
         {

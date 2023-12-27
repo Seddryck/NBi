@@ -11,8 +11,11 @@ namespace NBi.Core.ResultSet
     public abstract class DataRowKeysComparer : IEqualityComparer<IResultRow>
     {
 
-        public bool Equals(IResultRow x, IResultRow y)
+        public bool Equals(IResultRow? x, IResultRow? y)
         {
+            if (x is null || y is null)
+                return false;
+
             if (!CheckKeysExist(x))
                 throw new ArgumentException("First datarow has not the required key fields");
             if (!CheckKeysExist(y))
@@ -24,18 +27,19 @@ namespace NBi.Core.ResultSet
         protected abstract bool CheckKeysExist(IResultRow dr);
         public abstract KeyCollection GetKeys(IResultRow row);
 
-        public int GetHashCode(IResultRow dr)
+        public int GetHashCode(IResultRow? dr)
         {
+            if (dr is null)
+                return 0;
+
             int hash = 0;
             foreach (var value in GetKeys(dr).Members)
             {
-                string v = null;
-                if (value is IConvertible)
-                    v = ((IConvertible)value).ToString(CultureInfo.InvariantCulture);
-                else
-                    v = value.ToString();
+                var v = value is IConvertible convertible
+                    ? convertible.ToString(CultureInfo.InvariantCulture)
+                    : value.ToString();
 
-                hash = (hash * 397) ^ v.GetHashCode();
+                hash = (hash * 397) ^ v!.GetHashCode();
 
             }
             return hash;
@@ -57,10 +61,10 @@ namespace NBi.Core.ResultSet
                 default:
                     if (value == DBNull.Value)
                         return "(null)";
-                    else if (value is IConvertible)
-                        return ((IConvertible)value).ToString(CultureInfo.InvariantCulture);
+                    else if (value is IConvertible convertible)
+                        return convertible.ToString(CultureInfo.InvariantCulture);
                     else
-                        return value.ToString();
+                        return value.ToString() ?? "";
             }
         }
     }

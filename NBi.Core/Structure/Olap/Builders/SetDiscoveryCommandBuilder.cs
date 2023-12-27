@@ -11,11 +11,8 @@ namespace NBi.Core.Structure.Olap.Builders
     class SetDiscoveryCommandBuilder : MultidimensionalDiscoveryCommandBuilder
     {
         public SetDiscoveryCommandBuilder()
-        {
-            CaptionName = "set";
-            DisplayFolderName = "set";
-            TableName = "sets";
-        }
+            : base("set", "set", "sets", string.Empty)
+        { }
 
         protected override IEnumerable<IFilter> BuildCaptionFilters(IEnumerable<CaptionFilter> filters)
         {

@@ -12,13 +12,13 @@ namespace NBi.Core.Assemblies
 {
     public class AbstractCustomFactory<T> where T:class
     {
-        protected virtual string CustomKind { get; }
+        protected virtual string CustomKind { get; } = "Unspecified";
 
         protected T Instantiate(ICustomArgs args)
         {
-            var assembly = GetAssembly(args.AssemblyPath.Execute());
+            var assembly = GetAssembly(args.AssemblyPath.Execute() ?? throw new InvalidOperationException());
             var parameters = GetParameters(args.Parameters);
-            var typeName = args.TypeName.Execute();
+            var typeName = args.TypeName.Execute() ?? throw new InvalidOperationException();
             try
             {
                 var type = GetType(assembly, typeName);
@@ -47,19 +47,16 @@ namespace NBi.Core.Assemblies
 
         protected internal Type GetType(Assembly assembly, string typeName)
         {
-            var type = typeName.Contains('.')
+            var type = (typeName.Contains('.')
                 ? assembly.GetType(typeName, false, true)
-                : assembly.GetTypes().FirstOrDefault(x => x.Name == typeName);
-            if (type == null)
-                throw new TypeNotExistingException();
-
+                : assembly.GetTypes().FirstOrDefault(x => x.Name == typeName)) ?? throw new TypeNotExistingException();
             if (!type.GetInterfaces().Contains(typeof(T)))
                 throw new TypeNotImplementingInterfaceException();
             return type;
         }
 
-        protected internal IReadOnlyDictionary<string, object> GetParameters(IReadOnlyDictionary<string, IScalarResolver> parameters)
-            => parameters?.Select(x => new { x.Key, Value = x.Value.Execute() })
+        protected internal IReadOnlyDictionary<string, object?> GetParameters(IReadOnlyDictionary<string, IScalarResolver> parameters)
+            => (parameters?.Select(x => new { x.Key, Value = x.Value.Execute() }) ?? [])
                     .ToDictionary(x => x.Key, y => y.Value);
 
         protected internal T Instantiate(Type customCommandType, IReadOnlyDictionary<string, object> parameters)

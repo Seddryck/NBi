@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace NBi.Core.Structure.Olap
 {
-    class OlapRow : IDisplayFolder
+    class OlapRow(string caption, string displayFolder) : IDisplayFolder
     {
-        public string Caption { get; set; }
-        public string DisplayFolder { get; set; }
+        public string Caption { get; set; } = caption;
+        public string DisplayFolder { get; set; } = displayFolder;
     }
 }

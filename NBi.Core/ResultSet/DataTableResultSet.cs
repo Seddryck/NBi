@@ -10,7 +10,6 @@ namespace NBi.Core.ResultSet
     internal class DataTableResultSet : IResultSet, IDisposable
     {
         private bool disposedValue;
-
         private DataTable Table { get; set; }
 
         public IEnumerable<IResultColumn> Columns
@@ -41,8 +40,8 @@ namespace NBi.Core.ResultSet
         public IResultColumn AddColumn(string name, int ordinal, Type type)
         {
             AddColumn(name, type);
-            Table.Columns[name].SetOrdinal(ordinal);
-            return new DataColumnResultSet(Table.Columns[name]);
+            Table.Columns[name]!.SetOrdinal(ordinal);
+            return new DataColumnResultSet(Table.Columns[name]!);
         }
 
 
@@ -50,13 +49,24 @@ namespace NBi.Core.ResultSet
         public bool ContainsColumn(string name)
             => Table.Columns.Contains(name);
 
-        public IResultColumn GetColumn(IColumnIdentifier columnIdentifier)
+        public IResultColumn? GetColumn(IColumnIdentifier columnIdentifier)
             => columnIdentifier.GetColumn(this);
 
-        public IResultColumn GetColumn(string name)
-            => new DataColumnResultSet(Table.Columns[name]);
-        public IResultColumn GetColumn(int ordinal)
-            => new DataColumnResultSet(Table.Columns[ordinal]);
+        public IResultColumn? GetColumn(string name)
+        {
+            var column = Table.Columns[name];
+            if (column is not null)
+                return new DataColumnResultSet(column);
+            return null;
+        }
+
+        public IResultColumn? GetColumn(int ordinal)
+        {
+            var column = Table.Columns[ordinal];
+            if (column is not null)
+                return new DataColumnResultSet(column);
+            return null;
+        }
 
         public DataTableResultSet()
             => Table = new DataTable();
@@ -67,7 +77,7 @@ namespace NBi.Core.ResultSet
         public IResultRow AddRow(IResultRow row)
             => AddRow(row.ItemArray);
 
-        public IResultRow AddRow(object[] itemArray)
+        public IResultRow AddRow(object?[] itemArray)
         {
             var newRow = Table.NewRow();
             newRow.ItemArray = itemArray;
@@ -101,18 +111,18 @@ namespace NBi.Core.ResultSet
         public void Load(string record)
         {
             Table = new DataTable();
-            var fields = record.Split(';');
+            string?[] fields = record.Split(';');
 
-            if (fields.Count() > 0)
+            if (fields.Length > 0)
             {
                 //Build structure
                 for (int i = 0; i < fields.Length; i++)
                     Table.Columns.Add(string.Format("Column{0}", i), typeof(string));
 
                 Table.BeginLoadData();
-                for (int i = 0; i < fields.Count(); i++)
+                for (int i = 0; i < fields.Length; i++)
                 {
-                    if (fields[i] != null && fields[i].ToString().ToLower() == "(null)".ToLower())
+                    if (fields[i] is not null && fields[i]!.ToString().Equals("(null)", StringComparison.CurrentCultureIgnoreCase))
                         fields[i] = null;
                 }
                 Table.LoadDataRow(fields, LoadOption.OverwriteChanges);
@@ -120,12 +130,12 @@ namespace NBi.Core.ResultSet
             }
         }
 
-        public void Load(IEnumerable<object[]> objects)
+        public void Load(IEnumerable<object?[]> objects)
         {
             Table = new DataTable();
 
             //if > 0 row
-            if (objects.Count() > 0)
+            if (objects.Any())
             {
 
                 //Build structure
@@ -134,7 +144,7 @@ namespace NBi.Core.ResultSet
                     if (objects.First().ElementAt(i) == null)
                         Table.Columns.Add($"Column{i}", typeof(string));
                     else
-                        Table.Columns.Add($"Column{i}", objects.First().ElementAt(i).GetType());
+                        Table.Columns.Add($"Column{i}", objects.First()?.ElementAt(i)?.GetType() ?? throw new NullReferenceException());
                 }
 
                  //load each row one by one
@@ -142,9 +152,9 @@ namespace NBi.Core.ResultSet
                 foreach (var obj in objects)
                 {
                     //Transform (null) [string] into null
-                    for (int i = 0; i < obj.Count(); i++)
+                    for (int i = 0; i < obj.Length; i++)
                     {
-                        if (obj[i] != null && obj[i].ToString().ToLower() == "(null)".ToLower())
+                        if (obj[i] is not null && obj[i]!.ToString()!.Equals("(null)", StringComparison.CurrentCultureIgnoreCase))
                             obj[i] = null;
                     }
 
@@ -164,11 +174,11 @@ namespace NBi.Core.ResultSet
             foreach (var row in rows)
             {
                 var cells = row.Cells.ToArray<ICell>();
-                var contentCells = new List<Object>();
+                var contentCells = new List<object>();
                 foreach (var cell in cells)
                     contentCells.Add(cell.Value);
 
-                objs.Add(contentCells.ToArray());
+                objs.Add([.. contentCells]);
             }
 
             this.Load(objs);
@@ -182,12 +192,12 @@ namespace NBi.Core.ResultSet
             Trace.WriteLine(string.Format(new string('-', 30)));
             foreach (DataRow row in Rows)
             {
-                foreach (object cell in row.ItemArray)
-                    Trace.Write(string.Format("| {0}\t", cell.ToString()));
-                Trace.WriteLine(string.Format("|"));
+                foreach (object? cell in row.ItemArray)
+                    Trace.Write($"| {cell?.ToString() ?? "(null)"}\t");
+                Trace.WriteLine("|");
             }
-            Trace.WriteLine(string.Format(new string('-', 30)));
-            Trace.WriteLine(string.Format(""));
+            Trace.WriteLine(new string('-', 30));
+            Trace.WriteLine("");
         }
 
         protected virtual void Dispose(bool disposing)
@@ -195,9 +205,7 @@ namespace NBi.Core.ResultSet
             if (!disposedValue)
             {
                 if (disposing)
-                {
                     Table.Dispose();
-                }
                 disposedValue = true;
             }
         }

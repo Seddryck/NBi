@@ -28,8 +28,7 @@ namespace NBi.Core.Structure.Relational
 
             var description = new CommandDescription(target, filters);
 
-            RelationalCommand command = null;
-            command = new RelationalCommand(cmd, postFilters, description);
+            var command = new RelationalCommand(cmd, postFilters, description);
 
             return command;
         }

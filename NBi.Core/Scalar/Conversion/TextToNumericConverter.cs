@@ -18,17 +18,17 @@ namespace NBi.Core.Scalar.Conversion
         { }
 
         protected override decimal OnExecute(string x, CultureInfo cultureInfo)
-            => Decimal.Parse(x, NumberStyles.Number & ~NumberStyles.AllowThousands, cultureInfo.NumberFormat);
+            => decimal.Parse(x, NumberStyles.Number & ~NumberStyles.AllowThousands, cultureInfo.NumberFormat);
 
         protected override PredicateArgs GetPredicateArgs(CultureInfo cultureInfo) => new TextToNumericPredicateArgs(cultureInfo.Name);
 
         private class TextToNumericPredicateArgs : CultureSensitivePredicateArgs
         {
             public TextToNumericPredicateArgs(string culture)
+                : base(culture)
             {
                 ColumnType = ColumnType.Text;
                 ComparerType = ComparerType.MatchesNumeric;
-                Culture = culture;
             }
         }
     }

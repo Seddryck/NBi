@@ -33,11 +33,11 @@ namespace NBi.Core.Calculation.Grouping
 
         private IGroupBy Instantiate(IEnumerable<IColumnDefinitionLight> columns, Context context)
         {
-            if ((columns?.Count() ?? 0) == 0)
+            if (!columns?.Any() ?? false)
                 return new NoneGrouping();
 
             var definitions = new List<ColumnDefinition>();
-            foreach (var column in columns)
+            foreach (var column in columns!)
             {
                 var definition = new ColumnDefinition()
                 {

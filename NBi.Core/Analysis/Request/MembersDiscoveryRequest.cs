@@ -12,10 +12,10 @@ namespace NBi.Core.Analysis.Request
         public IEnumerable<PatternValue> ExcludedPatterns { get; set; }
         public string Function { get; set; }
 
-        protected internal MembersDiscoveryRequest()
-            : base()
-        {
-        }
+        protected internal MembersDiscoveryRequest(string connectionString, string function, string memberCaption
+            , IEnumerable<string> excludedMembers, IEnumerable<PatternValue> excludedPatterns)
+            : base(connectionString)
+            => (Function, MemberCaption, ExcludedMembers, ExcludedPatterns) = (function, memberCaption, excludedMembers, excludedPatterns);
 
         public string Perspective
         {

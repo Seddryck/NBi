@@ -10,7 +10,7 @@ namespace NBi.Core.ResultSet
     {
         public int GetHashCode(object x)
             => (x as KeyCollection)?.GetHashCode() ?? 0;
-        public new bool Equals(object x, object y)
+        public new bool Equals(object? x, object? y)
             => (x as KeyCollection)?.Equals(y as KeyCollection) ?? false;
     }
 }

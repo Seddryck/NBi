@@ -20,18 +20,16 @@ namespace NBi.Core.Variable.Instantiation
             Traits = traits ?? new Dictionary<string, string>();
         }
 
-        public virtual string GetName() => Variables.ElementAt(0).Value.GetValue().ToString();
+        public virtual string GetName() => Variables.ElementAt(0).Value.GetValue()!.ToString()!;
 
-        public bool IsDefault
-        {
-            get => this == Default;
-        }
+        public bool IsDefault => this == Default;
+        
         public static Instance Default { get; } = new DefaultInstance();
 
         public class DefaultInstance : Instance
         {
             public DefaultInstance()
-                : base(new Dictionary<string, IVariable>(),null, null)
+                : base(new Dictionary<string, IVariable>(), [], new Dictionary<string, string>())
             { }
 
             public override string GetName() => string.Empty;

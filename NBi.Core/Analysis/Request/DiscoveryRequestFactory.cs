@@ -47,30 +47,25 @@ namespace NBi.Core.Analysis.Request
             );
 
             //If validation of parameters is successfull then we build the object
-            var disco = new MembersDiscoveryRequest();
-            disco.ConnectionString = connectionString;
+            var disco = new MembersDiscoveryRequest(connectionString, string.Empty, string.Empty, excludedMembers, excludedPatterns);
             if (!string.IsNullOrEmpty(perspective)) 
                 disco.SpecifyFilter(new CaptionFilter(perspective, DiscoveryTarget.Perspectives));
             if (!string.IsNullOrEmpty(set))
                 disco.SpecifyFilter(new CaptionFilter(set, DiscoveryTarget.Sets));
-            disco.Function = string.Empty;
-            disco.MemberCaption = string.Empty;
-            disco.ExcludedMembers = excludedMembers;
-            disco.ExcludedPatterns = excludedPatterns;
 
             return disco;
         }
 
         public virtual MembersDiscoveryRequest Build(string connectionString, string memberCaption, string perspective, string dimension, string hierarchy, string level)
         {
-            return Build(connectionString, memberCaption, null, null, perspective, dimension, hierarchy, level);
+            return Build(connectionString, memberCaption, [], [], perspective, dimension, hierarchy, level);
         }
 
         public virtual MembersDiscoveryRequest Build(string connectionString, string memberCaption
             , IEnumerable<string> excludedMembers
             , string perspective, string dimension, string hierarchy, string level)
         {
-            return Build(connectionString, memberCaption, null, null, perspective, dimension, hierarchy, level);
+            return Build(connectionString, memberCaption, [], [], perspective, dimension, hierarchy, level);
         }
 
         public virtual MembersDiscoveryRequest Build(string connectionString, string memberCaption
@@ -89,16 +84,11 @@ namespace NBi.Core.Analysis.Request
             );
 
             //If validation of parameters is successfull then we build the object
-            var disco = new MembersDiscoveryRequest();
-            disco.ConnectionString = connectionString;
+            var disco = new MembersDiscoveryRequest(connectionString, string.IsNullOrEmpty(memberCaption) ? "members" : "children", memberCaption, excludedMembers, excludedPatterns);
             if (!string.IsNullOrEmpty(perspective)) disco.SpecifyFilter(new CaptionFilter(perspective, DiscoveryTarget.Perspectives));
             if (!string.IsNullOrEmpty(dimension)) disco.SpecifyFilter(new CaptionFilter(dimension, DiscoveryTarget.Dimensions));
             if (!string.IsNullOrEmpty(hierarchy)) disco.SpecifyFilter(new CaptionFilter(hierarchy, DiscoveryTarget.Hierarchies));
             if (!string.IsNullOrEmpty(level)) disco.SpecifyFilter(new CaptionFilter(level, DiscoveryTarget.Levels));
-            disco.Function = string.IsNullOrEmpty(memberCaption) ? "members" : "children";
-            disco.MemberCaption = memberCaption;
-            disco.ExcludedMembers = excludedMembers;
-            disco.ExcludedPatterns = excludedPatterns;
 
             return disco;
         }

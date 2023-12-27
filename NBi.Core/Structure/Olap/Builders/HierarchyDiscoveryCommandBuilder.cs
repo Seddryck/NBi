@@ -11,12 +11,8 @@ namespace NBi.Core.Structure.Olap.Builders
     class HierarchyDiscoveryCommandBuilder : MultidimensionalDiscoveryCommandBuilder
     {
         public HierarchyDiscoveryCommandBuilder()
-        {
-            CaptionName = "hierarchy";
-            DisplayFolderName = "hierarchy";
-            TableName = "hierarchies";
-            VisibleName = "hierarchy";
-        }
+            : base("hierarchy", "hierarchy", "hierarchies", "hierarchy")
+        { }
 
         protected override IEnumerable<IFilter> BuildCaptionFilters(IEnumerable<CaptionFilter> filters)
         {

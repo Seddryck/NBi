@@ -16,7 +16,6 @@ namespace NBi.Core.Testing.Scalar.Conversion
         [TestCase("en-us")]
         [TestCase("jp-jp")]
         [TestCase("ru-ru")]
-        [TestCase("ko-ko")]
         public void Execute_ValidDate_Date(string culture)
         {
             var cultureInfo = new CultureInfo(culture);

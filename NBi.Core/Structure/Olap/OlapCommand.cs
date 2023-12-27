@@ -16,15 +16,14 @@ namespace NBi.Core.Structure.Olap
     {
         public OlapCommand(IDbCommand command, IEnumerable<IPostCommandFilter> postFilters, CommandDescription description)
             : base(command, postFilters, description)
-        {
-        }
+        { }
 
         public override IEnumerable<string> Execute()
         {
             var values = new List<OlapRow>();
 
-            command.Connection.Open();
-            var rdr = ExecuteReader(command as AdomdCommand);
+            (command.Connection ?? throw new InvalidOperationException()).Open();
+            var rdr = ExecuteReader(command as AdomdCommand ?? throw new InvalidOperationException());
             while (rdr.Read())
             {
                 var row = BuildRow(rdr);
@@ -43,9 +42,7 @@ namespace NBi.Core.Structure.Olap
 
         protected virtual OlapRow BuildRow(AdomdDataReader rdr)
         {
-            var row = new OlapRow();
-            row.Caption = rdr.GetString(0);
-            row.DisplayFolder = rdr.GetString(1);
+            var row = new OlapRow(rdr.GetString(0), rdr.GetString(1));
             return row;
         }
 
@@ -53,10 +50,9 @@ namespace NBi.Core.Structure.Olap
         {
             Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceInfo, cmd.CommandText);
 
-            AdomdDataReader rdr = null;
             try
             {
-                rdr = cmd.ExecuteReader();
+                var rdr = cmd.ExecuteReader();
                 return rdr;
             }
             catch (AdomdConnectionException ex)

@@ -6,7 +6,7 @@ namespace NBi.Extensibility
 {
     public class NBiException : Exception
     {
-        public NBiException(string message, Exception innerException)
+        public NBiException(string message, Exception? innerException)
             : base(message, innerException)
         {
             Trace.WriteLineIf(NBiTraceSwitch.TraceWarning, "!!!! NBiException !!!!");

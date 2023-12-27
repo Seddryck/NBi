@@ -12,12 +12,12 @@ namespace NBi.Core.Scalar
     {
         static TypeConverter conv = TypeDescriptor.GetConverter(typeof(double));
 
-        public override bool CanConvertFrom(ITypeDescriptorContext context, Type sourceType)
+        public override bool CanConvertFrom(ITypeDescriptorContext? context, Type sourceType)
         {
             return conv.CanConvertFrom(context, sourceType);
         }
 
-        public override bool CanConvertTo(ITypeDescriptorContext context, Type destinationType)
+        public override bool CanConvertTo(ITypeDescriptorContext? context, Type? destinationType)
         {
             if (destinationType == typeof(Percentage))
             {
@@ -27,45 +27,43 @@ namespace NBi.Core.Scalar
             return conv.CanConvertTo(context, destinationType);
         }
 
-        public override object ConvertFrom(ITypeDescriptorContext context, CultureInfo culture, object value)
+        public override object? ConvertFrom(ITypeDescriptorContext? context, CultureInfo? culture, object? value)
         {
             if (value == null)
                 return null;
+            culture ??= CultureInfo.InvariantCulture;
 
-            if (value is string)
+            if (value is string s)
             {
-                string s = value as string;
                 s = s.TrimEnd(' ', '\t', '\r', '\n');
 
                 var percentage = s.EndsWith(culture.NumberFormat.PercentSymbol);
                 if (percentage)
-                    s = s.Substring(0, s.Length - culture.NumberFormat.PercentSymbol.Length);
+                    s = s[..^culture.NumberFormat.PercentSymbol.Length];
 
-                double result = (double)conv.ConvertFromString(context, culture, s);
+                double result = (double)(conv.ConvertFromString(context, culture, s) ?? throw new NotSupportedException());
                 if (percentage)
                     result /= 100;
 
                 return new Percentage(result);
             }
 
-            return new Percentage((double)conv.ConvertFrom(context, culture, value));
+            return new Percentage((double)(conv.ConvertFrom(context, culture, value) ?? throw new NotSupportedException()));
         }
 
-        public override object ConvertTo(ITypeDescriptorContext context, CultureInfo culture, object value, Type destinationType)
+        public override object ConvertTo(ITypeDescriptorContext? context, CultureInfo? culture, object? value, Type destinationType)
         {
-            if (!(value is Percentage))
-            {
+            if (value is not Percentage)
                 throw new ArgumentNullException(nameof(value));
-            }
 
             var pct = (Percentage)value;
 
-            if (destinationType == typeof(string))
-            {
-                return conv.ConvertTo(context, culture, pct.Value * 100, destinationType) + culture.NumberFormat.PercentSymbol;
-            }
+            culture ??= CultureInfo.InvariantCulture;
 
-            return conv.ConvertTo(context, culture, pct.Value, destinationType);
+            if (destinationType == typeof(string))
+                return conv.ConvertTo(context, culture, pct.Value * 100, destinationType) + culture.NumberFormat.PercentSymbol;
+
+            return conv.ConvertTo(context, culture, pct.Value, destinationType)!;
         }
 
     }

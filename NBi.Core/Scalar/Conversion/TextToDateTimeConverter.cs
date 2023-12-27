@@ -11,13 +11,13 @@ using System.Threading.Tasks;
 
 namespace NBi.Core.Scalar.Conversion
 {
-    class TextToDateTimeConverter : BaseConverter<string, DateTime>
+    class TextToDateTimeConverter : BaseConverter<string, DateTime?>
     {
         public TextToDateTimeConverter(CultureInfo cultureInfo, DateTime? dateTime)
             : base(cultureInfo, dateTime)
         { }
 
-        protected override DateTime OnExecute(string x, CultureInfo cultureInfo)
+        protected override DateTime? OnExecute(string x, CultureInfo cultureInfo)
             => DateTime.ParseExact(x, cultureInfo.DateTimeFormat.ShortDatePattern + " " + cultureInfo.DateTimeFormat.LongTimePattern, cultureInfo, DateTimeStyles.None);
 
         protected override PredicateArgs GetPredicateArgs(CultureInfo cultureInfo) => new TextToDateTimePredicateArgs(cultureInfo.Name);
@@ -25,10 +25,10 @@ namespace NBi.Core.Scalar.Conversion
         private class TextToDateTimePredicateArgs : CultureSensitivePredicateArgs
         {
             public TextToDateTimePredicateArgs(string culture)
+                : base(culture)
             {
                 ColumnType = ColumnType.Text;
                 ComparerType = ComparerType.MatchesDateTime;
-                Culture = culture;
             }
         }
     }

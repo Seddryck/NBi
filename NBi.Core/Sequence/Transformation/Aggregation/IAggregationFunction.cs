@@ -8,6 +8,6 @@ namespace NBi.Core.Sequence.Transformation.Aggregation
 {
     public interface IAggregationFunction : ISequenceTransformation
     {
-        object Execute(IEnumerable<object> values);
+        object? Execute(IEnumerable<object> values);
     }
 }

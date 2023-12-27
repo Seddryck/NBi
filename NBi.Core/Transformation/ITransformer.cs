@@ -9,6 +9,6 @@ namespace NBi.Core.Transformation
     public interface ITransformer
     {
         void Initialize(string code);
-        object Execute(object value);
+        object? Execute(object value);
     }
 }

@@ -15,7 +15,7 @@ namespace NBi.Core.Assemblies
             if (!destinationType.IsEnum)
                 return System.Convert.ChangeType(value, destinationType);
             else
-                return Enum.Parse(destinationType, value.ToString());
+                return Enum.Parse(destinationType, value.ToString()!);
         }
     }
 }

@@ -29,7 +29,7 @@ namespace NBi.Core.Scalar.Resolver
             {
                 args.Result = name.StartsWith("@")
                     ? Args.Context.Variables[name.Substring(1, name.Length - 1)].GetValue()
-                    : GetValueFromRow(Args.Context.CurrentRow, factory.Instantiate(name));
+                    : GetValueFromRow(Args.Context.CurrentRow!, factory.Instantiate(name));
             };
 
             var rawValue = exp.Evaluate();
@@ -37,28 +37,30 @@ namespace NBi.Core.Scalar.Resolver
             return (T)Convert.ChangeType(rawValue, typeof(T));
         }
 
-        protected object GetValueFromRow(IResultRow row, IColumnIdentifier identifier)
+        protected object? GetValueFromRow(IResultRow row, IColumnIdentifier identifier)
         {
-            if (identifier is ColumnOrdinalIdentifier)
+            if (identifier is ColumnOrdinalIdentifier ordinalIdentifier)
             {
-                var ordinal = (identifier as ColumnOrdinalIdentifier).Ordinal;
+                var ordinal = ordinalIdentifier.Ordinal;
                 if (ordinal <= row.Parent.ColumnCount)
                     return row.ItemArray[ordinal];
                 else
                     throw new ArgumentException($"The variable of the predicate is identified as '{identifier.Label}' but the column in position '{ordinal}' doesn't exist. The dataset only contains {row.Parent.ColumnCount} columns.");
             }
+            else if (identifier is ColumnNameIdentifier nameIdentifier)
+            {
+                var name = nameIdentifier.Name;
+                var column = row.Parent.GetColumn(name);
+                if (column != null)
+                    return row[column.Name];
 
-            var name = (identifier as ColumnNameIdentifier).Name;
-
-            var column = row.Parent.GetColumn(name);
-            if (column != null)
-                return row[column.Name];
-
-            var existingNames = row.Parent.Columns.Select(x => x.Name);
-            
-            throw new ArgumentException($"The value '{name}' is not recognized as a column position, a column name, a column alias or an expression. Possible arguments are: '{string.Join("', '", existingNames.ToArray())}'");
+                var existingNames = row.Parent.Columns.Select(x => x.Name);
+                throw new ArgumentException($"The value '{name}' is not recognized as a column position, a column name, a column alias or an expression. Possible arguments are: '{string.Join("', '", existingNames.ToArray())}'");
+            }
+            else
+                throw new NotImplementedException();
         }
 
-        object IResolver.Execute() => Execute();
+        object? IResolver.Execute() => Execute();
     }
 }

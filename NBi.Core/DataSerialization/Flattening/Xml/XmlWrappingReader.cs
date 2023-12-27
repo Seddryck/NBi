@@ -15,7 +15,7 @@ namespace NBi.Core.DataSerialization.Flattening.Xml
         public XmlWrappingReader(XmlReader baseReader)
             => Reader = baseReader;
 
-        public override XmlReaderSettings Settings { get => Reader.Settings; }
+        public override XmlReaderSettings? Settings { get => Reader.Settings; }
         public override XmlNodeType NodeType { get => Reader.NodeType; }
         public override string Name { get => Reader.Name; }
         public override string LocalName { get => Reader.LocalName; }
@@ -36,12 +36,12 @@ namespace NBi.Core.DataSerialization.Flattening.Xml
         public override bool HasAttributes { get => Reader.HasAttributes; }
         public override XmlNameTable NameTable { get => Reader.NameTable; }
         public override bool CanResolveEntity { get => Reader.CanResolveEntity; }
-        public override IXmlSchemaInfo SchemaInfo { get => Reader.SchemaInfo; }
+        public override IXmlSchemaInfo? SchemaInfo { get => Reader.SchemaInfo; }
         public override char QuoteChar { get => Reader.QuoteChar; }
-        public override string GetAttribute(string name)
+        public override string? GetAttribute(string name)
             => Reader.GetAttribute(name);
 
-        public override string GetAttribute(string name, string namespaceURI)
+        public override string? GetAttribute(string name, string? namespaceURI)
             => Reader.GetAttribute(name, namespaceURI);
 
         public override string GetAttribute(int i)
@@ -50,7 +50,7 @@ namespace NBi.Core.DataSerialization.Flattening.Xml
         public override bool MoveToAttribute(string name)
             => Reader.MoveToAttribute(name);
 
-        public override bool MoveToAttribute(string name, string ns)
+        public override bool MoveToAttribute(string name, string? ns)
             => Reader.MoveToAttribute(name, ns);
 
         public override void MoveToAttribute(int i)
@@ -74,7 +74,7 @@ namespace NBi.Core.DataSerialization.Flattening.Xml
         public override void Skip()
             => Reader.Skip();
 
-        public override string LookupNamespace(string prefix)
+        public override string? LookupNamespace(string prefix)
             => Reader.LookupNamespace(prefix);
 
         public override void ResolveEntity()
@@ -84,10 +84,16 @@ namespace NBi.Core.DataSerialization.Flattening.Xml
             => Reader.ReadAttributeValue();
 
         public virtual bool HasLineInfo()
-            => (Reader as IXmlLineInfo == null) ? false : (Reader as IXmlLineInfo).HasLineInfo();
+            => (Reader as IXmlLineInfo)?.HasLineInfo() ?? false;
 
-        public virtual int LineNumber { get => ((Reader as IXmlLineInfo) == null) ? 0 : (Reader as IXmlLineInfo).LineNumber; }
+        public virtual int LineNumber 
+        { 
+            get => (Reader as IXmlLineInfo)?.LineNumber ?? 0; 
+        }
 
-        public virtual int LinePosition { get => ((Reader as IXmlLineInfo) == null) ? 0 : (Reader as IXmlLineInfo).LinePosition; }
+        public virtual int LinePosition
+        {
+            get => (Reader as IXmlLineInfo)?.LinePosition ?? 0;
+        }
     }
 }

@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 
 namespace NBi.Core.Sequence.Resolver
 {
-    public class FileLoopSequenceResolverArgs : ISequenceResolverArgs
+    public class FileLoopSequenceResolverArgs(string basePath, string path) : ISequenceResolverArgs
     {
-        public string BasePath { get; set; }
-        public string Path { get; set; }
-        public IList<IFileFilter> Filters { get; set; } = new List<IFileFilter>();
+        public string BasePath { get; set; } = basePath;
+        public string Path { get; set; } = path;
+        public IList<IFileFilter> Filters { get; set; } = [];
     }
 }

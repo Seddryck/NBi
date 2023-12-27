@@ -8,6 +8,6 @@ namespace NBi.Core
     public interface IDecorationCondition
     {
         bool Validate();
-        string Message { get; }
+        string? Message { get; }
     }
 }

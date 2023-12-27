@@ -21,9 +21,7 @@ namespace NBi.Core.Structure.Olap
 
         protected override OlapRow BuildRow(AdomdDataReader rdr)
         {
-            var row = new OlapRow();
-            row.Caption = rdr.GetString(0).Substring(1, rdr.GetString(0).Length - 2);
-            row.DisplayFolder = rdr.GetString(1);
+            var row = new OlapRow(rdr.GetString(0)[1..^1], rdr.GetString(1));
             return row;
         }
 

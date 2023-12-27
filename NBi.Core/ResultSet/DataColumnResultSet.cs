@@ -8,10 +8,10 @@ using System.Threading.Tasks;
 
 namespace NBi.Core.ResultSet
 {
-    public class DataColumnResultSet : IResultColumn, IEquatable<IResultColumn>
+    public class DataColumnResultSet(DataColumn column) : IResultColumn, IEquatable<IResultColumn>
     {
 
-        private DataColumn Column { get; }
+        private DataColumn Column { get; } = column;
         public string Name
         { get => Column.ColumnName; }
         
@@ -21,30 +21,27 @@ namespace NBi.Core.ResultSet
         public int Ordinal
         { get => Column.Ordinal; }
 
-        public DataColumnResultSet(DataColumn column)
-            => Column = column;
-
         public void Rename(string newName)
         {
-            if (Column.Table.Columns.Contains(newName))
+            if (Column.Table?.Columns.Contains(newName) ?? throw new InvalidOperationException())
                 throw new NBiException($"Cannot rename the column '{Column.ColumnName}' to '{newName}' because the table already contains a column with this name.");
             Column.ColumnName = newName;
         }
 
         public void Move(int ordinal)
         {
-            if (ordinal >= Column.Table.Columns.Count)
+            if (ordinal >= (Column.Table?.Columns.Count ?? throw new InvalidOperationException()))
                 throw new NBiException($"Cannot move the column '{Column.ColumnName}' to position '{ordinal}' because the table only contains {Column.Table.Columns.Count} columns.");
             Column.SetOrdinal(ordinal);
         }
 
         public void Remove()
-            => Column.Table.Columns.RemoveAt(Column.Ordinal);
+            => (Column.Table?.Columns ?? throw new InvalidOperationException()).RemoveAt(Column.Ordinal);
 
         public void ReplaceBy(IResultColumn column)
         {
             var (ordinal, name) = (Column.Ordinal, Column.ColumnName);
-            Column.Table.Columns.RemoveAt(ordinal);
+            (Column.Table?.Columns ?? throw new InvalidOperationException()).RemoveAt(ordinal);
             column.Move(ordinal);
             column.Rename(name);
         }
@@ -52,7 +49,7 @@ namespace NBi.Core.ResultSet
 
         public void SetProperties(object role, object type)
             => SetProperties(role, type, null, null);
-        public void SetProperties(object role, object type, object tolerance, object rounding)
+        public void SetProperties(object role, object type, object? tolerance, object? rounding)
         {
             SetProperty("Role", role);
             SetProperty("Type", type);
@@ -60,7 +57,7 @@ namespace NBi.Core.ResultSet
             SetProperty("Rounding", rounding);
         }
 
-        protected void SetProperty(string property, object value)
+        protected void SetProperty(string property, object? value)
         {
             if (value != null)
             { 
@@ -74,7 +71,7 @@ namespace NBi.Core.ResultSet
         public bool HasProperties()
             => Column.ExtendedProperties.Count > 0;
 
-        public object GetProperty(string property)
+        public object? GetProperty(string property)
         {
             if (Column.ExtendedProperties.ContainsKey($"NBi::{property}"))
                 return Column.ExtendedProperties[$"NBi::{property}"];
@@ -85,11 +82,11 @@ namespace NBi.Core.ResultSet
         public override int GetHashCode() 
             => Name.GetHashCode() ^ 37 * Ordinal.GetHashCode();
 
-        public override bool Equals(object other)
-            => other is DataColumnResultSet && this.Equals(other as DataColumnResultSet);
+        public override bool Equals(object? other)
+            => other is DataColumnResultSet && Equals(other as DataColumnResultSet);
         
-        public bool Equals(IResultColumn other)
-            => !(other is null)
+        public bool Equals(IResultColumn? other)
+            => other is not null
                 && (
                     ReferenceEquals(this, other)
                     || (
@@ -103,7 +100,7 @@ namespace NBi.Core.ResultSet
             if (ReferenceEquals(obj1, obj2))
                 return true;
             
-            if (ReferenceEquals(obj1, null) || ReferenceEquals(obj2, null))
+            if (obj1 is null || obj2 is null)
                 return false;
 
             return obj1.Equals(obj2);

@@ -6,16 +6,15 @@ namespace NBi.Core.Analysis.Request
 {
     public class MetadataLinkedToDiscoveryRequest : MetadataDiscoveryRequest
     {
-        internal MetadataLinkedToDiscoveryRequest() : base()
-        {
-        }
+        internal MetadataLinkedToDiscoveryRequest(string connectionString) 
+            : base(connectionString)
+        { }
 
         internal MetadataLinkedToDiscoveryRequest(string connectionString, DiscoveryTarget target, IEnumerable<IFilter> filters)
-            : base()
+            : base(connectionString)
         {
-            base.ConnectionString = connectionString;
-            this.Target = target;
-            base.AddFilters(filters);
+            Target = target;
+            AddFilters(filters);
         }
     }
 }

@@ -8,6 +8,6 @@ namespace NBi.Core.Transformation.Transformer.Native
 {
     public interface INativeTransformation
     {
-        object Evaluate(object value);
+        object? Evaluate(object? value);
     }
 }

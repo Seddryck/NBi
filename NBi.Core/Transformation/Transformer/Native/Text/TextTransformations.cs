@@ -237,7 +237,7 @@ namespace NBi.Core.Transformation.Transformer.Native.Text
 
     class TextToTokenCount : TextToLength
     {
-        public IScalarResolver<char> Separator { get; }
+        public IScalarResolver<char>? Separator { get; }
         public TextToTokenCount()
             => Separator = null;
         public TextToTokenCount(IScalarResolver<char> separator)
@@ -249,7 +249,7 @@ namespace NBi.Core.Transformation.Transformer.Native.Text
         private int TokenCount(string value)
         {
             var tokenizer = Separator == null ? (ITokenizer)new WhitespaceTokenizer() : new Tokenizer(Separator.Execute());
-            return tokenizer.Execute(value).Count();
+            return tokenizer.Execute(value).Length;
         }
     }
 

@@ -1,5 +1,5 @@
 ﻿using NBi.Core.Calculation;
-using NBi.Core.Calculation.Predicate;
+using NBi.Core.Calculation.Asserting;
 using NBi.Core.ResultSet;
 using System;
 using System.Collections.Generic;

@@ -19,7 +19,7 @@ namespace NBi.Core.Testing.Scalar.Resolver
             using (var dt = new DataTableResultSet())
             {
                 var row = dt.NewRow();
-                var context = new Context(null);
+                var context = Context.None;
                 var args = new NCalcScalarResolverArgs("1+1", context);
                 context.Switch(row);
                 var resolver = new NCalcScalarResolver<object>(args);
@@ -39,7 +39,7 @@ namespace NBi.Core.Testing.Scalar.Resolver
                 dt.AddColumn("b", typeof(int));
                 dt.AddColumn("c", typeof(int));
                 var row = dt.NewRow();
-                var context = new Context(null);
+                var context = Context.None;
                 row.ItemArray = new object[] { 2, 5, 3 };
                 var args = new NCalcScalarResolverArgs("a*Max(b, c)-2", context);
                 context.Switch(row);
@@ -61,7 +61,7 @@ namespace NBi.Core.Testing.Scalar.Resolver
                 dt.AddColumn("c", typeof(int));
                 var row = dt.NewRow();
                 row.ItemArray = new object[] { 2, 5, 3 };
-                var context = new Context(null);
+                var context = Context.None;
                 var args = new NCalcScalarResolverArgs("[a]*Max([b], [c])-2", context);
                 context.Switch(row);
                 var resolver = new NCalcScalarResolver<object>(args);
@@ -82,7 +82,7 @@ namespace NBi.Core.Testing.Scalar.Resolver
                 dt.AddColumn("c", typeof(int));
                 var row = dt.NewRow();
                 row.ItemArray = new object[] { 2, 5, 3 };
-                var context = new Context(null);
+                var context = Context.None;
                 var args = new NCalcScalarResolverArgs("[#0]*Max([#1], [#2])-2", context);
                 context.Switch(row);
                 var resolver = new NCalcScalarResolver<object>(args);

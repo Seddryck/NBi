@@ -1,6 +1,5 @@
 ﻿using NBi.Core.Calculation.Grouping.CaseBased;
 using NBi.Core.Calculation.Grouping.ColumnBased;
-using NBi.Core.Calculation.Predication;
 using NBi.Core.ResultSet;
 using NBi.Core.ResultSet.Equivalence;
 using NBi.Core.Scalar.Comparer;

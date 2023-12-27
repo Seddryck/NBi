@@ -1,4 +1,4 @@
-﻿using NBi.Core.Calculation.Predicate;
+﻿using NBi.Core.Calculation.Asserting;
 using NBi.Extensibility;
 using System;
 using System.Collections.Generic;
@@ -8,14 +8,9 @@ using System.Threading.Tasks;
 
 namespace NBi.Core.ResultSet.Filtering
 {
-    public class PredicationArgs : IFilteringArgs
+    public class PredicationArgs(PredicateArgs predicateArgs, IColumnIdentifier identifier) : IFilteringArgs
     {
-        public PredicationArgs() { }
-
-        public PredicationArgs(IColumnIdentifier identifier, PredicateArgs predicate)
-            => (Identifier, Predicate) = (identifier, predicate);
-
-        public virtual PredicateArgs Predicate { get; set; }
-        public virtual IColumnIdentifier Identifier { get; set; }
+        public virtual PredicateArgs Predicate { get; } = predicateArgs;
+        public virtual IColumnIdentifier Identifier { get; } = identifier;
     }
 }

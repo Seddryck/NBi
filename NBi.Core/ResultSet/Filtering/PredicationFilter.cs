@@ -1,4 +1,4 @@
-﻿using NBi.Core.Calculation.Predication;
+﻿using NBi.Core.Calculation.Asserting;
 using NBi.Core.Variable;
 using System;
 using System.Collections.Generic;
@@ -20,6 +20,6 @@ namespace NBi.Core.ResultSet.Filtering
             => Predication.Execute(context);
 
         public override string Describe()
-            => $"{Predication.Describe()}";
+            => $"{Predication.GetType().Name}";
     }
 }

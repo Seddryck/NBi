@@ -27,7 +27,7 @@ namespace NBi.Core.Testing.ResultSet.Alteration.Extension
 
             var extender = new NCalcExtendEngine(
                 new ServiceLocator(),
-                new Context(null),
+                Context.None,
                 new ColumnOrdinalIdentifier(3),
                 "[#1] * [#2]"
                 );
@@ -51,7 +51,7 @@ namespace NBi.Core.Testing.ResultSet.Alteration.Extension
 
             var extender = new NCalcExtendEngine(
                 new ServiceLocator(),
-                new Context(null),
+                Context.None,
                 new ColumnNameIdentifier("d"),
                 "[b] * [c]"
                 );
@@ -109,7 +109,7 @@ namespace NBi.Core.Testing.ResultSet.Alteration.Extension
             stopWatch.Start();
             var extender = new NCalcExtendEngine(
                 new ServiceLocator(),
-                new Context(null),
+                Context.None,
                 new ColumnNameIdentifier("c"),
                 "[b] - [a] + Max(a,b) - Sin(a)"
                 );

@@ -147,7 +147,7 @@ namespace NBi.Core.Testing.Scalar.Resolver
         [Test]
         public void Instantiate_NCalcArgs_NcalcResolver()
         {
-            var context = new Context(null);
+            var context = Context.None;
             var args = new NCalcScalarResolverArgs("a * b - 2", context);
 
             var factory = new ScalarResolverFactory(null);

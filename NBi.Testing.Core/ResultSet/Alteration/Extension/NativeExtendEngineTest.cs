@@ -26,7 +26,7 @@ namespace NBi.Core.Testing.ResultSet.Alteration.Extension
 
             var extender = new NativeExtendEngine(
                 new ServiceLocator(),
-                new Context(null), 
+                Context.None, 
                 new ColumnOrdinalIdentifier(3),
                 "#1 | numeric-to-multiply(#2)"
                 );
@@ -50,7 +50,7 @@ namespace NBi.Core.Testing.ResultSet.Alteration.Extension
 
             var extender = new NativeExtendEngine(
                 new ServiceLocator(),
-                new Context(null),
+                Context.None,
                 new ColumnNameIdentifier("d"),
                 "[a] | text-to-first-chars([c]) | text-to-upper"
                 );
@@ -133,7 +133,7 @@ namespace NBi.Core.Testing.ResultSet.Alteration.Extension
             stopWatch.Start();
             var extender = new NativeExtendEngine(
                 new ServiceLocator(),
-                new Context(null),
+                Context.None,
                 new ColumnNameIdentifier("c"),
                 "[b] | numeric-to-multiply([a]) | numeric-to-add([a], [b])"
                 );

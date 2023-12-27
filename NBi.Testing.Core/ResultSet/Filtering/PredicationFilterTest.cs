@@ -11,7 +11,7 @@ using NBi.Core.Evaluate;
 using NBi.Core.ResultSet;
 using NBi.Core.ResultSet.Resolver;
 using NBi.Core.Scalar.Resolver;
-using NBi.Core.Calculation.Predicate;
+using NBi.Core.Calculation.Asserting;
 using NBi.Core.Variable;
 using NBi.Core.ResultSet.Filtering;
 

@@ -1,5 +1,5 @@
 ﻿//using NBi.Core.Calculation;
-//using NBi.Core.Calculation.Predicate;
+//using NBi.Core.Calculation.InternalPredicate;
 //using NBi.Core.Evaluate;
 //using NBi.Core.ResultSet.Alteration.ColumnBased.Strategy;
 //using System;

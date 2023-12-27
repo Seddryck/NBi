@@ -1,5 +1,5 @@
 ﻿//using NBi.Core.Calculation;
-//using NBi.Core.Calculation.Predicate;
+//using NBi.Core.Calculation.InternalPredicate;
 //using NBi.Core.Evaluate;
 //using NBi.Core.ResultSet.Alteration.ColumnBased.Strategy;
 //using System;
@@ -65,7 +65,7 @@
 //                if (ordinal <= row.table.ColumnCount)
 //                    return row.ItemArray[ordinal];
 //                else
-//                    throw new ArgumentException($"The variable of the predicate is identified as '{identifier.Label}' but the column in position '{ordinal}' doesn't exist. The dataset only contains {row.table.ColumnCount} columns.");
+//                    throw new ArgumentException($"The variable of the InternalPredicate is identified as '{identifier.Label}' but the column in position '{ordinal}' doesn't exist. The dataset only contains {row.table.ColumnCount} columns.");
 //            }
 
 //            var name = (identifier as ColumnNameIdentifier).Name;

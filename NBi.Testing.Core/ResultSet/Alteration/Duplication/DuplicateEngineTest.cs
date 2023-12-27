@@ -1,5 +1,5 @@
-﻿using NBi.Core.Calculation.Predicate;
-using NBi.Core.Calculation.Predication;
+﻿using Moq;
+using NBi.Core.Calculation.Asserting;
 using NBi.Core.Injection;
 using NBi.Core.ResultSet;
 using NBi.Core.ResultSet.Alteration.Duplication;
@@ -18,19 +18,21 @@ using System.Threading.Tasks;
 
 namespace NBi.Core.Testing.ResultSet.Alteration.Duplication
 {
+    [TestFixture]
+    [Parallelizable(ParallelScope.Fixtures)]
     public class DuplicateEngineTest
     {
         [Test]
         public void Execute_TimesEqualOne_CorrectDuplication()
         {
-            var args = new ObjectsResultSetResolverArgs(new[] { new object[] { "Alpha", 1, 2 }, new object[] { "Beta", 3, 2 }, new object[] { "Gamma", 5, 7 } });
+            var args = new ObjectsResultSetResolverArgs(new[] { ["Alpha", 1, 2], ["Beta", 3, 2], new object[] { "Gamma", 5, 7 } });
             var resolver = new ObjectsResultSetResolver(args);
             var rs = resolver.Execute();
 
             var duplicator = new DuplicateEngine(
                 new ServiceLocator(),
-                new Context(null),
-                new PredicationFactory().True,
+                Context.None,
+                Predication.AlwaysTrue,
                 new LiteralScalarResolver<int>(1),
                 new List<OutputArgs>()
                 );
@@ -53,13 +55,16 @@ namespace NBi.Core.Testing.ResultSet.Alteration.Duplication
             var resolver = new ObjectsResultSetResolver(args);
             var rs = resolver.Execute();
 
+            var referenceArgs = new ReferencePredicateArgs(new LiteralScalarResolver<int>(4))
+            {
+                ComparerType = Core.Calculation.ComparerType.LessThan,
+                ColumnType = ColumnType.Numeric,
+                Not = false
+            };
             var duplicator = new DuplicateEngine(
                 new ServiceLocator(),
-                new Context(null),
-                new PredicationFactory().Instantiate(new PredicateFactory().Instantiate(
-                    NBi.Core.Calculation.ComparerType.LessThan, ColumnType.Numeric, false,
-                    new LiteralScalarResolver<int>(4), "en-us", StringComparison.OrdinalIgnoreCase, null
-                    ), new ColumnOrdinalIdentifier(1)),
+                Context.None,
+                new PredicationFactory().Instantiate(new PredicateFactory().Instantiate(referenceArgs), new ColumnOrdinalIdentifier(1)),
                 new LiteralScalarResolver<int>(1),
                 new List<OutputArgs>()
                 );
@@ -77,22 +82,25 @@ namespace NBi.Core.Testing.ResultSet.Alteration.Duplication
         [Test]
         public void Execute_TimesDependingOnRow_CorrectDuplication()
         {
-            var args = new ObjectsResultSetResolverArgs(new[] { new object[] { "Alpha", 1, 2 }, new object[] { "Beta", 3, 3 }, new object[] { "Gamma", 5, 7 } });
+            var args = new ObjectsResultSetResolverArgs(new[] { ["Alpha", 1, 2], ["Beta", 3, 3], new object[] { "Gamma", 5, 7 } });
             var resolver = new ObjectsResultSetResolver(args);
             var rs = resolver.Execute();
 
-            var context = new Context(null);
+            var referenceArgs = new ReferencePredicateArgs(new LiteralScalarResolver<int>(4))
+            {
+                ComparerType = Core.Calculation.ComparerType.LessThan,
+                ColumnType = ColumnType.Numeric,
+                Not = false
+            };
 
             var duplicator = new DuplicateEngine(
                 new ServiceLocator(),
-                context,
+                Context.None,
                 new PredicationFactory().Instantiate(
-                        new PredicateFactory().Instantiate(
-                            NBi.Core.Calculation.ComparerType.LessThan, ColumnType.Numeric, false, new LiteralScalarResolver<int>(4)
-                        )
+                        new PredicateFactory().Instantiate(referenceArgs)
                     , new ColumnOrdinalIdentifier(1)),
-                new ContextScalarResolver<int>(context, new ColumnOrdinalIdentifier(2)),
-                new List<OutputArgs>()
+                new ContextScalarResolver<int>(Context.None, new ColumnOrdinalIdentifier(2)),
+                []
                 );
             var newRs = duplicator.Execute(rs);
 
@@ -117,15 +125,15 @@ namespace NBi.Core.Testing.ResultSet.Alteration.Duplication
 
             var duplicator = new DuplicateEngine(
                 new ServiceLocator(),
-                new Context(null),
-                new PredicationFactory().True,
+                Context.None,
+                Predication.AlwaysTrue,
                 new LiteralScalarResolver<int>(1),
                 new List<OutputArgs>() { new OutputValueArgs(new ColumnNameIdentifier("NewValue"), "Static Value") }
                 );
             var newRs = duplicator.Execute(rs);
 
             Assert.That(newRs.ColumnCount, Is.EqualTo(4));
-            Assert.That(newRs.GetColumn(3).Name, Is.EqualTo("NewValue"));
+            Assert.That(newRs.GetColumn(3)!.Name, Is.EqualTo("NewValue"));
             Assert.That(newRs.RowCount, Is.EqualTo(6));
             Assert.That(newRs[0][3], Is.EqualTo(DBNull.Value));
             Assert.That(newRs[1][3], Is.EqualTo("Static Value"));
@@ -145,14 +153,14 @@ namespace NBi.Core.Testing.ResultSet.Alteration.Duplication
             var duplicator = new DuplicateEngine(
                 new ServiceLocator(),
                 Context.None,
-                new PredicationFactory().True,
+                Predication.AlwaysTrue,
                 new LiteralScalarResolver<int>(1),
                 new List<OutputArgs>() { new OutputArgs(new ColumnNameIdentifier("Index"), OutputClass.Index) }
                 );
             var newRs = duplicator.Execute(rs);
 
             Assert.That(newRs.ColumnCount, Is.EqualTo(4));
-            Assert.That(newRs.GetColumn(3).Name, Is.EqualTo("Index"));
+            Assert.That(newRs.GetColumn(3)!.Name, Is.EqualTo("Index"));
             Assert.That(newRs.RowCount, Is.EqualTo(6));
             Assert.That(newRs[0][3], Is.EqualTo(DBNull.Value));
             Assert.That(newRs[1][3], Is.EqualTo(0));
@@ -169,22 +177,23 @@ namespace NBi.Core.Testing.ResultSet.Alteration.Duplication
             var resolver = new ObjectsResultSetResolver(args);
             var rs = resolver.Execute();
 
-            var context = new Context(null);
+            var referenceArgs = new ReferencePredicateArgs(new LiteralScalarResolver<int>(4))
+            {
+                ComparerType = Core.Calculation.ComparerType.LessThan,
+                ColumnType = ColumnType.Numeric,
+                Not = false
+            };
             var duplicator = new DuplicateEngine(
-               new ServiceLocator(),
-               context,
-               new PredicationFactory().Instantiate(
-                        new PredicateFactory().Instantiate(
-                            NBi.Core.Calculation.ComparerType.LessThan, ColumnType.Numeric, false, new LiteralScalarResolver<int>(4)
-                        )
-                    , new ColumnOrdinalIdentifier(1)),
-                new ContextScalarResolver<int>(context, new ColumnOrdinalIdentifier(2)),
-                new List<OutputArgs>() { new OutputArgs(new ColumnNameIdentifier("Total"), OutputClass.Total) }
+                new ServiceLocator(),
+                Context.None,
+                new PredicationFactory().Instantiate(new PredicateFactory().Instantiate(referenceArgs), new ColumnOrdinalIdentifier(1)),
+                new ContextScalarResolver<int>(Context.None, new ColumnOrdinalIdentifier(2)),
+                new List<OutputArgs>() { new(new ColumnNameIdentifier("Total"), OutputClass.Total) }
                 );
             var newRs = duplicator.Execute(rs);
 
             Assert.That(newRs.ColumnCount, Is.EqualTo(4));
-            Assert.That(newRs.GetColumn(3).Name, Is.EqualTo("Total"));
+            Assert.That(newRs.GetColumn(3)!.Name, Is.EqualTo("Total"));
             Assert.That(newRs.RowCount, Is.EqualTo(7));
             Assert.That(newRs[0][3], Is.EqualTo(DBNull.Value));
             Assert.That(newRs[1][3], Is.EqualTo(2));
@@ -202,22 +211,23 @@ namespace NBi.Core.Testing.ResultSet.Alteration.Duplication
             var resolver = new ObjectsResultSetResolver(args);
             var rs = resolver.Execute();
 
-            var context = new Context(null);
+            var referenceArgs = new ReferencePredicateArgs(new LiteralScalarResolver<int>(4))
+            {
+                ComparerType = Core.Calculation.ComparerType.LessThan,
+                ColumnType = ColumnType.Numeric,
+                Not = false
+            };
             var duplicator = new DuplicateEngine(
-               new ServiceLocator(),
-               context,
-               new PredicationFactory().Instantiate(
-                        new PredicateFactory().Instantiate(
-                            NBi.Core.Calculation.ComparerType.LessThan, ColumnType.Numeric, false, new LiteralScalarResolver<int>(4)
-                        )
-                    , new ColumnOrdinalIdentifier(1)),
-                new ContextScalarResolver<int>(context, new ColumnOrdinalIdentifier(2)),
+                new ServiceLocator(),
+                Context.None,
+                new PredicationFactory().Instantiate(new PredicateFactory().Instantiate(referenceArgs), new ColumnOrdinalIdentifier(1)),
+                new ContextScalarResolver<int>(Context.None, new ColumnOrdinalIdentifier(2)),
                 new List<OutputArgs>() { new OutputArgs(new ColumnNameIdentifier("IsOriginal"), OutputClass.IsOriginal) }
                 );
             var newRs = duplicator.Execute(rs);
 
             Assert.That(newRs.ColumnCount, Is.EqualTo(4));
-            Assert.That(newRs.GetColumn(3).Name, Is.EqualTo("IsOriginal"));
+            Assert.That(newRs.GetColumn(3)!.Name, Is.EqualTo("IsOriginal"));
             Assert.That(newRs.RowCount, Is.EqualTo(7));
             for (int i = 0; i < newRs.RowCount; i++)
                 Assert.That(newRs[i][3], Is.EqualTo(new[] { 0, 3, 6 }.Contains(i)));
@@ -230,22 +240,23 @@ namespace NBi.Core.Testing.ResultSet.Alteration.Duplication
             var resolver = new ObjectsResultSetResolver(args);
             var rs = resolver.Execute();
 
-            var context = new Context(null);
+            var referenceArgs = new ReferencePredicateArgs(new LiteralScalarResolver<int>(4))
+            {
+                ComparerType = Core.Calculation.ComparerType.LessThan,
+                ColumnType = ColumnType.Numeric,
+                Not = false
+            };
             var duplicator = new DuplicateEngine(
-               new ServiceLocator(),
-               context,
-               new PredicationFactory().Instantiate(
-                        new PredicateFactory().Instantiate(
-                            NBi.Core.Calculation.ComparerType.LessThan, ColumnType.Numeric, false, new LiteralScalarResolver<int>(4)
-                        )
-                    , new ColumnOrdinalIdentifier(1)),
-                new ContextScalarResolver<int>(context, new ColumnOrdinalIdentifier(2)),
+                new ServiceLocator(),
+                Context.None,
+                new PredicationFactory().Instantiate(new PredicateFactory().Instantiate(referenceArgs), new ColumnOrdinalIdentifier(1)),
+                new ContextScalarResolver<int>(Context.None, new ColumnOrdinalIdentifier(2)),
                 new List<OutputArgs>() { new OutputArgs(new ColumnNameIdentifier("IsDuplicable"), OutputClass.IsDuplicable) }
                 );
             var newRs = duplicator.Execute(rs);
 
             Assert.That(newRs.ColumnCount, Is.EqualTo(4));
-            Assert.That(newRs.GetColumn(3).Name, Is.EqualTo("IsDuplicable"));
+            Assert.That(newRs.GetColumn(3)!.Name, Is.EqualTo("IsDuplicable"));
             Assert.That(newRs.RowCount, Is.EqualTo(7));
             for (int i = 0; i < newRs.RowCount; i++)
                 Assert.That(newRs[i][3], Is.EqualTo(!new[] { 6 }.Contains(i)));
@@ -254,29 +265,30 @@ namespace NBi.Core.Testing.ResultSet.Alteration.Duplication
         [Test]
         public void Execute_OutputNativeScript_CorrectTotal()
         {
-            var args = new ObjectsResultSetResolverArgs(new[] { new object[] { "Alpha", 10, 2 }, new object[] { "Beta", 3, 3 }, new object[] { "Gamma", 30, 7 } });
+            var args = new ObjectsResultSetResolverArgs(new[] { ["Alpha", 10, 2], ["Beta", 3, 3], new object[] { "Gamma", 30, 7 } });
             var resolver = new ObjectsResultSetResolver(args);
             var rs = resolver.Execute();
 
-            var context = new Context(null);
+            var referenceArgs = new ReferencePredicateArgs(new LiteralScalarResolver<int>(20))
+            {
+                ComparerType = Core.Calculation.ComparerType.LessThan,
+                ColumnType = ColumnType.Numeric,
+                Not = false
+            };
             var duplicator = new DuplicateEngine(
-               new ServiceLocator(),
-               context,
-               new PredicationFactory().Instantiate(
-                        new PredicateFactory().Instantiate(
-                            NBi.Core.Calculation.ComparerType.LessThan, ColumnType.Numeric, false, new LiteralScalarResolver<int>(20)
-                        )
-                    , new ColumnOrdinalIdentifier(1)),
-                new ContextScalarResolver<int>(context, new ColumnOrdinalIdentifier(2)),
+                new ServiceLocator(),
+                Context.None,
+                new PredicationFactory().Instantiate(new PredicateFactory().Instantiate(referenceArgs), new ColumnOrdinalIdentifier(1)),
+                new ContextScalarResolver<int>(Context.None, new ColumnOrdinalIdentifier(2)),
                 new List<OutputArgs>() { new OutputScriptArgs(
-                    new ServiceLocator(), context, new ColumnNameIdentifier("NewValue")
+                    new ServiceLocator(), Context.None, new ColumnNameIdentifier("NewValue")
                     , LanguageType.Native, "#1 | numeric-to-divide(#2)")
                 }
             );
             var newRs = duplicator.Execute(rs);
 
             Assert.That(newRs.ColumnCount, Is.EqualTo(4));
-            Assert.That(newRs.GetColumn(3).Name, Is.EqualTo("NewValue"));
+            Assert.That(newRs.GetColumn(3)!.Name, Is.EqualTo("NewValue"));
             Assert.That(newRs.RowCount, Is.EqualTo(8));
             for (int i = 0; i < newRs.RowCount; i++)
                 if (new[] { 0, 3, 7 }.Contains(i))
@@ -288,30 +300,31 @@ namespace NBi.Core.Testing.ResultSet.Alteration.Duplication
         [Test]
         public void Execute_OutputNativeScriptOnExistingColumn_CorrectValue()
         {
-            var args = new ObjectsResultSetResolverArgs(new[] { new object[] { "Alpha", 10, 2 }, new object[] { "Beta", 3, 3 }, new object[] { "Gamma", 30, 7 } });
+            var args = new ObjectsResultSetResolverArgs(new[] { ["Alpha", 10, 2], ["Beta", 3, 3], new object[] { "Gamma", 30, 7 } });
             var resolver = new ObjectsResultSetResolver(args);
             var rs = resolver.Execute();
-            rs.GetColumn(1).Rename("Value");
+            rs.GetColumn(1)!.Rename("Value");
 
-            var context = new Context(null);
+            var referenceArgs = new ReferencePredicateArgs(new LiteralScalarResolver<int>(20))
+            {
+                ComparerType = Core.Calculation.ComparerType.LessThan,
+                ColumnType = ColumnType.Numeric,
+                Not = false
+            };
             var duplicator = new DuplicateEngine(
-               new ServiceLocator(),
-               context,
-               new PredicationFactory().Instantiate(
-                        new PredicateFactory().Instantiate(
-                            NBi.Core.Calculation.ComparerType.LessThan, ColumnType.Numeric, false, new LiteralScalarResolver<int>(20)
-                        )
-                    , new ColumnOrdinalIdentifier(1)),
-                new ContextScalarResolver<int>(context, new ColumnOrdinalIdentifier(2)),
+                new ServiceLocator(),
+                Context.None,
+                new PredicationFactory().Instantiate(new PredicateFactory().Instantiate(referenceArgs), new ColumnOrdinalIdentifier(1)),
+                new ContextScalarResolver<int>(Context.None, new ColumnOrdinalIdentifier(2)),
                 new List<OutputArgs>() { new OutputScriptArgs(
-                    new ServiceLocator(), context, new ColumnNameIdentifier("Value")
+                    new ServiceLocator(), Context.None, new ColumnNameIdentifier("Value")
                     , LanguageType.Native, "[Value] | numeric-to-divide(#2)")
                 }
             );
             var newRs = duplicator.Execute(rs);
 
             Assert.That(newRs.ColumnCount, Is.EqualTo(3));
-            Assert.That(newRs.GetColumn(1).Name, Is.EqualTo("Value"));
+            Assert.That(newRs.GetColumn(1)!.Name, Is.EqualTo("Value"));
             Assert.That(newRs.RowCount, Is.EqualTo(8));
             Assert.That(newRs[0][1], Is.EqualTo(10));
             Assert.That(newRs[1][1], Is.EqualTo(5));
@@ -326,28 +339,29 @@ namespace NBi.Core.Testing.ResultSet.Alteration.Duplication
         [Test]
         public void Execute_OutputNCalcScriptOnExistingColumnAndUsingOtherOuputs_CorrectValue()
         {
-            var args = new ObjectsResultSetResolverArgs(new[] { new object[] { "Alpha", 10, 2 }, new object[] { "Beta", 3, 3 }, new object[] { "Gamma", 30, 7 } });
+            var args = new ObjectsResultSetResolverArgs(new[] { ["Alpha", 10, 2], ["Beta", 3, 3], new object[] { "Gamma", 30, 7 } });
             var resolver = new ObjectsResultSetResolver(args);
             var rs = resolver.Execute();
-            rs.GetColumn(1).Rename("Value");
+            rs.GetColumn(1)!.Rename("Value");
 
             var serviceLocator = new ServiceLocator();
-            var context = new Context(null);
-            
+
+            var referenceArgs = new ReferencePredicateArgs(new LiteralScalarResolver<int>(20))
+            {
+                ComparerType = Core.Calculation.ComparerType.LessThan,
+                ColumnType = ColumnType.Numeric,
+                Not = false
+            };
             var duplicator = new DuplicateEngine(
-               serviceLocator,
-               context,
-               new PredicationFactory().Instantiate(
-                        new PredicateFactory().Instantiate(
-                            NBi.Core.Calculation.ComparerType.LessThan, ColumnType.Numeric, false, new LiteralScalarResolver<int>(20)
-                        )
-                    , new ColumnOrdinalIdentifier(1)),
-                new ContextScalarResolver<int>(context, new ColumnOrdinalIdentifier(2)),
+                serviceLocator,
+                Context.None,
+                new PredicationFactory().Instantiate(new PredicateFactory().Instantiate(referenceArgs), new ColumnOrdinalIdentifier(1)),
+                new ContextScalarResolver<int>(Context.None, new ColumnOrdinalIdentifier(2)),
                 new List<OutputArgs>() {
-                    new OutputArgs(new ColumnNameIdentifier("Total"), OutputClass.Total),
-                    new OutputArgs(new ColumnNameIdentifier("Index"), OutputClass.Index),
+                    new (new ColumnNameIdentifier("Total"), OutputClass.Total),
+                    new (new ColumnNameIdentifier("Index"), OutputClass.Index),
                     new OutputScriptArgs(
-                        serviceLocator, context, new ColumnNameIdentifier("Value")
+                        serviceLocator, Context.None, new ColumnNameIdentifier("Value")
                         , LanguageType.NCalc, "[Value]/[Total]*([Index]+1)"
                     )
                 }
@@ -355,7 +369,7 @@ namespace NBi.Core.Testing.ResultSet.Alteration.Duplication
             var newRs = duplicator.Execute(rs);
 
             Assert.That(newRs.ColumnCount, Is.EqualTo(5));
-            Assert.That(newRs.GetColumn(1).Name, Is.EqualTo("Value"));
+            Assert.That(newRs.GetColumn(1)!.Name, Is.EqualTo("Value"));
             Assert.That(newRs.RowCount, Is.EqualTo(8));
             Assert.That(newRs[0][1], Is.EqualTo(10));
             Assert.That(newRs[1][1], Is.EqualTo(5));
@@ -376,24 +390,28 @@ namespace NBi.Core.Testing.ResultSet.Alteration.Duplication
         {
             var rows = new List<object[]>();
             for (int i = 0; i < count; i++)
-                rows.Add(new object[] { i, i + 1 });
+                rows.Add([i, i + 1]);
 
             var args = new ObjectsResultSetResolverArgs(rows.ToArray());
             var resolver = new ObjectsResultSetResolver(args);
             var rs = resolver.Execute();
-            rs.GetColumn(0).Rename("a");
-            rs.GetColumn(1).Rename("b");
+            rs.GetColumn(0)!.Rename("a");
+            rs.GetColumn(1)!.Rename("b");
 
             var stopWatch = new Stopwatch();
             stopWatch.Start();
+            var referenceArgs = new ReferencePredicateArgs(new LiteralScalarResolver<int>(4))
+            {
+                ComparerType = Core.Calculation.ComparerType.LessThan,
+                ColumnType = ColumnType.Numeric,
+                Not = false
+            };
             var duplicator = new DuplicateEngine(
                 new ServiceLocator(),
-                new Context(null),
-                new PredicationFactory().Instantiate(new PredicateFactory().Instantiate(
-                        NBi.Core.Calculation.ComparerType.LessThan, ColumnType.Numeric, false, new LiteralScalarResolver<int>(count / 2)
-                    ), new ColumnNameIdentifier("a")),
+                Context.None,
+                new PredicationFactory().Instantiate(new PredicateFactory().Instantiate(referenceArgs), new ColumnNameIdentifier("a")),
                 new LiteralScalarResolver<int>(1),
-                new List<OutputArgs>() { new OutputArgs(new ColumnNameIdentifier("Index"), OutputClass.Index) }
+                new List<OutputArgs>() { new (new ColumnNameIdentifier("Index"), OutputClass.Index) }
                 );
             duplicator.Execute(rs);
             stopWatch.Stop();

@@ -1,6 +1,6 @@
 ﻿using Moq;
 using NBi.Core.Calculation;
-using NBi.Core.Calculation.Predicate;
+using NBi.Core.Calculation.Asserting;
 using NBi.Core.Calculation.Ranking;
 using NBi.Core.Evaluate;
 using NBi.Core.ResultSet;

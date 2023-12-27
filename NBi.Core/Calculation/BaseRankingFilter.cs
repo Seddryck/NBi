@@ -1,16 +1,15 @@
-﻿using NBi.Core.Calculation.Predicate;
-using NBi.Core.Calculation.Ranking.Scoring;
+﻿using NBi.Core.Calculation.Ranking.Scoring;
 using NBi.Core.Evaluate;
 using NBi.Core.ResultSet;
 using NBi.Core.ResultSet.Filtering;
-using NBi.Core.Variable;
+using NBi.Extensibility;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using NBi.Extensibility;
+
 
 namespace NBi.Core.Calculation
 {

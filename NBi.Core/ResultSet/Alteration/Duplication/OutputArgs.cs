@@ -15,21 +15,21 @@ namespace NBi.Core.ResultSet.Alteration.Duplication
     public class OutputArgs
     {
         public IColumnIdentifier Identifier { get; set; }
-        public IOutputStrategy Strategy { get; set; }
+        public IOutputStrategy? Strategy { get; set; }
 
         public OutputArgs(IColumnIdentifier identifier, OutputClass value)
             => (Identifier, Strategy) = (identifier, Instantiate(value));
 
-        private IOutputStrategy Instantiate(OutputClass value)
+        protected virtual IOutputStrategy? Instantiate(OutputClass value)
         {
-            switch (value)
+            return value switch
             {
-                case OutputClass.Index: return new IndexOutputStrategy();
-                case OutputClass.Total: return new TotalOutputStrategy();
-                case OutputClass.IsOriginal: return new IsOriginalOutputStrategy();
-                case OutputClass.IsDuplicable: return new IsDuplicableOutputStrategy();
-                default: return null;
-            }
+                OutputClass.Index => new IndexOutputStrategy(),
+                OutputClass.Total => new TotalOutputStrategy(),
+                OutputClass.IsOriginal => new IsOriginalOutputStrategy(),
+                OutputClass.IsDuplicable => new IsDuplicableOutputStrategy(),
+                _ => null,
+            };
         }
     }
 

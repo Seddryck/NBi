@@ -1,5 +1,4 @@
-﻿using NBi.Core.Calculation.Predicate;
-using NBi.Core.Calculation.Predication;
+﻿using NBi.Core.Calculation.Asserting;
 using NBi.Core.Injection;
 using NBi.Core.Variable;
 using NBi.Extensibility;

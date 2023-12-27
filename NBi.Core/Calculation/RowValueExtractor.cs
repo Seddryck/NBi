@@ -1,5 +1,4 @@
-﻿using NBi.Core.Calculation.Predicate;
-using NBi.Core.Evaluate;
+﻿using NBi.Core.Evaluate;
 using NBi.Core.Injection;
 using NBi.Core.ResultSet;
 using NBi.Core.Transformation;
@@ -24,41 +23,48 @@ namespace NBi.Core.Calculation
 
         public object Execute(Context context, IColumnIdentifier identifier)
         {
-            if (identifier is ColumnOrdinalIdentifier)
+            if (context.CurrentRow is null)
+                throw new InvalidOperationException();
+
+            if (identifier is ColumnOrdinalIdentifier ordinalId)
             {
-                var ordinal = (identifier as ColumnOrdinalIdentifier).Ordinal;
+                var ordinal = ordinalId.Ordinal;
                 if (ordinal <= context.CurrentRow.Parent.ColumnCount)
-                    return context.CurrentRow.ItemArray[ordinal];
+                    return context.CurrentRow.ItemArray[ordinal] ?? throw new ArgumentOutOfRangeException();
                 else
                     throw new ArgumentException($"The variable of the predicate is identified as '{identifier.Label}' but the column in position '{ordinal}' doesn't exist. The dataset only contains {context.CurrentRow.Parent.ColumnCount} columns.");
             }
 
-            var name = (identifier as ColumnNameIdentifier).Name;
-            var alias = context.Aliases?.SingleOrDefault(x => string.Equals(x.Name, name, StringComparison.OrdinalIgnoreCase));
-            if (alias != null)
-                return context.CurrentRow.ItemArray[alias.Column];
-
-            var expression = context.Expressions?.SingleOrDefault(x => string.Equals(x.Name, name, StringComparison.OrdinalIgnoreCase));
-            if (expression != null)
+            if (identifier is ColumnNameIdentifier nameId)
             {
-                var result = EvaluateExpression(expression, context);
-                var expColumnName = $"exp::{name}";
-                if (!context.CurrentRow.Parent.ContainsColumn(expColumnName))
-                    context.CurrentRow.Parent.AddColumn(expColumnName);
+                var name = nameId.Name;
+                var alias = context.Aliases?.SingleOrDefault(x => string.Equals(x.Name, name, StringComparison.OrdinalIgnoreCase));
+                if (alias != null)
+                    return context.CurrentRow.ItemArray[alias.Column] ?? throw new ArgumentOutOfRangeException();
 
-                context.CurrentRow[expColumnName] = result;
-                return result;
+                var expression = context.Expressions?.SingleOrDefault(x => string.Equals(x.Name, name, StringComparison.OrdinalIgnoreCase));
+                if (expression != null)
+                {
+                    var result = EvaluateExpression(expression, context);
+                    var expColumnName = $"exp::{name}";
+                    if (!context.CurrentRow.Parent.ContainsColumn(expColumnName))
+                        context.CurrentRow.Parent.AddColumn(expColumnName);
+
+                    context.CurrentRow[expColumnName] = result;
+                    return result;
+                }
+
+                var column = context.CurrentRow.Parent.GetColumn(name);
+                if (column != null)
+                    return context.CurrentRow[column.Name];
+
+                var existingNames = context.CurrentRow.Parent.Columns.Select(x => x.Name)
+                    .Union(context.Aliases!.Select(x => x.Name)
+                    .Union(context.Expressions!.Select(x => x.Name)));
+
+                throw new ArgumentException($"The value '{name}' is not recognized as a column position, a column name, a column alias or an expression. Possible arguments are: '{string.Join("', '", existingNames.ToArray())}'");
             }
-
-            var column = context.CurrentRow.Parent.GetColumn(name);
-            if (column != null)
-                return context.CurrentRow[column.Name];
-
-            var existingNames = context.CurrentRow.Parent.Columns.Select(x => x.Name)
-                .Union(context.Aliases.Select(x => x.Name)
-                .Union(context.Expressions.Select(x => x.Name)));
-
-            throw new ArgumentException($"The value '{name}' is not recognized as a column position, a column name, a column alias or an expression. Possible arguments are: '{string.Join("', '", existingNames.ToArray())}'");
+            throw new ArgumentException();
         }
 
         protected object EvaluateExpression(IColumnExpression expression, Context context)
@@ -71,7 +77,7 @@ namespace NBi.Core.Calculation
                 exp.EvaluateParameter += delegate (string name, NCalc.ParameterArgs args)
                 {
                     args.Result = name.StartsWith("@")
-                        ? context.Variables[name.Substring(1, name.Length-1)].GetValue()
+                        ? context.Variables[name.Substring(1, name.Length - 1)].GetValue()
                         : Execute(context, factory.Instantiate(name));
                 };
 
@@ -89,7 +95,7 @@ namespace NBi.Core.Calculation
                     var transformation = factory.Instantiate(nativeFunction);
                     value = transformation.Evaluate(value);
                 }
-                
+
                 return value;
             }
             else

@@ -116,7 +116,7 @@ namespace NBi.Core.Calculation.Asserting
 
         protected Exssif.IPredicate CreateFromDateTime(ComparerType comparerType, IResolver? reference)
         {
-            System.DateTime referenceFunc() => (System.DateTime)((IScalarResolver)reference!).Execute()!;
+            DateTime referenceFunc() => (DateTime)((IScalarResolver)reference!).Execute()!;
 
             return comparerType switch
             {

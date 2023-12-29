@@ -92,13 +92,13 @@ namespace NBi.Core.Testing.Calculation.Asserting
         public void Compare_TextNull_Success()
         {
             var literal = new LiteralScalarResolver<string>("(null)");
-            var predicate = new Mock<ReferencePredicateArgs>(literal);
-            predicate.SetupGet(p => p.ColumnType).Returns(ColumnType.Text);
-            predicate.SetupGet(p => p.ComparerType).Returns(ComparerType.Equal);
-            predicate.SetupGet(p => p.Reference).Returns(literal);
+            var args = new Mock<ReferencePredicateArgs>(literal);
+            args.SetupGet(p => p.ColumnType).Returns(ColumnType.Text);
+            args.SetupGet(p => p.ComparerType).Returns(ComparerType.Equal);
+            args.SetupGet(p => p.Reference).Returns(literal);
 
             var factory = new PredicateFactory();
-            var comparer = factory.Instantiate(predicate.Object);
+            var comparer = factory.Instantiate(args.Object);
             Assert.That(comparer.Execute(null), Is.True);
         }
 

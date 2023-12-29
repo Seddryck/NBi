@@ -6,6 +6,7 @@ using NBi.Core.Scalar.Resolver;
 using NBi.Core.Sequence.Resolver;
 using NBi.Core.Transformation.Transformer;
 using NBi.Core.Transformation.Transformer.Native;
+using NBi.Core.Variable;
 using NBi.Extensibility.Resolving;
 using NUnit.Framework;
 using System;
@@ -54,7 +55,8 @@ namespace NBi.Core.Testing.Sequence.Resolver
             var innerArgs = new ListSequenceResolverArgs(resolvers);
             var innerResolver = new ListSequenceResolver<DateTime>(innerArgs);
             var predicate = new Predicate(new After(() => new LiteralScalarResolver<DateTime>("2015-06-01").Execute()!));
-            var transformation = new NativeTransformer<DateTime>(new ServiceLocator(), null, new DateTimeToNextYear());
+            var transformation = new NativeTransformer<DateTime>(new ServiceLocator(), Context.None);
+            transformation.Initialize("dateTime-to-next-year");
             var args = new FilterSequenceResolverArgs(innerResolver, predicate, transformation);
 
             var resolver = new FilterSequenceResolver<DateTime>(args);

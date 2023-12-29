@@ -1,6 +1,7 @@
 ﻿using FuzzyString;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
@@ -32,16 +33,16 @@ namespace NBi.Core.Scalar.Comparer
                 throw new ArgumentException($"The value of the distance/coefficient for a text tolerance must be a numeric value or the specific values weak/normal/strong. The value '{distanceString}' is not.");
 
             //extract the name of the tolerance
-            var names = value.Split(new[] { '(' })[0].Replace("-", "").Split(new[] { ',', ';' }, StringSplitOptions.RemoveEmptyEntries);
+            var names = value.Split(['('])[0].Replace("-", "").Split(new[] { ',', ';' }, StringSplitOptions.RemoveEmptyEntries);
 
-            if (names.Count() == 0)
+            if (names.Length == 0)
                 throw new ArgumentException($"You must specify at least one method for the text tolerance.");
-            if (names.Count() > 1 && isDistanceNumeric)
+            if (names.Length > 1 && isDistanceNumeric)
                 throw new ArgumentException($"You cannot specify an exact value when more than one method is specified for the text tolerance.");
 
-            if (names.Count() == 1)
+            if (names.Length == 1)
             {
-                if (!FindFuzzyMethod(names[0], out var correctName, out var func))
+                if (!TryParseFuzzyMethod(names[0], out var correctName, out var func))
                     throw new ArgumentException($"The method '{names[0]}' is not supported for a text tolerance.");
 
                 var predicate = FindCorrectPredicate(correctName);
@@ -61,22 +62,16 @@ namespace NBi.Core.Scalar.Comparer
                     options.Add(correctValue);
                     readableNames.Add(correctName);
                 }
-                var tolerance = (FuzzyStringComparisonTolerance)Enum.Parse(typeof(FuzzyStringComparisonTolerance), distanceEnum);
-                bool implementation(string x, string y) => x.ApproximatelyEquals(y, options, tolerance);
-                return new TextMultipleMethodsTolerance(string.Join(", ", readableNames), distanceEnum, implementation);
+                var tolerance = (FuzzyStringComparisonTolerance)Enum.Parse(typeof(FuzzyStringComparisonTolerance), distanceEnum!);
+                bool implementation(string x, string y) => x.ApproximatelyEquals(y, tolerance, [.. options]);
+                return new TextMultipleMethodsTolerance(string.Join(", ", readableNames), distanceEnum!, implementation);
             }
-
         }
 
-        private Func<double, double, bool> FindCorrectPredicate(string correctName)
-        {
-            if (correctName.EndsWith("Coefficient"))
-                return (x, y) => x >= y;
-            else
-                return (x, y) => x <= y;
-        }
+        protected virtual Func<double, double, bool> FindCorrectPredicate(string correctName)
+            => correctName.EndsWith("Coefficient") ? (x, y) => x >= y: (x, y) => x <= y;
 
-        protected bool FindFuzzyMethod(string name, out string correctName, out Func<string, string, double> func)
+        protected bool TryParseFuzzyMethod(string name, out string correctName, [NotNullWhen(true)] out Func<string, string, double>? func)
         {
             func = null;
             correctName = string.Empty;
@@ -104,7 +99,7 @@ namespace NBi.Core.Scalar.Comparer
             return true;
         }
 
-        protected bool FindFuzzyEnum(string name, out string correctName, out FuzzyStringComparisonOptions correctValue)
+        protected virtual bool FindFuzzyEnum(string name, out string correctName, out FuzzyStringComparisonOptions correctValue)
         {
             name = name.StartsWith("Use") ? name : "Use" + name;
             correctValue = 0;
@@ -127,7 +122,7 @@ namespace NBi.Core.Scalar.Comparer
 
         protected Func<string, string, double> GetMethod(Type type, string methodName)
         {
-            var methodInfo = type.GetMethod(methodName);
+            var methodInfo = type.GetMethod(methodName) ?? throw new NotSupportedException();
             if (methodInfo.ReturnType == typeof(double))
                 return (Func<string, string, double>)methodInfo.CreateDelegate(typeof(Func<string, string, double>));
             else

@@ -19,7 +19,7 @@ namespace NBi.Core.Assemblies
         /// <param name="typeName">The type of the object to instantiate</param>
         /// <param name="ctorParameters">SettingsValue of the parameters for the constructor of the type</param>
         /// <returns>An instance of the specified class</returns>
-        public object GetInstance(string assemblyPath, string typeName, object[] ctorParameters)
+        public virtual object GetInstance(string assemblyPath, string typeName, object[] ctorParameters)
         {
             if (!Path.IsPathRooted(assemblyPath))
                 assemblyPath = Path.GetFullPath(assemblyPath);
@@ -28,10 +28,7 @@ namespace NBi.Core.Assemblies
                 throw new ExternalDependencyNotFoundException(assemblyPath);
 
             var assembly = Assembly.LoadFile(assemblyPath);
-            var type = assembly.GetType(typeName);
-            if (type == null)
-                throw new ArgumentException(string.Format("Type {0} not found in assembly located at '{1}'", typeName, assemblyPath), "typeName");
-
+            var type = assembly.GetType(typeName) ?? throw new ArgumentException(string.Format("Type {0} not found in assembly located at '{1}'", typeName, assemblyPath), "typeName");
             var classInstance = Activator.CreateInstance(type, ctorParameters) ?? throw new NullReferenceException();
             return classInstance;
         }
@@ -54,14 +51,13 @@ namespace NBi.Core.Assemblies
         /// <param name="assemblyPath"></param>
         /// <param name="typeName"></param>
         /// <returns></returns>
-        public Type GetStatic(string assemblyPath, string typeName)
+        public virtual Type GetStatic(string assemblyPath, string typeName)
         {
             var assembly = Assembly.LoadFile(assemblyPath);
             var type = assembly.GetType(typeName);
-            if (type == null)
-                throw new ArgumentException(string.Format("Type {0} not found in assembly located at '{1}'", typeName, assemblyPath), "typeName");
-
-            return type;
+            return type == null
+                ? throw new ArgumentException(string.Format("Type {0} not found in assembly located at '{1}'", typeName, assemblyPath), "typeName")
+                : type;
         }
         /// <summary>
         /// Execute the method of the an object. Let you specify the value of the parameters of the method called.
@@ -70,18 +66,15 @@ namespace NBi.Core.Assemblies
         /// <param name="methodName">The name of the method</param>
         /// <param name="parameters">The pair of names and values for each parameter of the method</param>
         /// <returns></returns>
-        public object Execute(object target, string methodName, IDictionary<string, object> parameters)
+        public virtual object? Execute(object target, string methodName, IDictionary<string, object> parameters)
         {
             var flags = BindingFlags.IgnoreCase | BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance;
-            MethodInfo methodInfo = target.GetType().GetMethod(methodName, flags);
-            if (methodInfo == null)
-                throw new ArgumentException(string.Format("Method named '{0}' not found in type '{1}'", methodName, target.GetType()),"methodName");
-
+            var methodInfo = (target.GetType()?.GetMethod(methodName, flags)) ?? throw new ArgumentException(string.Format("Method named '{0}' not found in type '{1}'", methodName, target.GetType()),"methodName");
             var paramList = new List<object>();
             foreach (ParameterInfo paramInfo in methodInfo.GetParameters())
 	        {
                 var converter = new TypeConverter();
-                var value = converter.Convert(parameters[paramInfo.Name], paramInfo.ParameterType);
+                var value = converter.Convert(parameters[paramInfo.Name ?? throw new NotSupportedException()], paramInfo.ParameterType);
                 paramList.Add(value);
 	        }
 
@@ -96,22 +89,19 @@ namespace NBi.Core.Assemblies
         /// <param name="methodName">The name of the static method</param>
         /// <param name="parameters">The pair of names and values for each parameter of the method</param>
         /// <returns></returns>
-        public object ExecuteStatic(Type type, string methodName, IDictionary<string, object> parameters)
+        public virtual object? ExecuteStatic(Type type, string methodName, IDictionary<string, object> parameters)
         {
             var flags = BindingFlags.IgnoreCase | BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Static;
-            MethodInfo methodInfo = type.GetMethod(methodName, flags);
-            if (methodInfo == null)
-                throw new ArgumentException(string.Format("Static method named '{0}' not found in type '{1}'", methodName, type), "methodName");
-
+            var methodInfo = type.GetMethod(methodName, flags) ?? throw new ArgumentException(string.Format("Static method named '{0}' not found in type '{1}'", methodName, type), "methodName");
             var paramList = new List<object>();
             foreach (ParameterInfo paramInfo in methodInfo.GetParameters())
             {
                 var converter = new TypeConverter();
-                var value = converter.Convert(parameters[paramInfo.Name], paramInfo.ParameterType);
+                var value = converter.Convert(parameters[paramInfo.Name ?? throw new NotSupportedException()], paramInfo.ParameterType);
                 paramList.Add(value);
             }
 
-            var result = methodInfo.Invoke(null, paramList.ToArray());
+            var result = methodInfo.Invoke(null, [.. paramList]);
             return result;
         }
     }

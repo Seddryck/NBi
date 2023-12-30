@@ -38,19 +38,8 @@ namespace NBi.Core.Transformation.Transformer
                                 && t.IsAbstract == false
                                 && t.Name == className
                                 && t.GetInterface(typeof(INativeTransformation).Name) != null)
-                       .SingleOrDefault();
-
-            if (type == null)
-                throw new NotImplementedTransformationException(className);
-
-            if (typeof(IBasePathTransformation).IsAssignableFrom(type))
-                functionParameters.Insert(0, ServiceLocator.BasePath);
-
-            var ctor = type.GetConstructors().SingleOrDefault(x => x.GetParameters().Count() == functionParameters.Count());
-
-            if (ctor == null)
-                throw new MissingOrUnexpectedParametersTransformationException(className, functionParameters.Count());
-
+                       .SingleOrDefault() ?? throw new NotImplementedTransformationException(className);
+            var ctor = type.GetConstructors().SingleOrDefault(x => x.GetParameters().Count() == functionParameters.Count) ?? throw new MissingOrUnexpectedParametersTransformationException(className, functionParameters.Count());
             var zip = ctor.GetParameters().Zip(functionParameters, (x, y) => new { x.ParameterType, Value = y });
             var typedFunctionParameters = new List<object>();
             var argsFactory = new ScalarResolverArgsFactory(ServiceLocator, Context);

@@ -13,7 +13,7 @@ namespace NBi.Core.ResultSet.Equivalence
     {
         private bool isMultipleRows = true;
         private ColumnType valuesDefaultType = ColumnType.Numeric;
-        private Tolerance defaultTolerance = null;
+        private Tolerance? defaultTolerance = null;
 
         public void Setup(bool isMultipleRows)
         {
@@ -65,7 +65,7 @@ namespace NBi.Core.ResultSet.Equivalence
 
         protected override void OnBuild()
         {
-            BuildSettings(ColumnType.Text, valuesDefaultType, defaultTolerance);
+            BuildSettings(ColumnType.Text, valuesDefaultType, defaultTolerance!);
         }
 
         protected override void BuildSettings(ColumnType keysDefaultType, ColumnType valuesDefaultType, Tolerance defaultTolerance)

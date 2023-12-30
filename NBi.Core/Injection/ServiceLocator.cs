@@ -22,7 +22,6 @@ namespace NBi.Core.Injection
     {
         private readonly IKernel kernel;
         private readonly ConfigurationModule config;
-        public string BasePath { get; private set; }
 
         public ServiceLocator()
         {
@@ -81,8 +80,5 @@ namespace NBi.Core.Injection
             config?.Dispose();
             kernel?.Dispose();
         }
-
-        public void SetBasePath(string basePath)
-            => BasePath = basePath;
     }
 }

@@ -27,9 +27,9 @@ namespace NBi.Core.ResultSet.Conversion
             
             var columnTemp = rs.AddColumn(Guid.NewGuid().ToString(), converter.DestinationType);
             foreach(var row in rs.Rows)
-                row[columnTemp.Name] = converter.Execute(row[identifier]) ?? DBNull.Value;
+                row[columnTemp.Name] = converter.Execute(row[identifier] ?? throw new InvalidOperationException()) ?? DBNull.Value;
 
-            rs.GetColumn(identifier).ReplaceBy(columnTemp);
+            (rs.GetColumn(identifier) ?? throw new InvalidOperationException()).ReplaceBy(columnTemp);
             return rs;
         }
     }

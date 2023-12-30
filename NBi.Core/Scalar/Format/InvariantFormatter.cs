@@ -50,7 +50,7 @@ namespace NBi.Core.Scalar.Format
         {
             var newText = Prepare(text, out var args);
 
-            var objects = new List<object>();
+            var objects = new List<object?>();
             var factory = ServiceLocator.GetScalarResolverFactory();
             foreach (var arg in args)
             {
@@ -60,7 +60,7 @@ namespace NBi.Core.Scalar.Format
 
             var formatProvider = new CultureFactory().Invariant;
 
-            return string.Format(formatProvider, newText, objects.ToArray());
+            return string.Format(formatProvider, newText, [.. objects]);
         }
     }
 }

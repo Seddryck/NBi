@@ -97,7 +97,7 @@ namespace NBi.Core.ResultSet
                     && !string.IsNullOrEmpty(c.RoundingStep));
         }
 
-        public override Rounding GetRounding(int index)
+        public override Rounding? GetRounding(int index)
         {
             if (!IsRounding(index))
                 return null;
@@ -149,7 +149,7 @@ namespace NBi.Core.ResultSet
             return (IsValue(index) && ValuesDefaultType == type);
         }
 
-        public override Tolerance GetTolerance(int index)
+        public override Tolerance? GetTolerance(int index)
         {
             if (GetColumnType(index) != ColumnType.Numeric && GetColumnType(index) != ColumnType.DateTime && GetColumnType(index) != ColumnType.Text)
                 return null;
@@ -223,7 +223,7 @@ namespace NBi.Core.ResultSet
         { }
 
         public SettingsOrdinalResultSet(int columnsCount, KeysChoice keysDef, ValuesChoice valuesDef)
-            : this(keysDef, valuesDef, ColumnType.Numeric, NumericAbsoluteTolerance.None, null)
+            : this(keysDef, valuesDef, ColumnType.Numeric, NumericAbsoluteTolerance.None, [])
         {
             ApplyTo(columnsCount);
         }
@@ -238,7 +238,7 @@ namespace NBi.Core.ResultSet
         }
 
         public SettingsOrdinalResultSet(KeysChoice keysDef, ValuesChoice valuesDef, Tolerance defaultTolerance)
-            : this(keysDef, valuesDef, ColumnType.Numeric, defaultTolerance, null)
+            : this(keysDef, valuesDef, ColumnType.Numeric, defaultTolerance, [])
         {
         }
 

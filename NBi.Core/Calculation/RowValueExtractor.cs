@@ -21,7 +21,7 @@ namespace NBi.Core.Calculation
         public RowValueExtractor(ServiceLocator serviceLocator)
             => (ServiceLocator) = (serviceLocator);
 
-        public object Execute(Context context, IColumnIdentifier identifier)
+        public object? Execute(Context context, IColumnIdentifier identifier)
         {
             if (context.CurrentRow is null)
                 throw new InvalidOperationException();
@@ -49,7 +49,6 @@ namespace NBi.Core.Calculation
                     var expColumnName = $"exp::{name}";
                     if (!context.CurrentRow.Parent.ContainsColumn(expColumnName))
                         context.CurrentRow.Parent.AddColumn(expColumnName);
-
                     context.CurrentRow[expColumnName] = result;
                     return result;
                 }
@@ -67,7 +66,7 @@ namespace NBi.Core.Calculation
             throw new ArgumentException();
         }
 
-        protected object EvaluateExpression(IColumnExpression expression, Context context)
+        protected object? EvaluateExpression(IColumnExpression expression, Context context)
         {
             if (expression.Language == LanguageType.NCalc)
             {
@@ -102,11 +101,11 @@ namespace NBi.Core.Calculation
                 throw new ArgumentOutOfRangeException($"The language {expression.Language} is not supported during the evaluation of an expression.");
         }
 
-        private class TransformationInfo : ITransformationInfo
-        {
-            public ColumnType OriginalType { get; set; }
-            public LanguageType Language { get; set; }
-            public string Code { get; set; }
-        }
+        //private class TransformationInfo : ITransformationInfo
+        //{
+        //    public ColumnType OriginalType { get; set; }
+        //    public LanguageType Language { get; set; }
+        //    public string Code { get; set; }
+        //}
     }
 }

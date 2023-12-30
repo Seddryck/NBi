@@ -8,9 +8,9 @@ namespace NBi.Extensibility
 {
     public interface IResultRow
     {
-        object this[int index] { get; set; }
-        object this[string columnName] { get; set; }
-        object this[IColumnIdentifier identifier] { get; }
+        object? this[int index] { get; set; }
+        object? this[string columnName] { get; set; }
+        object? this[IColumnIdentifier identifier] { get; }
         object?[] ItemArray { get; set; }
 
         T? Field<T>(int ordinal);

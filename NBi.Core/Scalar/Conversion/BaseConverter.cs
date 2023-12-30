@@ -40,7 +40,7 @@ namespace NBi.Core.Scalar.Conversion
 
         protected abstract PredicateArgs GetPredicateArgs(CultureInfo cultureInfo);
 
-        public object Execute(object x)
+        public virtual object? Execute(object x)
         {
             if (predicate.Execute(x) && x is T)
                 return OnExecute((T)x, cultureInfo);

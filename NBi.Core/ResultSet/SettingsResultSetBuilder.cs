@@ -62,8 +62,8 @@ namespace NBi.Core.ResultSet
                 throw new InvalidOperationException("You cannot define an engine based on columns' name and specify some column's definitions where you explicitely give a value to the 'index' attribute. Use attribute 'index' in place of 'name'.");
 
             if (!IsByName() && keysSet == SettingsOrdinalResultSet.KeysChoice.First
-                && definitionColumns.Any(c => (c.Identifier as ColumnOrdinalIdentifier).Ordinal == 0 && c.Role!=ColumnRole.Key)  
-                && !definitionColumns.Any(c => (c.Identifier as ColumnOrdinalIdentifier).Ordinal != 0 && c.Role == ColumnRole.Key))
+                && definitionColumns.Any(c => (c.Identifier as ColumnOrdinalIdentifier)!.Ordinal == 0 && c.Role!=ColumnRole.Key)  
+                && !definitionColumns.Any(c => (c.Identifier as ColumnOrdinalIdentifier)!.Ordinal != 0 && c.Role == ColumnRole.Key))
                 throw new InvalidOperationException("You cannot define a dataset without key. You've define a unique key, then overriden this key as a value and never set another key. Review your columns' definition.");
         }
 

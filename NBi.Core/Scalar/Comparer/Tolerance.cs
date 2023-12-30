@@ -14,7 +14,7 @@ namespace NBi.Core.Scalar.Comparer
             ValueString = value;
         }
 
-        public static bool IsNullOrNone(Tolerance tolerance)
+        public static bool IsNullOrNone(Tolerance? tolerance)
         {
             return (tolerance == null
                 || tolerance == DateTimeTolerance.None

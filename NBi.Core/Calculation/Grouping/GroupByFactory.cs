@@ -20,31 +20,20 @@ namespace NBi.Core.Calculation.Grouping
         public static IGroupBy None() => new NoneGrouping();
 
         public IGroupBy Instantiate(IGroupByArgs args)
-        {
-            switch (args)
+            => args switch
             {
-                case NoneGroupByArgs x: return None();
-                case ColumnGroupByArgs x: return Instantiate(x.Columns, x.Context);
-                case CaseGroupByArgs x: return new CaseGrouping(x.Cases, x.Context);
-                default: throw new ArgumentOutOfRangeException();
-            }
-        }
+                NoneGroupByArgs x => None(),
+                ColumnGroupByArgs x => Instantiate(x.Columns, x.Context),
+                CaseGroupByArgs x => new CaseGrouping(x.Cases, x.Context),
+                _ => throw new ArgumentOutOfRangeException(),
+            };
 
-        private IGroupBy Instantiate(IEnumerable<IColumnDefinitionLight> columns, Context context)
+        protected virtual IGroupBy Instantiate(IEnumerable<IColumnDefinitionLight> columns, Context context)
         {
             if (!columns?.Any() ?? false)
                 return new NoneGrouping();
 
-            var definitions = new List<ColumnDefinition>();
-            foreach (var column in columns!)
-            {
-                var definition = new ColumnDefinition()
-                {
-                    Identifier = column.Identifier,
-                    Type = column.Type
-                };
-                definitions.Add(definition);
-            }
+            var definitions = columns!.Select(column =>  new ColumnDefinition(column.Identifier,column.Type)).ToList();
 
             var builder = new SettingsEquivalerBuilder();
             builder.Setup(KeysChoice.None, ValuesChoice.None);
@@ -52,21 +41,19 @@ namespace NBi.Core.Calculation.Grouping
             builder.Build();
 
             var settings = builder.GetSettings();
-            if (settings is SettingsOrdinalResultSet)
-                return new OrdinalColumnGrouping(settings as SettingsOrdinalResultSet, context);
-
-            else if (settings is SettingsNameResultSet)
-                return new NameColumnGrouping(settings as SettingsNameResultSet, context);
-
-            throw new ArgumentOutOfRangeException(nameof(settings));
+            return settings switch
+            {
+                SettingsOrdinalResultSet ordinal => new OrdinalColumnGrouping(ordinal, context),
+                SettingsNameResultSet name => new NameColumnGrouping(name, context),
+                _ => throw new ArgumentOutOfRangeException(nameof(settings))
+            };
         }
 
-        private class ColumnDefinition : IColumnDefinition
+        private class ColumnDefinition(IColumnIdentifier identifier, ColumnType type) : IColumnDefinition
         {
-            public IColumnIdentifier Identifier { get; set; }
+            public IColumnIdentifier Identifier { get; set; } = identifier;
             public ColumnRole Role { get => ColumnRole.Key; set => throw new NotImplementedException(); }
-            public ColumnType Type { get; set; }
-
+            public ColumnType Type { get; set; } = type;
 
             public string Tolerance { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 

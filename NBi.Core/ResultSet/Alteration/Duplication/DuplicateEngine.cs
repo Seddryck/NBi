@@ -56,9 +56,9 @@ namespace NBi.Core.ResultSet.Alteration.Duplication
                 var importedRow = result.AddRow(row);
                 foreach (var output in Outputs)
                 {
-                    if (output.Strategy.IsApplicable(true))
+                    if (output.Strategy?.IsApplicable(true) ?? false)
                     {
-                        var columnName = result.GetColumn(output.Identifier).Name;
+                        var columnName = result.GetColumn(output.Identifier)?.Name ?? throw new InvalidOperationException();
                         importedRow[columnName] = output.Strategy.Execute(true, isDuplicated, times, 0);
                     }
                 }
@@ -71,9 +71,9 @@ namespace NBi.Core.ResultSet.Alteration.Duplication
                         var duplicatedRow = result.AddRow(importedRow);
                         foreach (var output in Outputs)
                         {
-                            if (output.Strategy.IsApplicable(false))
+                            if (output.Strategy?.IsApplicable(false) ?? false)
                             {
-                                var columnName = result.GetColumn(output.Identifier).Name;
+                                var columnName = result.GetColumn(output.Identifier)?.Name ?? throw new InvalidOperationException();
                                 duplicatedRow[columnName] = output.Strategy.Execute(false, true, times, i);
                                 Context.Switch(duplicatedRow);
                             }

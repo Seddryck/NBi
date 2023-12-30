@@ -8,7 +8,7 @@ namespace NBi.Core.Scalar.Conversion
 {
     public interface IConverter
     {
-        object Execute(object x);
+        object? Execute(object x);
         Type DestinationType { get; }
     }
 }

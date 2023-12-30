@@ -10,7 +10,7 @@ namespace NBi.Core.Calculation.Ranking
             : this(1, operand, columnType, aliases, expressions) { }
 
         public BottomRanking(int count, IColumnIdentifier operand, ColumnType columnType)
-            : this(count, operand, columnType, null, null) { }
+            : this(count, operand, columnType, [], []) { }
 
         public BottomRanking(int count, IColumnIdentifier operand, ColumnType columnType, IEnumerable<IColumnAlias> aliases, IEnumerable<IColumnExpression> expressions)
             : base(count, operand, columnType, aliases, expressions) { }

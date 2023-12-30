@@ -24,9 +24,9 @@ namespace NBi.Core.ResultSet
         protected abstract bool IsKey(T index);
         protected abstract bool IsValue(T index);
 
-        public abstract Tolerance GetTolerance(T index);
+        public abstract Tolerance? GetTolerance(T index);
         public abstract bool IsRounding(T index);
-        public abstract Rounding GetRounding(T index);
+        public abstract Rounding? GetRounding(T index);
         
         public abstract ColumnRole GetColumnRole(T index);
         public abstract ColumnType GetColumnType(T index);

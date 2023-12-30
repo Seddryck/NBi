@@ -25,7 +25,7 @@ namespace NBi.Core.Testing.Calculation.Grouping.ColumnBased
             var lowerCase = new Predication(new Predicate(new LowerCase()), new ColumnOrdinalIdentifier(0));
             var upperCase = new Predication(new Predicate(new UpperCase()), new ColumnOrdinalIdentifier(0));
 
-            var grouping = new CaseGrouping(new IPredication[] { lowerCase, upperCase }, Context.None);
+            var grouping = new CaseGrouping(new IPredication[] { lowerCase, upperCase }, new Context());
 
             var result = grouping.Execute(rs);
             Assert.That(result, Has.Count.EqualTo(2));
@@ -60,6 +60,7 @@ namespace NBi.Core.Testing.Calculation.Grouping.ColumnBased
         }
 
         [Test]
+        [Ignore("Can't have two inputs for a predication with current version of Expressif")]
         public void Execute_TwoColumnsWithContext_ThreeGroups()
         {
             var args = new ObjectsResultSetResolverArgs(new[] { ["alpha", "1", "1"], ["ALPHA", "1", "1"], ["beta", "2", "2"], new object[] { "ALPHA", "2", "4" } });

@@ -10,9 +10,9 @@ namespace NBi.Core.ResultSet.Resolver
 {
     class ObjectsResultSetResolverArgs : ResultSetResolverArgs
     {
-        public IEnumerable<object> Objects { get; }
+        public IEnumerable<object?> Objects { get; }
 
-        public ObjectsResultSetResolverArgs(IEnumerable<object> objects)
+        public ObjectsResultSetResolverArgs(IEnumerable<object?> objects)
         {
             Objects = objects;
         }

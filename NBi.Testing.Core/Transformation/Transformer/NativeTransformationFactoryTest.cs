@@ -212,6 +212,15 @@ namespace NBi.Core.Testing.Transformation.Transformer
         [TestCase("numeric-to-multiply(10)")]
         [TestCase("numeric-to-divide(12)")]
         [TestCase("numeric-to-invert")]
+        public void Instantiate_ExistingNativeTransformation_CorrectlyBuilt(string value)
+        {
+            var factory = new NativeTransformationFactory(new ServiceLocator(), Context.None);;
+            var result = factory.Instantiate(value);
+
+            Assert.That(result, Is.AssignableTo<INativeTransformation>());
+        }
+
+        [Test]
         [TestCase("path-to-filename")]
         [TestCase("path-to-filename-without-extension")]
         [TestCase("path-to-extension")]
@@ -222,9 +231,10 @@ namespace NBi.Core.Testing.Transformation.Transformer
         [TestCase("file-to-creation-dateTime-utc")]
         [TestCase("file-to-update-dateTime")]
         [TestCase("file-to-update-dateTime-utc")]
-        public void Instantiate_ExistingNativeTransformation_CorrectlyBuilt(string value)
+        public void Instantiate_ExistingNativeTransformationWithFilePath_CorrectlyBuilt(string value)
         {
-            var factory = new NativeTransformationFactory(new ServiceLocator(), null);;
+            value = $"{value}({GetType().Assembly.Location})";
+            var factory = new NativeTransformationFactory(new ServiceLocator(), Context.None); ;
             var result = factory.Instantiate(value);
 
             Assert.That(result, Is.AssignableTo<INativeTransformation>());

@@ -25,7 +25,7 @@ namespace NBi.Core.Testing.Calculation.Asserting
             var row = dt.NewRow();
             row.ItemArray = [0];
             dt.Rows.Add(row);
-            var context = Context.None;
+            var context = new Context();
             context.Switch(new DataRowResultSet(row));
             return context;
         }

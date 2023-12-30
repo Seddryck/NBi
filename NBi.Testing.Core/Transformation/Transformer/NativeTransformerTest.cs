@@ -87,7 +87,7 @@ namespace NBi.Core.Testing.Transformation.Transformer
         public void Execute_NullToZero_Valid(object value, decimal expected)
         {
             var code = "null-to-zero";
-            var provider = new NativeTransformer<decimal>(new ServiceLocator(), null);
+            var provider = new NativeTransformer<decimal>(new ServiceLocator(), Context.None);
             provider.Initialize(code);
 
             var result = provider.Execute(value);
@@ -105,7 +105,7 @@ namespace NBi.Core.Testing.Transformation.Transformer
         public void Execute_NumericToCeiling_Valid(object value, decimal expected)
         {
             var code = "numeric-to-ceiling";
-            var provider = new NativeTransformer<decimal>(new ServiceLocator(), null);
+            var provider = new NativeTransformer<decimal>(new ServiceLocator(), Context.None);
             provider.Initialize(code);
 
             var result = provider.Execute(value);
@@ -123,7 +123,7 @@ namespace NBi.Core.Testing.Transformation.Transformer
         public void Execute_NumericToFloor_Valid(object value, decimal expected)
         {
             var code = "numeric-to-floor";
-            var provider = new NativeTransformer<decimal>(new ServiceLocator(), null);
+            var provider = new NativeTransformer<decimal>(new ServiceLocator(), Context.None);
             provider.Initialize(code);
 
             var result = provider.Execute(value);
@@ -138,7 +138,7 @@ namespace NBi.Core.Testing.Transformation.Transformer
         public void Execute_NumericToInteger_Valid(object value, decimal expected)
         {
             var code = "numeric-to-integer";
-            var provider = new NativeTransformer<decimal>(new ServiceLocator(), null);
+            var provider = new NativeTransformer<decimal>(new ServiceLocator(), Context.None);
             provider.Initialize(code);
 
             var result = provider.Execute(value);
@@ -152,7 +152,7 @@ namespace NBi.Core.Testing.Transformation.Transformer
         public void Execute_NumericToRound_Valid(object value, decimal expected)
         {
             var code = "numeric-to-round(2)";
-            var provider = new NativeTransformer<decimal>(new ServiceLocator(), null);
+            var provider = new NativeTransformer<decimal>(new ServiceLocator(), Context.None);
             provider.Initialize(code);
 
             var result = provider.Execute(value);
@@ -166,7 +166,7 @@ namespace NBi.Core.Testing.Transformation.Transformer
         public void Execute_NumericToClip_Valid(object value, object min, object max, decimal expected)
         {
             var code = $"numeric-to-clip({min}, {max})";
-            var provider = new NativeTransformer<decimal>(new ServiceLocator(), null);
+            var provider = new NativeTransformer<decimal>(new ServiceLocator(), Context.None);
             provider.Initialize(code);
 
             var result = provider.Execute(value);
@@ -179,7 +179,7 @@ namespace NBi.Core.Testing.Transformation.Transformer
         public void Execute_NumericToIncrement_Valid(object value, decimal expected)
         {
             var code = $"numeric-to-increment";
-            var provider = new NativeTransformer<decimal>(new ServiceLocator(), null);
+            var provider = new NativeTransformer<decimal>(new ServiceLocator(), Context.None);
             provider.Initialize(code);
 
             var result = provider.Execute(value);
@@ -193,7 +193,7 @@ namespace NBi.Core.Testing.Transformation.Transformer
         public void Execute_NumericToAdd_Valid(object value, object additional, decimal expected)
         {
             var code = $"numeric-to-add({additional})";
-            var provider = new NativeTransformer<decimal>(new ServiceLocator(), null);
+            var provider = new NativeTransformer<decimal>(new ServiceLocator(), Context.None);
             provider.Initialize(code);
 
             var result = provider.Execute(value);
@@ -208,7 +208,7 @@ namespace NBi.Core.Testing.Transformation.Transformer
         public void Execute_NumericToAddTimes_Valid(object value, object additional, object times, decimal expected)
         {
             var code = $"numeric-to-add({additional}, {times})";
-            var provider = new NativeTransformer<decimal>(new ServiceLocator(), null);
+            var provider = new NativeTransformer<decimal>(new ServiceLocator(), Context.None);
             provider.Initialize(code);
 
             var result = provider.Execute(value);
@@ -223,7 +223,7 @@ namespace NBi.Core.Testing.Transformation.Transformer
         public void Execute_NumericToMultiply_Valid(object value, object multiplicator, decimal expected)
         {
             var code = $"numeric-to-multiply({multiplicator})";
-            var provider = new NativeTransformer<decimal>(new ServiceLocator(), null);
+            var provider = new NativeTransformer<decimal>(new ServiceLocator(), Context.None);
             provider.Initialize(code);
 
             var result = provider.Execute(value);
@@ -238,7 +238,7 @@ namespace NBi.Core.Testing.Transformation.Transformer
         public void Execute_NumericToDivide_Valid(object value, object multiplicator, decimal expected)
         {
             var code = $"numeric-to-divide({multiplicator})";
-            var provider = new NativeTransformer<decimal>(new ServiceLocator(), null);
+            var provider = new NativeTransformer<decimal>(new ServiceLocator(), Context.None);
             provider.Initialize(code);
 
             var result = provider.Execute(value);
@@ -252,7 +252,7 @@ namespace NBi.Core.Testing.Transformation.Transformer
         public void Execute_NumericToInvert_Valid(object value, decimal expected)
         {
             var code = $"numeric-to-invert";
-            var provider = new NativeTransformer<decimal>(new ServiceLocator(), null);
+            var provider = new NativeTransformer<decimal>(new ServiceLocator(), Context.None);
             provider.Initialize(code);
 
             var result = provider.Execute(value);
@@ -266,7 +266,7 @@ namespace NBi.Core.Testing.Transformation.Transformer
         public void Execute_DateTimeToClip_Valid(object value, DateTime expected)
         {
             var code = $"dateTime-to-clip(2019-03-01, 2019-03-31)";
-            var provider = new NativeTransformer<DateTime>(new ServiceLocator(), null);
+            var provider = new NativeTransformer<DateTime>(new ServiceLocator(), Context.None);
             provider.Initialize(code);
 
             var result = provider.Execute(value);
@@ -277,7 +277,7 @@ namespace NBi.Core.Testing.Transformation.Transformer
         public void Execute_DateTimeToAddTimeSpan_Valid()
         {
             var code = $"dateTime-to-add(04:00:00, 4)";
-            var provider = new NativeTransformer<DateTime>(new ServiceLocator(), null);
+            var provider = new NativeTransformer<DateTime>(new ServiceLocator(), Context.None);
             provider.Initialize(code);
 
             var result = provider.Execute(new DateTime(2017, 12, 31, 21, 0, 0));
@@ -288,7 +288,7 @@ namespace NBi.Core.Testing.Transformation.Transformer
         public void Execute_DateTimeToAddTimeSpanWithoutTimes_Valid()
         {
             var code = $"dateTime-to-add(04:00:00)";
-            var provider = new NativeTransformer<DateTime>(new ServiceLocator(), null);
+            var provider = new NativeTransformer<DateTime>(new ServiceLocator(), Context.None);
             provider.Initialize(code);
 
             var result = provider.Execute(new DateTime(2017, 12, 31, 21, 0, 0));
@@ -298,15 +298,15 @@ namespace NBi.Core.Testing.Transformation.Transformer
         [Test]
         public void Execute_MultipleChains_Valid()
         {
-            var code1 = $"path-to-filename-without-extension | text-to-dateTime(yyyyMMdd_HHmmss) | local-to-utc(Brussels)";
-            var provider1 = new NativeTransformer<string>(new ServiceLocator(), null);
+            var code1 = $"path-to-filename-without-extension | text-to-datetime(yyyyMMdd_HHmmss) | local-to-utc(Brussels)";
+            var provider1 = new NativeTransformer<string>(new ServiceLocator(), Context.None);
             provider1.Initialize(code1);
 
             var result1 = provider1.Execute("20191001_141542.xml");
             Assert.That(result1, Is.EqualTo(new DateTime(2019, 10, 01, 12, 15, 42)));
 
             var code2 = $"dateTime-to-floor-minute | dateTime-to-add(00:30:00, -1)";
-            var provider2 = new NativeTransformer<DateTime>(new ServiceLocator(), null);
+            var provider2 = new NativeTransformer<DateTime>(new ServiceLocator(), Context.None);
             provider2.Initialize(code2);
 
             var result2 = provider2.Execute(result1);

@@ -1,4 +1,6 @@
-﻿using NBi.Core.Evaluate;
+﻿using Expressif;
+using Expressif.Values;
+using NBi.Core.Evaluate;
 using NBi.Extensibility;
 using System;
 using System.Collections.Generic;
@@ -9,18 +11,26 @@ using System.Threading.Tasks;
 
 namespace NBi.Core.Variable
 {
-    public class Context
+    public class Context : IContext
     {
 
         public IEnumerable<IColumnAlias> Aliases { get; } = [];
         public IEnumerable<IColumnExpression> Expressions { get; } = [];
 
-        public IDictionary<string, IVariable> Variables { get; } = new Dictionary<string, IVariable>();
-        public IResultRow? CurrentRow { get; private set; }
+        public virtual IDictionary<string, IVariable> Variables { get; } = new Dictionary<string, IVariable>();
+        public virtual IResultRow? CurrentRow => (IResultRow?)currentObject.Value;
 
-        public static Context None { get; } = new Context();
+        private static readonly NoneContext noneContext = new ();
+        public static Context None => noneContext;
 
-        private Context() { }
+        ContextVariables IContext.Variables => throw new NotImplementedException();
+
+        private readonly ContextObject currentObject = new();
+        public ContextObject CurrentObject => currentObject;
+
+        internal Context()
+            : this(new Dictionary<string, IVariable>())
+        { }
 
         public Context(IDictionary<string, IVariable> variables)
             => Variables = variables;
@@ -29,6 +39,12 @@ namespace NBi.Core.Variable
             : this(variables) => (Aliases, Expressions) = (aliases, expressions);
 
         public void Switch(IResultRow currentRow)
-            => CurrentRow = currentRow;
+            => currentObject.Set(currentRow);
+
+        private class NoneContext : Context
+        {
+            public override IResultRow? CurrentRow => throw new NotSupportedException();
+            public override IDictionary<string, IVariable> Variables => throw new NotSupportedException();
+        }
     }
 }

@@ -25,7 +25,7 @@ namespace NBi.Core.Testing.Scalar.Resolver
         [Test]
         public void Instantiate_Format_FormatResolverArgs()
         {
-            var factory = new ScalarResolverArgsFactory(new ServiceLocator(), Context.None);;
+            var factory = new ScalarResolverArgsFactory(new ServiceLocator(), new Context());;
             var args = factory.Instantiate("~First day of 2018 is a { @myVar: dddd}");
             Assert.That(args, Is.TypeOf<FormatScalarResolverArgs>());
         }
@@ -33,7 +33,7 @@ namespace NBi.Core.Testing.Scalar.Resolver
         [Test]
         public void Instantiate_Variable_GlobalVariableResolverArgs()
         {
-            var factory = new ScalarResolverArgsFactory(new ServiceLocator(), Context.None);;
+            var factory = new ScalarResolverArgsFactory(new ServiceLocator(), new Context());;
             var args = factory.Instantiate("@myVar");
             Assert.That(args, Is.TypeOf<GlobalVariableScalarResolverArgs>());
         }
@@ -49,7 +49,7 @@ namespace NBi.Core.Testing.Scalar.Resolver
         [Test]
         public void Instantiate_NativeTransformation_FunctionResolverArgs()
         {
-            var factory = new ScalarResolverArgsFactory(new ServiceLocator(), Context.None);;
+            var factory = new ScalarResolverArgsFactory(new ServiceLocator(), new Context());;
             var args = factory.Instantiate("@myVar | text-to-length");
             Assert.That(args, Is.TypeOf<FunctionScalarResolverArgs>());
             var typedArgs = args as FunctionScalarResolverArgs;
@@ -61,7 +61,7 @@ namespace NBi.Core.Testing.Scalar.Resolver
         [Test]
         public void Instantiate_NativeTransformationWithFormat_FunctionResolverArgs()
         {
-            var factory = new ScalarResolverArgsFactory(new ServiceLocator(), Context.None);;
+            var factory = new ScalarResolverArgsFactory(new ServiceLocator(), new Context());;
             var args = factory.Instantiate("~{@myVar : dddd} | text-to-length");
             Assert.That(args, Is.TypeOf<FunctionScalarResolverArgs>());
             var typedArgs = args as FunctionScalarResolverArgs;
@@ -73,7 +73,7 @@ namespace NBi.Core.Testing.Scalar.Resolver
         [Test]
         public void Instantiate_NativeTransformationInsideFormat_FormatResolverArgs()
         {
-            var factory = new ScalarResolverArgsFactory(new ServiceLocator(), Context.None);;
+            var factory = new ScalarResolverArgsFactory(new ServiceLocator(), new Context());;
             var args = factory.Instantiate("~{@myVar | dateTime-to-previous-month : dddd} ");
             Assert.That(args, Is.TypeOf<FormatScalarResolverArgs>());
         }
@@ -81,7 +81,7 @@ namespace NBi.Core.Testing.Scalar.Resolver
         [Test]
         public void Instantiate_ContextWithFormat_LiteralResolverArgs()
         {
-            var factory = new ScalarResolverArgsFactory(new ServiceLocator(), Context.None); ;
+            var factory = new ScalarResolverArgsFactory(new ServiceLocator(), new Context()); ;
             var args = factory.Instantiate("[~{@date:yyyy}]");
             Assert.That(args, Is.TypeOf<ContextScalarResolverArgs>());
         }

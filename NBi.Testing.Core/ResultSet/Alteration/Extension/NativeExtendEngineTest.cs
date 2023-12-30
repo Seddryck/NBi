@@ -20,13 +20,13 @@ namespace NBi.Core.Testing.ResultSet.Alteration.Extension
         [Test]
         public void Execute_StandardRsColumnOrdinal_CorrectExtension()
         {
-            var args = new ObjectsResultSetResolverArgs(new[] { new object[] { "Alpha", 1, 2 }, new object[] { "Beta", 3, 2 }, new object[] { "Gamma", 5, 7 } });
+            var args = new ObjectsResultSetResolverArgs(new[] { ["Alpha", 1, 2], ["Beta", 3, 2], new object[] { "Gamma", 5, 7 } });
             var resolver = new ObjectsResultSetResolver(args);
             var rs = resolver.Execute();
 
             var extender = new NativeExtendEngine(
                 new ServiceLocator(),
-                Context.None, 
+                new Context(), 
                 new ColumnOrdinalIdentifier(3),
                 "#1 | numeric-to-multiply(#2)"
                 );
@@ -44,20 +44,20 @@ namespace NBi.Core.Testing.ResultSet.Alteration.Extension
             var args = new ObjectsResultSetResolverArgs(new[] { new object[] { "Alpha", 1, 2 }, new object[] { "Beta", 3, 2 }, new object[] { "Gamma", 5, 7 } });
             var resolver = new ObjectsResultSetResolver(args);
             var rs = resolver.Execute();
-            rs.GetColumn(0).Rename("a");
-            rs.GetColumn(1).Rename("b");
-            rs.GetColumn(2).Rename("c");
+            rs.GetColumn(0)!.Rename("a");
+            rs.GetColumn(1)!.Rename("b");
+            rs.GetColumn(2)!.Rename("c");
 
             var extender = new NativeExtendEngine(
                 new ServiceLocator(),
-                Context.None,
+                new Context(),
                 new ColumnNameIdentifier("d"),
                 "[a] | text-to-first-chars([c]) | text-to-upper"
                 );
             var newRs = extender.Execute(rs);
 
             Assert.That(newRs.ColumnCount, Is.EqualTo(4));
-            Assert.That(newRs.GetColumn(3).Name, Is.EqualTo("d"));
+            Assert.That(newRs.GetColumn(3)!.Name, Is.EqualTo("d"));
             Assert.That(newRs[0][3], Is.EqualTo("AL"));
             Assert.That(newRs[1][3], Is.EqualTo("BE"));
             Assert.That(newRs[2][3], Is.EqualTo("GAMMA"));
@@ -69,9 +69,9 @@ namespace NBi.Core.Testing.ResultSet.Alteration.Extension
             var args = new ObjectsResultSetResolverArgs(new[] { new object[] { "Alpha", 1, 2 }, new object[] { "Beta", 3, 2 }, new object[] { "Gamma", 5, 7 } });
             var resolver = new ObjectsResultSetResolver(args);
             var rs = resolver.Execute();
-            rs.GetColumn(0).Rename("a");
-            rs.GetColumn(1).Rename("b");
-            rs.GetColumn(2).Rename("c");
+            rs.GetColumn(0)!.Rename("a");
+            rs.GetColumn(1)!.Rename("b");
+            rs.GetColumn(2)!.Rename("c");
 
             var extender = new NativeExtendEngine(
                 new ServiceLocator(),
@@ -82,7 +82,7 @@ namespace NBi.Core.Testing.ResultSet.Alteration.Extension
             var newRs = extender.Execute(rs);
 
             Assert.That(newRs.ColumnCount, Is.EqualTo(4));
-            Assert.That(newRs.GetColumn(3).Name, Is.EqualTo("d"));
+            Assert.That(newRs.GetColumn(3)!.Name, Is.EqualTo("d"));
             Assert.That(newRs[0][3], Is.EqualTo("AL"));
             Assert.That(newRs[1][3], Is.EqualTo("BE"));
             Assert.That(newRs[2][3], Is.EqualTo("GA"));
@@ -121,19 +121,19 @@ namespace NBi.Core.Testing.ResultSet.Alteration.Extension
         {
             var rows = new List<object[]>();
             for (int i = 0; i < count; i++)
-                rows.Add(new object[] { i, i + 1 });
+                rows.Add([i, i + 1]);
 
             var args = new ObjectsResultSetResolverArgs(rows.ToArray());
             var resolver = new ObjectsResultSetResolver(args);
             var rs = resolver.Execute();
-            rs.GetColumn(0).Rename("a");
-            rs.GetColumn(1).Rename("b");
+            rs.GetColumn(0)!.Rename("a");
+            rs.GetColumn(1)!.Rename("b");
 
             var stopWatch = new Stopwatch();
             stopWatch.Start();
             var extender = new NativeExtendEngine(
                 new ServiceLocator(),
-                Context.None,
+                new Context(),
                 new ColumnNameIdentifier("c"),
                 "[b] | numeric-to-multiply([a]) | numeric-to-add([a], [b])"
                 );

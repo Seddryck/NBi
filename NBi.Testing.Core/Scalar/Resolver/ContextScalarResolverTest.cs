@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using NBi.Core.ResultSet;
+using Expressif.Predicates.Numeric;
 
 namespace NBi.Core.Testing.Scalar.Resolver
 {
@@ -18,10 +19,10 @@ namespace NBi.Core.Testing.Scalar.Resolver
         public void Execute_FirstRowByName_CorrectEvaluation()
         {
             var rs = new DataTableResultSet();
-            rs.Load(new[] { new object[] { "a", 1 }, new object[] { "b", 2 } });
-            rs.GetColumn(0).Rename("Foo");
+            rs.Load(new[] { ["a", 1], new object[] { "b", 2 } });
+            rs.GetColumn(0)!.Rename("Foo");
 
-            var context = Context.None;
+            var context = new Context();
             var args = new ContextScalarResolverArgs(context, new ColumnNameIdentifier("Foo"));
             var resolver = new ContextScalarResolver<string>(args);
 
@@ -33,9 +34,9 @@ namespace NBi.Core.Testing.Scalar.Resolver
         public void Execute_FirstRowByOrdinal_CorrectEvaluation()
         {
             var rs = new DataTableResultSet();
-            rs.Load(new[] { new object[] { "a", 1 }, new object[] { "b", 2 } });
+            rs.Load(new[] { ["a", 1], new object[] { "b", 2 } });
 
-            var context = Context.None;
+            var context = new Context();
             var args = new ContextScalarResolverArgs(context, new ColumnOrdinalIdentifier(0));
             var resolver = new ContextScalarResolver<string>(args);
 
@@ -47,10 +48,10 @@ namespace NBi.Core.Testing.Scalar.Resolver
         public void Execute_SecondRow_CorrectEvaluation()
         {
             var rs = new DataTableResultSet();
-            rs.Load(new[] { new object[] { "a", 1 }, new object[] { "b", 2 } });
-            rs.GetColumn(0).Rename("Foo");
+            rs.Load(new[] { ["a", 1], new object[] { "b", 2 } });
+            rs.GetColumn(0)!.Rename("Foo");
 
-            var context = Context.None;
+            var context = new Context();
             var args = new ContextScalarResolverArgs(context, new ColumnNameIdentifier("Foo"));
             var resolver = new ContextScalarResolver<string>(args);
 

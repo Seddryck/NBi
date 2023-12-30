@@ -31,7 +31,7 @@ namespace NBi.Core.Testing.ResultSet.Alteration.Duplication
 
             var duplicator = new DuplicateEngine(
                 new ServiceLocator(),
-                Context.None,
+                new Context(),
                 Predication.AlwaysTrue,
                 new LiteralScalarResolver<int>(1),
                 new List<OutputArgs>()
@@ -63,7 +63,7 @@ namespace NBi.Core.Testing.ResultSet.Alteration.Duplication
             };
             var duplicator = new DuplicateEngine(
                 new ServiceLocator(),
-                Context.None,
+                new Context(),
                 new PredicationFactory().Instantiate(new PredicateFactory().Instantiate(referenceArgs), new ColumnOrdinalIdentifier(1)),
                 new LiteralScalarResolver<int>(1),
                 new List<OutputArgs>()
@@ -92,14 +92,14 @@ namespace NBi.Core.Testing.ResultSet.Alteration.Duplication
                 ColumnType = ColumnType.Numeric,
                 Not = false
             };
-
+            var context = new Context();
             var duplicator = new DuplicateEngine(
                 new ServiceLocator(),
-                Context.None,
+                context,
                 new PredicationFactory().Instantiate(
                         new PredicateFactory().Instantiate(referenceArgs)
                     , new ColumnOrdinalIdentifier(1)),
-                new ContextScalarResolver<int>(Context.None, new ColumnOrdinalIdentifier(2)),
+                new ContextScalarResolver<int>(context, new ColumnOrdinalIdentifier(2)),
                 []
                 );
             var newRs = duplicator.Execute(rs);
@@ -125,7 +125,7 @@ namespace NBi.Core.Testing.ResultSet.Alteration.Duplication
 
             var duplicator = new DuplicateEngine(
                 new ServiceLocator(),
-                Context.None,
+                new Context(),
                 Predication.AlwaysTrue,
                 new LiteralScalarResolver<int>(1),
                 new List<OutputArgs>() { new OutputValueArgs(new ColumnNameIdentifier("NewValue"), "Static Value") }
@@ -146,16 +146,16 @@ namespace NBi.Core.Testing.ResultSet.Alteration.Duplication
         [Test]
         public void Execute_OuputIndex_CorrectIndex()
         {
-            var args = new ObjectsResultSetResolverArgs(new[] { new object[] { "Alpha", 1, 2 }, new object[] { "Beta", 3, 2 }, new object[] { "Gamma", 5, 7 } });
+            var args = new ObjectsResultSetResolverArgs(new[] { ["Alpha", 1, 2], ["Beta", 3, 2], new object[] { "Gamma", 5, 7 } });
             var resolver = new ObjectsResultSetResolver(args);
             var rs = resolver.Execute();
 
             var duplicator = new DuplicateEngine(
                 new ServiceLocator(),
-                Context.None,
+                new Context(),
                 Predication.AlwaysTrue,
                 new LiteralScalarResolver<int>(1),
-                new List<OutputArgs>() { new OutputArgs(new ColumnNameIdentifier("Index"), OutputClass.Index) }
+                new List<OutputArgs>() { new (new ColumnNameIdentifier("Index"), OutputClass.Index) }
                 );
             var newRs = duplicator.Execute(rs);
 
@@ -183,11 +183,12 @@ namespace NBi.Core.Testing.ResultSet.Alteration.Duplication
                 ColumnType = ColumnType.Numeric,
                 Not = false
             };
+            var context = new Context();
             var duplicator = new DuplicateEngine(
                 new ServiceLocator(),
-                Context.None,
+                context,
                 new PredicationFactory().Instantiate(new PredicateFactory().Instantiate(referenceArgs), new ColumnOrdinalIdentifier(1)),
-                new ContextScalarResolver<int>(Context.None, new ColumnOrdinalIdentifier(2)),
+                new ContextScalarResolver<int>(context, new ColumnOrdinalIdentifier(2)),
                 new List<OutputArgs>() { new(new ColumnNameIdentifier("Total"), OutputClass.Total) }
                 );
             var newRs = duplicator.Execute(rs);
@@ -217,11 +218,12 @@ namespace NBi.Core.Testing.ResultSet.Alteration.Duplication
                 ColumnType = ColumnType.Numeric,
                 Not = false
             };
+            var context = new Context();
             var duplicator = new DuplicateEngine(
                 new ServiceLocator(),
-                Context.None,
+                context,
                 new PredicationFactory().Instantiate(new PredicateFactory().Instantiate(referenceArgs), new ColumnOrdinalIdentifier(1)),
-                new ContextScalarResolver<int>(Context.None, new ColumnOrdinalIdentifier(2)),
+                new ContextScalarResolver<int>(context, new ColumnOrdinalIdentifier(2)),
                 new List<OutputArgs>() { new OutputArgs(new ColumnNameIdentifier("IsOriginal"), OutputClass.IsOriginal) }
                 );
             var newRs = duplicator.Execute(rs);
@@ -246,11 +248,12 @@ namespace NBi.Core.Testing.ResultSet.Alteration.Duplication
                 ColumnType = ColumnType.Numeric,
                 Not = false
             };
+            var context = new Context();
             var duplicator = new DuplicateEngine(
                 new ServiceLocator(),
-                Context.None,
+                context,
                 new PredicationFactory().Instantiate(new PredicateFactory().Instantiate(referenceArgs), new ColumnOrdinalIdentifier(1)),
-                new ContextScalarResolver<int>(Context.None, new ColumnOrdinalIdentifier(2)),
+                new ContextScalarResolver<int>(context, new ColumnOrdinalIdentifier(2)),
                 new List<OutputArgs>() { new OutputArgs(new ColumnNameIdentifier("IsDuplicable"), OutputClass.IsDuplicable) }
                 );
             var newRs = duplicator.Execute(rs);
@@ -275,13 +278,14 @@ namespace NBi.Core.Testing.ResultSet.Alteration.Duplication
                 ColumnType = ColumnType.Numeric,
                 Not = false
             };
+            var context = new Context();
             var duplicator = new DuplicateEngine(
                 new ServiceLocator(),
-                Context.None,
+                context,
                 new PredicationFactory().Instantiate(new PredicateFactory().Instantiate(referenceArgs), new ColumnOrdinalIdentifier(1)),
-                new ContextScalarResolver<int>(Context.None, new ColumnOrdinalIdentifier(2)),
+                new ContextScalarResolver<int>(context, new ColumnOrdinalIdentifier(2)),
                 new List<OutputArgs>() { new OutputScriptArgs(
-                    new ServiceLocator(), Context.None, new ColumnNameIdentifier("NewValue")
+                    new ServiceLocator(), context, new ColumnNameIdentifier("NewValue")
                     , LanguageType.Native, "#1 | numeric-to-divide(#2)")
                 }
             );
@@ -311,13 +315,14 @@ namespace NBi.Core.Testing.ResultSet.Alteration.Duplication
                 ColumnType = ColumnType.Numeric,
                 Not = false
             };
+            var context = new Context();
             var duplicator = new DuplicateEngine(
                 new ServiceLocator(),
-                Context.None,
+                context,
                 new PredicationFactory().Instantiate(new PredicateFactory().Instantiate(referenceArgs), new ColumnOrdinalIdentifier(1)),
-                new ContextScalarResolver<int>(Context.None, new ColumnOrdinalIdentifier(2)),
+                new ContextScalarResolver<int>(context, new ColumnOrdinalIdentifier(2)),
                 new List<OutputArgs>() { new OutputScriptArgs(
-                    new ServiceLocator(), Context.None, new ColumnNameIdentifier("Value")
+                    new ServiceLocator(), context, new ColumnNameIdentifier("Value")
                     , LanguageType.Native, "[Value] | numeric-to-divide(#2)")
                 }
             );
@@ -352,16 +357,17 @@ namespace NBi.Core.Testing.ResultSet.Alteration.Duplication
                 ColumnType = ColumnType.Numeric,
                 Not = false
             };
+            var context = new Context();
             var duplicator = new DuplicateEngine(
-                serviceLocator,
-                Context.None,
+                new ServiceLocator(),
+                context,
                 new PredicationFactory().Instantiate(new PredicateFactory().Instantiate(referenceArgs), new ColumnOrdinalIdentifier(1)),
-                new ContextScalarResolver<int>(Context.None, new ColumnOrdinalIdentifier(2)),
+                new ContextScalarResolver<int>(context, new ColumnOrdinalIdentifier(2)),
                 new List<OutputArgs>() {
                     new (new ColumnNameIdentifier("Total"), OutputClass.Total),
                     new (new ColumnNameIdentifier("Index"), OutputClass.Index),
                     new OutputScriptArgs(
-                        serviceLocator, Context.None, new ColumnNameIdentifier("Value")
+                        serviceLocator, context, new ColumnNameIdentifier("Value")
                         , LanguageType.NCalc, "[Value]/[Total]*([Index]+1)"
                     )
                 }
@@ -406,9 +412,10 @@ namespace NBi.Core.Testing.ResultSet.Alteration.Duplication
                 ColumnType = ColumnType.Numeric,
                 Not = false
             };
+            var context = new Context();
             var duplicator = new DuplicateEngine(
                 new ServiceLocator(),
-                Context.None,
+                context,
                 new PredicationFactory().Instantiate(new PredicateFactory().Instantiate(referenceArgs), new ColumnNameIdentifier("a")),
                 new LiteralScalarResolver<int>(1),
                 new List<OutputArgs>() { new (new ColumnNameIdentifier("Index"), OutputClass.Index) }

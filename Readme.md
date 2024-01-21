@@ -17,7 +17,7 @@ The main goal of this framework is to let users create tests with a declarative 
 [![nuget](https://img.shields.io/nuget/vpre/NBi.Framework.svg?color=%23427682&label=Beta)](https://www.nuget.org/packages/NBi.Framework/)
 
 **Dev. activity:** [![GitHub last commit](https://img.shields.io/github/last-commit/Seddryck/nbi.svg)](https://github.com/Seddryck/NBi/releases/latest)
-![Still maintained](https://img.shields.io/maintenance/yes/2023.svg)
+![Still maintained](https://img.shields.io/maintenance/yes/2024.svg)
 ![GitHub commits since latest version](https://img.shields.io/github/commits-since/Seddryck/NBi/latest/develop)
 ![GitHub commits on v2.0](https://img.shields.io/github/commits-since/seddryck/nbi/v1.21/develop_v2?label=commits%20on%20v2.0)
 ![GitHub commit activity](https://img.shields.io/github/commit-activity/y/Seddryck/NBi)

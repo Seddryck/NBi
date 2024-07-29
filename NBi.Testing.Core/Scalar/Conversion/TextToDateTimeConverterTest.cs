@@ -19,7 +19,7 @@ namespace NBi.Core.Testing.Scalar.Conversion
         [TestCase("ko-ko")]
         public void Execute_ValidDateTime_Date(string culture)
         {
-            var cultureInfo = new CultureInfo(culture);
+            var cultureInfo = new CultureInfo(culture, false);
             var text = (new DateTime(2018, 1, 6, 5, 12, 25)).ToString(cultureInfo.DateTimeFormat.ShortDatePattern + " " + cultureInfo.DateTimeFormat.LongTimePattern, cultureInfo.DateTimeFormat);
 
             var converter = new TextToDateTimeConverter(cultureInfo, DateTime.MinValue);

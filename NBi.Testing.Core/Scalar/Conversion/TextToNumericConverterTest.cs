@@ -19,7 +19,7 @@ namespace NBi.Core.Testing.Scalar.Conversion
         [TestCase("ko-ko")]
         public void Execute_ValidNumeric_Decimal(string culture)
         {
-            var cultureInfo = new CultureInfo(culture);
+            var cultureInfo = new CultureInfo(culture, false);
             var text = (100.456).ToString(cultureInfo.NumberFormat);
 
             var converter = new TextToNumericConverter(cultureInfo, -1m);

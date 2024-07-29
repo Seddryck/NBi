@@ -28,6 +28,7 @@ namespace NBi.Testing.Core.Api.Rest
         }
 
         [Test]
+        [Ignore("API has changed")]
         public void Execute_PathAndParameters_CorrectResponse()
         {
             var baseUrl = new LiteralScalarResolver<string>("https://api.publicapis.org/");

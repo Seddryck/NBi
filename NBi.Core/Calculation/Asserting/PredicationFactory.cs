@@ -1,5 +1,4 @@
-﻿using Expressif;
-using NBi.Extensibility;
+﻿using NBi.Extensibility;
 using System;
 using System.Collections.Generic;
 using System.Linq;

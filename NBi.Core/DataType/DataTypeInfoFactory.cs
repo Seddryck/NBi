@@ -11,9 +11,7 @@ namespace NBi.Core.DataType
     {
         public DataTypeInfo Instantiate(RelationalRow row)
         {
-            DataTypeInfo dataTypeInfo = null;
-            
-
+            DataTypeInfo dataTypeInfo;
             if (row.CharacterMaximumLength > 0)
             {
                 dataTypeInfo = new TextInfo();
@@ -45,7 +43,7 @@ namespace NBi.Core.DataType
 
         public DataTypeInfo Instantiate(string value)
         {
-            DataTypeInfo dataTypeInfo = null;
+            DataTypeInfo dataTypeInfo;
 
             var type = value.Split('(')[0];
             dataTypeInfo = Decrypt(type);

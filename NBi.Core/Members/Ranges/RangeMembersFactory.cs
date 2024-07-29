@@ -103,7 +103,7 @@ namespace NBi.Core.Members.Ranges
         {
 
             if (range == null)
-                throw new ArgumentNullException("range");
+                throw new ArgumentNullException(nameof(range));
 
             IRangeMembersBuilder builder = null;
 

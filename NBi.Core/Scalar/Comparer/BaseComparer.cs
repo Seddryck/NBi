@@ -1,5 +1,6 @@
 ﻿using NBi.Core.Scalar.Casting;
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Linq;
 
@@ -7,14 +8,8 @@ namespace NBi.Core.Scalar.Comparer
 {
     abstract class BaseComparer
     {
-        public ComparerResult Compare(object x, object y)
-        {
-            var eq = CompareBasic(x,y);
-            if (eq != null)
-                return eq;
-
-            return CompareObjects(x,y);
-        }
+        public ComparerResult Compare(object? x, object? y)
+            => CompareBasic(x,y) ?? CompareObjects(x!,y!);
 
         public ComparerResult Compare(object x, object y, Rounding rounding)
         {
@@ -39,15 +34,15 @@ namespace NBi.Core.Scalar.Comparer
         protected abstract ComparerResult CompareObjects(object x, object y, Tolerance tolerance);
         protected abstract ComparerResult CompareObjects(object x, object y, Rounding rounding);
 
-        protected ComparerResult CompareBasic(object x, object y)
+        protected ComparerResult? CompareBasic(object? x, object? y)
         {
-            if (x is string && ((string)x) == "(null)")
+            if (x is string v && v == "(null)")
                 x = null;
 
-            if (y is string && ((string)y) == "(null)")
+            if (y is string v1 && v1 == "(null)")
                 y = null;
 
-            if (EqualByGeneric(x, y))
+            if (EqualByRangeValue(x, y))
                 return ComparerResult.Equality;
 
             var eq = EqualByNull(x, y);
@@ -57,16 +52,15 @@ namespace NBi.Core.Scalar.Comparer
             return null;
         }
 
-
-        private ComparerResult EqualByNull(object x, object y)
+        protected virtual ComparerResult? EqualByNull(object? x, object? y)
         {
             if (x == null && y == null)
                 return ComparerResult.Equality;
 
-            if (y==null && x is string && ((string)x) == "(blank)")
+            if (y==null && x is string xStr && xStr == "(blank)")
                 return ComparerResult.Equality;
 
-            if (x==null && y is string && ((string)y) == "(blank)")
+            if (x==null && y is string yStr && yStr == "(blank)")
                 return ComparerResult.Equality;
 
             if (x == null || y == null)
@@ -75,7 +69,7 @@ namespace NBi.Core.Scalar.Comparer
             return null;
         }
 
-        protected bool EqualByGeneric(object x, object y)
+        protected bool EqualByRangeValue(object? x, object? y)
         {
             if (x is string && ((string)x) == "(value)")
                 return y != null && IsValidObject(y);
@@ -91,9 +85,6 @@ namespace NBi.Core.Scalar.Comparer
 
             return false;
         }
-
-        
-        
 
         public static bool IsValidDateTime(string value)
         {

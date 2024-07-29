@@ -13,9 +13,9 @@ namespace NBi.Core.Scalar.Resolver
         private readonly ServiceLocator serviceLocator;
         private readonly MethodInfo instantiateHandler;
 
-        public ScalarResolverFactory(ServiceLocator serviceLocator)
+        public ScalarResolverFactory(ServiceLocator? serviceLocator = null)
         {
-            this.serviceLocator = serviceLocator;
+            this.serviceLocator = serviceLocator ?? new();
             instantiateHandler = GetType().GetMethods().Single(x => x.Name == nameof(Instantiate) && x.IsGenericMethod);
         }
 

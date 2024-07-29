@@ -1,4 +1,5 @@
-﻿using NBi.Core.Injection;
+﻿using Expressif.Values;
+using NBi.Core.Injection;
 using NBi.Core.Scalar.Resolver;
 using NBi.Core.Transformation.Transformer;
 using NBi.Core.Variable;
@@ -17,7 +18,8 @@ namespace NBi.Core.Testing.Transformation.Transformer
         [Test]
         public void Execute_TextToLastCharsWithVariable_Valid()
         {
-            var variables = new Dictionary<string, IVariable>() { { "length", new GlobalVariable(new LiteralScalarResolver<int>(6)) } };
+            var variables = new ContextVariables();
+            variables.Set("length", () => new GlobalVariable(new LiteralScalarResolver<int>(6)).GetValue());
             var code = "text-to-last-chars(@length)";
             var provider = new NativeTransformer<string>(new ServiceLocator(), new Context(variables));
             provider.Initialize(code);
@@ -67,7 +69,7 @@ namespace NBi.Core.Testing.Transformation.Transformer
         [Test]
         [TestCase("(null)", 0)]
         [TestCase("foo", 3)]
-        [Ignore("Need to handle the value in front of")]
+        [Ignore("Expressif needs to handle the value in front of")]
         public void Execute_ChainingTransformationsStartingByValue_Valid(object value, decimal expected)
         {
             var code = "value | null-to-empty | text-to-length";

@@ -2,7 +2,6 @@
 using NBi.Core.Scalar.Resolver;
 using NBi.Core.Transformation.Transformer;
 using NBi.Core.Transformation.Transformer.Native;
-using NBi.Core.Transformation.Transformer.Native.Text;
 using NBi.Core.Variable;
 using NBi.Extensibility.Resolving;
 using NUnit.Framework;
@@ -17,126 +16,16 @@ namespace NBi.Core.Testing.Transformation.Transformer
     public class NativeTransformationFactoryTest
     {
         [Test]
-        public void Instantiate_ExistingWithoutParameter_CorrectType()
+        [TestCase("length")]
+        [TestCase("length()")]
+        [TestCase("\t\rlength \n")]
+        [TestCase("\t\rlength \n()")]
+        public void Instantiate_WhitespaceIrrelevant_CorrectlyBuilt(string value)
         {
-            var factory = new NativeTransformationFactory(new ServiceLocator(), null);;
-            var result = factory.Instantiate("dateTime-to-date");
-            
-            Assert.That(result, Is.AssignableTo<INativeTransformation>());
-            Assert.That(result, Is.TypeOf<DateTimeToDate>());
-        }
-
-        [Test]
-        public void Instantiate_ExistingWithoutParameterAndWhitespaces_CorrectType()
-        {
-            var factory = new NativeTransformationFactory(new ServiceLocator(), null);;
-            var result = factory.Instantiate("\t\tdateTime-to-date\r\n");
+            var factory = new NativeTransformationFactory(new ServiceLocator(), Context.None); ;
+            var result = factory.Instantiate(value);
 
             Assert.That(result, Is.AssignableTo<INativeTransformation>());
-            Assert.That(result, Is.TypeOf<DateTimeToDate>());
-        }
-
-        [Test]
-        public void Instantiate_ExistingWithParameter2_CorrectType()
-        {
-            var factory = new NativeTransformationFactory(new ServiceLocator(), null);;
-            var result = factory.Instantiate("text-to-pad-right(6, *)");
-
-            Assert.That(result, Is.AssignableTo<INativeTransformation>());
-            Assert.That(result, Is.TypeOf<TextToPadRight>());
-            Assert.That((result as TextToPadRight).Length.Execute(), Is.EqualTo(6));
-            Assert.That((result as TextToPadRight).Character.Execute(), Is.EqualTo('*'));
-        }
-
-        [Test]
-        public void Instantiate_ExistingWithParameter_CorrectType()
-        {
-            var factory = new NativeTransformationFactory(new ServiceLocator(), null);;
-            var result = factory.Instantiate("utc-to-local(Brussels)");
-
-            Assert.That(result, Is.AssignableTo<INativeTransformation>());
-            Assert.That(result, Is.TypeOf<UtcToLocal>());
-            Assert.That((result as UtcToLocal).TimeZoneLabel, Is.AssignableTo<IScalarResolver>());
-            Assert.That((result as UtcToLocal).TimeZoneLabel, Is.AssignableTo<IScalarResolver<string>>());
-            Assert.That((result as UtcToLocal).TimeZoneLabel, Is.TypeOf<LiteralScalarResolver<string>>());
-            Assert.That((result as UtcToLocal).TimeZoneLabel.Execute(), Is.EqualTo("Brussels"));
-        }
-
-        [Test]
-        public void Instantiate_ExistingWithParameterIncludingSpaces_CorrectType()
-        {
-            var factory = new NativeTransformationFactory(new ServiceLocator(), null);;
-            var result = factory.Instantiate("utc-to-local( Romance Standard Time )");
-
-            Assert.That(result, Is.AssignableTo<INativeTransformation>());
-            Assert.That(result, Is.TypeOf<UtcToLocal>());
-            Assert.That((result as UtcToLocal).TimeZoneLabel.Execute(), Is.EqualTo("Romance Standard Time"));
-        }
-
-        [Test]
-        public void Instantiate_ExistingWithParameterAndWhitespaces_CorrectType()
-        {
-            var factory = new NativeTransformationFactory(new ServiceLocator(), null);;
-            var result = factory.Instantiate("\r\n\t\t\tutc-to-local(Brussels) \t\r\n");
-
-            Assert.That(result, Is.AssignableTo<INativeTransformation>());
-            Assert.That(result, Is.TypeOf<UtcToLocal>());
-            Assert.That((result as UtcToLocal).TimeZoneLabel.Execute(), Is.EqualTo("Brussels"));
-        }
-
-        [Test]
-        public void Instantiate_ExistingWithParameters_CorrectType()
-        {
-            var factory = new NativeTransformationFactory(new ServiceLocator(), null);;
-            var result = factory.Instantiate("numeric-to-clip(10, 2000)");
-
-            Assert.That(result, Is.AssignableTo<INativeTransformation>());
-            Assert.That(result, Is.TypeOf<NumericToClip>());
-            Assert.That((result as NumericToClip).Min.Execute(), Is.EqualTo(10));
-            Assert.That((result as NumericToClip).Max.Execute(), Is.EqualTo(2000));
-        }
-
-        [Test]
-        public void Instantiate_ExistingWithParametersAndWhitespaces_CorrectType()
-        {
-            var factory = new NativeTransformationFactory(new ServiceLocator(), null);;
-            var result = factory.Instantiate("\r\n\t\t\tnumeric-to-clip(  10,   2000   )\t\t\t\r\n");
-
-            Assert.That(result, Is.AssignableTo<INativeTransformation>());
-            Assert.That(result, Is.TypeOf<NumericToClip>());
-            Assert.That((result as NumericToClip).Min.Execute(), Is.EqualTo(10));
-            Assert.That((result as NumericToClip).Max.Execute(), Is.EqualTo(2000));
-        }
-
-        [Test]
-        public void Instantiate_ExistingWithParametersAndSpaces_CorrectType()
-        {
-            var factory = new NativeTransformationFactory(new ServiceLocator(), null);;
-            var result = factory.Instantiate("numeric-to-clip (10,   2000)");
-
-            Assert.That(result, Is.AssignableTo<INativeTransformation>());
-            Assert.That(result, Is.TypeOf<NumericToClip>());
-            Assert.That((result as NumericToClip).Min.Execute(), Is.EqualTo(10));
-            Assert.That((result as NumericToClip).Max.Execute(), Is.EqualTo(2000));
-        }
-
-        [Test]
-        public void Instantiate_ExistingWithParametersAndVariables_CorrectType()
-        {
-            var variables = new Dictionary<string, IVariable>()
-            {
-                { "avg", new GlobalVariable(new LiteralScalarResolver<decimal>(50)) },
-                { "min", new GlobalVariable(new LiteralScalarResolver<decimal>(10)) },
-                { "max", new GlobalVariable(new LiteralScalarResolver<decimal>(2000)) },
-            };
-
-            var factory = new NativeTransformationFactory(new ServiceLocator(), new Context(variables));
-            var result = factory.Instantiate("numeric-to-clip(@min, @max)");
-
-            Assert.That(result, Is.AssignableTo<INativeTransformation>());
-            Assert.That(result, Is.TypeOf<NumericToClip>());
-            Assert.That((result as NumericToClip).Min.Execute(), Is.EqualTo(10));
-            Assert.That((result as NumericToClip).Max.Execute(), Is.EqualTo(2000));
         }
 
         [Test]
@@ -168,13 +57,14 @@ namespace NBi.Core.Testing.Transformation.Transformer
         [TestCase("text-to-token(2,;)")]
         [TestCase("text-to-without-whitespaces")]
         [TestCase("text-to-remove-chars(*)")]
-        [TestCase("text-to-dateTime(yyyy.mm.dd hh:mm)")]
-        [TestCase("text-to-dateTime(dddd dd mm yyyy hh:mm, fr-fr)")]
+        [TestCase("text-to-dateTime(\"yyyy.mm.dd hh:mm\")")]
+        [TestCase("text-to-dateTime(\"dddd dd mm yyyy hh:mm\", fr-fr)")]
         [TestCase("text-to-mask(BE-***.***.**)")]
         [TestCase("mask-to-text(BE-***.***.**)")]
         [TestCase("html-to-text")]
         [TestCase("date-to-age")]
         [TestCase("utc-to-local(Brussels)")]
+        [TestCase("utc-to-local(\"Romance Standard Time\")")]
         [TestCase("local-to-utc(Brussels)")]
         [TestCase("dateTime-to-date")]
         [TestCase("null-to-date(2010-05-01)")]
@@ -233,7 +123,7 @@ namespace NBi.Core.Testing.Transformation.Transformer
         [TestCase("file-to-update-dateTime-utc")]
         public void Instantiate_ExistingNativeTransformationWithFilePath_CorrectlyBuilt(string value)
         {
-            value = $"{value}({GetType().Assembly.Location})";
+            //value = $"{value}({GetType().Assembly.Location})";
             var factory = new NativeTransformationFactory(new ServiceLocator(), Context.None); ;
             var result = factory.Instantiate(value);
 

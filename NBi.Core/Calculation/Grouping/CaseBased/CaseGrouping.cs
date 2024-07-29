@@ -31,7 +31,7 @@ namespace NBi.Core.Calculation.Grouping.CaseBased
                 var index = Cases.Select((p, i) => new { Predication = p, Index = i })
                                 .FirstOrDefault(x => x.Predication.Execute(Context))
                                 ?.Index ?? -1;
-                var key = new ResultSet.KeyCollection(new object[] { index });
+                var key = new ResultSet.KeyCollection([index]);
                 if (!dico.ContainsKey(key))
                     dico.Add(key, resultSet.Clone());
                 dico[key].AddRow(row);

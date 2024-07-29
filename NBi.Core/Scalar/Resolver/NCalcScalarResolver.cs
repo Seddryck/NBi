@@ -1,4 +1,5 @@
-﻿using Microsoft.CSharp;
+﻿using Expressif.Values;
+using Microsoft.CSharp;
 using NBi.Core.ResultSet;
 using NBi.Extensibility;
 using NBi.Extensibility.Resolving;
@@ -28,7 +29,7 @@ namespace NBi.Core.Scalar.Resolver
             exp.EvaluateParameter += delegate (string name, NCalc.ParameterArgs args)
             {
                 args.Result = name.StartsWith("@")
-                    ? Args.Context.Variables[name.Substring(1, name.Length - 1)].GetValue()
+                    ? Args.Context.Variables[name]
                     : GetValueFromRow(Args.Context.CurrentRow!, factory.Instantiate(name));
             };
 
@@ -37,22 +38,21 @@ namespace NBi.Core.Scalar.Resolver
             return (T)Convert.ChangeType(rawValue, typeof(T));
         }
 
-        protected object? GetValueFromRow(IResultRow row, IColumnIdentifier identifier)
+        protected virtual object? GetValueFromRow(IResultRow row, IColumnIdentifier identifier)
         {
             if (identifier is ColumnOrdinalIdentifier ordinalIdentifier)
             {
                 var ordinal = ordinalIdentifier.Ordinal;
-                if (ordinal <= row.Parent.ColumnCount)
-                    return row.ItemArray[ordinal];
+                if (ordinal <= row.Parent.Columns.Count())
+                    return row[ordinal];
                 else
-                    throw new ArgumentException($"The variable of the predicate is identified as '{identifier.Label}' but the column in position '{ordinal}' doesn't exist. The dataset only contains {row.Parent.ColumnCount} columns.");
+                    throw new ArgumentException($"The variable of the predicate is identified as '{identifier.Label}' but the column in position '{ordinal}' doesn't exist. The dataset only contains {row.Parent.Columns.Count()} columns.");
             }
             else if (identifier is ColumnNameIdentifier nameIdentifier)
             {
                 var name = nameIdentifier.Name;
-                var column = row.Parent.GetColumn(name);
-                if (column != null)
-                    return row[column.Name];
+                if (row.Parent.ContainsColumn(name))
+                    return row[name];
 
                 var existingNames = row.Parent.Columns.Select(x => x.Name);
                 throw new ArgumentException($"The value '{name}' is not recognized as a column position, a column name, a column alias or an expression. Possible arguments are: '{string.Join("', '", existingNames.ToArray())}'");

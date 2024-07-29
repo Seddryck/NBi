@@ -28,7 +28,7 @@ namespace NBi.Core.Query.Client
 
         public IDbConnection CreateConnection()
         {
-            var dbConnection = factory.CreateConnection();
+            var dbConnection = factory.CreateConnection() ?? throw new ConnectionException(new Exception(), ConnectionString);
             dbConnection.ConnectionString = ConnectionString;
             return dbConnection;
         }

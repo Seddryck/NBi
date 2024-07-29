@@ -21,23 +21,20 @@ namespace NBi.Core.Query.Client
         public IClient Instantiate(string connectionString)
         {
             var factory = ParseConnectionString(connectionString);
-            if (factory == null)
-                throw new ArgumentException();
-
-            return Instantiate(factory, connectionString);
+            return factory == null ? throw new ArgumentException() : Instantiate(factory, connectionString);
         }
 
         protected abstract IClient Instantiate(DbProviderFactory factory, string connectionString);
 
-        protected abstract DbProviderFactory ParseConnectionString(string connectionString);
+        protected abstract DbProviderFactory? ParseConnectionString(string connectionString);
 
-        protected virtual DbConnectionStringBuilder GetConnectionStringBuilder(string connectionString)
+        protected virtual DbConnectionStringBuilder? GetConnectionStringBuilder(string connectionString)
         {
             try { return new DbConnectionStringBuilder() { ConnectionString = connectionString }; }
             catch (Exception) { return null; }
         }
 
-        protected DbProviderFactory GetDbProviderFactory(string providerName)
+        protected virtual DbProviderFactory? GetDbProviderFactory(string providerName)
         {
             var providers = new List<string>();
             foreach (DataRowView item in DbProviderFactories.GetFactoryClasses().DefaultView)

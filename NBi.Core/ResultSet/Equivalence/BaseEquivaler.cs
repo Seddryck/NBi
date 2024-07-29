@@ -16,24 +16,22 @@ namespace NBi.Core.ResultSet.Equivalence
     public abstract class BaseEquivaler : IEquivaler
     {
         private readonly IList<IRowsAnalyzer> analyzers;
-        private IReadOnlyCollection<IRowsAnalyzer> Analyzers
-        {
-            get { return new ReadOnlyCollection<IRowsAnalyzer>(analyzers); }
-        }
+
         protected CellComparer CellComparer { get; } = new CellComparer();
 
-        public BaseEquivaler(IEnumerable<IRowsAnalyzer> analyzers)
+        public BaseEquivaler(IEnumerable<IRowsAnalyzer> analyzers, ISettingsResultSet? settings)
         {
             this.analyzers = new List<IRowsAnalyzer>(analyzers);
+            Settings = settings;
         }
 
-        public ISettingsResultSet Settings { get; set; }
+        public ISettingsResultSet? Settings { get; protected set; }
 
         public abstract EngineStyle Style { get; }
         
 
-        private readonly Dictionary<KeyCollection, RowHelper> xDict = new Dictionary<KeyCollection, RowHelper>();
-        private readonly Dictionary<KeyCollection, RowHelper> yDict = new Dictionary<KeyCollection, RowHelper>();
+        private readonly Dictionary<KeyCollection, RowHelper> xDict = [];
+        private readonly Dictionary<KeyCollection, RowHelper> yDict = [];
 
         
         public virtual ResultResultSet Compare(IResultSet x, IResultSet y)
@@ -116,9 +114,7 @@ namespace NBi.Core.ResultSet.Equivalence
             return nonMatchingValueRows;
         }
 
-        protected abstract IResultRow CompareRows(IResultRow x, IResultRow y);
-
-        
+        protected abstract IResultRow? CompareRows(IResultRow x, IResultRow y);
 
         private void BuildRowDictionary(IResultSet rs, Dictionary<KeyCollection, RowHelper> dict, DataRowKeysComparer keyComparer, bool isSystemUnderTest)
         {
@@ -206,7 +202,7 @@ namespace NBi.Core.ResultSet.Equivalence
                         var exception = string.Format(messages[0]
                             , columnName, value.ToString());
 
-                        if (numericCaster.IsValid(value.ToString().Replace(",", ".")))
+                        if (numericCaster.IsValid(value.ToString()!.Replace(",", ".")))
                             exception += messages[1];
 
                         throw new EquivalerException(exception);
@@ -215,7 +211,7 @@ namespace NBi.Core.ResultSet.Equivalence
                     if (columnType == ColumnType.DateTime && IsDateTimeField(dataColumn))
                         return;
 
-                    if (columnType == ColumnType.DateTime && !BaseComparer.IsValidDateTime(value.ToString()))
+                    if (columnType == ColumnType.DateTime && !BaseComparer.IsValidDateTime(value.ToString()!))
                     {
                         throw new EquivalerException(
                             string.Format(messages[2]

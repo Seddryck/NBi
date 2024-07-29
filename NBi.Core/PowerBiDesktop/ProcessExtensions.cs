@@ -1,15 +1,20 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Management;
+using System.Runtime.InteropServices;
 using System.Text;
 
+namespace NBi.Core;
 
 public static class ProcessExtensions
 {
     public static int GetParentId(this Process process)
     {
+        if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            throw new PlatformNotSupportedException();
+
         if (process == null)
-            throw new ArgumentNullException("Process can't be null.");
+            throw new ArgumentNullException(nameof(process), "Process can't be null.");
 
         // query the management system objects
         string queryText = string.Format("select parentprocessid from win32_process where processid = {0}", process.Id);
@@ -34,8 +39,11 @@ public static class ProcessExtensions
 
     public static string GetCommandLine(this Process process)
     {
+        if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            throw new PlatformNotSupportedException();
+
         if (process == null)
-            throw new ArgumentNullException("Process can't be null.");
+            throw new ArgumentNullException(nameof(process), "Process can't be null.");
 
         var commandLine = new StringBuilder();
 
@@ -44,7 +52,7 @@ public static class ProcessExtensions
             foreach (var @object in searcher.Get())
             {
                 commandLine.Append(@object["CommandLine"]);
-                commandLine.Append(" ");
+                commandLine.Append(' ');
             }
         }
 

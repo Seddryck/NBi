@@ -21,7 +21,7 @@ namespace NBi.Core.Testing.Scalar.Resolver
                 { "myVar" , new GlobalVariable(new CSharpScalarResolver<object>( new CSharpScalarResolverArgs("10*10"))) },
                 { "otherVar" , new GlobalVariable(new CSharpScalarResolver<object>( new CSharpScalarResolverArgs("10+10"))) }
             };
-            var args = new GlobalVariableScalarResolverArgs("myVar", globalVariables);
+            var args = new GlobalVariableScalarResolverArgs("myVar", new Context(globalVariables));
             var resolver = new GlobalVariableScalarResolver<int>(args);
             Assert.That(resolver.Execute(), Is.EqualTo(100));
         }
@@ -34,7 +34,7 @@ namespace NBi.Core.Testing.Scalar.Resolver
                 { "myVar" , new GlobalVariable(new CSharpScalarResolver<object>( new CSharpScalarResolverArgs("(10*10).ToString()"))) },
                 { "otherVar" , new GlobalVariable(new CSharpScalarResolver<object>( new CSharpScalarResolverArgs("10+10"))) }
             };
-            var args = new GlobalVariableScalarResolverArgs("myVar", globalVariables);
+            var args = new GlobalVariableScalarResolverArgs("myVar", new Context(globalVariables));
             var resolver = new GlobalVariableScalarResolver<int>(args);
             Assert.That(resolver.Execute(), Is.EqualTo(100));
         }
@@ -47,7 +47,7 @@ namespace NBi.Core.Testing.Scalar.Resolver
                 { "myVar" , new GlobalVariable(new CSharpScalarResolver<object>( new CSharpScalarResolverArgs("\"2017-05-12\""))) },
                 { "otherVar" , new GlobalVariable(new CSharpScalarResolver<object>( new CSharpScalarResolverArgs("10+10"))) }
             };
-            var args = new GlobalVariableScalarResolverArgs("myVar", globalVariables);
+            var args = new GlobalVariableScalarResolverArgs("myVar", new Context(globalVariables));
             var resolver = new GlobalVariableScalarResolver<DateTime>(args);
             Assert.That(resolver.Execute(), Is.EqualTo(new DateTime(2017,5,12)));
         }
@@ -62,7 +62,7 @@ namespace NBi.Core.Testing.Scalar.Resolver
             {
                 { "myVar" , new GlobalVariable(resolverMock) }
             };
-            var args = new GlobalVariableScalarResolverArgs("myVar", globalVariables);
+            var args = new GlobalVariableScalarResolverArgs("myVar", new Context(globalVariables));
             var resolver = new GlobalVariableScalarResolver<bool>(args);
             Parallel.Invoke(
                 () => resolver.Execute(),

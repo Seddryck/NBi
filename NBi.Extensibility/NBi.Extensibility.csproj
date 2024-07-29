@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
   <ItemGroup>
-    <PackageReference Include="System.ValueTuple" version="4.5.0"/>
+    <PackageReference Include="Expressif" Version="1.8.0" />
+    <PackageReference Include="System.ValueTuple" version="4.5.0" />
   </ItemGroup>
 </Project>

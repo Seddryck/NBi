@@ -16,8 +16,8 @@ namespace NBi.Core.Sequence.Transformation.Aggregation.Function
         public Concatenation(ICaster<T> caster, IScalarResolver<string> separator) : base(caster)
             => Separator = separator;
 
-        protected override T Execute(Series<int, T> series) 
-            => Caster.Execute(string.Join(Separator.Execute(), series.Values.ToArray()));
+        protected override T? Execute(Series<int, T>? series) 
+            => Caster.Execute(string.Join(Separator.Execute(), series?.Values.ToArray() ?? []));
     }
 
     class ConcatenationText : Concatenation<string>

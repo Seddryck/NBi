@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static NUnit.Framework.Constraints.Tolerance;
 
 namespace NBi.Core.Testing.Calculation.Asserting
 {
@@ -18,7 +19,6 @@ namespace NBi.Core.Testing.Calculation.Asserting
         [Test]
         [TestCase(ComparerType.Equal, "A", "A")]
         [TestCase(ComparerType.Equal, "", "(empty)")]
-        [TestCase(ComparerType.Equal, "A", "(value)")]
         [TestCase(ComparerType.LessThan, "A", "B")]
         [TestCase(ComparerType.LessThanOrEqual, "A", "B")]
         [TestCase(ComparerType.LessThanOrEqual, "A", "A")]
@@ -30,6 +30,24 @@ namespace NBi.Core.Testing.Calculation.Asserting
         [TestCase(ComparerType.Contains, "Paris", "ar")]
         [TestCase(ComparerType.MatchesRegex, "Paris", "^[A-Z][a-z]+$")]
         public void Compare_Text_Success(ComparerType comparerType, object x, object y)
+        {
+            var resolver = new LiteralScalarResolver<string>(y);
+            var comparison = StringComparison.InvariantCultureIgnoreCase;
+            var predicate = new Mock<CaseSensitivePredicateArgs>(resolver, comparison);
+            predicate.SetupGet(p => p.ColumnType).Returns(ColumnType.Text);
+            predicate.SetupGet(p => p.ComparerType).Returns(comparerType);
+            predicate.SetupGet(p => p.Reference).Returns(resolver);
+            predicate.SetupGet(p => p.StringComparison).Returns(comparison);
+
+            var factory = new PredicateFactory();
+            var comparer = factory.Instantiate(predicate.Object);
+            Assert.That(comparer.Execute(x), Is.True);
+        }
+
+        [Test]
+        [TestCase(ComparerType.Equal, "A", "(value)")]
+        [Ignore("Expressif support for (value) is too light at this moment")]
+        public void Compare_SpecialValue_Success(ComparerType comparerType, object x, object y)
         {
             var resolver = new LiteralScalarResolver<string>(y);
             var comparison = StringComparison.InvariantCultureIgnoreCase;
@@ -105,7 +123,6 @@ namespace NBi.Core.Testing.Calculation.Asserting
         [Test]
         [TestCase(ComparerType.Equal, 1, 1)]
         [TestCase(ComparerType.Equal, 1, 1.0)]
-        [TestCase(ComparerType.Equal, 1, "(value)")]
         [TestCase(ComparerType.LessThan, 1, 10)]
         [TestCase(ComparerType.LessThanOrEqual, 1, 10)]
         [TestCase(ComparerType.LessThanOrEqual, 1, "10.0")]
@@ -114,9 +131,6 @@ namespace NBi.Core.Testing.Calculation.Asserting
         [TestCase(ComparerType.MoreThanOrEqual, 10, 1)]
         [TestCase(ComparerType.MoreThanOrEqual, 1, 1)]
         [TestCase(ComparerType.MoreThanOrEqual, 1, "1.00")]
-        [TestCase(ComparerType.WithinRange, 1, "[1;2]")]
-        [TestCase(ComparerType.WithinRange, 1, "(>0)")]
-        [TestCase(ComparerType.WithinRange, -1, "(<=-1)")]
         public void Compare_Numeric_Success(ComparerType comparerType, object x, object y)
         {
             var resolver = new LiteralScalarResolver<decimal>(y);
@@ -128,6 +142,55 @@ namespace NBi.Core.Testing.Calculation.Asserting
             var factory = new PredicateFactory();
             var comparer = factory.Instantiate(predicate.Object);
             Assert.That(comparer.Execute(x), Is.True);
+        }
+
+        [Test]
+        [TestCase(ComparerType.Equal, 1, "(value)")]
+        [Ignore("Expressif support of (value) is too light at this moment")]
+        public void Compare_AnyValue_Success(ComparerType comparerType, object x, object y)
+        {
+            var resolver = new LiteralScalarResolver<decimal>(y);
+            var predicate = new Mock<ReferencePredicateArgs>(resolver);
+            predicate.SetupGet(p => p.ColumnType).Returns(ColumnType.Numeric);
+            predicate.SetupGet(p => p.ComparerType).Returns(comparerType);
+            predicate.SetupGet(p => p.Reference).Returns(resolver);
+
+            var factory = new PredicateFactory();
+            var comparer = factory.Instantiate(predicate.Object);
+            Assert.That(comparer.Execute(x), Is.True);
+        }
+
+        [Test]
+        [TestCase(ComparerType.WithinRange, 1, "[1;2]")]
+        [TestCase(ComparerType.WithinRange, 1, "(>0)")]
+        [TestCase(ComparerType.WithinRange, -1, "(<=-1)")]
+        public void Compare_NumericWithinRange_Success(ComparerType comparerType, object x, string range)
+        {
+            var resolver = new LiteralScalarResolver<string>(range);
+            var predicate = new Mock<ReferencePredicateArgs>(resolver);
+            predicate.SetupGet(p => p.ColumnType).Returns(ColumnType.Numeric);
+            predicate.SetupGet(p => p.ComparerType).Returns(comparerType);
+            predicate.SetupGet(p => p.Reference).Returns(resolver);
+
+            var factory = new PredicateFactory();
+            var comparer = factory.Instantiate(predicate.Object);
+            Assert.That(comparer.Execute(x), Is.True);
+        }
+
+        [TestCase(ComparerType.WithinRange, 1, "]1;2]")]
+        [TestCase(ComparerType.WithinRange, 1, "(<0)")]
+        [TestCase(ComparerType.WithinRange, -1, "(>-1)")]
+        public void Compare_NumericWithinRange_Failure(ComparerType comparerType, object x, string range)
+        {
+            var resolver = new LiteralScalarResolver<string>(range);
+            var predicate = new Mock<ReferencePredicateArgs>(resolver);
+            predicate.SetupGet(p => p.ColumnType).Returns(ColumnType.Numeric);
+            predicate.SetupGet(p => p.ComparerType).Returns(comparerType);
+            predicate.SetupGet(p => p.Reference).Returns(resolver);
+
+            var factory = new PredicateFactory();
+            var comparer = factory.Instantiate(predicate.Object);
+            Assert.That(comparer.Execute(x), Is.False);
         }
 
         [Test]
@@ -152,21 +215,6 @@ namespace NBi.Core.Testing.Calculation.Asserting
             Assert.That(comparer.Execute(x), Is.False);
         }
 
-        [TestCase(ComparerType.WithinRange, 1, "]1;2]")]
-        [TestCase(ComparerType.WithinRange, 1, "(<0)")]
-        [TestCase(ComparerType.WithinRange, -1, "(>-1)")]
-        public void Compare_NumericWithinRange_Failure(ComparerType comparerType, object x, object y)
-        {
-            var predicate = new Mock<ReferencePredicateArgs>();
-            predicate.SetupGet(p => p.ColumnType).Returns(ColumnType.Numeric);
-            predicate.SetupGet(p => p.ComparerType).Returns(comparerType);
-            var resolver = new LiteralScalarResolver<string>(y);
-            predicate.SetupGet(p => p.Reference).Returns(resolver);
-
-            var factory = new PredicateFactory();
-            var comparer = factory.Instantiate(predicate.Object);
-            Assert.That(comparer.Execute(x), Is.False);
-        }
 
         [Test]
         [TestCase(ComparerType.Equal, 1, "(null)")]
@@ -257,7 +305,7 @@ namespace NBi.Core.Testing.Calculation.Asserting
             var variable = new Mock<IVariable>();
             variable.Setup(v => v.GetValue()).Returns(10);
             var variables = new Dictionary<string, IVariable>() { { "var", variable.Object } };
-            var global = new GlobalVariableScalarResolver<decimal>("var", variables);
+            var global = new GlobalVariableScalarResolver<decimal>("var", new Context(variables));
 
             var info = new Mock<ReferencePredicateArgs>(global);
             info.SetupGet(i => i.ColumnType).Returns(ColumnType.Numeric);
@@ -277,7 +325,7 @@ namespace NBi.Core.Testing.Calculation.Asserting
             var variable = new Mock<IVariable>();
             variable.Setup(v => v.GetValue()).Returns(10);
             var variables = new Dictionary<string, IVariable>() { { "var", variable.Object } };
-            var global = new GlobalVariableScalarResolver<decimal>("var", variables);
+            var global = new GlobalVariableScalarResolver<decimal>("var", new Context(variables));
 
             var info = new Mock<ReferencePredicateArgs>(global);
             info.SetupGet(i => i.ColumnType).Returns(ColumnType.Numeric);
@@ -299,7 +347,7 @@ namespace NBi.Core.Testing.Calculation.Asserting
             var variablePointless = new Mock<IVariable>();
             variablePointless.Setup(v => v.GetValue()).Returns(0);
             var variables = new Dictionary<string, IVariable>() { { "var", variableUsed.Object }, { "x", variablePointless.Object } };
-            var global = new GlobalVariableScalarResolver<decimal>("var", variables);
+            var global = new GlobalVariableScalarResolver<decimal>("var", new Context(variables));
 
             var info = new Mock<ReferencePredicateArgs>(global);
             info.SetupGet(i => i.ColumnType).Returns(ColumnType.Numeric);

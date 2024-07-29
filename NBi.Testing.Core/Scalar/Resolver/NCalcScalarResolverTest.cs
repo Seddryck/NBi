@@ -19,7 +19,7 @@ namespace NBi.Core.Testing.Scalar.Resolver
             using (var dt = new DataTableResultSet())
             {
                 var row = dt.NewRow();
-                var context = Context.None;
+                var context = new Context();
                 var args = new NCalcScalarResolverArgs("1+1", context);
                 context.Switch(row);
                 var resolver = new NCalcScalarResolver<object>(args);
@@ -103,7 +103,8 @@ namespace NBi.Core.Testing.Scalar.Resolver
                 dt.AddColumn("c", typeof(int));
                 var row = dt.NewRow();
                 row.ItemArray = new object[] { 2, 5, 3 };
-                var context = new Context(new Dictionary<string, IVariable> { { "myVar", new GlobalVariable(new LiteralScalarResolver<decimal>(10)) } });
+                var context = new Context();
+                context.Variables.Add<decimal>("myVar", 10m);
                 var args = new NCalcScalarResolverArgs("[#0]*Max([#1], [#2])-[@myVar]", context);
                 context.Switch(row);
                 var resolver = new NCalcScalarResolver<object>(args);

@@ -65,7 +65,7 @@ namespace NBi.Core.Members.Predefined
             if (!Enum.IsDefined(typeof(PredefinedMembers), value))
                 throw new ArgumentOutOfRangeException();
             if (string.IsNullOrEmpty(cultureName))
-                throw new ArgumentNullException("cultureName");
+                throw new ArgumentNullException(nameof(cultureName));
 
             var culture = new CultureInfo(cultureName);
 

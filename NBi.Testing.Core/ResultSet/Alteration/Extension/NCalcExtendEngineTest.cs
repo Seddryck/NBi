@@ -67,23 +67,26 @@ namespace NBi.Core.Testing.ResultSet.Alteration.Extension
         [Test]
         public void Execute_StandardRsColumnNameAndVariable_CorrectExtension()
         {
-            var args = new ObjectsResultSetResolverArgs(new[] { new object[] { "Alpha", 1, 2 }, new object[] { "Beta", 3, 2 }, new object[] { "Gamma", 5, 7 } });
+            var args = new ObjectsResultSetResolverArgs(new[] { ["Alpha", 1, 2], ["Beta", 3, 2], new object[] { "Gamma", 5, 7 } });
             var resolver = new ObjectsResultSetResolver(args);
             var rs = resolver.Execute();
-            rs.GetColumn(0).Rename("a");
-            rs.GetColumn(1).Rename("b");
-            rs.GetColumn(2).Rename("c");
+            rs.GetColumn(0)!.Rename("a");
+            rs.GetColumn(1)!.Rename("b");
+            rs.GetColumn(2)!.Rename("c");
+
+            var context = new Context();
+            context.Variables.Add<decimal>("myVar", () => new GlobalVariable(new LiteralScalarResolver<decimal>(2)).GetValue());
 
             var extender = new NCalcExtendEngine(
                 new ServiceLocator(),
-                new Context(new Dictionary<string, IVariable> { { "myVar", new GlobalVariable(new LiteralScalarResolver<decimal>(2)) } }),
+                context,
                 new ColumnNameIdentifier("d"),
                 "[@myVar] * [b] * [c]"
                 );
             var newRs = extender.Execute(rs);
 
             Assert.That(newRs.ColumnCount, Is.EqualTo(4));
-            Assert.That(newRs.GetColumn(3).Name, Is.EqualTo("d"));
+            Assert.That(newRs.GetColumn(3)!.Name, Is.EqualTo("d"));
             Assert.That(newRs[0][3], Is.EqualTo(4));
             Assert.That(newRs[1][3], Is.EqualTo(12));
             Assert.That(newRs[2][3], Is.EqualTo(70));

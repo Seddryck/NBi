@@ -1,4 +1,5 @@
-﻿using NBi.Core.Evaluate;
+﻿using Expressif.Values;
+using NBi.Core.Evaluate;
 using NBi.Core.Injection;
 using NBi.Core.ResultSet;
 using NBi.Core.Transformation;
@@ -29,10 +30,10 @@ namespace NBi.Core.Calculation
             if (identifier is ColumnOrdinalIdentifier ordinalId)
             {
                 var ordinal = ordinalId.Ordinal;
-                if (ordinal <= context.CurrentRow.Parent.ColumnCount)
-                    return context.CurrentRow.ItemArray[ordinal] ?? throw new ArgumentOutOfRangeException();
+                if (ordinal <= context.CurrentRow.ColumnCount)
+                    return context.CurrentRow[ordinal] ?? throw new ArgumentOutOfRangeException();
                 else
-                    throw new ArgumentException($"The variable of the predicate is identified as '{identifier.Label}' but the column in position '{ordinal}' doesn't exist. The dataset only contains {context.CurrentRow.Parent.ColumnCount} columns.");
+                    throw new ArgumentException($"The variable of the predicate is identified as '{identifier.Label}' but the column in position '{ordinal}' doesn't exist. The dataset only contains {context.CurrentRow.ColumnCount} columns.");
             }
 
             if (identifier is ColumnNameIdentifier nameId)
@@ -40,22 +41,21 @@ namespace NBi.Core.Calculation
                 var name = nameId.Name;
                 var alias = context.Aliases?.SingleOrDefault(x => string.Equals(x.Name, name, StringComparison.OrdinalIgnoreCase));
                 if (alias != null)
-                    return context.CurrentRow.ItemArray[alias.Column] ?? throw new ArgumentOutOfRangeException();
+                    return context.CurrentRow[alias.Column] ?? throw new ArgumentOutOfRangeException();
 
                 var expression = context.Expressions?.SingleOrDefault(x => string.Equals(x.Name, name, StringComparison.OrdinalIgnoreCase));
                 if (expression != null)
                 {
                     var result = EvaluateExpression(expression, context);
                     var expColumnName = $"exp::{name}";
-                    if (!context.CurrentRow.Parent.ContainsColumn(expColumnName))
+                    if (!context.CurrentRow.ContainsColumn(expColumnName))
                         context.CurrentRow.Parent.AddColumn(expColumnName);
                     context.CurrentRow[expColumnName] = result;
                     return result;
                 }
 
-                var column = context.CurrentRow.Parent.GetColumn(name);
-                if (column != null)
-                    return context.CurrentRow[column.Name];
+                if (context.CurrentRow.ContainsColumn(name))
+                    return context.CurrentRow[name];
 
                 var existingNames = context.CurrentRow.Parent.Columns.Select(x => x.Name)
                     .Union(context.Aliases!.Select(x => x.Name)
@@ -76,7 +76,7 @@ namespace NBi.Core.Calculation
                 exp.EvaluateParameter += delegate (string name, NCalc.ParameterArgs args)
                 {
                     args.Result = name.StartsWith("@")
-                        ? context.Variables[name.Substring(1, name.Length - 1)].GetValue()
+                        ? context.Variables[name]
                         : Execute(context, factory.Instantiate(name));
                 };
 
@@ -100,12 +100,5 @@ namespace NBi.Core.Calculation
             else
                 throw new ArgumentOutOfRangeException($"The language {expression.Language} is not supported during the evaluation of an expression.");
         }
-
-        //private class TransformationInfo : ITransformationInfo
-        //{
-        //    public ColumnType OriginalType { get; set; }
-        //    public LanguageType Language { get; set; }
-        //    public string Code { get; set; }
-        //}
     }
 }

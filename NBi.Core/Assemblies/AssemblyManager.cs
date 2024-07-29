@@ -28,7 +28,7 @@ namespace NBi.Core.Assemblies
                 throw new ExternalDependencyNotFoundException(assemblyPath);
 
             var assembly = Assembly.LoadFile(assemblyPath);
-            var type = assembly.GetType(typeName) ?? throw new ArgumentException(string.Format("Type {0} not found in assembly located at '{1}'", typeName, assemblyPath), "typeName");
+            var type = assembly.GetType(typeName) ?? throw new ArgumentException(string.Format("Type {0} not found in assembly located at '{1}'", typeName, assemblyPath), nameof(typeName));
             var classInstance = Activator.CreateInstance(type, ctorParameters) ?? throw new NullReferenceException();
             return classInstance;
         }
@@ -56,7 +56,7 @@ namespace NBi.Core.Assemblies
             var assembly = Assembly.LoadFile(assemblyPath);
             var type = assembly.GetType(typeName);
             return type == null
-                ? throw new ArgumentException(string.Format("Type {0} not found in assembly located at '{1}'", typeName, assemblyPath), "typeName")
+                ? throw new ArgumentException(string.Format("Type {0} not found in assembly located at '{1}'", typeName, assemblyPath), nameof(typeName))
                 : type;
         }
         /// <summary>
@@ -69,7 +69,7 @@ namespace NBi.Core.Assemblies
         public virtual object? Execute(object target, string methodName, IDictionary<string, object> parameters)
         {
             var flags = BindingFlags.IgnoreCase | BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance;
-            var methodInfo = (target.GetType()?.GetMethod(methodName, flags)) ?? throw new ArgumentException(string.Format("Method named '{0}' not found in type '{1}'", methodName, target.GetType()),"methodName");
+            var methodInfo = (target.GetType()?.GetMethod(methodName, flags)) ?? throw new ArgumentException(string.Format("Method named '{0}' not found in type '{1}'", methodName, target.GetType()),nameof(methodName));
             var paramList = new List<object>();
             foreach (ParameterInfo paramInfo in methodInfo.GetParameters())
 	        {
@@ -92,7 +92,7 @@ namespace NBi.Core.Assemblies
         public virtual object? ExecuteStatic(Type type, string methodName, IDictionary<string, object> parameters)
         {
             var flags = BindingFlags.IgnoreCase | BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Static;
-            var methodInfo = type.GetMethod(methodName, flags) ?? throw new ArgumentException(string.Format("Static method named '{0}' not found in type '{1}'", methodName, type), "methodName");
+            var methodInfo = type.GetMethod(methodName, flags) ?? throw new ArgumentException(string.Format("Static method named '{0}' not found in type '{1}'", methodName, type), nameof(methodName));
             var paramList = new List<object>();
             foreach (ParameterInfo paramInfo in methodInfo.GetParameters())
             {

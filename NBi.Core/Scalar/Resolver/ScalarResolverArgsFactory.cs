@@ -41,8 +41,8 @@ namespace NBi.Core.Scalar.Resolver
 
                     IScalarResolverArgs args = prefix switch
                     {
-                        '@' => new GlobalVariableScalarResolverArgs(firstToken.Substring(1), Context.Variables),
-                        '~' => new FormatScalarResolverArgs(firstToken[1..], Context.Variables),
+                        '@' => new GlobalVariableScalarResolverArgs(firstToken.Substring(1), Context),
+                        '~' => new FormatScalarResolverArgs(firstToken[1..], Context),
                         '[' when firstToken.ToCharArray().Last() == ']'
                                 && !firstToken.Contains(';')
                                 && MatchExternalBrakets(firstToken).Count == 1

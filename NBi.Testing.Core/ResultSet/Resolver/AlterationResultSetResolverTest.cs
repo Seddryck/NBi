@@ -88,7 +88,7 @@ namespace NBi.Core.Testing.ResultSet.Resolver
             var resolver = new AlterationResultSetResolver(embeddedresolverMock.Object, new List<IAlteration>() { alterMock1.Object, alterMock2.Object });
             var result = resolver.Execute();
 
-            Assert.That(intermediateResultSet, Is.Not.EqualTo(finalResultSet));
+            Assert.That(intermediateResultSet, Is.Not.SameAs(finalResultSet));
             embeddedresolverMock.Verify(l => l.Execute(), Times.Once);
             alterMock1.Verify(t => t.Execute(rs), Times.Once);
             alterMock2.Verify(t => t.Execute(intermediateResultSet), Times.Once);

@@ -39,7 +39,7 @@ namespace NBi.Core.Testing.Scalar.Comparer
         public void Compare_1DecimalAndStringTrue_True()
         {
             var comparer = new BooleanComparer();
-            var result = comparer.Compare(new decimal(1), "True");
+            var result = comparer.Compare(decimal.One, "True");
             Assert.That(result.AreEqual, Is.True);
         }
 

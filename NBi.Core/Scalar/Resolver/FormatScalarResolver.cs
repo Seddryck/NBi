@@ -23,7 +23,7 @@ namespace NBi.Core.Scalar.Resolver
         protected IFormatter ResolveFormatter()
         {
             var factory = serviceLocator.GetFormatterFactory();
-            var formatter = factory.Instantiate(args.GlobalVariables);
+            var formatter = factory.Instantiate(args.Context);
             return formatter;
         }
 

@@ -13,7 +13,7 @@ namespace NBi.Core.Sequence.Transformation.Aggregation.Function
         public Max(ICaster<T> caster) : base(caster)
         { }
 
-        protected override T Execute(Series<int, T> series) => Caster.Execute(series.Max());
+        protected override T? Execute(Series<int, T>? series) => Caster.Execute(series.Max());
     }
 
     class MaxNumeric : Max<decimal>

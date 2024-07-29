@@ -8,12 +8,9 @@ using System.Threading.Tasks;
 
 namespace NBi.Core.Sequence.Transformation.Aggregation.Function
 {
-    abstract class Average<T> : BaseAggregation<T>
+    abstract class Average<T>(ICaster<T> caster) : BaseAggregation<T>(caster)
     {
-        public Average(ICaster<T> caster) : base(caster)
-        { }
-
-        protected override T Execute(Series<int, T> series) => Caster.Execute(series.Mean());
+        protected override T? Execute(Series<int, T>? series) => Caster.Execute(series.Mean());
     }
 
     class AverageNumeric : Average<decimal>

@@ -14,6 +14,7 @@ using NBi.Core.Scalar.Resolver;
 using NBi.Core.Calculation.Asserting;
 using NBi.Core.Variable;
 using NBi.Core.ResultSet.Filtering;
+using Expressif.Values;
 
 namespace NBi.Core.Testing.ResultSet.Filtering
 {
@@ -53,8 +54,8 @@ namespace NBi.Core.Testing.ResultSet.Filtering
             var predication2 = new PredicationArgs(predicate2, new ColumnOrdinalIdentifier(1));
 
 
-            var factory = new ResultSetFilterFactory(null);
-            var filter = factory.Instantiate(CombinationOperator.And, new[] { predication1, predication2 }, new Context(null, aliases, Array.Empty<IColumnExpression>()));
+            var factory = new ResultSetFilterFactory(new());
+            var filter = factory.Instantiate(CombinationOperator.And, new[] { predication1, predication2 }, new(new(), aliases, Array.Empty<IColumnExpression>()));
             var result = filter.Apply(rs);
 
             Assert.That(result.Rows.Count(), Is.EqualTo(2));

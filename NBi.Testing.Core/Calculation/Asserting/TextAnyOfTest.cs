@@ -20,7 +20,7 @@ namespace NBi.Core.Testing.Calculation.Asserting
         [TestCase("paris", new[] { "Paris", "Bruxelles", "Amsterdam" }, StringComparison.InvariantCultureIgnoreCase)]
         public void Compare_Text_Success(object value, IEnumerable<string> reference, StringComparison stringComparison)
         {
-            var resolver = new ListSequenceResolver<string>(reference);
+            var resolver = new LiteralScalarResolver<IEnumerable<string>>(reference);
             var predicate = new Mock<CaseSensitivePredicateArgs>(resolver, stringComparison);
             predicate.SetupGet(i => i.ColumnType).Returns(ColumnType.Text);
             predicate.SetupGet(i => i.ComparerType).Returns(ComparerType.AnyOf);
@@ -38,7 +38,7 @@ namespace NBi.Core.Testing.Calculation.Asserting
         [TestCase("paris", new[] { "Paris", "Bruxelles", "Amsterdam" }, StringComparison.InvariantCulture)]
         public void Compare_Text_Failure(object value, IEnumerable<string> reference, StringComparison stringComparison)
         {
-            var resolver = new ListSequenceResolver<string>(reference);
+            var resolver = new LiteralScalarResolver<IEnumerable<string>>(reference);
             var predicate = new Mock<CaseSensitivePredicateArgs>(resolver, stringComparison);
             predicate.SetupGet(i => i.ColumnType).Returns(ColumnType.Text);
             predicate.SetupGet(i => i.ComparerType).Returns(ComparerType.AnyOf);

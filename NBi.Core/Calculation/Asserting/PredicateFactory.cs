@@ -9,8 +9,11 @@ using Expressif.Predicates.Text;
 using Expressif.Predicates.Numeric;
 using Expressif.Predicates.Temporal;
 using Expressif.Predicates.Boolean;
+using Expressif.Values;
 using Exssif = Expressif.Predicates;
 using Expressif.Values.Casters;
+using NBi.Core.Scalar.Interval;
+using Expressif.Parsers;
 
 namespace NBi.Core.Calculation.Asserting
 {
@@ -27,7 +30,7 @@ namespace NBi.Core.Calculation.Asserting
                                 ? combiner.WithNot(CreateFrom(args.First()))
                                 : combiner.With(CreateFrom(args.First()));
             foreach (var arg in args.Skip(1))
-            { 
+            {
                 var right = CreateFrom(arg);
                 combination = @operator switch
                 {
@@ -89,6 +92,7 @@ namespace NBi.Core.Calculation.Asserting
                 ComparerType.MatchesDate => new MatchesDate(cultureFunc),
                 ComparerType.MatchesTime => new MatchesTime(cultureFunc),
                 ComparerType.MatchesDateTime => new MatchesDateTime(cultureFunc),
+                ComparerType.AnyOf => new AnyOf(() => (IEnumerable<string>)((IScalarResolver)reference!).Execute()!, comparer),
                 _ => throw new ArgumentOutOfRangeException($"Text columns don't support the '{comparerType.ToString().ToDashedCase()}' comparer."),
             };
 
@@ -106,12 +110,15 @@ namespace NBi.Core.Calculation.Asserting
                 ComparerType.MoreThanOrEqual => new GreaterThanOrEqual(referenceFunc),
                 ComparerType.MoreThan => new GreaterThan(referenceFunc),
                 ComparerType.Null => new Exssif.Special.Null(),
-                //ComparerType.WithinRange => new WithinInterval(referenceFunc),
+                ComparerType.WithinRange => new WithinInterval(buildInterval(reference!)),
                 ComparerType.Integer => new Integer(),
                 ComparerType.Modulo => new Modulo(() => new NumericCaster().Cast(secondOperand ?? 0), referenceFunc),
                 _ =>
                    throw new ArgumentOutOfRangeException($"Numeric columns don't support the '{comparerType.ToString().ToDashedCase()}' comparer."),
             };
+
+            Func<Interval<decimal>> buildInterval(IResolver reference)
+                  => () => (Interval<decimal>)new IntervalBuilder().Create((string)reference.Execute()!);
         }
 
         protected Exssif.IPredicate CreateFromDateTime(ComparerType comparerType, IResolver? reference)
@@ -126,13 +133,17 @@ namespace NBi.Core.Calculation.Asserting
                 ComparerType.MoreThanOrEqual => new AfterOrSameInstant(referenceFunc),
                 ComparerType.MoreThan => new After(referenceFunc),
                 ComparerType.Null => new Exssif.Special.Null(),
-                //ComparerType.WithinRange=>new ContainedIn(...),
+                ComparerType.WithinRange => new ContainedIn(buildInterval(reference!)),
                 ComparerType.OnTheDay => new OnTheDay(),
                 ComparerType.OnTheHour => new OnTheHour(),
                 ComparerType.OnTheMinute => new OnTheMinute(),
                 _ =>
                        throw new ArgumentOutOfRangeException($"DateTime columns don't support the '{comparerType.ToString().ToDashedCase()}' comparer."),
             };
+
+            Func<Interval<DateTime>> buildInterval(IResolver reference)
+                  => () => (Interval<DateTime>) new IntervalBuilder().Create((string)reference.Execute()!);
+
         }
 
         protected Exssif.IPredicate CreateFromBoolean(ComparerType comparerType, IResolver? reference)

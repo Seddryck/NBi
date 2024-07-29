@@ -11,7 +11,7 @@ namespace NBi.Core.Scalar.Comparer
         public static Rounding Build(IColumnDefinition columnDefinition)
         {
             if (columnDefinition.Role != ColumnRole.Value)
-                throw new ArgumentException("The ColumnDefinition must have have a role defined as 'Value' and is defined as 'Key'", "columnDefinition");
+                throw new ArgumentException("The ColumnDefinition must have have a role defined as 'Value' and is defined as 'Key'", nameof(columnDefinition));
 
             Rounding rounding=null;
             switch (columnDefinition.Type)

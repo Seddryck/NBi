@@ -13,13 +13,14 @@ namespace NBi.Core.Query.Command
     public class CommandProvider
     {
         private readonly IList<ICommandFactory> factories = new List<ICommandFactory>();
-        private Type[] classics = new[]
-            {
+        private readonly Type[] classics =
+            [
+                typeof(DubUrlCommandFactory),
                 typeof(AdomdCommandFactory),
                 typeof(OdbcCommandFactory),
                 typeof(OleDbCommandFactory),
                 typeof(SqlCommandFactory)
-            };
+            ];
 
         public CommandProvider()
         {
@@ -36,9 +37,7 @@ namespace NBi.Core.Query.Command
         {
             foreach (var type in types)
             {
-                var ctor = type.GetConstructor(new Type[] { });
-                if (ctor == null)
-                    throw new NBiException($"Can't load an extension. Can't find a constructor without parameters for the type '{type.Name}'");
+                var ctor = type.GetConstructor([]) ?? throw new NBiException($"Can't load an extension. Can't find a constructor without parameters for the type '{type.Name}'");
                 var factory = (ICommandFactory)ctor.Invoke(new object[] { });
                 if (factories.SingleOrDefault(x => x.GetType() == factory.GetType()) != null)
                     throw new ArgumentException($"You can't add twice the same factory. The factory '{factory.GetType().Name}' was already registered.", nameof(types));
@@ -51,7 +50,7 @@ namespace NBi.Core.Query.Command
             foreach (var factory in factories)
                 if (factory.CanHandle(session))
                     return factory.Instantiate(session, query, new StringTemplateEngine());
-            throw new ArgumentException(nameof(session), $"NBi is not able to identify the command factory for a connection supporting the underlying type: {session.UnderlyingSessionType.Name}");
+            throw new ArgumentException($"NBi is not able to identify the command factory for a connection supporting the underlying type: {session.UnderlyingSessionType.Name}", nameof(session));
         }
     }
 }

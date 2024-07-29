@@ -14,18 +14,18 @@ namespace NBi.Core.ResultSet
         protected bool isBuild = false;
 
         protected SettingsOrdinalResultSet.KeysChoice keysSet;
-        protected IEnumerable<string> nameKeys = new string[0];
+        protected IEnumerable<string> nameKeys = Array.Empty<string>();
         protected SettingsOrdinalResultSet.ValuesChoice valuesSet;
-        protected IEnumerable<string> nameValues = new string[0];
-        protected IReadOnlyList<IColumnDefinition> definitionColumns = new IColumnDefinition[0];
+        protected IEnumerable<string> nameValues = Array.Empty<string>();
+        protected IReadOnlyList<IColumnDefinition> definitionColumns = Array.Empty<IColumnDefinition>();
 
-        protected ISettingsResultSet settings;
+        protected ISettingsResultSet? settings;
 
         public void Setup(IEnumerable<string> nameKeys, IEnumerable<string> nameValues)
         {
             isBuild = false;
-            this.nameKeys = nameKeys ?? new string[0];
-            this.nameValues = nameValues ?? new string[0];
+            this.nameKeys = nameKeys ?? Array.Empty<string>();
+            this.nameValues = nameValues ?? Array.Empty<string>();
         }
 
         public void Setup(SettingsOrdinalResultSet.KeysChoice keysSet, SettingsOrdinalResultSet.ValuesChoice valuesSet)
@@ -38,7 +38,7 @@ namespace NBi.Core.ResultSet
         public void Setup(IReadOnlyList<IColumnDefinition> definitionColumns)
         {
             isBuild = false;
-            this.definitionColumns = definitionColumns ?? new IColumnDefinition[0];
+            this.definitionColumns = definitionColumns ?? Array.Empty<IColumnDefinition>();
         }
 
 
@@ -48,16 +48,16 @@ namespace NBi.Core.ResultSet
                 definitionColumns = new List<IColumnDefinition>();
 
             if ((keysSet != 0 || valuesSet != 0)
-                && (nameKeys.Count() > 0 || nameValues.Count() > 0))
+                && (nameKeys.Any() || nameValues.Any()))
                 throw new InvalidOperationException("The definition of your settings is not valid. You cannot mix properties applicable for an engine based on columns' index and properties for an engine based on columns' name.");
 
-            if (nameKeys.Count() == 0
-                && nameValues.Count() > 0
+            if (!nameKeys.Any()
+                && nameValues.Any()
                 && !definitionColumns.Any(c => c.Role == ColumnRole.Key))
                 throw new InvalidOperationException("You cannot define an engine based on columns' name and specify no keys. Specify at least one column as a key.");
 
             
-            if ((nameKeys.Count() > 0 || nameValues.Count() > 0)
+            if ((nameKeys.Any() || nameValues.Any())
                 && definitionColumns.Any(c => c.Identifier is ColumnOrdinalIdentifier))
                 throw new InvalidOperationException("You cannot define an engine based on columns' name and specify some column's definitions where you explicitely give a value to the 'index' attribute. Use attribute 'index' in place of 'name'.");
 
@@ -107,9 +107,9 @@ namespace NBi.Core.ResultSet
 
         protected abstract void OnBuild();
         
-        protected virtual bool IsByName() => 
-            nameKeys.Count()>0
-            || nameValues.Count() > 0
+        protected virtual bool IsByName() =>
+            nameKeys.Any()
+            || nameValues.Any()
             || definitionColumns.Any(c => c.Identifier is ColumnNameIdentifier);
 
         protected virtual void BuildSettings(ColumnType keysDefaultType, ColumnType valuesDefaultType, Tolerance defaultTolerance)
@@ -130,7 +130,7 @@ namespace NBi.Core.ResultSet
 
         public ISettingsResultSet GetSettings()
         {
-            if (!isBuild)
+            if (!isBuild || settings is null)
                 throw new InvalidOperationException();
 
             return settings;

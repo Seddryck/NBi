@@ -41,7 +41,7 @@ namespace NBi.Core.Testing.ResultSet.Alteration.Extension
         [Test]
         public void Execute_StandardRsColumnName_CorrectExtension()
         {
-            var args = new ObjectsResultSetResolverArgs(new[] { new object[] { "Alpha", 1, 2 }, new object[] { "Beta", 3, 2 }, new object[] { "Gamma", 5, 7 } });
+            var args = new ObjectsResultSetResolverArgs(new[] { ["Alpha", 1, 2], ["Beta", 3, 2], new object[] { "Gamma", 5, 7 } });
             var resolver = new ObjectsResultSetResolver(args);
             var rs = resolver.Execute();
             rs.GetColumn(0)!.Rename("a");
@@ -66,16 +66,19 @@ namespace NBi.Core.Testing.ResultSet.Alteration.Extension
         [Test]
         public void Execute_StandardRsColumnNameAndVariable_CorrectExtension()
         {
-            var args = new ObjectsResultSetResolverArgs(new[] { new object[] { "Alpha", 1, 2 }, new object[] { "Beta", 3, 2 }, new object[] { "Gamma", 5, 7 } });
+            var args = new ObjectsResultSetResolverArgs(new[] { ["Alpha", 1, 2], ["Beta", 3, 2], new object[] { "Gamma", 5, 7 } });
             var resolver = new ObjectsResultSetResolver(args);
             var rs = resolver.Execute();
             rs.GetColumn(0)!.Rename("a");
             rs.GetColumn(1)!.Rename("b");
             rs.GetColumn(2)!.Rename("c");
 
+            var context = new Context();
+            context.Variables.Add<decimal>("myVar", () => new GlobalVariable(new LiteralScalarResolver<decimal>(2)).GetValue());
+
             var extender = new NativeExtendEngine(
                 new ServiceLocator(),
-                new Context(new Dictionary<string, IVariable> { { "myVar", new GlobalVariable(new LiteralScalarResolver<decimal>(2)) } }),
+                context,
                 new ColumnNameIdentifier("d"),
                 "[a] | text-to-first-chars(@myVar) | text-to-upper"
                 );

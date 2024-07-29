@@ -19,7 +19,7 @@ namespace NBi.Core.Testing.Scalar.Format
             {
                 { "myVar", new OverridenVariable("myVar", "2018") }
             };
-            var formatter = new InvariantFormatter(new ServiceLocator(), globalVariables);
+            var formatter = new InvariantFormatter(new ServiceLocator(), new Context(globalVariables));
             var result = formatter.Execute("This year, we are in {@myVar}");
             Assert.That(result, Is.EqualTo("This year, we are in 2018"));
         }
@@ -32,7 +32,7 @@ namespace NBi.Core.Testing.Scalar.Format
                 { "myVar", new OverridenVariable("myVar", "2018") },
                 { "myTime", new OverridenVariable("myTime", "YEAR") }
             };
-            var formatter = new InvariantFormatter(new ServiceLocator(), globalVariables);
+            var formatter = new InvariantFormatter(new ServiceLocator(), new Context(globalVariables));
             var result = formatter.Execute("This {@myTime}, we are in {@myVar}");
             Assert.That(result, Is.EqualTo("This YEAR, we are in 2018"));
         }
@@ -44,7 +44,7 @@ namespace NBi.Core.Testing.Scalar.Format
             {
                 { "myVar", new OverridenVariable("myVar", new DateTime(2018, 11, 6)) },
             };
-            var formatter = new InvariantFormatter(new ServiceLocator(), globalVariables);
+            var formatter = new InvariantFormatter(new ServiceLocator(), new Context(globalVariables));
             var result = formatter.Execute("This month is {@myVar:MM}");
             Assert.That(result, Is.EqualTo("This month is 11"));
         }
@@ -57,7 +57,7 @@ namespace NBi.Core.Testing.Scalar.Format
             {
                 { "myVar", new OverridenVariable("myVar", new DateTime(2018, 8, 6)) },
             };
-            var formatter = new InvariantFormatter(new ServiceLocator(), globalVariables);
+            var formatter = new InvariantFormatter(new ServiceLocator(), new Context(globalVariables));
             var result = formatter.Execute("This month is {@myVar:MMMM}");
             Assert.That(result, Is.EqualTo("This month is August"));
         }
@@ -69,7 +69,7 @@ namespace NBi.Core.Testing.Scalar.Format
             {
                 { "myVar", new OverridenVariable("myVar", new DateTime(2018, 8, 6)) },
             };
-            var formatter = new InvariantFormatter(new ServiceLocator(), globalVariables);
+            var formatter = new InvariantFormatter(new ServiceLocator(), new Context(globalVariables));
             var result = formatter.Execute("This month is {@myVar:%M}");
             Assert.That(result, Is.EqualTo("This month is 8"));
         }

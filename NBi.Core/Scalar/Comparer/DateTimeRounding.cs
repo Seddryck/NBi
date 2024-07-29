@@ -11,10 +11,10 @@ namespace NBi.Core.Scalar.Comparer
             : base(step.ToString(), style)
         {
             if (step.Ticks <= 0)
-                throw new ArgumentException("The parameter 'step' must be a value greater than zero.", "step");
+                throw new ArgumentException("The parameter 'step' must be a value greater than zero.", nameof(step));
 
             if (step.TotalDays > 1)
-                throw new ArgumentException("The parameter 'step' must be less or equal to one day", "step");
+                throw new ArgumentException("The parameter 'step' must be less or equal to one day", nameof(step));
 
             this.step = step;
         }

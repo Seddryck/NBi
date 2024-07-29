@@ -77,8 +77,8 @@ namespace NBi.Core.Testing.ResultSet.Lookup
         [Test]
         public void Execute_ReferenceLargerThanCandidateMatchingValueWhenNoToleranceApplied_OneViolation()
         {
-            var candidate = BuildDataTable(new[] { "Key0", "Key1" }, new object[] { 0, 1 });
-            var reference = BuildDataTable(new[] { "Key0", "Key1", "Key2" }, new object[] { 0, 2, 1 });
+            var candidate = BuildDataTable(new[] { "Key0", "Key1" }, [0, 1]);
+            var reference = BuildDataTable(new[] { "Key0", "Key1", "Key2" }, [0, 2, 1]);
 
             var analyzer = new LookupMatchesAnalyzer(BuildColumnMapping(1), BuildColumnMapping(1, 1, ColumnType.Numeric));
             var violations = analyzer.Execute(candidate, reference);

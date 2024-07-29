@@ -10,27 +10,18 @@ namespace NBi.Core.ResultSet.Equivalence
     internal class NameEquivaler : BaseEquivaler
     {
         public override EngineStyle Style
-        {
-            get => EngineStyle.ByName;
-        }
+            => EngineStyle.ByName;
 
         private new SettingsNameResultSet Settings
-        {
-            get => base.Settings as SettingsNameResultSet;
-        }
+            => (SettingsNameResultSet)base.Settings!;
 
         public NameEquivaler(IEnumerable<IRowsAnalyzer> analyzers, SettingsNameResultSet settings)
-            : base(analyzers)
-        {
-            base.Settings = settings;
-        }
+            : base(analyzers, settings)
+        { }
 
         protected override void PreliminaryChecks(IResultSet x, IResultSet y)
         {
-            if (base.Settings == null)
-                throw new InvalidOperationException();
-
-            RemoveIgnoredColumns(y, Settings);
+            RemoveIgnoredColumns(y, Settings ?? throw new InvalidOperationException());
             RemoveIgnoredColumns(x, Settings);
 
             WriteSettingsToDataTableProperties(y, Settings);
@@ -46,7 +37,7 @@ namespace NBi.Core.ResultSet.Equivalence
         protected override DataRowKeysComparer BuildDataRowsKeyComparer(IResultSet x)
             => new DataRowKeysComparerByName(Settings);
 
-        protected override IResultRow CompareRows(IResultRow rx, IResultRow ry)
+        protected override IResultRow? CompareRows(IResultRow rx, IResultRow ry)
         {
             var isRowOnError = false;
             foreach (var columnName in Settings.GetValueNames())
@@ -54,7 +45,7 @@ namespace NBi.Core.ResultSet.Equivalence
                 var x = rx.IsNull(columnName) ? DBNull.Value : rx[columnName];
                 var y = ry.IsNull(columnName) ? DBNull.Value : ry[columnName];
                 var rounding = Settings.IsRounding(columnName) ? Settings.GetRounding(columnName) : null;
-                var result = CellComparer.Compare(x, y, Settings.GetColumnType(columnName), Settings.GetTolerance(columnName), rounding);
+                var result = CellComparer.Compare(x!, y!, Settings.GetColumnType(columnName), Settings.GetTolerance(columnName), rounding);
 
                 if (!result.AreEqual)
                 {
@@ -75,7 +66,7 @@ namespace NBi.Core.ResultSet.Equivalence
             var i = 0;
             while (i < dt.ColumnCount)
             {
-                var column = dt.GetColumn(i);
+                var column = dt.GetColumn(i) ?? throw new InvalidOperationException();
                 if (settings.GetColumnRole(column.Name) == ColumnRole.Ignore)
                     column.Remove();
                 else
@@ -132,18 +123,18 @@ namespace NBi.Core.ResultSet.Equivalence
             var dr = dt[0];
             for (int i = 0; i < dt.ColumnCount; i++)
             {
-                var columnName = dt.GetColumn(i).Name;
+                var columnName = dt.GetColumn(i)?.Name ?? throw new InvalidOperationException();
                 CheckSettingsFirstRowCell(
                         settings.GetColumnRole(columnName)
                         , settings.GetColumnType(columnName)
-                        , dt.GetColumn(columnName)
-                        , dr.IsNull(columnName) ? DBNull.Value : dr[columnName]
-                        , new string[]
-                            {
+                        , dt.GetColumn(columnName) ?? throw new InvalidOperationException()
+                        , dr.IsNull(columnName) ? DBNull.Value : dr[columnName] ?? throw new InvalidOperationException()
+                        ,
+                            [
                                 "The column named '{0}' is expecting a numeric value but the first row of your result set contains a value '{1}' not recognized as a valid numeric value or a valid interval."
                                 , " Aren't you trying to use a comma (',' ) as a decimal separator? NBi requires that the decimal separator must be a '.'."
                                 , "The column named '{0}' is expecting a date & time value but the first row of your result set contains a value '{1}' not recognized as a valid date & time value."
-                            }
+                            ]
                 );
             }
         }

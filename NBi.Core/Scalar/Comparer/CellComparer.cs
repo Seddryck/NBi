@@ -14,7 +14,7 @@ namespace NBi.Core.Scalar.Comparer
         private readonly DateTimeComparer dateTimeComparer = new DateTimeComparer();
         private readonly BooleanComparer booleanComparer = new BooleanComparer();
 
-        public ComparerResult Compare(object x, object y, ColumnType columnType, Tolerance tolerance, Rounding rounding)
+        public ComparerResult Compare(object x, object y, ColumnType columnType, Tolerance? tolerance, Rounding? rounding)
         {
             //Any management
             if (x.ToString() != "(any)" && y.ToString() != "(any)")
@@ -28,13 +28,13 @@ namespace NBi.Core.Scalar.Comparer
                 else if (DBNull.Value.Equals(y))
                 {
                     if (!DBNull.Value.Equals(x) && x.ToString() != "(null)" && x.ToString() != "(blank)")
-                        return new ComparerResult(x.ToString());
+                        return new ComparerResult(x.ToString() ?? string.Empty);
                 }
                 //(value) management
                 else if (x.ToString() == "(value)" || y.ToString() == "(value)")
                 {
                     if (DBNull.Value.Equals(x) || DBNull.Value.Equals(y))
-                        return new ComparerResult(DBNull.Value.Equals(y) ? "(null)" : x.ToString());
+                        return new ComparerResult(DBNull.Value.Equals(y) ? "(null)" : x.ToString() ?? string.Empty);
                 }
                 //Not Null management
                 else
@@ -46,7 +46,7 @@ namespace NBi.Core.Scalar.Comparer
                         if (rounding != null)
                             return numericComparer.Compare(x, y, rounding);
                         else
-                            return numericComparer.Compare(x, y, tolerance);
+                            return numericComparer.Compare(x, y, tolerance ?? NumericAbsoluteTolerance.None);
                     }
                     //Date and Time
                     else if (columnType == ColumnType.DateTime)

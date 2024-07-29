@@ -15,14 +15,15 @@ namespace NBi.Core.Decoration.Process.Conditions
 
         public string Message { get => $"Check that the service named '{args.ServiceName.Execute()}' is running."; }
 
-        public bool Validate() => Validate(args.ServiceName.Execute(), args.TimeOut.Execute());
+        public bool Validate() 
+            => Validate(args.ServiceName.Execute() ?? throw new NullReferenceException(), args.TimeOut.Execute());
 
         internal bool Validate(string serviceName, int timeOut)
         {
             if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-                throw new NotSupportedException();
+                throw new PlatformNotSupportedException();
 
-            if (!ServiceController.GetServices().Any(serviceController => serviceController.ServiceName.Equals(serviceName)))
+            if (!ServiceController.GetServices().Any(sc => RuntimeInformation.IsOSPlatform(OSPlatform.Windows) && sc.ServiceName.Equals(serviceName)))
                 return false;
 
             var service = new ServiceController(serviceName);

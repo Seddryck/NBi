@@ -13,7 +13,7 @@ namespace NBi.Core.Sequence.Transformation.Aggregation.Function
         public Sum(ICaster<T> caster) : base(caster)
         { }
 
-        protected override T Execute(Series<int, T> series) => Caster.Execute(series.Sum());
+        protected override T? Execute(Series<int, T>? series) => Caster.Execute(series.Sum());
     }
 
     class SumNumeric : Sum<decimal>

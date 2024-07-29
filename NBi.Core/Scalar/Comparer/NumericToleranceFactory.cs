@@ -70,7 +70,7 @@ namespace NBi.Core.Scalar.Comparer
             if (isBoundedPercentage)
                 return new NumericBoundedPercentageTolerance(tolerancePercentage / 100, min, max);
 
-            throw new ArgumentException(string.Format("Can't convert '{0}' to a double, a percentage or a bounded percentage", value), "value");
+            throw new ArgumentException(string.Format("Can't convert '{0}' to a double, a percentage or a bounded percentage", value), nameof(value));
         }
     }
 }

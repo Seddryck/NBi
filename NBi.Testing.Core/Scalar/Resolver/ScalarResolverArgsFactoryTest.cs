@@ -1,7 +1,6 @@
 ﻿using NBi.Core.Injection;
 using NBi.Core.Scalar.Resolver;
 using NBi.Core.Transformation.Transformer.Native;
-using NBi.Core.Transformation.Transformer.Native.Text;
 using NBi.Core.Variable;
 using NUnit.Framework;
 using System;
@@ -55,7 +54,7 @@ namespace NBi.Core.Testing.Scalar.Resolver
             var typedArgs = args as FunctionScalarResolverArgs;
             Assert.That(typedArgs!.Resolver, Is.TypeOf<GlobalVariableScalarResolver<object>>());
             Assert.That(typedArgs.Transformations.Count, Is.EqualTo(1));
-            Assert.That(typedArgs.Transformations.ElementAt(0), Is.TypeOf<TextToLength>());
+            Assert.That(typedArgs.Transformations.ElementAt(0), Is.AssignableTo<INativeTransformation>());
         }
 
         [Test]
@@ -67,7 +66,7 @@ namespace NBi.Core.Testing.Scalar.Resolver
             var typedArgs = args as FunctionScalarResolverArgs;
             Assert.That(typedArgs!.Resolver, Is.TypeOf<FormatScalarResolver>());
             Assert.That(typedArgs.Transformations.Count, Is.EqualTo(1));
-            Assert.That(typedArgs.Transformations.ElementAt(0), Is.TypeOf<TextToLength>());
+            Assert.That(typedArgs.Transformations.ElementAt(0), Is.AssignableTo<INativeTransformation>());
         }
 
         [Test]

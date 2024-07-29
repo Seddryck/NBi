@@ -9,16 +9,12 @@ namespace NBi.Core.ResultSet.Equivalence
 {
     public class OrdinalEquivaler : BaseEquivaler
     {
-        private new SettingsOrdinalResultSet Settings
-        {
-            get => base.Settings as SettingsOrdinalResultSet;
-        }
+        private new SettingsOrdinalResultSet? Settings
+            => (SettingsOrdinalResultSet?) base.Settings;
 
-        public OrdinalEquivaler(IEnumerable<IRowsAnalyzer> analyzers, SettingsOrdinalResultSet settings)
-            : base(analyzers)
-        {
-            base.Settings = settings;
-        }
+        public OrdinalEquivaler(IEnumerable<IRowsAnalyzer> analyzers, SettingsOrdinalResultSet? settings = null)
+            : base(analyzers, settings)
+        { }
 
         protected override void PreliminaryChecks(IResultSet x, IResultSet y)
         {
@@ -28,7 +24,7 @@ namespace NBi.Core.ResultSet.Equivalence
             else
                 Settings.ApplyTo(columnsCount);
 
-            WriteSettingsToDataTableProperties(y, Settings);
+            WriteSettingsToDataTableProperties(y, Settings ?? throw new InvalidOperationException());
             WriteSettingsToDataTableProperties(x, Settings);
 
             CheckSettingsAndDataTable(y, Settings);
@@ -44,22 +40,29 @@ namespace NBi.Core.ResultSet.Equivalence
         }
 
         protected override DataRowKeysComparer BuildDataRowsKeyComparer(IResultSet x)
-            => new DataRowKeysComparerByOrdinal(Settings, x.ColumnCount);
+        {
+            if (Settings == null)
+                BuildDefaultSettings(x.ColumnCount);
+            return new DataRowKeysComparerByOrdinal(Settings!, x.ColumnCount);
+        }
 
         protected override bool CanSkipValueComparison()
-            => Settings.KeysDef == SettingsOrdinalResultSet.KeysChoice.All;
+            => Settings is not null && Settings.KeysDef == SettingsOrdinalResultSet.KeysChoice.All;
 
-        protected override IResultRow CompareRows(IResultRow rx, IResultRow ry)
+        protected override IResultRow? CompareRows(IResultRow rx, IResultRow ry)
         {
+            if (Settings == null)
+                BuildDefaultSettings(rx.ColumnCount);
+
             var isRowOnError = false;
             for (int i = 0; i < rx.Parent.ColumnCount; i++)
             {
-                if (Settings.GetColumnRole(i) == ColumnRole.Value)
+                if (Settings!.GetColumnRole(i) == ColumnRole.Value)
                 {
                     var x = rx.IsNull(i) ? DBNull.Value : rx[i];
                     var y = ry.IsNull(i) ? DBNull.Value : ry[i];
                     var rounding = Settings.IsRounding(i) ? Settings.GetRounding(i) : null;
-                    var result = CellComparer.Compare(y, x, Settings.GetColumnType(i), Settings.GetTolerance(i), rounding);
+                    var result = CellComparer.Compare(y!, x!, Settings.GetColumnType(i), Settings.GetTolerance(i), rounding);
 
                     if (!result.AreEqual)
                     {
@@ -116,14 +119,14 @@ namespace NBi.Core.ResultSet.Equivalence
                 CheckSettingsFirstRowCell(
                         settings.GetColumnRole(i)
                         , settings.GetColumnType(i)
-                        , dt.GetColumn(i)
-                        , dr.IsNull(i) ? DBNull.Value : dr[i]
-                        , new string[]
-                            {
+                        , dt.GetColumn(i) ?? throw new InvalidOperationException()
+                        , dr.IsNull(i) ? DBNull.Value : dr[i] ?? throw new InvalidOperationException()
+                        ,
+                            [
                                 "The column with index '{0}' is expecting a numeric value but the first row of your result set contains a value '{1}' not recognized as a valid numeric value or a valid interval."
                                 , " Aren't you trying to use a comma (',' ) as a decimal separator? NBi requires that the decimal separator must be a '.'."
                                 , "The column with index '{0}' is expecting a 'date & time' value but the first row of your result set contains a value '{1}' not recognized as a valid date & time value."
-                            }
+                            ]
                 );
             }
         }

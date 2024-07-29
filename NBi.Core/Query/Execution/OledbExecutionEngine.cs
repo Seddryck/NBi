@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.OleDb;
 using System.Diagnostics;
+using System.Runtime.InteropServices;
 using NBi.Extensibility.Query;
 
 namespace NBi.Core.Query.Execution
@@ -20,7 +21,7 @@ namespace NBi.Core.Query.Execution
         
         internal override void OpenConnection(IDbConnection connection)
         {
-            var connectionString = Command.Connection.ConnectionString;
+            var connectionString = Command.Connection?.ConnectionString ?? throw new NullReferenceException();
             try
             { connection.ConnectionString = connectionString; }
             catch (ArgumentException ex)
@@ -42,7 +43,9 @@ namespace NBi.Core.Query.Execution
                 throw ex;
         }
 
-        protected internal override IDbConnection NewConnection() => new OleDbConnection();
-        protected override IDataAdapter NewDataAdapter(IDbCommand command) => new OleDbDataAdapter((OleDbCommand)command);
+        protected internal override IDbConnection NewConnection() 
+            => RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? new OleDbConnection() : throw new PlatformNotSupportedException();
+        protected override IDataAdapter NewDataAdapter(IDbCommand command)
+             => RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? new OleDbDataAdapter((OleDbCommand)command) : throw new PlatformNotSupportedException();
     }
 }

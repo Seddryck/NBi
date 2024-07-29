@@ -1,4 +1,5 @@
-﻿using NBi.Core.Variable;
+﻿using Expressif.Values;
+using NBi.Core.Variable;
 using NBi.Extensibility;
 using NBi.Extensibility.Resolving;
 using System;
@@ -12,25 +13,21 @@ namespace NBi.Core.Scalar.Resolver
 {
     class GlobalVariableScalarResolver<T> : IScalarResolver<T>
     {
-        private readonly GlobalVariableScalarResolverArgs args;
+        private GlobalVariableScalarResolverArgs Args { get; }
         private static readonly object locker = new();
 
         public GlobalVariableScalarResolver(GlobalVariableScalarResolverArgs args)
-        {
-            this.args = args;
-        }
+            => Args = args;
 
-        public GlobalVariableScalarResolver(string name, IDictionary<string, IVariable> variables)
-        {
-            this.args = new GlobalVariableScalarResolverArgs(name, variables);
-        }
+        public GlobalVariableScalarResolver(string name, Context context)
+            : this(new GlobalVariableScalarResolverArgs(name, context)) { }
 
         public T? Execute()
         {
-            CheckVariableExists(args.VariableName, args.GlobalVariables);
-            var evaluation = EvaluateVariable(args.GlobalVariables[args.VariableName]);
+            CheckVariableExists(Args.VariableName, Args.Context.Variables);
+            var evaluation = EvaluateVariable(Args.Context.Variables[Args.VariableName]);
             var typedEvaluation = StrongTypingVariable(evaluation);
-            DisplayVariable(args.VariableName, typedEvaluation);
+            DisplayVariable(Args.VariableName, typedEvaluation);
 
             return (T?)typedEvaluation;
         }
@@ -62,9 +59,9 @@ namespace NBi.Core.Scalar.Resolver
             return output;
         }
 
-        protected virtual void CheckVariableExists(string name, IDictionary<string, IVariable> variables)
+        protected virtual void CheckVariableExists(string name, ContextVariables variables)
         {
-            if (!variables.ContainsKey(name))
+            if (!variables.Contains(name))
             {
                 var caseIssues = variables.Keys.Where(k => String.Equals(k, name, StringComparison.OrdinalIgnoreCase));
 
@@ -84,14 +81,18 @@ namespace NBi.Core.Scalar.Resolver
             }
         }
 
-        protected virtual object? EvaluateVariable(IVariable variable)
+        protected virtual object? EvaluateVariable(object value)
         {
-            lock (locker)
+            if (value is IVariable variable)
             {
-                if (variable is RuntimeVariable runtime && !runtime.IsEvaluated())
-                    runtime.Evaluate();
+                lock (locker)
+                {
+                    if (variable is RuntimeVariable runtime && !runtime.IsEvaluated())
+                        runtime.Evaluate();
+                }
+                return variable.GetValue();
             }
-            return variable.GetValue();
+            return value;
         }
     }
 }

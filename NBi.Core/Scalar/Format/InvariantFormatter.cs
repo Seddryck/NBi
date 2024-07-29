@@ -13,12 +13,12 @@ namespace NBi.Core.Scalar.Format
     class InvariantFormatter : IFormatter
     {
         private ServiceLocator ServiceLocator { get; }
-        private IDictionary<string, IVariable> Variables { get; }
+        private Context Context { get; }
 
         private const string SCALAR_PATTERN = @"{(@([\w\s\|\(\),-])+)[}:]";
 
-        public InvariantFormatter(ServiceLocator serviceLocator, IDictionary<string, IVariable> variables)
-            => (ServiceLocator, Variables) = (serviceLocator, variables);
+        public InvariantFormatter(ServiceLocator serviceLocator, Context context)
+            => (ServiceLocator, Context) = (serviceLocator, context);
 
         protected string Prepare(string text, out IList<IScalarResolverArgs> args)
         {
@@ -42,7 +42,7 @@ namespace NBi.Core.Scalar.Format
 
         protected IScalarResolverArgs BuildArgs(string text)
         {
-            var factory = new ScalarResolverArgsFactory(ServiceLocator, new Context(Variables));
+            var factory = new ScalarResolverArgsFactory(ServiceLocator, Context);
             return factory.Instantiate(text);
         }
 

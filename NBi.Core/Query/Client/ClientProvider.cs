@@ -12,14 +12,15 @@ namespace NBi.Core.Query.Client
     public class ClientProvider
     {
         private readonly IList<IClientFactory> factories = new List<IClientFactory>();
-        private Type[] classics = new[]
-            {
+        private readonly Type[] classics =
+            [
+                typeof(DubUrlClientFactory),
                 typeof(AdomdClientFactory),
                 typeof(OdbcClientFactory),
                 typeof(SqlClientFactory),
                 typeof(PowerBiDesktopClientFactory),
                 typeof(OleDbClientFactory), //It's important to keep this one as the last one because it will handle all the connectionStrings with a provider
-            };
+            ];
 
         public ClientProvider()
         {
@@ -36,10 +37,8 @@ namespace NBi.Core.Query.Client
         {
             foreach (var type in types)
             {
-                var ctor = type.GetConstructor(new Type[] { });
-                if (ctor == null)
-                    throw new NBiException($"Can't load an extension. Can't find a constructor without parameters for the type '{type.Name}'");
-                var factory = (IClientFactory)ctor.Invoke(new object[] { });
+                var ctor = type.GetConstructor([]) ?? throw new NBiException($"Can't load an extension. Can't find a constructor without parameters for the type '{type.Name}'");
+                var factory = (IClientFactory)ctor.Invoke([]);
                 if (factories.SingleOrDefault(x => x.GetType() == factory.GetType()) != null)
                     throw new ArgumentException($"You can't add twice the same factory. The factory '{factory.GetType().Name}' was already registered.", nameof(types));
                 factories.Add(factory);
@@ -49,7 +48,7 @@ namespace NBi.Core.Query.Client
         public IClient Instantiate(string connectionString)
         {
             if (string.IsNullOrEmpty(connectionString))
-                throw new ArgumentNullException($"The connection string cannot be null or empty.", nameof(connectionString));
+                throw new ArgumentNullException(nameof(connectionString), $"The connection string cannot be null or empty.");
 
             foreach (var factory in factories)
                 if (factory.CanHandle(connectionString))

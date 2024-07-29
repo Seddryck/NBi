@@ -10,14 +10,14 @@ namespace NBi.Core.Scalar.Casting
 {
     class NumericCaster : BaseNumericCaster, ICaster<decimal>
     {
-        public decimal Execute(object value)
+        public decimal Execute(object? value)
         {
-            if (value is decimal)
-                return (decimal)value;
+            if (value is decimal dec)
+                return dec;
 
             try
             {
-                return System.Convert.ToDecimal(value, NumberFormatInfo.InvariantInfo);
+                return Convert.ToDecimal(value, NumberFormatInfo.InvariantInfo);
             }
             catch
             {
@@ -26,6 +26,6 @@ namespace NBi.Core.Scalar.Casting
             
         }
 
-        object ICaster.Execute(object value) => Execute(value);
+        object ICaster.Execute(object? value) => Execute(value);
     }
 }

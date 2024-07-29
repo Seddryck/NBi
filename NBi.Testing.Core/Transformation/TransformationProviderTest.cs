@@ -121,9 +121,7 @@ namespace NBi.Core.Testing.Transformation
             Assert.That(resultSet[0][0], Is.EqualTo("(null)"));
         }
 
-
         [Test]
-        [Ignore ("Expressif exceptions are not public")]
         public void Transform_NativeTranformationUnknown_Exception()
         {
             var resultSet = new DataTableResultSet();
@@ -138,7 +136,7 @@ namespace NBi.Core.Testing.Transformation
 
             var provider = new TransformationProvider(new ServiceLocator(), new Context());
 
-            //Assert.Throws<Expressif.ExpressifException>(() => provider.Add(new ColumnOrdinalIdentifier(0), transformation));
+            Assert.Throws<Expressif.NotImplementedFunctionException>(() => provider.Add(new ColumnOrdinalIdentifier(0), transformation));
         }
 
         [Test]

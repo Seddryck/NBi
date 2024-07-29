@@ -1,6 +1,7 @@
 ﻿using Expressif;
 using Expressif.Values;
 using NBi.Core.Evaluate;
+using NBi.Core.ResultSet;
 using NBi.Extensibility;
 using System;
 using System.Collections.Generic;
@@ -13,38 +14,42 @@ namespace NBi.Core.Variable
 {
     public class Context : IContext
     {
-
         public IEnumerable<IColumnAlias> Aliases { get; } = [];
         public IEnumerable<IColumnExpression> Expressions { get; } = [];
-
-        public virtual IDictionary<string, IVariable> Variables { get; } = new Dictionary<string, IVariable>();
-        public virtual IResultRow? CurrentRow => (IResultRow?)currentObject.Value;
 
         private static readonly NoneContext noneContext = new ();
         public static Context None => noneContext;
 
-        ContextVariables IContext.Variables => throw new NotImplementedException();
+        public virtual ContextVariables Variables { get; }
 
         private readonly ContextObject currentObject = new();
         public ContextObject CurrentObject => currentObject;
+        public virtual IResultRow? CurrentRow => (IResultRow?)currentObject?.Value;
 
         internal Context()
-            : this(new Dictionary<string, IVariable>())
+            : this(new ContextVariables())
         { }
 
-        public Context(IDictionary<string, IVariable> variables)
+        internal Context(IDictionary<string, IVariable> variables)
+        {
+            Variables = new();
+            foreach (var variable in variables)
+                Variables.Add<object>(variable.Key, variable.Value);
+        }
+
+        public Context(ContextVariables variables)
             => Variables = variables;
 
-        public Context(IDictionary<string, IVariable> variables, IEnumerable<IColumnAlias> aliases, IEnumerable<IColumnExpression> expressions)
+        public Context(ContextVariables variables, IEnumerable<IColumnAlias> aliases, IEnumerable<IColumnExpression> expressions)
             : this(variables) => (Aliases, Expressions) = (aliases, expressions);
 
-        public void Switch(IResultRow currentRow)
+        public void Switch(IResultRow? currentRow)
             => currentObject.Set(currentRow);
 
         private class NoneContext : Context
         {
             public override IResultRow? CurrentRow => throw new NotSupportedException();
-            public override IDictionary<string, IVariable> Variables => throw new NotSupportedException();
+            public override ContextVariables Variables => throw new NotSupportedException();
         }
     }
 }

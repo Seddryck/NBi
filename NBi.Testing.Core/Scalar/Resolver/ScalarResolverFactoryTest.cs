@@ -23,7 +23,7 @@ namespace NBi.Core.Testing.Scalar.Resolver
         {
             var args = new LiteralScalarResolverArgs("myValue");
 
-            var factory = new ScalarResolverFactory(null);
+            var factory = new ScalarResolverFactory();
             var resolver = factory.Instantiate(args);
 
             Assert.That(resolver, Is.TypeOf<LiteralScalarResolver<object>>());
@@ -32,9 +32,9 @@ namespace NBi.Core.Testing.Scalar.Resolver
         [Test]
         public void Instantiate_GlobalVariableArgs_GlobalVariableResolver()
         {
-            var args = new GlobalVariableScalarResolverArgs("myVar", new Dictionary<string, IVariable>() { { "myVar", null } });
+            var args = new GlobalVariableScalarResolverArgs("myVar", new Context(new Dictionary<string, IVariable>() { { "myVar", null } }));
 
-            var factory = new ScalarResolverFactory(null);
+            var factory = new ScalarResolverFactory();
             var resolver = factory.Instantiate(args);
 
             Assert.That(resolver, Is.TypeOf<GlobalVariableScalarResolver<object>>());
@@ -49,7 +49,7 @@ namespace NBi.Core.Testing.Scalar.Resolver
                 context.Switch(dt.NewRow());
                 var args = new ContextScalarResolverArgs(context, new ColumnOrdinalIdentifier(0));
 
-                var factory = new ScalarResolverFactory(null);
+                var factory = new ScalarResolverFactory();
                 var resolver = factory.Instantiate(args);
 
                 Assert.That(resolver, Is.TypeOf<ContextScalarResolver<object>>());
@@ -61,7 +61,7 @@ namespace NBi.Core.Testing.Scalar.Resolver
         {
             var args = new QueryScalarResolverArgs(new EmbeddedQueryResolverArgs("select * from table;", "connStr", null, null, new TimeSpan()));
 
-            var factory = new ScalarResolverFactory(null);
+            var factory = new ScalarResolverFactory();
             var resolver = factory.Instantiate(args);
 
             Assert.That(resolver, Is.TypeOf<QueryScalarResolver<object>>());
@@ -85,7 +85,7 @@ namespace NBi.Core.Testing.Scalar.Resolver
         {
             var args = new CSharpScalarResolverArgs("DateTime.Now.Year");
 
-            var factory = new ScalarResolverFactory(null);
+            var factory = new ScalarResolverFactory();
             var resolver = factory.Instantiate(args);
 
             Assert.That(resolver, Is.TypeOf<CSharpScalarResolver<object>>());
@@ -96,7 +96,7 @@ namespace NBi.Core.Testing.Scalar.Resolver
         {
             var args = new EnvironmentScalarResolverArgs("myVar");
 
-            var factory = new ScalarResolverFactory(null);
+            var factory = new ScalarResolverFactory();
             var resolver = factory.Instantiate(args);
 
             Assert.That(resolver, Is.TypeOf<EnvironmentScalarResolver<object>>());
@@ -105,9 +105,9 @@ namespace NBi.Core.Testing.Scalar.Resolver
         [Test]
         public void Instantiate_FormatArgs_FormatResolver()
         {
-            var args = new FormatScalarResolverArgs("myVar", new Dictionary<string, IVariable>());
+            var args = new FormatScalarResolverArgs("myVar", new Context(new Dictionary<string, IVariable>()));
 
-            var factory = new ScalarResolverFactory(null);
+            var factory = new ScalarResolverFactory();
             var resolver = factory.Instantiate<string>(args);
 
             Assert.That(resolver, Is.TypeOf<FormatScalarResolver>());
@@ -116,9 +116,9 @@ namespace NBi.Core.Testing.Scalar.Resolver
         [Test]
         public void InstantiateNeutral_FormatArgs_FormatResolver()
         {
-            var args = new FormatScalarResolverArgs("myVar", new Dictionary<string, IVariable>());
+            var args = new FormatScalarResolverArgs("myVar", new Context(new Dictionary<string, IVariable>()));
 
-            var factory = new ScalarResolverFactory(null);
+            var factory = new ScalarResolverFactory();
             var resolver = factory.Instantiate(args);
 
             Assert.That(resolver, Is.TypeOf<FormatScalarResolver>());
@@ -127,18 +127,18 @@ namespace NBi.Core.Testing.Scalar.Resolver
         [Test]
         public void InstantiateNotString_FormatArgs_FormatResolver()
         {
-            var args = new FormatScalarResolverArgs("myVar", new Dictionary<string, IVariable>());
+            var args = new FormatScalarResolverArgs("myVar", new Context(new Dictionary<string, IVariable>()));
 
-            var factory = new ScalarResolverFactory(null);
+            var factory = new ScalarResolverFactory();
             var ex = Assert.Throws<ArgumentException>(() => factory.Instantiate<object>(args));
         }
 
         [Test]
         public void Instantiate_FunctionArgs_FunctionResolver()
         {
-            var args = new FunctionScalarResolverArgs(new LiteralScalarResolver<string>("myVar"), new INativeTransformation[] { });
+            var args = new FunctionScalarResolverArgs(new LiteralScalarResolver<string>("myVar"), Array.Empty<INativeTransformation>());
 
-            var factory = new ScalarResolverFactory(null);
+            var factory = new ScalarResolverFactory();
             var resolver = factory.Instantiate(args);
 
             Assert.That(resolver, Is.TypeOf<FunctionScalarResolver<object>>());
@@ -150,7 +150,7 @@ namespace NBi.Core.Testing.Scalar.Resolver
             var context = Context.None;
             var args = new NCalcScalarResolverArgs("a * b - 2", context);
 
-            var factory = new ScalarResolverFactory(null);
+            var factory = new ScalarResolverFactory();
             var resolver = factory.Instantiate(args);
 
             Assert.That(resolver, Is.TypeOf<NCalcScalarResolver<object>>());

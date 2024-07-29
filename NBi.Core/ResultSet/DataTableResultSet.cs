@@ -1,4 +1,5 @@
-﻿using NBi.Extensibility;
+﻿using Expressif.Values;
+using NBi.Extensibility;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -43,9 +44,9 @@ namespace NBi.Core.ResultSet
             Table.Columns[name]!.SetOrdinal(ordinal);
             return new DataColumnResultSet(Table.Columns[name]!);
         }
-
-
+        
         public int ColumnCount { get => Table.Columns.Count; }
+
         public bool ContainsColumn(string name)
             => Table.Columns.Contains(name);
 
@@ -92,6 +93,9 @@ namespace NBi.Core.ResultSet
         {
             get => new DataRowResultSet(Table.Rows[index]);
         }
+
+        IResultRow IResultSet.NewRow()
+            => new DataRowResultSet(Table.NewRow());
 
         public IResultRow NewRow()
             => new DataRowResultSet(Table.NewRow());
@@ -190,7 +194,7 @@ namespace NBi.Core.ResultSet
                 return;
 
             Trace.WriteLine(string.Format(new string('-', 30)));
-            foreach (DataRow row in Rows)
+            foreach (var row in Rows)
             {
                 foreach (object? cell in row.ItemArray)
                     Trace.Write($"| {cell?.ToString() ?? "(null)"}\t");
@@ -209,12 +213,11 @@ namespace NBi.Core.ResultSet
                 disposedValue = true;
             }
         }
-
+        
         public void Dispose()
         {
             Dispose(disposing: true);
             GC.SuppressFinalize(this);
         }
-
     }
 }

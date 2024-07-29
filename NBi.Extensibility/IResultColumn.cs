@@ -17,7 +17,7 @@ namespace NBi.Extensibility
         void Remove();
         void ReplaceBy(IResultColumn column);
 
-        void SetProperties(object role, object type, object tolerance, object rounding);
+        void SetProperties(object role, object type, object? tolerance, object? rounding);
         void SetProperties(object role, object type);
         bool HasProperties();
         object? GetProperty(string property);

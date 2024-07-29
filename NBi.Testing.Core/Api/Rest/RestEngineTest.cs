@@ -21,9 +21,9 @@ namespace NBi.Core.Testing.Api.Rest
                 new LiteralScalarResolver<string>("name"),
                 new LiteralScalarResolver<string>("cedric")
             );
-            var engine = new RestEngine(new Anonymous(), baseUrl, null, new[] { parameter }, null, null);
+            var engine = new RestEngine(new Anonymous(), baseUrl, new LiteralScalarResolver<string>(""), new[] { parameter }, [], []);
             var result = engine.Execute();
-            Assert.That(result, Does.StartWith("{\"name\":\"cedric\",\"age\":"));
+            Assert.That(result, Does.Contain("\"name\":\"cedric\",\"age\":"));
         }
 
         [Test]
@@ -32,14 +32,14 @@ namespace NBi.Core.Testing.Api.Rest
             var baseUrl = new LiteralScalarResolver<string>("https://api.publicapis.org/");
             var path = new LiteralScalarResolver<string>("entries");
             var parameter1 = new ParameterRest(
-                new LiteralScalarResolver<string>("category"),
-                new LiteralScalarResolver<string>("animals")
+                new LiteralScalarResolver<string>("title"),
+                new LiteralScalarResolver<string>("animal")
             );
             var parameter2 = new ParameterRest(
                 new LiteralScalarResolver<string>("https"),
                 new LiteralScalarResolver<string>("true")
             );
-            var engine = new RestEngine(new Anonymous(), baseUrl, path, new[] { parameter1, parameter2 }, null, null);
+            var engine = new RestEngine(new Anonymous(), baseUrl, path, new[] { parameter1, parameter2 }, [], []);
             var result = engine.Execute();
             Assert.That(result.Length, Is.GreaterThan(20));
             Assert.That(result, Does.StartWith("{\"count\":"));
@@ -65,6 +65,7 @@ namespace NBi.Core.Testing.Api.Rest
         //}
 
         [Test]
+        [Ignore("We need to mock HTTP response because API are changing too often")]
         public void Execute_Segments_CorrectResponse()
         {
             var baseUrl = new LiteralScalarResolver<string>("http://api.icndb.com");

@@ -47,7 +47,7 @@ namespace NBi.Core.ResultSet.Alteration.Duplication
                 }
             }
 
-            foreach (IResultRow row in rs.Rows)
+            foreach (var row in rs.Rows)
             {
                 Context.Switch(row);
                 var isDuplicated = Predication.Execute(Context);

@@ -14,7 +14,7 @@ namespace NBi.Core.DataType.Relational
         private readonly IDbConnection connection;
         public RelationalDataTypeDiscoveryFactory(IDbConnection connection)
         {
-            this.connection = connection as SqlConnection;
+            this.connection = (SqlConnection)connection;
         }
 
         public IDataTypeDiscoveryCommand Instantiate(Target target, IEnumerable<CaptionFilter> filters)

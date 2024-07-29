@@ -9,13 +9,16 @@ namespace NBi.Core.Scalar.Casting
 {
     class ThreeStateBooleanCaster : BooleanCaster, ICaster<ThreeStateBoolean>
     {
-        public new ThreeStateBoolean Execute(object value)
+        public new ThreeStateBoolean Execute(object? value)
         {
-            if (value is ThreeStateBoolean)
-                return (ThreeStateBoolean)value;
+            if (value is ThreeStateBoolean threeState)
+                return threeState;
 
-            if (value is bool)
-                return (bool)value ? ThreeStateBoolean.True : ThreeStateBoolean.False;
+            if (value is bool boolean)
+                return boolean ? ThreeStateBoolean.True : ThreeStateBoolean.False;
+
+            if (value is null)
+                return ThreeStateBoolean.Unknown;
 
             var boolValue = IntParsing(value);
             if (boolValue != ThreeStateBoolean.Unknown)
@@ -28,8 +31,10 @@ namespace NBi.Core.Scalar.Casting
             return ThreeStateBoolean.Unknown;
         }
 
-        public override bool IsValid(object value)
+        public override bool IsValid(object? value)
         {
+            if (value is null)
+                return false;
             if (value is ThreeStateBoolean || value is bool)
                 return true;
 

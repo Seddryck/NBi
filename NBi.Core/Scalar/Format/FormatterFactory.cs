@@ -8,16 +8,11 @@ using System.Threading.Tasks;
 
 namespace NBi.Core.Scalar.Format
 {
-    public class FormatterFactory
+    public class FormatterFactory(ServiceLocator serviceLocator)
     {
-        private readonly ServiceLocator serviceLocator;
+        private readonly ServiceLocator serviceLocator = serviceLocator;
 
-        public FormatterFactory(ServiceLocator serviceLocator)
-        {
-            this.serviceLocator = serviceLocator;
-        }
-
-        public IFormatter Instantiate(IDictionary<string, IVariable> globalVariables)
-            => new InvariantFormatter(serviceLocator, globalVariables);
+        public IFormatter Instantiate(Context context)
+            => new InvariantFormatter(serviceLocator, context);
     }
 }

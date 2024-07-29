@@ -10,13 +10,9 @@ namespace NBi.Core.Scalar.Resolver
     public class GlobalVariableScalarResolverArgs : IScalarResolverArgs
     {
         public string VariableName { get; }
-        public IDictionary<string, IVariable> GlobalVariables { get; }
+        public Context Context { get; }
 
-        public GlobalVariableScalarResolverArgs(string variableName, IDictionary<string, IVariable> globalVariables)
-        {
-            this.VariableName = variableName;
-            this.GlobalVariables = globalVariables;
-        }
-        
+        public GlobalVariableScalarResolverArgs(string variableName, Context context)
+            => (VariableName, Context) = (variableName, context);
     }
 }

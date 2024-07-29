@@ -13,7 +13,7 @@ namespace NBi.Core.Sequence.Transformation.Aggregation.Function
         public Min(ICaster<T> caster) : base(caster)
         { }
 
-        protected override T Execute(Series<int, T> series) => Caster.Execute(series.Min());
+        protected override T? Execute(Series<int, T>? series) => Caster.Execute(series.Min());
     }
 
     class MinNumeric : Min<decimal>

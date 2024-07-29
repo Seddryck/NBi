@@ -18,24 +18,24 @@ namespace NBi.Core.Query.Command
     {
         public abstract bool CanHandle(IClient client);
 
-        public ICommand Instantiate(IClient client, IQuery query, ITemplateEngine engine)
+        public ICommand Instantiate(IClient client, IQuery query, ITemplateEngine? engine)
         {
             if (!CanHandle(client))
                 throw new ArgumentException();
-            var connection = client.CreateNew() as IDbConnection;
+            var connection = (IDbConnection)client.CreateNew();
             var cmd = Instantiate(connection, query, engine);
             return new Command(connection, cmd);
         }
 
-        protected IDbCommand Instantiate(IDbConnection connection, IQuery query, ITemplateEngine engine)
+        protected IDbCommand Instantiate(IDbConnection connection, IQuery query, ITemplateEngine? engine)
         {
             var cmd = connection.CreateCommand();
-            if (query.TemplateTokens != null && query.TemplateTokens.Count() > 0)
+            if (query.TemplateTokens is not null && query.TemplateTokens.Any() && engine is not null)
                 cmd.CommandText = ApplyVariablesToTemplate(engine, query.Statement, query.TemplateTokens);
             else
                 cmd.CommandText = query.Statement;
 
-            if (query.Parameters != null && query.Parameters.Count() > 0)
+            if (query.Parameters != null && query.Parameters.Any())
             {
                 foreach (var p in query.Parameters)
                 {

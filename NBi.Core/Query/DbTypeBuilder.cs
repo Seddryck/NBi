@@ -24,7 +24,7 @@ namespace NBi.Core.Query
             {
                 if (!TryParseEquivalent(typeName, out value))
                 {
-                    throw new ArgumentException(String.Format("Unknown type for database: {0}", typeName), "name");
+                    throw new ArgumentException(String.Format("Unknown type for database: {0}", typeName), nameof(name));
                 }
             }
             result.Value = value;

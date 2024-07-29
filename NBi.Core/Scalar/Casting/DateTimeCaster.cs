@@ -28,26 +28,25 @@ namespace NBi.Core.Scalar.Casting
             Cultures = cultures;
         }
 
-        public DateTime Execute(object value)
+        public DateTime Execute(object? value)
         {
-            if (value is DateTime)
-                return (DateTime)value;
+            if (value is DateTime dt)
+                return dt;
 
             if (value == DBNull.Value || value is null || (value is string && value as string == "(null)"))
                 throw new NBiException($"Can't cast the value '(null)' to a dateTime.");
 
-            if (value is string)
-                return StringParse((string)value);
+            if (value is string str)
+                return StringParse(str);
 
             return Convert.ToDateTime(value, DateTimeFormatInfo.InvariantInfo);
         }
 
-        object ICaster.Execute(object value) => Execute(value);
+        object ICaster.Execute(object? value) => Execute(value);
 
         protected virtual DateTime StringParse(string value)
         {
-            bool result = false;
-            result = ValidDateTime(value, Cultures, out DateTime dateTime);
+            var result = ValidDateTime(value, Cultures, out DateTime dateTime);
             if (!result)
                 throw new NBiException($"Can't cast the value '{value}' to a valid dateTime.");
 
@@ -78,25 +77,23 @@ namespace NBi.Core.Scalar.Casting
             return false;
         }
 
-        public bool IsValid(object value)
+        public bool IsValid(object? value)
         {
             if (value is DateTime)
                 return true;
             
-            if (value is string)
-            {
-                return ValidDateTime((string)value, Cultures, out var temp);
-            }
+            if (value is string str)
+                return ValidDateTime(str, Cultures, out var _);
 
             try
             {
-                System.Convert.ToDateTime(value, DateTimeFormatInfo.InvariantInfo);
+                Convert.ToDateTime(value, DateTimeFormatInfo.InvariantInfo);
                 return true;
             }
             catch (Exception)
             { return false; }
         }
 
-        public bool IsStrictlyValid(object value) => IsValid(value);
+        public bool IsStrictlyValid(object? value) => IsValid(value);
     }
 }

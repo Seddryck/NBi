@@ -13,7 +13,6 @@ namespace NBi.Extensibility
         IResultSet Clone();
         void Clear();
 
-
         //Columns
         IEnumerable<IResultColumn> Columns { get; }
         int ColumnCount { get; }

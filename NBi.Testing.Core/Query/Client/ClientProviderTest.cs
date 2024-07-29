@@ -11,6 +11,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using NBi.Extensibility.Query;
+using DubUrl.Extensions;
 
 namespace NBi.Core.Testing.Query.Client
 {
@@ -18,6 +19,9 @@ namespace NBi.Core.Testing.Query.Client
     public class ClientProviderTest
     {
         [Test]
+        [TestCase("mssql://server/db?Integrated Security=SSPI", typeof(SqlConnection))]
+        [TestCase("odbc+mssql://server/db", typeof(OdbcConnection))]
+        [TestCase("oledb+xlsx:///customer.xlsx", typeof(OleDbConnection))]
         [TestCase("Provider=OleDb.1;Data Source=ds;Initial Catalog=ic;Integrated Security=SSPI;", typeof(OleDbConnection))]
         [TestCase("Data Source=ds;Initial Catalog=ic", typeof(SqlConnection))]
         [TestCase("Driver={SQL Server Native Client 10.0};Server=myServerAddress;Database=myDataBase;Uid=myUsername;Pwd=myPassword;", typeof(OdbcConnection))]
@@ -27,6 +31,14 @@ namespace NBi.Core.Testing.Query.Client
             var factory = new ClientProvider();
             var connection = factory.Instantiate(connectionString);
             Assert.That(connection.CreateNew(), Is.TypeOf(expectedType));
+        }
+
+        [TestCase("pbipremium://api.powerbi.com/v1.0/myOrganization/myWorkspace", "AdomdConnectionWrapper")]
+        public void Instantiate_ConnectionString_CorrectTypeName(string connectionString, string expectedType)
+        {
+            var factory = new ClientProvider();
+            var connection = factory.Instantiate(connectionString);
+            Assert.That(connection.CreateNew().GetType().Name, Is.EqualTo(expectedType));
         }
 
         #region Fake

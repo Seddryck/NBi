@@ -22,7 +22,7 @@ namespace NBi.Core.Scalar.Comparer
             if (IsEqual(xThreeState, yThreeState))
                 return ComparerResult.Equality;
 
-            return new ComparerResult(x.ToString());
+            return new ComparerResult(x.ToString() ?? string.Empty);
         }
 
         protected override ComparerResult CompareObjects(object x, object y, Tolerance tolerance)

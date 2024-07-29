@@ -14,7 +14,7 @@ namespace NBi.Core.Scalar.Comparer
                 return null;
 
             if (columnDefinition.Role != ColumnRole.Value)
-                throw new ArgumentException("The ColumnDefinition must have have a role defined as 'Value' and is defined as 'Key'", "columnDefinition");
+                throw new ArgumentException("The ColumnDefinition must have have a role defined as 'Value' and is defined as 'Key'", nameof(columnDefinition));
 
             return Instantiate(columnDefinition.Type, columnDefinition.Tolerance);
         }

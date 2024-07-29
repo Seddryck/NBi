@@ -44,16 +44,17 @@ namespace NBi.Core.Query.Client
                 var csb = new DbConnectionStringBuilder() { ConnectionString = connectionString };
 
                 if (csb.ContainsKey("Provider"))
-                    return (csb["Provider"].ToString());
+                    return csb["Provider"].ToString() ?? string.Empty;
             }
             catch (Exception) { }
 
             return string.Empty;
         }
 
-        private string TranslateProviderName(string providerName)
+        private string? TranslateProviderName(string providerName)
         {
-            if (providerName.ToLowerInvariant().StartsWith("msolap")) return "Microsoft.AnalysisServices.AdomdClient";
+            if (providerName.ToLowerInvariant().StartsWith("msolap")) 
+                return "Microsoft.AnalysisServices.AdomdClient";
             
             return null;
         }

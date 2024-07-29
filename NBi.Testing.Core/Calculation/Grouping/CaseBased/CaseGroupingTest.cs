@@ -34,7 +34,6 @@ namespace NBi.Core.Testing.Calculation.Grouping.ColumnBased
         }
 
         [Test]
-        [Ignore("Can't have two inputs for a predication with current version of Expressif")]
         public void Execute_TwoColumns_ThreeGroups()
         {
             var args = new ObjectsResultSetResolverArgs(new[] { ["alpha", "1", 10], ["ALPHA", "1", 20], ["beta", "2", 30], new object[] { "ALPHA", "2", 40 } });
@@ -42,15 +41,15 @@ namespace NBi.Core.Testing.Calculation.Grouping.ColumnBased
             var rs = resolver.Execute();
             
             var lowerCase = new Predication(new Predicate(new LowerCase()), new ColumnOrdinalIdentifier(0));
-            //var upperCase = new Predication(
-            //                    new Expressif.Predicates.PredicateCombiner()
-            //                        .With(new UpperCase(), new ColumnOrdinalIdentifier(0))
-            //                        .And(new EquivalentTo(() => new LiteralScalarResolver<string>("1").Execute()!), new ColumnOrdinalIdentifier(1))
-            //                        .Build()
-            //                );
-            var upperCase = new Predication(new Predicate(new UpperCase()), new ColumnOrdinalIdentifier(0));
+            var upperCase = new Predication(new Predicate(
+                                new Expressif.PredicationBuilder()
+                                    .Create<UpperCase>()
+                                    .And<EquivalentTo>("1")
+                                    .Build())
+                                , new ColumnOrdinalIdentifier(1)
+                            );
 
-            var grouping = new CaseGrouping([ lowerCase, upperCase ], Context.None);
+            var grouping = new CaseGrouping([ lowerCase, upperCase ], new Context());
 
             var result = grouping.Execute(rs);
             Assert.That(result, Has.Count.EqualTo(3));
@@ -60,23 +59,22 @@ namespace NBi.Core.Testing.Calculation.Grouping.ColumnBased
         }
 
         [Test]
-        [Ignore("Can't have two inputs for a predication with current version of Expressif")]
         public void Execute_TwoColumnsWithContext_ThreeGroups()
         {
             var args = new ObjectsResultSetResolverArgs(new[] { ["alpha", "1", "1"], ["ALPHA", "1", "1"], ["beta", "2", "2"], new object[] { "ALPHA", "2", "4" } });
             var resolver = new ObjectsResultSetResolver(args);
             var rs = resolver.Execute();
 
+            var context = new Context();
             var lowerCase = new Predication(new Predicate(new LowerCase()), new ColumnOrdinalIdentifier(0));
-            //var upperCase = new Predication(
-            //                    new Expressif.Predicates.PredicateCombiner()
-            //                        .With(new UpperCase(), new ColumnOrdinalIdentifier(0))
-            //                        .And(new EquivalentTo(() => new ContextScalarResolverArgs(Context.None, new ColumnOrdinalIdentifier(2)).Execute()!), new ColumnOrdinalIdentifier(1))
-            //                        .Build()
-            //                );
-            var upperCase = new Predication(new Predicate(new UpperCase()), new ColumnOrdinalIdentifier(0));
-
-            var grouping = new CaseGrouping(new IPredication[] { lowerCase, upperCase }, Context.None);
+            var upperCase = new Predication(new Predicate(
+                                new Expressif.PredicationBuilder(context)
+                                    .Create<EquivalentTo>(ctx => ctx.CurrentObject[2])
+                                    .And<UpperCase>()
+                                    .Build())
+                                , new ColumnOrdinalIdentifier(1)
+                            );
+            var grouping = new CaseGrouping(new IPredication[] { lowerCase, upperCase }, context);
 
             var result = grouping.Execute(rs);
             Assert.That(result, Has.Count.EqualTo(3));

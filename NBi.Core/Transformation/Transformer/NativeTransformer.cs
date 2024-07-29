@@ -28,7 +28,7 @@ namespace NBi.Core.Transformation.Transformer
 
         public void Initialize(string code)
         {
-            InternalTransformation = new Expressif.Expression(code);
+            InternalTransformation = new Expressif.Expression(code, Context);
         }
 
         public object? Execute(object? value)

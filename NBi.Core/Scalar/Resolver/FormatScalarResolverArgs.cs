@@ -13,12 +13,9 @@ namespace NBi.Core.Scalar.Resolver
     public class FormatScalarResolverArgs : IScalarResolverArgs
     {
         public string Text { get; }
-        public IDictionary<string, IVariable> GlobalVariables { get; }
+        public Context Context { get; }
 
-        public FormatScalarResolverArgs(string text, IDictionary<string, IVariable> globalVariables)
-        {
-            Text = text;
-            GlobalVariables = globalVariables;
-        }
+        public FormatScalarResolverArgs(string text, Context context)
+            => (Text, Context) = (text, context);
     }
 }

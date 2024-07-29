@@ -31,17 +31,17 @@ namespace NBi.Core.Etl
             if (types.Count() > 1)
                 throw new InvalidOperationException($"Found more than one class implementing '{interfaceName}' in '{assembly.FullName}'.");
 
-            return Activator.CreateInstance(types.ElementAt(0)) as IEtlRunnerFactory;
+            return (IEtlRunnerFactory?)Activator.CreateInstance(types.ElementAt(0)!) ?? throw new NullReferenceException();
         }
 
         private static string AssemblyDirectory
         {
             get
             {
-                string codeBase = Assembly.GetExecutingAssembly().CodeBase;
+                string codeBase = Assembly.GetExecutingAssembly().Location;
                 UriBuilder uri = new UriBuilder(codeBase);
                 string path = Uri.UnescapeDataString(uri.Path);
-                return Path.GetDirectoryName(path);
+                return Path.GetDirectoryName(path) ?? string.Empty;
             }
         }
     }

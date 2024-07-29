@@ -36,10 +36,10 @@ namespace NBi.Core.Decoration.DataEngineering
         {
             get
             {
-                string codeBase = Assembly.GetExecutingAssembly().CodeBase;
+                string codeBase = Assembly.GetExecutingAssembly()?.Location ?? string.Empty;
                 UriBuilder uri = new UriBuilder(codeBase);
                 string path = Uri.UnescapeDataString(uri.Path);
-                return Path.GetDirectoryName(path);
+                return Path.GetDirectoryName(path) ?? string.Empty;
             }
         }
     }

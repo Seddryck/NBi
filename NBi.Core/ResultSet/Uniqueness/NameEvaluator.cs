@@ -99,18 +99,18 @@ namespace NBi.Core.ResultSet.Uniqueness
             var dr = dt[0];
             for (int i = 0; i < dt.ColumnCount; i++)
             {
-                var columnName = dt.GetColumn(i).Name;
+                var columnName = dt.GetColumn(i)?.Name ?? throw new ArgumentOutOfRangeException();
                 CheckSettingsFirstRowCell(
                         settings.GetColumnRole(columnName)
                         , settings.GetColumnType(columnName)
-                        , dt.GetColumn(columnName)
-                        , dr.IsNull(columnName) ? DBNull.Value : dr[columnName]
-                        , new string[]
-                            {
+                        , dt.GetColumn(columnName)!
+                        , dr.IsNull(columnName) ? DBNull.Value : dr[columnName]!
+                        ,
+                            [
                                 "The column named '{0}' is expecting a numeric value but the first row of your result set contains a value '{1}' not recognized as a valid numeric value or a valid interval."
                                 , " Aren't you trying to use a comma (',' ) as a decimal separator? NBi requires that the decimal separator must be a '.'."
                                 , "The column named '{0}' is expecting a date & time value but the first row of your result set contains a value '{1}' not recognized as a valid date & time value."
-                            }
+                            ]
                 );
             }
         }
@@ -121,8 +121,8 @@ namespace NBi.Core.ResultSet.Uniqueness
 
             while (i < dt.ColumnCount)
             {
-                if (settings.GetColumnRole(dt.GetColumn(i).Name) == ColumnRole.Ignore)
-                    dt.GetColumn(i).Remove();
+                if (settings.GetColumnRole(dt.GetColumn(i)!.Name) == ColumnRole.Ignore)
+                    dt.GetColumn(i)!.Remove();
                 else
                     i++;
             }

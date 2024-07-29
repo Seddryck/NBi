@@ -22,8 +22,8 @@ namespace NBi.Core.Testing.ResultSet.Alteration.Summarization
             var args = new ObjectsResultSetResolverArgs(new[] { new object[] { "alpha", 1 }, new object[] { "alpha", 2 }, new object[] { "beta", 3 }, new object[] { "alpha", 4 } });
             var resolver = new ObjectsResultSetResolver(args);
             var rs = resolver.Execute();
-            rs.GetColumn(0).Rename("keyColumn");
-            rs.GetColumn(1).Rename("valueColumn");
+            rs.GetColumn(0)?.Rename("keyColumn");
+            rs.GetColumn(1)?.Rename("valueColumn");
             return rs;
         }
 
@@ -36,8 +36,8 @@ namespace NBi.Core.Testing.ResultSet.Alteration.Summarization
             var args = new ObjectsResultSetResolverArgs(values);
             var resolver = new ObjectsResultSetResolver(args);
             var rs = resolver.Execute();
-            rs.GetColumn(0).Rename("keyColumn");
-            rs.GetColumn(1).Rename("valueColumn");
+            rs.GetColumn(0)?.Rename("keyColumn");
+            rs.GetColumn(1)?.Rename("valueColumn");
             return rs;
         }
 
@@ -71,18 +71,16 @@ namespace NBi.Core.Testing.ResultSet.Alteration.Summarization
                 new ObjectsResultSetResolverArgs(
                     new[] { new object[] { "alpha", "foo", 1 }, new object[] { "alpha", "foo", 2 }, new object[] { "beta", "foo", 3 }, new object[] { "alpha", "bar", 4 } })
                 ).Execute();
-            rs.GetColumn(0).Rename("ColumnA");
-            rs.GetColumn(1).Rename("ColumnB");
-            rs.GetColumn(2).Rename("valueColumn");
+            rs.GetColumn(0)?.Rename("ColumnA");
+            rs.GetColumn(1)?.Rename("ColumnB");
+            rs.GetColumn(2)?.Rename("valueColumn");
 
             var args = new SummarizeArgs(
-                    new List<ColumnAggregationArgs>()
-                    { new ColumnAggregationArgs(new ColumnNameIdentifier("valueColumn"), AggregationFunctionType.Sum, ColumnType.Numeric, null) },
-                    new List<IColumnDefinitionLight>()
-                    {
+                    [new ColumnAggregationArgs(new ColumnNameIdentifier("valueColumn"), AggregationFunctionType.Sum, ColumnType.Numeric, null)],
+                    [
                         Mock.Of<IColumnDefinitionLight>(x => x.Identifier == new ColumnNameIdentifier("ColumnA") && x.Type == ColumnType.Text),
                         Mock.Of<IColumnDefinitionLight>(x => x.Identifier == new ColumnNameIdentifier("ColumnB") && x.Type == ColumnType.Text)
-                    }
+                    ]
                 );
 
             var summarize = new SummarizeEngine(args);
@@ -102,18 +100,16 @@ namespace NBi.Core.Testing.ResultSet.Alteration.Summarization
                 new ObjectsResultSetResolverArgs(
                     new[] { new object[] { "alpha", "foo", 1 }, new object[] { "alpha", "foo", 2 }, new object[] { "beta", "foo", 3 }, new object[] { "alpha", "bar", 4 } })
                 ).Execute();
-            rs.GetColumn(0).Rename("ColumnB");
-            rs.GetColumn(1).Rename("ColumnA");
-            rs.GetColumn(2).Rename("valueColumn");
+            rs.GetColumn(0)?.Rename("ColumnB");
+            rs.GetColumn(1)?.Rename("ColumnA");
+            rs.GetColumn(2)?.Rename("valueColumn");
 
             var args = new SummarizeArgs(
-                    new List<ColumnAggregationArgs>()
-                    { new ColumnAggregationArgs(new ColumnNameIdentifier("valueColumn"), AggregationFunctionType.Sum, ColumnType.Numeric, null) },
-                    new List<IColumnDefinitionLight>()
-                    {
+                    [new ColumnAggregationArgs(new ColumnNameIdentifier("valueColumn"), AggregationFunctionType.Sum, ColumnType.Numeric, null)],
+                    [
                         Mock.Of<IColumnDefinitionLight>(x => x.Identifier == new ColumnNameIdentifier("ColumnB") && x.Type == ColumnType.Text),
                         Mock.Of<IColumnDefinitionLight>(x => x.Identifier == new ColumnNameIdentifier("ColumnA") && x.Type == ColumnType.Text),
-                    }
+                    ]
                 );
 
             var summarize = new SummarizeEngine(args);
@@ -132,14 +128,12 @@ namespace NBi.Core.Testing.ResultSet.Alteration.Summarization
             var rs = Build();
 
             var args = new SummarizeArgs(
-                    new List<ColumnAggregationArgs>()
-                    {
+                    [
                         new ColumnAggregationArgs(new ColumnNameIdentifier("valueColumn"), AggregationFunctionType.Sum, ColumnType.Numeric, null),
                         new ColumnAggregationArgs(new ColumnNameIdentifier("valueColumn"), AggregationFunctionType.Min, ColumnType.Numeric, null),
                         new ColumnAggregationArgs(new ColumnNameIdentifier("valueColumn"), AggregationFunctionType.Max, ColumnType.Numeric, null),
-                    },
-                    new List<IColumnDefinitionLight>()
-                    { Mock.Of<IColumnDefinitionLight>(x => x.Identifier == new ColumnNameIdentifier("keyColumn") && x.Type == ColumnType.Text) }
+                    ],
+                    [Mock.Of<IColumnDefinitionLight>(x => x.Identifier == new ColumnNameIdentifier("keyColumn") && x.Type == ColumnType.Text)]
                 );
 
             var summarize = new SummarizeEngine(args);
@@ -162,10 +156,9 @@ namespace NBi.Core.Testing.ResultSet.Alteration.Summarization
             var rs = Build();
 
             var args = new SummarizeArgs(
-                    new List<ColumnAggregationArgs>()
-                    {
+                    [
                         new ColumnAggregationArgs(new ColumnNameIdentifier("valueColumn"), AggregationFunctionType.Sum, ColumnType.Numeric, null),
-                    },
+                    ],
                     new List<IColumnDefinitionLight>()
                 );
 
@@ -183,13 +176,12 @@ namespace NBi.Core.Testing.ResultSet.Alteration.Summarization
             var rs = Build();
 
             var args = new SummarizeArgs(
-                    new List<ColumnAggregationArgs>()
-                    {
+                    [
                         new ColumnAggregationArgs(new ColumnNameIdentifier("valueColumn"), AggregationFunctionType.Sum, ColumnType.Numeric, null),
                         new ColumnAggregationArgs(new ColumnNameIdentifier("valueColumn"), AggregationFunctionType.Min, ColumnType.Numeric, null),
                         new ColumnAggregationArgs(new ColumnNameIdentifier("valueColumn"), AggregationFunctionType.Max, ColumnType.Numeric, null),
-                    },
-                    new List<IColumnDefinitionLight>()
+                    ],
+                    []
                 );
 
             var summarize = new SummarizeEngine(args);
@@ -213,14 +205,12 @@ namespace NBi.Core.Testing.ResultSet.Alteration.Summarization
             var rs = BuildLarge(count);
 
             var args = new SummarizeArgs(
-                    new List<ColumnAggregationArgs>()
-                    {
+                    [
                         new ColumnAggregationArgs(new ColumnNameIdentifier("valueColumn"), AggregationFunctionType.Sum, ColumnType.Numeric, null),
                         new ColumnAggregationArgs(new ColumnNameIdentifier("valueColumn"), AggregationFunctionType.Min, ColumnType.Numeric, null),
                         new ColumnAggregationArgs(new ColumnNameIdentifier("valueColumn"), AggregationFunctionType.Max, ColumnType.Numeric, null),
-                    },
-                    new List<IColumnDefinitionLight>()
-                    { Mock.Of<IColumnDefinitionLight>(x => x.Identifier == new ColumnNameIdentifier("keyColumn") && x.Type == ColumnType.Text) }
+                    ],
+                    [Mock.Of<IColumnDefinitionLight>(x => x.Identifier == new ColumnNameIdentifier("keyColumn") && x.Type == ColumnType.Text)]
                 );
 
             var summarize = new SummarizeEngine(args);

@@ -39,13 +39,13 @@ namespace NBi.Core.Query.Client
             return new PowerBiDesktopClient(connectionString);
         }
 
-        private string ParseConnectionString(string connectionString)
+        private string? ParseConnectionString(string connectionString)
         {
             var providerName = ExtractProviderName(connectionString);
             return providerName;
         }
 
-        private string ExtractProviderName(string connectionString)
+        private string? ExtractProviderName(string connectionString)
         {
             try
             {

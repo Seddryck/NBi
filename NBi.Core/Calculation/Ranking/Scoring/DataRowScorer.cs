@@ -24,33 +24,36 @@ namespace NBi.Core.Calculation.Ranking.Scoring
         }
 
         public ScoredObject Execute(IResultRow row)
-            => new ScoredObject(GetValueFromRow(row, operand), row);
+            => new(GetValueFromRow(row, operand) ?? 0, row);
 
-        protected object GetValueFromRow(IResultRow row, IColumnIdentifier identifier)
+        protected object? GetValueFromRow(IResultRow row, IColumnIdentifier identifier)
         {
-            if (identifier is ColumnOrdinalIdentifier)
+            if (identifier is ColumnOrdinalIdentifier ordinalId)
             {
-                var ordinal = (identifier as ColumnOrdinalIdentifier).Ordinal;
-                if (ordinal <= row.Parent.ColumnCount)
-                    return row.ItemArray[ordinal];
+                if (ordinalId.Ordinal <= row.Parent.ColumnCount)
+                    return row.ItemArray[ordinalId.Ordinal];
                 else
-                    throw new ArgumentException($"The variable of the predicate is identified as '{identifier.Label}' but the column in position '{ordinal}' doesn't exist. The dataset only contains {row.Parent.ColumnCount} columns.");
+                    throw new ArgumentException($"The variable of the predicate is identified as '{identifier.Label}' but the column in position '{ordinalId.Ordinal}' doesn't exist. The dataset only contains {row.Parent.ColumnCount} columns.");
             }
 
-            var name = (identifier as ColumnNameIdentifier).Name;
-            var alias = aliases?.SingleOrDefault(x => x.Name == name);
-            if (alias != null)
-                return row.ItemArray[alias.Column];
+            if (identifier is ColumnNameIdentifier nameId)
+            {
+                var name = nameId.Name;
+                var alias = aliases?.SingleOrDefault(x => x.Name == name);
+                if (alias != null)
+                    return row.ItemArray[alias.Column];
 
-            var expression = expressions?.SingleOrDefault(x => x.Name == name);
-            if (expression != null)
-                return EvaluateExpression(expression, row);
+                var expression = expressions?.SingleOrDefault(x => x.Name == name);
+                if (expression != null)
+                    return EvaluateExpression(expression, row);
 
-            var column = row.Parent.GetColumn(name);
-            if (column != null)
-                return row[column.Name];
+                var column = row.Parent.GetColumn(name);
+                if (column != null)
+                    return row[column.Name];
 
-            throw new ArgumentException($"The value '{name}' is not recognized as a column name or a column position or a column alias or an expression.");
+                throw new ArgumentException($"The value '{name}' is not recognized as a column name or a column position or a column alias or an expression.");
+            }
+            throw new InvalidOperationException();
         }
 
         protected object EvaluateExpression(IColumnExpression expression, IResultRow row)

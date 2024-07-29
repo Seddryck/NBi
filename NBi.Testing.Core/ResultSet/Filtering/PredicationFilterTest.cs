@@ -26,13 +26,12 @@ namespace NBi.Core.Testing.ResultSet.Filtering
         {
             var service = new ObjectsResultSetResolver(
                 new ObjectsResultSetResolverArgs(
-                    new object[]
-                    {
+                    [
                         new object[] { "(null)", 10, 100 },
                         new object[] { "(empty)", 2, 75 },
                         new object[] { "(empty)", 20, 75 },
                         new object[] { "C", 5, 50 }
-                    }));
+                    ]));
 
             var rs = service.Execute();
 
@@ -55,7 +54,7 @@ namespace NBi.Core.Testing.ResultSet.Filtering
 
 
             var factory = new ResultSetFilterFactory(new());
-            var filter = factory.Instantiate(CombinationOperator.And, new[] { predication1, predication2 }, new(new(), aliases, Array.Empty<IColumnExpression>()));
+            var filter = factory.Instantiate(CombinationOperator.And, [predication1, predication2], new(new(), aliases, []));
             var result = filter.Apply(rs);
 
             Assert.That(result.Rows.Count(), Is.EqualTo(2));

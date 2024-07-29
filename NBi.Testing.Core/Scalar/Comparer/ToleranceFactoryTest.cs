@@ -18,7 +18,7 @@ namespace NBi.Core.Testing.Scalar.Comparer
         [TestCase(ColumnRole.Key)]
         [TestCase(ColumnRole.Value)]
         [TestCase(ColumnRole.Ignore)]
-        public void Instantiate_NoToleranceDefined_InstantiatedToNullOrNone(ColumnRole columnRole)
+        public void Instantiate_NoToleranceDefinedColumnDefinition_InstantiatedToNullOrNone(ColumnRole columnRole)
         {
             var colDef = Mock.Of<IColumnDefinition>(
                 x => x.Identifier == new ColumnOrdinalIdentifier(0)
@@ -35,7 +35,7 @@ namespace NBi.Core.Testing.Scalar.Comparer
         [TestCase(ColumnType.Numeric)]
         [TestCase(ColumnType.DateTime)]
         [TestCase(ColumnType.Boolean)]
-        public void Instantiate_NoToleranceDefined_InstantiatedToNullOrNone(ColumnType columnType)
+        public void Instantiate_NoToleranceDefinedType_InstantiatedToNullOrNone(ColumnType columnType)
         {
             var tolerance = new ToleranceFactory().Instantiate(columnType, string.Empty);
             Assert.That(Tolerance.IsNullOrNone(tolerance), Is.True);

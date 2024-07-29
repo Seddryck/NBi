@@ -19,7 +19,7 @@ namespace NBi.Core.ResultSet.Lookup
             var keys = new List<object>();
             foreach (var setting in Settings)
             {
-                var index = (setting.Identifier as ColumnOrdinalIdentifier).Ordinal;
+                var index = ((ColumnOrdinalIdentifier)setting.Identifier).Ordinal;
                 try
                 {
                     var value = FormatValue(setting.Type, row[index]);
@@ -34,7 +34,7 @@ namespace NBi.Core.ResultSet.Lookup
                     if (ex.Message.Contains("Object cannot be cast from DBNull to other types"))
                         throw new NBiException($"In the column with index '{index}', NBi can't convert the value 'DBNull' to the type '{setting.Type}'. Key columns must match with their respective types and don't support null, generic or interval values.");
                     else
-                        throw ex;
+                        throw;
                 }
             }
             return new KeyCollection(keys.ToArray());

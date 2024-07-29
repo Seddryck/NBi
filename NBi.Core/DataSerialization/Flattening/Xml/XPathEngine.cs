@@ -36,7 +36,7 @@ namespace NBi.Core.DataSerialization.Flattening.Xml
                 if (namespaceNode.Name.LocalName != "xmlns")
                     nsMgr.AddNamespace(namespaceNode.Name.LocalName, namespaceNode.Value);
 
-            var result = from item in items.XPathSelectElements(From.Execute(), nsMgr)
+            var result = from item in items.XPathSelectElements(From.Execute() ?? throw new NullReferenceException(), nsMgr)
                          select GetObj(item, nsMgr);
 
             return result;
@@ -52,30 +52,29 @@ namespace NBi.Core.DataSerialization.Flattening.Xml
         protected internal IEnumerable<object> BuildXPaths(XElement item, IXmlNamespaceResolver ns, IEnumerable<IPathSelect> selects)
         {
             foreach (var select in selects)
-                if (select is AttributeSelect)
+                if (select is AttributeSelect attributeSelect)
                 {
-                    var attributeSelect = select as AttributeSelect;
                     yield return
                     (
                         (
-                            item.XPathSelectElement(attributeSelect.Path.Execute(), ns)
+                            item.XPathSelectElement(attributeSelect.Path.Execute()!, ns)
                             ?? new XElement("null", "(null)")
                         ).Attribute(attributeSelect.Attribute)
                         ?? new XAttribute("null", "(null)")
                     ).Value;
                 }
-                else if (select is EvaluateSelect)
+                else if (select is EvaluateSelect evaluateSelect)
                 {
                     yield return
                     (
-                        item.XPathEvaluate(select.Path.Execute(), ns)
+                        item.XPathEvaluate(evaluateSelect.Path.Execute()!, ns)
                         ?? new XElement("null", "(null)")
                     );
                 }
                 else
                     yield return
                     (
-                        item.XPathSelectElement(select.Path.Execute(), ns)
+                        item.XPathSelectElement(select!.Path.Execute()!, ns)
                         ?? new XElement("null", "(null)")
                     ).Value;
         }

@@ -1,4 +1,5 @@
-﻿using NBi.Core.ResultSet;
+﻿using Expressif.Predicates.Special;
+using NBi.Core.ResultSet;
 using System;
 using System.Globalization;
 using System.Linq;
@@ -8,7 +9,7 @@ namespace NBi.Core.Scalar.Comparer
     public class ToleranceFactory
     {
 
-        public Tolerance Instantiate(IColumnDefinition columnDefinition)
+        public Tolerance? Instantiate(IColumnDefinition columnDefinition)
         {
             if (string.IsNullOrEmpty(columnDefinition.Tolerance) || string.IsNullOrWhiteSpace(columnDefinition.Tolerance))
                 return null;
@@ -19,55 +20,27 @@ namespace NBi.Core.Scalar.Comparer
             return Instantiate(columnDefinition.Type, columnDefinition.Tolerance);
         }
 
-        public Tolerance Instantiate(ColumnType type, string value)
+        public Tolerance? Instantiate(ColumnType type, string value)
         {
             if (string.IsNullOrEmpty(value) || string.IsNullOrWhiteSpace(value))
                 return None(type);
 
-            Tolerance tolerance=null;
-            switch (type)
+            return type switch
             {
-                case ColumnType.Text:
-                    tolerance = new TextToleranceFactory().Instantiate(value);
-                    break;
-                case ColumnType.Numeric:
-                    tolerance = new NumericToleranceFactory().Instantiate(value);
-                    break;
-                case ColumnType.DateTime:
-                    tolerance = new DateTimeToleranceFactory().Instantiate(value);
-                    break;
-                case ColumnType.Boolean:
-                    break;
-                default:
-                    break;
-            }
-
-            return tolerance;
+                ColumnType.Text => new TextToleranceFactory().Instantiate(value),
+                ColumnType.Numeric => new NumericToleranceFactory().Instantiate(value),
+                ColumnType.DateTime => new DateTimeToleranceFactory().Instantiate(value),
+                _ => None(type)
+            };
         }
         
-        public static Tolerance None(ColumnType type)
-        {
-            Tolerance tolerance = null;
-            switch (type)
+        public static Tolerance? None(ColumnType type)
+            => type switch
             {
-                case ColumnType.Text:
-                    tolerance = TextSingleMethodTolerance.None;
-                    break;
-                case ColumnType.Numeric:
-                    tolerance = NumericAbsoluteTolerance.None;
-                    break;
-                case ColumnType.DateTime:
-                    tolerance = DateTimeTolerance.None;
-                    break;
-                case ColumnType.Boolean:
-                    break;
-                default:
-                    break;
-            }
-
-            return tolerance;
-        }
-
-        
+                ColumnType.Text => TextSingleMethodTolerance.None,
+                ColumnType.Numeric => NumericAbsoluteTolerance.None,
+                ColumnType.DateTime => DateTimeTolerance.None,
+                _ => null
+            };
     }
 }

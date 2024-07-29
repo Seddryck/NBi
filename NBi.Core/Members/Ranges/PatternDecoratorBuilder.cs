@@ -15,16 +15,12 @@ namespace NBi.Core.Members.Ranges
 		{
 			var list = new List<string>();
 
-			Func<string, string, string> patternizer=null;
-			switch (position)
+			Func<string, string, string> patternizer = position switch
 			{
-				case PositionValue.Suffix: 
-					patternizer = ApplyPatternAsSuffix;
-					break;
-				case PositionValue.Prefix: 
-					patternizer = ApplyPatternAsPrefix;
-					break;
-			}
+				PositionValue.Suffix => ApplyPatternAsSuffix,
+				PositionValue.Prefix => ApplyPatternAsPrefix,
+				_ => throw new ArgumentOutOfRangeException()
+			};
 			foreach (var value in results)
 				list.Add(patternizer(pattern, value));
 

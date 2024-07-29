@@ -24,25 +24,25 @@ namespace NBi.Core.Decoration.DataEngineering.Commands
         {
             var stopWatch = new Stopwatch();
             var isConnectionAvailable = false;
-            Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceInfo, $"Will try to connect to '{connectionString}' during {timeOut} milli-seconds.");
+            Trace.WriteLineIf(NBiTraceSwitch.TraceInfo, $"Will try to connect to '{connectionString}' during {timeOut} milli-seconds.");
             stopWatch.Start();
             while (stopWatch.ElapsedMilliseconds < timeOut && !isConnectionAvailable)
             {
                 try
                 {
-                    Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceVerbose, $"Building connection string with '{connectionString}'.");
+                    Trace.WriteLineIf(NBiTraceSwitch.TraceVerbose, $"Building connection string with '{connectionString}'.");
                     var sessionFactory = new ClientProvider();
                     var connection = sessionFactory.Instantiate(connectionString).CreateNew() as IDbConnection;
 
-                    Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceVerbose, $"Trying to connect to '{connection.ConnectionString}'.");
+                    Trace.WriteLineIf(NBiTraceSwitch.TraceVerbose, $"Trying to connect to '{connection!.ConnectionString}'.");
                     connection.Open();
                     connection.Close();
                     isConnectionAvailable = true;
-                    Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceVerbose, $"Successful connection to '{connection.ConnectionString}'.");
+                    Trace.WriteLineIf(NBiTraceSwitch.TraceVerbose, $"Successful connection to '{connection.ConnectionString}'.");
                 }
                 catch (Exception ex)
                 {
-                    Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceVerbose, $"Fail to connect to '{connectionString}': {ex.Message}");
+                    Trace.WriteLineIf(NBiTraceSwitch.TraceVerbose, $"Fail to connect to '{connectionString}': {ex.Message}");
                 }
             }        
    

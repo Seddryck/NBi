@@ -22,7 +22,7 @@ namespace NBi.Core.Testing.Calculation.Grouping.ColumnBased
             var args = new ObjectsResultSetResolverArgs(new[] { new object[] { "alpha", 1 }, new object[] { "alpha", 2 }, new object[] { "beta", 3 }, new object[] { "alpha", 4 } });
             var resolver = new ObjectsResultSetResolver(args);
             var rs = resolver.Execute();
-            rs.GetColumn(0).Rename("first");
+            rs?.GetColumn(0)?.Rename("first");
 
             var settings = new SettingsNameResultSet(new List<IColumnDefinition>()
                 {
@@ -43,8 +43,8 @@ namespace NBi.Core.Testing.Calculation.Grouping.ColumnBased
             var args = new ObjectsResultSetResolverArgs(new[] { new object[] { "alpha", "1", 10 }, new object[] { "alpha", "1", 20 }, new object[] { "beta", "2", 30 }, new object[] { "alpha", "2", 40 } });
             var resolver = new ObjectsResultSetResolver(args);
             var rs = resolver.Execute();
-            rs.GetColumn(0).Rename("first");
-            rs.GetColumn(1).Rename("second");
+            rs?.GetColumn(0)?.Rename("first");
+            rs?.GetColumn(1)?.Rename("second");
 
             var settings = new SettingsNameResultSet(new List<IColumnDefinition>()
                 {
@@ -67,9 +67,9 @@ namespace NBi.Core.Testing.Calculation.Grouping.ColumnBased
             var args = new ObjectsResultSetResolverArgs(new[] { new object[] { "alpha", 1d, 10 }, new object[] { "alpha", 1, 20 }, new object[] { "beta", 2, 30 }, new object[] { "alpha", 2, 40 } });
             var resolver = new ObjectsResultSetResolver(args);
             var rs = resolver.Execute();
-            rs.GetColumn(0).Rename("first");
-            rs.GetColumn(1).Rename("second");
-            rs.GetColumn(1).Move(0);
+            rs?.GetColumn(0)?.Rename("first");
+            rs?.GetColumn(1)?.Rename("second");
+            rs?.GetColumn(1)?.Move(0);
 
             var settings = new SettingsNameResultSet(new List<IColumnDefinition>()
                 {

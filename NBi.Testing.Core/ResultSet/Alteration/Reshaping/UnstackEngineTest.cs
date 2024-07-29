@@ -1,7 +1,6 @@
 ﻿using NBi.Core.ResultSet.Alteration.Reshaping;
 using NBi.Core.ResultSet.Resolver;
 using NBi.Core.ResultSet;
-using NBi.Core.Sequence.Transformation.Aggregation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +8,6 @@ using System.Text;
 using System.Threading.Tasks;
 using NUnit.Framework;
 using Moq;
-using System.Data;
 using System.Diagnostics;
 
 namespace NBi.Core.Testing.ResultSet.Alteration.Reshaping
@@ -22,21 +20,20 @@ namespace NBi.Core.Testing.ResultSet.Alteration.Reshaping
             var resolver = new ObjectsResultSetResolver(
                 new ObjectsResultSetResolverArgs(
                     new[] {
-                        new object[] { "alpha", "A", 1 },
-                        new object[] { "alpha", "B", 2 },
-                        new object[] { "beta", "A", 3 },
+                        ["alpha", "A", 1],
+                        ["alpha", "B", 2],
+                        ["beta", "A", 3],
                         new object[] { "beta", "B", 4 }
                     }
                 ));
             var rs = resolver.Execute();
-            rs.GetColumn(0).Rename("keyColumn");
-            rs.GetColumn(1).Rename("headerColumn");
-            rs.GetColumn(2).Rename("valueColumn");
+            rs?.GetColumn(0)?.Rename("keyColumn");
+            rs?.GetColumn(1)?.Rename("headerColumn");
+            rs?.GetColumn(2)?.Rename("valueColumn");
 
             var args = new UnstackArgs(
                     new ColumnNameIdentifier("headerColumn"),
-                    new List<IColumnDefinitionLight>()
-                    { Mock.Of<IColumnDefinitionLight>(x => x.Identifier == new ColumnNameIdentifier("keyColumn") && x.Type == ColumnType.Text) }
+                    [Mock.Of<IColumnDefinitionLight>(x => x.Identifier == new ColumnNameIdentifier("keyColumn") && x.Type == ColumnType.Text)]
                 );
 
             var unstack = new UnstackEngine(args);
@@ -59,22 +56,21 @@ namespace NBi.Core.Testing.ResultSet.Alteration.Reshaping
             var resolver = new ObjectsResultSetResolver(
                 new ObjectsResultSetResolverArgs(
                     new[] {
-                        new object[] { "alpha", "A", 1, -1 },
+                        ["alpha", "A", 1, -1],
                         new object[] { "alpha", "B", 2, -2 },
                         new object[] { "beta", "A", 3, -3 },
                         new object[] { "beta", "B", 4, -4 }
                     }
                 ));
             var rs = resolver.Execute();
-            rs.GetColumn(0).Rename("keyColumn");
-            rs.GetColumn(1).Rename("headerColumn");
-            rs.GetColumn(2).Rename("value1Column");
-            rs.GetColumn(3).Rename("value2Column");
+            rs?.GetColumn(0)?.Rename("keyColumn");
+            rs?.GetColumn(1)?.Rename("headerColumn");
+            rs?.GetColumn(2)?.Rename("value1Column");
+            rs?.GetColumn(3)?.Rename("value2Column");
 
             var args = new UnstackArgs(
                     new ColumnNameIdentifier("headerColumn"),
-                    new List<IColumnDefinitionLight>()
-                    { Mock.Of<IColumnDefinitionLight>(x => x.Identifier == new ColumnNameIdentifier("keyColumn") && x.Type == ColumnType.Text) }
+                    [Mock.Of<IColumnDefinitionLight>(x => x.Identifier == new ColumnNameIdentifier("keyColumn") && x.Type == ColumnType.Text)]
                 );
 
             var unstack = new UnstackEngine(args);
@@ -111,18 +107,17 @@ namespace NBi.Core.Testing.ResultSet.Alteration.Reshaping
                     }
                 ));
             var rs = resolver.Execute();
-            rs.GetColumn(0).Rename("key1Column");
-            rs.GetColumn(1).Rename("key2Column");
-            rs.GetColumn(2).Rename("headerColumn");
-            rs.GetColumn(3).Rename("valueColumn");
+            rs?.GetColumn(0)?.Rename("key1Column");
+            rs?.GetColumn(1)?.Rename("key2Column");
+            rs?.GetColumn(2)?.Rename("headerColumn");
+            rs?.GetColumn(3)?.Rename("valueColumn");
 
             var args = new UnstackArgs(
                     new ColumnNameIdentifier("headerColumn"),
-                    new List<IColumnDefinitionLight>()
-                    {
+                    [
                         Mock.Of<IColumnDefinitionLight>(x => x.Identifier == new ColumnNameIdentifier("key1Column") && x.Type == ColumnType.Text),
                         Mock.Of<IColumnDefinitionLight>(x => x.Identifier == new ColumnNameIdentifier("key2Column") && x.Type == ColumnType.Text),
-                    }
+                    ]
                 );
 
             var unstack = new UnstackEngine(args);
@@ -149,21 +144,20 @@ namespace NBi.Core.Testing.ResultSet.Alteration.Reshaping
                 new ObjectsResultSetResolverArgs(
                     new[] {
                         new object[] { "alpha", "A", 1 },
-                        new object[] { "alpha", "B", 2 },
-                        new object[] { "beta", "A", 3 },
-                        new object[] { "beta", "B", 4 }
+                        ["alpha", "B", 2],
+                        ["beta", "A", 3],
+                        ["beta", "B", 4 ]
                     }
                 ));
             var rs = resolver.Execute();
-            rs.GetColumn(0).Rename("keyColumn");
-            rs.GetColumn(1).Rename("headerColumn");
-            rs.GetColumn(2).Rename("valueColumn");
+            rs?.GetColumn(0)?.Rename("keyColumn");
+            rs?.GetColumn(1)?.Rename("headerColumn");
+            rs?.GetColumn(2)?.Rename("valueColumn");
 
             var args = new UnstackArgs(
                     new ColumnNameIdentifier("headerColumn"),
-                    new List<IColumnDefinitionLight>()
-                    { Mock.Of<IColumnDefinitionLight>(x => x.Identifier == new ColumnNameIdentifier("keyColumn") && x.Type == ColumnType.Text) },
-                    new List<ColumnNameIdentifier>() {  new ColumnNameIdentifier("C") }
+                    [Mock.Of<IColumnDefinitionLight>(x => x.Identifier == new ColumnNameIdentifier("keyColumn") && x.Type == ColumnType.Text)],
+                    [new ColumnNameIdentifier("C")]
                 );
 
             var unstack = new UnstackEngine(args);
@@ -186,15 +180,15 @@ namespace NBi.Core.Testing.ResultSet.Alteration.Reshaping
                 new ObjectsResultSetResolverArgs(
                     new[] {
                         new object[] { "alpha", "A", 1 },
-                        new object[] { "alpha", "B", 2 },
-                        new object[] { "beta", "A", 3 },
-                        new object[] { "beta", "B", 4 }
+                        ["alpha", "B", 2],
+                        ["beta", "A", 3 ],
+                        ["beta", "B", 4 ]
                     }
                 ));
             var rs = resolver.Execute();
-            rs.GetColumn(0).Rename("keyColumn");
-            rs.GetColumn(1).Rename("headerColumn");
-            rs.GetColumn(2).Rename("valueColumn");
+            rs?.GetColumn(0)?.Rename("keyColumn");
+            rs?.GetColumn(1)?.Rename("headerColumn");
+            rs?.GetColumn(2)?.Rename("valueColumn");
 
             var args = new UnstackArgs(
                     new ColumnNameIdentifier("headerColumn"),
@@ -229,14 +223,13 @@ namespace NBi.Core.Testing.ResultSet.Alteration.Reshaping
 
             var resolver = new ObjectsResultSetResolver(new ObjectsResultSetResolverArgs(values));
             var rs = resolver.Execute();
-            rs.GetColumn(0).Rename("keyColumn");
-            rs.GetColumn(1).Rename("headerColumn");
-            rs.GetColumn(2).Rename("valueColumn");
+            rs?.GetColumn(0)?.Rename("keyColumn");
+            rs?.GetColumn(1)?.Rename("headerColumn");
+            rs?.GetColumn(2)?.Rename("valueColumn");
 
             var args = new UnstackArgs(
                     new ColumnNameIdentifier("headerColumn"),
-                    new List<IColumnDefinitionLight>()
-                    { Mock.Of<IColumnDefinitionLight>(x => x.Identifier == new ColumnNameIdentifier("keyColumn") && x.Type == ColumnType.Text) }
+                    [Mock.Of<IColumnDefinitionLight>(x => x.Identifier == new ColumnNameIdentifier("keyColumn") && x.Type == ColumnType.Text)]
                 );
 
             var unstack = new UnstackEngine(args);

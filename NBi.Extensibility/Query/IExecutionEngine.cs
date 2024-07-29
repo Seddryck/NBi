@@ -10,7 +10,7 @@ namespace NBi.Extensibility.Query
     public interface IExecutionEngine
     {
         DataSet Execute();
-        object ExecuteScalar();
+        object? ExecuteScalar();
         IEnumerable<T> ExecuteList<T>();
     }
 }

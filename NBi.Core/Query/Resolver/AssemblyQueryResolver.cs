@@ -21,7 +21,7 @@ namespace NBi.Core.Query.Resolver
         public IQuery Execute()
         {
             var assemblyManager = new AssemblyManager();
-            object methodExecution = null;
+            object? methodExecution = null;
             if (args.IsStatic)
             {
                 var type = assemblyManager.GetStatic(args.Path, args.ClassName);
@@ -33,10 +33,10 @@ namespace NBi.Core.Query.Resolver
                 methodExecution = assemblyManager.Execute(classInstance, args.MethodName, args.MethodParameters);
             }
 
-            if (!(methodExecution is string)) //It means that we've a query
+            if (methodExecution is not string methodString) //It means that we've a query
                 throw new InvalidOperationException("The method should return a string (query)");
 
-            var query = new Query( methodExecution as string, args.ConnectionString, args.Timeout, args.Parameters, args.Variables);
+            var query = new Query(methodString, args.ConnectionString, args.Timeout, args.Parameters, args.Variables);
 
             return query;
         }

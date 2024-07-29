@@ -6,16 +6,16 @@ namespace NBi.Core.Query
 {
     public class DbTypeBuilder
     {
-        public DbTypeBuilderResult Build(string name)
+        public DbTypeBuilderResult? Build(string name)
         {
-            if (String.IsNullOrWhiteSpace(name))
+            if (string.IsNullOrWhiteSpace(name))
                 return null;
 
             name = name.ToLowerInvariant().Trim().Replace(" ","");
             var result = new DbTypeBuilderResult();
 
             var typeName = name;
-            if (name.Contains("("))
+            if (name.Contains('('))
                 typeName = name.Substring(0, name.IndexOf("("));
 
 
@@ -23,30 +23,26 @@ namespace NBi.Core.Query
             if (!Enum.TryParse<DbType>(typeName, true, out value))
             {
                 if (!TryParseEquivalent(typeName, out value))
-                {
-                    throw new ArgumentException(String.Format("Unknown type for database: {0}", typeName), nameof(name));
-                }
+                    throw new ArgumentException($"Unknown type for database: {typeName}", nameof(name));
             }
             result.Value = value;
 
-            if (CanDefinePrecision(value))
+            if (DbTypeBuilder.CanDefinePrecision(value))
             {
-                byte precison;
-                if (TryDefinePrecision(name, out precison))
+                if (DbTypeBuilder.TryDefinePrecision(name, out var precison))
                     result.Precision = precison;
             }
 
-            if (CanDefineSize(value))
+            if (DbTypeBuilder.CanDefineSize(value))
             {
-                int size;
-                if (TryDefineSize(name, out size))
+                if (DbTypeBuilder.TryDefineSize(name, out var size))
                     result.Size = size;
             }
 
             return result;
         }
 
-        private bool TryDefineSize(string name, out int size)
+        private static bool TryDefineSize(string name, out int size)
         {
             size = 0;
             var start = name.IndexOf("(");
@@ -62,15 +58,15 @@ namespace NBi.Core.Query
             return int.TryParse(valueString, out size);
         }
 
-        private bool CanDefineSize(DbType value)
+        private static bool CanDefineSize(DbType value)
         {
             if (value == DbType.Decimal)
                 return true;
 
-            return Enum.GetName(typeof(DbType), value).Contains("String");
+            return (Enum.GetName(typeof(DbType), value) ?? string.Empty).Contains("String");
         }
 
-        private bool TryDefinePrecision(string name, out byte precison)
+        private static bool TryDefinePrecision(string name, out byte precison)
         {
             precison = 0;
             var start = name.IndexOf(",");
@@ -85,50 +81,60 @@ namespace NBi.Core.Query
 
         }
 
-        private bool CanDefinePrecision(DbType value)
-        {
-            return (value == DbType.Decimal);
-        }
+        private static bool CanDefinePrecision(DbType value)
+            => value == DbType.Decimal;
 
         private bool TryParseEquivalent(string name, out DbType value)
         {
             value = DbType.Object;
-            SqlDbType sqlValue = SqlDbType.Variant;
-            if (Enum.TryParse<SqlDbType>(name, true, out sqlValue))
+            if (Enum.TryParse<SqlDbType>(name, true, out var sqlValue))
             {
                 switch (sqlValue)
                 {
                     //Boolean
-                    case SqlDbType.Bit: value = DbType.Boolean;
+                    case SqlDbType.Bit:
+                        value = DbType.Boolean;
                         break;
                     //Integers
-                    case SqlDbType.TinyInt: value = DbType.Byte;
+                    case SqlDbType.TinyInt:
+                        value = DbType.Byte;
                         break;
-                    case SqlDbType.SmallInt: value = DbType.Int16;
+                    case SqlDbType.SmallInt:
+                        value = DbType.Int16;
                         break;
-                    case SqlDbType.Int: value = DbType.Int32;
+                    case SqlDbType.Int:
+                        value = DbType.Int32;
                         break;
-                    case SqlDbType.BigInt: value = DbType.Int64;
+                    case SqlDbType.BigInt:
+                        value = DbType.Int64;
                         break;
                     //Floating points
-                    case SqlDbType.Real: value = DbType.Single;
+                    case SqlDbType.Real:
+                        value = DbType.Single;
                         break;
-                    case SqlDbType.Float: value = DbType.Double;
+                    case SqlDbType.Float:
+                        value = DbType.Double;
                         break;
                     //Money
-                    case SqlDbType.Money: value = DbType.Currency;
+                    case SqlDbType.Money:
+                        value = DbType.Currency;
                         break;
                     //String
-                    case SqlDbType.Char: value = DbType.AnsiStringFixedLength;
+                    case SqlDbType.Char:
+                        value = DbType.AnsiStringFixedLength;
                         break;
-                    case SqlDbType.VarChar: value = DbType.AnsiString;
+                    case SqlDbType.VarChar:
+                        value = DbType.AnsiString;
                         break;
-                    case SqlDbType.NChar: value = DbType.StringFixedLength;
+                    case SqlDbType.NChar:
+                        value = DbType.StringFixedLength;
                         break;
-                    case SqlDbType.NVarChar: value = DbType.String;
+                    case SqlDbType.NVarChar:
+                        value = DbType.String;
                         break;
                     //UID
-                    case SqlDbType.UniqueIdentifier: value = DbType.Guid;
+                    case SqlDbType.UniqueIdentifier:
+                        value = DbType.Guid;
                         break;
                     //Others
                     default: return false;

@@ -24,8 +24,8 @@ namespace NBi.Core.Testing.Scalar.Conversion
 
             var converter = new TextToNumericConverter(cultureInfo, -1m);
             var newValue = converter.Execute(text);
-            Assert.That(newValue, Is.TypeOf<Decimal>());
-            Assert.That(newValue, Is.EqualTo(new Decimal(100.456)));
+            Assert.That(newValue, Is.TypeOf<decimal>());
+            Assert.That(newValue, Is.EqualTo(new decimal(100.456)));
         }
 
         [Test]
@@ -33,11 +33,11 @@ namespace NBi.Core.Testing.Scalar.Conversion
         [TestCase("100,456", "en-us")]
         public void Execute_InvalidNumeric_Decimal(string text, string culture)
         {
-            var cultureInfo = new CultureInfo(culture);
+            var cultureInfo = new CultureInfo(culture, false);
             var converter = new TextToNumericConverter(cultureInfo, -1m);
             var newValue = converter.Execute(text);
-            Assert.That(newValue, Is.TypeOf<Decimal>());
-            Assert.That(newValue, Is.EqualTo(-1));
+            Assert.That(newValue, Is.TypeOf<decimal>());
+            Assert.That(newValue, Is.EqualTo(-1m));
         }
 
         [Test]

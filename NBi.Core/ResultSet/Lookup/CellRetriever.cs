@@ -19,7 +19,7 @@ namespace NBi.Core.ResultSet.Lookup
 
         public abstract KeyCollection GetColumns(IResultRow row);
 
-        protected internal object FormatValue(ColumnType columnType, object value)
+        protected internal object FormatValue(ColumnType columnType, object? value)
         {
             var factory = new CasterFactory();
             var caster = factory.Instantiate(columnType);

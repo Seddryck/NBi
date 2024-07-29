@@ -24,26 +24,24 @@ namespace NBi.Core.Query.Validation
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2100:Review SQL queries for security vulnerabilities")]
         public virtual ParserResult Parse()
         {
-            ParserResult res = null;
+            ParserResult? res = null;
 
-            using (var connection = NewConnection(command.Connection.ConnectionString))
+            using (var connection = NewConnection(command.Connection!.ConnectionString))
             {
                 var fullSql = $@"SET FMTONLY ON; {command.CommandText} SET FMTONLY OFF;";
                 OpenConnection(connection);
                 StartWatch();
-                using (var cmdIn = connection.CreateCommand())
+                using var cmdIn = connection.CreateCommand();
+                cmdIn.CommandText = fullSql;
+                InitializeCommand(cmdIn, connection);
+                try
                 {
-                    cmdIn.CommandText = fullSql;
-                    InitializeCommand(cmdIn, connection);
-                    try
-                    {
-                        cmdIn.ExecuteNonQuery();
-                        res = ParserResult.NoParsingError();
-                    }
-                    catch (Exception ex)
-                    {
-                        res = new ParserResult(ParseMessage(ex.Message));
-                    }
+                    cmdIn.ExecuteNonQuery();
+                    res = ParserResult.NoParsingError();
+                }
+                catch (Exception ex)
+                {
+                    res = new ParserResult(ParseMessage(ex.Message));
                 }
             }
             StopWatch();

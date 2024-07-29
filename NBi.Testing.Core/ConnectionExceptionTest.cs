@@ -8,6 +8,8 @@ using NUnit.Framework;
 namespace NBi.Core.Testing
 {
     [TestFixture]
+    [Platform("Win")]
+    [System.Runtime.Versioning.SupportedOSPlatform("windows")]
     public class ConnectionExceptionTest
     {
         
@@ -41,24 +43,12 @@ namespace NBi.Core.Testing
         [Test]
         public void Ctor_ExceptionCreated_ContainsConnectionString()
         {
-            NBiException nbiEx = null;
             // Open the connection
-            using (var connection = new OleDbConnection())
-            {
-                var connectionString = "CONNECTION STRING TO DISPLAY"; 
-                try
-                { connection.ConnectionString = connectionString; }
-                catch (ArgumentException ex)
-                {
-                    nbiEx = Assert.Catch<NBiException>(delegate { throw new ConnectionException(ex, connectionString); });
-                }
-                if (nbiEx == null)
-                    Assert.Fail("An exception should have been thrown");
-                else
-                {
-                    Assert.That(nbiEx.Message, Does.Contain(connectionString));
-                }
-            }
+            using var connection = new OleDbConnection();
+            var connectionString = "CONNECTION STRING TO DISPLAY";
+            var ex = Assert.Catch<Exception>(() => connection.ConnectionString = connectionString);
+            var nbiEx = Assert.Catch<ConnectionException>(() => throw new ConnectionException(ex!, connectionString));
+            Assert.That(nbiEx!.Message, Does.Contain(connectionString));
         }
     }
 }

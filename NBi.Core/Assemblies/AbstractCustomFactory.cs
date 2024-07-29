@@ -76,7 +76,7 @@ namespace NBi.Core.Assemblies
                 ).ToArray();
             var instance = ctor.Invoke(ctorParams) as T;
 
-            return instance;
+            return instance ?? throw new NullReferenceException();
         }
 
         protected class TypeNotExistingException : ArgumentException { }

@@ -51,105 +51,107 @@ namespace NBi.Core.Report
             throw new ArgumentException(string.Format("The requested shared dataset ('{1}') wasn't found on path '{0}'.", request.Path, request.SharedDatasetName));
         }
 
-        private ReportingCommand SearchDataSet(string source, string reportPath, string reportName, string dataSetName, ref List<string> otherDataSets)
+        private ReportingCommand? SearchDataSet(string source, string reportPath, string reportName, string dataSetName, ref List<string> otherDataSets)
         {
-            using (var conn = new SqlConnection())
-            {
-                //create connection and define sql query
-                conn.ConnectionString = source;
-                var cmd = new SqlCommand();
-                cmd.Connection = conn;
-                cmd.CommandText = ReadQueryFromContent("ListDataSet");
+            using var conn = new SqlConnection();
+            //create connection and define sql query
+            conn.ConnectionString = source;
+            var cmd = new SqlCommand();
+            cmd.Connection = conn;
+            cmd.CommandText = ReadQueryFromContent("ListDataSet");
 
-                //create the three parameters for the sql query
-                var paramReportPath = new SqlParameter("ReportPath", System.Data.SqlDbType.NVarChar, 425);
-                paramReportPath.Value = reportPath;
-                cmd.Parameters.Add(paramReportPath);
-                var paramReportName = new SqlParameter("ReportName", System.Data.SqlDbType.NVarChar, 425);
-                paramReportName.Value = reportName;
-                cmd.Parameters.Add(paramReportName);
+            //create the three parameters for the sql query
+            var paramReportPath = new SqlParameter("ReportPath", System.Data.SqlDbType.NVarChar, 425);
+            paramReportPath.Value = reportPath;
+            cmd.Parameters.Add(paramReportPath);
+            var paramReportName = new SqlParameter("ReportName", System.Data.SqlDbType.NVarChar, 425);
+            paramReportName.Value = reportName;
+            cmd.Parameters.Add(paramReportName);
 
-                //execute the command
-                conn.Open();
-                var dr = cmd.ExecuteReader();
-                
-                while (dr.Read())
-                    if (dr.GetString(2) == dataSetName)
-                    {
-                        var command = new ReportingCommand();
-                        command.CommandType = (CommandType)Enum.Parse(typeof(CommandType), dr.GetString(4)); //CommandType
-                        command.Text = dr.GetString(5); //CommandText
-                        return command;
-                    }
-                    else
-                        otherDataSets.Add(dr.GetString(2));
-            }
-            return null;
-        }
+            //execute the command
+            conn.Open();
+            var dr = cmd.ExecuteReader();
 
-        private string SearchSharedDataSet(string source, string reportPath, string reportName, string dataSetName, ref List<string> otherDataSets)
-        {
-            using (var conn = new SqlConnection())
-            {
-                //create connection and define sql query
-                conn.ConnectionString = source;
-                var cmd = new SqlCommand();
-                cmd.Connection = conn;
-                cmd.CommandText = ReadQueryFromContent("ListSharedDataSet");
-
-                //create the three parameters for the sql query
-                var paramReportPath = new SqlParameter("ReportPath", System.Data.SqlDbType.NVarChar, 425);
-                paramReportPath.Value = reportPath;
-                cmd.Parameters.Add(paramReportPath);
-                var paramReportName = new SqlParameter("ReportName", System.Data.SqlDbType.NVarChar, 425);
-                paramReportName.Value = reportName;
-                cmd.Parameters.Add(paramReportName);
-
-                //execute the command
-                conn.Open();
-                var dr = cmd.ExecuteReader();
-
-                while (dr.Read())
-                    if (dr.GetString(2) == dataSetName)
-                        return dr.GetString(3);
-                    else
-                        otherDataSets.Add(dr.GetString(2));
-            }
-            return null;
-        }
-
-        private ReportingCommand ReadQueryFromSharedDataSet(string source, string path, string reference)
-        {
-            using (var conn = new SqlConnection())
-            {
-                //create connection and define sql query
-                conn.ConnectionString = source;
-                var cmd = new SqlCommand();
-                cmd.Connection = conn;
-                cmd.CommandText = ReadQueryFromContent("QueryFromSharedDataSet");
-
-                //create the two parameters for the sql query
-                var paramPath = new SqlParameter("SharedDataSetPath", System.Data.SqlDbType.NVarChar, 425);
-                paramPath.Value = path;
-                cmd.Parameters.Add(paramPath);
-
-
-                var paramReference = new SqlParameter("SharedDataSetName", System.Data.SqlDbType.NVarChar, 425);
-                paramReference.Value = reference;
-                cmd.Parameters.Add(paramReference);
-
-                //execute the command
-                conn.Open();
-                var dr = cmd.ExecuteReader();
-
-                
-                if (dr.Read())
+            while (dr.Read())
+                if (dr.GetString(2) == dataSetName)
                 {
                     var command = new ReportingCommand();
-                    command.CommandType = (CommandType)Enum.Parse(typeof(CommandType), dr.GetString(2)) ; //CommandType
-                    command.Text = dr.GetString(3); //CommandText
+                    command.CommandType = (CommandType)Enum.Parse(typeof(CommandType), dr.GetString(4)); //CommandType
+                    command.Text = dr.GetString(5); //CommandText
                     return command;
                 }
+                else
+                    otherDataSets.Add(dr.GetString(2));
+            return null;
+        }
+
+        private string? SearchSharedDataSet(string source, string reportPath, string reportName, string dataSetName, ref List<string> otherDataSets)
+        {
+            using var conn = new SqlConnection();
+            //create connection and define sql query
+            conn.ConnectionString = source;
+            var cmd = new SqlCommand();
+            cmd.Connection = conn;
+            cmd.CommandText = ReadQueryFromContent("ListSharedDataSet");
+
+            //create the three parameters for the sql query
+            var paramReportPath = new SqlParameter("ReportPath", System.Data.SqlDbType.NVarChar, 425);
+            paramReportPath.Value = reportPath;
+            cmd.Parameters.Add(paramReportPath);
+            var paramReportName = new SqlParameter("ReportName", System.Data.SqlDbType.NVarChar, 425);
+            paramReportName.Value = reportName;
+            cmd.Parameters.Add(paramReportName);
+
+            //execute the command
+            conn.Open();
+            var dr = cmd.ExecuteReader();
+
+            while (dr.Read())
+                if (dr.GetString(2) == dataSetName)
+                    return dr.GetString(3);
+                else
+                    otherDataSets.Add(dr.GetString(2));
+            return null;
+        }
+
+        private ReportingCommand? ReadQueryFromSharedDataSet(string source, string path, string reference)
+        {
+            using var conn = new SqlConnection();
+            //create connection and define sql query
+            conn.ConnectionString = source;
+            var cmd = new SqlCommand
+            {
+                Connection = conn,
+                CommandText = ReadQueryFromContent("QueryFromSharedDataSet")
+            };
+
+            //create the two parameters for the sql query
+            var paramPath = new SqlParameter("SharedDataSetPath", SqlDbType.NVarChar, 425)
+            {
+                Value = path
+            };
+            cmd.Parameters.Add(paramPath);
+
+
+            var paramReference = new SqlParameter("SharedDataSetName", SqlDbType.NVarChar, 425)
+            {
+                Value = reference
+            };
+            cmd.Parameters.Add(paramReference);
+
+            //execute the command
+            conn.Open();
+            var dr = cmd.ExecuteReader();
+
+
+            if (dr.Read())
+            {
+                var command = new ReportingCommand
+                {
+                    CommandType = (CommandType)Enum.Parse(typeof(CommandType), dr.GetString(2)), //CommandType
+                    Text = dr.GetString(3) //CommandText
+                };
+                return command;
             }
             return null;
         }
@@ -159,7 +161,7 @@ namespace NBi.Core.Report
         {
             var value = string.Empty;
             using (Stream stream = Assembly.GetExecutingAssembly()
-                                           .GetManifestResourceStream("NBi.Core.Report.ReportServer" + name + ".sql"))
+                                           .GetManifestResourceStream("NBi.Core.Report.ReportServer" + name + ".sql") ?? throw new NullReferenceException())
             using (StreamReader reader = new StreamReader(stream))
             {
                 value = reader.ReadToEnd();

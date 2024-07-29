@@ -30,16 +30,24 @@ namespace NBi.Core
             return Compare(x, y, Comparison.Both);
         }
 
-        public Result Compare(IEnumerable<string> x, IEnumerable<string> y, Comparison comparaison)
+        public Result Compare(IEnumerable<string>? x, IEnumerable<string>? y, Comparison comparaison)
         {
-            IEnumerable<string> missing = null;
-            IEnumerable<string> unexpected = null;
+            IEnumerable<string>? missing = null;
+            IEnumerable<string>? unexpected = null;
+            if (x is null && y is null)
+                return new Result(null, null);
+
+            if (x is null && y is not null)
+                return new Result(null, y);
+
+            if (x is not null && y is null)
+                return new Result(x, null);
 
             if (comparaison.HasFlag(Comparison.MissingItems))
-                missing = x.Except(y, internalComparer).ToList();
+                missing = x!.Except(y!, internalComparer).ToList();
 
             if (comparaison.HasFlag(Comparison.UnexpectedItems))
-                unexpected = y.Except(x, internalComparer).ToList();
+                unexpected = y!.Except(x!, internalComparer).ToList();
 
             var res = new Result(missing, unexpected);
             return res;
@@ -49,16 +57,16 @@ namespace NBi.Core
         {
             public int MissingCount { get; private set; }
             public int UnexpectedCount { get; private set; }
-            
+
             public IEnumerable<string> Missing { get; private set; }
             public IEnumerable<string> Unexpected { get; private set; }
 
-            public Result(IEnumerable<string> missing, IEnumerable<string> unexpected)
+            public Result(IEnumerable<string>? missing, IEnumerable<string>? unexpected)
             {
-                Missing = missing ?? new List<string>();
-                MissingCount = missing==null ? 0 : missing.Count();
-                Unexpected = unexpected ?? new List<string>();
-                UnexpectedCount = unexpected==null ? 0 :unexpected.Count();
+                Missing = missing ?? [];
+                MissingCount = missing == null ? 0 : missing.Count();
+                Unexpected = unexpected ?? [];
+                UnexpectedCount = unexpected == null ? 0 : unexpected.Count();
             }
 
             public Result Sample()
@@ -68,16 +76,16 @@ namespace NBi.Core
 
             public Result Sample(int count)
             {
-                if (Missing!=null)
+                if (Missing != null)
                     Missing = Missing.Take(count);
 
-                if (Unexpected !=null)
+                if (Unexpected != null)
                     Unexpected = Unexpected.Take(count);
 
                 return this;
             }
         }
 
-        
+
     }
 }

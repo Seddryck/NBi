@@ -53,22 +53,20 @@ namespace NBi.Core.Query.Execution
         }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2100:Review SQL queries for security vulnerabilities")]
-        public object ExecuteScalar()
+        public object? ExecuteScalar()
         {
-            using (var connection = NewConnection())
-            {
-                OpenConnection(connection);
-                InitializeCommand(Command, CommandTimeout, Command.Parameters, connection);
-                StartWatch();
-                var value = OnExecuteScalar(Command);
-                StopWatch();
-                return value;
-            }
+            using var connection = NewConnection();
+            OpenConnection(connection);
+            InitializeCommand(Command, CommandTimeout, Command.Parameters, connection);
+            StartWatch();
+            var value = OnExecuteScalar(Command);
+            StopWatch();
+            return value;
         }
 
-        protected virtual object OnExecuteScalar(IDbCommand command)
+        protected virtual object? OnExecuteScalar(IDbCommand command)
         {
-            object value = null;
+            object? value = null;
             try
             { value = command.ExecuteScalar(); }
             catch (Exception ex)

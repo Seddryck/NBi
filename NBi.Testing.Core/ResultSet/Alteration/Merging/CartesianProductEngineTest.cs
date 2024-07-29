@@ -28,12 +28,12 @@ namespace NBi.Core.Testing.ResultSet.Alteration.Merging
             dataTable.AcceptChanges();
             var rs1 = new DataTableResultSet(dataTable);
 
-            IResultSetResolver resolver = null;
+            IResultSetResolver? resolver;
             if (count > 0)
             {
                 var list = new List<object[]>();
                 for (int i = 0; i < count; i++)
-                    list.Add(new object[] { new DateTime(2020, 1, i + 1), i });
+                    list.Add([new DateTime(2020, 1, i + 1), i]);
                 var args = new ObjectsResultSetResolverArgs(list.ToArray());
                 resolver = new ObjectsResultSetResolver(args);
             }

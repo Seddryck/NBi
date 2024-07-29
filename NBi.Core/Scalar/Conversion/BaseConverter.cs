@@ -42,8 +42,8 @@ namespace NBi.Core.Scalar.Conversion
 
         public virtual object? Execute(object x)
         {
-            if (predicate.Execute(x) && x is T)
-                return OnExecute((T)x, cultureInfo);
+            if (predicate.Execute(x) && x is T tX)
+                return OnExecute(tX, cultureInfo);
             else
                 return DefaultValue;
         }

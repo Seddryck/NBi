@@ -20,8 +20,9 @@ namespace NBi.Core.Testing.Scalar
             var converter = TypeDescriptor.GetConverter(typeof(Percentage));
             Assert.That(converter.CanConvertFrom(value.GetType()));
             var pc = converter.ConvertFrom(null, CultureInfo.InvariantCulture, value);
+            Assert.That(pc, Is.Not.Null);
             Assert.That(pc, Is.TypeOf<Percentage>());
-            Assert.That(((Percentage)pc).Value, Is.EqualTo(result));
+            Assert.That(((Percentage)pc!).Value, Is.EqualTo(result));
         }
 
         [Test]
@@ -32,8 +33,9 @@ namespace NBi.Core.Testing.Scalar
             var converter = TypeDescriptor.GetConverter(typeof(Percentage));
             Assert.That(converter.CanConvertFrom(value.GetType()));
             var pc = converter.ConvertFrom(null, CultureInfo.InvariantCulture, value);
+            Assert.That(pc, Is.Not.Null);
             Assert.That(pc, Is.TypeOf<Percentage>());
-            Assert.That(((Percentage)pc).Value, Is.EqualTo(result));
+            Assert.That(((Percentage)pc!).Value, Is.EqualTo(result));
         }
 
         [Test]
@@ -47,8 +49,9 @@ namespace NBi.Core.Testing.Scalar
             var converter = TypeDescriptor.GetConverter(typeof(Percentage));
             Assert.That(converter.CanConvertFrom(value.GetType()));
             var pc = converter.ConvertFrom(null, CultureInfo.InvariantCulture, value);
+            Assert.That(pc, Is.Not.Null);
             Assert.That(pc, Is.TypeOf<Percentage>());
-            Assert.That(((Percentage)pc).ToString(), Is.EqualTo(result));
+            Assert.That(((Percentage)pc!).ToString(), Is.EqualTo(result));
         }
 
         [Test]
@@ -62,8 +65,9 @@ namespace NBi.Core.Testing.Scalar
             var converter = TypeDescriptor.GetConverter(typeof(Percentage));
             Assert.That(converter.CanConvertFrom(value.GetType()));
             var pc = converter.ConvertFrom(null, CultureInfo.InvariantCulture, value);
+            Assert.That(pc, Is.Not.Null);
             Assert.That(pc, Is.TypeOf<Percentage>());
-            Assert.That(((Percentage)pc).ToString(), Is.EqualTo(result));
+            Assert.That(((Percentage)pc!).ToString(), Is.EqualTo(result));
         }
 
         [Test]
@@ -77,8 +81,9 @@ namespace NBi.Core.Testing.Scalar
             var converter = TypeDescriptor.GetConverter(typeof(Percentage));
             Assert.That(converter.CanConvertFrom(value.GetType()));
             var pc = converter.ConvertFrom(null, CultureInfo.InvariantCulture, value);
+            Assert.That(pc, Is.Not.Null);
             Assert.That(pc, Is.TypeOf<Percentage>());
-            Assert.That(((Percentage)pc).ToString(), Is.EqualTo(result));
+            Assert.That(((Percentage)pc!).ToString(), Is.EqualTo(result));
         }
     }
 }

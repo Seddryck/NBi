@@ -29,7 +29,7 @@ namespace NBi.Core.Testing.ResultSet.Alteration.Renaming
                 );
             var newRs = renamer.Execute(rs);
 
-            Assert.That(newRs.GetColumn(1).Name, Is.EqualTo("myNewName"));
+            Assert.That(newRs.GetColumn(1)?.Name, Is.EqualTo("myNewName"));
         }
 
         [Test]
@@ -38,15 +38,15 @@ namespace NBi.Core.Testing.ResultSet.Alteration.Renaming
             var args = new ObjectsResultSetResolverArgs(new[] { new[] { "100,12", "Alpha" }, new[] { "100", "Beta" }, new[] { "0,1", "Gamma" } });
             var resolver = new ObjectsResultSetResolver(args);
             var rs = resolver.Execute();
-            rs.GetColumn(1).Rename("myOldName");
+            rs?.GetColumn(1)?.Rename("myOldName");
 
             var renamer = new NewNameRenamingEngine(
                 new ColumnNameIdentifier("myOldName"),
                 new LiteralScalarResolver<string>("myNewName")
                 );
-            var newRs = renamer.Execute(rs);
+            var newRs = renamer.Execute(rs!);
 
-            Assert.That(newRs.GetColumn(1).Name, Is.EqualTo("myNewName"));
+            Assert.That(newRs.GetColumn(1)?.Name, Is.EqualTo("myNewName"));
             Assert.That(newRs.Columns.Any(c => c.Name == "myOldName"), Is.False);
         }
 

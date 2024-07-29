@@ -94,12 +94,12 @@ namespace NBi.Core.Testing.ResultSet.Alteration.Extension
         [Test]
         public void Execute_StandardRsColumnNameAndVariableFirstArg_CorrectExtension()
         {
-            var args = new ObjectsResultSetResolverArgs(new[] { new object[] { "Alpha", 1, 2 }, new object[] { "Beta", 3, 2 }, new object[] { "Gamma", 5, 7 } });
+            var args = new ObjectsResultSetResolverArgs(new[] { new object[] { "Alpha", 1, 2 }, ["Beta", 3, 2],  ["Gamma", 5, 7 ] });
             var resolver = new ObjectsResultSetResolver(args);
             var rs = resolver.Execute();
-            rs.GetColumn(0).Rename("a");
-            rs.GetColumn(1).Rename("b");
-            rs.GetColumn(2).Rename("c");
+            rs.GetColumn(0)?.Rename("a");
+            rs.GetColumn(1)?.Rename("b");
+            rs.GetColumn(2)?.Rename("c");
 
             var extender = new NativeExtendEngine(
                 new ServiceLocator(),
@@ -107,10 +107,10 @@ namespace NBi.Core.Testing.ResultSet.Alteration.Extension
                 new ColumnNameIdentifier("d"),
                 "@myVar | text-to-first-chars(#1) | text-to-upper"
                 );
-            var newRs = extender.Execute(rs);
+            var newRs = extender.Execute(rs!);
 
             Assert.That(newRs.ColumnCount, Is.EqualTo(4));
-            Assert.That(newRs.GetColumn(3).Name, Is.EqualTo("d"));
+            Assert.That(newRs.GetColumn(3)?.Name, Is.EqualTo("d"));
             Assert.That(newRs[0][3], Is.EqualTo("F"));
             Assert.That(newRs[1][3], Is.EqualTo("FOO"));
             Assert.That(newRs[2][3], Is.EqualTo("FOO"));

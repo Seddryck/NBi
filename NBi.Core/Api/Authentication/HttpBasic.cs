@@ -17,7 +17,6 @@ namespace NBi.Core.Api.Authentication
         public HttpBasic(IScalarResolver<string> username, IScalarResolver<string> password)
             => (Username, Password) = (username, password);
 
-        public IAuthenticator GetAuthenticator() => new HttpBasicAuthenticator(Username.Execute(), Password.Execute());
+        public IAuthenticator GetAuthenticator() => new HttpBasicAuthenticator(Username.Execute() ?? string.Empty, Password.Execute() ?? string.Empty);
     }
-
 }

@@ -44,8 +44,8 @@ namespace NBi.Core.DataType
                 throw new ArgumentException();
 
             var factoryType = dico[dbType];
-            var ctor = factoryType.GetConstructor(new Type[]{typeof(IDbConnection)});
-            var factory = (IDataTypeDiscoveryFactory)ctor.Invoke(new object[] { connection });
+            var ctor = factoryType.GetConstructor([typeof(IDbConnection)]) ?? throw new NullReferenceException();
+            var factory = (IDataTypeDiscoveryFactory)ctor.Invoke([connection]);
 
             return factory;
         }
@@ -74,7 +74,7 @@ namespace NBi.Core.DataType
                     var restrictions = new AdomdRestrictionCollection();
                     restrictions.Add(new AdomdRestriction("ObjectExpansion", "ReferenceOnly"));
                     var ds = conn.GetSchemaDataSet("DISCOVER_XML_METADATA", restrictions);
-                    var xml = ds.Tables[0].Rows[0].ItemArray[0].ToString();
+                    var xml = ds.Tables[0].Rows[0].ItemArray[0]?.ToString() ?? string.Empty;
                     var doc = new XmlDocument();
                     doc.LoadXml(xml);
                     parsedMode = ParseXmlaResponse(doc);
@@ -100,7 +100,7 @@ namespace NBi.Core.DataType
 
         protected string ParseXmlaResponse(XmlDocument doc)
         {
-            var root = doc.DocumentElement;
+            var root = doc.DocumentElement ?? throw new NullReferenceException();
 
             var nm = new XmlNamespaceManager(doc.NameTable);
             nm.AddNamespace("ddl300", "http://schemas.microsoft.com/analysisservices/2011/engine/300");

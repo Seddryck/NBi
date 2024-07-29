@@ -32,7 +32,7 @@ namespace NBi.Core.Testing.Scalar.Presentation
         [TestCase(10.50, "10.5", "en-us")]
         public void Execute_TextColumnObjectValueCultureSpecific_CorrectDisplay(object value, string expected, string culture)
         {
-            System.Threading.Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo(culture);
+            Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo(culture, false);
             var factory = new PresenterFactory();
             var presenter = factory.Instantiate(ColumnType.Text);
             var text = presenter.Execute(value);

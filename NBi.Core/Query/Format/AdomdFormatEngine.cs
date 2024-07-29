@@ -43,9 +43,9 @@ namespace NBi.Core.Query.Format
             }
         }
 
-        private CellSet OnExecuteCellSet(AdomdCommand command)
+        private CellSet? OnExecuteCellSet(AdomdCommand command)
         {
-            CellSet cellSet = null;
+            CellSet? cellSet = null;
             try
             { cellSet = command.ExecuteCellSet(); }
             catch (Exception ex)

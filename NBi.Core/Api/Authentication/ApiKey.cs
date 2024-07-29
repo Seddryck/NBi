@@ -21,7 +21,7 @@ namespace NBi.Core.Api.Authentication
         public ApiKey(IScalarResolver<string> value)
             : this(new LiteralScalarResolver<string>("apiKey"), value) { }
 
-        public IAuthenticator GetAuthenticator() => new ApiKeyAuthenticator(Name.Execute(), Value.Execute());
+        public IAuthenticator GetAuthenticator() => new ApiKeyAuthenticator(Name.Execute() ?? string.Empty, Value.Execute());
 
         public class ApiKeyAuthenticator : IAuthenticator
         {

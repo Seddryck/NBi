@@ -30,16 +30,13 @@ namespace NBi.Core.Members.Predefined
         public void Register(PredefinedMembers value, IPredefinedMembersBuilder builder)
         {
             if (IsHandling(value))
-                registrations.FirstOrDefault(reg => reg.Value == value).Builder = builder;
+                registrations.First(reg => reg.Value == value).Builder = builder;
             else
                 registrations.Add(new BuilderRegistration(value, builder));
         }
 
         private bool IsHandling(PredefinedMembers value)
-        {
-            var existing = registrations.FirstOrDefault(reg => reg.Value == value);
-            return (existing != null);
-        }
+            => registrations.Any(reg => reg.Value == value);
 
         private class BuilderRegistration
         {
@@ -69,15 +66,12 @@ namespace NBi.Core.Members.Predefined
 
             var culture = new CultureInfo(cultureName);
 
-            IPredefinedMembersBuilder builder = null;
-
             //Look for registration ...
-            var registration = registrations.FirstOrDefault(reg => reg.Value == value);
-            if (registration == null)
-                throw new ArgumentException(string.Format("'{0}' has no builder registred.", Enum.GetName(typeof(PredefinedMembers), value)));
+            var registration = registrations.FirstOrDefault(reg => reg.Value == value) 
+                                ?? throw new ArgumentException($"'{Enum.GetName(typeof(PredefinedMembers), value)}' has no builder registred.");
 
             //Get Builder and initiate it
-            builder = registration.Builder;
+            var builder = registration.Builder;
             builder.Setup(culture);
 
             //Build

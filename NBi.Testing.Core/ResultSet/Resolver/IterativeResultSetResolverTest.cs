@@ -26,7 +26,7 @@ namespace NBi.Core.Testing.ResultSet.Resolver
 
             public IResultSet Execute()
             {
-                var args = new ObjectsResultSetResolverArgs(new[] { new object[] { Variables[VariableName].GetValue() } });
+                var args = new ObjectsResultSetResolverArgs(new[] { new object?[] { Variables[VariableName].GetValue() } });
                 var resolver = new ObjectsResultSetResolver(args);
                 return resolver.Execute();
             }

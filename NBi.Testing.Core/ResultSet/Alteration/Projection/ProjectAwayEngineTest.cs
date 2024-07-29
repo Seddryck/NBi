@@ -18,9 +18,9 @@ namespace NBi.Core.Testing.ResultSet.Alteration.Projection
         {
             var rs = new DataTableResultSet();
             rs.Load("a;1;120");
-            rs.GetColumn(0).Rename("Foo");
-            rs.GetColumn(1).Rename("Col1");
-            rs.GetColumn(2).Rename("Col2");
+            rs.GetColumn(0)?.Rename("Foo");
+            rs.GetColumn(1)?.Rename("Col1");
+            rs.GetColumn(2)?.Rename("Col2");
 
             var factory = new ColumnIdentifierFactory();
             var id = factory.Instantiate(identifier);
@@ -29,8 +29,8 @@ namespace NBi.Core.Testing.ResultSet.Alteration.Projection
             skip.Execute(rs);
 
             Assert.That(rs.ColumnCount, Is.EqualTo(2));
-            Assert.That(rs.GetColumn(0).Name, Is.EqualTo("Col1"));
-            Assert.That(rs.GetColumn(1).Name, Is.EqualTo("Col2"));
+            Assert.That(rs?.GetColumn(0)?.Name, Is.EqualTo("Col1"));
+            Assert.That(rs?.GetColumn(1)?.Name, Is.EqualTo("Col2"));
         }
 
         [TestCase("#0", "#2")]
@@ -40,9 +40,9 @@ namespace NBi.Core.Testing.ResultSet.Alteration.Projection
         {
             var rs = new DataTableResultSet();
             rs.Load("a;1;120");
-            rs.GetColumn(0).Rename("Foo");
-            rs.GetColumn(1).Rename("Col1");
-            rs.GetColumn(2).Rename("Bar");
+            rs.GetColumn(0)?.Rename("Foo");
+            rs.GetColumn(1)?.Rename("Col1");
+            rs.GetColumn(2)?.Rename("Bar");
 
             var factory = new ColumnIdentifierFactory();
 
@@ -50,7 +50,7 @@ namespace NBi.Core.Testing.ResultSet.Alteration.Projection
             skip.Execute(rs);
 
             Assert.That(rs.ColumnCount, Is.EqualTo(1));
-            Assert.That(rs.GetColumn(0).Name, Is.EqualTo("Col1"));
+            Assert.That(rs?.GetColumn(0)?.Name, Is.EqualTo("Col1"));
         }
 
         [TestCase("#0", "#0")]
@@ -61,9 +61,9 @@ namespace NBi.Core.Testing.ResultSet.Alteration.Projection
         {
             var rs = new DataTableResultSet();
             rs.Load("a;1;120");
-            rs.GetColumn(0).Rename("Foo");
-            rs.GetColumn(1).Rename("Col1");
-            rs.GetColumn(2).Rename("Col2");
+            rs.GetColumn(0)?.Rename("Foo");
+            rs.GetColumn(1)?.Rename("Col1");
+            rs.GetColumn(2)?.Rename("Col2");
 
             var factory = new ColumnIdentifierFactory();
 
@@ -80,9 +80,9 @@ namespace NBi.Core.Testing.ResultSet.Alteration.Projection
         {
             var rs = new DataTableResultSet();
             rs.Load("a;1;120");
-            rs.GetColumn(0).Rename("Foo");
-            rs.GetColumn(1).Rename("Col1");
-            rs.GetColumn(2).Rename("Col2");
+            rs.GetColumn(0)?.Rename("Foo");
+            rs.GetColumn(1)?.Rename("Col1");
+            rs.GetColumn(2)?.Rename("Col2");
 
             var factory = new ColumnIdentifierFactory();
 

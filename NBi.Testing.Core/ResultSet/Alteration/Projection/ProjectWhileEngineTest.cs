@@ -20,9 +20,9 @@ namespace NBi.Testing.Unit.Core.ResultSet.Alteration.ColumnBased
         {
             var rs = new DataTableResultSet();
             rs.Load(new[] { new object[] { "xyz", 1, 120 }, new object[] { "abc", 2, 155 } });
-            rs.GetColumn(0).Rename("Col0");
-            rs.GetColumn(1).Rename("Col1");
-            rs.GetColumn(2).Rename("Col2");
+            rs?.GetColumn(0)?.Rename("Col0");
+            rs?.GetColumn(1)?.Rename("Col1");
+            rs?.GetColumn(3)?.Rename("Col2");
 
             //var predicateInfo = Mock.Of<IPredicate>(
             //    p => p.ComparerType == ComparerType.NullOrEmpty

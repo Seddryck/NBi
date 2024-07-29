@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using NBi.Core.Analysis.Member;
+using NBi.Extensibility;
 
 namespace NBi.Core.Analysis.Request
 {
@@ -18,13 +19,7 @@ namespace NBi.Core.Analysis.Request
             => (Function, MemberCaption, ExcludedMembers, ExcludedPatterns) = (function, memberCaption, excludedMembers, excludedPatterns);
 
         public string Perspective
-        {
-            get
-            {
-                return GetFilter(DiscoveryTarget.Perspectives).Value;
-            }
-        }
-
+            => GetFilter(DiscoveryTarget.Perspectives)?.Value ?? throw new NBiException("Perspective doesn't exist");
 
         public override string Path
         {

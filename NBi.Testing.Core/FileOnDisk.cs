@@ -42,16 +42,14 @@ namespace NBi.Testing
 
             // A Stream is needed to read the XLS document.
             using (Stream stream = Assembly.GetExecutingAssembly()
-                                           .GetManifestResourceStream(resource))
+                                           .GetManifestResourceStream(resource) ?? throw new NullReferenceException())
             {
                 if (stream == null)
                     throw new FileNotFoundException(resource);
 
                 //Open another stream to persist the file on disk
-                using (Stream file = File.OpenWrite(fullpath))
-                {
-                    CopyStream(stream, file);
-                }
+                using Stream file = File.OpenWrite(fullpath);
+                CopyStream(stream, file);
             }
             return fullpath;
         }

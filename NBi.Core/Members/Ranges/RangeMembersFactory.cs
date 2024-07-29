@@ -46,21 +46,13 @@ namespace NBi.Core.Members.Ranges
         public void Register(IEnumerable<Type> rangeTypes, IRangeMembersBuilder builder)
         {
             if (IsHandling(rangeTypes))
-                registrations.FirstOrDefault(reg => reg.Match(rangeTypes)).Builder = builder;
+                registrations.First(reg => reg.Match(rangeTypes)).Builder = builder;
             else
                 registrations.Add(new BuilderRegistration(rangeTypes, builder));
         }
 
-        private bool IsHandling(Type rangeType)
-        {
-            return (IsHandling(new List<Type>() {rangeType}));
-        }
-
         private bool IsHandling(IEnumerable<Type> rangeTypes)
-        {
-            var existing = registrations.FirstOrDefault(reg => reg.Match(rangeTypes));
-            return (existing != null);
-        }
+            => registrations.Any(reg => reg.Match(rangeTypes));
 
         private class BuilderRegistration
         {
@@ -105,15 +97,11 @@ namespace NBi.Core.Members.Ranges
             if (range == null)
                 throw new ArgumentNullException(nameof(range));
 
-            IRangeMembersBuilder builder = null;
-
             //Look for registration ...
-            var registration = registrations.FirstOrDefault(reg => reg.Match(range.GetType()));
-            if (registration == null)
-                throw new ArgumentException(string.Format("'{0}' has no builder registred.", range.GetType().Name, "range"));
+            var registration = registrations.FirstOrDefault(reg => reg.Match(range.GetType())) ?? throw new ArgumentException(string.Format("'{0}' has no builder registred.", range.GetType().Name, "range"));
 
             //Get Builder and initiate it
-            builder = registration.Builder;
+            var builder = registration.Builder;
             builder.Setup(range);
 
             //Build

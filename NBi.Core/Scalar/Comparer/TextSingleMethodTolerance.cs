@@ -9,7 +9,7 @@ namespace NBi.Core.Scalar.Comparer
     public class TextSingleMethodTolerance : TextTolerance
     {
         public string Style { get; private set; }
-        public Double Value { get; private set; }
+        public double Value { get; private set; }
 
         public Func<string, string, double> Implementation { get; private set; }
         public Func<double, double, bool> Predicate { get; private set; }
@@ -22,7 +22,5 @@ namespace NBi.Core.Scalar.Comparer
             Implementation = func;
             Predicate = predicate;
         }
-
-        
     }
 }

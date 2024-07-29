@@ -64,8 +64,8 @@ namespace NBi.Core.Testing.Calculation.Asserting
         [TestCase(ComparerType.MatchesDate, "5/12/2016", "nl-be")]
         [TestCase(ComparerType.MatchesDateTime, "25/12/2015 08:40:16", "fr-fr")]
         [TestCase(ComparerType.MatchesNumeric, "121", "en-us")]
-        [TestCase(ComparerType.MatchesNumeric, "1.21", "en-us")]
-        [TestCase(ComparerType.MatchesNumeric, "1000.21", "en-us")]
+        [TestCase(ComparerType.MatchesNumeric, "1.21", "ja-jp")]
+        [TestCase(ComparerType.MatchesNumeric, "1000.21", "ja-jp")]
         public void Compare_TextWithCulture_Success(ComparerType comparerType, object x, string culture)
         {
             var predicate = new Mock<CultureSensitivePredicateArgs>(culture);
@@ -82,10 +82,10 @@ namespace NBi.Core.Testing.Calculation.Asserting
         [TestCase(ComparerType.MatchesNumeric, "A.1", "fr-fr")]
         [TestCase(ComparerType.MatchesNumeric, "1.21", "fr-fr")]
         [TestCase(ComparerType.MatchesNumeric, "A.1", "en-us")]
-        [TestCase(ComparerType.MatchesNumeric, "1,211", "en-us")]
+        [TestCase(ComparerType.MatchesNumeric, "1,211", "ja-jp")]
         [TestCase(ComparerType.MatchesDate, "12/25/2016", "fr-fr")]
         [TestCase(ComparerType.MatchesDate, "5/12/2016", "fr-fr")]
-        [TestCase(ComparerType.MatchesDateTime, "25/12/2015 08:40:16", "en-us")]
+        [TestCase(ComparerType.MatchesDateTime, "25/12/2015 08:40:16", "ja-jp")]
         public void Compare_TextWithCulture_Failure(ComparerType comparerType, object x, string culture)
         {
             var predicate = new Mock<CultureSensitivePredicateArgs>(culture);

@@ -46,7 +46,7 @@ namespace NBi.Core.DataType
             DataTypeInfo dataTypeInfo;
 
             var type = value.Split('(')[0];
-            dataTypeInfo = Decrypt(type);
+            dataTypeInfo = DataTypeInfoFactory.Decrypt(type);
 
             int? first = null;
             int? second = null;
@@ -71,42 +71,16 @@ namespace NBi.Core.DataType
             return dataTypeInfo;
         }
 
-        protected DataTypeInfo Decrypt(string type)
+        protected static DataTypeInfo Decrypt(string type)
         {
-            DataTypeInfo value = null;
-            switch (type)
+            var value = type switch
             {
-                case "bit":
-                    value = new DataTypeInfo();
-                    break;
-                case "ntext":
-                case "nvarchar":
-                case "varchar":
-                case "nchar":
-                case "text":
-                case "char":
-                    value = new TextInfo();
-                    break;
-                case "smalldatetime":
-                case "datetime":
-                    value = new DateTimeInfo();
-                    break;
-                case "bigint":
-                case "money":
-                case "smallmoney":
-                case "decimal":
-                case "float":
-                case "int":
-                case "real":
-                case "smallint":
-                case "tinyint":
-                    value = new NumericInfo();
-                    break;
-                default:
-                    value = new DataTypeInfo();
-                    break;
-            }
-
+                "bit" => new DataTypeInfo(),
+                "ntext" or "nvarchar" or "varchar" or "nchar" or "text" or "char" => new TextInfo(),
+                "smalldatetime" or "datetime" => new DateTimeInfo(),
+                "bigint" or "money" or "smallmoney" or "decimal" or "float" or "int" or "real" or "smallint" or "tinyint" => new NumericInfo(),
+                _ => new DataTypeInfo(),
+            };
             value.Name = type;
             return value;
         }

@@ -16,6 +16,8 @@ using NBi.Core.Configuration;
 namespace NBi.Core.Testing.Query.Client
 {
     [TestFixture]
+    [Platform("Win")]
+    [System.Runtime.Versioning.SupportedOSPlatform("windows")]
     public class OleDbClientFactoryTest
     {
 
@@ -57,7 +59,7 @@ namespace NBi.Core.Testing.Query.Client
             var conn = actual.CreateNew();
 
             Assert.That(conn, Is.InstanceOf<OleDbConnection>());
-            Assert.That((conn as OleDbConnection).ConnectionString, Is.EqualTo(connStr));
+            Assert.That(((OleDbConnection)conn).ConnectionString, Is.EqualTo(connStr));
         }
 
         [Test]
@@ -71,7 +73,7 @@ namespace NBi.Core.Testing.Query.Client
             var conn = actual.CreateNew();
 
             Assert.That(conn, Is.InstanceOf<OleDbConnection>());
-            Assert.That((conn as OleDbConnection).ConnectionString, Is.EqualTo(connStr));
+            Assert.That(((OleDbConnection)conn).ConnectionString, Is.EqualTo(connStr));
         }
 
         [Test]
@@ -85,7 +87,7 @@ namespace NBi.Core.Testing.Query.Client
             var conn = actual.CreateNew();
 
             Assert.That(conn, Is.InstanceOf<OleDbConnection>());
-            Assert.That((conn as OleDbConnection).ConnectionString, Is.EqualTo(connStr));
+            Assert.That(((OleDbConnection)conn).ConnectionString, Is.EqualTo(connStr));
         }
 
         [Test]
@@ -99,7 +101,7 @@ namespace NBi.Core.Testing.Query.Client
             var conn = actual.CreateNew();
 
             Assert.That(conn, Is.InstanceOf<OleDbConnection>());
-            Assert.That((conn as OleDbConnection).ConnectionString, Is.EqualTo(connStr));
+            Assert.That(((OleDbConnection)conn).ConnectionString, Is.EqualTo(connStr));
         }
 
         [Test]
@@ -113,7 +115,7 @@ namespace NBi.Core.Testing.Query.Client
             var conn = actual.CreateNew();
 
             Assert.That(conn, Is.InstanceOf<OleDbConnection>());
-            Assert.That((conn as OleDbConnection).ConnectionString, Is.EqualTo(connStr));
+            Assert.That(((OleDbConnection)conn).ConnectionString, Is.EqualTo(connStr));
         }
 
         [Test]
@@ -127,7 +129,7 @@ namespace NBi.Core.Testing.Query.Client
             var conn = actual.CreateNew();
 
             Assert.That(conn, Is.InstanceOf<OleDbConnection>());
-            Assert.That((conn as OleDbConnection).ConnectionString, Is.EqualTo(connStr));
+            Assert.That(((OleDbConnection)conn).ConnectionString, Is.EqualTo(connStr));
         }
 
         [Test]
@@ -145,7 +147,7 @@ namespace NBi.Core.Testing.Query.Client
             var conn = actual.CreateNew();
 
             Assert.That(conn, Is.InstanceOf<OleDbConnection>());
-            Assert.That((conn as OleDbConnection).ConnectionString, Is.EqualTo(connStr));
+            Assert.That(((OleDbConnection)conn).ConnectionString, Is.EqualTo(connStr));
         }
     }
 }

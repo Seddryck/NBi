@@ -24,9 +24,9 @@ namespace NBi.Core.Query.Validation
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2100:Review SQL queries for security vulnerabilities")]
         public override ParserResult Parse()
         {
-            ParserResult res = null;
+            ParserResult? res = null;
 
-            using (var connection = NewConnection(command.Connection.ConnectionString))
+            using (var connection = NewConnection(command.Connection!.ConnectionString))
             {
                 OpenConnection(connection);
                 StartWatch();
@@ -47,7 +47,7 @@ namespace NBi.Core.Query.Validation
 
         protected override void OpenConnection(IDbConnection connection)
         {
-            var connectionString = command.Connection.ConnectionString;
+            var connectionString = command.Connection!.ConnectionString;
             try
             { connection.ConnectionString = connectionString; }
             catch (ArgumentException ex)

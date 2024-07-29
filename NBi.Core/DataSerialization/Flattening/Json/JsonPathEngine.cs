@@ -20,7 +20,7 @@ namespace NBi.Core.DataSerialization.Flattening.Json
         public override IEnumerable<object> Execute(TextReader textReader)
         {
             var json = JToken.ReadFrom(new JsonTextReader(textReader));
-            var result = from item in json.SelectTokens(From.Execute())
+            var result = from item in json.SelectTokens(From.Execute() ?? throw new NullReferenceException())
                          select GetObj(item);
             return result;
         }
@@ -28,7 +28,7 @@ namespace NBi.Core.DataSerialization.Flattening.Json
         private object GetObj(JToken item)
         {
             var obj = new List<object>();
-            obj.AddRange(BuildPaths(item, Selects).ToArray());
+            obj.AddRange(BuildPaths(item, Selects).ToArray() ?? []);
             return obj;
         }
 
@@ -36,28 +36,28 @@ namespace NBi.Core.DataSerialization.Flattening.Json
         {
             foreach (var select in selects)
             {
-                var path = select.Path.Execute().Trim();
-                var root = item;
+                var path = (select.Path.Execute() ?? string.Empty).Trim();
+                JToken? root = item;
                 if (path.StartsWith("!"))
                 {
                     var match = Regex.Matches(path, @"^(!*)").Cast<Match>().First();
                     var i = 0;
-                    while (i < match.Value.Length && !string.IsNullOrEmpty(root.Path))
+                    while (i < match.Value.Length && !string.IsNullOrEmpty(root?.Path))
                     {
                         var previousParentPath = root.Path;
                         root = root.Parent;
-                        if (previousParentPath != root.Path)
+                        if (previousParentPath != (root?.Path ?? string.Empty))
                             i++;
                     }
 
-                    path = $"${ path.Substring(match.Value.Length)}";
+                    path = $"${ path[match.Value.Length..]}";
                 }
 
                 yield return
                 (
-                    root.SelectToken(path)
+                    root!.SelectToken(path)
                     ?? new JValue("(null)")
-                ).ToObject<object>();
+                ).ToObject<object>() ?? throw new NullReferenceException();
             }
         }
     }

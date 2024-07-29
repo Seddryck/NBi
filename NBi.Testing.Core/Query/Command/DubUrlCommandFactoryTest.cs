@@ -22,7 +22,7 @@ namespace NBi.Core.Testing.Query.Command
         [OneTimeSetUp]
         public void Setup() 
         {
-            if (!DbProviderFactories.GetProviderInvariantNames().Any(x => x == PROVIDER_NAME));
+            if (!DbProviderFactories.GetProviderInvariantNames().Any(x => x == PROVIDER_NAME))
                 DbProviderFactories.RegisterFactory(PROVIDER_NAME, Microsoft.Data.SqlClient.SqlClientFactory.Instance);
         }
 

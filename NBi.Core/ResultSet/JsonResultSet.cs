@@ -13,7 +13,7 @@ namespace NBi.Core.ResultSet
     {
         public IResultSet Build(string json)
         {
-            var dt = (DataTable)JsonConvert.DeserializeObject(json, (typeof(DataTable)));
+            var dt = (DataTable)(JsonConvert.DeserializeObject(json, typeof(DataTable)) ?? throw new NullReferenceException());
 
             var isArrayConverted = false;
             for (int i = 0; i < dt.Columns.Count; i++)
@@ -61,7 +61,7 @@ namespace NBi.Core.ResultSet
                         var masterRow = dt.Rows[k];
                         var subTable = (masterRow.ItemArray[column.Ordinal]) as DataTable;
                         var l = 1;
-                        foreach (DataRow rowTable in subTable.Rows)
+                        foreach (DataRow rowTable in subTable!.Rows)
                         {
                             var newRow = dt.NewRow();
                             foreach (DataColumn columnIter in dt.Columns)
@@ -72,7 +72,7 @@ namespace NBi.Core.ResultSet
                                 }
                                 else if (column != columnIter && columnIter.ExtendedProperties.ContainsKey("split"))
                                 {
-                                    var columnName = (string)columnIter.ExtendedProperties["split"];
+                                    var columnName = (string)columnIter.ExtendedProperties["split"]!;
                                     if (subTable.Columns.Contains(columnName))
                                         newRow[columnIter.Ordinal] = rowTable[columnName];
                                 }

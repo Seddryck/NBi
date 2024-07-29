@@ -31,8 +31,8 @@ namespace NBi.Core.Testing.ResultSet.Resolver
 
             var rs = resolver.Execute();
             Assert.That(rs.ColumnCount, Is.EqualTo(2));
-            Assert.That(rs.GetColumn(0).Name, Is.EqualTo("myFirstColumn"));
-            Assert.That(rs.GetColumn(1).Name, Is.EqualTo("mySecondColumn"));
+            Assert.That(rs?.GetColumn(0)?.Name, Is.EqualTo("myFirstColumn"));
+            Assert.That(rs?.GetColumn(1)?.Name, Is.EqualTo("mySecondColumn"));
         }
 
         [Test()]
@@ -59,8 +59,8 @@ namespace NBi.Core.Testing.ResultSet.Resolver
 
             var rs = resolver.Execute();
             Assert.That(rs.ColumnCount, Is.EqualTo(4));
-            Assert.That(rs.GetColumn(0).Name, Is.EqualTo("myFirstColumn"));
-            Assert.That(rs.GetColumn(1).Name, Is.EqualTo("mySecondColumn"));
+            Assert.That(rs?.GetColumn(0)?.Name, Is.EqualTo("myFirstColumn"));
+            Assert.That(rs?.GetColumn(1)?.Name, Is.EqualTo("mySecondColumn"));
         }
     }
 }

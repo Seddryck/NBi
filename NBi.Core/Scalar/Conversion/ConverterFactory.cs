@@ -9,7 +9,7 @@ namespace NBi.Core.Scalar.Conversion
 {
     public class ConverterFactory
     {
-        public IConverter Instantiate(string from, string to, object defaultValue, string culture)
+        public IConverter Instantiate(string from, string to, object? defaultValue, string culture)
         {
             var cultureFactory = new CultureFactory();
             var cultureInfo = cultureFactory.Instantiate(culture);

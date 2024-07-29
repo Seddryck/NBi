@@ -19,7 +19,7 @@ namespace NBi.Core.ResultSet.Lookup
             var keys = new List<object>();
             foreach (var setting in Settings)
             {
-                var name = (setting.Identifier as ColumnNameIdentifier).Name;
+                var name = ((ColumnNameIdentifier)setting.Identifier).Name;
                 try
                 {
                     var value = FormatValue(setting.Type, row[name]);
@@ -41,7 +41,7 @@ namespace NBi.Core.ResultSet.Lookup
                         throw new NBiException($"In the column with name '{name}', NBi can't convert the value 'DBNull' to the type '{setting.Type}'. Key columns must match with their respective types and don't support null, generic or interval values.");
                     }
                     else
-                        throw ex;
+                        throw;
                 }
             }
             return new KeyCollection(keys.ToArray());

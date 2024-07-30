@@ -37,7 +37,7 @@ namespace NBi.Core
 
             foreach (var str in list)
             { 
-                sb.Append("<");
+                sb.Append('<');
                 sb.Append(str);
                 sb.AppendLine(">");
             }

@@ -150,18 +150,18 @@ namespace NBi.Core.ResultSet.Equivalence
         private string RowToString(IResultRow row)
         {
             var sb = new StringBuilder();
-            sb.Append("<");
+            sb.Append('<');
             foreach (var obj in row.ItemArray)
             {
                 if (obj == null)
                     sb.Append("(null)");
                 else
                     sb.Append(obj.ToString());
-                sb.Append("|");
+                sb.Append('|');
             }
             if (sb.Length > 1)
                 sb.Remove(sb.Length - 1, 1);
-            sb.Append(">");
+            sb.Append('>');
 
             return sb.ToString();
         }

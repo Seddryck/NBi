@@ -89,7 +89,7 @@ namespace NBi.Core.Testing.Scalar.Resolver
             var obj = "10%";
             var args = new LiteralScalarResolverArgs(obj);
             var resolver = new LiteralScalarResolver<Percentage>(args);
-            Assert.That(resolver.Execute().Value, Is.EqualTo(0.1));
+            Assert.That(resolver.Execute()?.Value, Is.EqualTo(0.1));
         }
     }
 }

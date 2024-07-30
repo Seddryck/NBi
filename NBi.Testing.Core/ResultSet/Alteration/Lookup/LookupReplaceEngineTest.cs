@@ -120,7 +120,7 @@ namespace NBi.Core.Testing.ResultSet.Alteration.Lookup
                 ));
 
             var ex = Assert.Throws<NBiException>(() => engine.Execute(candidate));
-            Assert.That(ex.Message, Does.Contain("'C'"));
+            Assert.That(ex!.Message, Does.Contain("'C'"));
         }
 
         [Test]

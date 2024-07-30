@@ -43,7 +43,8 @@ namespace NBi.Core.Testing.Scalar.Interval
             builder.Build();
             var interval = builder.GetInterval();
 
-            Assert.That(interval.Left.IsClosed, Is.True);
+            Assert.That(interval, Is.Not.Null);
+            Assert.That(interval!.Left.IsClosed, Is.True);
             Assert.That(interval.Right.IsClosed, Is.True);
             Assert.That(interval.Left.Value, Is.EqualTo(new DateTime(2010, 10, 12)));
             Assert.That(interval.Right.Value, Is.EqualTo(new DateTime(2012, 12, 25)));
@@ -56,7 +57,8 @@ namespace NBi.Core.Testing.Scalar.Interval
             builder.Build();
             var interval = builder.GetInterval();
 
-            Assert.That(interval.Left.IsClosed, Is.False);
+            Assert.That(interval, Is.Not.Null);
+            Assert.That(interval!.Left.IsClosed, Is.False);
             Assert.That(interval.Right.IsClosed, Is.False);
             Assert.That(interval.Left.Value, Is.EqualTo(new DateTime(2010, 10, 12)));
             Assert.That(interval.Right.Value, Is.EqualTo(new DateTime(2012, 12, 25)));
@@ -69,7 +71,8 @@ namespace NBi.Core.Testing.Scalar.Interval
             builder.Build();
             var interval = builder.GetInterval();
 
-            Assert.That(interval.Left.IsOpen, Is.True);
+            Assert.That(interval, Is.Not.Null);
+            Assert.That(interval!.Left.IsOpen, Is.True);
             Assert.That(interval.Right.IsClosed, Is.True);
             Assert.That(interval.Left.Value, Is.EqualTo(new DateTime(2010, 10, 12)));
             Assert.That(interval.Right.Value, Is.EqualTo(new DateTime(2012, 12, 25)));
@@ -82,7 +85,7 @@ namespace NBi.Core.Testing.Scalar.Interval
             builder.Build();
             var interval = builder.GetInterval();
 
-            Assert.That(interval.ToString(), Is.EqualTo("]2010-10-12;2012-12-25]"));
+            Assert.That(interval?.ToString() ?? string.Empty, Is.EqualTo("]2010-10-12;2012-12-25]"));
         }
 
         [Test]
@@ -92,7 +95,7 @@ namespace NBi.Core.Testing.Scalar.Interval
             builder.Build();
             var interval = builder.GetInterval();
 
-            Assert.That(interval.ToString(), Is.EqualTo("[2010-10-12;2012-12-25["));
+            Assert.That(interval?.ToString() ?? string.Empty, Is.EqualTo("[2010-10-12;2012-12-25["));
         }
     }
 }

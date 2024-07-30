@@ -20,9 +20,10 @@ namespace NBi.Core.Testing.Scalar.Duration
             var converter = new DurationConverter();
             var converted = converter.ConvertFrom(value);
 
+            Assert.That(converted, Is.Not.Null);
             Assert.That(converted, Is.AssignableTo<IDuration>());
             Assert.That(converted, Is.TypeOf<MonthDuration>());
-            Assert.That((converted as MonthDuration).Count, Is.EqualTo(expected));
+            Assert.That(((MonthDuration)converted!).Count, Is.EqualTo(expected));
         }
 
         [TestCase(1, "1 month")]
@@ -47,9 +48,10 @@ namespace NBi.Core.Testing.Scalar.Duration
             var converter = new DurationConverter();
             var converted = converter.ConvertFrom(value);
 
+            Assert.That(converted, Is.Not.Null);
             Assert.That(converted, Is.AssignableTo<IDuration>());
             Assert.That(converted, Is.TypeOf<YearDuration>());
-            Assert.That((converted as YearDuration).Count, Is.EqualTo(expected));
+            Assert.That(((YearDuration)converted!).Count, Is.EqualTo(expected));
         }
 
         [TestCase(1, "1 year")]
@@ -75,9 +77,10 @@ namespace NBi.Core.Testing.Scalar.Duration
             var converter = new DurationConverter();
             var converted = converter.ConvertFrom(value);
 
+            Assert.That(converted, Is.Not.Null);
             Assert.That(converted, Is.AssignableTo<IDuration>());
             Assert.That(converted, Is.TypeOf<FixedDuration>());
-            Assert.That((converted as FixedDuration).TimeSpan.TotalHours, Is.EqualTo(expected));
+            Assert.That(((FixedDuration)converted!).TimeSpan.TotalHours, Is.EqualTo(expected));
         }
 
         [TestCase(1, "01:00:00")]

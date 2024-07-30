@@ -46,7 +46,7 @@ namespace NBi.Core.Testing.Scalar.Comparer
             var value = "50% (min 0.001)";
             var tolerance = new NumericToleranceFactory().Instantiate(value);
             Assert.That(tolerance, Is.TypeOf<NumericBoundedPercentageTolerance>());
-            var boundedTolerance = tolerance as NumericBoundedPercentageTolerance;
+            var boundedTolerance = (NumericBoundedPercentageTolerance)tolerance;
 
             Assert.That(boundedTolerance.Value, Is.EqualTo(0.5));
             Assert.That(boundedTolerance.Min, Is.EqualTo(0.001));
@@ -60,7 +60,7 @@ namespace NBi.Core.Testing.Scalar.Comparer
             var value = " 50 % min:0.001 ";
             var tolerance = new NumericToleranceFactory().Instantiate(value);
             Assert.That(tolerance, Is.TypeOf<NumericBoundedPercentageTolerance>());
-            var boundedTolerance = tolerance as NumericBoundedPercentageTolerance;
+            var boundedTolerance = (NumericBoundedPercentageTolerance)tolerance;
 
             Assert.That(boundedTolerance.Value, Is.EqualTo(0.5));
             Assert.That(boundedTolerance.Min, Is.EqualTo(0.001));
@@ -74,7 +74,7 @@ namespace NBi.Core.Testing.Scalar.Comparer
             var value = "10%(max=125) ";
             var tolerance = new NumericToleranceFactory().Instantiate(value);
             Assert.That(tolerance, Is.TypeOf<NumericBoundedPercentageTolerance>());
-            var boundedTolerance = tolerance as NumericBoundedPercentageTolerance;
+            var boundedTolerance = (NumericBoundedPercentageTolerance)tolerance;
 
             Assert.That(boundedTolerance.Value, Is.EqualTo(0.1));
             Assert.That(boundedTolerance.Min, Is.EqualTo(0));
@@ -88,7 +88,7 @@ namespace NBi.Core.Testing.Scalar.Comparer
             var value = " + 50%";
             var tolerance = new NumericToleranceFactory().Instantiate(value);
             Assert.That(tolerance, Is.TypeOf<NumericPercentageTolerance>());
-            var boundedTolerance = tolerance as NumericPercentageTolerance;
+            var boundedTolerance = (NumericPercentageTolerance)tolerance;
 
             Assert.That(boundedTolerance.Value, Is.EqualTo(0.5));
             Assert.That(boundedTolerance.ValueString, Is.EqualTo("+50.0%"));
@@ -100,7 +100,7 @@ namespace NBi.Core.Testing.Scalar.Comparer
             var value = "-16.25";
             var tolerance = new NumericToleranceFactory().Instantiate(value);
             Assert.That(tolerance, Is.TypeOf<NumericAbsoluteTolerance>());
-            var boundedTolerance = tolerance as NumericAbsoluteTolerance;
+            var boundedTolerance = (NumericAbsoluteTolerance)tolerance;
 
             Assert.That(boundedTolerance.Value, Is.EqualTo(16.25));
             Assert.That(boundedTolerance.ValueString, Is.EqualTo("-16.25"));

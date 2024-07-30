@@ -39,7 +39,7 @@ namespace NBi.Core.Testing.Query.Client
             var conn = actual.CreateNew();
 
             Assert.That(conn, Is.InstanceOf<AdomdConnection>());
-            Assert.That((conn as AdomdConnection).ConnectionString, Is.EqualTo(PowerBiDesktopConnectionStringBuilderFake.ConnectionString));
+            Assert.That(((AdomdConnection)conn).ConnectionString, Is.EqualTo(PowerBiDesktopConnectionStringBuilderFake.ConnectionString));
         }
     }
 }

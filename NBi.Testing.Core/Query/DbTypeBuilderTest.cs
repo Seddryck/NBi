@@ -43,7 +43,8 @@ namespace NBi.Core.Testing.Query
             var builder = new DbTypeBuilder();
             var result = builder.Build("DateTime");
 
-            Assert.That(result.Value, Is.EqualTo(DbType.DateTime));
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result!.Value, Is.EqualTo(DbType.DateTime));
         }
 
         [Test]
@@ -52,7 +53,8 @@ namespace NBi.Core.Testing.Query
             var builder = new DbTypeBuilder();
             var result = builder.Build("Varchar");
 
-            Assert.That(result.Value, Is.EqualTo(DbType.AnsiString));
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result!.Value, Is.EqualTo(DbType.AnsiString));
         }
 
         [Test]
@@ -61,7 +63,8 @@ namespace NBi.Core.Testing.Query
             var builder = new DbTypeBuilder();
             var result = builder.Build("varchar(255)");
 
-            Assert.That(result.Value, Is.EqualTo(DbType.AnsiString));
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result!.Value, Is.EqualTo(DbType.AnsiString));
             Assert.That(result.Size, Is.EqualTo(255));
         }
 
@@ -71,7 +74,8 @@ namespace NBi.Core.Testing.Query
             var builder = new DbTypeBuilder();
             var result = builder.Build("Decimal (10,2)");
 
-            Assert.That(result.Value, Is.EqualTo(DbType.Decimal));
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result!.Value, Is.EqualTo(DbType.Decimal));
             Assert.That(result.Size, Is.EqualTo(10));
             Assert.That(result.Precision, Is.EqualTo(2));
         }

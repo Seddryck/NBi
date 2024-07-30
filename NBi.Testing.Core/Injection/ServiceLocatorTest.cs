@@ -123,8 +123,8 @@ namespace NBi.Core.Testing.Injection
             var obj2 = locator.GetResultSetResolverFactory();
 
             var field = typeof(ResultSetResolverFactory).GetField("serviceLocator", BindingFlags.NonPublic | BindingFlags.Instance);
-            var serviceLocator1 = field.GetValue(obj1);
-            var serviceLocator2 = field.GetValue(obj2);
+            var serviceLocator1 = field?.GetValue(obj1);
+            var serviceLocator2 = field?.GetValue(obj2);
 
             Assert.That(serviceLocator1, Is.EqualTo(serviceLocator2));
         }
@@ -155,8 +155,8 @@ namespace NBi.Core.Testing.Injection
             var obj2 = locator.GetQueryResolverFactory();
 
             var field = typeof(QueryResolverFactory).GetField("serviceLocator", BindingFlags.NonPublic | BindingFlags.Instance);
-            var serviceLocator1 = field.GetValue(obj1);
-            var serviceLocator2 = field.GetValue(obj2);
+            var serviceLocator1 = field?.GetValue(obj1);
+            var serviceLocator2 = field?.GetValue(obj2);
 
             Assert.That(serviceLocator1, Is.EqualTo(serviceLocator2));
         }
@@ -206,8 +206,8 @@ namespace NBi.Core.Testing.Injection
             var obj2 = locator.GetScalarResolverFactory();
 
             var field = typeof(ScalarResolverFactory).GetField("serviceLocator", BindingFlags.NonPublic | BindingFlags.Instance);
-            var serviceLocator1 = field.GetValue(obj1);
-            var serviceLocator2 = field.GetValue(obj2);
+            var serviceLocator1 = field?.GetValue(obj1);
+            var serviceLocator2 = field?.GetValue(obj2);
 
             Assert.That(serviceLocator1, Is.EqualTo(serviceLocator2));
         }

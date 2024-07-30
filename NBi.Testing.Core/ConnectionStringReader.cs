@@ -11,8 +11,8 @@ namespace NBi.Testing
             xmldoc.Load(GetFilename());
             XmlNodeList nodes = xmldoc.GetElementsByTagName("add");
             foreach (XmlNode node in nodes)
-                if (node.Attributes["name"].Value == name)
-                    return node.Attributes["connectionString"].Value;
+                if (node.Attributes?["name"]?.Value == name)
+                    return node.Attributes?["connectionString"]?.Value ?? string.Empty;
             throw new Exception();
         }
 

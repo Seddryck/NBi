@@ -42,7 +42,7 @@ namespace NBi.Core.Testing.Evaluate
             var expression = new ExpressionComparable("=4+4");
             expression.Parse();
 
-            Assert.That(expression.Comparer.Compare == expression.Comparer.Equal);
+            Assert.That(expression.Comparer?.Compare == expression.Comparer!.Equal);
         }
 
         [Test]
@@ -51,7 +51,7 @@ namespace NBi.Core.Testing.Evaluate
             var expression = new ExpressionComparable("!=4+4");
             expression.Parse();
 
-            Assert.That(expression.Comparer.Compare == expression.Comparer.NotEqual);
+            Assert.That(expression.Comparer?.Compare == expression.Comparer!.NotEqual);
         }
 
         [Test]

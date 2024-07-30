@@ -19,7 +19,8 @@ namespace NBi.Core.Testing.DataSerialization.Flattenizer
         {
             // A Stream is needed to read the XML document.
             var stream = Assembly.GetExecutingAssembly()
-                                           .GetManifestResourceStream($"{GetType().Namespace}.Resources.{filename}.xml");
+                                           .GetManifestResourceStream($"{GetType().Namespace}.Resources.{filename}.xml")
+                                           ?? throw new FileNotFoundException();
             var reader = new StreamReader(stream);
             return reader;
         }
@@ -35,12 +36,10 @@ namespace NBi.Core.Testing.DataSerialization.Flattenizer
                 , new ElementSelect(new LiteralScalarResolver<string>("//PurchaseOrder/Address[@Type=\"Shiping\"]/City"))
             };
 
-            using (var reader = GetResourceReader("PurchaseOrders"))
-            {
-                var engine = new XPathEngine(new LiteralScalarResolver<string>(from),selects, string.Empty, false);
-                var result = engine.Execute(reader);
-                Assert.That((result.ElementAt(0) as IEnumerable<object>).Count, Is.EqualTo(3));
-            }
+            using var reader = GetResourceReader("PurchaseOrders");
+            var engine = new XPathEngine(new LiteralScalarResolver<string>(from), selects, string.Empty, false);
+            var result = engine.Execute(reader);
+            Assert.That(((IEnumerable<object>)result.ElementAt(0)).Count, Is.EqualTo(3));
         }
 
         [Test]
@@ -55,12 +54,10 @@ namespace NBi.Core.Testing.DataSerialization.Flattenizer
                 , new ElementSelect(new LiteralScalarResolver<string>("//PurchaseOrder/Address[@Type=\"Shiping\"]/City"))
             };
 
-            using (var reader = GetResourceReader("PurchaseOrders"))
-            {
-                var engine = new XPathEngine(new LiteralScalarResolver<string>(from),selects, string.Empty, false);
-                var result = engine.Execute(reader);
-                Assert.That(result.Count, Is.EqualTo(rowCount));
-            }
+            using var reader = GetResourceReader("PurchaseOrders");
+            var engine = new XPathEngine(new LiteralScalarResolver<string>(from), selects, string.Empty, false);
+            var result = engine.Execute(reader);
+            Assert.That(result.Count, Is.EqualTo(rowCount));
         }
 
         [Test]
@@ -72,12 +69,10 @@ namespace NBi.Core.Testing.DataSerialization.Flattenizer
                 new ElementSelect(new LiteralScalarResolver<string>("."))
             };
 
-            using (var reader = GetResourceReader("PurchaseOrders"))
-            {
-                var engine = new XPathEngine(new LiteralScalarResolver<string>(from),selects, string.Empty, false);
-                var result = engine.Execute(reader);
-                Assert.That((result.ElementAt(0) as IEnumerable<object>).ElementAt(0), Is.EqualTo("Lawnmower"));
-            }
+            using var reader = GetResourceReader("PurchaseOrders");
+            var engine = new XPathEngine(new LiteralScalarResolver<string>(from), selects, string.Empty, false);
+            var result = engine.Execute(reader);
+            Assert.That(((IEnumerable<object>)result.ElementAt(0)).ElementAt(0), Is.EqualTo("Lawnmower"));
         }
 
         [Test]
@@ -89,12 +84,10 @@ namespace NBi.Core.Testing.DataSerialization.Flattenizer
                 new AttributeSelect(new LiteralScalarResolver<string>("."),"PartNumber")
             };
 
-            using (var reader = GetResourceReader("PurchaseOrders"))
-            {
-                var engine = new XPathEngine(new LiteralScalarResolver<string>(from),selects, string.Empty, false);
-                var result = engine.Execute(reader);
-                Assert.That((result.ElementAt(0) as IEnumerable<object>).ElementAt(0), Is.EqualTo("872-AA"));
-            }
+            using var reader = GetResourceReader("PurchaseOrders");
+            var engine = new XPathEngine(new LiteralScalarResolver<string>(from), selects, string.Empty, false);
+            var result = engine.Execute(reader);
+            Assert.That(((IEnumerable<object>)result.ElementAt(0)).ElementAt(0), Is.EqualTo("872-AA"));
         }
 
         [Test]
@@ -106,12 +99,10 @@ namespace NBi.Core.Testing.DataSerialization.Flattenizer
                 new ElementSelect(new LiteralScalarResolver<string>("//PurchaseOrder/Items/Item/ProductName"))
             };
 
-            using (var reader = GetResourceReader("PurchaseOrders"))
-            {
-                var engine = new XPathEngine(new LiteralScalarResolver<string>(from),selects, string.Empty, false);
-                var result = engine.Execute(reader);
-                Assert.That((result.ElementAt(0) as IEnumerable<object>).ElementAt(0), Is.EqualTo("Lawnmower"));
-            }
+            using var reader = GetResourceReader("PurchaseOrders");
+            var engine = new XPathEngine(new LiteralScalarResolver<string>(from), selects, string.Empty, false);
+            var result = engine.Execute(reader);
+            Assert.That(((IEnumerable<object>)result.ElementAt(0)).ElementAt(0), Is.EqualTo("Lawnmower"));
         }
 
         [Test]
@@ -123,12 +114,10 @@ namespace NBi.Core.Testing.DataSerialization.Flattenizer
                 new AttributeSelect(new LiteralScalarResolver<string>("//PurchaseOrder/Items/Item"),"PartNumber")
             };
 
-            using (var reader = GetResourceReader("PurchaseOrders"))
-            {
-                var engine = new XPathEngine(new LiteralScalarResolver<string>(from),selects, string.Empty, false);
-                var result = engine.Execute(reader);
-                Assert.That((result.ElementAt(0) as IEnumerable<object>).ElementAt(0), Is.EqualTo("872-AA"));
-            }
+            using var reader = GetResourceReader("PurchaseOrders");
+            var engine = new XPathEngine(new LiteralScalarResolver<string>(from), selects, string.Empty, false);
+            var result = engine.Execute(reader);
+            Assert.That(((IEnumerable<object>)result.ElementAt(0)).ElementAt(0), Is.EqualTo("872-AA"));
         }
 
         [Test]
@@ -140,13 +129,11 @@ namespace NBi.Core.Testing.DataSerialization.Flattenizer
                 new ElementSelect(new LiteralScalarResolver<string>("//PurchaseOrder"))
             };
 
-            using (var reader = GetResourceReader("PurchaseOrders"))
-            {
-                var engine = new XPathEngine(new LiteralScalarResolver<string>(from),selects, string.Empty, false);
-                var result = engine.Execute(reader);
-                Assert.That((result.ElementAt(0) as IEnumerable<object>).ElementAt(0), Does.Contain("Ellen Adams"));
-                Assert.That((result.ElementAt(0) as IEnumerable<object>).ElementAt(0), Does.Contain("Maple Street"));
-            }
+            using var reader = GetResourceReader("PurchaseOrders");
+            var engine = new XPathEngine(new LiteralScalarResolver<string>(from), selects, string.Empty, false);
+            var result = engine.Execute(reader);
+            Assert.That(((IEnumerable<object>)result.ElementAt(0)).ElementAt(0), Does.Contain("Ellen Adams"));
+            Assert.That(((IEnumerable<object>)result.ElementAt(0)).ElementAt(0), Does.Contain("Maple Street"));
         }
 
         [Test]
@@ -158,12 +145,10 @@ namespace NBi.Core.Testing.DataSerialization.Flattenizer
                 new AttributeSelect(new LiteralScalarResolver<string>("//PurchaseOrder"),"PurchaseOrderNumber")
             };
 
-            using (var reader = GetResourceReader("PurchaseOrders"))
-            {
-                var engine = new XPathEngine(new LiteralScalarResolver<string>(from),selects, string.Empty, false);
-                var result = engine.Execute(reader);
-                Assert.That((result.ElementAt(0) as IEnumerable<object>).ElementAt(0), Is.EqualTo("99503"));
-            }
+            using var reader = GetResourceReader("PurchaseOrders");
+            var engine = new XPathEngine(new LiteralScalarResolver<string>(from), selects, string.Empty, false);
+            var result = engine.Execute(reader);
+            Assert.That(((IEnumerable<object>)result.ElementAt(0)).ElementAt(0), Is.EqualTo("99503"));
         }
 
         [Test]
@@ -175,12 +160,10 @@ namespace NBi.Core.Testing.DataSerialization.Flattenizer
                 new ElementSelect(new LiteralScalarResolver<string>("//PurchaseOrder/Missing"))
             };
 
-            using (var reader = GetResourceReader("PurchaseOrders"))
-            {
-                var engine = new XPathEngine(new LiteralScalarResolver<string>(from),selects, string.Empty, false);
-                var result = engine.Execute(reader);
-                Assert.That((result.ElementAt(0) as IEnumerable<object>).ElementAt(0), Is.EqualTo("(null)"));
-            }
+            using var reader = GetResourceReader("PurchaseOrders");
+            var engine = new XPathEngine(new LiteralScalarResolver<string>(from), selects, string.Empty, false);
+            var result = engine.Execute(reader);
+            Assert.That(((IEnumerable<object>)result.ElementAt(0)).ElementAt(0), Is.EqualTo("(null)"));
         }
 
         [Test]
@@ -192,12 +175,10 @@ namespace NBi.Core.Testing.DataSerialization.Flattenizer
                 new AttributeSelect(new LiteralScalarResolver<string>("//PurchaseOrder"), "Missing")
             };
 
-            using (var reader = GetResourceReader("PurchaseOrders"))
-            {
-                var engine = new XPathEngine(new LiteralScalarResolver<string>(from),selects, string.Empty, false);
-                var result = engine.Execute(reader);
-                Assert.That((result.ElementAt(0) as IEnumerable<object>).ElementAt(0), Is.EqualTo("(null)"));
-            }
+            using var reader = GetResourceReader("PurchaseOrders");
+            var engine = new XPathEngine(new LiteralScalarResolver<string>(from), selects, string.Empty, false);
+            var result = engine.Execute(reader);
+            Assert.That(((IEnumerable<object>)result.ElementAt(0)).ElementAt(0), Is.EqualTo("(null)"));
         }
 
         [Test]
@@ -209,12 +190,10 @@ namespace NBi.Core.Testing.DataSerialization.Flattenizer
                 new ElementSelect(new LiteralScalarResolver<string>("."))
             };
 
-            using (var reader = GetResourceReader("PurchaseOrdersDefaultNamespace"))
-            {
-                var engine = new XPathEngine(new LiteralScalarResolver<string>(from),selects, "prefix", false);
-                var result = engine.Execute(reader);
-                Assert.That((result.ElementAt(0) as IEnumerable<object>).ElementAt(0), Is.EqualTo("Lawnmower"));
-            }
+            using var reader = GetResourceReader("PurchaseOrdersDefaultNamespace");
+            var engine = new XPathEngine(new LiteralScalarResolver<string>(from), selects, "prefix", false);
+            var result = engine.Execute(reader);
+            Assert.That(((IEnumerable<object>)result.ElementAt(0)).ElementAt(0), Is.EqualTo("Lawnmower"));
         }
 
         [Test]
@@ -226,12 +205,10 @@ namespace NBi.Core.Testing.DataSerialization.Flattenizer
                 new ElementSelect(new LiteralScalarResolver<string>("."))
             };
 
-            using (var reader = GetResourceReader("PurchaseOrdersDefaultNamespace"))
-            {
-                var engine = new XPathEngine(new LiteralScalarResolver<string>(from),selects, "prefix", true);
-                var result = engine.Execute(reader);
-                Assert.That((result.ElementAt(0) as IEnumerable<object>).ElementAt(0), Is.EqualTo("Lawnmower"));
-            }
+            using var reader = GetResourceReader("PurchaseOrdersDefaultNamespace");
+            var engine = new XPathEngine(new LiteralScalarResolver<string>(from), selects, "prefix", true);
+            var result = engine.Execute(reader);
+            Assert.That(((IEnumerable<object>)result.ElementAt(0)).ElementAt(0), Is.EqualTo("Lawnmower"));
         }
 
         [Test]
@@ -243,12 +220,10 @@ namespace NBi.Core.Testing.DataSerialization.Flattenizer
                 new ElementSelect(new LiteralScalarResolver<string>("."))
             };
 
-            using (var reader = GetResourceReader("PurchaseOrdersManyNamespaces"))
-            {
-                var engine = new XPathEngine(new LiteralScalarResolver<string>(from),selects, "prefix", false);
-                var result = engine.Execute(reader);
-                Assert.That((result.ElementAt(0) as IEnumerable<object>).ElementAt(0), Is.EqualTo("123 Maple Street"));
-            }
+            using var reader = GetResourceReader("PurchaseOrdersManyNamespaces");
+            var engine = new XPathEngine(new LiteralScalarResolver<string>(from), selects, "prefix", false);
+            var result = engine.Execute(reader);
+            Assert.That(((IEnumerable<object>)result.ElementAt(0)).ElementAt(0), Is.EqualTo("123 Maple Street"));
         }
 
         [Test]
@@ -260,12 +235,10 @@ namespace NBi.Core.Testing.DataSerialization.Flattenizer
                 new ElementSelect(new LiteralScalarResolver<string>("."))
             };
 
-            using (var reader = GetResourceReader("PurchaseOrdersManyNamespaces"))
-            {
-                var engine = new XPathEngine(new LiteralScalarResolver<string>(from),selects, "prefix", true);
-                var result = engine.Execute(reader);
-                Assert.That((result.ElementAt(0) as IEnumerable<object>).ElementAt(0), Is.EqualTo("123 Maple Street"));
-            }
+            using var reader = GetResourceReader("PurchaseOrdersManyNamespaces");
+            var engine = new XPathEngine(new LiteralScalarResolver<string>(from), selects, "prefix", true);
+            var result = engine.Execute(reader);
+            Assert.That(((IEnumerable<object>)result.ElementAt(0)).ElementAt(0), Is.EqualTo("123 Maple Street"));
         }
     }
 }

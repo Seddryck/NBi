@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 
 namespace NBi.Core.Testing.ResultSet
 {
-    
     public class ColumnIdentifierFactoryTest
     {
         [TestCase(0)]
@@ -19,8 +18,9 @@ namespace NBi.Core.Testing.ResultSet
         {
             var factory = new ColumnIdentifierFactory();
             var id = factory.Instantiate("#" + identifier.ToString());
+            Assert.That(id, Is.Not.Null);
             Assert.That(id, Is.TypeOf<ColumnOrdinalIdentifier>());
-            Assert.That((id as ColumnOrdinalIdentifier).Ordinal, Is.EqualTo(identifier));
+            Assert.That(((ColumnOrdinalIdentifier)id).Ordinal, Is.EqualTo(identifier));
         }
 
         [Test]
@@ -40,8 +40,9 @@ namespace NBi.Core.Testing.ResultSet
         {
             var factory = new ColumnIdentifierFactory();
             var id = factory.Instantiate(identifier);
+            Assert.That(id, Is.Not.Null);
             Assert.That(id, Is.TypeOf<ColumnNameIdentifier>());
-            Assert.That((id as ColumnNameIdentifier).Name, Is.EqualTo(identifier));
+            Assert.That(((ColumnNameIdentifier)id).Name, Is.EqualTo(identifier));
         }
 
         [Test]
@@ -51,10 +52,10 @@ namespace NBi.Core.Testing.ResultSet
         {
             var factory = new ColumnIdentifierFactory();
             var id = factory.Instantiate(identifier);
+            Assert.That(id, Is.Not.Null);
             Assert.That(id, Is.TypeOf<ColumnNameIdentifier>());
-            Assert.That((id as ColumnNameIdentifier).Name, Is.EqualTo("Foo"));
+            Assert.That(((ColumnNameIdentifier)id).Name, Is.EqualTo("Foo"));
         }
-
 
         [Test]
         [TestCase("[Measures].[Foo]")]
@@ -63,8 +64,9 @@ namespace NBi.Core.Testing.ResultSet
         {
             var factory = new ColumnIdentifierFactory();
             var id = factory.Instantiate(identifier);
+            Assert.That(id, Is.Not.Null);
             Assert.That(id, Is.TypeOf<ColumnNameIdentifier>());
-            Assert.That((id as ColumnNameIdentifier).Name, Is.EqualTo(identifier));
+            Assert.That(((ColumnNameIdentifier)id).Name, Is.EqualTo(identifier));
         }
 
         [Test]
@@ -72,8 +74,9 @@ namespace NBi.Core.Testing.ResultSet
         {
             var factory = new ColumnIdentifierFactory();
             var id = factory.Instantiate("[[dimension].[hierarchy].[level]]");
+            Assert.That(id, Is.Not.Null);
             Assert.That(id, Is.TypeOf<ColumnNameIdentifier>());
-            Assert.That((id as ColumnNameIdentifier).Name, Is.EqualTo("[dimension].[hierarchy].[level]"));
+            Assert.That(((ColumnNameIdentifier)id).Name, Is.EqualTo("[dimension].[hierarchy].[level]"));
         }
     }
 }

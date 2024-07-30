@@ -70,7 +70,7 @@ namespace NBi.Core.Testing.DataType
             var factory = new DataTypeInfoFactory();
             var obj = factory.Instantiate(value);
             Assert.That(obj, Is.AssignableTo<ILength>());
-            Assert.That((obj as ILength).Length, Is.EqualTo(10));
+            Assert.That(((ILength)obj).Length, Is.EqualTo(10));
         }
 
         [Test]
@@ -80,9 +80,9 @@ namespace NBi.Core.Testing.DataType
             var factory = new DataTypeInfoFactory();
             var obj = factory.Instantiate(value);
             Assert.That(obj, Is.AssignableTo<IPrecision>());
-            Assert.That((obj as IPrecision).Precision, Is.EqualTo(10));
+            Assert.That(((IPrecision)obj).Precision, Is.EqualTo(10));
             Assert.That(obj, Is.AssignableTo<IScale>());
-            Assert.That((obj as IScale).Scale, Is.EqualTo(3));
+            Assert.That(((IScale)obj).Scale, Is.EqualTo(3));
         }
 
     }

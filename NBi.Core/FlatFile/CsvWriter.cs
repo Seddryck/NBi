@@ -30,10 +30,8 @@ namespace NBi.Core.FlatFile
 
         public void Write (DataTable table, string filename)
         {
-            using (StreamWriter writer = new StreamWriter(filename, false, Encoding.UTF8))
-            {
-                Write(table, writer);
-            }
+            using StreamWriter writer = new StreamWriter(filename, false, Encoding.UTF8);
+            Write(table, writer);
         }
 
         protected internal void Write(DataTable table, TextWriter writer)

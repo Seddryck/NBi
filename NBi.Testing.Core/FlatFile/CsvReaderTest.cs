@@ -98,22 +98,20 @@ namespace NBi.Core.Testing.FlatFile
         [TestCase("abc", "+@", 200, 1)]
         public void CountRecordSeparator_Csv_CorrectCount(string text, string recordSeparator, int bufferSize, int result)
         {
-            using (var stream = new MemoryStream())
+            using var stream = new MemoryStream();
+            var writer = new StreamWriter(stream);
+            writer.Write(text);
+            writer.Flush();
+
+            stream.Position = 0;
+
+            var reader = new CsvReaderProxy();
+            using (StreamReader streamReader = new StreamReader(stream, Encoding.UTF8, true))
             {
-                var writer = new StreamWriter(stream);
-                writer.Write(text);
-                writer.Flush();
-
-                stream.Position = 0;
-
-                var reader = new CsvReaderProxy();
-                using (StreamReader streamReader = new StreamReader(stream, Encoding.UTF8, true))
-                {
-                    var value = reader.CountRecordSeparators(streamReader, recordSeparator, bufferSize);
-                    Assert.That(value, Is.EqualTo(result));
-                }
-                writer.Dispose();
+                var value = reader.CountRecordSeparators(streamReader, recordSeparator, bufferSize);
+                Assert.That(value, Is.EqualTo(result));
             }
+            writer.Dispose();
         }
 
         [Test]
@@ -138,44 +136,40 @@ namespace NBi.Core.Testing.FlatFile
         [TestCase("abc", "+@", 200)]
         public void GetFirstRecord_Csv_CorrectResult(string text, string recordSeparator, int bufferSize)
         {
-            using (var stream = new MemoryStream())
+            using var stream = new MemoryStream();
+            var writer = new StreamWriter(stream);
+            writer.Write(text);
+            writer.Flush();
+
+            stream.Position = 0;
+
+            var reader = new CsvReaderProxy();
+            using (StreamReader streamReader = new StreamReader(stream, Encoding.UTF8, true))
             {
-                var writer = new StreamWriter(stream);
-                writer.Write(text);
-                writer.Flush();
-
-                stream.Position = 0;
-
-                var reader = new CsvReaderProxy();
-                using (StreamReader streamReader = new StreamReader(stream, Encoding.UTF8, true))
-                {
-                    var value = reader.GetFirstRecord(streamReader, recordSeparator, bufferSize);
-                    Assert.That(value, Is.EqualTo("abc" + recordSeparator).Or.EqualTo("abc"));
-                }
-                writer.Dispose();
+                var value = reader.GetFirstRecord(streamReader, recordSeparator, bufferSize);
+                Assert.That(value, Is.EqualTo("abc" + recordSeparator).Or.EqualTo("abc"));
             }
+            writer.Dispose();
         }
 
         [Test]
         [TestCase("abc+abc++abc+abc", "++", 1)]
         public void GetFirstRecord_CsvWithSemiSeparator_CorrectResult(string text, string recordSeparator, int bufferSize)
         {
-            using (var stream = new MemoryStream())
+            using var stream = new MemoryStream();
+            var writer = new StreamWriter(stream);
+            writer.Write(text);
+            writer.Flush();
+
+            stream.Position = 0;
+
+            var reader = new CsvReaderProxy();
+            using (StreamReader streamReader = new StreamReader(stream, Encoding.UTF8, true))
             {
-                var writer = new StreamWriter(stream);
-                writer.Write(text);
-                writer.Flush();
-
-                stream.Position = 0;
-
-                var reader = new CsvReaderProxy();
-                using (StreamReader streamReader = new StreamReader(stream, Encoding.UTF8, true))
-                {
-                    var value = reader.GetFirstRecord(streamReader, recordSeparator, bufferSize);
-                    Assert.That(value, Is.EqualTo("abc+abc" + recordSeparator).Or.EqualTo("abc+abc"));
-                }
-                writer.Dispose();
+                var value = reader.GetFirstRecord(streamReader, recordSeparator, bufferSize);
+                Assert.That(value, Is.EqualTo("abc+abc" + recordSeparator).Or.EqualTo("abc+abc"));
             }
+            writer.Dispose();
         }
 
         [Test]
@@ -200,96 +194,90 @@ namespace NBi.Core.Testing.FlatFile
         [TestCase("abc", "+@", 200)]
         public void NextRecords_Csv_CorrectResults(string text, string recordSeparator, int bufferSize)
         {
-            using (var stream = new MemoryStream())
+            using var stream = new MemoryStream();
+            var writer = new StreamWriter(stream);
+            writer.Write(text);
+            writer.Flush();
+
+            stream.Position = 0;
+
+            var reader = new CsvReaderProxy();
+            using (var streamReader = new StreamReader(stream, Encoding.UTF8, true))
             {
-                var writer = new StreamWriter(stream);
-                writer.Write(text);
-                writer.Flush();
-
-                stream.Position = 0;
-
-                var reader = new CsvReaderProxy();
-                using (var streamReader = new StreamReader(stream, Encoding.UTF8, true))
+                var extraRead = string.Empty;
+                var values = reader.GetNextRecords(streamReader, recordSeparator, bufferSize, string.Empty, out extraRead);
+                foreach (var value in values)
                 {
-                    var extraRead = string.Empty;
-                    var values = reader.GetNextRecords(streamReader, recordSeparator, bufferSize, string.Empty, out extraRead);
-                    foreach (var value in values)
-                    {
-                        Assert.That(value, Does.StartWith("abc"));
-                        Assert.That(value, Does.EndWith("abc").Or.EndsWith("\0").Or.EndsWith(recordSeparator));
-                    }
+                    Assert.That(value, Does.StartWith("abc"));
+                    Assert.That(value, Does.EndWith("abc").Or.EndsWith("\0").Or.EndsWith(recordSeparator));
                 }
-                writer.Dispose();
             }
+            writer.Dispose();
         }
 
         [Test]
         [TestCase("a+b+c#a+b#a#a+b", '+', "#", "?")]
         public void NextRecords_CsvWithCsvProfileMissingCell_CorrectResults(string text, char fieldSeparator, string recordSeparator, string missingCell)
         {
-            using (var stream = new MemoryStream())
-            {
-                var writer = new StreamWriter(stream);
-                writer.Write(text);
-                writer.Flush();
+            using var stream = new MemoryStream();
+            var writer = new StreamWriter(stream);
+            writer.Write(text);
+            writer.Flush();
 
-                stream.Position = 0;
-                var reader = new CsvReaderProxy();
-                var dataTable = reader.Read(stream, Encoding.UTF8, 0, false, recordSeparator, fieldSeparator, '\"', '\"', "_", missingCell);
+            stream.Position = 0;
+            var reader = new CsvReaderProxy();
+            var dataTable = reader.Read(stream, Encoding.UTF8, 0, false, recordSeparator, fieldSeparator, '\"', '\"', "_", missingCell);
 
-                Assert.That(dataTable.Rows[0][0], Is.EqualTo("a"));
-                Assert.That(dataTable.Rows[0][1], Is.EqualTo("b"));
-                Assert.That(dataTable.Rows[0][2], Is.EqualTo("c"));
+            Assert.That(dataTable.Rows[0][0], Is.EqualTo("a"));
+            Assert.That(dataTable.Rows[0][1], Is.EqualTo("b"));
+            Assert.That(dataTable.Rows[0][2], Is.EqualTo("c"));
 
-                Assert.That(dataTable.Rows[1][0], Is.EqualTo("a"));
-                Assert.That(dataTable.Rows[1][1], Is.EqualTo("b"));
-                Assert.That(dataTable.Rows[1][2], Is.EqualTo("?"));
+            Assert.That(dataTable.Rows[1][0], Is.EqualTo("a"));
+            Assert.That(dataTable.Rows[1][1], Is.EqualTo("b"));
+            Assert.That(dataTable.Rows[1][2], Is.EqualTo("?"));
 
-                Assert.That(dataTable.Rows[2][0], Is.EqualTo("a"));
-                Assert.That(dataTable.Rows[2][1], Is.EqualTo("?"));
-                Assert.That(dataTable.Rows[2][2], Is.EqualTo("?"));
+            Assert.That(dataTable.Rows[2][0], Is.EqualTo("a"));
+            Assert.That(dataTable.Rows[2][1], Is.EqualTo("?"));
+            Assert.That(dataTable.Rows[2][2], Is.EqualTo("?"));
 
-                Assert.That(dataTable.Rows[3][0], Is.EqualTo("a"));
-                Assert.That(dataTable.Rows[3][1], Is.EqualTo("b"));
-                Assert.That(dataTable.Rows[3][2], Is.EqualTo("?"));
+            Assert.That(dataTable.Rows[3][0], Is.EqualTo("a"));
+            Assert.That(dataTable.Rows[3][1], Is.EqualTo("b"));
+            Assert.That(dataTable.Rows[3][2], Is.EqualTo("?"));
 
 
-                writer.Dispose();
-            }
+            writer.Dispose();
         }
 
         [Test]
         [TestCase("a+b+c#a++c#+b+c#+b+", '+', "#", "?")]
         public void NextRecords_CsvWithCsvProfileEmptyCell_CorrectResults(string text, char fieldSeparator, string recordSeparator, string emptyCell)
         {
-            using (var stream = new MemoryStream())
-            {
-                var writer = new StreamWriter(stream);
-                writer.Write(text);
-                writer.Flush();
+            using var stream = new MemoryStream();
+            var writer = new StreamWriter(stream);
+            writer.Write(text);
+            writer.Flush();
 
-                stream.Position = 0;
-                var reader = new CsvReaderProxy();
-                var dataTable = reader.Read(stream, Encoding.UTF8, 0, false, recordSeparator, fieldSeparator, '\"', '\"', emptyCell, "_");
+            stream.Position = 0;
+            var reader = new CsvReaderProxy();
+            var dataTable = reader.Read(stream, Encoding.UTF8, 0, false, recordSeparator, fieldSeparator, '\"', '\"', emptyCell, "_");
 
-                Assert.That(dataTable.Rows[0][0], Is.EqualTo("a"));
-                Assert.That(dataTable.Rows[0][1], Is.EqualTo("b"));
-                Assert.That(dataTable.Rows[0][2], Is.EqualTo("c"));
+            Assert.That(dataTable.Rows[0][0], Is.EqualTo("a"));
+            Assert.That(dataTable.Rows[0][1], Is.EqualTo("b"));
+            Assert.That(dataTable.Rows[0][2], Is.EqualTo("c"));
 
-                Assert.That(dataTable.Rows[1][0], Is.EqualTo("a"));
-                Assert.That(dataTable.Rows[1][1], Is.EqualTo("?"));
-                Assert.That(dataTable.Rows[1][2], Is.EqualTo("c"));
+            Assert.That(dataTable.Rows[1][0], Is.EqualTo("a"));
+            Assert.That(dataTable.Rows[1][1], Is.EqualTo("?"));
+            Assert.That(dataTable.Rows[1][2], Is.EqualTo("c"));
 
-                Assert.That(dataTable.Rows[2][0], Is.EqualTo("?"));
-                Assert.That(dataTable.Rows[2][1], Is.EqualTo("b"));
-                Assert.That(dataTable.Rows[2][2], Is.EqualTo("c"));
+            Assert.That(dataTable.Rows[2][0], Is.EqualTo("?"));
+            Assert.That(dataTable.Rows[2][1], Is.EqualTo("b"));
+            Assert.That(dataTable.Rows[2][2], Is.EqualTo("c"));
 
-                Assert.That(dataTable.Rows[3][0], Is.EqualTo("?"));
-                Assert.That(dataTable.Rows[3][1], Is.EqualTo("b"));
-                Assert.That(dataTable.Rows[3][2], Is.EqualTo("?"));
+            Assert.That(dataTable.Rows[3][0], Is.EqualTo("?"));
+            Assert.That(dataTable.Rows[3][1], Is.EqualTo("b"));
+            Assert.That(dataTable.Rows[3][2], Is.EqualTo("?"));
 
-                writer.Dispose();
-            }
+            writer.Dispose();
         }
 
         [Test]
@@ -327,25 +315,23 @@ namespace NBi.Core.Testing.FlatFile
         [TestCase("abc;xyz\r\ndef;xyz\r\nghl\r\n;ijk", 512, 2)]
         public void Read_Csv_CorrectResult(string text, int bufferSize, int columnCount)
         {
-            using (var stream = new MemoryStream())
+            using var stream = new MemoryStream();
+            var writer = new StreamWriter(stream);
+            writer.Write(text);
+            writer.Flush();
+
+            stream.Position = 0;
+
+            var reader = new CsvReaderProxy(new CsvProfile(';', '\"', "\r\n", false, false, "(empty)", "(null)"), bufferSize);
+            var dataTable = reader.Read(stream);
+            Assert.That(dataTable.Rows, Has.Count.EqualTo(4));
+            Assert.That(dataTable.Columns, Has.Count.EqualTo(columnCount));
+            foreach (DataRow row in dataTable.Rows)
             {
-                var writer = new StreamWriter(stream);
-                writer.Write(text);
-                writer.Flush();
-
-                stream.Position = 0;
-
-                var reader = new CsvReaderProxy(new CsvProfile(';', '\"', "\r\n", false, false, "(empty)", "(null)"), bufferSize);
-                var dataTable = reader.Read(stream);
-                Assert.That(dataTable.Rows, Has.Count.EqualTo(4));
-                Assert.That(dataTable.Columns, Has.Count.EqualTo(columnCount));
-                foreach (DataRow row in dataTable.Rows)
-                {
-                    foreach (var cell in row.ItemArray)
-                        Assert.That(cell?.ToString(), Has.Length.EqualTo(3).Or.EqualTo("(empty)").Or.EqualTo("(null)"));
-                }
-                writer.Dispose();
+                foreach (var cell in row.ItemArray)
+                    Assert.That(cell?.ToString(), Has.Length.EqualTo(3).Or.EqualTo("(empty)").Or.EqualTo("(null)"));
             }
+            writer.Dispose();
         }
 
         [Test]

@@ -37,18 +37,16 @@ namespace NBi.Core.Query.Performance
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2100:Review SQL queries for security vulnerabilities")]
         public virtual void CleanCache()
         {
-            using (var conn = engine.NewConnection())
-            {
-                var clearSql = new string[] { "dbcc freeproccache", "dbcc dropcleanbuffers" };
-                conn.ConnectionString = engine.ConnectionString;
-                conn.Open();
+            using var conn = engine.NewConnection();
+            var clearSql = new string[] { "dbcc freeproccache", "dbcc dropcleanbuffers" };
+            conn.ConnectionString = engine.ConnectionString;
+            conn.Open();
 
-                foreach (var sql in clearSql)
-                {
-                    var cmd = conn.CreateCommand();
-                    cmd.CommandText = sql;
-                    cmd.ExecuteNonQuery();
-                }
+            foreach (var sql in clearSql)
+            {
+                var cmd = conn.CreateCommand();
+                cmd.CommandText = sql;
+                cmd.ExecuteNonQuery();
             }
         }
     }

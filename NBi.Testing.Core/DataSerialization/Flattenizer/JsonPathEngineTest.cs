@@ -67,15 +67,13 @@ namespace NBi.Core.Testing.DataSerialization.Flattenizer
                 new ElementSelect(new LiteralScalarResolver<string>("Quantity"))
             };
 
-            using (var reader = GetResourceReader("PurchaseOrders"))
-            {
-                var engine = new JsonPathEngine(new LiteralScalarResolver<string>(from), selects);
-                var result = engine.Execute(reader);
-                Assert.That(result.Count, Is.EqualTo(5));
-                Assert.That(result.Count, Is.EqualTo(5));
-                Assert.That(result.Select(x => ((string)((IEnumerable<object>)x).ElementAt(0)).Length), Is.All.EqualTo(6)); //Format is 123-XY
-                Assert.That(result.Select(x => ((IEnumerable<object>)x).ElementAt(1)), Is.All.EqualTo(1).Or.EqualTo(2)); //All quantity are between 1 and 2
-            }
+            using var reader = GetResourceReader("PurchaseOrders");
+            var engine = new JsonPathEngine(new LiteralScalarResolver<string>(from), selects);
+            var result = engine.Execute(reader);
+            Assert.That(result.Count, Is.EqualTo(5));
+            Assert.That(result.Count, Is.EqualTo(5));
+            Assert.That(result.Select(x => ((string)((IEnumerable<object>)x).ElementAt(0)).Length), Is.All.EqualTo(6)); //Format is 123-XY
+            Assert.That(result.Select(x => ((IEnumerable<object>)x).ElementAt(1)), Is.All.EqualTo(1).Or.EqualTo(2)); //All quantity are between 1 and 2
         }
 
 
@@ -103,12 +101,10 @@ namespace NBi.Core.Testing.DataSerialization.Flattenizer
                 new ElementSelect(new LiteralScalarResolver<string>("$.PartNumber"))
             };
 
-            using (var reader = GetResourceReader("PurchaseOrders"))
-            {
-                var engine = new JsonPathEngine(new LiteralScalarResolver<string>(from), selects);
-                var result = engine.Execute(reader);
-                Assert.That(((IEnumerable<object>)result.ElementAt(0)).ElementAt(0), Is.EqualTo("872-AA"));
-            }
+            using var reader = GetResourceReader("PurchaseOrders");
+            var engine = new JsonPathEngine(new LiteralScalarResolver<string>(from), selects);
+            var result = engine.Execute(reader);
+            Assert.That(((IEnumerable<object>)result.ElementAt(0)).ElementAt(0), Is.EqualTo("872-AA"));
         }
 
         [Test]
@@ -136,17 +132,15 @@ namespace NBi.Core.Testing.DataSerialization.Flattenizer
                 new (new LiteralScalarResolver<string>("$.PartNumber"))
             };
 
-            using (var reader = GetResourceReader("PurchaseOrders"))
-            {
-                var engine = new JsonPathEngine(new LiteralScalarResolver<string>(from), selects);
-                var result = engine.Execute(reader);
-                Assert.That(((IEnumerable<object>)result.ElementAt(0)).ElementAt(0), Does.Contain("99503"));
-                Assert.That(((IEnumerable<object>)result.ElementAt(0)).ElementAt(1), Does.Contain("872-AA"));
-                Assert.That(((IEnumerable<object>)result.ElementAt(1)).ElementAt(0), Does.Contain("99503"));
-                Assert.That(((IEnumerable<object>)result.ElementAt(1)).ElementAt(1), Does.Contain("926-AA"));
-                Assert.That(((IEnumerable<object>)result.ElementAt(2)).ElementAt(0), Does.Contain("99505"));
-                Assert.That(((IEnumerable<object>)result.ElementAt(2)).ElementAt(1), Does.Contain("456-NM"));
-            }
+            using var reader = GetResourceReader("PurchaseOrders");
+            var engine = new JsonPathEngine(new LiteralScalarResolver<string>(from), selects);
+            var result = engine.Execute(reader);
+            Assert.That(((IEnumerable<object>)result.ElementAt(0)).ElementAt(0), Does.Contain("99503"));
+            Assert.That(((IEnumerable<object>)result.ElementAt(0)).ElementAt(1), Does.Contain("872-AA"));
+            Assert.That(((IEnumerable<object>)result.ElementAt(1)).ElementAt(0), Does.Contain("99503"));
+            Assert.That(((IEnumerable<object>)result.ElementAt(1)).ElementAt(1), Does.Contain("926-AA"));
+            Assert.That(((IEnumerable<object>)result.ElementAt(2)).ElementAt(0), Does.Contain("99505"));
+            Assert.That(((IEnumerable<object>)result.ElementAt(2)).ElementAt(1), Does.Contain("456-NM"));
         }
 
         [Test]

@@ -28,15 +28,13 @@ namespace NBi.Core.Query.Execution
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2100:Review SQL queries for security vulnerabilities")]
         public DataSet Execute()
         {
-            using (var connection = NewConnection())
-            {
-                OpenConnection(connection);
-                InitializeCommand(Command, CommandTimeout, Command.Parameters, connection);
-                StartWatch();
-                var ds = OnExecuteDataSet(Command);
-                StopWatch();
-                return ds;
-            }
+            using var connection = NewConnection();
+            OpenConnection(connection);
+            InitializeCommand(Command, CommandTimeout, Command.Parameters, connection);
+            StartWatch();
+            var ds = OnExecuteDataSet(Command);
+            StopWatch();
+            return ds;
         }
 
         protected virtual DataSet OnExecuteDataSet(IDbCommand command)
@@ -77,15 +75,13 @@ namespace NBi.Core.Query.Execution
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2100:Review SQL queries for security vulnerabilities")]
         public IEnumerable<T> ExecuteList<T>()
         {
-            using (var connection = NewConnection())
-            {
-                OpenConnection(connection);
-                InitializeCommand(Command, CommandTimeout, Command.Parameters, connection);
-                StartWatch();
-                var list = OnExecuteList<T>(Command);
-                StopWatch();
-                return list;
-            }
+            using var connection = NewConnection();
+            OpenConnection(connection);
+            InitializeCommand(Command, CommandTimeout, Command.Parameters, connection);
+            StartWatch();
+            var list = OnExecuteList<T>(Command);
+            StopWatch();
+            return list;
         }
 
         protected virtual IEnumerable<T> OnExecuteList<T>(IDbCommand command)

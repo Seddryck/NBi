@@ -38,20 +38,16 @@ namespace NBi.Core.Testing.FlatFile
             Load(table, ["a11,a12", "a21,a22"], "alpha1,alpha2");
 
             var csvWriter = new CsvWriter(true);
-            using (MemoryStream stream = new MemoryStream())
-            {
-                StreamWriter streamWriter = new StreamWriter(stream);
-                csvWriter.Write(table, streamWriter);
+            using MemoryStream stream = new MemoryStream();
+            StreamWriter streamWriter = new StreamWriter(stream);
+            csvWriter.Write(table, streamWriter);
 
-                stream.Position = 0;
-                using (StreamReader streamReader = new StreamReader(stream))
-                {
-                    var text = streamReader.ReadToEnd();
-                    text.Remove(text.Length - 2); //Avoid miscount if last line as a record separator or not
-                    var countLine = text.Count(c => c == Csv.RecordSeparator[0]);
-                    Assert.That(countLine, Is.EqualTo(3));
-                }
-            }
+            stream.Position = 0;
+            using StreamReader streamReader = new StreamReader(stream);
+            var text = streamReader.ReadToEnd();
+            text.Remove(text.Length - 2); //Avoid miscount if last line as a record separator or not
+            var countLine = text.Count(c => c == Csv.RecordSeparator[0]);
+            Assert.That(countLine, Is.EqualTo(3));
         }
 
         [Test]
@@ -61,20 +57,16 @@ namespace NBi.Core.Testing.FlatFile
             Load(table, ["a11,a12", "a21,a22"], "alpha1,alpha2");
 
             var csvWriter = new CsvWriter(false);
-            using (MemoryStream stream = new MemoryStream())
-            {
-                StreamWriter streamWriter = new StreamWriter(stream);
-                csvWriter.Write(table, streamWriter);
-                
-                stream.Position = 0;
-                using (StreamReader streamReader = new StreamReader(stream))
-                {
-                    var text = streamReader.ReadToEnd();
-                    text.Remove(text.Length - 2); //Avoid miscount if last line as a record separator or not
-                    var countLine = text.Count(c => c == Csv.RecordSeparator[0]);
-                    Assert.That(countLine, Is.EqualTo(2));
-                }
-            }
+            using MemoryStream stream = new MemoryStream();
+            StreamWriter streamWriter = new StreamWriter(stream);
+            csvWriter.Write(table, streamWriter);
+
+            stream.Position = 0;
+            using StreamReader streamReader = new StreamReader(stream);
+            var text = streamReader.ReadToEnd();
+            text.Remove(text.Length - 2); //Avoid miscount if last line as a record separator or not
+            var countLine = text.Count(c => c == Csv.RecordSeparator[0]);
+            Assert.That(countLine, Is.EqualTo(2));
         }
 
         [Test]
@@ -84,22 +76,18 @@ namespace NBi.Core.Testing.FlatFile
             Load(table, ["a11,a12,a13", "a21,a22,a23"], "alpha1,alpha2,alpha3");
 
             var csvWriter = new CsvWriter(false);
-            using (MemoryStream stream = new MemoryStream())
-            {
-                StreamWriter streamWriter = new StreamWriter(stream);
-                csvWriter.Write(table, streamWriter);
+            using MemoryStream stream = new MemoryStream();
+            StreamWriter streamWriter = new StreamWriter(stream);
+            csvWriter.Write(table, streamWriter);
 
-                stream.Position = 0;
-                using (StreamReader streamReader = new StreamReader(stream))
-                {
-                    var text = streamReader.ReadToEnd();
-                    var lines = text.Split(new string[] {Csv.RecordSeparator}, StringSplitOptions.RemoveEmptyEntries);
-                    foreach (var line in lines)
-                    {
-                        var countLine = line.Count(c => c == Csv.FieldSeparator);
-                        Assert.That(countLine, Is.EqualTo(2));
-                    }
-                }
+            stream.Position = 0;
+            using StreamReader streamReader = new StreamReader(stream);
+            var text = streamReader.ReadToEnd();
+            var lines = text.Split(new string[] { Csv.RecordSeparator }, StringSplitOptions.RemoveEmptyEntries);
+            foreach (var line in lines)
+            {
+                var countLine = line.Count(c => c == Csv.FieldSeparator);
+                Assert.That(countLine, Is.EqualTo(2));
             }
         }
 
@@ -111,21 +99,17 @@ namespace NBi.Core.Testing.FlatFile
             Load(table, ["a11,a12,a13", "a21,a22,a23"], columnNames);
 
             var csvWriter = new CsvWriter(true);
-            using (MemoryStream stream = new MemoryStream())
-            {
-                StreamWriter streamWriter = new StreamWriter(stream);
-                csvWriter.Write(table, streamWriter);
+            using MemoryStream stream = new MemoryStream();
+            StreamWriter streamWriter = new StreamWriter(stream);
+            csvWriter.Write(table, streamWriter);
 
-                stream.Position = 0;
-                using (StreamReader streamReader = new StreamReader(stream))
-                {
-                    var text = streamReader.ReadToEnd();
-                    var lines = text.Split(new string[] { Csv.RecordSeparator }, StringSplitOptions.RemoveEmptyEntries);
-                    var lineHeader = lines[0];
-                    var fields = lineHeader.Split(Csv.FieldSeparator);
-                    Assert.That(fields, Is.EqualTo(columnNames.Split(','))); 
-                }
-            }
+            stream.Position = 0;
+            using StreamReader streamReader = new StreamReader(stream);
+            var text = streamReader.ReadToEnd();
+            var lines = text.Split(new string[] { Csv.RecordSeparator }, StringSplitOptions.RemoveEmptyEntries);
+            var lineHeader = lines[0];
+            var fields = lineHeader.Split(Csv.FieldSeparator);
+            Assert.That(fields, Is.EqualTo(columnNames.Split(',')));
         }
 
         [Test]
@@ -135,21 +119,17 @@ namespace NBi.Core.Testing.FlatFile
             Load(table, ["a;11"], "alpha1");
 
             var csvWriter = new CsvWriter(false);
-            using (MemoryStream stream = new MemoryStream())
-            {
-                StreamWriter streamWriter = new StreamWriter(stream);
-                csvWriter.Write(table, streamWriter);
+            using MemoryStream stream = new MemoryStream();
+            StreamWriter streamWriter = new StreamWriter(stream);
+            csvWriter.Write(table, streamWriter);
 
-                stream.Position = 0;
-                using (StreamReader streamReader = new StreamReader(stream))
-                {
-                    var text = streamReader.ReadToEnd();
-                    var firstCell= text.Split(new string[] { Csv.RecordSeparator }, StringSplitOptions.RemoveEmptyEntries)[0];
-                    Assert.That(firstCell, Does.StartWith(Csv.TextQualifier.ToString()));
-                    Assert.That(firstCell, Does.EndWith(Csv.TextQualifier.ToString()));
-                    Assert.That(firstCell, Does.Contain(Csv.FieldSeparator.ToString()));
-                }
-            }
+            stream.Position = 0;
+            using StreamReader streamReader = new StreamReader(stream);
+            var text = streamReader.ReadToEnd();
+            var firstCell = text.Split(new string[] { Csv.RecordSeparator }, StringSplitOptions.RemoveEmptyEntries)[0];
+            Assert.That(firstCell, Does.StartWith(Csv.TextQualifier.ToString()));
+            Assert.That(firstCell, Does.EndWith(Csv.TextQualifier.ToString()));
+            Assert.That(firstCell, Does.Contain(Csv.FieldSeparator.ToString()));
         }
 
         [Test]
@@ -159,21 +139,17 @@ namespace NBi.Core.Testing.FlatFile
             Load(table, ["a11"], "alpha1");
 
             var csvWriter = new CsvWriter(false);
-            using (MemoryStream stream = new MemoryStream())
-            {
-                StreamWriter streamWriter = new StreamWriter(stream);
-                csvWriter.Write(table, streamWriter);
+            using MemoryStream stream = new MemoryStream();
+            StreamWriter streamWriter = new StreamWriter(stream);
+            csvWriter.Write(table, streamWriter);
 
-                stream.Position = 0;
-                using (StreamReader streamReader = new StreamReader(stream))
-                {
-                    var text = streamReader.ReadToEnd();
-                    var firstCell = text.Split(new string[] { Csv.RecordSeparator }, StringSplitOptions.RemoveEmptyEntries)[0];
-                    Assert.That(firstCell, Does.Not.StartsWith(Csv.TextQualifier.ToString()));
-                    Assert.That(firstCell, Does.Not.EndsWith(Csv.TextQualifier.ToString()));
-                    Assert.That(firstCell, Does.Not.Contain(Csv.FieldSeparator.ToString()));
-                }
-            }
+            stream.Position = 0;
+            using StreamReader streamReader = new StreamReader(stream);
+            var text = streamReader.ReadToEnd();
+            var firstCell = text.Split(new string[] { Csv.RecordSeparator }, StringSplitOptions.RemoveEmptyEntries)[0];
+            Assert.That(firstCell, Does.Not.StartsWith(Csv.TextQualifier.ToString()));
+            Assert.That(firstCell, Does.Not.EndsWith(Csv.TextQualifier.ToString()));
+            Assert.That(firstCell, Does.Not.Contain(Csv.FieldSeparator.ToString()));
         }
     }
 }

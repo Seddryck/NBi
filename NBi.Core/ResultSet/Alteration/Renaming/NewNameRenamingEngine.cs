@@ -28,7 +28,7 @@ namespace NBi.Core.ResultSet.Alteration.Renaming
             if (originalColumn == null)
                 MissingColumnStrategy.Execute(OriginalIdentification.Label, rs);
             else
-                originalColumn.Rename(NewIdentification.Execute());
+                originalColumn.Rename(NewIdentification.Execute() ?? throw new NullReferenceException());
             return rs;
         }
     }

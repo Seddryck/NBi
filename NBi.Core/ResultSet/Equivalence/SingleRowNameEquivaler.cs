@@ -10,11 +10,6 @@ namespace NBi.Core.ResultSet.Equivalence
 {
     internal class SingleRowNameEquivaler : NameEquivaler
     {
-        private new SettingsSingleRowNameResultSet  Settings
-        {
-            get { return base.Settings as SettingsSingleRowNameResultSet; }
-        }
-        
         public SingleRowNameEquivaler(SettingsSingleRowNameResultSet settings)
             : base(AnalyzersFactory.EqualTo(), settings)
         {}
@@ -33,7 +28,7 @@ namespace NBi.Core.ResultSet.Equivalence
             return Compare(x.RowCount == 1 ? x[0] : null, y.RowCount == 1 ? y[0] : null);
         }
 
-        protected ResultResultSet Compare(IResultRow x, IResultRow y)
+        protected ResultResultSet Compare(IResultRow? x, IResultRow? y)
         {
             var chrono = DateTime.Now;
 
@@ -56,10 +51,10 @@ namespace NBi.Core.ResultSet.Equivalence
                 // If all of the columns make up the key, then we already know which rows match and which don't.
                 //  So there is no need to continue testing
                 chrono = DateTime.Now;
-                var nonMatchingValueRow = CompareRows(x, y);
+                var nonMatchingValueRow = CompareRows(x!, y!);
                 if (nonMatchingValueRow!=null)
                     nonMatchingValueRows.Add(nonMatchingValueRow);
-                Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceInfo, string.Format("Rows with a matching key but without matching value: {0} [{1}]", nonMatchingValueRows.Count(), DateTime.Now.Subtract(chrono).ToString(@"d\d\.hh\h\:mm\m\:ss\s\ \+fff\m\s")));
+                Trace.WriteLineIf(NBiTraceSwitch.TraceInfo, string.Format("Rows with a matching key but without matching value: {0} [{1}]", nonMatchingValueRows.Count, DateTime.Now.Subtract(chrono).ToString(@"d\d\.hh\h\:mm\m\:ss\s\ \+fff\m\s")));
             }
 
             return ResultResultSet.Build(

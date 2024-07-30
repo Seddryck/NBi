@@ -25,7 +25,7 @@ namespace NBi.Core.Scalar.Resolver
         public T? Execute()
         {
             CheckVariableExists(Args.VariableName, Args.Context.Variables);
-            var evaluation = EvaluateVariable(Args.Context.Variables[Args.VariableName]);
+            var evaluation = EvaluateVariable(Args.Context.Variables[Args.VariableName]!);
             var typedEvaluation = StrongTypingVariable(evaluation);
             DisplayVariable(Args.VariableName, typedEvaluation);
 

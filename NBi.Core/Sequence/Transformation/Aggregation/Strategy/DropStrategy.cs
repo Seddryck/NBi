@@ -15,7 +15,7 @@ namespace NBi.Core.Sequence.Transformation.Aggregation.Strategy
         public DropStrategy(ColumnType columnType)
             => ColumnType = columnType;
 
-        public IEnumerable<object> Execute(IEnumerable<object> values)
+        public IEnumerable<object> Execute(IEnumerable<object?> values)
         {
             var caster = new CasterFactory().Instantiate(ColumnType);
             return values.Where(x => caster.IsValid(x) && x!=null).Select(x => caster.Execute(x)).Cast<object>();

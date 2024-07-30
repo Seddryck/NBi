@@ -18,22 +18,15 @@ namespace NBi.Core.ResultSet.Uniqueness
     {
         protected ISettingsResultSet Settings { get; set; }
 
-        private readonly CellComparer cellComparer = new CellComparer();
+        private readonly CellComparer cellComparer = new ();
         protected CellComparer CellComparer
-        {
-            get { return cellComparer; }
-        }
+            => cellComparer;
 
-        public Evaluator()
-        {
-        }
-
+        
         public Evaluator(ISettingsResultSet settings)
-        {
-            Settings = settings;
-        }
+            => Settings = settings;
 
-        private readonly Dictionary<KeyCollection, int> dict = new Dictionary<KeyCollection, int>();
+        private readonly Dictionary<KeyCollection, int> dict = [];
 
         public ResultUniqueRows Execute(IResultSet x)
         {
@@ -117,7 +110,7 @@ namespace NBi.Core.ResultSet.Uniqueness
                         var exception = string.Format(messages[0]
                             , columnName, value.ToString());
 
-                        if (numericConverter.IsValid(value.ToString().Replace(",", ".")))
+                        if (numericConverter.IsValid((value.ToString() ?? string.Empty).Replace(",", ".")))
                             exception += messages[1];
 
                         throw new EquivalerException(exception);
@@ -126,7 +119,7 @@ namespace NBi.Core.ResultSet.Uniqueness
                     if (columnType == ColumnType.DateTime && IsDateTimeField(dataColumn))
                         return;
 
-                    if (columnType == ColumnType.DateTime && !BaseComparer.IsValidDateTime(value.ToString()))
+                    if (columnType == ColumnType.DateTime && !BaseComparer.IsValidDateTime(value.ToString() ?? string.Empty))
                     {
                         throw new EquivalerException(
                             string.Format(messages[2]

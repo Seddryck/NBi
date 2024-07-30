@@ -10,7 +10,7 @@ namespace NBi.Core.FlatFile
 {
     public class CsvWriter
     {
-        public event ProgressStatusHandler ProgressStatusChanged;
+        public event ProgressStatusHandler? ProgressStatusChanged;
 
         public CsvProfile Definition { get; private set; }
         public bool FirstLineIsColumnName { get; private set; }
@@ -58,7 +58,7 @@ namespace NBi.Core.FlatFile
 
                 for (int i = 0; i < table.Columns.Count; i++)
                 {
-                    var content = row[i].ToString();
+                    var content = row[i].ToString() ?? string.Empty;
                     if (content.Contains(Definition.FieldSeparator) || content.Contains(Definition.RecordSeparator))
                         content = Definition.TextQualifier + content + Definition.TextQualifier;
                     

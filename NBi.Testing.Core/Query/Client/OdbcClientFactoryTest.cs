@@ -56,7 +56,7 @@ namespace NBi.Core.Testing.Query.Client
             var conn = actual.CreateNew();
 
             Assert.That(conn, Is.InstanceOf<OdbcConnection>());
-            Assert.That((conn as OdbcConnection).ConnectionString, Is.EqualTo(connStr));
+            Assert.That(((OdbcConnection)conn).ConnectionString, Is.EqualTo(connStr));
         }
         
     }

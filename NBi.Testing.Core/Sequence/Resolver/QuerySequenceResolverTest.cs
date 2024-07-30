@@ -23,8 +23,8 @@ namespace NBi.Core.Testing.Sequence.Resolver
             var queryArgs = new EmbeddedQueryResolverArgs(
                     "select * from table"
                     , "server=.;initiatl catalog=db;integrated security=true"
-                    , null
-                    , null
+                    , []
+                    , []
                     , new TimeSpan(0, 0, 30)
             );
             var args = new QuerySequenceResolverArgs(queryArgs);
@@ -51,8 +51,8 @@ namespace NBi.Core.Testing.Sequence.Resolver
             var queryArgs = new EmbeddedQueryResolverArgs(
                     "select * from table"
                     , "server=.;initiatl catalog=db;integrated security=true"
-                    , null
-                    , null
+                    , []
+                    , []
                     , new TimeSpan(0, 0, 30)
             );
             var args = new QuerySequenceResolverArgs(queryArgs);

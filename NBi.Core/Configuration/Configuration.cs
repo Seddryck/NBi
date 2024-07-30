@@ -9,9 +9,9 @@ namespace NBi.Core.Configuration
 {
     public class Configuration : IConfiguration
     {
-        public IReadOnlyDictionary<string, string> Providers { get; private set; }
-        public IReadOnlyDictionary<Type, IDictionary<string, string>> Extensions { get; private set; }
-        public IFailureReportProfile FailureReportProfile { get; private set; }
+        public IReadOnlyDictionary<string, string>? Providers { get; private set; }
+        public IReadOnlyDictionary<Type, IDictionary<string, string>>? Extensions { get; private set; }
+        public IFailureReportProfile? FailureReportProfile { get; private set; }
 
         public Configuration()
         { }
@@ -31,13 +31,12 @@ namespace NBi.Core.Configuration
             FailureReportProfile = profile;
         }
 
-        private static IConfiguration @default;
+        private static IConfiguration? @default;
         public static IConfiguration Default
         {
             get
             {
-                if (@default == null)
-                    @default = BuildDefaultConfiguration();
+                @default ??= BuildDefaultConfiguration();
                 return @default;
             }
         }

@@ -14,9 +14,9 @@ namespace NBi.Core.Scalar
         public CultureInfo Instantiate(string culture)
         {
             if (!string.IsNullOrEmpty(culture))
-                return (new CultureInfo(culture).Clone() as CultureInfo);
+                return (new CultureInfo(culture));
 
-            var invariantCulture = CultureInfo.InvariantCulture.Clone() as CultureInfo;
+            var invariantCulture = (CultureInfo)CultureInfo.InvariantCulture.Clone();
             invariantCulture.DateTimeFormat.ShortDatePattern = "yyyy/MM/dd";
             invariantCulture.DateTimeFormat.DateSeparator = "-";
             return invariantCulture;

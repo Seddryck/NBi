@@ -25,7 +25,7 @@ namespace NBi.Core.Testing.Assemblies
             var instance = factory.Instantiate
             (
                 typeof(CustomConditionWithoutParameter),
-                new ReadOnlyDictionary<string, object>(new Dictionary<string, object>())
+                new ReadOnlyDictionary<string, object?>(new Dictionary<string, object?>())
             );
             Assert.That(instance, Is.Not.Null);
             Assert.That(instance, Is.AssignableTo<ICustomCondition>());
@@ -38,7 +38,7 @@ namespace NBi.Core.Testing.Assemblies
             var instance = factory.Instantiate
             (
                 typeof(CustomConditionWithOneParameter),
-                new ReadOnlyDictionary<string, object>(new Dictionary<string, object>() { { "name", "myName" } })
+                new ReadOnlyDictionary<string, object?>(new Dictionary<string, object?>() { { "name", "myName" } })
             );
             Assert.That(instance, Is.Not.Null);
             Assert.That(instance, Is.AssignableTo<ICustomCondition>());
@@ -51,7 +51,7 @@ namespace NBi.Core.Testing.Assemblies
             var instance = factory.Instantiate
             (
                 typeof(CustomConditionWithTwoParameters),
-                new ReadOnlyDictionary<string, object>(new Dictionary<string, object>()
+                new ReadOnlyDictionary<string, object?>(new Dictionary<string, object?>()
                 {
                     { "name", "myName" },
                     { "count", 5 },
@@ -68,7 +68,7 @@ namespace NBi.Core.Testing.Assemblies
             var instance = factory.Instantiate
             (
                 typeof(CustomConditionWithTwoParameters),
-                new ReadOnlyDictionary<string, object>(new Dictionary<string, object>()
+                new ReadOnlyDictionary<string, object?>(new Dictionary<string, object?>()
                 {
                     { "count", "5" },
                     { "name", "myName" },
@@ -85,7 +85,7 @@ namespace NBi.Core.Testing.Assemblies
             var instance = factory.Instantiate
             (
                 typeof(CustomConditionWithTwoParameters),
-                new ReadOnlyDictionary<string, object>(new Dictionary<string, object>()
+                new ReadOnlyDictionary<string, object?>(new Dictionary<string, object?>()
                 {
                     { "Count", "5" },
                     { "naME", "myName" },
@@ -102,7 +102,7 @@ namespace NBi.Core.Testing.Assemblies
             var instance = factory.Instantiate
             (
                 typeof(CustomConditionWithMulipleCtors),
-                new ReadOnlyDictionary<string, object>(new Dictionary<string, object>()
+                new ReadOnlyDictionary<string, object?>(new Dictionary<string, object?>()
                 {
                     { "count", "5" },
                     { "name", "myName" },
@@ -114,7 +114,7 @@ namespace NBi.Core.Testing.Assemblies
             instance = factory.Instantiate
             (
                 typeof(CustomConditionWithMulipleCtors),
-                new ReadOnlyDictionary<string, object>(new Dictionary<string, object>()
+                new ReadOnlyDictionary<string, object?>(new Dictionary<string, object?>()
                 {
                     { "name", "myName" },
                 })
@@ -125,7 +125,7 @@ namespace NBi.Core.Testing.Assemblies
             instance = factory.Instantiate
             (
                 typeof(CustomConditionWithMulipleCtors),
-                new ReadOnlyDictionary<string, object>(new Dictionary<string, object>()
+                new ReadOnlyDictionary<string, object?>(new Dictionary<string, object?>()
                 { })
             );
             Assert.That(instance, Is.Not.Null);
@@ -151,7 +151,7 @@ namespace NBi.Core.Testing.Assemblies
             var type = factory.GetType
             (
                 Assembly.GetExecutingAssembly()
-                , typeof(CustomConditionWithMulipleCtors).FullName
+                , typeof(CustomConditionWithMulipleCtors).FullName ?? throw new NullReferenceException()
             );
             Assert.That(type, Is.EqualTo(typeof(CustomConditionWithMulipleCtors)));
         }

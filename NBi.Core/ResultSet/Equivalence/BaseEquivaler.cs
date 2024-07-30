@@ -72,10 +72,10 @@ namespace NBi.Core.ResultSet.Equivalence
             var duplicatedRows = new List<IResultRow>(); // Dummy placeholder
 
             return ResultResultSet.Build(
-                missingRows.Select(a => a.DataRowObj).ToList(),
-                unexpectedRows.Select(a => a.DataRowObj).ToList(),
+                missingRows.Select(a => a.DataRowObj).ToList()!,
+                unexpectedRows.Select(a => a.DataRowObj).ToList()!,
                 duplicatedRows,
-                keyMatchingRows.Select(a => a.DataRowObj).ToList(),
+                keyMatchingRows.Select(a => a.DataRowObj).ToList()!,
                 nonMatchingValueRows
                 );
         }
@@ -97,11 +97,11 @@ namespace NBi.Core.ResultSet.Equivalence
             {
                 i++;
                 stopWatch.Restart();
-                var rxHelper = xDict[ryHelper.Keys];
+                var rxHelper = xDict[ryHelper.Keys ?? throw new NullReferenceException()];
                 var rx = rxHelper.DataRowObj;
                 var ry = ryHelper.DataRowObj;
 
-                var nonMatchingValueRow = CompareRows(rx, ry);
+                var nonMatchingValueRow = CompareRows(rx!, ry!);
                 if (nonMatchingValueRow != null)
                     nonMatchingValueRows.Add(nonMatchingValueRow);
 
@@ -138,7 +138,7 @@ namespace NBi.Core.ResultSet.Equivalence
                             isSystemUnderTest ? "system-under-test" : "assertion",
                             keys.GetHashCode(),
                             RowToString(row),
-                            RowToString(dict[keys].DataRowObj)
+                            RowToString(dict[keys].DataRowObj!)
                             )
                         );
                 }

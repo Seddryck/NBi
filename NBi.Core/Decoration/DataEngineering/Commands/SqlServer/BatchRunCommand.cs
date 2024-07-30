@@ -20,8 +20,8 @@ namespace NBi.Core.Decoration.DataEngineering.Commands.SqlServer
 
         public void Execute() 
             => Execute(
-                PathExtensions.CombineOrRoot(args.BasePath, args.Path.Execute(), args.Name.Execute())
-                , args.Version.Execute()
+                PathExtensions.CombineOrRoot(args.BasePath, args.Path.Execute() ?? string.Empty, args.Name.Execute() ?? string.Empty)
+                , args.Version.Execute() ?? string.Empty
                 , args.ConnectionString
             );
 

@@ -7,6 +7,7 @@ using NUnit.Framework;
 using System.Diagnostics;
 using NBi.Core.ResultSet.Analyzer;
 using NBi.Core.ResultSet.Equivalence;
+using NBi.Core.Scalar.Comparer;
 #endregion
 
 namespace NBi.Core.Testing.ResultSet.Equivalence
@@ -161,15 +162,15 @@ namespace NBi.Core.Testing.ResultSet.Equivalence
         protected SettingsNameResultSet BuildSettingsKeyValue(decimal tolerance, ColumnType keyType)
         {
             var columnsDef = new List<IColumnDefinition>() {
-                    new Column() { Identifier = new ColumnNameIdentifier("KeyName"), Role = ColumnRole.Key, Type = keyType},
-                    new Column() { Identifier = new ColumnNameIdentifier("ValueName"), Role = ColumnRole.Value, Type = ColumnType.Numeric, Tolerance = tolerance.ToString() }
+                    new Column(new ColumnNameIdentifier("KeyName"), ColumnRole.Key, keyType),
+                    new Column(new ColumnNameIdentifier("ValueName"), ColumnRole.Value, ColumnType.Numeric, tolerance.ToString())
             };
 
             return new SettingsNameResultSet(
                 string.Empty,
                 string.Empty,
                 ColumnType.Numeric,
-                null,
+                NumericAbsoluteTolerance.None,
                 columnsDef
                 );
         }

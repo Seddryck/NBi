@@ -7,9 +7,9 @@ namespace NBi.Core.Evaluate
 {
     public class ExpressionComparer
     {
-        public Func<Object, Object, ColumnType, string, bool> Compare;
+        public Func<object, object, ColumnType, string, bool>? Compare;
 
-        public bool Equal(Object x, Object y, ColumnType type, string tolerance)
+        public bool Equal(object x, object y, ColumnType type, string tolerance)
         {
             var comparer = new ComparerFactory().Get(type);
             var res = comparer.Compare(x, y, new ToleranceFactory().Instantiate(type, tolerance));

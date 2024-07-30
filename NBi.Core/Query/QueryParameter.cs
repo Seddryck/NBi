@@ -32,6 +32,6 @@ namespace NBi.Core.Query
         public string SqlType { get; }
 
         public object GetValue()
-            => resolver.Execute();
+            => resolver.Execute() ?? throw new NullReferenceException();
     }
 }

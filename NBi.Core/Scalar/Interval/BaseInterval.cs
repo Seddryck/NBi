@@ -17,10 +17,7 @@ namespace NBi.Core.Scalar.Interval
 
         public abstract bool Contains(T value);
         
-
         public override string ToString()
-        {
-            return string.Format("{0};{1}", Left.ToString(), Right.ToString());
-        }
+			=> $"{Left};{Right}";
 	}
 }

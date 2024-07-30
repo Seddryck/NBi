@@ -11,15 +11,15 @@ namespace NBi.Core.DataSerialization.Reader
     class ScalarReader : IDataSerializationReader, IDisposable
     {
         private IScalarResolver<string> ScalarResolver { get; }
-        private MemoryStream Stream { get; set; }
-        private StreamReader StreamReader { get; set; }
+        private MemoryStream? Stream { get; set; }
+        private StreamReader? StreamReader { get; set; }
 
         public ScalarReader(IScalarResolver<string> scalarResolver)
             => ScalarResolver = scalarResolver;
 
         public TextReader Execute()
         {
-            Stream = new MemoryStream(Encoding.UTF8.GetBytes(ScalarResolver.Execute()));
+            Stream = new MemoryStream(Encoding.UTF8.GetBytes(ScalarResolver.Execute() ?? string.Empty));
             StreamReader = new StreamReader(Stream);
             return StreamReader;
         }

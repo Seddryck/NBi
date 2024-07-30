@@ -17,9 +17,9 @@ namespace NBi.Core.Decoration.IO.Commands
 
         public void Execute()
         {
-            var sourcePath = PathExtensions.CombineOrRoot(args.BasePath, args.SourcePath.Execute());
-            var destinationPath = PathExtensions.CombineOrRoot(args.BasePath, args.DestinationPath.Execute());
-            Execute(sourcePath, destinationPath, args.Pattern.Execute());
+            var sourcePath = PathExtensions.CombineOrRoot(args.BasePath, args.SourcePath.Execute() ?? string.Empty);
+            var destinationPath = PathExtensions.CombineOrRoot(args.BasePath, args.DestinationPath.Execute() ?? string.Empty);
+            Execute(sourcePath, destinationPath, args.Pattern.Execute() ?? string.Empty);
         }
 
         internal void Execute(string original, string destination, string pattern)
@@ -32,7 +32,7 @@ namespace NBi.Core.Decoration.IO.Commands
 
             var destinationFolder = Path.GetDirectoryName(destination);
             if (!Directory.Exists(destinationFolder))
-                Directory.CreateDirectory(destinationFolder);
+                Directory.CreateDirectory(destinationFolder ?? string.Empty);
 
             var files = dir.GetFiles(pattern, SearchOption.TopDirectoryOnly);
 

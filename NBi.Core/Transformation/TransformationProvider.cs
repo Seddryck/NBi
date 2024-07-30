@@ -43,12 +43,12 @@ namespace NBi.Core.Transformation
                 var transformer = cacheTransformers[identifier];
 
                 var newColumn = resultSet.AddColumn(Guid.NewGuid().ToString());
-                var originalColumn = resultSet.GetColumn(identifier);
+                var originalColumn = resultSet.GetColumn(identifier) ?? throw new NullReferenceException();
 
                 foreach (var row in resultSet.Rows)
                 {
                     Context.Switch(row);
-                    row[newColumn.Ordinal] = transformer.Execute(row[originalColumn.Ordinal]);
+                    row[newColumn.Ordinal] = transformer.Execute(row[originalColumn.Ordinal] ?? throw new NullReferenceException());
                 }
                 originalColumn.ReplaceBy(newColumn);
 

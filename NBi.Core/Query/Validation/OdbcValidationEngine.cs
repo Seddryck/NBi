@@ -21,7 +21,7 @@ namespace NBi.Core.Query.Validation
         
         protected override void OpenConnection(IDbConnection connection)
         {
-            var connectionString = command.Connection.ConnectionString;
+            var connectionString = command.Connection!.ConnectionString;
             try
             { connection.ConnectionString = connectionString; }
             catch (ArgumentException ex)

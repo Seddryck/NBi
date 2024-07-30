@@ -23,6 +23,8 @@ using NBi.Extensibility.Decoration.DataEngineering;
 using NBi.Core.Decoration.IO.Conditions;
 using System.Collections.Generic;
 using NBi.Testing;
+using NBi.Extensibility.Resolving;
+using System.Collections.ObjectModel;
 
 namespace NBi.Core.Testing.Decoration.DataEngineering
 {
@@ -83,7 +85,7 @@ namespace NBi.Core.Testing.Decoration.DataEngineering
                                             Guid.NewGuid(),
                                             new LiteralScalarResolver<string>($@"{FileOnDisk.GetDirectoryPath()}\NBi.Core.Testing.dll"),
                                             new LiteralScalarResolver<string>("NBi.Core.Testing.Resources.CustomCommand"),
-                                            null
+                                            new ReadOnlyDictionary<string, IScalarResolver>(new Dictionary<string, IScalarResolver>())
                                         );
                 default: throw new ArgumentOutOfRangeException();
             }
@@ -124,8 +126,8 @@ namespace NBi.Core.Testing.Decoration.DataEngineering
             switch (type)
             {
                 case Type x when x == typeof(IRunningConditionArgs): return Mock.Of<IRunningConditionArgs>();
-                case Type x when x == typeof(FolderExistsConditionArgs): return new FolderExistsConditionArgs(string.Empty, null, null, null);
-                case Type x when x == typeof(FileExistsConditionArgs): return new FileExistsConditionArgs (string.Empty, null, null, null);
+                case Type x when x == typeof(FolderExistsConditionArgs): return new FolderExistsConditionArgs(string.Empty, new LiteralScalarResolver<string>(""), new LiteralScalarResolver<string>(""), new LiteralScalarResolver<bool>(true));
+                case Type x when x == typeof(FileExistsConditionArgs): return new FileExistsConditionArgs (string.Empty, new LiteralScalarResolver<string>(""), new LiteralScalarResolver<string>(""), new LiteralScalarResolver<bool>(true));
                 case Type x when x == typeof(ICustomConditionArgs): return Mock.Of<ICustomConditionArgs>
                         (
                             y => y.AssemblyPath == new LiteralScalarResolver<string>($@"{FileOnDisk.GetDirectoryPath()}\NBi.Core.Testing.dll")

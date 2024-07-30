@@ -26,6 +26,7 @@ namespace NBi.Core.Sequence.Transformation.Aggregation.Function
     {
         public MaxDateTime() : base(new DateTimeCaster())
         { }
-        protected override DateTime Execute(Series<int, DateTime> series) => Caster.Execute(series.TryMax().Value);
+        protected override DateTime Execute(Series<int, DateTime>? series) 
+            => Caster.Execute(series.TryMax().Value);
     }
 }

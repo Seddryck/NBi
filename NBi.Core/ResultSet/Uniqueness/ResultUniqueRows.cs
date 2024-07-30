@@ -12,15 +12,14 @@ namespace NBi.Core.ResultSet.Uniqueness
     {
         public bool AreUnique { get; private set; }
         public int RowCount { get; private set; }
-        public IEnumerable<ResultOccurenceUniqueRows> Values { get; private set; }
-        public IEnumerable<IResultRow> Rows { get; private set; }
-
+        public IEnumerable<ResultOccurenceUniqueRows> Values { get; private set; } = [];
+        public IEnumerable<IResultRow> Rows { get; private set; } = [];
 
         public ResultUniqueRows(int count, IEnumerable<KeyValuePair<KeyCollection, int>> values)
         {
             RowCount = count;
             Values = values.Select(x => new ResultOccurenceUniqueRows(x.Key, x.Value)).OrderByDescending(x => x.OccurenceCount);
-            AreUnique = values.Count() == 0;
+            AreUnique = !values.Any();
 
             if (!AreUnique)
             {
@@ -32,10 +31,12 @@ namespace NBi.Core.ResultSet.Uniqueness
 
                 foreach (var value in Values)
                 {
-                    var items = new List<object>(value.Keys.Members.Count() + 1);
-                    items.Add(value.OccurenceCount);
+                    var items = new List<object>(value.Keys.Members.Length + 1)
+                    {
+                        value.OccurenceCount
+                    };
                     items.AddRange(value.Keys.Members);
-                    dt.AddRow(items.ToArray());
+                    dt.AddRow([.. items]);
                 }
                 Rows = dt.Rows;
             }

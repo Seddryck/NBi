@@ -19,8 +19,8 @@ namespace NBi.Core.ResultSet.Lookup
         protected IDictionary<IColumnIdentifier, Tolerance> Tolerances { get; private set; }
 
         public LookupMatchesAnalyzer(ColumnMappingCollection keys, ColumnMappingCollection values)
-            : this(keys, values, null) { }
-        
+            : this(keys, values, new Dictionary<IColumnIdentifier, Tolerance>()) { }
+
         public LookupMatchesAnalyzer(ColumnMappingCollection keys, ColumnMappingCollection values, IDictionary<IColumnIdentifier, Tolerance> tolerances)
             : base(keys)
         {
@@ -79,19 +79,20 @@ namespace NBi.Core.ResultSet.Lookup
                     {
                         var rowResults = new Dictionary<IResultColumn, ComparerResult>();
                         var tuples = valueFields.Members.Zip(Values,
-                            (x, c) => new {
+                            (x, c) => new
+                            {
                                 ReferenceValue = x,
                                 CandidateValue = row[c.CandidateColumn],
                                 c.Type,
                                 Column = table.GetColumn(c.CandidateColumn),
                                 Tolerance = tolerances.ContainsKey(c.CandidateColumn) ? tolerances[c.CandidateColumn] : null
-                            } );
+                            });
 
                         foreach (var tuple in tuples)
                         {
                             var cellComparer = new CellComparer();
-                            var cellResult = cellComparer.Compare(tuple.ReferenceValue, tuple.CandidateValue, tuple.Type, tuple.Tolerance, null);
-                            rowResults.Add(tuple.Column, cellResult);
+                            var cellResult = cellComparer.Compare(tuple.ReferenceValue, tuple.CandidateValue ?? throw new NullReferenceException(), tuple.Type, tuple.Tolerance, null);
+                            rowResults.Add(tuple.Column ?? throw new NullReferenceException(), cellResult);
                         }
                         setResults.Add(rowResults);
 

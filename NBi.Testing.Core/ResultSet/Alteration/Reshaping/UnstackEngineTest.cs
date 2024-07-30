@@ -27,9 +27,9 @@ namespace NBi.Core.Testing.ResultSet.Alteration.Reshaping
                     }
                 ));
             var rs = resolver.Execute();
-            rs?.GetColumn(0)?.Rename("keyColumn");
-            rs?.GetColumn(1)?.Rename("headerColumn");
-            rs?.GetColumn(2)?.Rename("valueColumn");
+            rs.GetColumn(0)?.Rename("keyColumn");
+            rs.GetColumn(1)?.Rename("headerColumn");
+            rs.GetColumn(2)?.Rename("valueColumn");
 
             var args = new UnstackArgs(
                     new ColumnNameIdentifier("headerColumn"),
@@ -63,10 +63,10 @@ namespace NBi.Core.Testing.ResultSet.Alteration.Reshaping
                     }
                 ));
             var rs = resolver.Execute();
-            rs?.GetColumn(0)?.Rename("keyColumn");
-            rs?.GetColumn(1)?.Rename("headerColumn");
-            rs?.GetColumn(2)?.Rename("value1Column");
-            rs?.GetColumn(3)?.Rename("value2Column");
+            rs.GetColumn(0)?.Rename("keyColumn");
+            rs.GetColumn(1)?.Rename("headerColumn");
+            rs.GetColumn(2)?.Rename("value1Column");
+            rs.GetColumn(3)?.Rename("value2Column");
 
             var args = new UnstackArgs(
                     new ColumnNameIdentifier("headerColumn"),
@@ -107,10 +107,10 @@ namespace NBi.Core.Testing.ResultSet.Alteration.Reshaping
                     }
                 ));
             var rs = resolver.Execute();
-            rs?.GetColumn(0)?.Rename("key1Column");
-            rs?.GetColumn(1)?.Rename("key2Column");
-            rs?.GetColumn(2)?.Rename("headerColumn");
-            rs?.GetColumn(3)?.Rename("valueColumn");
+            rs.GetColumn(0)?.Rename("key1Column");
+            rs.GetColumn(1)?.Rename("key2Column");
+            rs.GetColumn(2)?.Rename("headerColumn");
+            rs.GetColumn(3)?.Rename("valueColumn");
 
             var args = new UnstackArgs(
                     new ColumnNameIdentifier("headerColumn"),
@@ -150,9 +150,9 @@ namespace NBi.Core.Testing.ResultSet.Alteration.Reshaping
                     }
                 ));
             var rs = resolver.Execute();
-            rs?.GetColumn(0)?.Rename("keyColumn");
-            rs?.GetColumn(1)?.Rename("headerColumn");
-            rs?.GetColumn(2)?.Rename("valueColumn");
+            rs.GetColumn(0)?.Rename("keyColumn");
+            rs.GetColumn(1)?.Rename("headerColumn");
+            rs.GetColumn(2)?.Rename("valueColumn");
 
             var args = new UnstackArgs(
                     new ColumnNameIdentifier("headerColumn"),
@@ -186,9 +186,9 @@ namespace NBi.Core.Testing.ResultSet.Alteration.Reshaping
                     }
                 ));
             var rs = resolver.Execute();
-            rs?.GetColumn(0)?.Rename("keyColumn");
-            rs?.GetColumn(1)?.Rename("headerColumn");
-            rs?.GetColumn(2)?.Rename("valueColumn");
+            rs.GetColumn(0)?.Rename("keyColumn");
+            rs.GetColumn(1)?.Rename("headerColumn");
+            rs.GetColumn(2)?.Rename("valueColumn");
 
             var args = new UnstackArgs(
                     new ColumnNameIdentifier("headerColumn"),
@@ -223,9 +223,9 @@ namespace NBi.Core.Testing.ResultSet.Alteration.Reshaping
 
             var resolver = new ObjectsResultSetResolver(new ObjectsResultSetResolverArgs(values));
             var rs = resolver.Execute();
-            rs?.GetColumn(0)?.Rename("keyColumn");
-            rs?.GetColumn(1)?.Rename("headerColumn");
-            rs?.GetColumn(2)?.Rename("valueColumn");
+            rs.GetColumn(0)?.Rename("keyColumn");
+            rs.GetColumn(1)?.Rename("headerColumn");
+            rs.GetColumn(2)?.Rename("valueColumn");
 
             var args = new UnstackArgs(
                     new ColumnNameIdentifier("headerColumn"),

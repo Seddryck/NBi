@@ -9,7 +9,7 @@ namespace NBi.Core.ResultSet
 {
     public class RowHelper
     {
-        public KeyCollection Keys { get; set; }
-        public IResultRow DataRowObj { get; set; }
+        public KeyCollection? Keys { get; set; }
+        public IResultRow? DataRowObj { get; set; }
     }
 }

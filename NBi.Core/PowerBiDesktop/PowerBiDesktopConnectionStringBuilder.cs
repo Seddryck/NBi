@@ -10,7 +10,7 @@ namespace NBi.Core.PowerBiDesktop
     public class PowerBiDesktopConnectionStringBuilder
     {
         private bool isBuilt = false;
-        private string connectionString;
+        private string connectionString = string.Empty;
 
         public void Build(string mainWindowTitle)
         {

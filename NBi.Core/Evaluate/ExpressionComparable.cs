@@ -10,8 +10,8 @@ namespace NBi.Core.Evaluate
         private bool isParsed;
 
         protected string Sentence { get; private set; }
-        public string Expression { get; private set; }
-        public ExpressionComparer Comparer { get; private set; }
+        public string Expression { get; private set; } = string.Empty;
+        public ExpressionComparer? Comparer { get; private set; }
 
         public ExpressionComparable(string sentence)
         {
@@ -38,11 +38,11 @@ namespace NBi.Core.Evaluate
                     }
                     
             }
-            Expression = sentence.Substring(index + 1);
+            Expression = sentence[(index + 1)..];
             isParsed = true;
         }
 
-        public Object Evaluate(Dictionary<string, Object> variables)
+        public object Evaluate(Dictionary<string, object> variables)
         {
             if (!isParsed)
                 throw new InvalidOperationException("Before calling the Evaluate function, you must call the Parse function.");

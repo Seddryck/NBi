@@ -17,8 +17,8 @@ namespace NBi.Core.Decoration.IO.Commands
 
         public void Execute()
         {
-            var sourceFullPath = PathExtensions.CombineOrRoot(args.BasePath, args.SourcePath.Execute(), args.SourceName.Execute());
-            var destinationFullPath = PathExtensions.CombineOrRoot(args.BasePath, args.DestinationPath.Execute(), args.DestinationName.Execute());
+            var sourceFullPath = PathExtensions.CombineOrRoot(args.BasePath, args.SourcePath.Execute() ?? string.Empty, args.SourceName.Execute() ?? string.Empty);
+            var destinationFullPath = PathExtensions.CombineOrRoot(args.BasePath, args.DestinationPath.Execute() ?? string.Empty, args.DestinationName.Execute() ?? string.Empty);
             Execute(sourceFullPath, destinationFullPath);
         }
 
@@ -30,7 +30,7 @@ namespace NBi.Core.Decoration.IO.Commands
 
             var destinationFolder = Path.GetDirectoryName(destination);
             if (!Directory.Exists(destinationFolder))
-                Directory.CreateDirectory(destinationFolder);
+                Directory.CreateDirectory(destinationFolder ?? string.Empty);
 
             File.Copy(original, destination, true);
             Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceInfo, $"File copied from '{original}' to '{destination}'");

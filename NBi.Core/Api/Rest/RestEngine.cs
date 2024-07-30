@@ -26,7 +26,7 @@ namespace NBi.Core.Api.Rest
         {
             ServicePointManager.SecurityProtocol =
                 SecurityProtocolType.Tls | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12;
-            var baseUrl = BaseUrl.Execute();
+            var baseUrl = BaseUrl.Execute() ?? string.Empty;
             var client = new RestClient(baseUrl)
             {
                 Authenticator = Authentication.GetAuthenticator()
@@ -35,13 +35,22 @@ namespace NBi.Core.Api.Rest
             var request = new RestRequest(path, Method.GET);
 
             foreach (var parameter in Parameters)
-                request.AddParameter(parameter.Name.Execute(), parameter.Value.Execute());
+                request.AddParameter(
+                    parameter.Name.Execute() ?? throw new NullReferenceException()
+                    , parameter.Value.Execute() ?? string.Empty
+                );
 
             foreach (var segment in Segments)
-                request.AddUrlSegment(segment.Name.Execute(), segment.Value.Execute());
+                request.AddUrlSegment(
+                    segment.Name.Execute() ?? throw new NullReferenceException()
+                    , segment.Value.Execute() ?? string.Empty
+                );
 
             foreach (var header in Headers)
-                request.AddHeader(header.Name.Execute(), header.Value.Execute());
+                request.AddHeader(
+                    header.Name.Execute() ?? throw new NullReferenceException()
+                    , header.Value.Execute() ?? string.Empty
+                );
 
             var response = client.Execute(request);
             return response.Content; 

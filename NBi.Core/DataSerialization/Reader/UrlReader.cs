@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -12,20 +13,25 @@ namespace NBi.Core.DataSerialization.Reader
     class UrlReader : IDataSerializationReader, IDisposable
     {
 
-        private WebClient WebClient { get; set; }
-        private MemoryStream Stream { get; set; }
-        private StreamReader StreamReader { get; set; }
+        private HttpClient Client { get; }
+        private MemoryStream? Stream { get; set; }
+        private StreamReader? StreamReader { get; set; }
 
         public IScalarResolver<string> UrlResolver { get; }
 
+        public UrlReader(HttpClient client, IScalarResolver<string> urlResolver)
+            => (Client, UrlResolver) = (client, urlResolver);
+
         public UrlReader(IScalarResolver<string> urlResolver)
-            => UrlResolver = urlResolver;
+            : this(new HttpClient(), urlResolver) { }
 
         public TextReader Execute()
         {
-            WebClient = new WebClient();
-            Stream = new MemoryStream(WebClient.DownloadData(UrlResolver.Execute()));
-            StreamReader = new StreamReader(Stream);
+            HttpResponseMessage response = Client.GetAsync(UrlResolver.Execute() ?? throw new NullReferenceException()).Result;
+            response.EnsureSuccessStatusCode();
+
+            var responseStream = response.Content.ReadAsStreamAsync().Result;
+            StreamReader = new StreamReader(responseStream);
             return StreamReader;
         }
 
@@ -39,7 +45,7 @@ namespace NBi.Core.DataSerialization.Reader
             {
                 StreamReader?.Dispose();
                 Stream?.Dispose();
-                WebClient.Dispose();
+                Client?.Dispose();
             }
             disposed = true;
         }

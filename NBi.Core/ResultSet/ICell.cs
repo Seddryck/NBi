@@ -8,6 +8,5 @@ namespace NBi.Core.ResultSet
     public interface ICell
     {
         object Value { get; set; }
-        string ColumnName { get; set; }
     }
 }

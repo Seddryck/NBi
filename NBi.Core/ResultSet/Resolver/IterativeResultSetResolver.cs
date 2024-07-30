@@ -35,7 +35,7 @@ namespace NBi.Core.ResultSet.Resolver
             if (sequence.Count == 0)
                 return new EmptyResultSetResolver(new EmptyResultSetResolverArgs(new LiteralScalarResolver<int>(0))).Execute();
 
-            Variables.Add(VariableName, new InternalVariable(new LiteralScalarResolver<object>(sequence[0])));
+            Variables.Add(VariableName, new InternalVariable(new LiteralScalarResolver<object>(sequence[0]!)));
             var rs = ResultSetResolver.Execute();
             sequence.RemoveAt(0);
 

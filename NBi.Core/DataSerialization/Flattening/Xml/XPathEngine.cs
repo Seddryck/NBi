@@ -29,7 +29,7 @@ namespace NBi.Core.DataSerialization.Flattening.Xml
             var items = XDocument.Load(xmlReader);
             var nsMgr = new XmlNamespaceManager(new NameTable());
             if (!string.IsNullOrEmpty(DefaultNamespacePrefix))
-                nsMgr.AddNamespace(DefaultNamespacePrefix, items.Root.GetDefaultNamespace().NamespaceName);
+                nsMgr.AddNamespace(DefaultNamespacePrefix, items.Root?.GetDefaultNamespace().NamespaceName ?? string.Empty);
 
             var xmlNamespaces = ((IEnumerable<object>)items.XPathEvaluate(@"//namespace::*[not(. = ../../namespace::*)]")).Cast<XAttribute>();
             foreach (var namespaceNode in xmlNamespaces)

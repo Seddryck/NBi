@@ -29,7 +29,8 @@ namespace NBi.Core.Testing.ResultSet.Equivalence
             var actual = settings as SettingsNameResultSet;
 
             //Assertion
-            Assert.That(actual.GetColumnRole("Zero"), Is.EqualTo(ColumnRole.Key));
+            Assert.That(actual, Is.Not.Null);
+            Assert.That(actual!.GetColumnRole("Zero"), Is.EqualTo(ColumnRole.Key));
             Assert.That(actual.GetColumnRole("One"), Is.EqualTo(ColumnRole.Value));
             Assert.That(actual.GetColumnRole("Two"), Is.EqualTo(ColumnRole.Value));
             Assert.That(actual.GetColumnRole("Three"), Is.EqualTo(ColumnRole.Key));
@@ -56,7 +57,7 @@ namespace NBi.Core.Testing.ResultSet.Equivalence
             var actual = settings as SettingsNameResultSet;
 
             //Assertion
-            Assert.That(actual.GetColumnType("Zero"), Is.EqualTo(ColumnType.Text));
+            Assert.That(actual!.GetColumnType("Zero"), Is.EqualTo(ColumnType.Text));
             Assert.That(actual.GetColumnType("One"), Is.EqualTo(ColumnType.Numeric));
             Assert.That(actual.GetColumnType("Two"), Is.EqualTo(ColumnType.Text)); //By Default a column is Text
             Assert.That(actual.GetColumnType("Three"), Is.EqualTo(ColumnType.Text));
@@ -86,51 +87,33 @@ namespace NBi.Core.Testing.ResultSet.Equivalence
 
             //Assertion
             //apply specific value
-            Assert.That(actual.GetTolerance("One"), Is.TypeOf<NumericAbsoluteTolerance>());
-            Assert.That((actual.GetTolerance("One") as NumericAbsoluteTolerance).Side, Is.EqualTo(SideTolerance.Both));
-            Assert.That((actual.GetTolerance("One") as NumericAbsoluteTolerance).Value, Is.EqualTo(1));
+            Assert.That(actual!.GetTolerance("One"), Is.TypeOf<NumericAbsoluteTolerance>());
+            Assert.That((actual.GetTolerance("One") as NumericAbsoluteTolerance)!.Side, Is.EqualTo(SideTolerance.Both));
+            Assert.That((actual.GetTolerance("One") as NumericAbsoluteTolerance)!.Value, Is.EqualTo(1));
 
             //apply default value
             Assert.That(Tolerance.IsNullOrNone(actual.GetTolerance("Two"))); //We haven't a Numeric column
 
             Assert.That(actual.GetTolerance("Four"), Is.TypeOf<NumericAbsoluteTolerance>());
-            Assert.That((actual.GetTolerance("Four") as NumericAbsoluteTolerance).Side, Is.EqualTo(SideTolerance.Both));
-            Assert.That((actual.GetTolerance("Four") as NumericAbsoluteTolerance).Value, Is.EqualTo(100));
+            Assert.That((actual.GetTolerance("Four") as NumericAbsoluteTolerance)!.Side, Is.EqualTo(SideTolerance.Both));
+            Assert.That((actual.GetTolerance("Four") as NumericAbsoluteTolerance)!.Value, Is.EqualTo(100));
 
             Assert.That(actual.GetTolerance("Nine"), Is.TypeOf<NumericAbsoluteTolerance>());
-            Assert.That((actual.GetTolerance("Nine") as NumericAbsoluteTolerance).Side, Is.EqualTo(SideTolerance.Both));
-            Assert.That((actual.GetTolerance("Nine") as NumericAbsoluteTolerance).Value, Is.EqualTo(100));
+            Assert.That((actual.GetTolerance("Nine") as NumericAbsoluteTolerance)!.Side, Is.EqualTo(SideTolerance.Both));
+            Assert.That((actual.GetTolerance("Nine") as NumericAbsoluteTolerance)!.Value, Is.EqualTo(100));
         }
 
         private IReadOnlyList<IColumnDefinition> BuildColumns()
         {
             //Build a value column (numeric, specific tolerance)
-            var column = new Column()
-            {
-                Identifier = new ColumnNameIdentifier("One"),
-                Role = ColumnRole.Value,
-                Type = ColumnType.Numeric,
-                Tolerance = "1"
-            };
+            var column = new Column(new ColumnNameIdentifier("One"), ColumnRole.Value, ColumnType.Numeric, "1");
             //Build a value column (without info)
-            var colLightXml = new Column()
-            {
-                Identifier = new ColumnNameIdentifier("Two"),
-                Role = ColumnRole.Value,
-            };
+            var colLightXml = new Column(new ColumnNameIdentifier("Two"), ColumnRole.Value, ColumnType.Text);
             //Build a value column (numeric)
-            var col4Xml = new Column()
-            {
-                Identifier = new ColumnNameIdentifier("Four"),
-                Role = ColumnRole.Value,
-                Type = ColumnType.Numeric,
-            };
+            var col4Xml = new Column(new ColumnNameIdentifier("Four"), ColumnRole.Value, ColumnType.Numeric);
                         //Build a ignore column (without info)
-            var colIgnoreXml = new Column()
-            {
-                Identifier = new ColumnNameIdentifier("Five"),
-                Role = ColumnRole.Ignore,
-            };
+            var colIgnoreXml = new Column(new ColumnNameIdentifier("Five"), ColumnRole.Ignore, ColumnType.Text);
+          
             //Add columns to definition
             var columns = new List<Column>()
             {

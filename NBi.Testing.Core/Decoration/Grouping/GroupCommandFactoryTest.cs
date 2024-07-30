@@ -47,10 +47,10 @@ namespace NBi.Core.Testing.Decoration.Grouping
         [Test]
         public void Get_ParallelCommandArgs_ParallelCommand()
         {
-            var group = new GroupParallelCommandArgs(Guid.NewGuid(), true, new List<IDecorationCommandArgs>());
+            var group = new GroupParallelCommandArgs(Guid.NewGuid(), true, []);
 
             var factory = new GroupCommandFactory();
-            var impl = factory.Instantiate(group, null);
+            var impl = factory.Instantiate(group, []);
 
             Assert.That(impl, Is.TypeOf<ParallelCommand>());
         }
@@ -58,10 +58,10 @@ namespace NBi.Core.Testing.Decoration.Grouping
         [Test]
         public void Get_SequentialCommandArgs_SequentialCommand()
         {
-            var group = new GroupSequentialCommandArgs(Guid.NewGuid(), true, new List<IDecorationCommandArgs>());
+            var group = new GroupSequentialCommandArgs(Guid.NewGuid(), true, []);
 
             var factory = new GroupCommandFactory();
-            var impl = factory.Instantiate(group, null);
+            var impl = factory.Instantiate(group, []);
 
             Assert.That(impl, Is.TypeOf<SequentialCommand>());
         }

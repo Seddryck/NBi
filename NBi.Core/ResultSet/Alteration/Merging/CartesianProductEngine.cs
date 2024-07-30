@@ -23,7 +23,7 @@ namespace NBi.Core.ResultSet.Alteration.Merging
             foreach (var dataColumn in secondRs.Columns)
             {
                 while (rs.ContainsColumn(dataColumn.Name))
-                    rs.GetColumn(dataColumn.Name).Rename($"{dataColumn.Name}_1");
+                    rs.GetColumn(dataColumn.Name)?.Rename($"{dataColumn.Name}_1");
 
                 rs.AddColumn(dataColumn.Name, dataColumn.DataType);
             }

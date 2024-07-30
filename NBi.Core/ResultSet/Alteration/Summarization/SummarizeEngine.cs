@@ -21,48 +21,46 @@ namespace NBi.Core.ResultSet.Alteration.Summarization
 
         public IResultSet Execute(IResultSet rs)
         {
-            using (var dataTable = new DataTableResultSet())
+            using var dataTable = new DataTableResultSet();
+            foreach (var groupBy in Args.GroupBys)
             {
-                foreach (var groupBy in Args.GroupBys)
-                {
-                    var column = groupBy.Identifier.GetColumn(rs);
-                    dataTable.AddColumn(column.Name, column.DataType);
-                }
-
-                var factory = new AggregationFactory();
-                var aggregations = new List<Aggregation>();
-                foreach (var aggregation in Args.Aggregations)
-                {
-                    var columnName = ExtractColumnName(rs, aggregation);
-
-                    dataTable.AddColumn(columnName, MapType(aggregation.Function, aggregation.ColumnType));
-                    aggregations.Add(factory.Instantiate(aggregation));
-                }
-
-                var groupbyFactory = new GroupByFactory();
-                var groupbyEngine = groupbyFactory.Instantiate(new ColumnGroupByArgs(Args.GroupBys, Context.None));
-                var groups = groupbyEngine.Execute(rs);
-                foreach (var group in groups)
-                {
-                    var values = new List<object>();
-                    values.AddRange(group.Key.Members);
-                    foreach (var aggregation in aggregations.Zip(Args.Aggregations, (x, y) => new { Implementation = x, Definition = y }))
-                    {
-                        var inputs = new List<object>();
-                        foreach (var groupRow in group.Value.Rows)
-                            if (aggregation.Definition.Identifier == null)
-                                inputs.Add(1);
-                            else
-                                inputs.Add(groupRow.GetValue(aggregation.Definition.Identifier));
-
-                        var aggrResult = aggregation.Implementation.Execute(inputs);
-                        values.Add(aggrResult);
-                    }
-                    dataTable.AddRow(values.ToArray());
-                }
-                dataTable.AcceptChanges();
-                return dataTable;
+                var column = groupBy.Identifier.GetColumn(rs) ?? throw new NullReferenceException();
+                dataTable.AddColumn(column.Name, column.DataType);
             }
+
+            var factory = new AggregationFactory();
+            var aggregations = new List<Aggregation>();
+            foreach (var aggregation in Args.Aggregations)
+            {
+                var columnName = ExtractColumnName(rs, aggregation);
+
+                dataTable.AddColumn(columnName, MapType(aggregation.Function, aggregation.ColumnType));
+                aggregations.Add(factory.Instantiate(aggregation));
+            }
+
+            var groupbyFactory = new GroupByFactory();
+            var groupbyEngine = groupbyFactory.Instantiate(new ColumnGroupByArgs(Args.GroupBys, Context.None));
+            var groups = groupbyEngine.Execute(rs);
+            foreach (var group in groups)
+            {
+                var values = new List<object>();
+                values.AddRange(group.Key.Members);
+                foreach (var aggregation in aggregations.Zip(Args.Aggregations, (x, y) => new { Implementation = x, Definition = y }))
+                {
+                    var inputs = new List<object>();
+                    foreach (var groupRow in group.Value.Rows)
+                        if (aggregation.Definition.Identifier == null)
+                            inputs.Add(1);
+                        else
+                            inputs.Add(groupRow.GetValue(aggregation.Definition.Identifier) ?? throw new NullReferenceException());
+
+                    var aggrResult = aggregation.Implementation.Execute(inputs);
+                    values.Add(aggrResult ?? throw new NullReferenceException());
+                }
+                dataTable.AddRow([.. values]);
+            }
+            dataTable.AcceptChanges();
+            return dataTable;
         }
 
         private string ExtractColumnName(IResultSet rs, ColumnAggregationArgs aggregation)
@@ -70,9 +68,9 @@ namespace NBi.Core.ResultSet.Alteration.Summarization
             if (aggregation.Identifier == null)
                 return "count";
 
-            var column = aggregation.Identifier.GetColumn(rs);
+            var column = aggregation.Identifier.GetColumn(rs) ?? throw new NullReferenceException();
 
-            var columnName = Args.Aggregations.Count(x => x.Identifier.GetColumn(rs).Equals(new ColumnNameIdentifier(column.Name).GetColumn(rs))) > 1
+            var columnName = Args.Aggregations.Count(x => (x.Identifier.GetColumn(rs) ?? throw new NullReferenceException()).Equals(new ColumnNameIdentifier(column.Name).GetColumn(rs))) > 1
                 ? $"{column.Name}_{aggregation.Function}"
                 : column.Name;
             return columnName;
@@ -80,14 +78,14 @@ namespace NBi.Core.ResultSet.Alteration.Summarization
 
         private Type MapType(AggregationFunctionType function, ColumnType type)
         {
-            switch (type)
+            return type switch
             {
-                case ColumnType.Text: return typeof(string);
-                case ColumnType.Numeric: return typeof(decimal);
-                case ColumnType.DateTime: return typeof(DateTime);
-                case ColumnType.Boolean: return typeof(bool);
-                default: throw new ArgumentException();
-            }
+                ColumnType.Text => typeof(string),
+                ColumnType.Numeric => typeof(decimal),
+                ColumnType.DateTime => typeof(DateTime),
+                ColumnType.Boolean => typeof(bool),
+                _ => throw new ArgumentException(),
+            };
         }
     }
 }

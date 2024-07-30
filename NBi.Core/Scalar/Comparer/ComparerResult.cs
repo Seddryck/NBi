@@ -7,26 +7,30 @@ namespace NBi.Core.Scalar.Comparer
 {
     public class ComparerResult
     {
-        public string Message { get; private set; }
+        public string Message { get; private set; } = string.Empty;
         public bool AreEqual { get; private set; }
 
-        private ComparerResult(bool result)
-        {
-            AreEqual = result;
-        }
+        private ComparerResult(bool result, string message)
+            => (AreEqual, Message) = (result, message);
 
         public ComparerResult(string message)
+            : this(false, message) { }
+
+
+        private static readonly EqualityComparerResult equality = new();
+        public static ComparerResult Equality
+            => equality;
+
+        private class EqualityComparerResult : ComparerResult
         {
-            AreEqual = false;
-            Message = message;
+            public EqualityComparerResult()
+                : base(true, "equal") { }
         }
 
-        public static ComparerResult Equality 
-        { 
-            get
-            {
-                return new ComparerResult(true);
-            }
+        private class InequalityComparerResult : ComparerResult
+        {
+            public InequalityComparerResult(string message)
+                : base(false, "equal") { }
         }
     }
 }

@@ -8,13 +8,12 @@ namespace NBi.Core.ResultSet.Uniqueness
 {
     public class EvaluatorFactory
     {
-        public Evaluator Instantiate(ISettingsResultSet settings)
-        {
-            if (settings is SettingsOrdinalResultSet)
-                return new OrdinalEvaluator(settings as SettingsOrdinalResultSet);
-            else if (settings is SettingsNameResultSet)
-                return new NameEvaluator(settings as SettingsNameResultSet);
-            throw new ArgumentOutOfRangeException();
-        }
+        public virtual Evaluator Instantiate(ISettingsResultSet settings)
+            => settings switch
+            {
+                SettingsOrdinalResultSet ordinal => new OrdinalEvaluator(ordinal),
+                SettingsNameResultSet name => new NameEvaluator(name),
+                _ => throw new ArgumentOutOfRangeException()
+            };
     }
 }

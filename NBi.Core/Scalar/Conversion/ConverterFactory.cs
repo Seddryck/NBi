@@ -17,16 +17,16 @@ namespace NBi.Core.Scalar.Conversion
             if (from != "text")
                 throw new ArgumentOutOfRangeException();
 
-            switch (to)
+            return to switch
             {
-                case "date": return new TextToDateConverter(cultureInfo, CastToDateTime(defaultValue));
-                case "dateTime": return new TextToDateTimeConverter(cultureInfo, CastToDateTime(defaultValue));
-                case "numeric": return new TextToNumericConverter(cultureInfo, CastToNumeric(defaultValue));
-                default: throw new ArgumentOutOfRangeException();
-            }
+                "date" => new TextToDateConverter(cultureInfo, CastToDateTime(defaultValue)),
+                "dateTime" => new TextToDateTimeConverter(cultureInfo, CastToDateTime(defaultValue)),
+                "numeric" => new TextToNumericConverter(cultureInfo, CastToNumeric(defaultValue)),
+                _ => throw new ArgumentOutOfRangeException(),
+            };
         }
 
-        private DateTime? CastToDateTime(object obj)
+        private DateTime? CastToDateTime(object? obj)
         {
             if (obj == null)
                 return null;
@@ -38,7 +38,7 @@ namespace NBi.Core.Scalar.Conversion
             throw new ArgumentException();
         }
 
-        private Decimal? CastToNumeric(object obj)
+        private decimal? CastToNumeric(object? obj)
         {
             if (obj == null)
                 return null;

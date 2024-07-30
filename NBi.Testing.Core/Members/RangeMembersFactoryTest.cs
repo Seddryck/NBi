@@ -48,8 +48,8 @@ namespace NBi.Core.Testing.Members
         {
             public DateTime Start { get; set; }
             public DateTime End { get; set; }
-            public CultureInfo Culture { get; set; }
-            public string Format { get; set; }
+            public CultureInfo Culture { get; set; } = CultureInfo.InvariantCulture;
+            public string Format { get; set; } = string.Empty;
         }
 
         private class IntegerPatternRange : IIntegerRange, IPatternDecorator
@@ -57,8 +57,8 @@ namespace NBi.Core.Testing.Members
             public int Start { get; set; }
             public int End { get; set; }
             public int Step { get; set; }
-            
-            public string Pattern {get; set;}
+
+            public string Pattern { get; set; } = string.Empty;
             public PositionValue Position { get; set; }
         }
 
@@ -129,7 +129,7 @@ namespace NBi.Core.Testing.Members
         [TestCase("de")]
         public void Instantiate_DateFrom1stJanuaryTo31December2013_ListWithAllDays(string cultureTag)
         {
-            var culture = new CultureInfo(cultureTag);
+            var culture = new CultureInfo(cultureTag, false);
             var dateRange = new DateRange()
             {
                 Start = new DateTime(2013, 1, 1),

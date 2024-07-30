@@ -16,12 +16,11 @@ namespace NBi.Core.Scalar.Comparer
         {
             get
             {
-                if (none == null)
-                    none = new TextTolerance("None");
+                none ??= new TextTolerance("None");
                 return none;
             }
         }
 
-        private static TextTolerance none;
+        private static TextTolerance? none;
     }
 }

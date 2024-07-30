@@ -17,7 +17,7 @@ namespace NBi.Core.ResultSet
         public IResultColumn? GetColumn(IResultSet rs) 
             => Ordinal < rs.ColumnCount ? rs.GetColumn(Ordinal) : null;
 
-        public object GetValue(IResultRow dataRow) => dataRow[Ordinal];
+        public object? GetValue(IResultRow dataRow) => dataRow[Ordinal];
 
         public override int GetHashCode() => Ordinal.GetHashCode();
 

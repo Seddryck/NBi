@@ -11,38 +11,28 @@ namespace NBi.Core.ResultSet.Resolver
 {
     public class ResultSetResolverFactory
     {
-        private CsvProfile profile = CsvProfile.SemiColumnDoubleQuote;
         private readonly ServiceLocator serviceLocator;
-        private IDictionary<string, IVariable> Variables { get; }
 
         public ResultSetResolverFactory(ServiceLocator serviceLocator)
         {
             this.serviceLocator = serviceLocator;
         }
 
-        public void Using(CsvProfile profile)
-        {
-            if (profile != null)
-                this.profile = profile;
-        }
-
         public IResultSetResolver Instantiate(ResultSetResolverArgs args)
-        {
-            switch (args)
+            => args switch
             {
-                case AlterationResultSetResolverArgs x: return new AlterationResultSetResolver(x.Resolver, x.Alterations);
-                case IterativeResultSetResolverArgs x: return new IterativeResultSetResolver(x.SequenceResolver, x.VariableName, x.Variables, x.ResultSetResolver);
-                case ContentResultSetResolverArgs x: return new ContentResultSetResolver(x);
-                case RowsResultSetResolverArgs x: return new RowsResultSetResolver(x);
-                case QueryResultSetResolverArgs x: return new QueryResultSetResolver(x, serviceLocator);
-                case FlatFileResultSetResolverArgs x: return new FlatFileResultSetResolver(x, serviceLocator);
-                case DataSerializationResultSetResolverArgs x: return new DataSerializationResultSetResolver(x);
-                case ObjectsResultSetResolverArgs x: return new ObjectsResultSetResolver(x);
-                case SequenceCombinationResultSetResolverArgs x: return new SequenceCombinationResultSetResolver(x);
-                case EmptyResultSetResolverArgs x: return new EmptyResultSetResolver(x);
-                case IfUnavailableResultSetResolverArgs x: return new IfUnavailableResultSetResolver(x);
-                default: throw new ArgumentOutOfRangeException($"Type '{args.GetType().Name}' is not expected when building a result-set");
-            }
-        }
+                AlterationResultSetResolverArgs x => new AlterationResultSetResolver(x.Resolver, x.Alterations),
+                IterativeResultSetResolverArgs x => new IterativeResultSetResolver(x.SequenceResolver, x.VariableName, x.Variables, x.ResultSetResolver),
+                ContentResultSetResolverArgs x => new ContentResultSetResolver(x),
+                RowsResultSetResolverArgs x => new RowsResultSetResolver(x),
+                QueryResultSetResolverArgs x => new QueryResultSetResolver(x, serviceLocator),
+                FlatFileResultSetResolverArgs x => new FlatFileResultSetResolver(x, serviceLocator),
+                DataSerializationResultSetResolverArgs x => new DataSerializationResultSetResolver(x),
+                ObjectsResultSetResolverArgs x => new ObjectsResultSetResolver(x),
+                SequenceCombinationResultSetResolverArgs x => new SequenceCombinationResultSetResolver(x),
+                EmptyResultSetResolverArgs x => new EmptyResultSetResolver(x),
+                IfUnavailableResultSetResolverArgs x => new IfUnavailableResultSetResolver(x),
+                _ => throw new ArgumentOutOfRangeException($"Type '{args.GetType().Name}' is not expected when building a result-set"),
+            };
     }
 }

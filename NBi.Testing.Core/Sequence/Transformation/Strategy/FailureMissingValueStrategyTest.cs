@@ -41,7 +41,7 @@ namespace NBi.Testing.Unit.Core.Sequence.Transformation.Strategy
         [Test]
         public void Execute_Null_NullDropped()
         {
-            var list = new List<object>() { 1, 3, 5, null };
+            var list = new List<object?>() { 1, 3, 5, null };
             var strategy = new FailureMissingValueStrategy(ColumnType.Numeric);
             Assert.Throws<ArgumentException>(() => strategy.Execute(list));
         }

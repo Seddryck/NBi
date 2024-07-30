@@ -83,7 +83,7 @@ namespace NBi.Core.Testing.Api.Rest
                 new LiteralScalarResolver<string>("firstName"),
                 new LiteralScalarResolver<string>("John")
             );
-            var engine = new RestEngine(new Anonymous(), baseUrl, path, new[] { parameter1, parameter2 }, new[] { segment }, null);
+            var engine = new RestEngine(new Anonymous(), baseUrl, path, [parameter1, parameter2], [segment], []);
             var result = engine.Execute();
             Assert.That(result, Does.StartWith("{ \"type\": \"success\", \"value\": { \"id\": 268,"));
         }

@@ -8,6 +8,6 @@ namespace NBi.Core.Configuration
 {
     public interface IFailureReportProfileConfiguration
     {
-        IFailureReportProfile FailureReportProfile { get; }
+        IFailureReportProfile? FailureReportProfile { get; }
     }
 }

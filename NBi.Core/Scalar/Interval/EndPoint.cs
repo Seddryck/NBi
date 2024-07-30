@@ -5,114 +5,57 @@ using System.Text;
 
 namespace NBi.Core.Scalar.Interval
 {
-    public abstract class EndPoint<T>
+    public abstract class EndPoint<T>(T value, bool isClosed)
     {
-        public T Value { get; set; }
-        public bool IsClosed { get; set; }
+        public T Value { get; set; } = value;
+        public bool IsClosed { get; set; } = isClosed;
         public bool IsOpen
-        {
-            get
-            {
-                return !IsClosed;
-            }
-        }
-
-        public EndPoint(T value, bool isClosed)
-        {
-            Value = value;
-            IsClosed = isClosed;
-        }
+            => !IsClosed;
 
         public abstract string BoundSymbol { get; }
     }
 
-    public abstract class LeftEndPoint<T> : EndPoint<T>
+    public abstract class LeftEndPoint<T>(T value, bool isClosed) : EndPoint<T>(value, isClosed)
     {
-        public LeftEndPoint(T value, bool isClosed)
-            : base(value, isClosed)
-        {
-        }
-
         public override string BoundSymbol
-        {
-            get
-            {
-                return IsClosed ? "[" : "]";
-            }
-        }
+            => IsClosed ? "[" : "]";
 
         public override string ToString()
-        {
-            return string.Format("{0}{1}", BoundSymbol, Value.ToString());
-        }
+            => $"{BoundSymbol}{Value}";
     }
 
-    public abstract class RightEndPoint<T> : EndPoint<T>
+    public abstract class RightEndPoint<T>(T value, bool isClosed) : EndPoint<T>(value, isClosed)
     {
-        public RightEndPoint(T value, bool isClosed)
-            : base(value, isClosed)
-        {
-        }
-
         public override string BoundSymbol
-        {
-            get
-            {
-                return IsClosed ? "]" : "[";
-            }
-        }
+            => IsClosed ? "]" : "[";
 
         public override string ToString()
-        {
-            return string.Format("{1}{0}", BoundSymbol, Value.ToString());
-        }
+            => $"{Value}{BoundSymbol}";
     }
 
-    public class LeftEndPointClosed<T> : LeftEndPoint<T>
-    {
-        public LeftEndPointClosed(T value)
-            : base(value, true)
-        {
-        }
-    }
+    public class LeftEndPointClosed<T>(T value) : LeftEndPoint<T>(value, true)
+    { }
 
-    public class LeftEndPointOpen<T> : LeftEndPoint<T>
-    {
-        public LeftEndPointOpen(T value)
-            : base(value, false)
-        {
-        }
-    }
+    public class LeftEndPointOpen<T>(T value) : LeftEndPoint<T>(value, false)
+    { }
 
-    public class RightEndPointClosed<T> : RightEndPoint<T>
-    {
-        public RightEndPointClosed(T value)
-            : base(value, true)
-        {
-        }
-    }
+    public class RightEndPointClosed<T>(T value) : RightEndPoint<T>(value, true)
+    { }
 
-    public class RightEndPointOpen<T> : RightEndPoint<T>
-    {
-        public RightEndPointOpen(T value)
-            : base(value, false)
-        {
-        }
-    }
+    public class RightEndPointOpen<T>(T value) : RightEndPoint<T>(value, false)
+    { }
 
     public class LeftEndPointNegativeInfinity : LeftEndPoint<double>
     {
         public LeftEndPointNegativeInfinity()
             : base(double.NegativeInfinity, true)
-        {
-        }
+        { }
     }
 
     public class RightEndPointPositiveInfinity : RightEndPoint<double>
     {
         public RightEndPointPositiveInfinity()
             : base(double.PositiveInfinity, true)
-        {
-        }
+        { }
     }
 }

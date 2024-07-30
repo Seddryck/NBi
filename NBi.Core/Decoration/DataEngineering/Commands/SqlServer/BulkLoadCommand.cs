@@ -15,7 +15,7 @@ namespace NBi.Core.Decoration.DataEngineering.Commands.SqlServer
 
         public void Execute()
         {
-            Execute(args.ConnectionString, args.TableName.Execute(), args.FileName.Execute());
+            Execute(args.ConnectionString, args.TableName.Execute() ?? string.Empty, args.FileName.Execute() ?? string.Empty);
         }
 
         internal void Execute(string connectionString, string tableName, string filename)
@@ -23,34 +23,29 @@ namespace NBi.Core.Decoration.DataEngineering.Commands.SqlServer
             if (!File.Exists(filename))
                 throw new ExternalDependencyNotFoundException(filename);
 
-            using (var connection = new SqlConnection(connectionString))
-            {
-                // make sure to enable triggers
-                // more on triggers in next post
-                using (var bulkCopy =
-                    new SqlBulkCopy
-                    (
-                        connection,
-                        SqlBulkCopyOptions.TableLock |
-                        SqlBulkCopyOptions.UseInternalTransaction,
-                        null
-                    )
-                    {
-                        // set the destination table name
-                        DestinationTableName = tableName
-                    }
+            using var connection = new SqlConnection(connectionString);
+            // make sure to enable triggers
+            // more on triggers in next post
+            using var bulkCopy =
+                new SqlBulkCopy
+                (
+                    connection,
+                    SqlBulkCopyOptions.TableLock |
+                    SqlBulkCopyOptions.UseInternalTransaction,
+                    null
                 )
                 {
-                    connection.Open();
+                    // set the destination table name
+                    DestinationTableName = tableName
+                };
+            connection.Open();
 
-                    // write the data in the "dataTable"
-                    var fileReader = new CsvReader();
-                    var dataTable = fileReader.ToDataTable(filename, false);
-                    bulkCopy.WriteToServer(dataTable);
+            // write the data in the "dataTable"
+            var fileReader = new CsvReader();
+            var dataTable = fileReader.ToDataTable(filename, false);
+            bulkCopy.WriteToServer(dataTable);
 
-                    connection.Close();
-                }
-            }
+            connection.Close();
 
         }
     }

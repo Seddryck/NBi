@@ -32,7 +32,7 @@ namespace NBi.Core.ResultSet.Alteration.Lookup
             stopWatch.Restart();
             var candidateKeyBuilder = BuildColumnsRetriever(Args.Mapping, x => x.CandidateColumn);
 
-            var originalColumn = candidate.GetColumn(Args.Mapping.CandidateColumn);
+            var originalColumn = candidate.GetColumn(Args.Mapping.CandidateColumn) ?? throw new NullReferenceException();
             var newColumn = candidate.AddColumn($"tmp_{originalColumn.Name}");
             foreach (var row in candidate.Rows)
             {

@@ -22,8 +22,8 @@ namespace NBi.Core.ResultSet
             => other is not null && other.Position == Position;
 
         public IResultColumn GetColumn(IResultSet rs)
-            => rs.GetColumn(Position);
-        public object GetValue(IResultRow dataRow)
+            => rs.GetColumn(Position) ?? throw new NullReferenceException();
+        public object? GetValue(IResultRow dataRow)
             => dataRow[Position];
     }
 }

@@ -23,7 +23,7 @@ namespace NBi.Core.DataType
             this.description = description;
         }
 
-        public abstract DataTypeInfo Execute();
+        public abstract DataTypeInfo? Execute();
 
     }
 }

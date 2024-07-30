@@ -25,7 +25,7 @@ namespace NBi.Core.ResultSet.Resolver
             for (int i = 0; i < args.ColumnNames.Count(); i++)
             {
                 if (!string.IsNullOrEmpty(args.ColumnNames.ElementAt(i)))
-                    rs.GetColumn(i).Rename(args.ColumnNames.ElementAt(i));
+                    rs.GetColumn(i)?.Rename(args.ColumnNames.ElementAt(i));
             }
             return rs;
         }

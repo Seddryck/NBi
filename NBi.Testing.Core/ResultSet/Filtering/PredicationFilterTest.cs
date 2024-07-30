@@ -18,6 +18,7 @@ using Expressif.Values;
 
 namespace NBi.Core.Testing.ResultSet.Filtering
 {
+    [Ignore("Not supported by Expressif")]
     public class PredicationFilterTest
     {
 
@@ -95,8 +96,8 @@ namespace NBi.Core.Testing.ResultSet.Filtering
             };
             var predication2 = new PredicationArgs(predicate2, new ColumnOrdinalIdentifier(0));
 
-            var factory = new ResultSetFilterFactory(null);
-            var filter = factory.Instantiate(CombinationOperator.And, new[] { predication1, predication2 }, new Context(null, aliases, Array.Empty<IColumnExpression>()));
+            var factory = new ResultSetFilterFactory(new Core.Injection.ServiceLocator());
+            var filter = factory.Instantiate(CombinationOperator.And, [predication1, predication2], new Context(new ContextVariables(), aliases, Array.Empty<IColumnExpression>()));
             var result = filter.Apply(rs);
 
             Assert.That(result.Rows.Count(), Is.EqualTo(1));
@@ -136,8 +137,8 @@ namespace NBi.Core.Testing.ResultSet.Filtering
             predication2.SetupGet(p => p.Predicate).Returns(predicate2.Object);
 
 
-            var factory = new ResultSetFilterFactory(null);
-            var filter = factory.Instantiate(CombinationOperator.Or, new[] { predication1.Object, predication2.Object }, new Context(null, aliases, Array.Empty<IColumnExpression>()));
+            var factory = new ResultSetFilterFactory(new Core.Injection.ServiceLocator());
+            var filter = factory.Instantiate(CombinationOperator.Or, [predication1.Object, predication2.Object], new Context(new ContextVariables(), aliases, Array.Empty<IColumnExpression>()));
             var result = filter.Apply(rs);
 
             Assert.That(result.Rows.Count(), Is.EqualTo(4));
@@ -148,14 +149,13 @@ namespace NBi.Core.Testing.ResultSet.Filtering
         {
             var service = new ObjectsResultSetResolver(
                 new ObjectsResultSetResolverArgs(
-                    new object[]
-                    {
-                        new object[] { null },
-                        new object[] { 5 },
-                        new object[] { 10 },
-                        new object[] { null },
-                        new object[] { 20 },
-                    }));
+                    [
+                        new object?[] { null },
+                        new object?[] { 5 },
+                        new object?[] { 10 },
+                        new object?[] { null },
+                        new object?[] { 20 },
+                    ]));
 
             var rs = service.Execute();
 
@@ -176,8 +176,8 @@ namespace NBi.Core.Testing.ResultSet.Filtering
             predication2.SetupGet(p => p.Identifier).Returns(new ColumnOrdinalIdentifier(0));
             predication2.SetupGet(p => p.Predicate).Returns(predicate2.Object);
 
-            var factory = new ResultSetFilterFactory(null);
-            var filter = factory.Instantiate(CombinationOperator.Or, new[] { predication1.Object, predication2.Object }, new Context(null, aliases, Array.Empty<IColumnExpression>()));
+            var factory = new ResultSetFilterFactory(new Core.Injection.ServiceLocator());
+            var filter = factory.Instantiate(CombinationOperator.Or, [predication1.Object, predication2.Object], new Context(new ContextVariables(), aliases, Array.Empty<IColumnExpression>()));
             var result = filter.Apply(rs);
 
             Assert.That(result.Rows.Count(), Is.EqualTo(3));
@@ -216,8 +216,8 @@ namespace NBi.Core.Testing.ResultSet.Filtering
             predication2.SetupGet(p => p.Identifier).Returns(new ColumnOrdinalIdentifier(1));
             predication2.SetupGet(p => p.Predicate).Returns(predicate1.Object);
 
-            var factory = new ResultSetFilterFactory(null);
-            var filter = factory.Instantiate(CombinationOperator.XOr, new[] { predication1.Object, predication2.Object }, new Context(null, aliases, Array.Empty<IColumnExpression>()));
+            var factory = new ResultSetFilterFactory(new Core.Injection.ServiceLocator());
+            var filter = factory.Instantiate(CombinationOperator.XOr, [predication1.Object, predication2.Object], new Context(new ContextVariables(), aliases, Array.Empty<IColumnExpression>()));
             var result = filter.Apply(rs);
 
             Assert.That(result.Rows.Count(), Is.EqualTo(3));

@@ -1,6 +1,7 @@
 ﻿using Moq;
 using NBi.Core.Injection;
 using NBi.Core.Transformation.Transformer;
+using NBi.Core.Variable;
 using NBi.Core.Variable.Instantiation;
 using NBi.Extensibility.Resolving;
 using NUnit.Framework;
@@ -21,13 +22,13 @@ namespace NBi.Core.Testing.Variable
             var resolver = new Mock<ISequenceResolver>();
             resolver.Setup(x => x.Execute()).Returns(new[] { "BE_20190101", "BE_20190102", "BE_20190103", "BE_20190104", "BE_20190105" });
 
-            var firstTransformation = new NativeTransformer<string>(new ServiceLocator(), null);;
+            var firstTransformation = new NativeTransformer<string>(new ServiceLocator(), Context.None);;
             firstTransformation.Initialize("text-to-first-chars(2)");
 
-            var secondTransformation = new NativeTransformer<string>(new ServiceLocator(), null);;
+            var secondTransformation = new NativeTransformer<string>(new ServiceLocator(), Context.None);;
             secondTransformation.Initialize("text-to-last-chars(8) | text-to-dateTime(yyyyMMdd)");
 
-            var thirdTransformation = new NativeTransformer<DateTime>(new ServiceLocator(), null);;
+            var thirdTransformation = new NativeTransformer<DateTime>(new ServiceLocator(), Context.None);;
             thirdTransformation.Initialize("dateTime-to-add(7)");
 
             var args = new DerivedVariableInstanceArgs

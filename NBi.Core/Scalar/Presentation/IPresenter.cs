@@ -8,6 +8,6 @@ namespace NBi.Core.Scalar.Presentation
 {
     public interface IPresenter
     {
-        string Execute(object value);
+        string Execute(object? value);
     }
 }

@@ -33,8 +33,8 @@ namespace NBi.Core.Testing.ResultSet.Alteration.Merging
         {
             var args1 = new ObjectsResultSetResolverArgs(new[] { new object[] { "Alpha", 1, 2 }, new object[] { "Beta", 3, 2 }, new object[] { "Gamma", 5, 7 } });
             var rs1 = new ObjectsResultSetResolver(args1).Execute();
-            rs1.GetColumn(1).Rename("first");
-            rs1.GetColumn(2).Move(0);
+            rs1.GetColumn(1)?.Rename("first");
+            rs1.GetColumn(2)?.Move(0);
 
             var args2 = new ObjectsResultSetResolverArgs(new[] { new object[] { "Delta", 10, 5 }, new object[] { "Epsilon", 7, 3 } });
             var rs2 = new ObjectsResultSetResolver(args2);
@@ -44,10 +44,10 @@ namespace NBi.Core.Testing.ResultSet.Alteration.Merging
 
             Assert.That(result.Rows.Count, Is.EqualTo(5));
             Assert.That(result.ColumnCount, Is.EqualTo(4));
-            Assert.That(result.GetColumn(0).Name, Is.EqualTo("Column2"));
-            Assert.That(result.GetColumn(1).Name, Is.EqualTo("Column0"));
-            Assert.That(result.GetColumn(2).Name, Is.EqualTo("first"));
-            Assert.That(result.GetColumn(3).Name, Is.EqualTo("Column1"));
+            Assert.That(result.GetColumn(0)?.Name, Is.EqualTo("Column2"));
+            Assert.That(result.GetColumn(1)?.Name, Is.EqualTo("Column0"));
+            Assert.That(result.GetColumn(2)?.Name, Is.EqualTo("first"));
+            Assert.That(result.GetColumn(3)?.Name, Is.EqualTo("Column1"));
             Assert.That(result[0][3], Is.EqualTo(DBNull.Value));
             Assert.That(result[1][3], Is.EqualTo(DBNull.Value));
             Assert.That(result[2][3], Is.EqualTo(DBNull.Value));

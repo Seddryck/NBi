@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using Moq;
 using NBi.Core.ResultSet;
 using NBi.Core.Injection;
+using NBi.Core.Variable;
 
 namespace NBi.Core.Testing.Transformation
 {
@@ -28,7 +29,7 @@ namespace NBi.Core.Testing.Transformation
                     && i.OriginalType == ColumnType.Numeric
                     && i.Code == "value"   
             );
-            var factory = new TransformerFactory(new ServiceLocator(), null);
+            var factory = new TransformerFactory(new ServiceLocator(), Context.None);
             var provider = factory.Instantiate(info);
 
             Assert.That(provider, Is.InstanceOf(result));
@@ -47,7 +48,7 @@ namespace NBi.Core.Testing.Transformation
                     && i.OriginalType == originalType
                     && i.Code == "value"
             );
-            var factory = new TransformerFactory(new ServiceLocator(), null);
+            var factory = new TransformerFactory(new ServiceLocator(), Context.None);
             var provider = factory.Instantiate(info);
 
             Assert.That(provider, Is.InstanceOf(result));
@@ -66,7 +67,7 @@ namespace NBi.Core.Testing.Transformation
                     && i.OriginalType == columnType
                     && i.Code == "value"
             );
-            var factory = new TransformerFactory(new ServiceLocator(), null);
+            var factory = new TransformerFactory(new ServiceLocator(), Context.None);
             Assert.Throws<InvalidOperationException>(delegate { factory.Instantiate(info); });
         }
 

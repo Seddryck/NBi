@@ -21,7 +21,7 @@ namespace NBi.Core.ResultSet.Equivalence
             this.isMultipleRows = isMultipleRows;
         }
 
-        public void Setup(ColumnType valuesDefaultType, Tolerance defaultTolerance)
+        public void Setup(ColumnType valuesDefaultType, Tolerance? defaultTolerance)
         {
             isBuild = false;
             this.valuesDefaultType = valuesDefaultType;

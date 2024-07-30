@@ -8,12 +8,7 @@ namespace NBi.Core.Members.Ranges
     internal class IntegerRangeBuilder : BaseBuilder
     {
         protected new IIntegerRange Range
-        {
-            get
-            {
-                return (IIntegerRange)base.Range;
-            }
-        }
+            =>(IIntegerRange)(base.Range ?? throw new NullReferenceException());
 
         protected override void InternalBuild()
         {

@@ -22,23 +22,26 @@ namespace NBi.Core.Scalar.Resolver
         internal ContextScalarResolver(Context context, IColumnIdentifier columnIdentifier)
             => (Context, ColumnIdentifier) = (context, columnIdentifier);
 
-        public T Execute()
+        public T? Execute()
         {
-            var evaluation = Context.CurrentRow[ColumnIdentifier];
+            var evaluation = Context.CurrentRow?[ColumnIdentifier];
+            if (evaluation == null)
+                return default;
             var typedEvaluation = StrongTypingVariable(evaluation);
-            return (T)typedEvaluation;
+            return typedEvaluation is null ? default : (T)typedEvaluation;
         }
 
-        object IResolver.Execute() => Execute();
+        object? IResolver.Execute() => Execute();
 
-        private static object StrongTypingVariable(object input)
+        private static object? StrongTypingVariable(object input)
         {
             IFormatProvider formatProvider = typeof(T) == typeof(DateTime)
-                ? (IFormatProvider)System.Globalization.DateTimeFormatInfo.InvariantInfo
+                ? System.Globalization.DateTimeFormatInfo.InvariantInfo
                 : System.Globalization.NumberFormatInfo.InvariantInfo;
+            var toString = input.ToString() ?? string.Empty;
 
-            if (input != null && input.ToString().EndsWith("%"))
-                input = input.ToString().Substring(0, input.ToString().Length - 1);
+            if (input != null && toString.EndsWith("%"))
+                input = toString[..^1];
 
             var output = Convert.ChangeType(input, typeof(T), formatProvider);
             return output;

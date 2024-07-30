@@ -21,7 +21,7 @@ namespace NBi.Core.Scalar.Presentation
                 case double x : return PresentBooleanObject(x);
                 case float x : return PresentBooleanObject(x);
                 default:
-                    return PresentString(value.ToString());
+                    return PresentString(value.ToString() ?? string.Empty);
             }
         }
 

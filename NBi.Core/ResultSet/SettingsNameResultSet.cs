@@ -61,7 +61,7 @@ namespace NBi.Core.ResultSet
                     && !string.IsNullOrEmpty(c.RoundingStep));
         }
         
-        public override Rounding GetRounding(string name)
+        public override Rounding? GetRounding(string name)
         {
             if (!IsRounding(name))
                 return null;
@@ -116,7 +116,7 @@ namespace NBi.Core.ResultSet
             return (IsValue(name) && ValuesDefaultType == type);
         }
         
-        public override Tolerance GetTolerance(string name)
+        public override Tolerance? GetTolerance(string name)
         {
             if (GetColumnType(name) != ColumnType.Numeric && GetColumnType(name) != ColumnType.DateTime)
                 return null;
@@ -176,21 +176,18 @@ namespace NBi.Core.ResultSet
         public IEnumerable<string> GetKeyNames()
         {
             var result = new List<string>(KeyNames);
-            result.AddRange(ColumnsDef.Where(c => c.Role==ColumnRole.Key).Select(c => (c.Identifier as ColumnNameIdentifier).Name));
+            result.AddRange(ColumnsDef.Where(c => c.Role==ColumnRole.Key).Select(c => (c.Identifier as ColumnNameIdentifier)?.Name ?? throw new NullReferenceException()));
             return result.Distinct();
         }
 
         public IEnumerable<string> GetValueNames()
         {
             var result = new List<string>(ValueNames);
-            result.AddRange(ColumnsDef.Where(c => c.Role == ColumnRole.Value).Select(c => (c.Identifier as ColumnNameIdentifier).Name));
+            result.AddRange(ColumnsDef.Where(c => c.Role == ColumnRole.Value).Select(c => (c.Identifier as ColumnNameIdentifier)?.Name ?? throw new NullReferenceException()));
             return result.Distinct();
         }
 
         public IEnumerable<string> GetColumnNames()
-        {
-            return GetKeyNames().Union(GetValueNames());
-        }
-
+            => GetKeyNames().Union(GetValueNames());
     }
 }

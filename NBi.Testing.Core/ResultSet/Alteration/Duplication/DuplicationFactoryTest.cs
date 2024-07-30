@@ -1,4 +1,5 @@
 ﻿using NBi.Core.Calculation.Asserting;
+using NBi.Core.Injection;
 using NBi.Core.ResultSet;
 using NBi.Core.ResultSet.Alteration.Duplication;
 using NBi.Core.Scalar.Resolver;
@@ -12,7 +13,7 @@ namespace NBi.Core.Testing.ResultSet.Alteration.Duplication
         [Test]
         public void Instantiate_DuplicateArgs_DuplicateEngine()
         {
-            var factory = new DuplicationFactory(null, Context.None);
+            var factory = new DuplicationFactory(ServiceLocator.None, Context.None);
             var extender = factory.Instantiate(new DuplicateArgs(
                 new PredicationFactory().Instantiate(new PredicateFactory().Instantiate(new PredicateArgs()), new ColumnOrdinalIdentifier(0)),
                 new LiteralScalarResolver<int>(1),

@@ -11,26 +11,16 @@ namespace NBi.Core.ResultSet
         
 		public SettingsSingleRowOrdinalResultSet (ColumnType valuesDefaultType, Tolerance defaultTolerance, IReadOnlyCollection<IColumnDefinition> columnsDef)
             : base(valuesDefaultType, defaultTolerance, columnsDef)
-		{
-		}
+		{ }
 
         public SettingsSingleRowOrdinalResultSet ()
-            : this(ColumnType.Numeric, null, null)
-        {
-        }
+            : this(ColumnType.Numeric, NumericAbsoluteTolerance.None, [])
+        { }
 
         protected override bool IsKey(int index)
-        {
-            return false;
-        }
+            => false;
 
         protected override bool IsValue(int index)
-        {
-            if (ColumnsDef.Any(c => (c.Identifier as ColumnOrdinalIdentifier)?.Ordinal == index && c.Role == ColumnRole.Ignore))
-                return false;
-
-            return true;
-        }
-
+            => !ColumnsDef.Any(c => (c.Identifier as ColumnOrdinalIdentifier)?.Ordinal == index && c.Role == ColumnRole.Ignore);
     }
 }

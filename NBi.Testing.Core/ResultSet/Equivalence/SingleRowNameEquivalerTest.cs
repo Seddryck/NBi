@@ -54,11 +54,11 @@ namespace NBi.Core.Testing.ResultSet.Equivalence
                     && x.IsToleranceSpecified == true
                 );
 
-            var comparer = new SingleRowNameEquivaler(new SettingsSingleRowNameResultSet(ColumnType.Numeric, null, new List<IColumnDefinition>() { myColumnDefinition }));
-            var reference = BuildDataTable(new double[] { 0, 1 });
-            reference.GetColumn(0).Rename("A");
-            var actual = BuildDataTable(new double[] { 2, 1 });
-            actual.GetColumn(0).Rename("A");
+            var comparer = new SingleRowNameEquivaler(new SettingsSingleRowNameResultSet(ColumnType.Numeric, NumericAbsoluteTolerance.None, [myColumnDefinition]));
+            var reference = BuildDataTable<double>([0, 1]);
+            reference.GetColumn(0)?.Rename("A");
+            var actual = BuildDataTable<double>([2, 1]);
+            actual.GetColumn(0)?.Rename("A");
 
             //Call the method to test
             var res = comparer.Compare(reference, actual);
@@ -78,11 +78,11 @@ namespace NBi.Core.Testing.ResultSet.Equivalence
                     && x.IsToleranceSpecified == true
                 );
 
-            var comparer = new SingleRowNameEquivaler(new SettingsSingleRowNameResultSet(ColumnType.Numeric, null, new List<IColumnDefinition>() { myColumnDefinition }));
+            var comparer = new SingleRowNameEquivaler(new SettingsSingleRowNameResultSet(ColumnType.Numeric, NumericAbsoluteTolerance.None, [myColumnDefinition]));
             var reference = BuildDataTable(new double[] { 0, 1 });
-            reference.GetColumn(0).Rename("A");
+            reference.GetColumn(0)?.Rename("A");
             var actual = BuildDataTable(new double[] { 0.05, 1 });
-            actual.GetColumn(0).Rename("A");
+            actual.GetColumn(0)?.Rename("A");
 
             //Call the method to test
             var res = comparer.Compare(reference, actual);
@@ -92,7 +92,7 @@ namespace NBi.Core.Testing.ResultSet.Equivalence
         }
 
         private DataTableResultSet BuildDataTable<T>(T[] values)
-            => BuildDataTable<T>(values, null);
+            => BuildDataTable<T>(values, []);
 
         private DataTableResultSet BuildDataTable<T>(T[] values, string[] useless)
         {
@@ -134,12 +134,10 @@ namespace NBi.Core.Testing.ResultSet.Equivalence
         {
             var columnsDef = new List<IColumnDefinition>()
             {
-                new Column() { Identifier= new ColumnOrdinalIdentifier(0), Role = ColumnRole.Value, Type = ColumnType.Text},
-                new Column() { Identifier= new ColumnOrdinalIdentifier(1), Role = ColumnRole.Value, Type = ColumnType.Numeric}
+                new Column(new ColumnOrdinalIdentifier(0), ColumnRole.Value, ColumnType.Text),
+                new Column(new ColumnOrdinalIdentifier(1), ColumnRole.Value, ColumnType.Numeric)
             };
             return columnsDef.AsReadOnly();
         }
-
-
     }
 }

@@ -33,7 +33,7 @@ namespace NBi.Core.Query.Client
                 throw new ArgumentException();
 
             var csb = new DbConnectionStringBuilder() { ConnectionString = connectionString };
-            connectionStringBuilder.Build(csb["pbix"].ToString());
+            connectionStringBuilder.Build(csb["pbix"].ToString() ?? throw new NullReferenceException());
             connectionString = connectionStringBuilder.GetConnectionString();
 
             return new PowerBiDesktopClient(connectionString);

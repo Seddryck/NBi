@@ -28,7 +28,7 @@ namespace NBi.Core.ResultSet.Alteration.Projection
             var i = 0;
             while (i < resultSet.ColumnCount)
             {
-                var column = resultSet.GetColumn(i);
+                var column = resultSet.GetColumn(i) ?? throw new NullReferenceException();
                 if (IsColumnToRemove(column, columns))
                     column.Remove();
                 else

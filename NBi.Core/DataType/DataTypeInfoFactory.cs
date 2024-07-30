@@ -16,9 +16,9 @@ namespace NBi.Core.DataType
             {
                 dataTypeInfo = new TextInfo();
                 ((TextInfo)dataTypeInfo).Length = row.CharacterMaximumLength;
-                ((TextInfo)dataTypeInfo).CharSet = row.CharacterSetName;
-                ((TextInfo)dataTypeInfo).Collation = row.CollationName;
-                ((TextInfo)dataTypeInfo).Domain = row.DomainName;
+                ((TextInfo)dataTypeInfo).CharSet = row.CharacterSetName ?? string.Empty;
+                ((TextInfo)dataTypeInfo).Collation = row.CollationName ?? string.Empty;
+                ((TextInfo)dataTypeInfo).Domain = row.DomainName ?? string.Empty;
             }
             else if (row.NumericScale > 0)
             {
@@ -36,8 +36,8 @@ namespace NBi.Core.DataType
                 dataTypeInfo = new DataTypeInfo();
             }
 
-            dataTypeInfo.Name = row.DataType.ToLower();
-            dataTypeInfo.Nullable = row.IsNullable.ToUpper() == "YES".ToUpper();
+            dataTypeInfo.Name = row.DataType?.ToLower() ?? string.Empty;
+            dataTypeInfo.Nullable = row.IsNullable?.ToUpper() == "YES".ToUpper();
             return dataTypeInfo;
         }
 

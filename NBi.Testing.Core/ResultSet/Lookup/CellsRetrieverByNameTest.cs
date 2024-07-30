@@ -42,7 +42,7 @@ namespace NBi.Core.Testing.ResultSet.Lookup
 
             var columns = new List<IColumnDefinition>()
             {
-                new Column() { Identifier = new ColumnNameIdentifier("zero"), Type=ColumnType.Text}
+                new Column(new ColumnNameIdentifier("zero"), ColumnRole.Key, ColumnType.Text)
             };
 
             var keyRetriever = new CellRetrieverByName(columns);
@@ -58,7 +58,7 @@ namespace NBi.Core.Testing.ResultSet.Lookup
 
             var columns = new List<IColumnDefinition>()
             {
-                new Column() { Identifier = new ColumnNameIdentifier("two"), Type=ColumnType.Numeric}
+                new Column(new ColumnNameIdentifier("two"), ColumnRole.Key, ColumnType.Numeric)
             };
 
             var keyRetriever = new CellRetrieverByName(columns);
@@ -70,11 +70,11 @@ namespace NBi.Core.Testing.ResultSet.Lookup
         [Test]
         public void GetKeys_UniqueCellNumericCasting_CorrectCell()
         {
-            var table = BuildDataTable(new[] { "Key0", "Key1", "Key0" }, new[] { "Foo", "Bar", "Foo" }, new object[] { "0", "1.0", "0.00" });
+            var table = BuildDataTable(["Key0", "Key1", "Key0"], ["Foo", "Bar", "Foo"], ["0", "1.0", "0.00"]);
 
             var columns = new List<IColumnDefinition>()
             {
-                new Column() { Identifier = new ColumnNameIdentifier("two"), Type=ColumnType.Numeric}
+                new Column(new ColumnNameIdentifier("two"), ColumnRole.Key, ColumnType.Numeric)
             };
 
             var keyRetriever = new CellRetrieverByName(columns);
@@ -90,8 +90,8 @@ namespace NBi.Core.Testing.ResultSet.Lookup
 
             var columns = new List<IColumnDefinition>()
             {
-                new Column() { Identifier = new ColumnNameIdentifier("zero"), Type=ColumnType.Text},
-                new Column() { Identifier = new ColumnNameIdentifier("one"), Type=ColumnType.Text}
+                new Column(new ColumnNameIdentifier("zero"), ColumnRole.Key, ColumnType.Text),
+                new Column(new ColumnNameIdentifier("one"), ColumnRole.Key , ColumnType.Text)
             };
 
             var keyRetriever = new CellRetrieverByName(columns);
@@ -107,8 +107,8 @@ namespace NBi.Core.Testing.ResultSet.Lookup
 
             var columns = new List<IColumnDefinition>()
             {
-                new Column() { Identifier = new ColumnNameIdentifier("zero"), Type=ColumnType.Text},
-                new Column() { Identifier = new ColumnNameIdentifier("two"), Type=ColumnType.Numeric}
+                new Column(new ColumnNameIdentifier("zero"), ColumnRole.Key, ColumnType.Text),
+                new Column(new ColumnNameIdentifier("two"), ColumnRole.Key , ColumnType.Numeric)
             };
 
             var keyRetriever = new CellRetrieverByName(columns);
@@ -124,8 +124,8 @@ namespace NBi.Core.Testing.ResultSet.Lookup
 
             var columns = new List<IColumnDefinition>()
             {
-                new Column() { Identifier = new ColumnNameIdentifier("one"), Type=ColumnType.Text},
-                new Column() { Identifier = new ColumnNameIdentifier("zero"), Type=ColumnType.Text}
+                new Column(new ColumnNameIdentifier("one") , ColumnRole.Key, ColumnType.Text),
+                new Column(new ColumnNameIdentifier("zero"), ColumnRole.Key, ColumnType.Text)
             };
 
             var keyRetriever = new CellRetrieverByName(columns);
@@ -142,13 +142,13 @@ namespace NBi.Core.Testing.ResultSet.Lookup
 
             var columns = new List<IColumnDefinition>()
             {
-                new Column() { Identifier = new ColumnNameIdentifier("notExisting"), Type=ColumnType.Text},
-                new Column() { Identifier = new ColumnNameIdentifier("zero"), Type=ColumnType.Text}
+                new Column(new ColumnNameIdentifier("notExisting"), ColumnRole.Key, ColumnType.Text),
+                new Column(new ColumnNameIdentifier("zero"), ColumnRole.Key, ColumnType.Text)
             };
 
             var keyRetriever = new CellRetrieverByName(columns);
             var ex = Assert.Throws<NBiException>(() => keyRetriever.GetColumns(table[0]));
-            Assert.That(ex.Message, Does.Contain(": 'zero', 'one', 'two'."));
+            Assert.That(ex?.Message, Does.Contain(": 'zero', 'one', 'two'."));
         }
 
     }

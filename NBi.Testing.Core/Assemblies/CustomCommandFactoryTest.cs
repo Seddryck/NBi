@@ -25,7 +25,7 @@ namespace NBi.Core.Testing.Assemblies
             var instance = factory.Instantiate
             (
                 typeof(CustomCommandWithoutParameter),
-                new ReadOnlyDictionary<string, object>(new Dictionary<string, object>())
+                new ReadOnlyDictionary<string, object?>(new Dictionary<string, object?>())
             );
             Assert.That(instance, Is.Not.Null);
             Assert.That(instance, Is.AssignableTo<ICustomCommand>());
@@ -38,7 +38,7 @@ namespace NBi.Core.Testing.Assemblies
             var instance = factory.Instantiate
             (
                 typeof(CustomCommandWithOneParameter),
-                new ReadOnlyDictionary<string, object>(new Dictionary<string, object>() { { "name", "myName" } })
+                new ReadOnlyDictionary<string, object?>(new Dictionary<string, object?>() { { "name", "myName" } })
             );
             Assert.That(instance, Is.Not.Null);
             Assert.That(instance, Is.AssignableTo<ICustomCommand>());
@@ -51,7 +51,7 @@ namespace NBi.Core.Testing.Assemblies
             var instance = factory.Instantiate
             (
                 typeof(CustomCommandWithTwoParameters),
-                new ReadOnlyDictionary<string, object>(new Dictionary<string, object>()
+                new ReadOnlyDictionary<string, object?>(new Dictionary<string, object?>()
                 {
                     { "name", "myName" },
                     { "count", 5 },
@@ -68,7 +68,7 @@ namespace NBi.Core.Testing.Assemblies
             var instance = factory.Instantiate
             (
                 typeof(CustomCommandWithTwoParameters),
-                new ReadOnlyDictionary<string, object>(new Dictionary<string, object>()
+                new ReadOnlyDictionary<string, object?>(new Dictionary<string, object?>()
                 {
                     { "count", "5" },
                     { "name", "myName" },
@@ -85,7 +85,7 @@ namespace NBi.Core.Testing.Assemblies
             var instance = factory.Instantiate
             (
                 typeof(CustomCommandWithTwoParameters),
-                new ReadOnlyDictionary<string, object>(new Dictionary<string, object>()
+                new ReadOnlyDictionary<string, object?>(new Dictionary<string, object?>()
                 {
                     { "Count", "5" },
                     { "naME", "myName" },
@@ -102,7 +102,7 @@ namespace NBi.Core.Testing.Assemblies
             var instance = factory.Instantiate
             (
                 typeof(CustomCommandWithMulipleCtors),
-                new ReadOnlyDictionary<string, object>(new Dictionary<string, object>()
+                new ReadOnlyDictionary<string, object?>(new Dictionary<string, object?>()
                 {
                     { "count", "5" },
                     { "name", "myName" },
@@ -114,7 +114,7 @@ namespace NBi.Core.Testing.Assemblies
             instance = factory.Instantiate
             (
                 typeof(CustomCommandWithMulipleCtors),
-                new ReadOnlyDictionary<string, object>(new Dictionary<string, object>()
+                new ReadOnlyDictionary<string, object?>(new Dictionary<string, object?>()
                 {
                     { "name", "myName" },
                 })
@@ -125,7 +125,7 @@ namespace NBi.Core.Testing.Assemblies
             instance = factory.Instantiate
             (
                 typeof(CustomCommandWithMulipleCtors),
-                new ReadOnlyDictionary<string, object>(new Dictionary<string, object>()
+                new ReadOnlyDictionary<string, object?>(new Dictionary<string, object?>()
                 { })
             );
             Assert.That(instance, Is.Not.Null);
@@ -151,7 +151,7 @@ namespace NBi.Core.Testing.Assemblies
             var type = factory.GetType
             (
                 Assembly.GetExecutingAssembly()
-                , typeof(CustomCommandWithMulipleCtors).FullName
+                , typeof(CustomCommandWithMulipleCtors).FullName ?? throw new NullReferenceException()
             );
             Assert.That(type, Is.EqualTo(typeof(CustomCommandWithMulipleCtors)));
         }
@@ -171,7 +171,7 @@ namespace NBi.Core.Testing.Assemblies
                     Guid.NewGuid(),
                     new LiteralScalarResolver<string>("."),
                     new LiteralScalarResolver<string>("NotExistingType"),
-                    null
+                    new Dictionary<string, IScalarResolver>()
                 )
             );
             Assert.Throws<NBiException>(instantiate);
@@ -187,7 +187,7 @@ namespace NBi.Core.Testing.Assemblies
                     Guid.NewGuid(),
                     new LiteralScalarResolver<string>("."),
                     new LiteralScalarResolver<string>("Namespace.NotExistingType"),
-                    null
+                    new Dictionary<string, IScalarResolver>()
                 )
             );
             Assert.Throws<NBiException>(instantiate);
@@ -202,8 +202,8 @@ namespace NBi.Core.Testing.Assemblies
                 new CustomCommandArgs(
                     Guid.NewGuid(),
                     new LiteralScalarResolver<string>("."),
-                    new LiteralScalarResolver<string>(this.GetType().Name),
-                    null
+                    new LiteralScalarResolver<string>(GetType().Name),
+                    new Dictionary<string, IScalarResolver>()
                 )
             );
             Assert.Throws<NBiException>(instantiate);

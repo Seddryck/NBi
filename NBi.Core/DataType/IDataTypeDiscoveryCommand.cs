@@ -10,6 +10,6 @@ namespace NBi.Core.DataType
     public interface IDataTypeDiscoveryCommand
     {
         CommandDescription Description { get; }
-        DataTypeInfo Execute();
+        DataTypeInfo? Execute();
     }
 }

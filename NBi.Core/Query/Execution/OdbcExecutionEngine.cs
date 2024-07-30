@@ -21,7 +21,7 @@ namespace NBi.Core.Query.Execution
         
         internal override void OpenConnection(IDbConnection connection)
         {
-            var connectionString = Command.Connection.ConnectionString;
+            var connectionString = Command.Connection!.ConnectionString;
             try
             { connection.ConnectionString = connectionString; }
             catch (ArgumentException ex)

@@ -66,7 +66,7 @@ namespace NBi.Core.ResultSet.Lookup.Violation
     public class LookupExistsViolationCollection : LookupViolationCollection
     {
         public LookupExistsViolationCollection(ColumnMappingCollection keyMappings)
-        : base(keyMappings, null) { }
+        : base(keyMappings, []) { }
         public LookupViolationInformation Register(NBiRs.KeyCollection key, IResultRow candidateRow)
             => Register(RowViolationState.Unexpected, key, candidateRow);
     }
@@ -83,7 +83,7 @@ namespace NBi.Core.ResultSet.Lookup.Violation
         {
             if (ContainsKey(key))
             {
-                var info = this[key] as LookupMatchesViolationInformation;
+                var info = (this[key] as LookupMatchesViolationInformation) ?? throw new NullReferenceException();
                 if (info.State != RowViolationState.Mismatch)
                     throw new ArgumentException("Can't change the state of lookup violation");
                 info.CandidateRows.Add(composite);
@@ -102,7 +102,7 @@ namespace NBi.Core.ResultSet.Lookup.Violation
     public class ReverseLookupExistsViolationCollection : LookupViolationCollection
     {
         public ReverseLookupExistsViolationCollection(ColumnMappingCollection keyMappings)
-        : base(keyMappings, null) { }
+        : base(keyMappings, []) { }
         public LookupViolationInformation Register(NBiRs.KeyCollection key, IResultRow candidateRow)
             => Register(RowViolationState.Missing, key, candidateRow);
     }

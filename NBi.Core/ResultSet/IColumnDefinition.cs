@@ -21,6 +21,6 @@ namespace NBi.Core.ResultSet
         Rounding.RoundingStyle RoundingStyle { get; set; }
         string RoundingStep { get; set; }
 
-        ITransformationInfo Transformation { get; }
+        ITransformationInfo? Transformation { get; }
     }
 }

@@ -8,6 +8,6 @@ namespace NBi.Core.Configuration
 {
     public interface IExtensionsConfiguration
     {
-        IReadOnlyDictionary<Type, IDictionary<string, string>> Extensions { get; }
+        IReadOnlyDictionary<Type, IDictionary<string, string>>? Extensions { get; }
     }
 }

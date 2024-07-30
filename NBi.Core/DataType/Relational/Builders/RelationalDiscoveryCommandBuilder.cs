@@ -13,7 +13,7 @@ namespace NBi.Core.DataType.Relational.Builders
             get { return "select is_nullable, data_type, character_maximum_length, numeric_precision, numeric_scale, dateTime_precision, character_set_name, collation_name, domain_name from INFORMATION_SCHEMA.columns where 1=1"; }
         }
 
-        private string commandText;
+        private string commandText = string.Empty;
         private bool isBuild = false;
 
         public void Build(IEnumerable<CaptionFilter> filters)

@@ -34,7 +34,7 @@ namespace NBi.Core.ResultSet
             {
                 try
                 {
-                    var value = FormatValue(settings.GetColumnType(keyName), row[keyName]);
+                    var value = FormatValue(settings.GetColumnType(keyName), row[keyName] ?? throw new NullReferenceException());
                     keys.Add(value);
                 }
                 catch (FormatException)

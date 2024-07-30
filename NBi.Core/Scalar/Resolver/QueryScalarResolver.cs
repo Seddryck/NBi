@@ -32,7 +32,7 @@ namespace NBi.Core.Scalar.Resolver
             return query;
         }
 
-        protected virtual object ExecuteQuery(IQuery query)
+        protected virtual object? ExecuteQuery(IQuery query)
         {
             var factory = serviceLocator.GetExecutionEngineFactory();
             var queryEngine = factory.Instantiate(query);
@@ -40,11 +40,11 @@ namespace NBi.Core.Scalar.Resolver
             return value;
         }
 
-        public T Execute()
+        public T? Execute()
         {
             var cmd = ResolveQuery();
             var value = ExecuteQuery(cmd);
-            return (T)Convert.ChangeType(value, typeof(T));
+            return (T?)Convert.ChangeType(value, typeof(T));
         }
 
         object? IResolver.Execute() => Execute();

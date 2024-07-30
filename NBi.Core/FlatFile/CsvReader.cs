@@ -11,7 +11,7 @@ namespace NBi.Core.FlatFile
 {
     public class CsvReader : PocketCsvReader.CsvReader, IFlatFileReader
     {
-        public new event ProgressStatusHandler ProgressStatusChanged;
+        public new event ProgressStatusHandler? ProgressStatusChanged;
 
         public CsvReader()
             : this(CsvProfile.SemiColumnDoubleQuote, 512) { }

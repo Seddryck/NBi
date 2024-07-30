@@ -75,7 +75,7 @@ namespace NBi.Core.Testing.FlatFile
             config.LoadExtensions(extensions);
 
             var factory = localServiceLocator.GetFlatFileReaderFactory();
-            var engine = factory.Instantiate("fake", null);
+            var engine = factory.Instantiate("fake", CsvProfile.SemiColumnDoubleQuote);
             Assert.That(engine, Is.InstanceOf<FakeFlatFileReader>());
         }
 
@@ -93,9 +93,9 @@ namespace NBi.Core.Testing.FlatFile
             config.LoadExtensions(extensions);
 
             var factory = localServiceLocator.GetFlatFileReaderFactory();
-            Assert.That(factory.Instantiate("correct", null), Is.InstanceOf<FakeFlatFileReader2>());
-            Assert.That(factory.Instantiate("fake", null), Is.InstanceOf<FakeFlatFileReader>());
-            Assert.That(factory.Instantiate("other", null), Is.InstanceOf<FakeFlatFileReader3>());
+            Assert.That(factory.Instantiate("correct", CsvProfile.SemiColumnDoubleQuote), Is.InstanceOf<FakeFlatFileReader2>());
+            Assert.That(factory.Instantiate("fake", CsvProfile.SemiColumnDoubleQuote), Is.InstanceOf<FakeFlatFileReader>());
+            Assert.That(factory.Instantiate("other", CsvProfile.SemiColumnDoubleQuote), Is.InstanceOf<FakeFlatFileReader3>());
         }
 
         [Test]
@@ -110,8 +110,8 @@ namespace NBi.Core.Testing.FlatFile
             config.LoadExtensions(extensions);
 
             var factory = localServiceLocator.GetFlatFileReaderFactory();
-            var engine = factory.Instantiate("fake", null);
-            var engine2 = factory.Instantiate("fake", null);
+            var engine = factory.Instantiate("fake", CsvProfile.SemiColumnDoubleQuote);
+            var engine2 = factory.Instantiate("fake", CsvProfile.SemiColumnDoubleQuote);
 
             Assert.That(engine, Is.Not.EqualTo(engine2));
         }
@@ -136,7 +136,7 @@ namespace NBi.Core.Testing.FlatFile
             config.LoadExtensions(extensions);
 
             var factory = localServiceLocator.GetFlatFileReaderFactory();
-            var engine = factory.Instantiate("fake", null);
+            var engine = factory.Instantiate("fake", CsvProfile.SemiColumnDoubleQuote);
 
             Assert.That(engine, Is.Not.Null);
         }

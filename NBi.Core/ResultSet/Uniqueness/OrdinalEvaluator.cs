@@ -16,25 +16,25 @@ namespace NBi.Core.ResultSet.Uniqueness
 {
     public class OrdinalEvaluator : Evaluator
     {
-        private new SettingsOrdinalResultSet Settings
+        protected new SettingsOrdinalResultSet Settings
         {
-            get { return base.Settings as SettingsOrdinalResultSet; }
+            get => (SettingsOrdinalResultSet)base.Settings;
+            set => base.Settings = value;
         }
         
         public OrdinalEvaluator()
-            : base()
+            : base(new UnsetSettings())
         { }
 
         public OrdinalEvaluator(SettingsOrdinalResultSet settings)
             : base(settings)
-        {
-        }
+        { }
 
         protected override void PreliminaryChecks(IResultSet x)
         {
             var columnsCount = x.ColumnCount;
-            if (Settings == null)
-                BuildDefaultSettings(columnsCount);
+            if (Settings is UnsetSettings)
+                Settings = BuildDefaultSettings(columnsCount);
             else
                 Settings.ApplyTo(columnsCount);
 
@@ -44,10 +44,7 @@ namespace NBi.Core.ResultSet.Uniqueness
         }
 
         protected override DataRowKeysComparer BuildDataRowsKeyComparer(IResultSet x)
-        {
-            return new DataRowKeysComparerByOrdinal(Settings, x.ColumnCount);
-        }
-
+            => new DataRowKeysComparerByOrdinal(Settings, x.ColumnCount);
 
         protected void WriteSettingsToDataTableProperties(IResultSet dt, SettingsOrdinalResultSet settings)
         {
@@ -88,24 +85,28 @@ namespace NBi.Core.ResultSet.Uniqueness
                 CheckSettingsFirstRowCell(
                         settings.GetColumnRole(i)
                         , settings.GetColumnType(i)
-                        , dt.GetColumn(i)
-                        , dr.IsNull(i) ? DBNull.Value : dr[i]
-                        , new string[]
-                            {
+                        , dt.GetColumn(i) ?? throw new NullReferenceException()
+                        , dr.IsNull(i) ? DBNull.Value : dr[i] ?? throw new NullReferenceException()
+                        ,
+                            [
                                 "The column with index '{0}' is expecting a numeric value but the first row of your result set contains a value '{1}' not recognized as a valid numeric value or a valid interval."
                                 , " Aren't you trying to use a comma (',' ) as a decimal separator? NBi requires that the decimal separator must be a '.'."
                                 , "The column with index '{0}' is expecting a 'date & time' value but the first row of your result set contains a value '{1}' not recognized as a valid date & time value."
-                            }
+                            ]
                 );
             }
         }
 
-        protected virtual void BuildDefaultSettings(int columnsCount)
-        {
-            base.Settings = new SettingsOrdinalResultSet(
+        protected static SettingsOrdinalResultSet BuildDefaultSettings(int columnsCount)
+            => new SettingsOrdinalResultSet(
                 columnsCount,
                 SettingsOrdinalResultSet.KeysChoice.All,
                 SettingsOrdinalResultSet.ValuesChoice.None);
+
+        private class UnsetSettings : SettingsOrdinalResultSet
+        {
+            public UnsetSettings()
+                : base([]) { }
         }
     }
 }

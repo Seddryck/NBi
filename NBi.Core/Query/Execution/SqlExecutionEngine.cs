@@ -21,7 +21,7 @@ namespace NBi.Core.Query.Execution
         
         internal override void OpenConnection(IDbConnection connection)
         {
-            var connectionString = Command.Connection.ConnectionString;
+            var connectionString = Command.Connection!.ConnectionString;
             try
             { connection.ConnectionString = connectionString; }
             catch (ArgumentException ex)
@@ -34,7 +34,7 @@ namespace NBi.Core.Query.Execution
 
         protected override void HandleException(Exception ex, IDbCommand command)
         {
-            if (ex is SqlException && (ex as SqlException).Number == -2)
+            if (ex is SqlException sqlEx && sqlEx.Number == -2)
                 OnTimeout(ex, command);
             else
                 throw ex;

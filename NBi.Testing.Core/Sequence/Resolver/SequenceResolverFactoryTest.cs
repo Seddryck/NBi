@@ -25,7 +25,7 @@ namespace NBi.Core.Testing.Sequence.Resolver
             };
             var args = new ListSequenceResolverArgs(resolvers);
 
-            var factory = new SequenceResolverFactory(null);
+            var factory = new SequenceResolverFactory(new Core.Injection.ServiceLocator());
             var resolver = factory.Instantiate<DateTime>(args);
             Assert.That(resolver, Is.TypeOf<ListSequenceResolver<DateTime>>());
         }
@@ -35,7 +35,7 @@ namespace NBi.Core.Testing.Sequence.Resolver
         {
             var args = new CountLoopSequenceResolverArgs<decimal, decimal>(5, 10, 2);
 
-            var factory = new SequenceResolverFactory(null);
+            var factory = new SequenceResolverFactory(new Core.Injection.ServiceLocator());
             var resolver = factory.Instantiate<decimal>(args);
             Assert.That(resolver, Is.TypeOf<LoopSequenceResolver<decimal>>());
         }
@@ -45,7 +45,7 @@ namespace NBi.Core.Testing.Sequence.Resolver
         {
             var args = new SentinelLoopSequenceResolverArgs<decimal, decimal>(5, 10, 2, IntervalMode.Close);
 
-            var factory = new SequenceResolverFactory(null);
+            var factory = new SequenceResolverFactory(new Core.Injection.ServiceLocator());
             var resolver = factory.Instantiate<decimal>(args);
             Assert.That(resolver, Is.TypeOf<LoopSequenceResolver<decimal>>());
         }
@@ -55,7 +55,7 @@ namespace NBi.Core.Testing.Sequence.Resolver
         {
             var args = new CountLoopSequenceResolverArgs<DateTime, IDuration>(3, new DateTime(2018,3,1), new FixedDuration(new TimeSpan(1,0,0,0)));
 
-            var factory = new SequenceResolverFactory(null);
+            var factory = new SequenceResolverFactory(new Core.Injection.ServiceLocator());
             var resolver = factory.Instantiate<DateTime>(args);
             Assert.That(resolver, Is.TypeOf<LoopSequenceResolver<DateTime>>());
         }
@@ -65,7 +65,7 @@ namespace NBi.Core.Testing.Sequence.Resolver
         {
             var args = new SentinelLoopSequenceResolverArgs<DateTime, IDuration>(new DateTime(2018, 1, 1), new DateTime(2018, 3, 1), new FixedDuration(new TimeSpan(1, 0, 0, 0)), IntervalMode.Close);
 
-            var factory = new SequenceResolverFactory(null);
+            var factory = new SequenceResolverFactory(new Core.Injection.ServiceLocator());
             var resolver = factory.Instantiate<DateTime>(args);
             Assert.That(resolver, Is.TypeOf<LoopSequenceResolver<DateTime>>());
         }

@@ -26,6 +26,7 @@ namespace NBi.Core.Sequence.Transformation.Aggregation.Function
     {
         public MinDateTime() : base(new DateTimeCaster())
         { }
-        protected override DateTime Execute(Series<int, DateTime> series) => Caster.Execute(series.TryMin().Value);
+        protected override DateTime Execute(Series<int, DateTime>? series) 
+            => Caster.Execute(series.TryMin().Value);
     }
 }

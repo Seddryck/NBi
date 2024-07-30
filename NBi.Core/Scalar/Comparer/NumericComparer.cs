@@ -15,40 +15,45 @@ namespace NBi.Core.Scalar.Comparer
             caster = new NumericCaster();
         }
 
-        public ComparerResult Compare(object x, object y, string tolerance)
+        public ComparerResult Compare(object? x, object? y, string tolerance)
         {
             return base.Compare(x, y, new NumericToleranceFactory().Instantiate(tolerance));
         }
-        
-        internal ComparerResult Compare(object x, object y, decimal tolerance, SideTolerance side)
+
+        internal ComparerResult Compare(object? x, object? y, decimal tolerance, SideTolerance side)
         {
             return base.Compare(x, y, new NumericAbsoluteTolerance(tolerance, side));
         }
 
-        protected override ComparerResult CompareObjects(object x, object y)
+        protected override ComparerResult CompareObjects(object? x, object? y)
         {
-            var builder = new NumericIntervalBuilder(x);
-            builder.Build();
-            if (builder.IsValid())
-                return CompareDecimals
-                    (
-                        builder.GetInterval()
-                        , caster.Execute(y)
-                    ); 
+            if (x is not null)
+            {
+                var builder = new NumericIntervalBuilder(x);
+                builder.Build();
+                if (builder.IsValid())
+                    return CompareDecimals
+                        (
+                            builder.GetInterval()
+                            , caster.Execute(y)
+                        );
+            }
 
-            builder = new NumericIntervalBuilder(y);
-            builder.Build();
-            if (builder.IsValid())
-                return CompareDecimals
-                    (
-                        builder.GetInterval()
-                        , caster.Execute(x)
-                    ); 
-            
+            if (y is not null)
+            {
+                var builder = new NumericIntervalBuilder(y);
+                builder.Build();
+                if (builder.IsValid())
+                    return CompareDecimals
+                        (
+                            builder.GetInterval()
+                            , caster.Execute(x)
+                        );
+            }
             return CompareObjects(x, y, NumericAbsoluteTolerance.None);
         }
 
-        protected override ComparerResult CompareObjects(object x, object y, Rounding rounding)
+        protected override ComparerResult CompareObjects(object? x, object? y, Rounding rounding)
         {
             if (!(rounding is NumericRounding))
                 throw new ArgumentException("Rounding must be of type 'NumericRounding'");
@@ -56,18 +61,15 @@ namespace NBi.Core.Scalar.Comparer
             return CompareObjects(x, y, (NumericRounding)rounding);
         }
 
-        protected override ComparerResult CompareObjects(object x, object y, Tolerance tolerance)
+        protected override ComparerResult CompareObjects(object? x, object? y, Tolerance tolerance)
         {
-            if (tolerance == null)
-                tolerance = NumericAbsoluteTolerance.None;
-
-            if (!(tolerance is NumericTolerance))
+            if (tolerance is not NumericTolerance)
                 throw new ArgumentException("Tolerance must be of type 'NumericTolerance'");
 
             return CompareObjects(x, y, (NumericTolerance)tolerance);
         }
-        
-        public ComparerResult CompareObjects(object x, object y, NumericRounding rounding)
+
+        public ComparerResult CompareObjects(object? x, object? y, NumericRounding rounding)
         {
             var rxDecimal = caster.Execute(x);
             var ryDecimal = caster.Execute(y);
@@ -78,45 +80,45 @@ namespace NBi.Core.Scalar.Comparer
             return CompareObjects(rxDecimal, ryDecimal);
         }
 
-        protected ComparerResult CompareObjects(object x, object y, NumericTolerance tolerance)
+        protected ComparerResult CompareObjects(object? x, object? y, NumericTolerance tolerance)
         {
-            var builder = new NumericIntervalBuilder(x);
-            builder.Build();
-            if (builder.IsValid())
-                return CompareDecimals
-                    (
-                        builder.GetInterval()
-                        , caster.Execute(y)
-                    ); 
+            if (x is not null)
+            {
+                var builder = new NumericIntervalBuilder(x);
+                builder.Build();
+                if (builder.IsValid())
+                    return CompareDecimals
+                        (
+                            builder.GetInterval()
+                            , caster.Execute(y)
+                        );
+            }
 
-            builder = new NumericIntervalBuilder(y);
-            builder.Build();
-            if (builder.IsValid())
-                return CompareDecimals
-                    (
-                        builder.GetInterval()
-                        , caster.Execute(x)
-                    ); 
-
+            if (y is not null)
+            {
+                var builder = new NumericIntervalBuilder(y);
+                builder.Build();
+                if (builder.IsValid())
+                    return CompareDecimals
+                        (
+                            builder.GetInterval()
+                            , caster.Execute(x)
+                        );
+            }
             var rxDecimal = caster.Execute(x);
             var ryDecimal = caster.Execute(y);
 
-            return CompareDecimals(rxDecimal, ryDecimal, tolerance);               
+            return CompareDecimals(rxDecimal, ryDecimal, tolerance);
         }
 
         protected ComparerResult CompareDecimals(decimal expected, decimal actual, NumericTolerance tolerance)
-        {
-            if (tolerance is NumericAbsoluteTolerance)
-                return CompareDecimals(expected, actual, (NumericAbsoluteTolerance)tolerance);
-
-            if (tolerance is NumericPercentageTolerance)
-                return CompareDecimals(expected, actual, (NumericPercentageTolerance)tolerance);
-
-            if (tolerance is NumericBoundedPercentageTolerance)
-                return CompareDecimals(expected, actual, (NumericBoundedPercentageTolerance)tolerance);
-
-            throw new ArgumentException();
-        }
+            => tolerance switch
+            {
+                NumericAbsoluteTolerance t => CompareDecimals(expected, actual, t),
+                NumericPercentageTolerance t => CompareDecimals(expected, actual, t),
+                NumericBoundedPercentageTolerance t => CompareDecimals(expected, actual, t),
+                _ => throw new ArgumentException()
+            };
 
         protected ComparerResult CompareDecimals(decimal expected, decimal actual, NumericAbsoluteTolerance tolerance)
         {
@@ -165,28 +167,20 @@ namespace NBi.Core.Scalar.Comparer
 
             //include some math[Time consumming] (Tolerance needed to validate)
             if (Math.Abs(x - y) <= Math.Abs(tolerance))
-            { 
-                switch (side)
+            {
+                return side switch
                 {
-                    case SideTolerance.Both:
-                        return true;
-                    case SideTolerance.More:
-                        return (x <= y);
-                    case SideTolerance.Less:
-                        return (x >= y);
-                    default:
-                        throw new ArgumentOutOfRangeException();
-                }
+                    SideTolerance.Both => true,
+                    SideTolerance.More => (x <= y),
+                    SideTolerance.Less => (x >= y),
+                    _ => throw new ArgumentOutOfRangeException(),
+                };
             }
 
             return false;
         }
 
-
         protected override bool IsValidObject(object x)
-        {
-            return new BaseNumericCaster().IsValid(x);
-        }
-
+            => new BaseNumericCaster().IsValid(x);
     }
 }

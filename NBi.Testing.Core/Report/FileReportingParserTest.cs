@@ -13,7 +13,7 @@ namespace NBi.Core.Testing.Report
     public class FileReportingParserTest
     {
 
-        private string ReportFileDirectory { get; set; }
+        private string ReportFileDirectory { get; set; } = string.Empty;
 
         #region SetUp & TearDown
         //Called only at instance creation
@@ -99,7 +99,7 @@ namespace NBi.Core.Testing.Report
 
             var parser = new FileReportingParser();
             var ex = Assert.Throws<ArgumentException>(() => parser.ExtractCommand(request));
-            Assert.That(ex.Message, Does.Contain("'Currency'"));
+            Assert.That(ex?.Message, Does.Contain("'Currency'"));
         }
 
         [Test]
@@ -114,7 +114,7 @@ namespace NBi.Core.Testing.Report
 
             var parser = new FileReportingParser();
             var ex = Assert.Throws<ArgumentException>(() => parser.ExtractCommand(request));
-            Assert.That(ex.Message, Does.Contain("DataSet1").And.Contain("DataSet2"));
+            Assert.That(ex?.Message, Does.Contain("DataSet1").And.Contain("DataSet2"));
         }
 
         [Test]
@@ -129,7 +129,7 @@ namespace NBi.Core.Testing.Report
 
             var parser = new FileReportingParser();
             var ex = Assert.Throws<ArgumentException>(() => parser.ExtractCommand(request));
-            Assert.That(ex.Message, Does.Contain("No report found"));
+            Assert.That(ex?.Message, Does.Contain("No report found"));
         }
 
         [Test]

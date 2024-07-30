@@ -22,7 +22,7 @@ namespace NBi.Core.Testing.ResultSet.Resolver
         public void Execute_PrimaryFailing_SecondaryExecuted()
         {
             var primary = Mock.Of<IResultSetResolver>();
-            Mock.Get(primary).Setup(x => x.Execute()).Throws(new ResultSetUnavailableException(null));
+            Mock.Get(primary).Setup(x => x.Execute()).Throws(new ResultSetUnavailableException(new ArgumentException()));
             var secondary = Mock.Of<IResultSetResolver>();
             var expectedRs = new DataTableResultSet();
             Mock.Get(secondary).Setup(x => x.Execute()).Returns(expectedRs);
@@ -43,7 +43,7 @@ namespace NBi.Core.Testing.ResultSet.Resolver
             var primary = Mock.Of<IResultSetResolver>();
             Mock.Get(primary).Setup(x => x.Execute()).Returns(expectedRs);
             var secondary = Mock.Of<IResultSetResolver>();
-            Mock.Get(secondary).Setup(x => x.Execute()).Throws(new ResultSetUnavailableException(null));
+            Mock.Get(secondary).Setup(x => x.Execute()).Throws(new ResultSetUnavailableException(new ArgumentException()));
 
             var args = new IfUnavailableResultSetResolverArgs(primary, secondary);
             var resolver = new IfUnavailableResultSetResolver(args);
@@ -59,9 +59,9 @@ namespace NBi.Core.Testing.ResultSet.Resolver
         {
             var expectedRs = new DataTableResultSet();
             var primary = Mock.Of<IResultSetResolver>();
-            Mock.Get(primary).Setup(x => x.Execute()).Throws(new ResultSetUnavailableException(null));
+            Mock.Get(primary).Setup(x => x.Execute()).Throws(new ResultSetUnavailableException(new ArgumentException()));
             var secondary = Mock.Of<IResultSetResolver>();
-            Mock.Get(secondary).Setup(x => x.Execute()).Throws(new ResultSetUnavailableException(null));
+            Mock.Get(secondary).Setup(x => x.Execute()).Throws(new ResultSetUnavailableException(new ArgumentException()));
             var tertiary = Mock.Of<IResultSetResolver>();
             Mock.Get(tertiary).Setup(x => x.Execute()).Returns(expectedRs);
 

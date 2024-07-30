@@ -13,14 +13,14 @@ namespace NBi.Core.Decoration.IO.Conditions
     {
         private FolderExistsConditionArgs Args { get; }
 
-        public string Message { get; private set; }
+        public string Message { get; private set; } = string.Empty;
 
         public FolderExistsCondition(FolderExistsConditionArgs args) => Args = args;
 
         public bool Validate()
         {
-            var path = PathExtensions.CombineOrRoot(Args.BasePath, Args.FolderPath.Execute());
-            var fullPath = PathExtensions.CombineOrRoot(path, Args.FolderName.Execute());
+            var path = PathExtensions.CombineOrRoot(Args.BasePath, Args.FolderPath.Execute() ?? string.Empty);
+            var fullPath = PathExtensions.CombineOrRoot(path, Args.FolderName.Execute() ?? string.Empty);
 
             var conditions = new List<Func<string, (bool, string)>>() { ExistsCondition };
             if (Args.NotEmpty.Execute())

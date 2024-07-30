@@ -11,7 +11,7 @@ namespace NBi.Core.ResultSet.Uniqueness
     {
         protected override void OnBuild()
         {
-            BuildSettings(ColumnType.Text, ColumnType.Numeric, null);
+            BuildSettings(ColumnType.Text, ColumnType.Numeric, NumericAbsoluteTolerance.None);
         }
 
         protected override void OnCheck()

@@ -17,8 +17,8 @@ namespace NBi.Core.Decoration.IO.Commands
 
         public void Execute()
         {
-            var path = PathExtensions.CombineOrRoot(args.BasePath, args.Path.Execute());
-            Execute(path, args.Pattern.Execute());
+            var path = PathExtensions.CombineOrRoot(args.BasePath, args.Path.Execute() ?? string.Empty);
+            Execute(path, args.Pattern.Execute() ?? string.Empty);
         }
 
         internal void Execute(string path, string pattern)

@@ -18,17 +18,12 @@ namespace NBi.Core.ResultSet.Uniqueness
     {
         private new SettingsNameResultSet Settings
         {
-            get { return base.Settings as SettingsNameResultSet; }
+            get { return (SettingsNameResultSet)base.Settings; }
         }
         
-        public NameEvaluator()
-            : base()
-        { }
-
         public NameEvaluator(SettingsNameResultSet settings)
             : base(settings)
-        {
-        }
+        { }
 
         protected override void PreliminaryChecks(IResultSet x)
         {

@@ -32,7 +32,7 @@ namespace NBi.Core.Testing.Scalar.Resolver
         [Test]
         public void Instantiate_GlobalVariableArgs_GlobalVariableResolver()
         {
-            var args = new GlobalVariableScalarResolverArgs("myVar", new Context(new Dictionary<string, IVariable>() { { "myVar", null } }));
+            var args = new GlobalVariableScalarResolverArgs("myVar", new Context(new Dictionary<string, IVariable>() { { "myVar", new GlobalVariable(new LiteralScalarResolver<int>(0)) } }));
 
             var factory = new ScalarResolverFactory();
             var resolver = factory.Instantiate(args);
@@ -43,23 +43,21 @@ namespace NBi.Core.Testing.Scalar.Resolver
         [Test]
         public void Instantiate_ContextArgs_ContextResolver()
         {
-            using (var dt = new DataTableResultSet())
-            {
-                var context = Context.None;
-                context.Switch(dt.NewRow());
-                var args = new ContextScalarResolverArgs(context, new ColumnOrdinalIdentifier(0));
+            using var dt = new DataTableResultSet();
+            var context = Context.None;
+            context.Switch(dt.NewRow());
+            var args = new ContextScalarResolverArgs(context, new ColumnOrdinalIdentifier(0));
 
-                var factory = new ScalarResolverFactory();
-                var resolver = factory.Instantiate(args);
+            var factory = new ScalarResolverFactory();
+            var resolver = factory.Instantiate(args);
 
-                Assert.That(resolver, Is.TypeOf<ContextScalarResolver<object>>());
-            }
+            Assert.That(resolver, Is.TypeOf<ContextScalarResolver<object>>());
         }
 
         [Test]
         public void Instantiate_QueryArgs_QueryResolver()
         {
-            var args = new QueryScalarResolverArgs(new EmbeddedQueryResolverArgs("select * from table;", "connStr", null, null, new TimeSpan()));
+            var args = new QueryScalarResolverArgs(new EmbeddedQueryResolverArgs("select * from table;", "connStr", [], [], new TimeSpan()));
 
             var factory = new ScalarResolverFactory();
             var resolver = factory.Instantiate(args);

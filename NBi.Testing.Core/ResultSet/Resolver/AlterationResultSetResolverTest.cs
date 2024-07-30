@@ -3,6 +3,7 @@ using NBi.Core.ResultSet;
 using NBi.Core.ResultSet.Alteration;
 using NBi.Core.ResultSet.Resolver;
 using NBi.Core.Transformation;
+using NBi.Core.Variable;
 using NBi.Extensibility.Resolving;
 using NUnit.Framework;
 using System;
@@ -45,7 +46,7 @@ namespace NBi.Core.Testing.ResultSet.Resolver
         private class TransformationProviderMockable : TransformationProvider
         {
             public TransformationProviderMockable()
-                : base(new NBi.Core.Injection.ServiceLocator(), null) { }
+                : base(new Core.Injection.ServiceLocator(), Context.None) { }
         }
 
         [Test]

@@ -8,18 +8,18 @@ namespace NBi.Core.Scalar.Presentation
 {
     public abstract class BasePresenter : IPresenter
     {
-        public string Execute(object value)
+        public string Execute(object? value)
         {
             if (value == null || value is DBNull)
-                return PresentNull(value);
+                return PresentNull();
             else if (value is string && (string)value=="(null)")
-                return PresentNull(value);
+                return PresentNull();
             else
                 return PresentNotNull(value);
         }
 
-        protected virtual string PresentNull(object value) => "(null)";
+        protected virtual string PresentNull() => "(null)";
 
-        protected virtual string PresentNotNull(object value) => value.ToString();
+        protected virtual string PresentNotNull(object value) => value.ToString() ?? string.Empty;
     }
 }

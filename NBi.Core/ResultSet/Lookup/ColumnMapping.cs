@@ -26,14 +26,6 @@ namespace NBi.Core.ResultSet.Lookup
         { }
 
         public IColumnDefinition ToColumnDefinition(Func<IColumnIdentifier> target)
-        {
-            var defColumn = new Column()
-            {
-                Identifier = target(),
-                Role = ColumnRole.Key,
-                Type = Type,
-            };
-            return defColumn;
-        }
+            => new Column(target(), ColumnRole.Key, Type);
     }
 }

@@ -6,10 +6,10 @@ namespace NBi.Core.Scalar.Interval
 {
     public class DateTimeIntervalBuilder
     {
-        private readonly string value;
+        private readonly string? value;
         private bool isBuild;
-        protected DateTimeInterval interval;
-        protected Exception ex;
+        protected DateTimeInterval? interval;
+        protected Exception? ex;
 
         public DateTimeIntervalBuilder(string value)
         {
@@ -19,8 +19,8 @@ namespace NBi.Core.Scalar.Interval
 
         public DateTimeIntervalBuilder(object value)
         {
-            if (value is string)
-                this.value = (string)value;
+            if (value is string str)
+                this.value = str;
             else
                 ex = new ArgumentException("This must be a string");
 
@@ -31,27 +31,25 @@ namespace NBi.Core.Scalar.Interval
         {
             if (ex == null)
             {
-                var valueToBuild = value.Replace(" ", "").ToLower();
+                var valueToBuild = value!.Replace(" ", "").ToLower();
 
-                interval = BuildClassic(valueToBuild);
+                interval = BuildClassic(valueToBuild) ?? throw new NullReferenceException();
             }
             isBuild = true;
         }
 
-        protected virtual DateTimeInterval BuildClassic(string value)
+        protected virtual DateTimeInterval? BuildClassic(string value)
         {
             if (!(value.StartsWith("]") || value.StartsWith("[")))
                 ex = new ArgumentException("The interval definition must start by '[' or ']'");
             if (!(value.EndsWith("]") || value.EndsWith("[")))
                 ex = new ArgumentException("The interval definition must end by '[' or ']'");
-            if (!(value.Contains(";")))
+            if (!(value.Contains(';')))
                 ex = new ArgumentException("The interval definition must contain a delimitor ';'");
 
             var split = value.Split(';');
-            if (split.Count() > 2)
-            {
+            if (split.Length > 2)
                 ex = new ArgumentException("The interval definition must contain only one delimitor ';'");
-            }
 
             if (ex != null)
                 return null;
@@ -82,7 +80,7 @@ namespace NBi.Core.Scalar.Interval
             return interval != null;
         }
 
-        public DateTimeInterval GetInterval()
+        public DateTimeInterval? GetInterval()
         {
             if (!isBuild)
                 throw new InvalidOperationException("You must first apply the build method before a call to this method.");
@@ -90,7 +88,7 @@ namespace NBi.Core.Scalar.Interval
             return interval;
         }
 
-        public Exception GetException()
+        public Exception? GetException()
         {
             if (!isBuild)
                 throw new InvalidOperationException("You must first apply the build method before a call to this method.");

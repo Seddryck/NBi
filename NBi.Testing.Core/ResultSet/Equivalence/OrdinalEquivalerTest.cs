@@ -48,8 +48,8 @@ namespace NBi.Core.Testing.ResultSet.Equivalence
         {
             //Buiding object used during test
             var comparer = new OrdinalEquivaler(AnalyzersFactory.EqualTo(), BuildSettingsKeyValue());
-            var reference = BuildDataTable(new string[] { "Key0", "Key1" }, new double[] { 0, 1 });
-            var actual = BuildDataTable(new string[] { "Key0", "Key1" }, new double[] { 0, 1 });
+            var reference = BuildDataTable(["Key0", "Key1"], [0, 1]);
+            var actual = BuildDataTable(["Key0", "Key1"], [0, 1]);
 
             //Call the method to test
             var res = comparer.Compare(reference, actual);
@@ -327,13 +327,13 @@ namespace NBi.Core.Testing.ResultSet.Equivalence
         {
             //Buiding object used during test
             var comparer = new OrdinalEquivaler(AnalyzersFactory.EqualTo(), BuildSettingsKeyValue());
-            var reference = BuildDataTable(new string[] { "Key0", "Key1", "Key1" }, new double[] { 0, 1, 2 });
-            var actual = BuildDataTable(new string[] { "Key0", "Key1" }, new double[] { 0, 1 });
+            var reference = BuildDataTable(["Key0", "Key1", "Key1"], [0, 1, 2]);
+            var actual = BuildDataTable(["Key0", "Key1"], [0, 1]);
 
             //Assertion is generating an exception
             var ex = Assert.Throws<EquivalerException>(delegate { comparer.Compare(reference, actual); });
-            Assert.That(ex.Message, Does.Contain("<Key1|1>"));
-            Assert.That(ex.Message, Does.Contain("<Key1|2>"));
+            Assert.That(ex!.Message, Does.Contain("<Key1|1>"));
+            Assert.That(ex!.Message, Does.Contain("<Key1|2>"));
         }
 
         [Test]
@@ -341,8 +341,8 @@ namespace NBi.Core.Testing.ResultSet.Equivalence
         {
             //Buiding object used during test
             var comparer = new OrdinalEquivaler(AnalyzersFactory.EqualTo(), BuildSettingsKeyValue());
-            var reference = BuildDataTable(new string[] { "Key0", "Key1" }, new double[] { 0, 1 });
-            var actual = BuildDataTable(new string[] { "Key0", "Key1" }, new double[] { 10, 11 });
+            var reference = BuildDataTable(["Key0", "Key1"], [0, 1]);
+            var actual = BuildDataTable(["Key0", "Key1"], [10, 11]);
 
             //Call the method to test
             var res = comparer.Compare(reference, actual);
@@ -356,8 +356,8 @@ namespace NBi.Core.Testing.ResultSet.Equivalence
         {
             //Buiding object used during test
             var comparer = new OrdinalEquivaler(AnalyzersFactory.EqualTo(), BuildSettingsKeyValue(1));
-            var reference = BuildDataTable(new string[] { "Key0", "Key1" }, new double[] { 0, 1 });
-            var actual = BuildDataTable(new string[] { "Key0", "Key1" }, new double[] { 0.5, 1.5 });
+            var reference = BuildDataTable(["Key0", "Key1"], [0, 1]);
+            var actual = BuildDataTable(["Key0", "Key1"], [0.5, 1.5]);
 
             //Call the method to test
             var res = comparer.Compare(reference, actual);
@@ -386,18 +386,17 @@ namespace NBi.Core.Testing.ResultSet.Equivalence
         public void Compare_SameKeysSameValuesUselessColumnsNoneValuesMatching_ReturnEqual()
         {
             var settings = new SettingsOrdinalResultSet(
-                SettingsOrdinalResultSet.KeysChoice.First,
-                SettingsOrdinalResultSet.ValuesChoice.None,
-                new List<IColumnDefinition>()
-                {
-                    new Column() { Identifier = new ColumnOrdinalIdentifier(1), Role = ColumnRole.Value, Type = ColumnType.Numeric }
-                }
+                    SettingsOrdinalResultSet.KeysChoice.First,
+                    SettingsOrdinalResultSet.ValuesChoice.None,
+                    [
+                        new Column(new ColumnOrdinalIdentifier(1),ColumnRole.Value,ColumnType.Numeric)
+                    ]
                 );
 
             //Buiding object used during test
             var comparer = new OrdinalEquivaler(AnalyzersFactory.EqualTo(), settings);
-            var reference = BuildDataTable(new string[] { "Key0", "Key1" }, new double[] { 0, 1 }, new string[] { "Useless0", "Useless1" });
-            var actual = BuildDataTable(new string[] { "Key0", "Key1" }, new double[] { 0, 1 }, new string[] { "0Useless0", "0Useless1" });
+            var reference = BuildDataTable(["Key0", "Key1"], [0, 1], ["Useless0", "Useless1"]);
+            var actual = BuildDataTable(["Key0", "Key1"], [0, 1], ["0Useless0", "0Useless1"]);
 
 
             //Call the method to test
@@ -412,8 +411,8 @@ namespace NBi.Core.Testing.ResultSet.Equivalence
         {
             //Buiding object used during test
             var comparer = new OrdinalEquivaler(AnalyzersFactory.EqualTo(), BuildSettingsKeyValue());
-            var reference = BuildDataTable(new object[] { "Key0", "Key1" }, new object[] { "0", "1" });
-            var actual = BuildDataTable(new string[] { "Key0", "Key1" }, new double[] { 0, 1 });
+            var reference = BuildDataTable(["Key0", "Key1"], new object[] { "0", "1" });
+            var actual = BuildDataTable(["Key0", "Key1"], [0, 1]);
 
 
             //Call the method to test
@@ -428,8 +427,8 @@ namespace NBi.Core.Testing.ResultSet.Equivalence
         {
             //Buiding object used during test
             var comparer = new OrdinalEquivaler(AnalyzersFactory.EqualTo(), BuildSettingsKeyValue());
-            var reference = BuildDataTable(new object[] { "Key0", "Key1" }, new object[] { "0", "1" });
-            var actual = BuildDataTable(new string[] { "Key0", "Key1" }, new double[] { 0, 11 });
+            var reference = BuildDataTable(["Key0", "Key1"], new object[] { "0", "1" });
+            var actual = BuildDataTable(["Key0", "Key1"], [0, 11]);
 
 
             //Call the method to test
@@ -457,7 +456,7 @@ namespace NBi.Core.Testing.ResultSet.Equivalence
 
 
         private DataTableResultSet BuildDataTable(string[] keys, double[] values)
-            => BuildDataTable(keys, values, null);
+            => BuildDataTable(keys, values, []);
 
         private DataTableResultSet BuildDataTable(object[] keys, object[] values)
         {
@@ -485,7 +484,7 @@ namespace NBi.Core.Testing.ResultSet.Equivalence
 
             var keyCol = dt.Columns.Add("myKey", typeof(string));
             var valueCol = dt.Columns.Add("myValue", typeof(double));
-            var uselessCol = useless != null ? dt.Columns.Add("myUseless", typeof(string)) : null;
+            var uselessCol = useless.Length>0 ? dt.Columns.Add("myUseless", typeof(string)) : null;
 
             for (int i = 0; i < keys.Length; i++)
             {
@@ -493,7 +492,7 @@ namespace NBi.Core.Testing.ResultSet.Equivalence
                 dr.SetField<string>(keyCol, keys[i]);
                 dr.SetField<double>(valueCol, values[i]);
                 if (uselessCol != null)
-                    dr.SetField<string>(uselessCol, useless[i]);
+                    dr.SetField<string>(uselessCol, useless![i]);
                 dt.Rows.Add(dr);
             }
 
@@ -576,8 +575,8 @@ namespace NBi.Core.Testing.ResultSet.Equivalence
         {
             var columnsDef = new List<IColumnDefinition>()
             {
-                new Column() { Identifier = new ColumnOrdinalIdentifier(0), Role = ColumnRole.Key, Type = keyType},
-                new Column() { Identifier = new ColumnOrdinalIdentifier(1), Role = ColumnRole.Value, Type = ColumnType.Numeric, Tolerance = tolerance.ToString() }
+                new Column(new ColumnOrdinalIdentifier(0),ColumnRole.Key, keyType),
+                new Column(new ColumnOrdinalIdentifier(1),ColumnRole.Value, ColumnType.Numeric, tolerance.ToString())
             };
             return new SettingsOrdinalResultSet(
                 SettingsOrdinalResultSet.KeysChoice.First,
@@ -590,8 +589,8 @@ namespace NBi.Core.Testing.ResultSet.Equivalence
         {
             var columnsDef = new List<IColumnDefinition>()
             {
-                new Column() { Identifier = new ColumnOrdinalIdentifier(1), Role = ColumnRole.Value, Type = ColumnType.Numeric, Tolerance = tolerance.ToString() },
-                new Column() { Identifier = new ColumnOrdinalIdentifier(2), Role = ColumnRole.Ignore }
+                new Column(new ColumnOrdinalIdentifier(1), ColumnRole.Value, ColumnType.Numeric, tolerance.ToString() ),
+                new Column(new ColumnOrdinalIdentifier(2), ColumnRole.Ignore, ColumnType.Text)
             };
             return new SettingsOrdinalResultSet(
                 SettingsOrdinalResultSet.KeysChoice.First,
@@ -605,7 +604,7 @@ namespace NBi.Core.Testing.ResultSet.Equivalence
             var array = new List<string>();
             for (int i = start; i < start + count; i++)
                 array.Add(i.ToString());
-            return array.ToArray();
+            return [.. array];
         }
 
         protected double[] RandomLargeArrayDouble(int count)
@@ -613,7 +612,7 @@ namespace NBi.Core.Testing.ResultSet.Equivalence
             var array = new List<double>();
             for (int i = 0; i < count; i++)
                 array.Add(random.NextDouble() * 100000);
-            return array.ToArray();
+            return [.. array];
         }
     }
 }

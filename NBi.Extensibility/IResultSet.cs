@@ -35,7 +35,7 @@ namespace NBi.Extensibility
 
         IResultRow NewRow();
         IResultRow AddRow(IResultRow row);
-        IResultRow AddRow(object[] itemArray);
+        IResultRow AddRow(object?[] itemArray);
         void AddRange(IEnumerable<IResultRow> rows);
         void AcceptChanges();
     }

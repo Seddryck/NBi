@@ -30,15 +30,8 @@ namespace NBi.Core.Scalar.Comparer
         }
 
         public static NumericAbsoluteTolerance None
-        {
-            get
-            {
-                if (none == null)
-                    none = new NumericAbsoluteTolerance(0, SideTolerance.Both);
-                return none;
-            }
-        }
+            => none;
 
-        private static NumericAbsoluteTolerance none;
+        private readonly static NumericAbsoluteTolerance none = new (0, SideTolerance.Both);
     }
 }

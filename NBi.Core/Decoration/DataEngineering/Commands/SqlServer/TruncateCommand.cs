@@ -12,21 +12,18 @@ namespace NBi.Core.Decoration.DataEngineering.Commands.SqlServer
 
         public TruncateCommand(TableTruncateCommandArgs args) => this.args = args;
 
-        public void Execute() => Execute(args.ConnectionString, args.TableName.Execute());
+        public void Execute() => Execute(args.ConnectionString, args.TableName.Execute() ?? throw new NullReferenceException());
 
         internal void Execute(string connectionString, string tableName)
         {
-            using (var conn = new SqlConnection(connectionString))
+            using var conn = new SqlConnection(connectionString);
+            var cmd = new SqlCommand()
             {
-                var cmd = new SqlCommand()
-                {
-                    Connection = conn,
-                    CommandText = $"truncate table {tableName};"
-                };
-                cmd.Connection.Open();
-                cmd.ExecuteNonQuery();
-            }
+                Connection = conn,
+                CommandText = $"truncate table {tableName};"
+            };
+            cmd.Connection.Open();
+            cmd.ExecuteNonQuery();
         }
-
     }
 }

@@ -11,7 +11,7 @@ namespace NBi.Core.Scalar.Comparer
         public ComparerResult Compare(object? x, object? y)
             => CompareBasic(x,y) ?? CompareObjects(x!,y!);
 
-        public ComparerResult Compare(object x, object y, Rounding rounding)
+        public ComparerResult Compare(object? x, object? y, Rounding rounding)
         {
             var eq = CompareBasic(x, y);
             if (eq != null)
@@ -20,19 +20,22 @@ namespace NBi.Core.Scalar.Comparer
             return CompareObjects(x, y, rounding);
         }
 
-        public ComparerResult Compare(object x, object y, Tolerance tolerance)
+        public ComparerResult Compare(object? x, object? y, Tolerance? tolerance)
         {
             var eq = CompareBasic(x, y);
             if (eq != null)
                 return eq;
 
+            if (tolerance is null)
+                return new ComparerResult(x is null ? "(null)" : x.ToString() ?? "(empty)");
+
             return CompareObjects(x, y, tolerance);
         }
 
         protected abstract bool IsValidObject (object x);
-        protected abstract ComparerResult CompareObjects(object x, object y);
-        protected abstract ComparerResult CompareObjects(object x, object y, Tolerance tolerance);
-        protected abstract ComparerResult CompareObjects(object x, object y, Rounding rounding);
+        protected abstract ComparerResult CompareObjects(object? x, object? y);
+        protected abstract ComparerResult CompareObjects(object? x, object? y, Tolerance tolerance);
+        protected abstract ComparerResult CompareObjects(object? x, object? y, Rounding rounding);
 
         protected ComparerResult? CompareBasic(object? x, object? y)
         {

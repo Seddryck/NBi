@@ -59,19 +59,16 @@ namespace NBi.Core.Assemblies
             => (parameters?.Select(x => new { x.Key, Value = x.Value.Execute() }) ?? [])
                     .ToDictionary(x => x.Key, y => y.Value);
 
-        protected internal T Instantiate(Type customCommandType, IReadOnlyDictionary<string, object> parameters)
+        protected internal T Instantiate(Type customCommandType, IReadOnlyDictionary<string, object?> parameters)
         {
             var ctor = customCommandType.GetConstructors().FirstOrDefault(
-                c => c.GetParameters().All(p => (parameters ?? new Dictionary<string, object>()).Keys.Contains(p.Name, StringComparer.InvariantCultureIgnoreCase))
-                && c.GetParameters().Count() == (parameters ?? new Dictionary<string, object>()).Count()
-            );
-            if (ctor == null)
-                throw new NoConstructorFoundException();
-
+                c => c.GetParameters().All(p => (parameters ?? new Dictionary<string, object?>()).Keys.Contains(p.Name, StringComparer.InvariantCultureIgnoreCase))
+                && c.GetParameters().Count() == (parameters ?? new Dictionary<string, object?>()).Count()
+            ) ?? throw new NoConstructorFoundException();
             var typeConverter = new TypeConverter();
             var ctorParams = ctor.GetParameters().Select(
                 p => typeConverter.Convert(
-                    parameters.First(x => string.Compare(x.Key, p.Name, true) == 0).Value
+                    parameters.First(x => string.Compare(x.Key, p.Name, true) == 0).Value ?? throw new NullReferenceException()
                     , p.ParameterType)
                 ).ToArray();
             var instance = ctor.Invoke(ctorParams) as T;

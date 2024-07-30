@@ -22,11 +22,11 @@ namespace NBi.Core.ResultSet.Alteration.Merging
 
             //Add new columns to the original result-set
             for (int i = rs.ColumnCount; i < secondRs.ColumnCount; i++)
-                rs.AddColumn(secondRs.GetColumn(i).Name);
+                rs.AddColumn(secondRs.GetColumn(i)?.Name ?? throw new NullReferenceException());
 
             //Add new columns to the second result-set
             for (int i = secondRs.ColumnCount; i < rs.ColumnCount; i++)
-                secondRs.AddColumn(rs.GetColumn(i).Name);
+                secondRs.AddColumn(rs.GetColumn(i)?.Name ?? throw new NullReferenceException());
 
             //Import each row of the second dataset
             foreach (var row in secondRs.Rows)

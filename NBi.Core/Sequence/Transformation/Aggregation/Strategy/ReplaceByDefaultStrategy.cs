@@ -17,7 +17,7 @@ namespace NBi.Core.Sequence.Transformation.Aggregation.Strategy
         public ReplaceByDefaultStrategy(ColumnType columnType, object defaultValue) 
             => (ColumnType, DefaultValue) = (columnType, defaultValue);
 
-        public IEnumerable<object> Execute(IEnumerable<object> values)
+        public IEnumerable<object> Execute(IEnumerable<object?> values)
         {
             var caster = new CasterFactory().Instantiate(ColumnType);
             return values.Select(x => caster.IsStrictlyValid(x) ? caster.Execute(x) : DefaultValue).Cast<object>();

@@ -29,7 +29,7 @@ namespace NBi.Core.Query.Resolver
             }
             else
             {
-                var classInstance = assemblyManager.GetInstance(args.Path, args.ClassName, null);
+                var classInstance = assemblyManager.GetInstance(args.Path, args.ClassName, []);
                 methodExecution = assemblyManager.Execute(classInstance, args.MethodName, args.MethodParameters);
             }
 

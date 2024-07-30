@@ -11,7 +11,7 @@ namespace NBi.Core.DataSerialization.Reader
 {
     class FileReader : IDataSerializationReader, IDisposable
     {
-        private StreamReader StreamReader { get; set; }
+        private StreamReader? StreamReader { get; set; }
         public string BasePath { get; }
         public IScalarResolver<string> ResolverPath { get; }
 
@@ -27,7 +27,7 @@ namespace NBi.Core.DataSerialization.Reader
 
         protected virtual string EnsureFileExist()
         {
-            var filePath = PathExtensions.CombineOrRoot(BasePath, string.Empty, ResolverPath.Execute());
+            var filePath = PathExtensions.CombineOrRoot(BasePath, string.Empty, ResolverPath.Execute() ?? string.Empty);
             if (!File.Exists(filePath))
                 throw new ExternalDependencyNotFoundException(filePath);
             return filePath;

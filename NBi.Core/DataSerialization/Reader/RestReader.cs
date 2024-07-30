@@ -10,7 +10,7 @@ namespace NBi.Core.DataSerialization.Reader
 {
     class RestReader : IDataSerializationReader, IDisposable
     {
-        private TextReader TextReader { get; set; }
+        private TextReader? TextReader { get; set; }
         public RestEngine Rest { get; }
 
         public RestReader(RestEngine rest)

@@ -7,14 +7,14 @@ namespace NBi.Core.Members.Ranges
 {
     internal abstract class BaseDecoratorBuilder : IDecoratorBuilder
     {
-        protected IRange Range { get; set; }
-        protected IEnumerable<string> Result { get; set; }
+        protected IRange? Range { get; set; }
+        protected IEnumerable<string> Result { get; set; } = [];
         private bool isSetup = false;
         private bool isBuild = false;
 
         public void Setup(IRange range)
         {
-            Result = null;
+            Result = [];
             Range = range;
             isBuild = false;
             isSetup = true;

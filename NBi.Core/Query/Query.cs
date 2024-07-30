@@ -23,11 +23,11 @@ namespace NBi.Core.Query
         { }
 
         public Query(string statement, string connectionString, TimeSpan timeout)
-            : this(statement, connectionString, timeout, null)
+            : this(statement, connectionString, timeout, [])
         { }
 
         public Query(string statement, string connectionString, TimeSpan timeout, IEnumerable<IQueryParameter> parameters)
-            : this(statement, connectionString, timeout, parameters, null)
+            : this(statement, connectionString, timeout, parameters, [])
         { }
 
         public Query(string statement, string connectionString, TimeSpan timeout, IEnumerable<IQueryParameter> parameters, IEnumerable<IQueryTemplateVariable> templateTokens)
@@ -39,8 +39,8 @@ namespace NBi.Core.Query
             Statement = statement;
             ConnectionString = connectionString;
             Timeout = timeout;
-            Parameters = parameters ?? new List<IQueryParameter>();
-            TemplateTokens = templateTokens ?? new List<IQueryTemplateVariable>();
+            Parameters = parameters;
+            TemplateTokens = templateTokens;
             CommandType = commandType;
         }
     }

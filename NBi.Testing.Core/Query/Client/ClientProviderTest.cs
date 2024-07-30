@@ -73,7 +73,7 @@ namespace NBi.Core.Testing.Query.Client
         public void Instantiate_AddCustom_CorrectType()
         {
             var factory = new ClientProvider();
-            factory.RegisterFactories(new[] { typeof(FakeSessionFactory) });
+            factory.RegisterFactories([typeof(FakeSessionFactory)]);
             var connection = factory.Instantiate("fake://MyConnectionString");
             Assert.That(connection, Is.InstanceOf<FakeSession>());
         }
@@ -82,9 +82,9 @@ namespace NBi.Core.Testing.Query.Client
         public void Add_TwiceTheSame_Exception()
         {
             var factory = new ClientProvider();
-            factory.RegisterFactories(new[] { typeof(FakeSessionFactory) });
-            var ex = Assert.Throws<ArgumentException>(() => factory.RegisterFactories(new[] { typeof(FakeSessionFactory) }));
-            Assert.That(ex.Message.Contains(typeof(FakeSessionFactory).Name));
+            factory.RegisterFactories([typeof(FakeSessionFactory)]);
+            var ex = Assert.Catch<ArgumentException>(() => factory.RegisterFactories([typeof(FakeSessionFactory)]));
+            Assert.That(ex!.Message.Contains(typeof(FakeSessionFactory).Name));
         }
     }
 }

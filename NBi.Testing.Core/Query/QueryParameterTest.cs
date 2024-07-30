@@ -35,7 +35,7 @@ namespace NBi.Core.Testing.Query
         public void GetValue_Variable_GetValueCalledOnce()
         {
             var internalResolverMock = new Mock<IScalarResolver>();
-            internalResolverMock.Setup(x => x.Execute()).Returns(It.IsAny<object>());
+            internalResolverMock.Setup(x => x.Execute()).Returns("foo");
             var resolver = new GlobalVariableScalarResolver<object>("alpha", new Context(new Dictionary<string, IVariable>() { { "alpha", new GlobalVariable(internalResolverMock.Object) } }));
 
             var param = new QueryParameter("param", resolver);

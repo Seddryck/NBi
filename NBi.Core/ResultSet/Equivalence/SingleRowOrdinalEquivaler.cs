@@ -12,7 +12,7 @@ namespace NBi.Core.ResultSet.Equivalence
     {
         private new SettingsSingleRowOrdinalResultSet  Settings
         {
-            get { return base.Settings as SettingsSingleRowOrdinalResultSet ; }
+            get { return base.Settings as SettingsSingleRowOrdinalResultSet ?? throw new NullReferenceException() ; }
         }
         
         public SingleRowOrdinalEquivaler(SettingsSingleRowOrdinalResultSet  settings)
@@ -33,7 +33,7 @@ namespace NBi.Core.ResultSet.Equivalence
             return Compare(x.RowCount == 1 ? x[0] : null, y.RowCount == 1 ? y[0] : null);
         }
 
-        protected ResultResultSet Compare(IResultRow x, IResultRow y)
+        protected ResultResultSet Compare(IResultRow? x, IResultRow? y)
         {
             var chrono = DateTime.Now;
 
@@ -51,7 +51,7 @@ namespace NBi.Core.ResultSet.Equivalence
             if (missingRows.Count == 0 && unexpectedRows.Count == 0)
             {
                 chrono = DateTime.Now;
-                var columnsCount = Math.Max(y.Parent.ColumnCount, x.Parent.ColumnCount);
+                var columnsCount = Math.Max(y!.Parent.ColumnCount, x!.Parent.ColumnCount);
                 if (Settings == null)
                     BuildDefaultSettings(columnsCount);
                 else

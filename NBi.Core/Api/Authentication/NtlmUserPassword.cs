@@ -16,7 +16,8 @@ namespace NBi.Core.Api.Authentication
         public NtlmUserPassword(IScalarResolver<string> username, IScalarResolver<string> password)
             => (Username, Password) = (username, password);
 
-        public IAuthenticator GetAuthenticator() => new NtlmAuthenticator(Username.Execute(), Password.Execute());
+        public IAuthenticator GetAuthenticator() 
+            => new NtlmAuthenticator(Username.Execute() ?? string.Empty, Password.Execute() ?? string.Empty);
     }
 
 }

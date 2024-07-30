@@ -11,13 +11,11 @@ namespace NBi.Core.ResultSet
         
 		public SettingsSingleRowNameResultSet(ColumnType valuesDefaultType, Tolerance defaultTolerance, IReadOnlyCollection<IColumnDefinition> columnsDef)
             : base(valuesDefaultType, defaultTolerance, columnsDef)
-		{
-		}
+		{ }
 
         public SettingsSingleRowNameResultSet()
-            : this(ColumnType.Numeric, null, null)
-        {
-        }
+            : this(ColumnType.Numeric, NumericAbsoluteTolerance.None, [])
+        { }
 
         protected override bool IsKey(string name)
             => false;

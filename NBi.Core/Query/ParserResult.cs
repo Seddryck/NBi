@@ -6,9 +6,9 @@
     public class ParserResult
     {
         //Specify if the parsing was successful or not
-        public bool IsSuccesful { get; private set; }
+        public bool IsSuccesful { get; private set; } = false;
         //Specify the list of errors met during the parsing of the query
-        public string[] Errors { get; private set; }
+        public string[] Errors { get; private set; } = [];
 
         /// <summary>
         /// Constructor without argument to specify a success of the parsing

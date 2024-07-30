@@ -39,12 +39,11 @@ namespace NBi.Core.Testing.ResultSet.Uniqueness
         public void Execute_NoDuplicate_True()
         {
             var resultSet = BuildDataTable(
-                new List<List<object>>()
-                {
-                    new List<object>() {"a" , "b", 120 },
-                    new List<object>() {"a" , "c", 140 },
-                    new List<object>() {"a" , "d", 150 },
-                });
+                [
+                    ["a" , "b", 120],
+                    ["a" , "c", 140],
+                    ["a" , "d", 150],
+                ]);
 
             var finder = new OrdinalEvaluator();
             var result = finder.Execute(resultSet);

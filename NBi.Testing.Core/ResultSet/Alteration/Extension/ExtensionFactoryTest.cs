@@ -18,7 +18,7 @@ namespace NBi.Core.Testing.ResultSet.Alteration.Extension
         [Test]
         public void Instantiate_ExtendArgsNCalc_NCalcExtendEngine()
         {
-            var factory = new ExtensionFactory(null, Context.None);
+            var factory = new ExtensionFactory(Core.Injection.ServiceLocator.None, Context.None);
             var extender = factory.Instantiate(new ExtendArgs(
                 new ColumnOrdinalIdentifier(1),
                 "a+b*c",
@@ -31,7 +31,7 @@ namespace NBi.Core.Testing.ResultSet.Alteration.Extension
         [Test]
         public void Instantiate_ExtendArgsNative_NativeExtendEngine()
         {
-            var factory = new ExtensionFactory(null, Context.None);
+            var factory = new ExtensionFactory(Core.Injection.ServiceLocator.None, Context.None);
             var extender = factory.Instantiate(new ExtendArgs(
                 new ColumnOrdinalIdentifier(1),
                 "[A] | dateTime-to-date | dateTime-to-add(00:15:00, [B])",

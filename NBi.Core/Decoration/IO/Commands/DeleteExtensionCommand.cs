@@ -17,8 +17,8 @@ namespace NBi.Core.Decoration.IO.Commands
 
         public void Execute()
         {
-            var path = PathExtensions.CombineOrRoot(args.BasePath, args.Path.Execute());
-            var extensions = args.Extension.Execute().Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
+            var path = PathExtensions.CombineOrRoot(args.BasePath, args.Path.Execute() ?? string.Empty);
+            var extensions = (args.Extension.Execute() ?? string.Empty).Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
             Execute(path, extensions);
         }
 

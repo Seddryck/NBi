@@ -44,7 +44,7 @@ namespace NBi.Testing.Unit.Core.Sequence.Transformation.Strategy
         [Test]
         public void Execute_Null_NullReplaced()
         {
-            var list = new List<object>() { 1, 3, 5, null };
+            var list = new List<object?>() { 1, 3, 5, null };
             var strategy = new ReplaceByDefaultStrategy(ColumnType.Numeric, 0);
             Assert.That(strategy.Execute(list).Count, Is.EqualTo(4));
             Assert.That(strategy.Execute(list), Has.Member(0));

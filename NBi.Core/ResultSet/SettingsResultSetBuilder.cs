@@ -122,8 +122,8 @@ namespace NBi.Core.ResultSet
 
         protected IEnumerable<IColumnDefinition> GetAllColumns(ColumnType keysDefaultType, ColumnType valuesDefaultType)
         {
-            return nameKeys.Select(x => new Column() { Identifier = new ColumnNameIdentifier(x), Role = ColumnRole.Key, Type = keysDefaultType })
-                                .Union(nameValues.Select(x => new Column() { Identifier = new ColumnNameIdentifier(x), Role = ColumnRole.Value, Type = valuesDefaultType })
+            return nameKeys.Select(x => new Column(new ColumnNameIdentifier(x), ColumnRole.Key, keysDefaultType))
+                                .Union(nameValues.Select(x => new Column(new ColumnNameIdentifier(x), ColumnRole.Value, valuesDefaultType))
                                 .Union(definitionColumns)
                                 );
         }

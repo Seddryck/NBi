@@ -8,12 +8,7 @@ namespace NBi.Core.Members.Ranges
     internal class DateRangeBuilder : BaseBuilder
     {
         protected new IDateRange Range
-        {
-            get
-            {
-                return (IDateRange)base.Range;
-            }
-        }
+            => (IDateRange)(base.Range ?? throw new NullReferenceException());
 
         protected override void InternalBuild()
         {

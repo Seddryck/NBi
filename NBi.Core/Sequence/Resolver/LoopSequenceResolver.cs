@@ -25,7 +25,7 @@ namespace NBi.Core.Sequence.Resolver
         {
             var list = new List<T>();
             while (strategy.IsOngoing())
-                list.Add((T)strategy.GetNext());
+                list.Add((T)(strategy.GetNext() ?? throw new NullReferenceException()));
             return list;
         }
     }

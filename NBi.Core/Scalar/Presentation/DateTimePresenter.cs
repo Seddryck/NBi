@@ -16,7 +16,7 @@ namespace NBi.Core.Scalar.Presentation
                 case DateTime x: return PresentDateTime(x);
                 case string x: return PresentString(x);
                 default:
-                    return PresentString(value.ToString());
+                    return PresentString(value.ToString() ?? string.Empty);
             }
         }
 

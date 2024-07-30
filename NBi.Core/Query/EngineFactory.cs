@@ -35,9 +35,9 @@ namespace NBi.Core.Query
             {
                 var underlyingType = type.GetAttributeValue((SupportedCommandTypeAttribute x) => x?.Value);
                 if (underlyingType == null)
-                    invalidTypes.Add(type.FullName);
+                    invalidTypes.Add(type.FullName ?? "type without name");
                 else
-                    engines.Add(underlyingType.FullName, type);
+                    engines.Add(underlyingType.FullName ?? "type without name", type);
             }
             if (invalidTypes.Count > 0)
                 throw new ArgumentException($"Unable to find the attribute SupportedCommandType for the type{(invalidTypes.Count>1 ? "s" : string.Empty)}: '{string.Join(@"', '", invalidTypes)}'.");
@@ -48,7 +48,7 @@ namespace NBi.Core.Query
             var session = sessionFactory.Instantiate(query.ConnectionString);
             var cmd = commandFactory.Instantiate(session, query);
 
-            var key = cmd.Implementation.GetType().FullName;
+            var key = cmd.Implementation.GetType().FullName ?? throw new NullReferenceException();
             if (engines.ContainsKey(key))
                 return Instantiate(engines[key], cmd);
             throw new ArgumentException();
@@ -59,9 +59,9 @@ namespace NBi.Core.Query
             var flags = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic;
             var types = new[] { cmd.Client.GetType(), cmd.Implementation.GetType() };
             var ctor = type.GetConstructor(flags, null, types, null);
-            if (ctor == null)
-                throw new ArgumentException($"Unable to find a constructor for the type '{type.FullName}' exposing the following parameters: '{string.Join("', '", types.Select(x => x.FullName))}'");
-            return (T)ctor.Invoke(new[] { cmd.Client, cmd.Implementation });
+            return ctor == null
+                ? throw new ArgumentException($"Unable to find a constructor for the type '{type.FullName}' exposing the following parameters: '{string.Join("', '", types.Select(x => x.FullName))}'")
+                : (T)ctor.Invoke([cmd.Client, cmd.Implementation]);
         }
     }
 }

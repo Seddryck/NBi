@@ -12,7 +12,7 @@ namespace NBi.Core.ResultSet.Projecting
             : this(column, column, aggregation) { }
 
         public ColumnAggregationArgs(IColumnIdentifier source, IColumnIdentifier destination, AggregationArgs aggregation)
-            : base(aggregation.Function, aggregation.ColumnType, null)
+            : base(aggregation.Function, aggregation.ColumnType, [])
             => (Source, Destination) = (source, destination);
     }
 }

@@ -14,7 +14,7 @@ namespace NBi.Core.Scalar.Comparer
             caster = new ThreeStateBooleanCaster();
         }
 
-        protected override ComparerResult CompareObjects(object x, object y)
+        protected override ComparerResult CompareObjects(object? x, object? y)
         {
             var xThreeState = caster.Execute(x);
             var yThreeState = caster.Execute(y);
@@ -22,15 +22,15 @@ namespace NBi.Core.Scalar.Comparer
             if (IsEqual(xThreeState, yThreeState))
                 return ComparerResult.Equality;
 
-            return new ComparerResult(x.ToString() ?? string.Empty);
+            return new ComparerResult(x?.ToString() ?? string.Empty);
         }
 
-        protected override ComparerResult CompareObjects(object x, object y, Tolerance tolerance)
+        protected override ComparerResult CompareObjects(object? x, object? y, Tolerance tolerance)
         {
             throw new NotImplementedException("You cannot compare two booleans with a tolerance");
         }
 
-        protected override ComparerResult CompareObjects(object x, object y, Rounding rounding)
+        protected override ComparerResult CompareObjects(object? x, object? y, Rounding rounding)
         {
             throw new NotImplementedException("You cannot compare two booleans with a rounding.");
         }

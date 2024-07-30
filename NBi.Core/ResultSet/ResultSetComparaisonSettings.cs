@@ -37,17 +37,13 @@ namespace NBi.Core.ResultSet
             if (ColumnsDef.Any( c => c.Identifier == new ColumnOrdinalIdentifier(index) && c.Role==ColumnRole.Key))
                 return true;
 
-            switch (KeysDef)
-	        {
-		        case KeysChoice.First:
-                    return index==0;
-                case KeysChoice.AllExpectLast:
-                    return index!=GetLastColumnIndex();
-                case KeysChoice.All:
-                    return true;
-        	}
-
-            return false;
+            return KeysDef switch
+            {
+                KeysChoice.First => index == 0,
+                KeysChoice.AllExpectLast => index != GetLastColumnIndex(),
+                KeysChoice.All => true,
+                _ => false,
+            };
         }
 
         public bool IsValue(int index)
@@ -58,15 +54,12 @@ namespace NBi.Core.ResultSet
             if (ColumnsDef.Any(c => c.Identifier == new ColumnOrdinalIdentifier(index) && c.Role == ColumnRole.Value))
                 return true;
 
-            switch (ValuesDef)
+            return ValuesDef switch
             {
-                case ValuesChoice.AllExpectFirst:
-                    return index != 0;
-                case ValuesChoice.Last:
-                    return index == GetLastColumnIndex();
-            }
-
-            return false;
+                ValuesChoice.AllExpectFirst => index != 0,
+                ValuesChoice.Last => index == GetLastColumnIndex(),
+                _ => false,
+            };
         }
 
         public ColumnRole GetColumnRole(int index)
@@ -105,18 +98,14 @@ namespace NBi.Core.ResultSet
         }
 
         public int GetLastColumnIndex()
-        {
-            return _lastColumnIndex;
-        }
+            => _lastColumnIndex;
 
         public int GetLastKeyColumnIndex()
         {
             var max = 0;
             for (int i = 0; i < GetLastColumnIndex(); i++)
-            {
                 if (IsKey(i))
                     max = i;
-            }
 
             return max;
         }
@@ -128,29 +117,13 @@ namespace NBi.Core.ResultSet
             _lastColumnIndex = columnCount-1;
         }
         
-        //public IList<int> KeyColumnIndexes { get; private set; }
-        //public IList<int> ValueColumnIndexes {  get; private set; }
-        //protected IList<decimal> _tolerances;
-        //public decimal Tolerances(int index)
-        //{
-        //    for (int i = 0; i < ValueColumnIndexes.Count; i++)
-        //    {
-        //        if (ValueColumnIndexes[i] == index)
-        //            return _tolerances[i];
-        //    }
-        //    throw new ArgumentException();
-        //}
-
-
         public ResultSetComparaisonSettings(KeysChoice keysDef, ValuesChoice valuesDef, ICollection<IColumnDefinition> columnsDef)
             : this(keysDef, valuesDef, 0, columnsDef)
-        {
-        }
+        { }
 
         public ResultSetComparaisonSettings(KeysChoice keysDef, ValuesChoice valuesDef, decimal defaultTolerance)
-            : this(keysDef, valuesDef, defaultTolerance, null)
-        {
-        }
+            : this(keysDef, valuesDef, defaultTolerance, [])
+        { }
 
         public ResultSetComparaisonSettings(KeysChoice keysDef, ValuesChoice valuesDef, decimal defaultTolerance, ICollection<IColumnDefinition> columnsDef)
         {
@@ -161,67 +134,6 @@ namespace NBi.Core.ResultSet
                 ColumnsDef = columnsDef;
             else
                 ColumnsDef = new List<IColumnDefinition>(0);
-        }
-
-        //public ResultSetComparaisonSettings() : this (new List<int>() {0}, new List<int>() {1}, 0)
-        //{
-        //}
-
-        //public ResultSetComparaisonSettings(decimal tolerance)
-        //    : this(new List<int>() { 0 }, new List<int>() { 1 }, tolerance)
-        //{
-
-        //}
-
-        //protected ResultSetComparaisonSettings(IList<int> keyColumnIndexes, IList<int> valueColumnIndexes)
-        //{
-        //    KeyColumnIndexes = keyColumnIndexes;
-        //    ValueColumnIndexes = valueColumnIndexes;
-        //}
-
-        //public ResultSetComparaisonSettings(IList<int> keyColumnIndexes, IList<int> valueColumnIndexes, decimal tolerance)
-        //    : this(keyColumnIndexes, valueColumnIndexes) 
-        //{
-        //    _tolerances = new List<decimal>(valueColumnIndexes.Count);
-        //    for (int i = 0; i < valueColumnIndexes.Count; i++)
-        //        _tolerances.Add(tolerance);
-        //}
-
-        //public ResultSetComparaisonSettings(IList<int> keyColumnIndexes, IList<int> valueColumnIndexes, IList<decimal> tolerances)
-        //    : this(keyColumnIndexes, valueColumnIndexes) 
-        //{
-        //    if (valueColumnIndexes.Count != tolerances.Count)
-        //        throw new ArgumentException();
-        //    _tolerances = tolerances;
-        //}
-
-        //public ResultSetComparaisonSettings(int keyColumnCount, int valueColumnCount, decimal tolerance)
-        //{
-        //    KeyColumnIndexes = new List<int>(keyColumnCount);
-        //    for (int i = 0; i < keyColumnCount; i++)
-        //        KeyColumnIndexes.Add(i);
-
-        //    ValueColumnIndexes = new List<int>(valueColumnCount);
-        //    _tolerances = new List<decimal>(valueColumnCount);
-        //    for (int i = 0; i < valueColumnCount; i++)
-        //    {
-        //        ValueColumnIndexes.Add(i + keyColumnCount);
-        //        _tolerances.Add(tolerance);
-        //    }
-
-        //}
-
-        public void ConsoleDisplay()
-        {
-            //Console.Write("Indexes: |");
-            //foreach (var kci in KeyColumnIndexes)
-            //    Console.Write("{0} | ", kci);
-            //Console.WriteLine();
-
-            //Console.Write("Values: |");
-            //for (int i = 0; i < ValueColumnIndexes.Count; i++)
-            //    Console.Write("{0} (+/- {1}) |", ValueColumnIndexes[i], "?");
-            //Console.WriteLine();
         }
     }
 }

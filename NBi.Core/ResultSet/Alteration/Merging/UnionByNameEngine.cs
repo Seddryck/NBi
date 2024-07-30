@@ -31,7 +31,7 @@ namespace NBi.Core.ResultSet.Alteration.Merging
             { 
                 if (!secondRs.ContainsColumn(dataColumn.Name))
                     secondRs.AddColumn(dataColumn.Name);
-                secondRs.GetColumn(dataColumn.Name).Move(dataColumn.Ordinal);
+                secondRs.GetColumn(dataColumn.Name)?.Move(dataColumn.Ordinal);
             }
 
             //Import each row of the second dataset

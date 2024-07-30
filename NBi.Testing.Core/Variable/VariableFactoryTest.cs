@@ -4,6 +4,7 @@ using NBi.Core.Query.Resolver;
 using NBi.Core.Scalar.Resolver;
 using NBi.Core.Transformation;
 using NBi.Core.Variable;
+using NBi.Extensibility.Query;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
@@ -31,7 +32,7 @@ namespace NBi.Core.Testing.Variable
         public void Instantiate_QueryScalar_GlobalVariable()
         {
             var factory = new VariableFactory();
-            var queryResolverArgsMock = new Mock<BaseQueryResolverArgs>(null, null, null, null);
+            var queryResolverArgsMock = new Mock<BaseQueryResolverArgs>(string.Empty, Array.Empty<IQueryParameter>(), Array.Empty<IQueryTemplateVariable>(), TimeSpan.Zero);
             var resolver = new QueryScalarResolver<object>(new QueryScalarResolverArgs(queryResolverArgsMock.Object), new ServiceLocator());
             var variable = factory.Instantiate(VariableScope.Global, resolver);
 

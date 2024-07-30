@@ -101,7 +101,7 @@ namespace NBi.Core.Testing.Structure
             var doc = new XmlDocument();
             
             doc.LoadXml(xml);
-            var provider = new FakeStructureDiscoveryFactoryProvider(null);
+            var provider = new FakeStructureDiscoveryFactoryProvider(string.Empty);
             var parsedServerMode = provider.ParseXmlaResponse(doc);
             Assert.That(parsedServerMode, Is.EqualTo(serverMode));
         }
@@ -125,7 +125,7 @@ namespace NBi.Core.Testing.Structure
             var doc = new XmlDocument();
 
             doc.LoadXml(xml);
-            var provider = new FakeStructureDiscoveryFactoryProvider(null);
+            var provider = new FakeStructureDiscoveryFactoryProvider(string.Empty);
             var parsedServerMode = provider.ParseXmlaResponse(doc);
             Assert.That(parsedServerMode, Is.EqualTo("Multidimensional"));
         }
@@ -149,7 +149,7 @@ namespace NBi.Core.Testing.Structure
             var doc = new XmlDocument();
 
             doc.LoadXml(xml);
-            var provider = new FakeStructureDiscoveryFactoryProvider(null);
+            var provider = new FakeStructureDiscoveryFactoryProvider(string.Empty);
             Assert.Throws<ArgumentException>(delegate { provider.ParseXmlaResponse(doc); });
         }
     }

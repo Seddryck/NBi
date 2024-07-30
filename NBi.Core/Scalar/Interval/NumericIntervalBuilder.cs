@@ -6,10 +6,10 @@ namespace NBi.Core.Scalar.Interval
 {
 	public class NumericIntervalBuilder
 	{
-		private readonly string value;
+		private readonly string? value;
 		private bool isBuild;
-		protected NumericInterval interval;
-		protected Exception ex;
+		protected NumericInterval? interval;
+		protected Exception? ex;
 
 		public NumericIntervalBuilder(string value)
 		{
@@ -19,10 +19,10 @@ namespace NBi.Core.Scalar.Interval
 
 		public NumericIntervalBuilder(object value)
 		{
-			if (value is string)
-				this.value = (string)value;
+			if (value is string str)
+				this.value = str;
 			else
-				ex = new ArgumentException("This must be a string");
+				ex = new ArgumentException($"Value must be a string but was {value}");
 			
 			isBuild = false;
 		}
@@ -31,7 +31,7 @@ namespace NBi.Core.Scalar.Interval
 		{
 			if (ex == null)
 			{ 
-				var valueToBuild = value.Replace(" ", "").ToLower();
+				var valueToBuild = (value ?? string.Empty).Replace(" ", "").ToLower();
 
 				if (valueToBuild.StartsWith("(") && valueToBuild.EndsWith(")"))
 					interval = BuildGeneric(valueToBuild);
@@ -41,7 +41,7 @@ namespace NBi.Core.Scalar.Interval
 			isBuild = true;
 		}
 
-		protected virtual NumericInterval BuildClassic(string value)
+		protected virtual NumericInterval? BuildClassic(string value)
 		{
 			if (!(value.StartsWith("]") || value.StartsWith("[")))
 				ex = new ArgumentException("The interval definition must start by '[' or ']'");
@@ -65,10 +65,10 @@ namespace NBi.Core.Scalar.Interval
 			else
 				if (split[0].StartsWith("["))
 					left = new LeftEndPointClosed<double>(
-							Double.Parse(split[0].Substring(1, split[0].Length - 1), CultureInfo.InvariantCulture.NumberFormat));
+							double.Parse(split[0].Substring(1, split[0].Length - 1), CultureInfo.InvariantCulture.NumberFormat));
 				else
 					left = new LeftEndPointOpen<double>(
-							Double.Parse(split[0].Substring(1, split[0].Length - 1), CultureInfo.InvariantCulture.NumberFormat));
+							double.Parse(split[0].Substring(1, split[0].Length - 1), CultureInfo.InvariantCulture.NumberFormat));
 
 			if (split[1].Substring(0, split[1].Length - 1).ToLower() == "+inf"
 				|| split[1].Substring(0, split[1].Length - 1).ToLower() == "inf")
@@ -76,15 +76,15 @@ namespace NBi.Core.Scalar.Interval
 			else
 				if (split[1].EndsWith("]"))
 					right = new RightEndPointClosed<double>(
-							Double.Parse(split[1].Substring(0, split[1].Length - 1), CultureInfo.InvariantCulture.NumberFormat));
+							double.Parse(split[1].Substring(0, split[1].Length - 1), CultureInfo.InvariantCulture.NumberFormat));
 				else
 					right = new RightEndPointOpen<double>(
-							Double.Parse(split[1].Substring(0, split[1].Length - 1), CultureInfo.InvariantCulture.NumberFormat));
+							double.Parse(split[1].Substring(0, split[1].Length - 1), CultureInfo.InvariantCulture.NumberFormat));
 
 			return new NumericInterval(left, right);
 		}
 
-		protected virtual NumericInterval BuildGeneric(string value)
+		protected virtual NumericInterval? BuildGeneric(string value)
 		{
 			
 			value = value.Substring(1, value.Length - 2);
@@ -142,10 +142,10 @@ namespace NBi.Core.Scalar.Interval
 			if (!isBuild)
 				throw new InvalidOperationException("You must first apply the build method before a call to this method.");
 
-			return interval;
+			return interval!;
 		}
 
-		public Exception GetException()
+		public Exception? GetException()
 		{
 			if (!isBuild)
 				throw new InvalidOperationException("You must first apply the build method before a call to this method.");

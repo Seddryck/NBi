@@ -44,14 +44,14 @@ namespace NBi.Core.Testing.Scalar.Resolver
                         "<PurchaseOrder>99503</PurchaseOrder>" +
                         "<PurchaseOrder>99505</PurchaseOrder>" +
                       "</PurchaseOrders>";
-            string xmlDoc = $@"XDocument.Load(new System.IO.StringReader(""{xml}"")).Root.Name.ToString()";
-
+            string xmlDoc = $@"System.Xml.Linq.XDocument.Load(new System.IO.StringReader(""{xml}"")).Root?.Name.ToString()";
+            
             var args = new CSharpScalarResolverArgs(xmlDoc);
             var resolver = new CSharpScalarResolver<string>(args);
 
             var output = resolver.Execute();
 
-            Assert.That(output, Is.EqualTo(XDocument.Load(new StringReader(xml)).Root.Name.ToString()));
+            Assert.That(output, Is.EqualTo(XDocument.Load(new StringReader(xml)).Root?.Name.ToString()));
         }
 
         [Test]
@@ -66,7 +66,7 @@ namespace NBi.Core.Testing.Scalar.Resolver
 
             var output = resolver.Execute();
 
-            Assert.That(output, Is.EqualTo(XDocument.Load(xmlPath).XPathSelectElement(xPath).Value.ToString()));
+            Assert.That(output, Is.EqualTo(XDocument.Load(xmlPath).XPathSelectElement(xPath)?.Value.ToString()));
         }
     }
 }

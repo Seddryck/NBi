@@ -37,7 +37,7 @@ namespace NBi.Core.DataType
         public IDataTypeDiscoveryFactory Instantiate(string connectionString)
         {
             var sessionFactory = new ClientProvider();
-            var connection = sessionFactory.Instantiate(connectionString).CreateNew() as IDbConnection;
+            var connection = (IDbConnection)sessionFactory.Instantiate(connectionString).CreateNew();
             var dbType = MapConnectionTypeToDatabaseType(connection);
 
             if (!dico.Keys.Contains(dbType))
@@ -52,15 +52,14 @@ namespace NBi.Core.DataType
 
         protected virtual string MapConnectionTypeToDatabaseType(IDbConnection connection)
         {
-            if (connection is SqlConnection)
-                return Relational;
-            if (connection is OleDbConnection)
-                return Relational;
-            if (connection is OdbcConnection)
-                return Relational;
-            if (connection is AdomdConnection)
-                return InquireFurtherAnalysisService(connection.ConnectionString);
-            throw new ArgumentOutOfRangeException();
+            return connection switch
+            {
+                SqlConnection => Relational,
+                OleDbConnection => Relational,
+                OdbcConnection => Relational,
+                AdomdConnection => InquireFurtherAnalysisService(connection.ConnectionString),
+                _ => throw new ArgumentOutOfRangeException()
+            };
         }
 
         protected virtual string InquireFurtherAnalysisService(string connectionString)

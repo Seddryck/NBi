@@ -15,7 +15,7 @@ namespace NBi.Core.Sequence.Transformation.Aggregation.Strategy
         public FailureMissingValueStrategy(ColumnType columnType)
             => ColumnType = columnType;
 
-        public IEnumerable<object> Execute(IEnumerable<object> values)
+        public IEnumerable<object> Execute(IEnumerable<object?> values)
         {
             var caster = new CasterFactory().Instantiate(ColumnType);
             if (values.All(x => ((NumericCaster)caster).IsStrictlyValid(x)))

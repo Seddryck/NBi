@@ -20,9 +20,11 @@ namespace NBi.Core.Query.Format
             : base(connection, command)
         { }
 
-        public IEnumerable<string> Parse(CellSet cellSet)
+        public IEnumerable<string> Parse(CellSet? cellSet)
         {
             var formattedResults = new List<string>();
+            if (cellSet is null)
+                return formattedResults;
 
             foreach (var cell in cellSet.Cells)
                 formattedResults.Add(cell.FormattedValue);
@@ -32,15 +34,13 @@ namespace NBi.Core.Query.Format
 
         public IEnumerable<string> ExecuteFormat()
         {
-            using (var connection = NewConnection())
-            {
-                OpenConnection(connection);
-                InitializeCommand(Command, CommandTimeout, Command.Parameters, connection);
-                StartWatch();
-                var cs = OnExecuteCellSet(Command as AdomdCommand);
-                StopWatch();
-                return Parse(cs);
-            }
+            using var connection = NewConnection();
+            OpenConnection(connection);
+            InitializeCommand(Command, CommandTimeout, Command.Parameters, connection);
+            StartWatch();
+            var cs = OnExecuteCellSet((AdomdCommand)Command);
+            StopWatch();
+            return Parse(cs);
         }
 
         private CellSet? OnExecuteCellSet(AdomdCommand command)

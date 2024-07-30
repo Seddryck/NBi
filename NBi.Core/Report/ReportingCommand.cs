@@ -9,7 +9,7 @@ namespace NBi.Core.Report
 {
     public class ReportingCommand
     {
-        public string Text { get; set; }
+        public string Text { get; set; } = string.Empty;
         public CommandType CommandType { get; set; }
     }
 }

@@ -20,25 +20,23 @@ namespace NBi.Core.Query.Performance
 
         public override void CleanCache()
         {
-            using (var conn = engine.NewConnection())
-            {
-                string xmla = string.Empty;
-                using (var stream = Assembly.GetExecutingAssembly()
-                                           .GetManifestResourceStream("NBi.Core.Query.Performance.CleanCache.xmla"))
-                using (var reader = new StreamReader(stream))
-                    xmla = reader.ReadToEnd();
+            using var conn = engine.NewConnection();
+            string xmla = string.Empty;
+            using (var stream = Assembly.GetExecutingAssembly()
+                                       .GetManifestResourceStream("NBi.Core.Query.Performance.CleanCache.xmla") ?? throw new FileNotFoundException())
+            using (var reader = new StreamReader(stream))
+                xmla = reader.ReadToEnd();
 
-                engine.OpenConnection(conn);
-                var csb = new DbConnectionStringBuilder() { ConnectionString = conn.ConnectionString };
-                if (!csb.ContainsKey("Initial Catalog"))
-                    throw new ArgumentException("The token 'Initial Catalog' was not provided in the connection string due to this, it was impossible to clean the cache of the database.");
+            engine.OpenConnection(conn);
+            var csb = new DbConnectionStringBuilder() { ConnectionString = conn.ConnectionString };
+            if (!csb.ContainsKey("Initial Catalog"))
+                throw new ArgumentException("The token 'Initial Catalog' was not provided in the connection string due to this, it was impossible to clean the cache of the database.");
 
-                
-                var cmd = conn.CreateCommand();
-                cmd.Connection = conn;
-                cmd.CommandText = string.Format(xmla, csb["Initial Catalog"]);
-                cmd.ExecuteNonQuery();
-            }
+
+            var cmd = conn.CreateCommand();
+            cmd.Connection = conn;
+            cmd.CommandText = string.Format(xmla, csb["Initial Catalog"]);
+            cmd.ExecuteNonQuery();
         }
     }
 }

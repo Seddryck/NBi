@@ -100,7 +100,7 @@ namespace NBi.Core.Testing.ResultSet
         {
             var objects = new List<object>();
             for (int i = 0; i < x; i++)
-                objects.Add(new object[] { i, i.ToString(), null, i * 2 });
+                objects.Add(new object?[] { i, i.ToString(), null, i * 2 });
 
 
             var rs = new DataTableResultSet();
@@ -125,7 +125,7 @@ namespace NBi.Core.Testing.ResultSet
         {
             var objects = new List<object>();
             for (int i = 0; i < x; i++)
-                objects.Add(new object[] { i, i.ToString(), null, i * 2 });
+                objects.Add(new object?[] { i, i.ToString(), null, i * 2 });
 
 
             var rs = new DataTableResultSet();

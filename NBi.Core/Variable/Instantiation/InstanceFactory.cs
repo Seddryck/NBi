@@ -42,11 +42,11 @@ namespace NBi.Core.Variable.Instantiation
             {
                 var dico = new Dictionary<string, IVariable>() { { variableName, new InstanceVariable(obj) } };
                 foreach (var derivation in derivations)
-                    dico.Add(derivation.Key, new InstanceVariable(derivation.Value.Transformer.Execute(dico[derivation.Value.Source].GetValue())));
+                    dico.Add(derivation.Key, new InstanceVariable(derivation.Value.Transformer.Execute(dico[derivation.Value.Source].GetValue() ?? throw new NullReferenceException()) ?? throw new NullReferenceException()));
                 yield return new Instance(
-                    dico,
-                    categories,
-                    traits
+                        dico,
+                        categories,
+                        traits
                     );
             }
         }

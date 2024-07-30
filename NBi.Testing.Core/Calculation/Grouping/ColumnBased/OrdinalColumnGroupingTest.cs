@@ -52,14 +52,14 @@ namespace NBi.Core.Testing.Calculation.Grouping.ColumnBased
         [Test]
         public void Execute_TwoCustomColumns_ThreeGroups()
         {
-            var args = new ObjectsResultSetResolverArgs(new[] { new object[] { "alpha", 1d, 10 }, new object[] { "alpha", 1, 20 }, new object[] { "beta", 2, 30 }, new object[] { "alpha", 2, 40 } });
+            var args = new ObjectsResultSetResolverArgs(new[] { ["alpha", 1d, 10], ["alpha", 1, 20], new object[] { "beta", 2, 30 }, new object[] { "alpha", 2, 40 } });
             var resolver = new ObjectsResultSetResolver(args);
             var rs = resolver.Execute();
 
             var settings = new SettingsOrdinalResultSet(new List<IColumnDefinition>()
                 {
-                    new Column() { Identifier = new ColumnOrdinalIdentifier(0), Role = ColumnRole.Key, Type = ColumnType.Text },
-                    new Column() { Identifier = new ColumnOrdinalIdentifier(1), Role = ColumnRole.Key, Type = ColumnType.Numeric },
+                    new Column(new ColumnOrdinalIdentifier(0), ColumnRole.Key, ColumnType.Text ),
+                    new Column(new ColumnOrdinalIdentifier(1), ColumnRole.Key, ColumnType.Numeric ),
                 }
             );
             var grouping = new OrdinalColumnGrouping(settings, Context.None);

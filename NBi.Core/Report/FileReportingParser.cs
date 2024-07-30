@@ -20,7 +20,7 @@ namespace NBi.Core.Report
             //Load the xml
             var docXml = new XmlDocument();
             docXml.Load(fullPath);
-            var root = docXml.FirstChild;
+            var root = docXml.FirstChild ?? throw new NullReferenceException();
             if (root.NodeType == XmlNodeType.XmlDeclaration)
                 root = root.NextSibling;
 
@@ -29,7 +29,7 @@ namespace NBi.Core.Report
             //var xpath = "//Report";
 
             var nsmgr = new XmlNamespaceManager(docXml.NameTable);
-            nsmgr.AddNamespace("rd", root.GetNamespaceOfPrefix(string.Empty));
+            nsmgr.AddNamespace("rd", root?.GetNamespaceOfPrefix(string.Empty) ?? string.Empty);
 
             var node = docXml.SelectSingleNode(xpath, nsmgr);
             if (node == null)
@@ -81,13 +81,13 @@ namespace NBi.Core.Report
             var docXml = new XmlDocument();
             docXml.Load(fullPath);
 
-            var root = docXml.FirstChild;
+            var root = docXml.FirstChild ?? throw new NullReferenceException();
             if (root.NodeType == XmlNodeType.XmlDeclaration)
                 root = root.NextSibling;
 
             var xpath = string.Format("//rd:SharedDataSet/rd:DataSet[@Name=\"\"]/rd:Query/rd:CommandText");
             var nsmgr = new XmlNamespaceManager(docXml.NameTable);
-            nsmgr.AddNamespace("rd", root.GetNamespaceOfPrefix(string.Empty));
+            nsmgr.AddNamespace("rd", root?.GetNamespaceOfPrefix(string.Empty) ?? string.Empty);
             var node = docXml.SelectSingleNode(xpath, nsmgr);
             if (node != null)
             {
@@ -109,11 +109,13 @@ namespace NBi.Core.Report
         private Exception BuildDataSetNotFoundException(ReportDataSetRequest request, XmlDocument docXml, string xpath, XmlNamespaceManager nsmgr)
         {
             var nodes = docXml.SelectNodes(xpath, nsmgr);
-            var dataSetFound = new List<String>();
-            foreach (XmlNode node in nodes)
-                dataSetFound.Add(node.Attributes["Name"].Value);
-
-            if (dataSetFound.Count() > 1)
+            var dataSetFound = new List<string>();
+            if (nodes != null)
+            {
+                foreach (XmlNode node in nodes)
+                    dataSetFound.Add(node.Attributes?["Name"]?.Value ?? throw new NullReferenceException());
+            }
+            if (dataSetFound.Count > 1)
                 throw new ArgumentException(string.Format("The requested dataset ('{2}') wasn't found for the report on path '{0}' with name '{1}'. The datasets for this report are {3}", request.Path, request.ReportName, request.DataSetName, String.Join(", ", dataSetFound.ToArray())));
             else
                 throw new ArgumentException(string.Format("The requested dataset ('{2}') wasn't found for the report on path '{0}' with name '{1}'. The dataset for this report is named '{3}'", request.Path, request.ReportName, request.DataSetName, dataSetFound[0]));

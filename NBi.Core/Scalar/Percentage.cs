@@ -20,7 +20,7 @@ namespace NBi.Core.Scalar
 
         public Percentage(string value)
         {
-            var pct = (Percentage)TypeDescriptor.GetConverter(GetType()).ConvertFromString(value);
+            var pct = (Percentage)(TypeDescriptor.GetConverter(GetType()).ConvertFromString(value) ?? throw new NullReferenceException());
             Value = pct.Value;
         }
 
@@ -31,7 +31,7 @@ namespace NBi.Core.Scalar
 
         public string ToString(CultureInfo Culture)
         {
-            return TypeDescriptor.GetConverter(GetType()).ConvertToString(null, Culture, this);
+            return TypeDescriptor.GetConverter(GetType()).ConvertToString(null, Culture, this) ?? string.Empty;
         }
     }
 }

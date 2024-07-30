@@ -41,7 +41,7 @@ namespace NBi.Core.Testing.ResultSet.Lookup
 
             var columns = new List<IColumnDefinition>()
             {
-                new Column() { Identifier= new ColumnOrdinalIdentifier(0), Type=ColumnType.Text}
+                new Column(new ColumnOrdinalIdentifier(0), ColumnRole.Key, ColumnType.Text)
             };
 
             var keyRetriever = new CellRetrieverByOrdinal(columns);
@@ -57,7 +57,7 @@ namespace NBi.Core.Testing.ResultSet.Lookup
 
             var columns = new List<IColumnDefinition>()
             {
-                new Column() { Identifier= new ColumnOrdinalIdentifier(2), Type=ColumnType.Numeric}
+                new Column(new ColumnOrdinalIdentifier(2), ColumnRole.Key, ColumnType.Numeric)
             };
 
             var keyRetriever = new CellRetrieverByOrdinal(columns);
@@ -73,7 +73,7 @@ namespace NBi.Core.Testing.ResultSet.Lookup
 
             var columns = new List<IColumnDefinition>()
             {
-                new Column() { Identifier= new ColumnOrdinalIdentifier(2), Type=ColumnType.Numeric}
+                new Column(new ColumnOrdinalIdentifier(2), ColumnRole.Key, ColumnType.Numeric)
             };
 
             var keyRetriever = new CellRetrieverByOrdinal(columns);
@@ -89,8 +89,8 @@ namespace NBi.Core.Testing.ResultSet.Lookup
 
             var columns = new List<IColumnDefinition>()
             {
-                new Column() { Identifier= new ColumnOrdinalIdentifier(0), Type=ColumnType.Text},
-                new Column() { Identifier= new ColumnOrdinalIdentifier(1), Type=ColumnType.Text}
+                new Column(new ColumnOrdinalIdentifier(0), ColumnRole.Key, ColumnType.Text),
+                new Column(new ColumnOrdinalIdentifier(1), ColumnRole.Key, ColumnType.Text)
             };
 
             var keyRetriever = new CellRetrieverByOrdinal(columns);
@@ -106,8 +106,8 @@ namespace NBi.Core.Testing.ResultSet.Lookup
 
             var columns = new List<IColumnDefinition>()
             {
-                new Column() { Identifier= new ColumnOrdinalIdentifier(0), Type=ColumnType.Text},
-                new Column() { Identifier= new ColumnOrdinalIdentifier(2), Type=ColumnType.Numeric}
+                new Column(new ColumnOrdinalIdentifier(0), ColumnRole.Key, ColumnType.Text),
+                new Column(new ColumnOrdinalIdentifier(2), ColumnRole.Key, ColumnType.Numeric)
             };
 
             var keyRetriever = new CellRetrieverByOrdinal(columns);
@@ -123,8 +123,8 @@ namespace NBi.Core.Testing.ResultSet.Lookup
 
             var columns = new List<IColumnDefinition>()
             {
-                new Column() { Identifier= new ColumnOrdinalIdentifier(1), Type=ColumnType.Text},
-                new Column() { Identifier= new ColumnOrdinalIdentifier(0), Type=ColumnType.Text}
+                new Column(new ColumnOrdinalIdentifier(1), ColumnRole.Key, ColumnType.Text),
+                new Column(new ColumnOrdinalIdentifier(0), ColumnRole.Key, ColumnType.Text)
             };
 
             var keyRetriever = new CellRetrieverByOrdinal(columns);

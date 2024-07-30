@@ -23,7 +23,7 @@ namespace NBi.Core.Query.Execution
 
         internal override void OpenConnection(IDbConnection connection)
         {
-            var connectionString = Command.Connection.ConnectionString;
+            var connectionString = Command.Connection!.ConnectionString;
             try
             { connection.ConnectionString = connectionString; }
             catch (ArgumentException ex)
@@ -38,7 +38,7 @@ namespace NBi.Core.Query.Execution
         protected override void HandleException(Exception ex, IDbCommand command) 
         {
             if (ex is AdomdConnectionException)
-                throw new ConnectionException(ex, command.Connection.ConnectionString);
+                throw new ConnectionException(ex, command.Connection!.ConnectionString);
             if (ex is AdomdErrorResponseException && ex.Message.StartsWith("Timeout expired."))
                 OnTimeout(ex, command);
             throw ex;

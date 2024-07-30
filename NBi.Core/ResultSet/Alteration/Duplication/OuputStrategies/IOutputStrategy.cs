@@ -8,7 +8,7 @@ namespace NBi.Core.ResultSet.Alteration.Duplication.OuputStrategies
 {
     public interface IOutputStrategy
     {
-        object Execute(bool isOriginal, bool isDuplicated, int times, int index);
+        object? Execute(bool isOriginal, bool isDuplicated, int times, int index);
         bool IsApplicable(bool isOriginal);
     }
 }

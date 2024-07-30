@@ -20,6 +20,10 @@ namespace NBi.Core.Api.Authentication
         public OAuth2(IScalarResolver<string> accessToken)
             : this(accessToken, new LiteralScalarResolver<string>("OAuth")) { }
 
-        public IAuthenticator GetAuthenticator() => new OAuth2AuthorizationRequestHeaderAuthenticator(AccessToken.Execute(), TokenType.Execute());
+        public IAuthenticator GetAuthenticator() 
+            => new OAuth2AuthorizationRequestHeaderAuthenticator(
+                    AccessToken.Execute() ?? throw new NullReferenceException()
+                    , TokenType.Execute() ?? throw new NullReferenceException()
+                );
     }
 }

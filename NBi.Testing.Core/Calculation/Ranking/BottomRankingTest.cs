@@ -30,7 +30,7 @@ namespace NBi.Core.Testing.Calculation.Ranking
             var resolver = new ObjectsResultSetResolver(args);
             var rs = resolver.Execute();
 
-            var ranking = new BottomRanking(new ColumnOrdinalIdentifier(1), columnType, null, null);
+            var ranking = new BottomRanking(new ColumnOrdinalIdentifier(1), columnType, [], []);
             var filteredRs = ranking.Apply(rs);
 
             Assert.That(filteredRs.RowCount, Is.EqualTo(1));
@@ -51,7 +51,7 @@ namespace NBi.Core.Testing.Calculation.Ranking
             var resolver = new ObjectsResultSetResolver(args);
             var rs = resolver.Execute();
 
-            var ranking = new BottomRanking(2, new ColumnOrdinalIdentifier(1), columnType, null, null);
+            var ranking = new BottomRanking(2, new ColumnOrdinalIdentifier(1), columnType, [], []);
             var filteredRs = ranking.Apply(rs);
 
             Assert.That(filteredRs.RowCount, Is.EqualTo(2));
@@ -72,7 +72,7 @@ namespace NBi.Core.Testing.Calculation.Ranking
             var resolver = new ObjectsResultSetResolver(args);
             var rs = resolver.Execute();
 
-            var ranking = new BottomRanking(10, new ColumnOrdinalIdentifier(1), columnType, null, null);
+            var ranking = new BottomRanking(10, new ColumnOrdinalIdentifier(1), columnType, [], []);
             var filteredRs = ranking.Apply(rs);
 
             Assert.That(filteredRs.RowCount, Is.EqualTo(values.Count()));
@@ -97,7 +97,7 @@ namespace NBi.Core.Testing.Calculation.Ranking
 
             var alias = Mock.Of<IColumnAlias>(x => x.Column == 1 && x.Name == "myValue");
 
-            var ranking = new BottomRanking(new ColumnNameIdentifier("myValue"), columnType, Enumerable.Repeat(alias, 1), null);
+            var ranking = new BottomRanking(new ColumnNameIdentifier("myValue"), columnType, Enumerable.Repeat(alias, 1), []);
             var filteredRs = ranking.Apply(rs);
 
             Assert.That(filteredRs.RowCount, Is.EqualTo(1));

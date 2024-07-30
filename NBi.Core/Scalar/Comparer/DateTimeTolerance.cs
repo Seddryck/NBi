@@ -23,15 +23,8 @@ namespace NBi.Core.Scalar.Comparer
         }
 
         public static DateTimeTolerance None
-        {
-            get
-            {
-                if (none == null)
-                    none = new DateTimeTolerance();
-                return none;
-            }
-        }
+            => none;
 
-        private static DateTimeTolerance none;
+        private readonly static DateTimeTolerance none = new();
     }
 }

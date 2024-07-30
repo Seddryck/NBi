@@ -15,7 +15,7 @@ namespace NBi.Core.Scalar.Comparer
             caster = new DateTimeCaster();
         }
 
-        protected override ComparerResult CompareObjects(object x, object y)
+        protected override ComparerResult CompareObjects(object? x, object? y)
         {
             var rxDateTime = caster.Execute(x);
             var ryDateTime = caster.Execute(y);
@@ -27,17 +27,17 @@ namespace NBi.Core.Scalar.Comparer
             return new ComparerResult(rxDateTime.ToString(DateTimeFormatInfo.InvariantInfo));
         }
 
-        public ComparerResult Compare(object x, object y, TimeSpan tolerance)
+        public ComparerResult Compare(object? x, object? y, TimeSpan tolerance)
         {
             return base.Compare(x, y, new DateTimeTolerance(tolerance));
         }
 
-        public ComparerResult Compare(object x, object y, string tolerance)
+        public ComparerResult Compare(object? x, object? y, string tolerance)
         {
             return base.Compare(x, y, new DateTimeTolerance(TimeSpan.Parse(tolerance)));
         }
 
-        public ComparerResult CompareObjects(object x, object y, DateTimeRounding rounding)
+        public ComparerResult CompareObjects(object? x, object? y, DateTimeRounding rounding)
         {
             var rxDateTime = caster.Execute(x);
             var ryDateTime = caster.Execute(y);
@@ -48,7 +48,7 @@ namespace NBi.Core.Scalar.Comparer
             return CompareObjects(rxDateTime, ryDateTime);
         }
 
-        protected override ComparerResult CompareObjects(object x, object y, Rounding rounding)
+        protected override ComparerResult CompareObjects(object? x, object? y, Rounding rounding)
         {
             if (!(rounding is DateTimeRounding))
                 throw new ArgumentException("Rounding must be of type 'DateTimeRounding'");
@@ -56,7 +56,7 @@ namespace NBi.Core.Scalar.Comparer
             return CompareObjects(x, y, (DateTimeRounding)rounding);
         }
 
-        protected override ComparerResult CompareObjects(object x, object y, Tolerance tolerance)
+        protected override ComparerResult CompareObjects(object? x, object? y, Tolerance tolerance)
         {
             if (tolerance == null)
                 tolerance = DateTimeTolerance.None;
@@ -67,7 +67,7 @@ namespace NBi.Core.Scalar.Comparer
             return CompareObjects(x, y, (DateTimeTolerance)tolerance);
         }
 
-        protected ComparerResult CompareObjects(object x, object y, DateTimeTolerance tolerance)
+        protected ComparerResult CompareObjects(object? x, object? y, DateTimeTolerance tolerance)
         {
             var rxDateTime = caster.Execute(x);
             var ryDateTime = caster.Execute(y);

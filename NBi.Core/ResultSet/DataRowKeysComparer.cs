@@ -45,7 +45,7 @@ namespace NBi.Core.ResultSet
             return hash;
         }
 
-        protected internal object FormatValue(ColumnType columnType, object value)
+        protected internal object FormatValue(ColumnType columnType, object? value)
         {
             if (value==null || value==DBNull.Value || value as string == "(null)")
                 return "(null)";

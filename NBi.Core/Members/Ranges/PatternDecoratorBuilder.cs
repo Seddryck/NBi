@@ -7,9 +7,7 @@ namespace NBi.Core.Members.Ranges
 	internal class PatternDecoratorBuilder : BaseDecoratorBuilder
 	{
 		protected override IEnumerable<string> InternalApply(IEnumerable<string> results)
-		{
-			return ApplyPattern(results, ((IPatternDecorator)Range).Pattern, ((IPatternDecorator)Range).Position);
-		}
+			=> ApplyPattern(results, ((IPatternDecorator)Range!).Pattern, ((IPatternDecorator)Range).Position);
 
 		private IEnumerable<string> ApplyPattern(IEnumerable<string> results, string pattern, PositionValue position)
 		{
@@ -25,7 +23,6 @@ namespace NBi.Core.Members.Ranges
 				list.Add(patternizer(pattern, value));
 
 			return list;
-			
 		}
 
 		public IEnumerable<string> Build(int start, int end, int step)
@@ -38,13 +35,9 @@ namespace NBi.Core.Members.Ranges
 		}
 
 		protected string ApplyPatternAsPrefix(string pattern, string value)
-		{
-			return string.Format("{0}{1}", pattern, value);
-		}
+            => $"{pattern}{value}";
 
-		protected string ApplyPatternAsSuffix(string pattern, string value)
-		{
-			return string.Format("{1}{0}", pattern, value);
-		}
+        protected string ApplyPatternAsSuffix(string pattern, string value)
+			=> $"{value}{pattern}";
 	}
 }

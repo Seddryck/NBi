@@ -16,7 +16,7 @@ namespace NBi.Core.Sequence.Transformation.Aggregation
         public Aggregation(IAggregationFunction function, IMissingValueStrategy missingValue, IEmptySeriesStrategy emptySeries)
             => (Function, MissingValues, EmptySeries) = (function, missingValue, emptySeries);
 
-        public object Execute(List<object> values)
+        public object? Execute(List<object> values)
         {
             var typedValues = MissingValues.Execute(values);
             if (typedValues.Count() == 0)

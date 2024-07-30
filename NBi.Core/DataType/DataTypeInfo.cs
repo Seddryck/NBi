@@ -8,14 +8,11 @@ namespace NBi.Core.DataType
 {
     public class DataTypeInfo
     {
-        public string Name { get; set; }
+        public string? Name { get; set; }
         
         public bool Nullable { get; set; }
 
         public override string ToString()
-        {
- 	         return Name;
-        }
-
+            => Name ?? string.Empty;
     }
 }

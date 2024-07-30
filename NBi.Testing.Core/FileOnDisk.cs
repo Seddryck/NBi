@@ -34,7 +34,7 @@ namespace NBi.Testing
 
             //create the directory if needed
             if (!Directory.Exists(Path.GetDirectoryName(fullpath)))
-                Directory.CreateDirectory(Path.GetDirectoryName(fullpath));
+                Directory.CreateDirectory(Path.GetDirectoryName(fullpath) ?? throw new NullReferenceException());
 
             //delete it if already existing
             if (File.Exists(fullpath))

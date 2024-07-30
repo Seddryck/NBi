@@ -22,20 +22,20 @@ namespace NBi.Core.ResultSet.Alteration.Reshaping
         {
             //Build structre of the resulting table
             var valueColumns = rs.Columns.Where(
-                    x => !Args.Header.GetColumn(rs).Equals(x)
+                    x => !x.Equals(Args.Header.GetColumn(rs))
                     && !Args.GroupBys.Select(y => y.Identifier.GetColumn(rs)).Contains(x)
                 );
 
             var headerValues = Args.EnforcedColumns.Select(x => x.Name).ToList();
             foreach (var row in rs.Rows)
-                headerValues.Add(Args.Header.GetValue(row).ToString());
+                headerValues.Add(Args.Header.GetValue(row)?.ToString() ?? "null");
             headerValues = headerValues.Distinct().ToList();
 
             using (var dataTable = new DataTableResultSet())
             {
                 foreach (var groupBy in Args.GroupBys)
                 {
-                    var column = groupBy.Identifier.GetColumn(rs);
+                    var column = groupBy.Identifier.GetColumn(rs) ?? throw new NullReferenceException();
                     dataTable.AddColumn(column.Name, column.DataType);
                 }
 
@@ -55,14 +55,14 @@ namespace NBi.Core.ResultSet.Alteration.Reshaping
                 {
                     var newRow = dataTable.NewRow();
                     var itemArray = newRow.ItemArray;
-                    new List<object>(group.Key.Members).CopyTo(0, itemArray, 0, group.Key.Members.Count());
+                    new List<object>(group.Key.Members).CopyTo(0, itemArray!, 0, group.Key.Members.Count());
 
 
                     var alreadyValued = new List<string>();
                     foreach (var groupRow in group.Value.Rows)
                         foreach (var valueColumn in valueColumns)
                         {
-                            var nameValueColumn = namingStrategy.Execute(groupRow[Args.Header].ToString(), valueColumn.Name);
+                            var nameValueColumn = namingStrategy.Execute(groupRow[Args.Header]?.ToString() ?? string.Empty, valueColumn.Name);
                             if (!alreadyValued.Contains(nameValueColumn))
                             {
                                 alreadyValued.Add(nameValueColumn);

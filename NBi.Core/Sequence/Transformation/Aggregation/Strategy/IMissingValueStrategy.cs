@@ -11,6 +11,6 @@ namespace NBi.Core.Sequence.Transformation.Aggregation.Strategy
 {
     public interface IMissingValueStrategy : IAggregationStrategy
     {
-        IEnumerable<object> Execute(IEnumerable<object> values);
+        IEnumerable<object> Execute(IEnumerable<object?> values);
     }
 }

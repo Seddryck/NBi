@@ -56,16 +56,22 @@ namespace NBi.Core.Report
             using var conn = new SqlConnection();
             //create connection and define sql query
             conn.ConnectionString = source;
-            var cmd = new SqlCommand();
-            cmd.Connection = conn;
-            cmd.CommandText = ReadQueryFromContent("ListDataSet");
+            var cmd = new SqlCommand
+            {
+                Connection = conn,
+                CommandText = ReadQueryFromContent("ListDataSet")
+            };
 
             //create the three parameters for the sql query
-            var paramReportPath = new SqlParameter("ReportPath", System.Data.SqlDbType.NVarChar, 425);
-            paramReportPath.Value = reportPath;
+            var paramReportPath = new SqlParameter("ReportPath", SqlDbType.NVarChar, 425)
+            {
+                Value = reportPath
+            };
             cmd.Parameters.Add(paramReportPath);
-            var paramReportName = new SqlParameter("ReportName", System.Data.SqlDbType.NVarChar, 425);
-            paramReportName.Value = reportName;
+            var paramReportName = new SqlParameter("ReportName", SqlDbType.NVarChar, 425)
+            {
+                Value = reportName
+            };
             cmd.Parameters.Add(paramReportName);
 
             //execute the command
@@ -75,9 +81,11 @@ namespace NBi.Core.Report
             while (dr.Read())
                 if (dr.GetString(2) == dataSetName)
                 {
-                    var command = new ReportingCommand();
-                    command.CommandType = (CommandType)Enum.Parse(typeof(CommandType), dr.GetString(4)); //CommandType
-                    command.Text = dr.GetString(5); //CommandText
+                    var command = new ReportingCommand
+                    {
+                        CommandType = (CommandType)Enum.Parse(typeof(CommandType), dr.GetString(4)), //CommandType
+                        Text = dr.GetString(5) //CommandText
+                    };
                     return command;
                 }
                 else
@@ -90,16 +98,22 @@ namespace NBi.Core.Report
             using var conn = new SqlConnection();
             //create connection and define sql query
             conn.ConnectionString = source;
-            var cmd = new SqlCommand();
-            cmd.Connection = conn;
-            cmd.CommandText = ReadQueryFromContent("ListSharedDataSet");
+            var cmd = new SqlCommand
+            {
+                Connection = conn,
+                CommandText = ReadQueryFromContent("ListSharedDataSet")
+            };
 
             //create the three parameters for the sql query
-            var paramReportPath = new SqlParameter("ReportPath", System.Data.SqlDbType.NVarChar, 425);
-            paramReportPath.Value = reportPath;
+            var paramReportPath = new SqlParameter("ReportPath", System.Data.SqlDbType.NVarChar, 425)
+            {
+                Value = reportPath
+            };
             cmd.Parameters.Add(paramReportPath);
-            var paramReportName = new SqlParameter("ReportName", System.Data.SqlDbType.NVarChar, 425);
-            paramReportName.Value = reportName;
+            var paramReportName = new SqlParameter("ReportName", System.Data.SqlDbType.NVarChar, 425)
+            {
+                Value = reportName
+            };
             cmd.Parameters.Add(paramReportName);
 
             //execute the command

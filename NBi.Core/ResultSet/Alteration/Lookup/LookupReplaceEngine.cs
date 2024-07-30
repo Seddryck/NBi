@@ -37,7 +37,7 @@ namespace NBi.Core.ResultSet.Alteration.Lookup
             foreach (var row in candidate.Rows)
             {
                 var candidateKeys = candidateKeyBuilder.GetColumns(row);
-                if (index.Keys.Contains(candidateKeys))
+                if (index.ContainsKey(candidateKeys))
                     row[newColumn.Ordinal] = index[candidateKeys].Single().Members[0];
                 else
                     Args.MissingStrategy.Execute(row, originalColumn, newColumn);

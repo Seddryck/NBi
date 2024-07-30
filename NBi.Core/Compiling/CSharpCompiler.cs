@@ -24,7 +24,7 @@ namespace NBi.Core.Compiling
         protected abstract string Template { get; }
         protected abstract string[] TemplateVariables { get; }
         protected string Namespace => $"{GetType().Namespace}.Dynamic";
-        
+
         public virtual void Compile(string code)
         {
             var substitution = string.Format(Template, TemplateVariables.Prepend(code).ToArray());
@@ -44,9 +44,13 @@ namespace NBi.Core.Compiling
                 Path.Combine(basePath, "System.Xml.dll"),
                 Path.Combine(basePath, "System.Xml.XDocument.dll"),
                 Path.Combine(basePath, "System.Linq.dll"),
-                Path.Combine(basePath, "System.Xml.XPath.dll")
+                Path.Combine(basePath, "System.Xml.XPath.dll"),
+                Path.Combine(basePath, "System.Xml.XDocument.dll"),
+                Path.Combine(basePath, "System.Private.Xml.Linq.dll"),
+                Path.Combine(basePath, "System.Private.Xml.dll")
             ];
             referencePaths.AddRange(references.Select(x => Path.Combine(basePath, $"{x.Name}.dll")));
+            referencePaths = referencePaths.Distinct().ToList();
 
             var executableReferences = new List<PortableExecutableReference>();
             foreach (var reference in referencePaths)
@@ -55,7 +59,10 @@ namespace NBi.Core.Compiling
                     executableReferences.Add(MetadataReference.CreateFromFile(reference));
             }
 
-            var compilation = CSharpCompilation.Create(Path.GetRandomFileName(), new[] { syntaxTree }, executableReferences, new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary));
+            var compilation = CSharpCompilation.Create(Path.GetRandomFileName())
+                .AddSyntaxTrees([syntaxTree])
+                .AddReferences(executableReferences)
+                .WithOptions(new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary));
             CompilationResult = new MemoryStream();
             var compilationResult = compilation.Emit(CompilationResult);
             if (!compilationResult.Success)

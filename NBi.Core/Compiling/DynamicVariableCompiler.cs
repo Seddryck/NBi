@@ -21,7 +21,7 @@ namespace NBi.Core.Compiling
                 {{                
                     public class DynamicVariableClass
                     {{                
-                        public static object Function()
+                        public static object? Function()
                         {{
                             return {0};
                         }}

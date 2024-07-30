@@ -28,10 +28,10 @@ namespace NBi.Core
                 return;
 
             var first = sb.Length;
-            sb.AppendFormat("{0}{1} item", list.Count()==0 ? "no ": string.Empty, category);
+            sb.AppendFormat("{0}{1} item", !list.Any() ? "no ": string.Empty, category);
             sb.Replace(sb.ToString(first, 1), sb.ToString(first, 1).ToUpper(), first, 1);
             sb.Append('s', Convert.ToInt32(list.Count() > 1));
-            if (list.Count() > 0)
+            if (list.Any())
                 sb.AppendFormat(" ({0} of {1})", list.Count(), count);
             sb.AppendLine();
 

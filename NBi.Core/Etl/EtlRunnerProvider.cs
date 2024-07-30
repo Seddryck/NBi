@@ -26,7 +26,7 @@ namespace NBi.Core.Etl
             var types = assembly.GetTypes()
                             .Where(m => m.IsClass && m.GetInterface(interfaceName) != null);
 
-            if (types.Count() == 0)
+            if (!types.Any())
                 throw new InvalidOperationException($"Can't find a class implementing '{interfaceName}' in '{assembly.FullName}'.");
             if (types.Count() > 1)
                 throw new InvalidOperationException($"Found more than one class implementing '{interfaceName}' in '{assembly.FullName}'.");

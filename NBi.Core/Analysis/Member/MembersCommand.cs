@@ -159,14 +159,14 @@ namespace NBi.Core.Analysis.Member
             else
                 members = $"{path}.[{function}].{memberCaption}";
 
-            if (exludedMembers!=null && exludedMembers.Count()>0)
+            if (exludedMembers!=null && exludedMembers.Any())
             {
                 foreach (var excl in exludedMembers)
                     members = $"{members}-{path}.[{excl}]";
                 members = $"{"{"}{members}{"}"}";
             }
 
-            if (ExcludedPatterns != null && ExcludedPatterns.Count() > 0)
+            if (ExcludedPatterns != null && ExcludedPatterns.Any())
             {
                 var hierarchyPath = BuildHierarchyPath(path);
                 var exclPattern = BuildExcludedPatterns(hierarchyPath, excludedPatterns);
@@ -190,7 +190,7 @@ namespace NBi.Core.Analysis.Member
 
         internal protected string BuildExcludedPatterns(string hierarchyPath, IEnumerable<PatternValue> excludedPatterns)
         {
-            if (excludedPatterns == null || excludedPatterns.Count() == 0)
+            if (excludedPatterns == null || !excludedPatterns.Any())
                 return string.Empty;
 
             var exclusions = new System.Text.StringBuilder();

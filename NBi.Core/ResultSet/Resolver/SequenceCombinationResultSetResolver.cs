@@ -18,7 +18,7 @@ namespace NBi.Core.ResultSet.Resolver
 
         public IResultSet Execute()
         {
-            if (Args.Resolvers.Count() == 0)
+            if (!Args.Resolvers.Any())
                 throw new InvalidOperationException();
 
             var rs = Initialize(Args.Resolvers.First());

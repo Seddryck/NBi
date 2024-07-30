@@ -19,7 +19,7 @@ namespace NBi.Core.Sequence.Transformation.Aggregation
         public object? Execute(List<object> values)
         {
             var typedValues = MissingValues.Execute(values);
-            if (typedValues.Count() == 0)
+            if (!typedValues.Any())
                 return EmptySeries.Execute();
             else
                 return Function.Execute(typedValues);

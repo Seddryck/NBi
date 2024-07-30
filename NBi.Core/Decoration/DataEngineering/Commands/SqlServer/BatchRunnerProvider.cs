@@ -24,7 +24,7 @@ namespace NBi.Core.Decoration.DataEngineering
             var types = assembly.GetTypes()
                             .Where(m => m.IsClass && m.GetInterface(typeof(IBatchRunnerFactory).Name) != null);
 
-            if (types.Count() == 0)
+            if (!types.Any())
                 throw new InvalidOperationException($"Can't find a class implementing '{typeof(IBatchRunnerFactory).Name}' in '{assembly.FullName}'.");
             if (types.Count() > 1)
                 throw new InvalidOperationException($"Found more than one class implementing '{typeof(IBatchRunnerFactory).Name}' in '{assembly.FullName}'.");

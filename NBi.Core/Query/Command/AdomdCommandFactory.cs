@@ -19,7 +19,7 @@ namespace NBi.Core.Query.Command
         protected override string RenameParameter(string originalName)
         {
             if (originalName.StartsWith("@"))
-                return originalName.Substring(1, originalName.Length - 1);
+                return originalName[1..];
             else
                 return originalName;
         }

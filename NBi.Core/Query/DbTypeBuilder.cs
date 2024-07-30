@@ -16,7 +16,7 @@ namespace NBi.Core.Query
 
             var typeName = name;
             if (name.Contains('('))
-                typeName = name.Substring(0, name.IndexOf("("));
+                typeName = name[..name.IndexOf("(")];
 
 
             DbType value;

@@ -29,8 +29,8 @@ namespace NBi.Core.Scalar.Format
             var i = 0;
             while (match.Success)
             {
-                args.Add(BuildArgs(match.Value.Substring(1, match.Value.Length - 2)));
-                res = res.Replace(match.Value, $"{{{i}{match.Value.Substring(match.Value.Length - 1)}");
+                args.Add(BuildArgs(match.Value[1..^1]));
+                res = res.Replace(match.Value, $"{{{i}{match.Value[^1..]}");
                 i += 1;
                 match = match.NextMatch();
             }

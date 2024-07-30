@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 namespace NBi.Core.Testing.FlatFile
 {
     [TestFixture]
-    [Ignore("PocketCsvReader not compatible with .NET CORE?")]
+    //[Ignore("PocketCsvReader not compatible with .NET CORE?")]
     public class CsvReaderTest
     {
         class CsvReaderProxy : CsvReader
@@ -69,6 +69,7 @@ namespace NBi.Core.Testing.FlatFile
             Assert.That(value, Is.EqualTo(result));
         }
 
+        [Test]
         public void SplitLine_Null_NotEmpty()
         {
             var reader = new CsvReaderProxy();
@@ -298,6 +299,7 @@ namespace NBi.Core.Testing.FlatFile
         [TestCase("abc\0\0\0", true)]
         [TestCase("", true)]
         [TestCase("\0\0\0", true)]
+        [Ignore("PocketCsvReader issue related to incompatibility with .NET Core")]
         public void IsLastRecord_Record_CorrectResult(string record, bool result)
         {
             var reader = new CsvReaderProxy();
@@ -313,6 +315,7 @@ namespace NBi.Core.Testing.FlatFile
         [TestCase("abc\r\ndef\r\nghl\r\nijk", 512, 1)]
         [TestCase("abc;xyz\r\ndef;xyz\r\nghl\r\n;ijk", 1, 2)]
         [TestCase("abc;xyz\r\ndef;xyz\r\nghl\r\n;ijk", 512, 2)]
+        [Ignore("PocketCsvReader issue related to incompatibility with .NET Core")]
         public void Read_Csv_CorrectResult(string text, int bufferSize, int columnCount)
         {
             using var stream = new MemoryStream();

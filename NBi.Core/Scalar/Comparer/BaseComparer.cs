@@ -74,16 +74,16 @@ namespace NBi.Core.Scalar.Comparer
 
         protected bool EqualByRangeValue(object? x, object? y)
         {
-            if (x is string && ((string)x) == "(value)")
+            if (x is string xStrValue && xStrValue == "(value)")
                 return y != null && IsValidObject(y);
 
-            if (y is string && ((string)y) == "(value)")
+            if (y is string yStrValue && yStrValue == "(value)")
                 return x != null && IsValidObject(x);
 
-            if (x is string && ((string)x) == "(any)")
+            if (x is string xStrAny && xStrAny == "(any)")
                 return y == null || IsValidObject(y);
 
-            if (y is string && ((string)y) == "(any)")
+            if (y is string yStrAny && yStrAny == "(any)")
                 return x == null || IsValidObject(x);
 
             return false;

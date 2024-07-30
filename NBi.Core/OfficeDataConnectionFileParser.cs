@@ -41,7 +41,7 @@ namespace NBi.Core
 
             var endConnectionTag = text.IndexOf("</odc:ConnectionString");
 
-            var connectionString = text.Substring(startConnectionTag, endConnectionTag - startConnectionTag);
+            var connectionString = text[startConnectionTag..endConnectionTag];
             return connectionString;
         }
     }

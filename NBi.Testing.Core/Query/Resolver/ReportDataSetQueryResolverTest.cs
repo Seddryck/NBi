@@ -121,7 +121,7 @@ namespace NBi.Core.Testing.Query.Resolver
             var resolver = new ReportDataSetQueryResolver(BuildArgs(), factoryStub.Object);
             var query = resolver.Execute();
 
-            Assert.That(query.Parameters, Has.Count.EqualTo(1));
+            Assert.That(query.Parameters.Count, Is.EqualTo(1));
         }
 
     }

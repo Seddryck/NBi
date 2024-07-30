@@ -102,8 +102,6 @@ namespace NBi.Core.Scalar.Comparer
         }
 
         protected override bool IsValidObject(object x)
-        {
-            return (x is DateTime || (x is string && IsValidDateTime((string)x)));
-        }
+            => x is DateTime || (x is string xStr && IsValidDateTime(xStr));
     }
 }

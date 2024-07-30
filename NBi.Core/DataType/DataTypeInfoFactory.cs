@@ -59,14 +59,14 @@ namespace NBi.Core.DataType
                     second = Convert.ToInt32(value.Split('(')[1].Split(',')[1].Replace(")",""));
             }
 
-            if (second.HasValue && dataTypeInfo is IScale)
-                ((IScale)dataTypeInfo).Scale = second.Value;
+            if (second.HasValue && dataTypeInfo is IScale scale)
+                scale.Scale = second.Value;
 
-            if (first.HasValue && dataTypeInfo is IPrecision)
-                ((IPrecision)dataTypeInfo).Precision = first.Value;
+            if (first.HasValue && dataTypeInfo is IPrecision precision)
+                precision.Precision = first.Value;
 
-            if (first.HasValue && dataTypeInfo is ILength)
-                ((ILength)dataTypeInfo).Length = first.Value;            
+            if (first.HasValue && dataTypeInfo is ILength length)
+                length.Length = first.Value;            
             
             return dataTypeInfo;
         }

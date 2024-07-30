@@ -57,17 +57,17 @@ namespace NBi.Core.Scalar.Interval
             EndPoint<DateTime> left, right;
             if (split[0].StartsWith("["))
                 left = new LeftEndPointClosed<DateTime>(
-                        DateTime.Parse(split[0].Substring(1, split[0].Length - 1), CultureInfo.InvariantCulture.DateTimeFormat));
+                        DateTime.Parse(split[0][1..], CultureInfo.InvariantCulture.DateTimeFormat));
             else
                 left = new LeftEndPointOpen<DateTime>(
-                        DateTime.Parse(split[0].Substring(1, split[0].Length - 1), CultureInfo.InvariantCulture.DateTimeFormat));
+                        DateTime.Parse(split[0][1..], CultureInfo.InvariantCulture.DateTimeFormat));
 
             if (split[1].EndsWith("]"))
                 right = new RightEndPointClosed<DateTime>(
-                        DateTime.Parse(split[1].Substring(0, split[1].Length - 1), CultureInfo.InvariantCulture.DateTimeFormat));
+                        DateTime.Parse(split[1][..^1], CultureInfo.InvariantCulture.DateTimeFormat));
             else
                 right = new RightEndPointOpen<DateTime>(
-                        DateTime.Parse(split[1].Substring(0, split[1].Length - 1), CultureInfo.InvariantCulture.DateTimeFormat));
+                        DateTime.Parse(split[1][..^1], CultureInfo.InvariantCulture.DateTimeFormat));
 
             return new DateTimeInterval(left, right);
         }

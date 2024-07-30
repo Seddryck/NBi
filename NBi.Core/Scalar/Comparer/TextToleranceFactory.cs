@@ -48,7 +48,7 @@ namespace NBi.Core.Scalar.Comparer
                 var predicate = FindCorrectPredicate(correctName);
 
                 var readableName = Regex.Replace(correctName, "([a-z])([A-Z])", "$1 $2").ToLower();
-                readableName = readableName.First().ToString().ToUpper() + readableName.Substring(1);
+                readableName = readableName.First().ToString().ToUpper() + readableName[1..];
                 return new TextSingleMethodTolerance(readableName, distanceNumeric, func, predicate);
             }
             else

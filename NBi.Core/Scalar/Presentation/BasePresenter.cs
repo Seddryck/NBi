@@ -12,7 +12,7 @@ namespace NBi.Core.Scalar.Presentation
         {
             if (value == null || value is DBNull)
                 return PresentNull();
-            else if (value is string && (string)value=="(null)")
+            else if (value is string valueStr && valueStr=="(null)")
                 return PresentNull();
             else
                 return PresentNotNull(value);

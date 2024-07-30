@@ -185,7 +185,7 @@ namespace NBi.Core.Analysis.Member
             if (path.Count(c => c == '.') == 1)
                 return path;
             else
-                return path.Substring(0,path.IndexOf('.', path.IndexOf('.') + 1));
+                return path[..path.IndexOf('.', path.IndexOf('.') + 1)];
         }
 
         internal protected string BuildExcludedPatterns(string hierarchyPath, IEnumerable<PatternValue> excludedPatterns)

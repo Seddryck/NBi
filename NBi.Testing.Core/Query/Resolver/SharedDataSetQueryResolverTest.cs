@@ -122,7 +122,7 @@ namespace NBi.Core.Testing.Query.Resolver
             var resolver = new SharedDataSetQueryResolver(BuildArgs(), factoryStub.Object);
             var cmd = resolver.Execute();
 
-            Assert.That(cmd.Parameters, Has.Count.EqualTo(1));
+            Assert.That(cmd.Parameters.Count, Is.EqualTo(1));
         }
         
     }

@@ -23,7 +23,7 @@ namespace NBi.Core.Evaluate
             var sentence = Sentence.Replace(" ", "");
             var index = sentence.IndexOf("=");
             Comparer = new ExpressionComparer();
-            switch (sentence.Substring(0, index + 1))
+            switch (sentence[..(index + 1)])
             {
                 case "=": Comparer.Compare = Comparer.Equal; break;
                 case "!=": Comparer.Compare = Comparer.NotEqual; break;

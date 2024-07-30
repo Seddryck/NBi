@@ -29,7 +29,7 @@ namespace NBi.Core.Testing.FlatFile
             table.AcceptChanges();
         }
 
-        private CsvProfile Csv = CsvProfile.SemiColumnDoubleQuote;
+        private readonly CsvProfile Csv = CsvProfile.SemiColumnDoubleQuote;
 
         [Test]
         public void Write_TwoRowsWithHeader_ThreeLines()

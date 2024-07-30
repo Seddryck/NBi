@@ -9,14 +9,14 @@ namespace NBi.Core.FlatFile
 
         public CsvProfile(IDictionary<string, object> attributes)
             : base (
-            (char)  (attributes.TryGetValue("field-separator", out var value) ? value : ';'),
-            (char)  (attributes.TryGetValue("text-qualifier", out var value) ? value : '\"'),
-            (string)(attributes.TryGetValue("record-separator", out var value) ? value : "\r\n"),
-            (bool)  (attributes.TryGetValue("first-row-header", out var value) ? value : false),
-            (bool)  (attributes.TryGetValue("performance-optimized", out var value) ? value : true),
-            (int)   (attributes.TryGetValue("buffer-size", out var value) ? value : 4096),
-            (string)(attributes.TryGetValue("empty-cell", out var value) ? value : "(empty)"),
-            (string)(attributes.TryGetValue("missing-cell", out var value) ? value : "(null)")
+            (char)  (attributes.TryGetValue("field-separator", out var fs) ? fs : ';'),
+            (char)  (attributes.TryGetValue("text-qualifier", out var tq) ? tq : '\"'),
+            (string)(attributes.TryGetValue("record-separator", out var rs) ? rs : "\r\n"),
+            (bool)  (attributes.TryGetValue("first-row-header", out var frh) ? frh : false),
+            (bool)  (attributes.TryGetValue("performance-optimized", out var po) ? po : true),
+            (int)   (attributes.TryGetValue("buffer-size", out var bs) ? bs : 4096),
+            (string)(attributes.TryGetValue("empty-cell", out var ec) ? ec : "(empty)"),
+            (string)(attributes.TryGetValue("missing-cell", out var ms) ? ms : "(null)")
         ) {}
 
         public IDictionary<string, object> Attributes => new Dictionary<string, object>()

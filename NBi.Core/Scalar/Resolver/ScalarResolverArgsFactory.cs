@@ -26,7 +26,7 @@ namespace NBi.Core.Scalar.Resolver
             switch (value)
             {
                 case string obj when obj.TrimStart().StartsWith("`") && obj.TrimEnd().EndsWith("`"):
-                    return new LiteralScalarResolverArgs(obj.Trim().Substring(1, obj.Trim().Length - 2));
+                    return new LiteralScalarResolverArgs(obj.Trim()[1..^1]);
                 case string obj when string.IsNullOrEmpty(value): return new LiteralScalarResolverArgs(string.Empty);
                 case null: return new LiteralScalarResolverArgs(string.Empty);
                 default:
@@ -41,7 +41,7 @@ namespace NBi.Core.Scalar.Resolver
 
                     IScalarResolverArgs args = prefix switch
                     {
-                        '@' => new GlobalVariableScalarResolverArgs(firstToken.Substring(1), Context),
+                        '@' => new GlobalVariableScalarResolverArgs(firstToken[1..], Context),
                         '~' => new FormatScalarResolverArgs(firstToken[1..], Context),
                         '[' when firstToken.ToCharArray().Last() == ']'
                                 && !firstToken.Contains(';')

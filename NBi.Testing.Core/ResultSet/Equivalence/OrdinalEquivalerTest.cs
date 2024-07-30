@@ -14,7 +14,7 @@ namespace NBi.Core.Testing.ResultSet.Equivalence
     [TestFixture]
     public class OrdinalEquivalerTest
     {
-        private Random random = new Random();
+        private readonly Random random = new();
 
         #region SetUp & TearDown
         //Called only at instance creation

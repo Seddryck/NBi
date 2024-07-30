@@ -23,8 +23,8 @@ namespace NBi.Core.FlatFile
 
             if (Readers.TryGetValue(fileExtension, out var value))
                 return Instantiate(value);
-            else if (Readers.TryGetValue("*.*", out var value))
-                return Instantiate(value);
+            else if (Readers.TryGetValue("*.*", out var value2))
+                return Instantiate(value2);
             throw new ArgumentException();
         }
 

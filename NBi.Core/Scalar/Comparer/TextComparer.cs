@@ -20,16 +20,13 @@ namespace NBi.Core.Scalar.Comparer
         }
 
         protected override ComparerResult CompareObjects(object? x, object? y, Tolerance tolerance)
-        {
-            if (tolerance is TextCaseTolerance)
-                return CompareObjects(x, y, ((TextCaseTolerance)tolerance).Comparison);
-            else if (tolerance is TextSingleMethodTolerance)
-                return CompareObjects(x, y, (TextSingleMethodTolerance)tolerance);
-            else if (tolerance is TextMultipleMethodsTolerance)
-                return CompareObjects(x, y, (TextMultipleMethodsTolerance)tolerance);
-
-            throw new ArgumentException("Tolerance must be of type 'TextTolerance'");
-        }
+            => tolerance switch
+            {
+                TextCaseTolerance text => CompareObjects(x, y, text.Comparison),
+                TextSingleMethodTolerance single => CompareObjects(x, y, single),
+                TextMultipleMethodsTolerance multiple => CompareObjects(x, y, multiple),
+                _ => throw new ArgumentException("Tolerance must be of type 'TextTolerance'")
+            };
 
         protected ComparerResult CompareObjects(object? x, object? y, StringComparer comparer)
             => CompareStrings(x as string, y as string, comparer);
@@ -37,10 +34,8 @@ namespace NBi.Core.Scalar.Comparer
         protected ComparerResult CompareObjects(object? x, object? y, TextSingleMethodTolerance tolerance)
             => CompareStrings(x as string, y as string, tolerance);
 
-
         protected ComparerResult CompareObjects(object? x, object? y, TextMultipleMethodsTolerance tolerance)
             => CompareStrings(x as string, y as string, tolerance);
-
 
         protected ComparerResult CompareStrings(string? x, string? y, StringComparer comparer)
             => IsEqual(x, y, comparer) ? ComparerResult.Equality : new ComparerResult(string.IsNullOrEmpty(x) ? "(empty)" : x);
@@ -93,10 +88,7 @@ namespace NBi.Core.Scalar.Comparer
             return false;
         }
 
-
         protected override bool IsValidObject(object x)
-        {
-            return true;
-        }
+            => true;
     }
 }

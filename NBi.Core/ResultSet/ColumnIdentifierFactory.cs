@@ -17,7 +17,7 @@ namespace NBi.Core.ResultSet
             identifier = identifier.Trim();
             if (identifier.StartsWith("#"))
             {
-                var positionString = identifier.Substring(1);
+                var positionString = identifier[1..];
                 if (int.TryParse(positionString, out var position))
                     if (position>=0)
                         return new ColumnOrdinalIdentifier(position);
@@ -31,11 +31,11 @@ namespace NBi.Core.ResultSet
             else
             {
                 if (identifier.StartsWith("[[") && identifier.EndsWith("]]") && identifier.Contains("].[") )
-                    return new ColumnNameIdentifier(identifier.Substring(1, identifier.Length - 2));
+                    return new ColumnNameIdentifier(identifier[1..^1]);
                 else if (identifier.StartsWith("[") && identifier.EndsWith("]") && identifier.Contains("].["))
                         return new ColumnNameIdentifier(identifier);
                 else if (identifier.StartsWith("[") && identifier.EndsWith("]"))
-                    return new ColumnNameIdentifier(identifier.Substring(1, identifier.Length - 2));
+                    return new ColumnNameIdentifier(identifier[1..^1]);
                 else
                     return new ColumnNameIdentifier(identifier);
             }

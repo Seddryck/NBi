@@ -25,7 +25,7 @@ namespace NBi.Core.Scalar.Comparer
                 side = SideTolerance.Less;
 
             if (value.Trim().StartsWith("-") || value.Trim().StartsWith("+"))
-                value = value.Substring(1);
+                value = value[1..];
 
             //Convert the value to an absolute decimal value
             decimal toleranceDecimal = 0;
@@ -52,13 +52,13 @@ namespace NBi.Core.Scalar.Comparer
             var isBoundedPercentage = false;
             if (!isDecimal && !isPercentage && !string.IsNullOrEmpty(value) && value.Contains('%'))
             {
-                var percentage = value.Replace(" ", "").Substring(0, value.Replace(" ", "").IndexOf('%'));
+                var percentage = value.Replace(" ", "")[..value.Replace(" ", "").IndexOf('%')];
                 isBoundedPercentage = decimal.TryParse(percentage, NumberStyles.Float, NumberFormatInfo.InvariantInfo, out tolerancePercentage);
-                var bound = value.Replace(" ", "").Substring(value.Replace(" ", "").IndexOf('%') + 1).Replace("(", "").Replace(")", "").Replace(":", "").Replace("=", "");
+                var bound = value.Replace(" ", "")[(value.Replace(" ", "").IndexOf('%') + 1)..].Replace("(", "").Replace(")", "").Replace(":", "").Replace("=", "");
 
-                if (bound.Length > 3 && (bound.Substring(0, 3) == "min" || bound.Substring(0, 3) == "max"))
+                if (bound.Length > 3 && (bound[..3] == "min" || bound[..3] == "max"))
                 {
-                    isBoundedPercentage = decimal.TryParse(bound.Substring(3), NumberStyles.Float, NumberFormatInfo.InvariantInfo, out toleranceBound);
+                    isBoundedPercentage = decimal.TryParse(bound[3..], NumberStyles.Float, NumberFormatInfo.InvariantInfo, out toleranceBound);
                     if (bound.ToLower().Contains("min"))
                         min = toleranceBound;
                     if (bound.ToLower().Contains("max"))

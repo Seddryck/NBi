@@ -15,7 +15,7 @@ namespace NBi.Core.Transformation
 {
     public class TransformationProvider : IAlteration
     {
-        private IDictionary<IColumnIdentifier, ITransformer> cacheTransformers;
+        private readonly IDictionary<IColumnIdentifier, ITransformer> cacheTransformers;
         private readonly TransformerFactory factory;
         private Context Context { get; }
 

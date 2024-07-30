@@ -109,7 +109,7 @@ namespace NBi.Core.Testing.Query.Performance
         [SupportedCommandType(typeof(FakeImplementationCommand))]
         private class FakePerformanceEngine : IPerformanceEngine
         {
-            public FakePerformanceEngine(FakeSession session, object command)
+            public FakePerformanceEngine()
             { }
 
             public void CleanCache() => throw new NotImplementedException();

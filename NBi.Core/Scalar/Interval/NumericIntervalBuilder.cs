@@ -47,7 +47,7 @@ namespace NBi.Core.Scalar.Interval
 				ex = new ArgumentException("The interval definition must start by '[' or ']'");
 			if (!(value.EndsWith("]") || value.EndsWith("[")))
 				ex = new ArgumentException("The interval definition must end by '[' or ']'");
-			if (!(value.Contains(";")))
+			if (!(value.Contains(';')))
 				ex = new ArgumentException("The interval definition must contain a delimitor ';'");
 
 			var split = value.Split(';');

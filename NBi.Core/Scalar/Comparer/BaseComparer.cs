@@ -121,7 +121,7 @@ namespace NBi.Core.Scalar.Comparer
 
             if (valueString.StartsWith("[") || valueString.StartsWith("]")
                 && valueString.EndsWith("[") || valueString.EndsWith("]")
-                && valueString.Contains(";"))
+                && valueString.Contains(';'))
                 return true;
 
             return false;

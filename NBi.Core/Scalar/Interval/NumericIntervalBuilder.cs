@@ -51,7 +51,7 @@ namespace NBi.Core.Scalar.Interval
 				ex = new ArgumentException("The interval definition must contain a delimitor ';'");
 
 			var split = value.Split(';');
-			if (split.Count() > 2)
+			if (split.Length > 2)
 			{
 				ex = new ArgumentException("The interval definition must contain only one delimitor ';'");
 			}

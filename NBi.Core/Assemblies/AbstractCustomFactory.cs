@@ -29,7 +29,7 @@ namespace NBi.Core.Assemblies
             catch (TypeNotImplementingInterfaceException)
             { throw new NBiException($"The type '{typeName}' of the assembly '{assembly.FullName}' is not implementing the interface '{typeof(T).Name}' but is used as a {CustomKind}."); }
             catch (NoConstructorFoundException)
-            { throw new NBiException($"The type '{typeName}' of the assembly '{assembly.FullName}' has no constructor matching with the {parameters.Count()} parameter{(parameters.Count() > 1 ? "s" : string.Empty)} that {(parameters.Count() > 1 ? "were" : "was")} provided."); }
+            { throw new NBiException($"The type '{typeName}' of the assembly '{assembly.FullName}' has no constructor matching with the {parameters.Count} parameter{(parameters.Count > 1 ? "s" : string.Empty)} that {(parameters.Count > 1 ? "were" : "was")} provided."); }
         }
 
         protected internal virtual Assembly GetAssembly(string path)
@@ -63,7 +63,7 @@ namespace NBi.Core.Assemblies
         {
             var ctor = customCommandType.GetConstructors().FirstOrDefault(
                 c => c.GetParameters().All(p => (parameters ?? new Dictionary<string, object?>()).Keys.Contains(p.Name, StringComparer.InvariantCultureIgnoreCase))
-                && c.GetParameters().Count() == (parameters ?? new Dictionary<string, object?>()).Count()
+                && c.GetParameters().Length == (parameters ?? new Dictionary<string, object?>()).Count
             ) ?? throw new NoConstructorFoundException();
             var typeConverter = new TypeConverter();
             var ctorParams = ctor.GetParameters().Select(

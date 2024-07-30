@@ -24,7 +24,7 @@ namespace NBi.Core.Decoration.IO.Commands
 
         internal void Execute(string path, string[] extensions)
         {
-            Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceVerbose, $"Deleting file with extension{(extensions.Count()>1 ? "s" : string.Empty)} '{string.Join("', '", extensions)}' from '{path}' ...");
+            Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceVerbose, $"Deleting file with extension{(extensions.Length > 1 ? "s" : string.Empty)} '{string.Join("', '", extensions)}' from '{path}' ...");
             var dir = new DirectoryInfo(path);
 
             if (!dir.Exists)

@@ -36,7 +36,7 @@ namespace NBi.Core.Decoration.IO.Commands
                 Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceVerbose, $"Deleting file from '{file.FullName}' ...");
                 File.Delete(file.FullName);
             }
-            Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceInfo, $"{files.Count()} file{(files.Count()>1 ? "s" : string.Empty)} deleted from '{path}'.");
+            Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceInfo, $"{files.Length} file{(files.Length > 1 ? "s" : string.Empty)} deleted from '{path}'.");
         }
     }
 }

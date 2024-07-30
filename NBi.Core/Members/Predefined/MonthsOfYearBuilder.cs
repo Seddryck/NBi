@@ -20,7 +20,7 @@ namespace NBi.Core.Members.Predefined
             for (int i = firstMonth; i <= list.Capacity; i++)
                 list.Add(culture.DateTimeFormat.GetMonthName(i));
 
-            for (int i = 1; i < list.Capacity - list.Count(); i++)
+            for (int i = 1; i < list.Capacity - list.Count; i++)
                 list.Add(culture.DateTimeFormat.GetMonthName(i));
 
             if (caseModifier != null)

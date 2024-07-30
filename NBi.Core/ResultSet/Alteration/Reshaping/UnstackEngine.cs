@@ -54,7 +54,7 @@ namespace NBi.Core.ResultSet.Alteration.Reshaping
             {
                 var newRow = dataTable.NewRow();
                 var itemArray = newRow.ItemArray;
-                new List<object>(group.Key.Members).CopyTo(0, itemArray!, 0, group.Key.Members.Count());
+                new List<object>(group.Key.Members).CopyTo(0, itemArray!, 0, group.Key.Members.Length);
 
 
                 var alreadyValued = new List<string>();

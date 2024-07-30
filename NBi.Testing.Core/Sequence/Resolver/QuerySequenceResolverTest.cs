@@ -40,7 +40,7 @@ namespace NBi.Core.Testing.Sequence.Resolver
 
             var resolver = new QuerySequenceResolver<string>(args, serviceLocator);
             var elements = resolver.Execute();
-            Assert.That(elements.Count(), Is.EqualTo(2));
+            Assert.That(elements.Count, Is.EqualTo(2));
             Assert.That(elements, Has.Member("foo"));
             Assert.That(elements, Has.Member("bar"));
         }

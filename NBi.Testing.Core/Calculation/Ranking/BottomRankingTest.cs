@@ -75,13 +75,13 @@ namespace NBi.Core.Testing.Calculation.Ranking
             var ranking = new BottomRanking(10, new ColumnOrdinalIdentifier(1), columnType, [], []);
             var filteredRs = ranking.Apply(rs);
 
-            Assert.That(filteredRs.RowCount, Is.EqualTo(values.Count()));
+            Assert.That(filteredRs.RowCount, Is.EqualTo(values.Length));
             Assert.That(filteredRs[0][0], Is.EqualTo(index[0]));
             Assert.That(filteredRs[0][1], Is.EqualTo(values.Min()));
             Assert.That(filteredRs[1][0], Is.EqualTo(index[1]));
             Assert.That(filteredRs[1][1], Is.EqualTo(values.Except(Enumerable.Repeat(values.Min(), 1)).Min()));
-            Assert.That(filteredRs[values.Count() - 1][0], Is.EqualTo(index[2]));
-            Assert.That(filteredRs[values.Count() - 1][1], Is.EqualTo(values.Max()));
+            Assert.That(filteredRs[values.Length - 1][0], Is.EqualTo(index[2]));
+            Assert.That(filteredRs[values.Length - 1][1], Is.EqualTo(values.Max()));
         }
 
         [Test]

@@ -41,7 +41,7 @@ namespace NBi.Core.Decoration.IO.Commands
                 Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceVerbose, $"Copying file from '{file.FullName}' to '{Path.Combine(destination, file.Name)}' ...");
                 File.Copy(file.FullName, Path.Combine(destination, file.Name), true);
             }
-            Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceInfo, $"{files.Count()} file{(files.Count()>1 ? "s" : string.Empty)} copied from '{original}' to '{destination}'");
+            Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceInfo, $"{files.Length} file{(files.Length > 1 ? "s" : string.Empty)} copied from '{original}' to '{destination}'");
         }
     }
 }

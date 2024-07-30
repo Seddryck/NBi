@@ -21,7 +21,7 @@ namespace NBi.Core.Testing.Sequence.Resolver
 
             var resolver = new ListSequenceResolver<decimal>(args);
             var elements = resolver.Execute();
-            Assert.That(elements.Count(), Is.EqualTo(1));
+            Assert.That(elements.Count, Is.EqualTo(1));
             Assert.That(elements, Has.Member(1));
         }
 
@@ -37,7 +37,7 @@ namespace NBi.Core.Testing.Sequence.Resolver
 
             var resolver = new ListSequenceResolver<DateTime>(args);
             var elements = resolver.Execute();
-            Assert.That(elements.Count(), Is.EqualTo(2));
+            Assert.That(elements.Count, Is.EqualTo(2));
             Assert.That(elements, Has.Member(new DateTime(2015, 1, 1)));
             Assert.That(elements, Has.Member(new DateTime(2016, 1, 1)));
         }

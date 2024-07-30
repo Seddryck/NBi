@@ -18,7 +18,7 @@ namespace NBi.Core.Members.Predefined
             for (int i = (int)firstDay; i < list.Capacity; i++)
                 list.Add(culture.DateTimeFormat.GetDayName((DayOfWeek)i));
 
-            for (int i = 0; i < list.Capacity - list.Count(); i++)
+            for (int i = 0; i < list.Capacity - list.Count; i++)
                 list.Add(culture.DateTimeFormat.GetDayName((DayOfWeek)i));
 
             if (caseModifier != null)

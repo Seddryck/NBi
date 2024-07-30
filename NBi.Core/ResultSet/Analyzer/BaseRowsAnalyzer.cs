@@ -19,7 +19,7 @@ namespace NBi.Core.ResultSet.Analyzer
             stopWatch.Stop();
             Trace.WriteLineIf(
                 Extensibility.NBiTraceSwitch.TraceInfo, 
-                $"{Sentence}: {rows.Count()}  [{stopWatch.Elapsed:d\\d\\.hh\\h\\:mm\\m\\:ss\\s\\ \\+fff\\m\\s}]"
+                $"{Sentence}: {rows.Count}  [{stopWatch.Elapsed:d\\d\\.hh\\h\\:mm\\m\\:ss\\s\\ \\+fff\\m\\s}]"
                 );
 
             return rows;

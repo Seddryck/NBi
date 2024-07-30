@@ -17,7 +17,7 @@ namespace NBi.Core.Testing.ResultSet.Uniqueness
             var ds = new DataSet();
             var dt = ds.Tables.Add("myTable");
 
-            for (int i = 0; i < rows.Max(x => x.Count()); i++)
+            for (int i = 0; i < rows.Max(x => x.Count); i++)
                 dt.Columns.Add($"Column{i}");
 
             foreach (var row in rows)

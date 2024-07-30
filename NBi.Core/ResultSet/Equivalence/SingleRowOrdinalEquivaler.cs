@@ -65,7 +65,7 @@ namespace NBi.Core.ResultSet.Equivalence
                 var nonMatchingValueRow = CompareRows(x, y);
                 if (nonMatchingValueRow!=null)
                     nonMatchingValueRows.Add(nonMatchingValueRow);
-                Trace.WriteLineIf(NBiTraceSwitch.TraceInfo, $"Rows with a matching key but without matching value: {nonMatchingValueRows.Count()} [{DateTime.Now.Subtract(chrono):d\\d\\.hh\\h\\:mm\\m\\:ss\\s\\ \\+fff\\m\\s}]");
+                Trace.WriteLineIf(NBiTraceSwitch.TraceInfo, $"Rows with a matching key but without matching value: {nonMatchingValueRows.Count} [{DateTime.Now.Subtract(chrono):d\\d\\.hh\\h\\:mm\\m\\:ss\\s\\ \\+fff\\m\\s}]");
             }
 
             return ResultResultSet.Build(

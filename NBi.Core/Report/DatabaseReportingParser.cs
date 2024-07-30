@@ -34,9 +34,9 @@ namespace NBi.Core.Report
             if (query != null)
                 return query;
 
-            if (otherDataSets.Count() == 0)
+            if (otherDataSets.Count == 0)
                 throw new ArgumentException(string.Format("No report found on path '{0}' with name '{1}'", request.Path, request.ReportName));
-            else if (otherDataSets.Count() == 1)
+            else if (otherDataSets.Count == 1)
                 throw new ArgumentException(string.Format("The requested dataset ('{2}') wasn't found for the report on path '{0}' with name '{1}'. The dataset for this report is {3}", request.Path, request.ReportName, request.DataSetName, otherDataSets[0]));
             else
                 throw new ArgumentException(string.Format("The requested dataset ('{2}') wasn't found for the report on path '{0}' with name '{1}'. The datasets for this report are {3}", request.Path, request.ReportName, request.DataSetName, String.Join(", ", [.. otherDataSets])));

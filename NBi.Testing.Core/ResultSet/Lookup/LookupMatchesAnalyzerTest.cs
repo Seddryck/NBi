@@ -71,7 +71,7 @@ namespace NBi.Core.Testing.ResultSet.Lookup
 
             var analyzer = new LookupMatchesAnalyzer(BuildColumnMapping(1), BuildColumnMapping(1,1));
             var violations = analyzer.Execute(candidate, reference);
-            Assert.That(violations.Count(), Is.EqualTo(0));
+            Assert.That(violations.Count, Is.EqualTo(0));
         }
 
         [Test]
@@ -82,7 +82,7 @@ namespace NBi.Core.Testing.ResultSet.Lookup
 
             var analyzer = new LookupMatchesAnalyzer(BuildColumnMapping(1), BuildColumnMapping(1, 1, ColumnType.Numeric));
             var violations = analyzer.Execute(candidate, reference);
-            Assert.That(violations.Count(), Is.EqualTo(1));
+            Assert.That(violations.Count, Is.EqualTo(1));
         }
 
         [Test]
@@ -94,7 +94,7 @@ namespace NBi.Core.Testing.ResultSet.Lookup
  
             var analyzer = new LookupMatchesAnalyzer(BuildColumnMapping(1), BuildColumnMapping(1, 1, ColumnType.Numeric), tolerances);
             var violations = analyzer.Execute(candidate, reference);
-            Assert.That(violations.Count(), Is.EqualTo(0));
+            Assert.That(violations.Count, Is.EqualTo(0));
         }
 
         [Test]
@@ -105,7 +105,7 @@ namespace NBi.Core.Testing.ResultSet.Lookup
 
             var analyzer = new LookupMatchesAnalyzer(BuildColumnMapping(1), BuildColumnMapping(1, 1));
             var violations = analyzer.Execute(candidate, reference);
-            Assert.That(violations.Count(), Is.EqualTo(0));
+            Assert.That(violations.Count, Is.EqualTo(0));
         }
 
         [Test]
@@ -116,7 +116,7 @@ namespace NBi.Core.Testing.ResultSet.Lookup
 
             var analyzer = new LookupMatchesAnalyzer(BuildColumnMapping(1), BuildColumnMapping(1, 1));
             var violations = analyzer.Execute(candidate, reference);
-            Assert.That(violations.Count(), Is.EqualTo(1));
+            Assert.That(violations.Count, Is.EqualTo(1));
         }
 
         [Test]
@@ -127,7 +127,7 @@ namespace NBi.Core.Testing.ResultSet.Lookup
 
             var analyzer = new LookupMatchesAnalyzer(BuildColumnMapping(1), BuildColumnMapping(1, 1));
             var violations = analyzer.Execute(candidate, reference);
-            Assert.That(violations.Count(), Is.EqualTo(1));
+            Assert.That(violations.Count, Is.EqualTo(1));
         }
 
         [Test]
@@ -138,7 +138,7 @@ namespace NBi.Core.Testing.ResultSet.Lookup
 
             var referencer = new LookupMatchesAnalyzer(BuildColumnMapping(2), BuildColumnMapping(1, 2));
             var violations = referencer.Execute(candidate, reference);
-            Assert.That(violations.Count(), Is.EqualTo(0));
+            Assert.That(violations.Count, Is.EqualTo(0));
         }
 
         

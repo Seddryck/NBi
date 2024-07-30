@@ -66,7 +66,7 @@ namespace NBi.Core.ResultSet.Equivalence
             stopWatch.Start();
             var nonMatchingValueRows = !CanSkipValueComparison() ? CompareSets(keyMatchingRows) : new List<IResultRow>();
             Trace.WriteLineIf(NBiTraceSwitch.TraceInfo
-                , $"Rows with a matching key but without matching value: {nonMatchingValueRows.Count()} [{stopWatch.Elapsed:d\\d\\.hh\\h\\:mm\\m\\:ss\\s\\ \\+fff\\m\\s}]");
+                , $"Rows with a matching key but without matching value: {nonMatchingValueRows.Count} [{stopWatch.Elapsed:d\\d\\.hh\\h\\:mm\\m\\:ss\\s\\ \\+fff\\m\\s}]");
             stopWatch.Reset();
 
             var duplicatedRows = new List<IResultRow>(); // Dummy placeholder

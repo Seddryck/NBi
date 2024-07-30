@@ -118,7 +118,7 @@ namespace NBi.Core.Structure
                 {
                     var splitVersion = versionNode.InnerText.Split('.');
                     short releaseVersion = 0;
-                    if (splitVersion.Count() >= 1)
+                    if (splitVersion.Length >= 1)
                         if (short.TryParse(splitVersion[0], out releaseVersion))
                             if (releaseVersion < 11)
                                 return "Multidimensional";

@@ -40,6 +40,6 @@ namespace NBi.Core.Query.Execution
             RegisterEngines(classics.Union(extensions).ToArray());
         }
 
-        internal int ExtensionCount { get => engines.Count() - classics.Count(); }
+        internal int ExtensionCount { get => engines.Count - classics.Length; }
     }
 }

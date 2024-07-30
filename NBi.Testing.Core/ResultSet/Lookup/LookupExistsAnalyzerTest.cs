@@ -70,7 +70,7 @@ namespace NBi.Core.Testing.ResultSet.Lookup
 
             var referencer = new LookupExistsAnalyzer(BuildColumnMapping(1));
             var violations = referencer.Execute(child, reference);
-            Assert.That(violations.Count(), Is.EqualTo(0));
+            Assert.That(violations.Count, Is.EqualTo(0));
         }
 
         [Test]
@@ -81,7 +81,7 @@ namespace NBi.Core.Testing.ResultSet.Lookup
 
             var referencer = new LookupExistsAnalyzer(BuildColumnMapping(1));
             var violations = referencer.Execute(child, reference);
-            Assert.That(violations.Count(), Is.EqualTo(0));
+            Assert.That(violations.Count, Is.EqualTo(0));
         }
 
         [Test]
@@ -92,7 +92,7 @@ namespace NBi.Core.Testing.ResultSet.Lookup
 
             var referencer = new LookupExistsAnalyzer(BuildColumnMapping(1));
             var violations = referencer.Execute(child, reference);
-            Assert.That(violations.Count(), Is.EqualTo(1));
+            Assert.That(violations.Count, Is.EqualTo(1));
         }
 
         [Test]
@@ -103,7 +103,7 @@ namespace NBi.Core.Testing.ResultSet.Lookup
 
             var referencer = new LookupExistsAnalyzer(BuildColumnMapping(2));
             var violations = referencer.Execute(child, reference);
-            Assert.That(violations.Count(), Is.EqualTo(0));
+            Assert.That(violations.Count, Is.EqualTo(0));
         }
 
         [Test]
@@ -114,7 +114,7 @@ namespace NBi.Core.Testing.ResultSet.Lookup
 
             var referencer = new LookupExistsAnalyzer(BuildColumnMapping(2));
             var violations = referencer.Execute(child, reference);
-            Assert.That(violations.Count(), Is.EqualTo(1));
+            Assert.That(violations.Count, Is.EqualTo(1));
         }
 
         [Test]
@@ -126,7 +126,7 @@ namespace NBi.Core.Testing.ResultSet.Lookup
 
             var referencer = new LookupExistsAnalyzer(BuildColumnMapping(2, 1));
             var violations = referencer.Execute(child, reference);
-            Assert.That(violations.Count(), Is.EqualTo(0));
+            Assert.That(violations.Count, Is.EqualTo(0));
         }
 
         [Test]
@@ -138,7 +138,7 @@ namespace NBi.Core.Testing.ResultSet.Lookup
 
             var referencer = new LookupExistsAnalyzer(BuildColumnMapping(2, 1));
             var violations = referencer.Execute(child, reference);
-            Assert.That(violations.Count(), Is.EqualTo(1));
+            Assert.That(violations.Count, Is.EqualTo(1));
         }
 
         [Test]
@@ -155,7 +155,7 @@ namespace NBi.Core.Testing.ResultSet.Lookup
             };
             var referencer = new LookupExistsAnalyzer(mapping);
             var violations = referencer.Execute(child, reference);
-            Assert.That(violations.Count(), Is.EqualTo(0));
+            Assert.That(violations.Count, Is.EqualTo(0));
         }
 
         [Test]
@@ -172,7 +172,7 @@ namespace NBi.Core.Testing.ResultSet.Lookup
             };
             var referencer = new LookupExistsAnalyzer(mapping);
             var violations = referencer.Execute(child, reference);
-            Assert.That(violations.Count(), Is.EqualTo(1));
+            Assert.That(violations.Count, Is.EqualTo(1));
         }
 
         [Test]
@@ -188,7 +188,7 @@ namespace NBi.Core.Testing.ResultSet.Lookup
             };
             var referencer = new LookupExistsAnalyzer(mapping);
             var violations = referencer.Execute(child, reference);
-            Assert.That(violations.Count(), Is.EqualTo(0));
+            Assert.That(violations.Count, Is.EqualTo(0));
         }
 
         [Test]
@@ -204,7 +204,7 @@ namespace NBi.Core.Testing.ResultSet.Lookup
             };
             var referencer = new LookupExistsAnalyzer(mapping);
             var violations = referencer.Execute(child, reference);
-            Assert.That(violations.Count(), Is.EqualTo(0));
+            Assert.That(violations.Count, Is.EqualTo(0));
         }
 
         [Test]
@@ -221,7 +221,7 @@ namespace NBi.Core.Testing.ResultSet.Lookup
             };
             var referencer = new LookupExistsAnalyzer(mapping);
             var violations = referencer.Execute(child, reference);
-            Assert.That(violations.Count(), Is.EqualTo(0));
+            Assert.That(violations.Count, Is.EqualTo(0));
         }
 
 
@@ -239,7 +239,7 @@ namespace NBi.Core.Testing.ResultSet.Lookup
             };
             var referencer = new LookupExistsAnalyzer(mapping);
             var violations = referencer.Execute(child, reference);
-            Assert.That(violations.Count(), Is.EqualTo(0));
+            Assert.That(violations.Count, Is.EqualTo(0));
         }
 
         [Test]

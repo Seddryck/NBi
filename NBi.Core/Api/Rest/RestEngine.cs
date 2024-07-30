@@ -16,11 +16,11 @@ namespace NBi.Core.Api.Rest
         public IScalarResolver<string> BaseUrl { get; }
         public IScalarResolver<string> Path { get; }
         public IEnumerable<ParameterRest> Parameters { get; }
-        public IEnumerable<SegmentRest> Segments { get; } = Array.Empty<SegmentRest>();
-        public IEnumerable<HeaderRest> Headers { get; } = Array.Empty<HeaderRest>();
+        public IEnumerable<SegmentRest> Segments { get; } = [];
+        public IEnumerable<HeaderRest> Headers { get; } = [];
 
         public RestEngine(IAuthentication authentication, IScalarResolver<string> baseUrl, IScalarResolver<string> path, IEnumerable<ParameterRest> parameters, IEnumerable<SegmentRest> segments, IEnumerable<HeaderRest> headers)
-            => (Authentication, BaseUrl, Path, Parameters, Segments, Headers) = (authentication, baseUrl, path, parameters ?? Array.Empty<ParameterRest>(), segments ?? Array.Empty<SegmentRest>(), headers ?? Array.Empty<HeaderRest>());
+            => (Authentication, BaseUrl, Path, Parameters, Segments, Headers) = (authentication, baseUrl, path, parameters ?? [], segments ?? [], headers ?? []);
 
         public string Execute()
         {

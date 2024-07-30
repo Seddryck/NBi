@@ -49,8 +49,8 @@ namespace NBi.Core.Testing.ResultSet.Equivalence
         {
             //Buiding object used during test
             var comparer = new NameEquivaler(AnalyzersFactory.EqualTo(), BuildSettingsKeyValue());
-            var reference = BuildDataTable(new string[] { "KeyName", "ValueName" }, new object[] { "Key0", 0 }, new object[] { "Key1", 1 });
-            var actual = BuildDataTable(new string[] { "KeyName", "ValueName" }, new object[] { "Key0", 0 }, new object[] { "Key1", 1 });
+            var reference = BuildDataTable(["KeyName", "ValueName"], ["Key0", 0], ["Key1", 1]);
+            var actual = BuildDataTable(["KeyName", "ValueName"], ["Key0", 0], ["Key1", 1]);
 
             //Call the method to test
             var res = comparer.Compare(reference, actual);
@@ -79,8 +79,8 @@ namespace NBi.Core.Testing.ResultSet.Equivalence
         {
             //Buiding object used during test
             var comparer = new NameEquivaler(AnalyzersFactory.EqualTo(), BuildSettingsKeyValue());
-            var reference = BuildDataTable(new string[] { "KeyName", "ValueName" }, new object[] { "Key0", 0 }, new object[] { "Key1", 1 });
-            var actual = BuildDataTable(new string[] { "KeyName", "ValueName" }, new object[] { "Key1", 1 }, new object[] { "Key2", 1 });
+            var reference = BuildDataTable(["KeyName", "ValueName"], ["Key0", 0], ["Key1", 1]);
+            var actual = BuildDataTable(["KeyName", "ValueName"], ["Key1", 1], ["Key2", 1]);
 
             //Call the method to test
             var res = comparer.Compare(reference, actual);
@@ -94,8 +94,8 @@ namespace NBi.Core.Testing.ResultSet.Equivalence
         {
             //Buiding object used during test
             var comparer = new NameEquivaler(AnalyzersFactory.EqualTo(), BuildSettingsKeyValue());
-            var reference = BuildDataTable(new string[] { "KeyName", "ValueName" }, new object[] { "Key0", 0 }, new object[] { "Key1", 1 });
-            var actual = BuildDataTable(new string[] { "ValueName", "KeyName" }, new object[] { 0, "Key0" }, new object[] { 1, "Key1" });
+            var reference = BuildDataTable(["KeyName", "ValueName"], ["Key0", 0], ["Key1", 1]);
+            var actual = BuildDataTable(["ValueName", "KeyName"], [0, "Key0"], [1, "Key1"]);
 
             //Call the method to test
             var res = comparer.Compare(reference, actual);
@@ -109,8 +109,8 @@ namespace NBi.Core.Testing.ResultSet.Equivalence
         {
             //Buiding object used during test
             var comparer = new NameEquivaler(AnalyzersFactory.EqualTo(), BuildSettingsKeyValue());
-            var reference = BuildDataTable(new string[] { "KeyName", "ValueName" }, new object[] { "Key0", 0 }, new object[] { "Key1", 1 });
-            var actual = BuildDataTable(new string[] { "ValueName", "KeyName" }, new object[] { 2, "Key0" }, new object[] { 1, "Key1" });
+            var reference = BuildDataTable(["KeyName", "ValueName"], ["Key0", 0], ["Key1", 1]);
+            var actual = BuildDataTable(["ValueName", "KeyName"], [2, "Key0"], [1, "Key1"]);
 
             //Call the method to test
             var res = comparer.Compare(reference, actual);
@@ -124,8 +124,8 @@ namespace NBi.Core.Testing.ResultSet.Equivalence
         {
             //Buiding object used during test
             var comparer = new NameEquivaler(AnalyzersFactory.EqualTo(), BuildSettingsKeyValue());
-            var reference = BuildDataTable(new string[] { "KeyName", "ValueName" }, new object[] { "Key0", 0 }, new object[] { "Key1", 1 });
-            var actual = BuildDataTable(new string[] { "ValueName", "KeyName" }, new object[] { 2, "Key2" }, new object[] { 1, "Key1" });
+            var reference = BuildDataTable(["KeyName", "ValueName"], ["Key0", 0], ["Key1", 1]);
+            var actual = BuildDataTable(["ValueName", "KeyName"], [2, "Key2"], [1, "Key1"]);
 
             //Call the method to test
             var res = comparer.Compare(reference, actual);

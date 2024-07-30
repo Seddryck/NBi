@@ -78,7 +78,7 @@ namespace NBi.Core.Assemblies
                 paramList.Add(value);
 	        }
 
-            var result = methodInfo.Invoke(target, paramList.ToArray());
+            var result = methodInfo.Invoke(target, [.. paramList]);
             return result;
         }
 

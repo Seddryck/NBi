@@ -40,7 +40,7 @@ namespace NBi.Core.Testing.Calculation.Grouping.ColumnBased
         [Test]
         public void Execute_TwoColumns_ThreeGroups()
         {
-            var args = new ObjectsResultSetResolverArgs(new[] { new object[] { "alpha", "1", 10 }, new object[] { "alpha", "1", 20 }, new object[] { "beta", "2", 30 }, new object[] { "alpha", "2", 40 } });
+            var args = new ObjectsResultSetResolverArgs(new[] { new object[] { "alpha", "1", 10 }, ["alpha", "1", 20], ["beta", "2", 30], ["alpha", "2", 40] });
             var resolver = new ObjectsResultSetResolver(args);
             var rs = resolver.Execute();
             rs.GetColumn(0)?.Rename("first");
@@ -64,7 +64,7 @@ namespace NBi.Core.Testing.Calculation.Grouping.ColumnBased
         [Test]
         public void Execute_TwoCustomColumns_ThreeGroups()
         {
-            var args = new ObjectsResultSetResolverArgs(new[] { ["alpha", 1d, 10], ["alpha", 1, 20], new object[] { "beta", 2, 30 }, new object[] { "alpha", 2, 40 } });
+            var args = new ObjectsResultSetResolverArgs(new[] { ["alpha", 1d, 10], ["alpha", 1, 20], new object[] { "beta", 2, 30 }, ["alpha", 2, 40] });
             var resolver = new ObjectsResultSetResolver(args);
             var rs = resolver.Execute();
             rs.GetColumn(0)?.Rename("first");

@@ -24,7 +24,7 @@ namespace NBi.Core.Testing.ResultSet.Alteration.Merging
             dataTable.Columns.Add(new DataColumn("Numeric value", typeof(int)));
             dataTable.Columns.Add(new DataColumn("Boolean value", typeof(bool)));
             for (int i = 0; i < 20; i++)
-                dataTable.LoadDataRow(new object[] { "Alpha", i, true }, false);
+                dataTable.LoadDataRow(["Alpha", i, true], false);
             dataTable.AcceptChanges();
             var rs1 = new DataTableResultSet(dataTable);
 
@@ -39,7 +39,7 @@ namespace NBi.Core.Testing.ResultSet.Alteration.Merging
             }
             else
             {
-                var args = new EmptyResultSetResolverArgs(new[] { new ColumnNameIdentifier("one"), new ColumnNameIdentifier("two") });
+                var args = new EmptyResultSetResolverArgs([new ColumnNameIdentifier("one"), new ColumnNameIdentifier("two")]);
                 resolver = new EmptyResultSetResolver(args);
             }
             return (rs1, resolver);

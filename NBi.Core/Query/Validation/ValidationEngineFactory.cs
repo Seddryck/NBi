@@ -16,11 +16,11 @@ namespace NBi.Core.Query.Validation
     {
         public ValidationEngineFactory()
         {
-            RegisterEngines(new[] {
+            RegisterEngines([
                 typeof(AdomdValidationEngine),
                 typeof(OdbcValidationEngine),
                 typeof(OleDbValidationEngine),
-                typeof(SqlValidationEngine) }
+                typeof(SqlValidationEngine) ]
             );
         }
     }

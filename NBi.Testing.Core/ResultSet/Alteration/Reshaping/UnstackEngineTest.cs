@@ -58,8 +58,8 @@ namespace NBi.Core.Testing.ResultSet.Alteration.Reshaping
                     new[] {
                         ["alpha", "A", 1, -1],
                         new object[] { "alpha", "B", 2, -2 },
-                        new object[] { "beta", "A", 3, -3 },
-                        new object[] { "beta", "B", 4, -4 }
+                        ["beta", "A", 3, -3],
+                        ["beta", "B", 4, -4]
                     }
                 ));
             var rs = resolver.Execute();
@@ -100,10 +100,10 @@ namespace NBi.Core.Testing.ResultSet.Alteration.Reshaping
                 new ObjectsResultSetResolverArgs(
                     new[] {
                         new object[] { "alpha", "one", "A", 1 },
-                        new object[] { "alpha", "one", "B", 2 },
-                        new object[] { "beta", "one", "A", 3 },
-                        new object[] { "beta", "one", "B", 4 },
-                        new object[] { "beta", "two", "B", -4 }
+                        ["alpha", "one", "B", 2],
+                        ["beta", "one", "A", 3],
+                        ["beta", "one", "B", 4],
+                        ["beta", "two", "B", -4]
                     }
                 ));
             var rs = resolver.Execute();

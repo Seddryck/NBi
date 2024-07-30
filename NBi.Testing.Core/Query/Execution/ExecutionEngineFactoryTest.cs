@@ -130,13 +130,13 @@ namespace NBi.Core.Testing.Query.Execution
             var query = Mock.Of<IQuery>(x => x.ConnectionString == "fake://MyConnectionString");
 
             var sessionFactory = localServiceLocator.GetSessionFactory();
-            sessionFactory.RegisterFactories(new[] { typeof(FakeSessionFactory) });
+            sessionFactory.RegisterFactories([typeof(FakeSessionFactory)]);
 
             var commandFactory = localServiceLocator.GetCommandFactory();
-            commandFactory.RegisterFactories(new[] { typeof(FakeCommandFactory) });
+            commandFactory.RegisterFactories([typeof(FakeCommandFactory)]);
 
             var factory = new ExecutionEngineFactory(sessionFactory, commandFactory);
-            factory.RegisterEngines(new[] { typeof(FakeExecutionEngine) });
+            factory.RegisterEngines([typeof(FakeExecutionEngine)]);
 
             var engine = factory.Instantiate(query);
             Assert.That(engine, Is.InstanceOf<FakeExecutionEngine>());

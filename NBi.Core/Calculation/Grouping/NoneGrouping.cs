@@ -15,7 +15,7 @@ namespace NBi.Core.Calculation.Grouping
         {
             return new Dictionary<KeyCollection, IResultSet>()
             {
-                { new KeyCollection(Array.Empty<object>()), resultSet }
+                { new KeyCollection([]), resultSet }
             };
         }
     }

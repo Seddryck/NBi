@@ -39,7 +39,7 @@ namespace NBi.Core.Report
             else if (otherDataSets.Count() == 1)
                 throw new ArgumentException(string.Format("The requested dataset ('{2}') wasn't found for the report on path '{0}' with name '{1}'. The dataset for this report is {3}", request.Path, request.ReportName, request.DataSetName, otherDataSets[0]));
             else
-                throw new ArgumentException(string.Format("The requested dataset ('{2}') wasn't found for the report on path '{0}' with name '{1}'. The datasets for this report are {3}", request.Path, request.ReportName, request.DataSetName, String.Join(", ", otherDataSets.ToArray())));
+                throw new ArgumentException(string.Format("The requested dataset ('{2}') wasn't found for the report on path '{0}' with name '{1}'. The datasets for this report are {3}", request.Path, request.ReportName, request.DataSetName, String.Join(", ", [.. otherDataSets])));
         }
 
         public ReportingCommand ExtractCommand(SharedDatasetRequest request)

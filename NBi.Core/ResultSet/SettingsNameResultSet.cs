@@ -144,14 +144,14 @@ namespace NBi.Core.ResultSet
         public SettingsNameResultSet(string keyNames, string valueNames, ColumnType valuesDefaultType, Tolerance defaultTolerance, IReadOnlyCollection<IColumnDefinition> columnsDef)
             : base(valuesDefaultType, defaultTolerance, columnsDef)
         {
-            KeyNames = new ReadOnlyCollection<string>(new string[] { });
+            KeyNames = new ReadOnlyCollection<string>([]);
             if (!string.IsNullOrEmpty(keyNames))
             {
                 var keys = keyNames.Split(new[] { "," }, StringSplitOptions.RemoveEmptyEntries);
                 KeyNames = new ReadOnlyCollection<string>(keys.Select(x => x.Trim()).ToList());
             }
 
-            ValueNames = new ReadOnlyCollection<string>(new string[] { });
+            ValueNames = new ReadOnlyCollection<string>([]);
             if (!string.IsNullOrEmpty(valueNames))
             {
                 var values = valueNames.Split(new[] { "," }, StringSplitOptions.RemoveEmptyEntries);

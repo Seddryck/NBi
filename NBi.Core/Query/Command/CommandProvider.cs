@@ -29,7 +29,7 @@ namespace NBi.Core.Query.Command
 
         public CommandProvider(IExtensionsConfiguration config)
         {
-            var extensions = config?.Extensions?.Where(x => typeof(ICommandFactory).IsAssignableFrom(x.Key) && !x.Key.IsAbstract)?.Select(x => x.Key) ?? new Type[0];
+            var extensions = config?.Extensions?.Where(x => typeof(ICommandFactory).IsAssignableFrom(x.Key) && !x.Key.IsAbstract)?.Select(x => x.Key) ?? [];
             RegisterFactories(classics.Union(extensions).ToArray());
         }
 
@@ -38,7 +38,7 @@ namespace NBi.Core.Query.Command
             foreach (var type in types)
             {
                 var ctor = type.GetConstructor([]) ?? throw new NBiException($"Can't load an extension. Can't find a constructor without parameters for the type '{type.Name}'");
-                var factory = (ICommandFactory)ctor.Invoke(new object[] { });
+                var factory = (ICommandFactory)ctor.Invoke([]);
                 if (factories.SingleOrDefault(x => x.GetType() == factory.GetType()) != null)
                     throw new ArgumentException($"You can't add twice the same factory. The factory '{factory.GetType().Name}' was already registered.", nameof(types));
                 factories.Add(factory);

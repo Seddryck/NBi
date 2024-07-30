@@ -37,7 +37,7 @@ namespace NBi.Core.Testing.ResultSet.Lookup
         [Test]
         public void GetKeys_UniqueCell_CorrectCell()
         {
-            var table = BuildDataTable(new[] { "Key0", "Key1", "Key0" }, new[] { "Foo", "Bar", "Foo" }, new object[] { 0, 1, 0 });
+            var table = BuildDataTable(new[] { "Key0", "Key1", "Key0" }, new[] { "Foo", "Bar", "Foo" }, [0, 1, 0]);
 
             var columns = new List<IColumnDefinition>()
             {
@@ -53,7 +53,7 @@ namespace NBi.Core.Testing.ResultSet.Lookup
         [Test]
         public void GetKeys_UniqueCellNumeric_CorrectCell()
         {
-            var table = BuildDataTable(new[] { "Key0", "Key1", "Key0" }, new[] { "Foo", "Bar", "Foo" }, new object[] { 0, 1, 0 });
+            var table = BuildDataTable(new[] { "Key0", "Key1", "Key0" }, new[] { "Foo", "Bar", "Foo" }, [0, 1, 0]);
 
             var columns = new List<IColumnDefinition>()
             {
@@ -69,7 +69,7 @@ namespace NBi.Core.Testing.ResultSet.Lookup
         [Test]
         public void GetKeys_UniqueCellNumericCasting_CorrectCell()
         {
-            var table = BuildDataTable(new[] { "Key0", "Key1", "Key0" }, new[] { "Foo", "Bar", "Foo" }, new object[] { "0", "1.0", "0.00" });
+            var table = BuildDataTable(new[] { "Key0", "Key1", "Key0" }, new[] { "Foo", "Bar", "Foo" }, ["0", "1.0", "0.00"]);
 
             var columns = new List<IColumnDefinition>()
             {
@@ -85,7 +85,7 @@ namespace NBi.Core.Testing.ResultSet.Lookup
         [Test]
         public void GetKeys_TwoCells_CorrectCells()
         {
-            var table = BuildDataTable(new[] { "Key0", "Key1", "Key0" }, new[] { "Foo", "Bar", "Foo" }, new object[] { 0, 1, 0 });
+            var table = BuildDataTable(new[] { "Key0", "Key1", "Key0" }, new[] { "Foo", "Bar", "Foo" }, [0, 1, 0]);
 
             var columns = new List<IColumnDefinition>()
             {
@@ -102,7 +102,7 @@ namespace NBi.Core.Testing.ResultSet.Lookup
         [Test]
         public void GetKeys_TwoCellsDifferentTypes_CorrectCells()
         {
-            var table = BuildDataTable(new[] { "Key0", "Key1", "Key0" }, new[] { "Foo", "Bar", "Foo" }, new object[] { 0, 1, 0 });
+            var table = BuildDataTable(new[] { "Key0", "Key1", "Key0" }, new[] { "Foo", "Bar", "Foo" }, [0, 1, 0]);
 
             var columns = new List<IColumnDefinition>()
             {
@@ -119,7 +119,7 @@ namespace NBi.Core.Testing.ResultSet.Lookup
         [Test]
         public void GetKeys_TwoCellsReverseOrder_CorrectCells()
         {
-            var table = BuildDataTable(new[] { "Key0", "Key1", "Key0" }, new[] { "Foo", "Bar", "Foo" }, new object[] { 0, 1, 0 });
+            var table = BuildDataTable(new[] { "Key0", "Key1", "Key0" }, new[] { "Foo", "Bar", "Foo" }, [0, 1, 0]);
 
             var columns = new List<IColumnDefinition>()
             {

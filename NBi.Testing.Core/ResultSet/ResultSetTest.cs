@@ -137,7 +137,7 @@ namespace NBi.Core.Testing.ResultSet
 
             var stopWatch = new Stopwatch();
             stopWatch.Start();
-            var dt = frame.ToDataTable(new string[] { "yo" });
+            var dt = frame.ToDataTable(["yo"]);
             stopWatch.Stop();
             Assert.That(dt.Rows.Count, Is.EqualTo(x));
             Assert.That(stopWatch.ElapsedMilliseconds, Is.LessThan(5000));

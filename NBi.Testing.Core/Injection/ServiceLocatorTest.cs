@@ -75,8 +75,8 @@ namespace NBi.Core.Testing.Injection
             var locator = new ServiceLocator();
             var obj1 = locator.GetSessionFactory();
             var obj2 = locator.GetSessionFactory();
-            obj1.RegisterFactories(new[] { typeof(FakeSessionFactory) });
-            Assert.Throws<ArgumentException>(() => obj2.RegisterFactories(new[] { typeof(FakeSessionFactory) }));
+            obj1.RegisterFactories([typeof(FakeSessionFactory)]);
+            Assert.Throws<ArgumentException>(() => obj2.RegisterFactories([typeof(FakeSessionFactory)]));
         }
 
         [Test]

@@ -29,7 +29,7 @@ namespace NBi.Core.Query.Client
 
         public ClientProvider(IExtensionsConfiguration config)
         {
-            var extensions = config?.Extensions?.Where(x => typeof(IClientFactory).IsAssignableFrom(x.Key) && !x.Key.IsAbstract)?.Select(x => x.Key) ?? new Type[0];
+            var extensions = config?.Extensions?.Where(x => typeof(IClientFactory).IsAssignableFrom(x.Key) && !x.Key.IsAbstract)?.Select(x => x.Key) ?? [];
             RegisterFactories(classics.Union(extensions).ToArray());
         }
 

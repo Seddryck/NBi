@@ -19,7 +19,7 @@ namespace NBi.Core.Testing.ResultSet.Alteration.Summarization
     {
         private IResultSet Build()
         {
-            var args = new ObjectsResultSetResolverArgs(new[] { new object[] { "alpha", 1 }, new object[] { "alpha", 2 }, new object[] { "beta", 3 }, new object[] { "alpha", 4 } });
+            var args = new ObjectsResultSetResolverArgs(new[] { new object[] { "alpha", 1 }, ["alpha", 2], ["beta", 3], ["alpha", 4] });
             var resolver = new ObjectsResultSetResolver(args);
             var rs = resolver.Execute();
             rs.GetColumn(0)?.Rename("keyColumn");
@@ -69,7 +69,7 @@ namespace NBi.Core.Testing.ResultSet.Alteration.Summarization
         {
             var rs = new ObjectsResultSetResolver(
                 new ObjectsResultSetResolverArgs(
-                    new[] { new object[] { "alpha", "foo", 1 }, new object[] { "alpha", "foo", 2 }, new object[] { "beta", "foo", 3 }, new object[] { "alpha", "bar", 4 } })
+                    new[] { new object[] { "alpha", "foo", 1 }, ["alpha", "foo", 2], ["beta", "foo", 3], ["alpha", "bar", 4] })
                 ).Execute();
             rs.GetColumn(0)?.Rename("ColumnA");
             rs.GetColumn(1)?.Rename("ColumnB");
@@ -98,7 +98,7 @@ namespace NBi.Core.Testing.ResultSet.Alteration.Summarization
         {
             var rs = new ObjectsResultSetResolver(
                 new ObjectsResultSetResolverArgs(
-                    new[] { new object[] { "alpha", "foo", 1 }, new object[] { "alpha", "foo", 2 }, new object[] { "beta", "foo", 3 }, new object[] { "alpha", "bar", 4 } })
+                    new[] { new object[] { "alpha", "foo", 1 }, ["alpha", "foo", 2], ["beta", "foo", 3], ["alpha", "bar", 4] })
                 ).Execute();
             rs.GetColumn(0)?.Rename("ColumnB");
             rs.GetColumn(1)?.Rename("ColumnA");

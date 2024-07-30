@@ -14,18 +14,18 @@ namespace NBi.Core.ResultSet
         protected bool isBuild = false;
 
         protected SettingsOrdinalResultSet.KeysChoice keysSet;
-        protected IEnumerable<string> nameKeys = Array.Empty<string>();
+        protected IEnumerable<string> nameKeys = [];
         protected SettingsOrdinalResultSet.ValuesChoice valuesSet;
-        protected IEnumerable<string> nameValues = Array.Empty<string>();
-        protected IReadOnlyList<IColumnDefinition> definitionColumns = Array.Empty<IColumnDefinition>();
+        protected IEnumerable<string> nameValues = [];
+        protected IReadOnlyList<IColumnDefinition> definitionColumns = [];
 
         protected ISettingsResultSet? settings;
 
         public void Setup(IEnumerable<string> nameKeys, IEnumerable<string> nameValues)
         {
             isBuild = false;
-            this.nameKeys = nameKeys ?? Array.Empty<string>();
-            this.nameValues = nameValues ?? Array.Empty<string>();
+            this.nameKeys = nameKeys ?? [];
+            this.nameValues = nameValues ?? [];
         }
 
         public void Setup(SettingsOrdinalResultSet.KeysChoice keysSet, SettingsOrdinalResultSet.ValuesChoice valuesSet)
@@ -38,7 +38,7 @@ namespace NBi.Core.ResultSet
         public void Setup(IReadOnlyList<IColumnDefinition> definitionColumns)
         {
             isBuild = false;
-            this.definitionColumns = definitionColumns ?? Array.Empty<IColumnDefinition>();
+            this.definitionColumns = definitionColumns ?? [];
         }
 
 

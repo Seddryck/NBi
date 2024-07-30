@@ -17,7 +17,7 @@ namespace NBi.Core.Members.Ranges
 
         private void RegisterDefaults()
         {
-            Register(new Type[] { typeof(IIntegerRange), typeof(IPatternDecorator) }
+            Register([typeof(IIntegerRange), typeof(IPatternDecorator)]
                 , new CompositeBuilder(
                     new IntegerRangeBuilder()
                     , new List<IDecoratorBuilder>() { new PatternDecoratorBuilder() }

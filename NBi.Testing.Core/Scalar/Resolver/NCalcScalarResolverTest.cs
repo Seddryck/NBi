@@ -40,7 +40,7 @@ namespace NBi.Core.Testing.Scalar.Resolver
                 dt.AddColumn("c", typeof(int));
                 var row = dt.NewRow();
                 var context = new Context();
-                row.ItemArray = new object[] { 2, 5, 3 };
+                row.ItemArray = [2, 5, 3];
                 var args = new NCalcScalarResolverArgs("a*Max(b, c)-2", context);
                 context.Switch(row);
                 var resolver = new NCalcScalarResolver<object>(args);
@@ -60,7 +60,7 @@ namespace NBi.Core.Testing.Scalar.Resolver
                 dt.AddColumn("b", typeof(int));
                 dt.AddColumn("c", typeof(int));
                 var row = dt.NewRow();
-                row.ItemArray = new object[] { 2, 5, 3 };
+                row.ItemArray = [2, 5, 3];
                 var context = new Context();
                 var args = new NCalcScalarResolverArgs("[a]*Max([b], [c])-2", context);
                 context.Switch(row);
@@ -81,7 +81,7 @@ namespace NBi.Core.Testing.Scalar.Resolver
                 dt.AddColumn("b", typeof(int));
                 dt.AddColumn("c", typeof(int));
                 var row = dt.NewRow();
-                row.ItemArray = new object[] { 2, 5, 3 };
+                row.ItemArray = [2, 5, 3];
                 var context = new Context();
                 var args = new NCalcScalarResolverArgs("[#0]*Max([#1], [#2])-2", context);
                 context.Switch(row);
@@ -102,7 +102,7 @@ namespace NBi.Core.Testing.Scalar.Resolver
                 dt.AddColumn("b", typeof(int));
                 dt.AddColumn("c", typeof(int));
                 var row = dt.NewRow();
-                row.ItemArray = new object[] { 2, 5, 3 };
+                row.ItemArray = [2, 5, 3];
                 var context = new Context();
                 context.Variables.Add<decimal>("myVar", 10m);
                 var args = new NCalcScalarResolverArgs("[#0]*Max([#1], [#2])-[@myVar]", context);

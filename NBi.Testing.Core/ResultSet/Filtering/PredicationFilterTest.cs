@@ -67,14 +67,13 @@ namespace NBi.Core.Testing.ResultSet.Filtering
         {
             var service = new ObjectsResultSetResolver(
                 new ObjectsResultSetResolverArgs(
-                    new object?[]
-                    {
+                    [
                         new object?[] { null },
                         new object?[] { 5 },
                         new object?[] { 10 },
                         new object?[] { null },
                         new object?[] { 20 },
-                    }));
+                    ]));
 
             var rs = service.Execute();
 
@@ -97,7 +96,7 @@ namespace NBi.Core.Testing.ResultSet.Filtering
             var predication2 = new PredicationArgs(predicate2, new ColumnOrdinalIdentifier(0));
 
             var factory = new ResultSetFilterFactory(new Core.Injection.ServiceLocator());
-            var filter = factory.Instantiate(CombinationOperator.And, [predication1, predication2], new Context(new ContextVariables(), aliases, Array.Empty<IColumnExpression>()));
+            var filter = factory.Instantiate(CombinationOperator.And, [predication1, predication2], new Context(new ContextVariables(), aliases, []));
             var result = filter.Apply(rs);
 
             Assert.That(result.Rows.Count(), Is.EqualTo(1));
@@ -108,14 +107,13 @@ namespace NBi.Core.Testing.ResultSet.Filtering
         {
             var service = new ObjectsResultSetResolver(
                 new ObjectsResultSetResolverArgs(
-                    new object[]
-                    {
+                    [
                         new object[] { "(null)", 10, 100 },
                         new object[] { "(empty)", 2, 75 },
                         new object[] { "(empty)", 20, 75 },
                         new object[] { "C", 5, 50 },
                         new object[] { "C", 15, 50 }
-                    }));
+                    ]));
 
             var rs = service.Execute();
 
@@ -138,7 +136,7 @@ namespace NBi.Core.Testing.ResultSet.Filtering
 
 
             var factory = new ResultSetFilterFactory(new Core.Injection.ServiceLocator());
-            var filter = factory.Instantiate(CombinationOperator.Or, [predication1.Object, predication2.Object], new Context(new ContextVariables(), aliases, Array.Empty<IColumnExpression>()));
+            var filter = factory.Instantiate(CombinationOperator.Or, [predication1.Object, predication2.Object], new Context(new ContextVariables(), aliases, []));
             var result = filter.Apply(rs);
 
             Assert.That(result.Rows.Count(), Is.EqualTo(4));
@@ -177,7 +175,7 @@ namespace NBi.Core.Testing.ResultSet.Filtering
             predication2.SetupGet(p => p.Predicate).Returns(predicate2.Object);
 
             var factory = new ResultSetFilterFactory(new Core.Injection.ServiceLocator());
-            var filter = factory.Instantiate(CombinationOperator.Or, [predication1.Object, predication2.Object], new Context(new ContextVariables(), aliases, Array.Empty<IColumnExpression>()));
+            var filter = factory.Instantiate(CombinationOperator.Or, [predication1.Object, predication2.Object], new Context(new ContextVariables(), aliases, []));
             var result = filter.Apply(rs);
 
             Assert.That(result.Rows.Count(), Is.EqualTo(3));
@@ -188,14 +186,13 @@ namespace NBi.Core.Testing.ResultSet.Filtering
         {
             var service = new ObjectsResultSetResolver(
                 new ObjectsResultSetResolverArgs(
-                    new object[]
-                    {
+                    [
                         new object[] { "(null)", 10, 100 },
                         new object[] { "(empty)", 2, 75 },
                         new object[] { "(empty)", 20, 75 },
                         new object[] { "C", 5, 50 },
                         new object[] { "C", 15, 50 }
-                    }));
+                    ]));
 
             var rs = service.Execute();
 
@@ -217,7 +214,7 @@ namespace NBi.Core.Testing.ResultSet.Filtering
             predication2.SetupGet(p => p.Predicate).Returns(predicate1.Object);
 
             var factory = new ResultSetFilterFactory(new Core.Injection.ServiceLocator());
-            var filter = factory.Instantiate(CombinationOperator.XOr, [predication1.Object, predication2.Object], new Context(new ContextVariables(), aliases, Array.Empty<IColumnExpression>()));
+            var filter = factory.Instantiate(CombinationOperator.XOr, [predication1.Object, predication2.Object], new Context(new ContextVariables(), aliases, []));
             var result = filter.Apply(rs);
 
             Assert.That(result.Rows.Count(), Is.EqualTo(3));

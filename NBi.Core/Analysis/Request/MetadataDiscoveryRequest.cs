@@ -19,7 +19,7 @@ namespace NBi.Core.Analysis.Request
             AddFilters(filters);
         }
 
-        private readonly string[] depths = new string[] { "dimension", "hierarchy", "level", "property" };
+        private readonly string[] depths = ["dimension", "hierarchy", "level", "property"];
 
         public string GetDepthName()
         {

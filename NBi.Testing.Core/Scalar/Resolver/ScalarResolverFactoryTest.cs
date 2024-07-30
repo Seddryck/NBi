@@ -134,7 +134,7 @@ namespace NBi.Core.Testing.Scalar.Resolver
         [Test]
         public void Instantiate_FunctionArgs_FunctionResolver()
         {
-            var args = new FunctionScalarResolverArgs(new LiteralScalarResolver<string>("myVar"), Array.Empty<INativeTransformation>());
+            var args = new FunctionScalarResolverArgs(new LiteralScalarResolver<string>("myVar"), []);
 
             var factory = new ScalarResolverFactory();
             var resolver = factory.Instantiate(args);

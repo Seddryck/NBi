@@ -116,7 +116,7 @@ namespace NBi.Core.Report
                     dataSetFound.Add(node.Attributes?["Name"]?.Value ?? throw new NullReferenceException());
             }
             if (dataSetFound.Count > 1)
-                throw new ArgumentException(string.Format("The requested dataset ('{2}') wasn't found for the report on path '{0}' with name '{1}'. The datasets for this report are {3}", request.Path, request.ReportName, request.DataSetName, String.Join(", ", dataSetFound.ToArray())));
+                throw new ArgumentException(string.Format("The requested dataset ('{2}') wasn't found for the report on path '{0}' with name '{1}'. The datasets for this report are {3}", request.Path, request.ReportName, request.DataSetName, String.Join(", ", [.. dataSetFound])));
             else
                 throw new ArgumentException(string.Format("The requested dataset ('{2}') wasn't found for the report on path '{0}' with name '{1}'. The dataset for this report is named '{3}'", request.Path, request.ReportName, request.DataSetName, dataSetFound[0]));
         }

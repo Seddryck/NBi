@@ -37,7 +37,7 @@ namespace NBi.Core.ResultSet.Lookup
                         throw;
                 }
             }
-            return new KeyCollection(keys.ToArray());
+            return new KeyCollection([.. keys]);
         }
     }
 }

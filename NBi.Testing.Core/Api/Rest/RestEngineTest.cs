@@ -21,7 +21,7 @@ namespace NBi.Core.Testing.Api.Rest
                 new LiteralScalarResolver<string>("name"),
                 new LiteralScalarResolver<string>("cedric")
             );
-            var engine = new RestEngine(new Anonymous(), baseUrl, new LiteralScalarResolver<string>(""), new[] { parameter }, [], []);
+            var engine = new RestEngine(new Anonymous(), baseUrl, new LiteralScalarResolver<string>(""), [parameter], [], []);
             var result = engine.Execute();
             Assert.That(result, Does.Contain("\"name\":\"cedric\",\"age\":"));
         }
@@ -40,7 +40,7 @@ namespace NBi.Core.Testing.Api.Rest
                 new LiteralScalarResolver<string>("https"),
                 new LiteralScalarResolver<string>("true")
             );
-            var engine = new RestEngine(new Anonymous(), baseUrl, path, new[] { parameter1, parameter2 }, [], []);
+            var engine = new RestEngine(new Anonymous(), baseUrl, path, [parameter1, parameter2], [], []);
             var result = engine.Execute();
             Assert.That(result.Length, Is.GreaterThan(20));
             Assert.That(result, Does.StartWith("{\"count\":"));

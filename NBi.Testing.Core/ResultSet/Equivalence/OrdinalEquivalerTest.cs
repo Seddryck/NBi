@@ -87,8 +87,8 @@ namespace NBi.Core.Testing.ResultSet.Equivalence
         {
             //Buiding object used during test
             var comparer = new OrdinalEquivaler(AnalyzersFactory.EqualTo(), BuildSettingsKeyValue(ColumnType.Numeric));
-            var reference = BuildDataTable(new string[] { "100", "12" }, new double[] { 0, 1 });
-            var actual = BuildDataTable(new string[] { "0100.00", "12.0" }, new double[] { 0, 1 });
+            var reference = BuildDataTable(["100", "12"], [0, 1]);
+            var actual = BuildDataTable(["0100.00", "12.0"], [0, 1]);
 
             //Call the method to test
             var res = comparer.Compare(reference, actual);
@@ -102,8 +102,8 @@ namespace NBi.Core.Testing.ResultSet.Equivalence
         {
             //Buiding object used during test
             var comparer = new OrdinalEquivaler(AnalyzersFactory.EqualTo(), BuildSettingsKeyValue(ColumnType.Numeric));
-            var reference = BuildDataTable(new string[] { "100", "12.750" }, new double[] { 0, 1 });
-            var actual = BuildDataTableNumeric(new decimal[] { new decimal(100), new decimal(12.75) }, new double[] { 0, 1 });
+            var reference = BuildDataTable(["100", "12.750"], [0, 1]);
+            var actual = BuildDataTableNumeric([new decimal(100), new decimal(12.75)], [0, 1]);
 
             //Call the method to test
             var res = comparer.Compare(reference, actual);
@@ -117,8 +117,8 @@ namespace NBi.Core.Testing.ResultSet.Equivalence
         {
             //Buiding object used during test
             var comparer = new OrdinalEquivaler(AnalyzersFactory.EqualTo(), BuildSettingsKeyValue(ColumnType.DateTime));
-            var reference = BuildDataTable(new string[] { "2015-01-17", "2015-01-18" }, new double[] { 0, 1 });
-            var actual = BuildDataTable(new string[] { "17/01/2015", "18-01-2015" }, new double[] { 0, 1 });
+            var reference = BuildDataTable(["2015-01-17", "2015-01-18"], [0, 1]);
+            var actual = BuildDataTable(["17/01/2015", "18-01-2015"], [0, 1]);
 
             //Call the method to test
             var res = comparer.Compare(reference, actual);
@@ -132,8 +132,8 @@ namespace NBi.Core.Testing.ResultSet.Equivalence
         {
             //Buiding object used during test
             var comparer = new OrdinalEquivaler(AnalyzersFactory.EqualTo(), BuildSettingsKeyValue(ColumnType.Boolean));
-            var reference = BuildDataTable(new string[] { "yes", "no" }, new double[] { 0, 1 });
-            var actual = BuildDataTable(new string[] { "True", "FALSE" }, new double[] { 0, 1 });
+            var reference = BuildDataTable(["yes", "no"], [0, 1]);
+            var actual = BuildDataTable(["True", "FALSE"], [0, 1]);
 
             //Call the method to test
             var res = comparer.Compare(reference, actual);
@@ -147,8 +147,8 @@ namespace NBi.Core.Testing.ResultSet.Equivalence
         {
             //Buiding object used during test
             var comparer = new OrdinalEquivaler(AnalyzersFactory.EqualTo(), BuildSettingsKeyValue(ColumnType.DateTime));
-            var reference = BuildDataTable(new string[] { "2015-01-17", "2015-01-18" }, new double[] { 0, 1 });
-            var actual = BuildDataTableDateTime(new DateTime[] { new DateTime(2015, 01, 17), new DateTime(2015, 01, 18) }, new double[] { 0, 1 });
+            var reference = BuildDataTable(["2015-01-17", "2015-01-18"], [0, 1]);
+            var actual = BuildDataTableDateTime([new DateTime(2015, 01, 17), new DateTime(2015, 01, 18)], [0, 1]);
 
             //Call the method to test
             var res = comparer.Compare(reference, actual);
@@ -162,8 +162,8 @@ namespace NBi.Core.Testing.ResultSet.Equivalence
         {
             //Buiding object used during test
             var comparer = new OrdinalEquivaler(AnalyzersFactory.EqualTo(), BuildSettingsKeyValue(ColumnType.Boolean));
-            var reference = BuildDataTable(new string[] { "yes", "no" }, new double[] { 0, 1 });
-            var actual = BuildDataTableBoolean(new bool[] { true, false }, new double[] { 0, 1 });
+            var reference = BuildDataTable(["yes", "no"], [0, 1]);
+            var actual = BuildDataTableBoolean([true, false], [0, 1]);
 
             //Call the method to test
             var res = comparer.Compare(reference, actual);
@@ -177,8 +177,8 @@ namespace NBi.Core.Testing.ResultSet.Equivalence
         {
             //Buiding object used during test
             var comparer = new OrdinalEquivaler(AnalyzersFactory.EqualTo(), BuildSettingsKeyValue());
-            var reference = BuildDataTable(new string[] { "Key0", "Key1" }, new double[] { 0, 1 });
-            var actual = BuildDataTable(new string[] { "Key10", "Key1" }, new double[] { 10, 11 });
+            var reference = BuildDataTable(["Key0", "Key1"], [0, 1]);
+            var actual = BuildDataTable(["Key10", "Key1"], [10, 11]);
 
             //Call the method to test
             var res = comparer.Compare(reference, actual);
@@ -192,8 +192,8 @@ namespace NBi.Core.Testing.ResultSet.Equivalence
         {
             //Buiding object used during test
             var comparer = new OrdinalEquivaler(AnalyzersFactory.EqualTo(), BuildSettingsKeyValue(ColumnType.Numeric));
-            var reference = BuildDataTable(new string[] { "100", "12.750" }, new double[] { 0, 1 });
-            var actual = BuildDataTableNumeric(new decimal[] { new decimal(999), new decimal(12.75) }, new double[] { 0, 1 });
+            var reference = BuildDataTable(["100", "12.750"], [0, 1]);
+            var actual = BuildDataTableNumeric([new decimal(999), new decimal(12.75)], [0, 1]);
 
             //Call the method to test
             var res = comparer.Compare(reference, actual);
@@ -207,8 +207,8 @@ namespace NBi.Core.Testing.ResultSet.Equivalence
         {
             //Buiding object used during test
             var comparer = new OrdinalEquivaler(AnalyzersFactory.EqualTo(), BuildSettingsKeyValue(ColumnType.DateTime));
-            var reference = BuildDataTable(new string[] { "2015-01-17", "2015-01-18" }, new double[] { 0, 1 });
-            var actual = BuildDataTableDateTime(new DateTime[] { new DateTime(2015, 01, 17), new DateTime(2015, 01, 19) }, new double[] { 0, 1 });
+            var reference = BuildDataTable(["2015-01-17", "2015-01-18"], [0, 1]);
+            var actual = BuildDataTableDateTime([new DateTime(2015, 01, 17), new DateTime(2015, 01, 19)], [0, 1]);
 
             //Call the method to test
             var res = comparer.Compare(reference, actual);
@@ -222,8 +222,8 @@ namespace NBi.Core.Testing.ResultSet.Equivalence
         {
             //Buiding object used during test
             var comparer = new OrdinalEquivaler(AnalyzersFactory.EqualTo(), BuildSettingsKeyValue(ColumnType.DateTime));
-            var reference = BuildDataTable(new string[] { "2015-01-17", "2015-01-18" }, new double[] { 0, 1 });
-            var actual = BuildDataTableDateTime(new DateTime[] { new DateTime(2015, 01, 17), new DateTime(2015, 01, 18, 8, 0, 0) }, new double[] { 0, 1 });
+            var reference = BuildDataTable(["2015-01-17", "2015-01-18"], [0, 1]);
+            var actual = BuildDataTableDateTime([new DateTime(2015, 01, 17), new DateTime(2015, 01, 18, 8, 0, 0)], [0, 1]);
 
             //Call the method to test
             var res = comparer.Compare(reference, actual);
@@ -237,8 +237,8 @@ namespace NBi.Core.Testing.ResultSet.Equivalence
         {
             //Buiding object used during test
             var comparer = new OrdinalEquivaler(AnalyzersFactory.EqualTo(), BuildSettingsKeyValue(ColumnType.Boolean));
-            var reference = BuildDataTable(new string[] { "True" }, new double[] { 0, 1 });
-            var actual = BuildDataTable(new string[] { "FALSE" }, new double[] { 0, 1 });
+            var reference = BuildDataTable(["True"], [0, 1]);
+            var actual = BuildDataTable(["FALSE"], [0, 1]);
 
             //Call the method to test
             var res = comparer.Compare(reference, actual);
@@ -252,8 +252,8 @@ namespace NBi.Core.Testing.ResultSet.Equivalence
         {
             //Buiding object used during test
             var comparer = new OrdinalEquivaler(AnalyzersFactory.EqualTo(), BuildSettingsKeyValue(ColumnType.Boolean));
-            var reference = BuildDataTable(new string[] { "True" }, new double[] { 0, 1 });
-            var actual = BuildDataTableBoolean(new bool[] { false }, new double[] { 0, 1 });
+            var reference = BuildDataTable(["True"], [0, 1]);
+            var actual = BuildDataTableBoolean([false], [0, 1]);
 
             //Call the method to test
             var res = comparer.Compare(reference, actual);
@@ -267,8 +267,8 @@ namespace NBi.Core.Testing.ResultSet.Equivalence
         {
             //Buiding object used during test
             var comparer = new OrdinalEquivaler(AnalyzersFactory.EqualTo(), BuildSettingsKeyValue());
-            var reference = BuildDataTable(new string[] { "Key0", "Key1" }, new double[] { 0, 1 });
-            var actual = BuildDataTable(new string[] { "Key0", "Key1", "Key2" }, new double[] { 0, 1, 2 });
+            var reference = BuildDataTable(["Key0", "Key1"], [0, 1]);
+            var actual = BuildDataTable(["Key0", "Key1", "Key2"], [0, 1, 2]);
 
             //Call the method to test
             var res = comparer.Compare(reference, actual);
@@ -282,8 +282,8 @@ namespace NBi.Core.Testing.ResultSet.Equivalence
         {
             //Buiding object used during test
             var comparer = new OrdinalEquivaler(AnalyzersFactory.EqualTo(), BuildSettingsKeyValue());
-            var reference = BuildDataTable(new string[] { "Key0", "Key1" }, new double[] { 0, 1 });
-            var actual = BuildDataTable(new string[] { "Key1" }, new double[] { 1 });
+            var reference = BuildDataTable(["Key0", "Key1"], [0, 1]);
+            var actual = BuildDataTable(["Key1"], [1]);
 
             //Call the method to test
             var res = comparer.Compare(reference, actual);
@@ -297,8 +297,8 @@ namespace NBi.Core.Testing.ResultSet.Equivalence
         {
             //Buiding object used during test
             var comparer = new OrdinalEquivaler(AnalyzersFactory.EqualTo(), BuildSettingsKeyValue());
-            var reference = BuildDataTable(new string[] { "Key0", "Key1" }, new double[] { 0, 1 });
-            var actual = BuildDataTable(new string[] { "Key0", "Key1", "Key2" }, new double[] { 0, 1, 1 });
+            var reference = BuildDataTable(["Key0", "Key1"], [0, 1]);
+            var actual = BuildDataTable(["Key0", "Key1", "Key2"], [0, 1, 1]);
 
             //Call the method to test
             var res = comparer.Compare(reference, actual);
@@ -312,8 +312,8 @@ namespace NBi.Core.Testing.ResultSet.Equivalence
         {
             //Buiding object used during test
             var comparer = new OrdinalEquivaler(AnalyzersFactory.EqualTo(), BuildSettingsKeyValue());
-            var reference = BuildDataTable(new string[] { "Key0", "Key1" }, new double[] { 0, 1 });
-            var actual = BuildDataTable(new string[] { "Key0", "Key1", "Key2" }, new double[] { 0, 1, 2 });
+            var reference = BuildDataTable(["Key0", "Key1"], [0, 1]);
+            var actual = BuildDataTable(["Key0", "Key1", "Key2"], [0, 1, 2]);
 
             //Call the method to test
             var res = comparer.Compare(reference, actual);
@@ -371,8 +371,8 @@ namespace NBi.Core.Testing.ResultSet.Equivalence
         {
             //Buiding object used during test
             var comparer = new OrdinalEquivaler(AnalyzersFactory.EqualTo(), BuildSettingsKeyValueIgnore(0));
-            var reference = BuildDataTable(new string[] { "Key0", "Key1" }, new double[] { 0, 1 }, new string[] { "Useless0", "Useless1" });
-            var actual = BuildDataTable(new string[] { "Key0", "Key1" }, new double[] { 0, 1 }, new string[] { "0Useless0", "0Useless1" });
+            var reference = BuildDataTable(["Key0", "Key1"], [0, 1], ["Useless0", "Useless1"]);
+            var actual = BuildDataTable(["Key0", "Key1"], [0, 1], ["0Useless0", "0Useless1"]);
 
 
             //Call the method to test
@@ -443,8 +443,8 @@ namespace NBi.Core.Testing.ResultSet.Equivalence
         {
             //Buiding object used during test
             var comparer = new OrdinalEquivaler(AnalyzersFactory.EqualTo(), BuildSettingsKeyValue());
-            var reference = BuildDataTable(new object[] { "Key0", "Key1" }, new object[] { "0", "1.0" });
-            var actual = BuildDataTable(new string[] { "Key0", "Key1" }, new double[] { 0, 1 });
+            var reference = BuildDataTable(["Key0", "Key1"], ["0", "1.0"]);
+            var actual = BuildDataTable(["Key0", "Key1"], [0, 1]);
 
 
             //Call the method to test

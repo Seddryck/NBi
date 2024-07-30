@@ -35,7 +35,7 @@ namespace NBi.Core.Testing.FlatFile
         public void Write_TwoRowsWithHeader_ThreeLines()
         {
             var table = new DataTable();
-            Load(table, new string[] { "a11,a12", "a21,a22" }, "alpha1,alpha2");
+            Load(table, ["a11,a12", "a21,a22"], "alpha1,alpha2");
 
             var csvWriter = new CsvWriter(true);
             using (MemoryStream stream = new MemoryStream())
@@ -58,7 +58,7 @@ namespace NBi.Core.Testing.FlatFile
         public void Write_TwoRowsWithoutHeader_TwoLines()
         {
             var table = new DataTable();
-            Load(table, new string[] { "a11,a12", "a21,a22" }, "alpha1,alpha2");
+            Load(table, ["a11,a12", "a21,a22"], "alpha1,alpha2");
 
             var csvWriter = new CsvWriter(false);
             using (MemoryStream stream = new MemoryStream())
@@ -81,7 +81,7 @@ namespace NBi.Core.Testing.FlatFile
         public void Write_TwoRowsWithoutHeader_AllLinesHaveTwoFieldSeparator()
         {
             var table = new DataTable();
-            Load(table, new string[] { "a11,a12,a13", "a21,a22,a23" }, "alpha1,alpha2,alpha3");
+            Load(table, ["a11,a12,a13", "a21,a22,a23"], "alpha1,alpha2,alpha3");
 
             var csvWriter = new CsvWriter(false);
             using (MemoryStream stream = new MemoryStream())
@@ -108,7 +108,7 @@ namespace NBi.Core.Testing.FlatFile
         {
             var table = new DataTable();
             var columnNames = "alpha1,alpha2,alpha3";
-            Load(table, new string[] { "a11,a12,a13", "a21,a22,a23" }, columnNames);
+            Load(table, ["a11,a12,a13", "a21,a22,a23"], columnNames);
 
             var csvWriter = new CsvWriter(true);
             using (MemoryStream stream = new MemoryStream())
@@ -132,7 +132,7 @@ namespace NBi.Core.Testing.FlatFile
         public void Write_OneRowNeedQuoting_CorrectlyQuoted()
         {
             var table = new DataTable();
-            Load(table, new string[] { "a;11" }, "alpha1");
+            Load(table, ["a;11"], "alpha1");
 
             var csvWriter = new CsvWriter(false);
             using (MemoryStream stream = new MemoryStream())
@@ -156,7 +156,7 @@ namespace NBi.Core.Testing.FlatFile
         public void Write_OneRowDontNeedQuoting_CorrectlyNotQuoted()
         {
             var table = new DataTable();
-            Load(table, new string[] { "a11" }, "alpha1");
+            Load(table, ["a11"], "alpha1");
 
             var csvWriter = new CsvWriter(false);
             using (MemoryStream stream = new MemoryStream())

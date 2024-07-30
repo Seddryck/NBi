@@ -19,7 +19,7 @@ namespace NBi.Core.Testing.ResultSet.Equivalence
         {
             var builder = new SettingsEquivalerBuilder();
 
-            builder.Setup(new[] { "Zero", "Three", "Six", "Seven", "Eight" }, new[] { "Nine" });
+            builder.Setup(["Zero", "Three", "Six", "Seven", "Eight"], ["Nine"]);
             builder.Setup(BuildColumns());
             builder.Build();
             //Get the Settings
@@ -47,7 +47,7 @@ namespace NBi.Core.Testing.ResultSet.Equivalence
         {
             var builder = new SettingsEquivalerBuilder();
 
-            builder.Setup(new[] { "Zero", "Three", "Six", "Seven", "Eight" }, new[] { "Nine" });
+            builder.Setup(["Zero", "Three", "Six", "Seven", "Eight"], ["Nine"]);
             builder.Setup(BuildColumns());
             builder.Build();
             //Get the Settings
@@ -75,7 +75,7 @@ namespace NBi.Core.Testing.ResultSet.Equivalence
         {
             var builder = new SettingsEquivalerBuilder();
 
-            builder.Setup(new[] { "Zero", "Three", "Six", "Seven", "Eight" }, new[] { "Nine" });
+            builder.Setup(["Zero", "Three", "Six", "Seven", "Eight"], ["Nine"]);
             builder.Setup(BuildColumns());
             builder.Setup(ColumnType.Numeric, "100");
             builder.Build();

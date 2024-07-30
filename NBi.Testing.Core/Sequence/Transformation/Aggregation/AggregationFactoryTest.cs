@@ -24,7 +24,7 @@ namespace NBi.Testing.Unit.Core.Sequence.Transformation.Aggregation
         public void Instantiate_ColumnTypeandAggregationFunction_CorrectAggregation(ColumnType columnType, AggregationFunctionType function, Type expectedType)
         {
             var factory = new AggregationFactory();
-            var aggregation = factory.Instantiate(columnType, function, Array.Empty<IScalarResolver>(), Array.Empty<IAggregationStrategy>());
+            var aggregation = factory.Instantiate(columnType, function, [], []);
             Assert.That(aggregation, Is.Not.Null);
             Assert.That(aggregation.Function, Is.TypeOf(expectedType));
         }
@@ -37,7 +37,7 @@ namespace NBi.Testing.Unit.Core.Sequence.Transformation.Aggregation
         public void Instantiate_ColumnTypeCount_CorrectAggregation(ColumnType columnType)
         {
             var factory = new AggregationFactory();
-            var aggregation = factory.Instantiate(columnType, AggregationFunctionType.Count, Array.Empty<IScalarResolver>(), Array.Empty<IAggregationStrategy>());
+            var aggregation = factory.Instantiate(columnType, AggregationFunctionType.Count, [], []);
             Assert.That(aggregation, Is.Not.Null);
             Assert.That(aggregation.Function, Is.InstanceOf<Count>());
         }
@@ -46,7 +46,7 @@ namespace NBi.Testing.Unit.Core.Sequence.Transformation.Aggregation
         public void Instantiate_ConcantenationText_CorrectAggregation()
         {
             var factory = new AggregationFactory();
-            var aggregation = factory.Instantiate(ColumnType.Text, AggregationFunctionType.Concatenation, new List<IScalarResolver> { new LiteralScalarResolver<string>("+")}.ToArray(), Array.Empty<IAggregationStrategy>());
+            var aggregation = factory.Instantiate(ColumnType.Text, AggregationFunctionType.Concatenation, [new LiteralScalarResolver<string>("+")], []);
             Assert.That(aggregation, Is.Not.Null);
             Assert.That(aggregation.Function, Is.TypeOf<ConcatenationText>());
         }
@@ -56,7 +56,7 @@ namespace NBi.Testing.Unit.Core.Sequence.Transformation.Aggregation
         public void Instantiate_ColumnTypeAndAggregationFunction_CorrectAggregation(ColumnType columnType, AggregationFunctionType function)
         {
             var factory = new AggregationFactory();
-            Assert.Throws<ArgumentException>( () => factory.Instantiate(columnType, function, Array.Empty<IScalarResolver>(), Array.Empty<IAggregationStrategy>()));
+            Assert.Throws<ArgumentException>( () => factory.Instantiate(columnType, function, [], []));
         }
     }
 }

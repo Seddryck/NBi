@@ -30,7 +30,7 @@ namespace NBi.Core.Configuration.Extension
             foreach (var @interface in interfaces)
                 notables.AddRange(types.Where(x => @interface.IsAssignableFrom(x) && !x.IsAbstract && x.IsPublic));
 
-            return notables.ToArray();
+            return [.. notables];
         }
     }
 }

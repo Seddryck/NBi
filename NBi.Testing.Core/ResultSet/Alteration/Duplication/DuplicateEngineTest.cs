@@ -51,7 +51,7 @@ namespace NBi.Core.Testing.ResultSet.Alteration.Duplication
         [Test]
         public void Execute_Predication_CorrectDuplication()
         {
-            var args = new ObjectsResultSetResolverArgs(new[] { new object[] { "Alpha", 1, 2 }, new object[] { "Beta", 3, 2 }, new object[] { "Gamma", 5, 7 } });
+            var args = new ObjectsResultSetResolverArgs(new[] { new object[] { "Alpha", 1, 2 }, ["Beta", 3, 2], ["Gamma", 5, 7] });
             var resolver = new ObjectsResultSetResolver(args);
             var rs = resolver.Execute();
 
@@ -119,7 +119,7 @@ namespace NBi.Core.Testing.ResultSet.Alteration.Duplication
         [Test]
         public void Execute_OuputStatic_CorrectStatic()
         {
-            var args = new ObjectsResultSetResolverArgs(new[] { new object[] { "Alpha", 1, 2 }, new object[] { "Beta", 3, 2 }, new object[] { "Gamma", 5, 7 } });
+            var args = new ObjectsResultSetResolverArgs(new[] { new object[] { "Alpha", 1, 2 }, ["Beta", 3, 2], ["Gamma", 5, 7] });
             var resolver = new ObjectsResultSetResolver(args);
             var rs = resolver.Execute();
 
@@ -173,7 +173,7 @@ namespace NBi.Core.Testing.ResultSet.Alteration.Duplication
         [Test]
         public void Execute_OutputTotal_CorrectTotal()
         {
-            var args = new ObjectsResultSetResolverArgs(new[] { new object[] { "Alpha", 1, 2 }, new object[] { "Beta", 3, 2 }, new object[] { "Gamma", 5, 7 } });
+            var args = new ObjectsResultSetResolverArgs(new[] { new object[] { "Alpha", 1, 2 }, ["Beta", 3, 2], ["Gamma", 5, 7] });
             var resolver = new ObjectsResultSetResolver(args);
             var rs = resolver.Execute();
 
@@ -208,7 +208,7 @@ namespace NBi.Core.Testing.ResultSet.Alteration.Duplication
         [Test]
         public void Execute_OutputIsOriginal_CorrectTotal()
         {
-            var args = new ObjectsResultSetResolverArgs(new[] { new object[] { "Alpha", 1, 2 }, new object[] { "Beta", 3, 2 }, new object[] { "Gamma", 5, 7 } });
+            var args = new ObjectsResultSetResolverArgs(new[] { new object[] { "Alpha", 1, 2 }, ["Beta", 3, 2], ["Gamma", 5, 7] });
             var resolver = new ObjectsResultSetResolver(args);
             var rs = resolver.Execute();
 
@@ -238,7 +238,7 @@ namespace NBi.Core.Testing.ResultSet.Alteration.Duplication
         [Test]
         public void Execute_OutputIsDuplicable_CorrectTotal()
         {
-            var args = new ObjectsResultSetResolverArgs(new[] { new object[] { "Alpha", 1, 2 }, new object[] { "Beta", 3, 2 }, new object[] { "Gamma", 5, 7 } });
+            var args = new ObjectsResultSetResolverArgs(new[] { new object[] { "Alpha", 1, 2 }, ["Beta", 3, 2], ["Gamma", 5, 7] });
             var resolver = new ObjectsResultSetResolver(args);
             var rs = resolver.Execute();
 

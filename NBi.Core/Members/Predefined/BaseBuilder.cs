@@ -8,7 +8,7 @@ namespace NBi.Core.Members.Predefined
     internal abstract class BaseBuilder : IPredefinedMembersBuilder
     {
         public CultureInfo Culture { get; protected set;} = CultureInfo.InvariantCulture;
-        protected IEnumerable<string> Result { get; set; } = Enumerable.Empty<string>();
+        protected IEnumerable<string> Result { get; set; } = [];
         private bool isSetup = false;
         private bool isBuild = false;
 

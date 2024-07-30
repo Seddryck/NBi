@@ -50,7 +50,7 @@ namespace NBi.Core.Structure
 
             var factoryType = value;
             var ctor = factoryType.GetConstructor([typeof(IDbConnection)]) ?? throw new NullReferenceException();
-            var factory = (IStructureDiscoveryFactory)ctor.Invoke(new object[] { connection });
+            var factory = (IStructureDiscoveryFactory)ctor.Invoke([connection]);
 
             return factory;
         }

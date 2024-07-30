@@ -25,7 +25,7 @@ namespace NBi.Core.Testing.ResultSet.Alteration.Projection
             var factory = new ColumnIdentifierFactory();
             var id = factory.Instantiate(identifier);
 
-            var filter = new ProjectEngine(new ProjectArgs(new[] { id }));
+            var filter = new ProjectEngine(new ProjectArgs([id]));
             filter.Execute(rs);
 
             Assert.That(rs.ColumnCount, Is.EqualTo(1));
@@ -45,7 +45,7 @@ namespace NBi.Core.Testing.ResultSet.Alteration.Projection
 
             var factory = new ColumnIdentifierFactory();
 
-            var filter = new ProjectEngine(new ProjectArgs(new[] { factory.Instantiate(id1), factory.Instantiate(id2) }));
+            var filter = new ProjectEngine(new ProjectArgs([factory.Instantiate(id1), factory.Instantiate(id2)]));
             filter.Execute(rs);
 
             Assert.That(rs.ColumnCount, Is.EqualTo(2));
@@ -66,7 +66,7 @@ namespace NBi.Core.Testing.ResultSet.Alteration.Projection
 
             var factory = new ColumnIdentifierFactory();
 
-            var project = new ProjectEngine(new ProjectArgs(new[] { factory.Instantiate(id1), factory.Instantiate(id2) }));
+            var project = new ProjectEngine(new ProjectArgs([factory.Instantiate(id1), factory.Instantiate(id2)]));
             project.Execute(rs);
 
             Assert.That(rs.ColumnCount, Is.EqualTo(2));
@@ -88,7 +88,7 @@ namespace NBi.Core.Testing.ResultSet.Alteration.Projection
 
             var factory = new ColumnIdentifierFactory();
 
-            var filter = new ProjectEngine(new ProjectArgs(new[] { factory.Instantiate(id1), factory.Instantiate(id2) }));
+            var filter = new ProjectEngine(new ProjectArgs([factory.Instantiate(id1), factory.Instantiate(id2)]));
             filter.Execute(rs);
 
             Assert.That(rs.ColumnCount, Is.EqualTo(1));
@@ -109,7 +109,7 @@ namespace NBi.Core.Testing.ResultSet.Alteration.Projection
 
             var factory = new ColumnIdentifierFactory();
 
-            var filter = new ProjectEngine(new ProjectArgs(new[] { factory.Instantiate("#2"), factory.Instantiate(id1), factory.Instantiate(id2) }));
+            var filter = new ProjectEngine(new ProjectArgs([factory.Instantiate("#2"), factory.Instantiate(id1), factory.Instantiate(id2)]));
             filter.Execute(rs);
 
             Assert.That(rs.ColumnCount, Is.EqualTo(2));
@@ -130,7 +130,7 @@ namespace NBi.Core.Testing.ResultSet.Alteration.Projection
 
             var factory = new ColumnIdentifierFactory();
 
-            var filter = new ProjectEngine(new ProjectArgs(new[] { factory.Instantiate(id) }));
+            var filter = new ProjectEngine(new ProjectArgs([factory.Instantiate(id)]));
             filter.Execute(rs);
 
             Assert.That(rs.ColumnCount, Is.EqualTo(0));

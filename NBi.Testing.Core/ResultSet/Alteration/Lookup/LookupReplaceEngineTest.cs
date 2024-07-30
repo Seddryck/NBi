@@ -24,9 +24,9 @@ namespace NBi.Core.Testing.ResultSet.Alteration.Lookup
                 new ObjectsResultSetResolverArgs(
                     new[] {
                         new object[] { 1, "A", 100 },
-                        new object[] { 2, "B", 101 },
-                        new object[] { 3, "A", 125 },
-                        new object[] { 4, "B", 155 }
+                        [2, "B", 101],
+                        [3, "A", 125],
+                        [4, "B", 155]
                     }
                 )).Execute();
 
@@ -34,7 +34,7 @@ namespace NBi.Core.Testing.ResultSet.Alteration.Lookup
                     new ObjectsResultSetResolverArgs(
                         new[] {
                             new object[] { "A", "alpha" },
-                            new object[] { "B", "beta" },
+                            ["B", "beta"],
                         }
                     ));
 
@@ -60,9 +60,9 @@ namespace NBi.Core.Testing.ResultSet.Alteration.Lookup
                 new ObjectsResultSetResolverArgs(
                     new[] {
                         new object[] { 1, "A", 100 },
-                        new object[] { 2, "B", 101 },
-                        new object[] { 3, "A", 125 },
-                        new object[] { 4, "B", 155 }
+                        [2, "B", 101],
+                        [3, "A", 125],
+                        [4, "B", 155]
                     }
                 )).Execute();
 
@@ -70,7 +70,7 @@ namespace NBi.Core.Testing.ResultSet.Alteration.Lookup
                     new ObjectsResultSetResolverArgs(
                         new[] {
                             new object[] { "A", 10.2 },
-                            new object[] { "B", 21.1 },
+                            ["B", 21.1],
                         }
                     ));
 
@@ -96,9 +96,9 @@ namespace NBi.Core.Testing.ResultSet.Alteration.Lookup
                 new ObjectsResultSetResolverArgs(
                     new[] {
                         new object[] { 1, "A", 100 },
-                        new object[] { 2, "B", 101 },
-                        new object[] { 3, "A", 125 },
-                        new object[] { 4, "C", 155 }
+                        [2, "B", 101],
+                        [3, "A", 125],
+                        [4, "C", 155]
                     }
                 )).Execute();
 
@@ -107,7 +107,7 @@ namespace NBi.Core.Testing.ResultSet.Alteration.Lookup
                     new ObjectsResultSetResolverArgs(
                         new[] {
                             new object[] { "A", "alpha" },
-                            new object[] { "B", "beta" },
+                            ["B", "beta"],
                         }
                 ));
 
@@ -130,9 +130,9 @@ namespace NBi.Core.Testing.ResultSet.Alteration.Lookup
                 new ObjectsResultSetResolverArgs(
                     new[] {
                         new object[] { 1, "A", 100 },
-                        new object[] { 2, "B", 101 },
-                        new object[] { 3, "A", 125 },
-                        new object[] { 4, "C", 155 }
+                        [2, "B", 101],
+                        [3, "A", 125],
+                        [4, "C", 155]
                     }
                 )).Execute();
 
@@ -141,7 +141,7 @@ namespace NBi.Core.Testing.ResultSet.Alteration.Lookup
                     new ObjectsResultSetResolverArgs(
                         new[] {
                             new object[] { "A", "alpha" },
-                            new object[] { "B", "beta" },
+                            ["B", "beta"],
                         }
                 ));
 
@@ -169,9 +169,9 @@ namespace NBi.Core.Testing.ResultSet.Alteration.Lookup
                 new ObjectsResultSetResolverArgs(
                     new[] {
                         new object[] { 1, "A", 100 },
-                        new object[] { 2, "B", 101 },
-                        new object[] { 3, "A", 125 },
-                        new object[] { 4, "C", 155 }
+                        [2, "B", 101],
+                        [3, "A", 125],
+                        [4, "C", 155]
                     }
                 )).Execute();
 
@@ -180,7 +180,7 @@ namespace NBi.Core.Testing.ResultSet.Alteration.Lookup
                     new ObjectsResultSetResolverArgs(
                         new[] {
                             new object[] { "A", "alpha" },
-                            new object[] { "B", "beta" },
+                            ["B", "beta"],
                         }
                 ));
 
@@ -208,9 +208,9 @@ namespace NBi.Core.Testing.ResultSet.Alteration.Lookup
                 new ObjectsResultSetResolverArgs(
                     new[] {
                         new object[] { 1, "A", 100 },
-                        new object[] { 2, "B", 101 },
-                        new object[] { 3, "A", 125 },
-                        new object[] { 4, "C", 155 }
+                        [2, "B", 101],
+                        [3, "A", 125],
+                        [4, "C", 155]
                     }
                 )).Execute();
 
@@ -219,7 +219,7 @@ namespace NBi.Core.Testing.ResultSet.Alteration.Lookup
                     new ObjectsResultSetResolverArgs(
                         new[] {
                             new object[] { "A", "alpha" },
-                            new object[] { "B", "beta" },
+                            ["B", "beta"],
                         }
                 ));
 

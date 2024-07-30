@@ -25,7 +25,7 @@ namespace NBi.Core.Testing.ResultSet.Alteration.Projection
             var factory = new ColumnIdentifierFactory();
             var id = factory.Instantiate(identifier);
 
-            var skip = new ProjectAwayEngine(new ProjectAwayArgs(new[] { id }));
+            var skip = new ProjectAwayEngine(new ProjectAwayArgs([id]));
             skip.Execute(rs);
 
             Assert.That(rs.ColumnCount, Is.EqualTo(2));
@@ -46,7 +46,7 @@ namespace NBi.Core.Testing.ResultSet.Alteration.Projection
 
             var factory = new ColumnIdentifierFactory();
 
-            var skip = new ProjectAwayEngine(new ProjectAwayArgs(new[] { factory.Instantiate(id1), factory.Instantiate(id2) }));
+            var skip = new ProjectAwayEngine(new ProjectAwayArgs([factory.Instantiate(id1), factory.Instantiate(id2)]));
             skip.Execute(rs);
 
             Assert.That(rs.ColumnCount, Is.EqualTo(1));
@@ -67,7 +67,7 @@ namespace NBi.Core.Testing.ResultSet.Alteration.Projection
 
             var factory = new ColumnIdentifierFactory();
 
-            var skip = new ProjectAwayEngine(new ProjectAwayArgs(new[] { factory.Instantiate(id1), factory.Instantiate(id2) }));
+            var skip = new ProjectAwayEngine(new ProjectAwayArgs([factory.Instantiate(id1), factory.Instantiate(id2)]));
             skip.Execute(rs);
 
             Assert.That(rs.ColumnCount, Is.EqualTo(2));
@@ -86,7 +86,7 @@ namespace NBi.Core.Testing.ResultSet.Alteration.Projection
 
             var factory = new ColumnIdentifierFactory();
 
-            var skip = new ProjectAwayEngine(new ProjectAwayArgs(new[] { factory.Instantiate(id) }));
+            var skip = new ProjectAwayEngine(new ProjectAwayArgs([factory.Instantiate(id)]));
             skip.Execute(rs);
 
             Assert.That(rs.ColumnCount, Is.EqualTo(3));

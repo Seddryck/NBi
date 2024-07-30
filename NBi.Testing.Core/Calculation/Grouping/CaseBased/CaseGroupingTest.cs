@@ -25,7 +25,7 @@ namespace NBi.Core.Testing.Calculation.Grouping.ColumnBased
             var lowerCase = new Predication(new Predicate(new LowerCase()), new ColumnOrdinalIdentifier(0));
             var upperCase = new Predication(new Predicate(new UpperCase()), new ColumnOrdinalIdentifier(0));
 
-            var grouping = new CaseGrouping(new IPredication[] { lowerCase, upperCase }, new Context());
+            var grouping = new CaseGrouping([lowerCase, upperCase], new Context());
 
             var result = grouping.Execute(rs);
             Assert.That(result, Has.Count.EqualTo(2));
@@ -74,7 +74,7 @@ namespace NBi.Core.Testing.Calculation.Grouping.ColumnBased
                                     .Build())
                                 , new ColumnOrdinalIdentifier(1)
                             );
-            var grouping = new CaseGrouping(new IPredication[] { lowerCase, upperCase }, context);
+            var grouping = new CaseGrouping([lowerCase, upperCase], context);
 
             var result = grouping.Execute(rs);
             Assert.That(result, Has.Count.EqualTo(3));

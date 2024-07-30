@@ -15,7 +15,7 @@ namespace NBi.Core.Variable.Instantiation
         {
             switch (args)
             {
-                case DefaultInstanceArgs _: return new[] { Instance.Default };
+                case DefaultInstanceArgs _: return [Instance.Default];
                 case DerivedVariableInstanceArgs s: return Instantiate(s.Name, s.Resolver, s.Derivations, args.Categories, args.Traits);
                 case SingleVariableInstanceArgs s: return Instantiate(s.Name, s.Resolver, args.Categories, args.Traits);
                 default:

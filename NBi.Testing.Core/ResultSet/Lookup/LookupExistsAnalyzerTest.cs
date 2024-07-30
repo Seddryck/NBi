@@ -65,8 +65,8 @@ namespace NBi.Core.Testing.ResultSet.Lookup
         [Test]
         public void ExecuteReferenceLargerThanCandidate_NoViolation()
         {
-            var child = BuildDataTable(new[] { "Key0", "Key1" }, new object[] { 0, 1 });
-            var reference = BuildDataTable(new[] { "Key0", "Key1", "Key2" }, new object[] { 1, 1, 1 });
+            var child = BuildDataTable(new[] { "Key0", "Key1" }, [0, 1]);
+            var reference = BuildDataTable(new[] { "Key0", "Key1", "Key2" }, [1, 1, 1]);
 
             var referencer = new LookupExistsAnalyzer(BuildColumnMapping(1));
             var violations = referencer.Execute(child, reference);
@@ -76,8 +76,8 @@ namespace NBi.Core.Testing.ResultSet.Lookup
         [Test]
         public void ExecuteReferenceLargerThanCandidateDuplicateKeys_NoViolation()
         {
-            var child = BuildDataTable(new[] { "Key0", "Key1" }, new object[] { 0, 1 });
-            var reference = BuildDataTable(new[] { "Key0", "Key1", "Key2", "Key1", "Key2" }, new object[] { 1, 1, 1, 1, 1 });
+            var child = BuildDataTable(new[] { "Key0", "Key1" }, [0, 1]);
+            var reference = BuildDataTable(new[] { "Key0", "Key1", "Key2", "Key1", "Key2" }, [1, 1, 1, 1, 1]);
 
             var referencer = new LookupExistsAnalyzer(BuildColumnMapping(1));
             var violations = referencer.Execute(child, reference);
@@ -87,8 +87,8 @@ namespace NBi.Core.Testing.ResultSet.Lookup
         [Test]
         public void Execute_MissingItem_NoViolation()
         {
-            var child = BuildDataTable(new[] { "Key0", "Key1" }, new object[] { 0, 1 });
-            var reference = BuildDataTable(new[] { "Key0", "Key2", "Key2", "Key0", "Key2" }, new object[] { 1, 1, 1, 1, 1 });
+            var child = BuildDataTable(new[] { "Key0", "Key1" }, [0, 1]);
+            var reference = BuildDataTable(new[] { "Key0", "Key2", "Key2", "Key0", "Key2" }, [1, 1, 1, 1, 1]);
 
             var referencer = new LookupExistsAnalyzer(BuildColumnMapping(1));
             var violations = referencer.Execute(child, reference);
@@ -98,8 +98,8 @@ namespace NBi.Core.Testing.ResultSet.Lookup
         [Test]
         public void Execute_MultipleKeysreferenceLargerThanCandidateDuplicateKeys_NoViolation()
         {
-            var child = BuildDataTable(new[] { "Key0", "Key1" }, new[] { "Foo", "Bar" }, new object[] { 0, 1 });
-            var reference = BuildDataTable(new[] { "Key0", "Key1", "Key2" }, new[] { "Foo", "Bar", "Bar" }, new object[] { 1, 2, 3 });
+            var child = BuildDataTable(new[] { "Key0", "Key1" }, new[] { "Foo", "Bar" }, [0, 1]);
+            var reference = BuildDataTable(new[] { "Key0", "Key1", "Key2" }, new[] { "Foo", "Bar", "Bar" }, [1, 2, 3]);
 
             var referencer = new LookupExistsAnalyzer(BuildColumnMapping(2));
             var violations = referencer.Execute(child, reference);
@@ -109,8 +109,8 @@ namespace NBi.Core.Testing.ResultSet.Lookup
         [Test]
         public void Execute_MultipleKeysMissingItem_NoViolation()
         {
-            var child = BuildDataTable(new[] { "Key0", "Key1" }, new[] { "Foo", "Bar" }, new object[] { 0, 1 });
-            var reference = BuildDataTable(new[] { "Key0" }, new[] { "Foo" }, new object[] { 1 });
+            var child = BuildDataTable(new[] { "Key0", "Key1" }, new[] { "Foo", "Bar" }, [0, 1]);
+            var reference = BuildDataTable(new[] { "Key0" }, new[] { "Foo" }, [1]);
 
             var referencer = new LookupExistsAnalyzer(BuildColumnMapping(2));
             var violations = referencer.Execute(child, reference);
@@ -120,8 +120,8 @@ namespace NBi.Core.Testing.ResultSet.Lookup
         [Test]
         public void Execute_MultipleKeysPermuteValueColumn_NoViolation()
         {
-            var child = BuildDataTable(new[] { "Key0", "Key1" }, new[] { "Foo", "Bar" }, new object[] { 0, 1 });
-            var reference = BuildDataTable(new[] { "Key0", "Key1", "Key2" }, new[] { "Foo", "Bar",  "Fie" }, new object[] { 1, 2, 3 });
+            var child = BuildDataTable(new[] { "Key0", "Key1" }, new[] { "Foo", "Bar" }, [0, 1]);
+            var reference = BuildDataTable(new[] { "Key0", "Key1", "Key2" }, new[] { "Foo", "Bar",  "Fie" }, [1, 2, 3]);
             reference.GetColumn(2)?.Move(0);
 
             var referencer = new LookupExistsAnalyzer(BuildColumnMapping(2, 1));
@@ -132,8 +132,8 @@ namespace NBi.Core.Testing.ResultSet.Lookup
         [Test]
         public void Execute_MultipleKeysPermuteValueColumnOneMissingreference_OneViolation()
         {
-            var child = BuildDataTable(new[] { "Key0", "Key1", "Key2" }, new[] { "Foo", "Bar", "Bar" }, new object[] { 1, 2, 2 });
-            var reference = BuildDataTable(new[] { "Key0", "Key1" }, new[] { "Foo", "Bar" }, new object[] { 0, 1 });
+            var child = BuildDataTable(new[] { "Key0", "Key1", "Key2" }, new[] { "Foo", "Bar", "Bar" }, [1, 2, 2]);
+            var reference = BuildDataTable(new[] { "Key0", "Key1" }, new[] { "Foo", "Bar" }, [0, 1]);
             reference.GetColumn(2)?.Move(0);
 
             var referencer = new LookupExistsAnalyzer(BuildColumnMapping(2, 1));
@@ -144,8 +144,8 @@ namespace NBi.Core.Testing.ResultSet.Lookup
         [Test]
         public void Execute_MultipleKeysPermuteKeyColumns_NoViolation()
         {
-            var child = BuildDataTable(new[] { "Key0", "Key1" }, new[] { "Foo", "Bar" }, new object[] { 0, 1 });
-            var reference = BuildDataTable(new[] { "Key0", "Key1", "Key2" }, new[] { "Foo", "Bar", "Fie" }, new object[] { 1, 2, 3 });
+            var child = BuildDataTable(new[] { "Key0", "Key1" }, new[] { "Foo", "Bar" }, [0, 1]);
+            var reference = BuildDataTable(new[] { "Key0", "Key1", "Key2" }, new[] { "Foo", "Bar", "Fie" }, [1, 2, 3]);
             reference.GetColumn(1)?.Move(0);
 
             var mapping = new ColumnMappingCollection
@@ -161,8 +161,8 @@ namespace NBi.Core.Testing.ResultSet.Lookup
         [Test]
         public void Execute_MultipleKeysPermuteKeyColumnsOneMissingreference_OneViolation()
         {
-            var child = BuildDataTable(new[] { "Key0", "Key1", "Key2" }, new[] { "Foo", "Bar", "Fie" }, new object[] { 1, 2, 3 });
-            var reference = BuildDataTable(new[] { "Key0", "Key1" }, new[] { "Foo", "Bar" }, new object[] { 0, 1 });
+            var child = BuildDataTable(new[] { "Key0", "Key1", "Key2" }, new[] { "Foo", "Bar", "Fie" }, [1, 2, 3]);
+            var reference = BuildDataTable(new[] { "Key0", "Key1" }, new[] { "Foo", "Bar" }, [0, 1]);
             reference.GetColumn(1)?.Move(0);
 
             var mapping = new ColumnMappingCollection
@@ -178,8 +178,8 @@ namespace NBi.Core.Testing.ResultSet.Lookup
         [Test]
         public void Execute_DuplicatedKeyColumns_NoViolation()
         {
-            var child = BuildDataTable(new[] { "Key0", "Key1" }, new[] { "Foo", "Bar" }, new object[] { 0, 1 });
-            var reference = BuildDataTable(new[] { "Key0", "Key1", "Key1" }, new[] { "Foo", "Bar", "Bar" }, new object[] { 1, 2, 3 });
+            var child = BuildDataTable(new[] { "Key0", "Key1" }, new[] { "Foo", "Bar" }, [0, 1]);
+            var reference = BuildDataTable(new[] { "Key0", "Key1", "Key1" }, new[] { "Foo", "Bar", "Bar" }, [1, 2, 3]);
 
             var mapping = new ColumnMappingCollection
             {
@@ -194,8 +194,8 @@ namespace NBi.Core.Testing.ResultSet.Lookup
         [Test]
         public void Execute_DuplicatedKeyColumnsOnBothSide_NoViolation()
         {
-            var child = BuildDataTable(new[] { "Key0", "Key1", "Key0" }, new[] { "Foo", "Bar", "Foo" }, new object[] { 0, 1, 2 });
-            var reference = BuildDataTable(new[] { "Key0", "Key1", "Key1" }, new[] { "Foo", "Bar", "Bar" }, new object[] { 1, 2, 3 });
+            var child = BuildDataTable(new[] { "Key0", "Key1", "Key0" }, new[] { "Foo", "Bar", "Foo" }, [0, 1, 2]);
+            var reference = BuildDataTable(new[] { "Key0", "Key1", "Key1" }, new[] { "Foo", "Bar", "Bar" }, [1, 2, 3]);
 
             var mapping = new ColumnMappingCollection
             {
@@ -210,7 +210,7 @@ namespace NBi.Core.Testing.ResultSet.Lookup
         [Test]
         public void Execute_DuplicatedKeyColumnsOnBothSideMixingType_NoViolation()
         {
-            var child = BuildDataTable(new[] { "Key0", "Key1", "Key0" }, new[] { "Foo", "Bar", "Foo" }, new object[] { 0, 1, 0 });
+            var child = BuildDataTable(new[] { "Key0", "Key1", "Key0" }, new[] { "Foo", "Bar", "Foo" }, [0, 1, 0]);
             var reference = BuildDataTable(new[] { "Key0", "Key1", "Key1" }, new[] { "Foo", "Bar", "Bar" }, new [] { "0.000", "1.0", "2" });
 
             var mapping = new ColumnMappingCollection
@@ -228,7 +228,7 @@ namespace NBi.Core.Testing.ResultSet.Lookup
         [Test]
         public void Execute_NamedColumns_NoViolation()
         {
-            var child = BuildDataTable(new[] { "Key0", "Key1", "Key0" }, new[] { "Foo", "Bar", "Foo" }, new object[] { 0, 1, 0 });
+            var child = BuildDataTable(new[] { "Key0", "Key1", "Key0" }, new[] { "Foo", "Bar", "Foo" }, [0, 1, 0]);
             var reference = BuildDataTable(new[] { "Key0", "Key1", "Key1" }, new[] { "Foo", "Bar", "Bar" }, new[] { "0.000", "1.0", "2" });
 
             var mapping = new ColumnMappingCollection
@@ -245,7 +245,7 @@ namespace NBi.Core.Testing.ResultSet.Lookup
         [Test]
         public void Execute_NamedColumnsShuffle_NoViolation()
         {
-            var child = BuildDataTable(new[] { "Key0", "Key1", "Key0" }, new[] { "Foo", "Bar", "Foo" }, new object[] { 0, 1, 0 });
+            var child = BuildDataTable(new[] { "Key0", "Key1", "Key0" }, new[] { "Foo", "Bar", "Foo" }, [0, 1, 0]);
             var reference = BuildDataTable(new[] { "Key0", "Key1", "Key1" }, new[] { "Foo", "Bar", "Bar" }, new[] { "0.000", "1.0", "2" });
             reference.GetColumn("two")?.Move(1);
 
@@ -263,7 +263,7 @@ namespace NBi.Core.Testing.ResultSet.Lookup
         [Test]
         public void Execute_RenamedColumnsShuffle_NoViolation()
         {
-            var child = BuildDataTable(new[] { "Key0", "Key1", "Key0" }, new[] { "Foo", "Bar", "Foo" }, new object[] { 0, 1, 0 });
+            var child = BuildDataTable(new[] { "Key0", "Key1", "Key0" }, new[] { "Foo", "Bar", "Foo" }, [0, 1, 0]);
             var reference = BuildDataTable(new[] { "Key0", "Key1", "Key1" }, new[] { "Foo", "Bar", "Bar" }, new[] { "0.000", "1.0", "2" });
             reference.GetColumn("two")?.Move(1);
             reference.GetColumn("two")?.Rename("myColumn");
@@ -282,7 +282,7 @@ namespace NBi.Core.Testing.ResultSet.Lookup
         [Test]
         public void Execute_MixNameAndOrdinal_NoViolation()
         {
-            var child = BuildDataTable(new[] { "Key0", "Key1", "Key0" }, new[] { "Foo", "Bar", "Foo" }, new object[] { 0, 1, 0 });
+            var child = BuildDataTable(new[] { "Key0", "Key1", "Key0" }, new[] { "Foo", "Bar", "Foo" }, [0, 1, 0]);
             var reference = BuildDataTable(new[] { "Key0", "Key1", "Key1" }, new[] { "Foo", "Bar", "Bar" }, new[] { "0.000", "1.0", "2" });
             reference.GetColumn("two")?.Move(1);
             reference.GetColumn("two")?.Rename("myColumn");
@@ -307,7 +307,7 @@ namespace NBi.Core.Testing.ResultSet.Lookup
         [Parallelizable(ParallelScope.Self)]
         public void Execute_LargeVolumeReference_Fast(int maxItem)
         {
-            var child = BuildDataTable(new[] { "Key0", "Key1", "Key0" }, new[] { "Foo", "Bar", "Foo" }, new object[] { 1, 2, 3 });
+            var child = BuildDataTable(new[] { "Key0", "Key1", "Key0" }, new[] { "Foo", "Bar", "Foo" }, [1, 2, 3]);
             var dt = new DataTable();
             var column = dt.Columns.Add("two");
             for (int i = 0; i < maxItem; i++)
@@ -340,7 +340,7 @@ namespace NBi.Core.Testing.ResultSet.Lookup
         [Parallelizable(ParallelScope.Self)]
         public void Execute_LargeVolumeChild_Fast(int maxItem)
         {
-            var reference = BuildDataTable(new[] { "Key0", "Key1", "Key0" }, new[] { "Foo", "Bar", "Foo" }, new object[] { 1, 2, 3 });
+            var reference = BuildDataTable(new[] { "Key0", "Key1", "Key0" }, new[] { "Foo", "Bar", "Foo" }, [1, 2, 3]);
             var dt = new DataTable();
             var column = dt.Columns.Add("two");
             for (int i = 0; i < maxItem; i++)

@@ -54,7 +54,7 @@ namespace NBi.Core.ResultSet
                     }
                 }
             }
-            return new KeyCollection(keys.ToArray());
+            return new KeyCollection([.. keys]);
         }
         
     }

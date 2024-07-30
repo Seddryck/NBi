@@ -16,11 +16,11 @@ namespace NBi.Core.Query.Performance
     {
         public PerformanceEngineFactory()
         {
-            RegisterEngines(new[] {
+            RegisterEngines([
                 typeof(AdomdPerformanceEngine),
                 typeof(OdbcPerformanceEngine),
                 typeof(OleDbPerformanceEngine),
-                typeof(SqlPerformanceEngine) }
+                typeof(SqlPerformanceEngine) ]
             );
         }
     }

@@ -9,11 +9,11 @@ namespace NBi.Core.Query.Format
     {
         public FormatEngineFactory()
         {
-            RegisterEngines(new[] {
+            RegisterEngines([
                 typeof(AdomdFormatEngine),
                 typeof(OdbcFormatEngine),
                 typeof(OleDbFormatEngine),
-                typeof(SqlFormatEngine) }
+                typeof(SqlFormatEngine) ]
             );
         }
     }

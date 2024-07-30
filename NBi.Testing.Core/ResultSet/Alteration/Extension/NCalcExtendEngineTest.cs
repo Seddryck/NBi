@@ -42,7 +42,7 @@ namespace NBi.Core.Testing.ResultSet.Alteration.Extension
         [Test]
         public void Execute_StandardRsColumnName_CorrectExtension()
         {
-            var args = new ObjectsResultSetResolverArgs(new[] { new object[] { "Alpha", 1, 2 }, new object[] { "Beta", 3, 2 }, new object[] { "Gamma", 5, 7 } });
+            var args = new ObjectsResultSetResolverArgs(new[] { new object[] { "Alpha", 1, 2 }, ["Beta", 3, 2], ["Gamma", 5, 7] });
             var resolver = new ObjectsResultSetResolver(args);
             var rs = resolver.Execute();
             rs.GetColumn(0)!.Rename("a");
@@ -100,7 +100,7 @@ namespace NBi.Core.Testing.ResultSet.Alteration.Extension
         {
             var rows = new List<object[]>();
             for (int i = 0; i < count; i++)
-                rows.Add(new object[] { i, i + 1 });
+                rows.Add([i, i + 1]);
 
             var args = new ObjectsResultSetResolverArgs(rows.ToArray());
             var resolver = new ObjectsResultSetResolver(args);

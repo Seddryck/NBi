@@ -23,7 +23,7 @@ namespace NBi.Core.Testing.ResultSet.Combination
             dataTable.Columns.Add(new DataColumn("Numeric value"));
             dataTable.Columns.Add(new DataColumn("Boolean value"));
             for (int i = 0; i < 20; i++)
-                dataTable.LoadDataRow(new object[] { "Alpha", i, true }, false);
+                dataTable.LoadDataRow(["Alpha", i, true], false);
             dataTable.AcceptChanges();
             var rs = new Rs.DataTableResultSet(dataTable);
             

@@ -36,7 +36,7 @@ namespace NBi.Core.Analysis.Request
                 : null;
 
         public IEnumerable<IFilter> GetAllFilters()
-            => Filters.Values.ToArray();
+            => [.. Filters.Values];
 
         public virtual string Path
         {

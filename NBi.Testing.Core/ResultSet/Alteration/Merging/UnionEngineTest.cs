@@ -15,10 +15,10 @@ namespace NBi.Core.Testing.ResultSet.Alteration.Merging
         [Test()]
         public void Execute_UnionByNameTwoDataSets_TotalIsExpected()
         {
-            var args1 = new ObjectsResultSetResolverArgs(new[] { new object[] { "Alpha", 1, 2 }, new object[] { "Beta", 3, 2 }, new object[] { "Gamma", 5, 7 } });
+            var args1 = new ObjectsResultSetResolverArgs(new[] { new object[] { "Alpha", 1, 2 }, ["Beta", 3, 2], ["Gamma", 5, 7] });
             var rs1 = new ObjectsResultSetResolver(args1).Execute();
 
-            var args2 = new ObjectsResultSetResolverArgs(new[] { new object[] { "Delta", 10, 5 }, new object[] { "Epsilon", 7, 3 } });
+            var args2 = new ObjectsResultSetResolverArgs(new[] { new object[] { "Delta", 10, 5 }, ["Epsilon", 7, 3] });
             var rs2 = new ObjectsResultSetResolver(args2);
 
             var merge = new UnionByNameEngine(rs2);
@@ -31,12 +31,12 @@ namespace NBi.Core.Testing.ResultSet.Alteration.Merging
         [Test()]
         public void Execute_UnionTwoDataSetsWithOneDifferentColumn_AllTheColumnsInOutput()
         {
-            var args1 = new ObjectsResultSetResolverArgs(new[] { new object[] { "Alpha", 1, 2 }, new object[] { "Beta", 3, 2 }, new object[] { "Gamma", 5, 7 } });
+            var args1 = new ObjectsResultSetResolverArgs(new[] { new object[] { "Alpha", 1, 2 }, ["Beta", 3, 2], ["Gamma", 5, 7] });
             var rs1 = new ObjectsResultSetResolver(args1).Execute();
             rs1.GetColumn(1)?.Rename("first");
             rs1.GetColumn(2)?.Move(0);
 
-            var args2 = new ObjectsResultSetResolverArgs(new[] { new object[] { "Delta", 10, 5 }, new object[] { "Epsilon", 7, 3 } });
+            var args2 = new ObjectsResultSetResolverArgs(new[] { new object[] { "Delta", 10, 5 }, ["Epsilon", 7, 3] });
             var rs2 = new ObjectsResultSetResolver(args2);
 
             var merge = new UnionByNameEngine(rs2);
@@ -63,10 +63,10 @@ namespace NBi.Core.Testing.ResultSet.Alteration.Merging
         [Test()]
         public void Execute_UnionByOrdinal_TotalIsExpected()
         {
-            var args1 = new ObjectsResultSetResolverArgs(new[] { new object[] { "Alpha", 1, 2 }, new object[] { "Beta", 3, 2 }, new object[] { "Gamma", 5, 7 } });
+            var args1 = new ObjectsResultSetResolverArgs(new[] { new object[] { "Alpha", 1, 2 }, ["Beta", 3, 2], ["Gamma", 5, 7] });
             var rs1 = new ObjectsResultSetResolver(args1).Execute();
 
-            var args2 = new ObjectsResultSetResolverArgs(new[] { new object[] { "Delta", 10, 5 }, new object[] { "Epsilon", 7, 3 } });
+            var args2 = new ObjectsResultSetResolverArgs(new[] { new object[] { "Delta", 10, 5 }, ["Epsilon", 7, 3] });
             var rs2 = new ObjectsResultSetResolver(args2);
 
             var merge = new UnionByOrdinalEngine(rs2);
@@ -79,10 +79,10 @@ namespace NBi.Core.Testing.ResultSet.Alteration.Merging
         [Test()]
         public void Execute_UnionByOrdinalUnexpectedColumns_CorrectUnion()
         {
-            var args1 = new ObjectsResultSetResolverArgs(new[] { new object[] { "Alpha", 1, 2 }, new object[] { "Beta", 3, 2 }, new object[] { "Gamma", 5, 7 } });
+            var args1 = new ObjectsResultSetResolverArgs(new[] { new object[] { "Alpha", 1, 2 }, ["Beta", 3, 2], ["Gamma", 5, 7] });
             var rs1 = new ObjectsResultSetResolver(args1).Execute();
 
-            var args2 = new ObjectsResultSetResolverArgs(new[] { new object[] { "Delta", 10, 5, true }, new object[] { "Epsilon", 7, 3, false } });
+            var args2 = new ObjectsResultSetResolverArgs(new[] { new object[] { "Delta", 10, 5, true }, ["Epsilon", 7, 3, false] });
             var rs2 = new ObjectsResultSetResolver(args2);
 
             var merge = new UnionByOrdinalEngine(rs2);
@@ -100,10 +100,10 @@ namespace NBi.Core.Testing.ResultSet.Alteration.Merging
         [Test()]
         public void Execute_UnionByOrdinalMissingColumns_CorrectUnion()
         {
-            var args1 = new ObjectsResultSetResolverArgs(new[] { new object[] { "Alpha", 1, 2 }, new object[] { "Beta", 3, 2 }, new object[] { "Gamma", 5, 7 } });
+            var args1 = new ObjectsResultSetResolverArgs(new[] { new object[] { "Alpha", 1, 2 }, ["Beta", 3, 2], ["Gamma", 5, 7] });
             var rs1 = new ObjectsResultSetResolver(args1).Execute();
 
-            var args2 = new ObjectsResultSetResolverArgs(new[] { new object[] { "Delta", 10 }, new object[] { "Epsilon", 7 } });
+            var args2 = new ObjectsResultSetResolverArgs(new[] { new object[] { "Delta", 10 }, ["Epsilon", 7] });
             var rs2 = new ObjectsResultSetResolver(args2);
 
             var merge = new UnionByOrdinalEngine(rs2);

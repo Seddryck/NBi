@@ -23,7 +23,7 @@ namespace NBi.Core.Testing.ResultSet.Filtering
         [Test]
         public void Execute_OnlyUniqueRows_ResultSetConstant()
         {
-            var args = new ObjectsResultSetResolverArgs(new[] { new object[] { "alpha", 1 }, new object[] { "alpha", 2 }, new object[] { "beta", 3 }, new object[] { "alpha", 4 } });
+            var args = new ObjectsResultSetResolverArgs(new[] { new object[] { "alpha", 1 }, ["alpha", 2], ["beta", 3], ["alpha", 4] });
             var resolver = new ObjectsResultSetResolver(args);
             var rs = resolver.Execute();
 
@@ -40,7 +40,7 @@ namespace NBi.Core.Testing.ResultSet.Filtering
         [Test]
         public void Execute_SomeDuplicatesButNotOnValues_ResultSetReduced()
         {
-            var args = new ObjectsResultSetResolverArgs(new[] { new object[] { "alpha", 1 }, new object[] { "alpha", 2 }, new object[] { "beta", 3 }, new object[] { "alpha", 4 } });
+            var args = new ObjectsResultSetResolverArgs(new[] { new object[] { "alpha", 1 }, ["alpha", 2], ["beta", 3], ["alpha", 4] });
             var resolver = new ObjectsResultSetResolver(args);
             var rs = resolver.Execute();
 

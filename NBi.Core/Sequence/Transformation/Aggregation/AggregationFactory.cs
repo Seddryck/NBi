@@ -33,6 +33,6 @@ namespace NBi.Core.Sequence.Transformation.Aggregation
         }
 
         public Aggregation Instantiate(AggregationArgs args)
-            => Instantiate(args.ColumnType, args.Function, args.Parameters.ToArray(), args.Strategies.ToArray());
+            => Instantiate(args.ColumnType, args.Function, [.. args.Parameters], [.. args.Strategies]);
     }
 }

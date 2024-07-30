@@ -19,7 +19,7 @@ namespace NBi.Core.Testing.ResultSet.Equivalence
         {
             var builder = new SettingsEquivalerBuilder();
             builder.Setup(SettingsOrdinalResultSet.KeysChoice.All, SettingsOrdinalResultSet.ValuesChoice.AllExpectFirst);
-            builder.Setup(new[] { "myKey" }, new string[0]);
+            builder.Setup(["myKey"], []);
             Assert.Throws<InvalidOperationException>(() => builder.Build());
         }
 
@@ -31,7 +31,7 @@ namespace NBi.Core.Testing.ResultSet.Equivalence
 
             var builder = new SettingsEquivalerBuilder();
             builder.Setup(SettingsOrdinalResultSet.KeysChoice.All, SettingsOrdinalResultSet.ValuesChoice.AllExpectFirst);
-            builder.Setup(new[] { columnDef });
+            builder.Setup([columnDef]);
             Assert.Throws<InvalidOperationException>(() => builder.Build());
         }
 
@@ -80,7 +80,7 @@ namespace NBi.Core.Testing.ResultSet.Equivalence
 
             var builder = new SettingsEquivalerBuilder();
             builder.Setup(true);
-            builder.Setup(new[] { columnDef });
+            builder.Setup([columnDef]);
             builder.Setup(SettingsOrdinalResultSet.KeysChoice.First, SettingsOrdinalResultSet.ValuesChoice.AllExpectFirst);
             Assert.Throws<InvalidOperationException>(() => builder.Build());
         }
@@ -97,7 +97,7 @@ namespace NBi.Core.Testing.ResultSet.Equivalence
 
             var builder = new SettingsEquivalerBuilder();
             builder.Setup(true);
-            builder.Setup(new[] { columnDef, columnDefKey });
+            builder.Setup([columnDef, columnDefKey]);
             builder.Setup(SettingsOrdinalResultSet.KeysChoice.First, SettingsOrdinalResultSet.ValuesChoice.AllExpectFirst);
             Assert.DoesNotThrow(() => builder.Build());
         }

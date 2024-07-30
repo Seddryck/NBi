@@ -59,7 +59,7 @@ namespace NBi.Core.Testing.ResultSet.Resolver
         public void Execute_TwoSequences_CartesianProduct()
         {
             var resolver = new SequenceCombinationResultSetResolver(
-                new SequenceCombinationResultSetResolverArgs(new ISequenceResolver[] {
+                new SequenceCombinationResultSetResolverArgs([
                     new ListSequenceResolver<DateTime>(
                         new ListSequenceResolverArgs(new[] {
                             new LiteralScalarResolver<string>("2015-01-01"),
@@ -73,7 +73,7 @@ namespace NBi.Core.Testing.ResultSet.Resolver
                             new LiteralScalarResolver<string>("be"),
                         })
                     ),
-                })
+                ])
             );
             var rs = resolver.Execute();
 
@@ -97,7 +97,7 @@ namespace NBi.Core.Testing.ResultSet.Resolver
         public void Execute_ThreeSequences_CartesianProduct()
         {
             var resolver = new SequenceCombinationResultSetResolver(
-                new SequenceCombinationResultSetResolverArgs(new ISequenceResolver[] {
+                new SequenceCombinationResultSetResolverArgs([
                     new ListSequenceResolver<decimal>(
                         new ListSequenceResolverArgs(new[] {
                             new LiteralScalarResolver<decimal>(1),
@@ -117,7 +117,7 @@ namespace NBi.Core.Testing.ResultSet.Resolver
                             new LiteralScalarResolver<string>("be"),
                         })
                     ),
-                })
+                ])
             );
             var rs = resolver.Execute();
 

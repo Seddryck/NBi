@@ -11,22 +11,22 @@ namespace NBi.Core.ResultSet.Equivalence
     {
         public IEquivaler Instantiate(ISettingsResultSet settings, EquivalenceKind kind)
         {
-            switch (settings)
+            return settings switch
             {
-                case ISettingsSingleRowResultSet x: return InstantiateSingleRow(x);
-                case ISettingsResultSet x: return InstantiateMultipleRows(x, kind);
-                default: throw new ArgumentException();
-            }
+                ISettingsSingleRowResultSet x => InstantiateSingleRow(x),
+                ISettingsResultSet x => InstantiateMultipleRows(x, kind),
+                _ => throw new ArgumentException(),
+            };
         }
 
         public IEquivaler InstantiateSingleRow(ISettingsSingleRowResultSet settings)
         {
-            switch (settings)
+            return settings switch
             {
-                case SettingsSingleRowOrdinalResultSet x: return new SingleRowOrdinalEquivaler(x);
-                case SettingsSingleRowNameResultSet x: return new SingleRowNameEquivaler(x);
-                default: throw new ArgumentException();
-            }
+                SettingsSingleRowOrdinalResultSet x => new SingleRowOrdinalEquivaler(x),
+                SettingsSingleRowNameResultSet x => new SingleRowNameEquivaler(x),
+                _ => throw new ArgumentException(),
+            };
         }
 
         public IEquivaler InstantiateMultipleRows(ISettingsResultSet settings, EquivalenceKind kind)
@@ -34,12 +34,12 @@ namespace NBi.Core.ResultSet.Equivalence
             var factory = new AnalyzersFactory();
             var analyzers = factory.Instantiate(kind);
 
-            switch (settings)
+            return settings switch
             {
-                case SettingsOrdinalResultSet x: return new OrdinalEquivaler(analyzers, x);
-                case SettingsNameResultSet x: return new NameEquivaler(analyzers, x);
-                default: throw new ArgumentException();
-            }
+                SettingsOrdinalResultSet x => new OrdinalEquivaler(analyzers, x),
+                SettingsNameResultSet x => new NameEquivaler(analyzers, x),
+                _ => throw new ArgumentException(),
+            };
         }
     }
 }

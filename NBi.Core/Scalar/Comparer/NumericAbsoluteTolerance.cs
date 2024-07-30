@@ -11,14 +11,12 @@ namespace NBi.Core.Scalar.Comparer
         {
             get
             {
-                switch (Side)
+                return Side switch
                 {
-                    case SideTolerance.More:
-                        return string.Format("+{0}",base.ValueString);
-                    case SideTolerance.Less:
-                        return string.Format("-{0}", base.ValueString);
-                }
-                return base.ValueString;
+                    SideTolerance.More => string.Format("+{0}", base.ValueString),
+                    SideTolerance.Less => string.Format("-{0}", base.ValueString),
+                    _ => base.ValueString,
+                };
             }
         }
 

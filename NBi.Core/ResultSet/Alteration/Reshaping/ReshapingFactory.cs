@@ -10,11 +10,11 @@ namespace NBi.Core.ResultSet.Alteration.Reshaping
     {
         public IReshapingEngine Instantiate(IReshapingArgs args)
         {
-            switch(args)
+            return args switch
             {
-                case UnstackArgs x: return new UnstackEngine(x);
-                default: throw new ArgumentException();
-            }
+                UnstackArgs x => new UnstackEngine(x),
+                _ => throw new ArgumentException(),
+            };
         }
     }
 }

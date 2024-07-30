@@ -39,8 +39,10 @@ namespace NBi.Core.Scalar.Resolver
                 { return (T?)converter.ConvertFrom(null, System.Globalization.CultureInfo.InvariantCulture, value); }
                 catch (Exception)
                 { throw new ArgumentException($"Cannot convert the value '{value}' to a '{typeof(T).Name}'"); }
-            else if (value is T?)
-                return (T?)value;
+            else if (value is null)
+                return default;
+            else if (value is T x)
+                return x;
             else
                 try
                 { return (T)Convert.ChangeType(args.Object, typeof(T)); }

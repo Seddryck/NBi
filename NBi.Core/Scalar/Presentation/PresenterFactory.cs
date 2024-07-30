@@ -11,19 +11,14 @@ namespace NBi.Core.Scalar.Presentation
     {
         public IPresenter Instantiate(ColumnType columnType)
         {
-            switch (columnType)
+            return columnType switch
             {
-                case ColumnType.Text:
-                    return new TextPresenter();
-                case ColumnType.Numeric:
-                    return new NumericPresenter();
-                case ColumnType.DateTime:
-                    return new DateTimePresenter();
-                case ColumnType.Boolean:
-                    return new BooleanPresenter();
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
+                ColumnType.Text => new TextPresenter(),
+                ColumnType.Numeric => new NumericPresenter(),
+                ColumnType.DateTime => new DateTimePresenter(),
+                ColumnType.Boolean => new BooleanPresenter(),
+                _ => throw new ArgumentOutOfRangeException(),
+            };
         }
     }
 }

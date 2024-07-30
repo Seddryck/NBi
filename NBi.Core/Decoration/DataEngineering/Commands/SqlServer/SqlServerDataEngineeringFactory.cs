@@ -13,13 +13,13 @@ namespace NBi.Core.Decoration.DataEngineering.Commands.SqlServer
             if (!(connection is SqlConnection) || connection == null)
                 throw new ArgumentException(nameof(connection));
 
-            switch (args)
+            return args switch
             {
-                case TableLoadCommandArgs loadArgs: return new BulkLoadCommand(loadArgs);
-                case TableTruncateCommandArgs resetArgs: return new TruncateCommand(resetArgs);
-                case SqlBatchRunCommandArgs batchRunArgs: return new BatchRunCommand(batchRunArgs);
-                default: throw new ArgumentException();
-            }
+                TableLoadCommandArgs loadArgs => new BulkLoadCommand(loadArgs),
+                TableTruncateCommandArgs resetArgs => new TruncateCommand(resetArgs),
+                SqlBatchRunCommandArgs batchRunArgs => new BatchRunCommand(batchRunArgs),
+                _ => throw new ArgumentException(),
+            };
         }
     }
 }

@@ -10,12 +10,12 @@ namespace NBi.Core.ResultSet.Alteration.Projection
     {
         public IProjectionEngine Instantiate(IProjectionArgs args)
         {
-            switch(args)
+            return args switch
             {
-                case ProjectAwayArgs x: return new ProjectAwayEngine(x);
-                case ProjectArgs x: return new ProjectEngine(x);
-                default: throw new ArgumentException();
-            }
+                ProjectAwayArgs x => new ProjectAwayEngine(x),
+                ProjectArgs x => new ProjectEngine(x),
+                _ => throw new ArgumentException(),
+            };
         }
     }
 }

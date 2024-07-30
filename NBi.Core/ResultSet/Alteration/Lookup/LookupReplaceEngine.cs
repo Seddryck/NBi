@@ -57,12 +57,12 @@ namespace NBi.Core.ResultSet.Alteration.Lookup
             var defColumn = column.ToColumnDefinition(() => target(column));
             defColumns.Add(defColumn);
 
-            switch(target(column))
+            return target(column) switch
             {
-                case ColumnOrdinalIdentifier _: return new CellRetrieverByOrdinal(defColumns);
-                case ColumnNameIdentifier _: return new CellRetrieverByName(defColumns);
-                default: throw new ArgumentException();
-            }
+                ColumnOrdinalIdentifier _ => new CellRetrieverByOrdinal(defColumns),
+                ColumnNameIdentifier _ => new CellRetrieverByName(defColumns),
+                _ => throw new ArgumentException(),
+            };
         }
 
         protected IDictionary<KeyCollection, ICollection<KeyCollection>> BuildReferenceIndex(IResultSet rs, CellRetriever keyRetriever, CellRetriever valuesRetriever)

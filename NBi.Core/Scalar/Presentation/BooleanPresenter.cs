@@ -11,18 +11,17 @@ namespace NBi.Core.Scalar.Presentation
     {
         protected override string PresentNotNull(object value)
         {
-            switch (value)
+            return value switch
             {
-                case bool x : return PresentBoolean(x);
-                case string x : return PresentString(x);
-                case decimal x : return PresentBooleanObject(x);
-                case short x : return PresentBooleanObject(x);
-                case int x : return PresentBooleanObject(x);
-                case double x : return PresentBooleanObject(x);
-                case float x : return PresentBooleanObject(x);
-                default:
-                    return PresentString(value.ToString() ?? string.Empty);
-            }
+                bool x => PresentBoolean(x),
+                string x => PresentString(x),
+                decimal x => PresentBooleanObject(x),
+                short x => PresentBooleanObject(x),
+                int x => PresentBooleanObject(x),
+                double x => PresentBooleanObject(x),
+                float x => PresentBooleanObject(x),
+                _ => PresentString(value.ToString() ?? string.Empty),
+            };
         }
 
         protected string PresentBoolean(bool value) => value ? "True" : "False";

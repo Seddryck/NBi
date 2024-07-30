@@ -13,14 +13,13 @@ namespace NBi.Core.Variable.Instantiation
     {
         public IEnumerable<Instance> Instantiate(IInstanceArgs args)
         {
-            switch (args)
+            return args switch
             {
-                case DefaultInstanceArgs _: return [Instance.Default];
-                case DerivedVariableInstanceArgs s: return Instantiate(s.Name, s.Resolver, s.Derivations, args.Categories, args.Traits);
-                case SingleVariableInstanceArgs s: return Instantiate(s.Name, s.Resolver, args.Categories, args.Traits);
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
+                DefaultInstanceArgs _ => [Instance.Default],
+                DerivedVariableInstanceArgs s => Instantiate(s.Name, s.Resolver, s.Derivations, args.Categories, args.Traits),
+                SingleVariableInstanceArgs s => Instantiate(s.Name, s.Resolver, args.Categories, args.Traits),
+                _ => throw new ArgumentOutOfRangeException(),
+            };
         }
 
         private IEnumerable<Instance> Instantiate(string variableName, ISequenceResolver resolver, IEnumerable<string> categories, IDictionary<string, string> traits)

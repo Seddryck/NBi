@@ -10,11 +10,11 @@ namespace NBi.Core.ResultSet.Alteration.Renaming
     {
         public IRenamingEngine Instantiate(IRenamingArgs args)
         {
-            switch(args)
+            return args switch
             {
-                case NewNameRenamingArgs x: return new NewNameRenamingEngine(x.OriginalIdentification, x.NewIdentification, x.MissingColumnStrategy);
-                default: throw new ArgumentException();
-            }
+                NewNameRenamingArgs x => new NewNameRenamingEngine(x.OriginalIdentification, x.NewIdentification, x.MissingColumnStrategy),
+                _ => throw new ArgumentException(),
+            };
         }
     }
 }

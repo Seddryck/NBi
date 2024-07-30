@@ -35,13 +35,11 @@ namespace NBi.Core.DataType.Relational
 
         protected virtual IDiscoveryCommandBuilder InstantiateBuilder(Target target)
         {
-            switch (target)
+            return target switch
             {
-                case Target.Columns:
-                    return new ColumnDiscoveryCommandBuilder();
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
+                Target.Columns => new ColumnDiscoveryCommandBuilder(),
+                _ => throw new ArgumentOutOfRangeException(),
+            };
         }
 
     }

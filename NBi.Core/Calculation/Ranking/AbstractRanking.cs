@@ -45,14 +45,14 @@ namespace NBi.Core.Calculation.Ranking
 
         protected virtual bool RowCompare(ScoredObject oldObj, ScoredObject newObj)
         {
-            switch (ColumnType)
+            return ColumnType switch
             {
-                case ColumnType.Text: return RowCompare<string>(oldObj, newObj);
-                case ColumnType.Numeric: return RowCompare<decimal>(oldObj, newObj);
-                case ColumnType.DateTime: return RowCompare<DateTime>(oldObj, newObj);
-                case ColumnType.Boolean: return RowCompare<bool>(oldObj, newObj);
-                default: throw new ArgumentOutOfRangeException();
-            }
+                ColumnType.Text => RowCompare<string>(oldObj, newObj),
+                ColumnType.Numeric => RowCompare<decimal>(oldObj, newObj),
+                ColumnType.DateTime => RowCompare<DateTime>(oldObj, newObj),
+                ColumnType.Boolean => RowCompare<bool>(oldObj, newObj),
+                _ => throw new ArgumentOutOfRangeException(),
+            };
         }
 
         protected virtual bool RowCompare<T>(ScoredObject oldObj, ScoredObject newObj)

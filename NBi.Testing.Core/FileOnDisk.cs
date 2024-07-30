@@ -27,7 +27,7 @@ namespace NBi.Testing
         {
             //if filename starts by a directory separator remove it
             if (filename.StartsWith(Path.DirectorySeparatorChar.ToString()))
-                filename = filename.Substring(1);
+                filename = filename[1..];
             
             //Build the fullpath for the file to read
             var fullpath = GetDirectoryPath() + filename;

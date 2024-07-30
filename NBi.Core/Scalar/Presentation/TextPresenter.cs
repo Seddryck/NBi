@@ -11,12 +11,11 @@ namespace NBi.Core.Scalar.Presentation
     {
         protected override string PresentNotNull(object value)
         {
-            switch (value)
+            return value switch
             {
-                case string x: return PresentString(x);
-                default:
-                    return PresentString(value.ToString()!);
-            }
+                string x => PresentString(x),
+                _ => PresentString(value.ToString()!),
+            };
         }
 
         protected string PresentString(string value)

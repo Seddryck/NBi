@@ -10,18 +10,17 @@ namespace NBi.Core.ResultSet.Alteration.Merging
     {
         public IMergingEngine Instantiate(IMergingArgs args)
         {
-            switch (args)
+            return args switch
             {
-                case UnionArgs x:
-                    switch (x.Identity)
-                    {
-                        case ColumnIdentity.Ordinal: return new UnionByOrdinalEngine(x.ResultSetResolver);
-                        case ColumnIdentity.Name: return new UnionByNameEngine(x.ResultSetResolver);
-                        default: throw new NotImplementedException();
-                    }
-                case CartesianProductArgs x: return new CartesianProductEngine(x);
-                default: throw new ArgumentException();
-            }
+                UnionArgs x => x.Identity switch
+                {
+                    ColumnIdentity.Ordinal => new UnionByOrdinalEngine(x.ResultSetResolver),
+                    ColumnIdentity.Name => new UnionByNameEngine(x.ResultSetResolver),
+                    _ => throw new NotImplementedException(),
+                },
+                CartesianProductArgs x => new CartesianProductEngine(x),
+                _ => throw new ArgumentException(),
+            };
         }
     }
 }

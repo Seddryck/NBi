@@ -10,11 +10,11 @@ namespace NBi.Core.Decoration.Process
     {
         public IDecorationCondition Instantiate(IProcessConditionArgs args)
         {
-            switch (args)
+            return args switch
             {
-                case IRunningConditionArgs runningArgs: return new RunningCondition(runningArgs);
-                default: throw new ArgumentOutOfRangeException();
-            }
+                IRunningConditionArgs runningArgs => new RunningCondition(runningArgs),
+                _ => throw new ArgumentOutOfRangeException(),
+            };
         }
     }
 }

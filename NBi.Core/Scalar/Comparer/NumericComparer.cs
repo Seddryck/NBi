@@ -55,7 +55,7 @@ namespace NBi.Core.Scalar.Comparer
 
         protected override ComparerResult CompareObjects(object? x, object? y, Rounding rounding)
         {
-            if (!(rounding is NumericRounding))
+            if (rounding is not NumericRounding)
                 throw new ArgumentException("Rounding must be of type 'NumericRounding'");
 
             return CompareObjects(x, y, (NumericRounding)rounding);

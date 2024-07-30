@@ -11,13 +11,12 @@ namespace NBi.Core.Scalar.Presentation
     {
         protected override string PresentNotNull(object value)
         {
-            switch (value)
+            return value switch
             {
-                case DateTime x: return PresentDateTime(x);
-                case string x: return PresentString(x);
-                default:
-                    return PresentString(value.ToString() ?? string.Empty);
-            }
+                DateTime x => PresentDateTime(x),
+                string x => PresentString(x),
+                _ => PresentString(value.ToString() ?? string.Empty),
+            };
         }
 
         protected string PresentDateTime(DateTime value)

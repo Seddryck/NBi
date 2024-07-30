@@ -50,7 +50,7 @@ namespace NBi.Core.Scalar.Comparer
 
         protected override ComparerResult CompareObjects(object? x, object? y, Rounding rounding)
         {
-            if (!(rounding is DateTimeRounding))
+            if (rounding is not DateTimeRounding)
                 throw new ArgumentException("Rounding must be of type 'DateTimeRounding'");
 
             return CompareObjects(x, y, (DateTimeRounding)rounding);
@@ -58,10 +58,9 @@ namespace NBi.Core.Scalar.Comparer
 
         protected override ComparerResult CompareObjects(object? x, object? y, Tolerance tolerance)
         {
-            if (tolerance == null)
-                tolerance = DateTimeTolerance.None;
+            tolerance ??= DateTimeTolerance.None;
 
-            if (!(tolerance is DateTimeTolerance))
+            if (tolerance is not DateTimeTolerance)
                 throw new ArgumentException("Tolerance must be of type 'DateTimeTolerance'");
 
             return CompareObjects(x, y, (DateTimeTolerance)tolerance);

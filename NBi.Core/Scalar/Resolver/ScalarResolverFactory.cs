@@ -21,11 +21,11 @@ namespace NBi.Core.Scalar.Resolver
 
         public IScalarResolver Instantiate(IScalarResolverArgs args)
         {
-            switch (args)
+            return args switch
             {
-                case FormatScalarResolverArgs _: return Instantiate<string>(args);
-                default: return Instantiate<object>(args);
-            }
+                FormatScalarResolverArgs _ => Instantiate<string>(args),
+                _ => Instantiate<object>(args),
+            };
         }
 
         public IScalarResolver Instantiate(IScalarResolverArgs args, Type type)
@@ -36,33 +36,21 @@ namespace NBi.Core.Scalar.Resolver
 
         public IScalarResolver<T> Instantiate<T>(IScalarResolverArgs args)
         {
-            switch (args)
+            return args switch
             {
-                case LiteralScalarResolverArgs x:
-                    return new LiteralScalarResolver<T>(x);
-                case GlobalVariableScalarResolverArgs x:
-                    return new GlobalVariableScalarResolver<T>(x);
-                case ContextScalarResolverArgs x:
-                    return new ContextScalarResolver<T>(x);
-                case QueryScalarResolverArgs x:
-                    return new QueryScalarResolver<T>(x, serviceLocator);
-                case ProjectionResultSetScalarResolverArgs x:
-                    return new ProjectionResultSetScalarResolver<T>(x, serviceLocator.GetResultSetResolverFactory());
-                case CSharpScalarResolverArgs x:
-                    return new CSharpScalarResolver<T>(x);
-                case NCalcScalarResolverArgs x:
-                    return new NCalcScalarResolver<T>(x);
-                case EnvironmentScalarResolverArgs x:
-                    return new EnvironmentScalarResolver<T>(x);
-                case CustomScalarResolverArgs x:
-                    return new CustomScalarResolver<T>(x);
-                case FormatScalarResolverArgs x:
-                    return typeof(T) == typeof(string) ? (IScalarResolver<T>)new FormatScalarResolver(x, serviceLocator) : throw new ArgumentException("You cannot instantiate a FormatScalarResolver that is not a string.");
-                case FunctionScalarResolverArgs x:
-                    return new FunctionScalarResolver<T>(x);
-                default:
-                    throw new ArgumentOutOfRangeException($"Type '{args.GetType().Name}' is not expected when building a Scalar");
-            }
+                LiteralScalarResolverArgs x => new LiteralScalarResolver<T>(x),
+                GlobalVariableScalarResolverArgs x => new GlobalVariableScalarResolver<T>(x),
+                ContextScalarResolverArgs x => new ContextScalarResolver<T>(x),
+                QueryScalarResolverArgs x => new QueryScalarResolver<T>(x, serviceLocator),
+                ProjectionResultSetScalarResolverArgs x => new ProjectionResultSetScalarResolver<T>(x, serviceLocator.GetResultSetResolverFactory()),
+                CSharpScalarResolverArgs x => new CSharpScalarResolver<T>(x),
+                NCalcScalarResolverArgs x => new NCalcScalarResolver<T>(x),
+                EnvironmentScalarResolverArgs x => new EnvironmentScalarResolver<T>(x),
+                CustomScalarResolverArgs x => new CustomScalarResolver<T>(x),
+                FormatScalarResolverArgs x => typeof(T) == typeof(string) ? (IScalarResolver<T>)new FormatScalarResolver(x, serviceLocator) : throw new ArgumentException("You cannot instantiate a FormatScalarResolver that is not a string."),
+                FunctionScalarResolverArgs x => new FunctionScalarResolver<T>(x),
+                _ => throw new ArgumentOutOfRangeException($"Type '{args.GetType().Name}' is not expected when building a Scalar"),
+            };
         }
     }
 }

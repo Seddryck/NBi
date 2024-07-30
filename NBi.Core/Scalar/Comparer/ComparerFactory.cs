@@ -10,18 +10,14 @@ namespace NBi.Core.Scalar.Comparer
     {
         public BaseComparer Get(ColumnType type)
         {
-            switch (type)
+            return type switch
             {
-                case ColumnType.Text:
-                    return new TextComparer();
-                case ColumnType.Numeric:
-                    return new NumericComparer();
-                case ColumnType.DateTime:
-                    return new DateTimeComparer();
-                case ColumnType.Boolean:
-                    return new BooleanComparer();
-            }
-            throw new ArgumentException();
+                ColumnType.Text => new TextComparer(),
+                ColumnType.Numeric => new NumericComparer(),
+                ColumnType.DateTime => new DateTimeComparer(),
+                ColumnType.Boolean => new BooleanComparer(),
+                _ => throw new ArgumentException(),
+            };
         }
     }
 }

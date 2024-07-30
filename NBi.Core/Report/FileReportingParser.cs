@@ -30,15 +30,12 @@ namespace NBi.Core.Report
 
             var nsmgr = new XmlNamespaceManager(docXml.NameTable);
             nsmgr.AddNamespace("rd", root?.GetNamespaceOfPrefix(string.Empty) ?? string.Empty);
-
-            var node = docXml.SelectSingleNode(xpath, nsmgr);
-            if (node == null)
-                throw BuildDataSetNotFoundException(request, docXml, "//rd:Report/rd:DataSets/rd:DataSet", nsmgr);
+            _ = docXml.SelectSingleNode(xpath, nsmgr) ?? throw BuildDataSetNotFoundException(request, docXml, "//rd:Report/rd:DataSets/rd:DataSet", nsmgr);
 
             //Search in the xml the DataSet and especially the CommandText within this dataset
             xpath = string.Format("//rd:Report/rd:DataSets/rd:DataSet[@Name=\"{0}\"]/rd:Query/rd:CommandText", request.DataSetName);
 
-            node = docXml.SelectSingleNode(xpath, nsmgr);
+            var node = docXml.SelectSingleNode(xpath, nsmgr);
             if (node != null)
             {
                 var text = node.InnerText; // Weve fond the query

@@ -10,15 +10,12 @@ namespace NBi.Core.Calculation.Ranking
     {
         public AbstractRanking Instantiate(RankingArgs args)
         {
-            switch (args.Option)
+            return args.Option switch
             {
-                case RankingOption.Top:
-                    return new TopRanking(args.Count, args.Operand, args.Type);
-                case RankingOption.Bottom:
-                    return new BottomRanking(args.Count, args.Operand, args.Type);
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
+                RankingOption.Top => new TopRanking(args.Count, args.Operand, args.Type),
+                RankingOption.Bottom => new BottomRanking(args.Count, args.Operand, args.Type),
+                _ => throw new ArgumentOutOfRangeException(),
+            };
         }
     }
 }

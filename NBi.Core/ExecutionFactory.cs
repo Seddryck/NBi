@@ -11,11 +11,11 @@ namespace NBi.Core
     {
         public IExecutable Instantiate(IExecutableArgs args)
         {
-            switch (args)
+            return args switch
             {
-                case IEtlArgs etl: return new EtlRunnerProvider().Instantiate(etl.Version).Instantiate(etl);
-                default:throw new ArgumentException();
-            }
+                IEtlArgs etl => new EtlRunnerProvider().Instantiate(etl.Version).Instantiate(etl),
+                _ => throw new ArgumentException(),
+            };
         }
     }
 }

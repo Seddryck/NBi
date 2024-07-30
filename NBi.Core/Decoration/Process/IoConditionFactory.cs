@@ -11,12 +11,12 @@ namespace NBi.Core.Decoration.Process
     {
         public IDecorationCondition Instantiate(IIoConditionArgs args)
         {
-            switch (args)
+            return args switch
             {
-                case FolderExistsConditionArgs folderExistsArgs: return new FolderExistsCondition(folderExistsArgs);
-                case FileExistsConditionArgs fileExistsArgs: return new FileExistsCondition(fileExistsArgs);
-                default: throw new ArgumentOutOfRangeException();
-            }
+                FolderExistsConditionArgs folderExistsArgs => new FolderExistsCondition(folderExistsArgs),
+                FileExistsConditionArgs fileExistsArgs => new FileExistsCondition(fileExistsArgs),
+                _ => throw new ArgumentOutOfRangeException(),
+            };
         }
     }
 }

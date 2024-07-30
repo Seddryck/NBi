@@ -197,23 +197,14 @@ namespace NBi.Core.Analysis.Member
             foreach (var excl in excludedPatterns)
             {
                 var exclPattern = string.Empty;
-                switch (excl.Pattern)
+                exclPattern = excl.Pattern switch
                 {
-                    case Pattern.StartWith:
-                        exclPattern = "left({0}, len('{1}'))<>'{1}'";
-                        break;
-                    case Pattern.EndWith:
-                        exclPattern = "right({0}, len('{1}'))<>'{1}'";
-                        break;
-                    case Pattern.Exact:
-                        exclPattern = "{0}<>'{1}'";
-                        break;
-                    case Pattern.Contain:
-                        exclPattern = "instr({0}, '{1}') = 0";
-                        break;
-                    default:
-                        throw new NotImplementedException();
-                }
+                    Pattern.StartWith => "left({0}, len('{1}'))<>'{1}'",
+                    Pattern.EndWith => "right({0}, len('{1}'))<>'{1}'",
+                    Pattern.Exact => "{0}<>'{1}'",
+                    Pattern.Contain => "instr({0}, '{1}') = 0",
+                    _ => throw new NotImplementedException(),
+                };
                 exclusions.AppendFormat(" and " + exclPattern, hierarchyPath + ".CurrentMember.Member_Name", excl.Text);
             }
             exclusions.Remove(0, 4);

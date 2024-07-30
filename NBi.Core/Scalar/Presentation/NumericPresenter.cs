@@ -12,17 +12,16 @@ namespace NBi.Core.Scalar.Presentation
         protected override string PresentNotNull(object value)
         {
             var typeName = value.GetType().Name.ToLower();
-            switch (value)
+            return value switch
             {
-                case string x   : return PresentString(x);
-                case decimal x  : return PresentNumeric(x);
-                case short x    : return PresentNumericObject(x);
-                case int x      : return PresentNumericObject(x);
-                case double x   : return PresentNumericObject(x);
-                case float x    : return PresentNumericObject(x);
-                default:
-                    return PresentString(value.ToString() ?? string.Empty);
-            }
+                string x => PresentString(x),
+                decimal x => PresentNumeric(x),
+                short x => PresentNumericObject(x),
+                int x => PresentNumericObject(x),
+                double x => PresentNumericObject(x),
+                float x => PresentNumericObject(x),
+                _ => PresentString(value.ToString() ?? string.Empty),
+            };
         }
 
         protected string PresentNumeric(decimal value) => value.ToString("G29", CultureInfo.InvariantCulture);

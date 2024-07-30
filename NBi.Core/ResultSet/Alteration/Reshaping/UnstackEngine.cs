@@ -66,9 +66,7 @@ namespace NBi.Core.ResultSet.Alteration.Reshaping
                         {
                             alreadyValued.Add(nameValueColumn);
                             var identifier = new ColumnNameIdentifier(nameValueColumn);
-                            var col = dataTable.GetColumn(identifier);
-                            if (col is null)
-                                throw new Exception($"Unexpected Column {identifier.Name}");
+                            var col = dataTable.GetColumn(identifier) ?? throw new Exception($"Unexpected Column {identifier.Name}");
                             var colOrdinal = col.Ordinal;
                             itemArray[colOrdinal] = groupRow[valueColumn.Name];
                         }

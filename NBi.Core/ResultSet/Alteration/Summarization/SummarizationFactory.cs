@@ -10,11 +10,11 @@ namespace NBi.Core.ResultSet.Alteration.Summarization
     {
         public ISummarizationEngine Instantiate(ISummarizationArgs args)
         {
-            switch(args)
+            return args switch
             {
-                case SummarizeArgs x: return new SummarizeEngine(x);
-                default: throw new ArgumentException();
-            }
+                SummarizeArgs x => new SummarizeEngine(x),
+                _ => throw new ArgumentException(),
+            };
         }
     }
 }

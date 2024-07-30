@@ -38,47 +38,36 @@ namespace NBi.Core.Sequence.Resolver
 
         public ISequenceResolver Instantiate(ColumnType type, ISequenceResolverArgs args)
         {
-            switch (type)
+            return type switch
             {
-                case ColumnType.Text: return Instantiate<string>(args);
-                case ColumnType.Numeric: return Instantiate<decimal>(args);
-                case ColumnType.DateTime: return Instantiate<DateTime>(args);
-                case ColumnType.Boolean: return Instantiate<bool>(args);
-                default: throw new ArgumentOutOfRangeException();
-            }
+                ColumnType.Text => Instantiate<string>(args),
+                ColumnType.Numeric => Instantiate<decimal>(args),
+                ColumnType.DateTime => Instantiate<DateTime>(args),
+                ColumnType.Boolean => Instantiate<bool>(args),
+                _ => throw new ArgumentOutOfRangeException(),
+            };
         }
 
         private ILoopStrategy MapStrategy<T>(ILoopSequenceResolverArgs args)
         {
-            switch (args)
+            return args switch
             {
-                case CountLoopSequenceResolverArgs<decimal, decimal> x:
-                    return new CountNumericLoopStrategy(x.Count, x.Seed, x.Step) as ILoopStrategy;
-                case CountLoopSequenceResolverArgs<DateTime, IDuration> x:
-                    return new CountDateTimeLoopStrategy(x.Count, x.Seed, x.Step) as ILoopStrategy;
-                case SentinelLoopSequenceResolverArgs<decimal, decimal> x:
-                    switch (x.IntervalMode)
-                    {
-                        case IntervalMode.Close:
-                            return new SentinelCloseNumericLoopStrategy(x.Seed, x.Terminal, x.Step) as ILoopStrategy;
-                        case IntervalMode.HalfOpen:
-                            return new SentinelHalfOpenNumericLoopStrategy(x.Seed, x.Terminal, x.Step) as ILoopStrategy;
-                        default:
-                            throw new ArgumentOutOfRangeException();
-                    }
-                case SentinelLoopSequenceResolverArgs<DateTime, IDuration> x:
-                    switch (x.IntervalMode)
-                    {
-                        case IntervalMode.Close:
-                            return new SentinelCloseDateTimeLoopStrategy(x.Seed, x.Terminal, x.Step) as ILoopStrategy;
-                        case IntervalMode.HalfOpen:
-                            return new SentinelHalfOpenDateTimeLoopStrategy(x.Seed, x.Terminal, x.Step) as ILoopStrategy;
-                        default:
-                            throw new ArgumentOutOfRangeException();
-                    }
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
+                CountLoopSequenceResolverArgs<decimal, decimal> x => new CountNumericLoopStrategy(x.Count, x.Seed, x.Step) as ILoopStrategy,
+                CountLoopSequenceResolverArgs<DateTime, IDuration> x => new CountDateTimeLoopStrategy(x.Count, x.Seed, x.Step) as ILoopStrategy,
+                SentinelLoopSequenceResolverArgs<decimal, decimal> x => x.IntervalMode switch
+                {
+                    IntervalMode.Close => new SentinelCloseNumericLoopStrategy(x.Seed, x.Terminal, x.Step) as ILoopStrategy,
+                    IntervalMode.HalfOpen => new SentinelHalfOpenNumericLoopStrategy(x.Seed, x.Terminal, x.Step) as ILoopStrategy,
+                    _ => throw new ArgumentOutOfRangeException(),
+                },
+                SentinelLoopSequenceResolverArgs<DateTime, IDuration> x => x.IntervalMode switch
+                {
+                    IntervalMode.Close => new SentinelCloseDateTimeLoopStrategy(x.Seed, x.Terminal, x.Step) as ILoopStrategy,
+                    IntervalMode.HalfOpen => new SentinelHalfOpenDateTimeLoopStrategy(x.Seed, x.Terminal, x.Step) as ILoopStrategy,
+                    _ => throw new ArgumentOutOfRangeException(),
+                },
+                _ => throw new ArgumentOutOfRangeException(),
+            };
         }
     }
 }

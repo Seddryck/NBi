@@ -44,8 +44,7 @@ namespace NBi.Core.ResultSet
 
         protected void PerformInconsistencyChecks()
         {
-            if (definitionColumns == null)
-                definitionColumns = [];
+            definitionColumns ??= [];
 
             if ((keysSet != 0 || valuesSet != 0)
                 && (nameKeys.Any() || nameValues.Any()))

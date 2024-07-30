@@ -19,7 +19,7 @@ namespace NBi.Core.Testing.ResultSet.Alteration.Renaming
         [Test]
         public void Execute_ExistingColumnByOrdinal_ColumnRenamed()
         {
-            var args = new ObjectsResultSetResolverArgs(new[] { new[] { "100,12", "Alpha" }, new[] { "100", "Beta" }, new[] { "0,1", "Gamma" } });
+            var args = new ObjectsResultSetResolverArgs([new[] { "100,12", "Alpha" }, new[] { "100", "Beta" }, new[] { "0,1", "Gamma" }]);
             var resolver = new ObjectsResultSetResolver(args);
             var rs = resolver.Execute();
 

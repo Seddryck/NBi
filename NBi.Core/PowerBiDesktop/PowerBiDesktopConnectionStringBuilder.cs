@@ -60,7 +60,7 @@ namespace NBi.Core.PowerBiDesktop
                 
                 throw new ConnectionException
                     (
-                        new NullReferenceException($"No parent process found with the name '{name}'. Existing parent names were {existingParentNameString.ToString()}.")
+                        new NullReferenceException($"No parent process found with the name '{name}'. Existing parent names were {existingParentNameString}.")
                         , $"PBIX = {name}"
                     );
             }

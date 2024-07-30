@@ -17,15 +17,15 @@ namespace NBi.Core.Decoration
     {
         public IDecorationCommand Instantiate(IDecorationCommandArgs args)
         {
-            switch (args)
+            return args switch
             {
-                case IGroupCommandArgs groupArgs: return InstantiateGroup(groupArgs);
-                case IDataEngineeringCommandArgs dataEngineeringArgs: return new DataEngineeringFactory().Instantiate(dataEngineeringArgs);
-                case IIoCommandArgs ioArgs: return new IOFactory().Instantiate(ioArgs);
-                case IProcessCommandArgs processArgs: return new ProcessCommandFactory().Instantiate(processArgs);
-                case CustomCommandArgs customArgs: return new CustomCommandFactory().Instantiate(customArgs);
-                default: throw new ArgumentOutOfRangeException();
-            }
+                IGroupCommandArgs groupArgs => InstantiateGroup(groupArgs),
+                IDataEngineeringCommandArgs dataEngineeringArgs => new DataEngineeringFactory().Instantiate(dataEngineeringArgs),
+                IIoCommandArgs ioArgs => new IOFactory().Instantiate(ioArgs),
+                IProcessCommandArgs processArgs => new ProcessCommandFactory().Instantiate(processArgs),
+                CustomCommandArgs customArgs => new CustomCommandFactory().Instantiate(customArgs),
+                _ => throw new ArgumentOutOfRangeException(),
+            };
         }
 
         private IGroupCommand InstantiateGroup(IGroupCommandArgs args)
@@ -39,13 +39,13 @@ namespace NBi.Core.Decoration
 
         public IDecorationCondition Instantiate(IDecorationConditionArgs args)
         {
-            switch (args)
+            return args switch
             {
-                case IProcessConditionArgs processArgs: return new ProcessConditionFactory().Instantiate(processArgs);
-                case IIoConditionArgs ioArgs: return new IoConditionFactory().Instantiate(ioArgs);
-                case ICustomConditionArgs customConditionArgs: return new CustomConditionFactory().Instantiate(customConditionArgs);
-                default: throw new ArgumentOutOfRangeException();
-            }
+                IProcessConditionArgs processArgs => new ProcessConditionFactory().Instantiate(processArgs),
+                IIoConditionArgs ioArgs => new IoConditionFactory().Instantiate(ioArgs),
+                ICustomConditionArgs customConditionArgs => new CustomConditionFactory().Instantiate(customConditionArgs),
+                _ => throw new ArgumentOutOfRangeException(),
+            };
         }
     }
 }

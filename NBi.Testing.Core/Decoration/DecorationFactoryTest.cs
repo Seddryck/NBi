@@ -60,35 +60,35 @@ namespace NBi.Core.Testing.Decoration.DataEngineering
 
         private IDecorationCommandArgs GetCommandArgsFake(Type type)
         {
-            switch (type)
+            return type switch
             {
-                case Type x when x == typeof(SqlBatchRunCommandArgs): return new SqlBatchRunCommandArgs(Guid.NewGuid(), ConnectionStringReader.GetSqlClient(), new LiteralScalarResolver<string>("name"), new LiteralScalarResolver<string>("path"), "basePath", new LiteralScalarResolver<string>("version"));
-                case Type x when x == typeof(TableLoadCommandArgs): return new TableLoadCommandArgs(Guid.NewGuid(), ConnectionStringReader.GetSqlClient(), new LiteralScalarResolver<string>("tablename"), new LiteralScalarResolver<string>("pathname"));
-                case Type x when x == typeof(TableTruncateCommandArgs): return new TableTruncateCommandArgs(Guid.NewGuid(), ConnectionStringReader.GetSqlClient(), new LiteralScalarResolver<string>("tablename"));
+                Type x when x == typeof(SqlBatchRunCommandArgs) => new SqlBatchRunCommandArgs(Guid.NewGuid(), ConnectionStringReader.GetSqlClient(), new LiteralScalarResolver<string>("name"), new LiteralScalarResolver<string>("path"), "basePath", new LiteralScalarResolver<string>("version")),
+                Type x when x == typeof(TableLoadCommandArgs) => new TableLoadCommandArgs(Guid.NewGuid(), ConnectionStringReader.GetSqlClient(), new LiteralScalarResolver<string>("tablename"), new LiteralScalarResolver<string>("pathname")),
+                Type x when x == typeof(TableTruncateCommandArgs) => new TableTruncateCommandArgs(Guid.NewGuid(), ConnectionStringReader.GetSqlClient(), new LiteralScalarResolver<string>("tablename")),
                 //case Type x when x == typeof(EtlRunCommandArgs): return new EtlRunCommandArgs(Guid.NewGuid(), );
-                case Type x when x == typeof(ConnectionWaitCommandArgs): return new ConnectionWaitCommandArgs(Guid.NewGuid(), ConnectionStringReader.GetSqlClient(), new LiteralScalarResolver<int>(100));
-                case Type x when x == typeof(IoDeleteCommandArgs): return new IoDeleteCommandArgs(Guid.NewGuid(), new LiteralScalarResolver<string>("name"), "basePath", new LiteralScalarResolver<string>("path"));
-                case Type x when x == typeof(IoDeletePatternCommandArgs): return new IoDeletePatternCommandArgs(Guid.NewGuid(), new LiteralScalarResolver<string>("pattern"), "basePath", new LiteralScalarResolver<string>("path"));
-                case Type x when x == typeof(IoDeleteExtensionCommandArgs): return new IoDeleteExtensionCommandArgs(Guid.NewGuid(), new LiteralScalarResolver<string>("extension"), "basePath", new LiteralScalarResolver<string>("path"));
-                case Type x when x == typeof(IoCopyCommandArgs): return new IoCopyCommandArgs(Guid.NewGuid(), new LiteralScalarResolver<string>("sourceName"), new LiteralScalarResolver<string>("sourcePath"), new LiteralScalarResolver<string>("destinationName"), new LiteralScalarResolver<string>("destinationPath"), "basePath");
-                case Type x when x == typeof(IoCopyPatternCommandArgs): return new IoCopyPatternCommandArgs(Guid.NewGuid(), new LiteralScalarResolver<string>("source"), new LiteralScalarResolver<string>("destinatin"), new LiteralScalarResolver<string>("pattern"), "basePath");
-                case Type x when x == typeof(IoCopyExtensionCommandArgs): return new IoCopyExtensionCommandArgs(Guid.NewGuid(), new LiteralScalarResolver<string>("source"), new LiteralScalarResolver<string>("destinatin"), new LiteralScalarResolver<string>("extension"), "basePath");
-                case Type x when x == typeof(ProcessKillCommandArgs): return new ProcessKillCommandArgs(Guid.NewGuid(), new LiteralScalarResolver<string>("name"));
-                case Type x when x == typeof(ProcessRunCommandArgs): return new ProcessRunCommandArgs(Guid.NewGuid(), new LiteralScalarResolver<string>("name"), new LiteralScalarResolver<string>("path"), "basePath", new LiteralScalarResolver<string>("name"), new LiteralScalarResolver<int>(100));
-                case Type x when x == typeof(ServiceStartCommandArgs): return new ServiceStartCommandArgs(Guid.NewGuid(), new LiteralScalarResolver<string>("name"), new LiteralScalarResolver<int>(100));
-                case Type x when x == typeof(ServiceStopCommandArgs): return new ServiceStopCommandArgs(Guid.NewGuid(), new LiteralScalarResolver<string>("name"), new LiteralScalarResolver<int>(100));
-                case Type x when x == typeof(WaitCommandArgs): return new WaitCommandArgs(Guid.NewGuid(), new LiteralScalarResolver<int>(100));
-                case Type x when x == typeof(GroupParallelCommandArgs): return new GroupParallelCommandArgs(Guid.NewGuid(), true, []);
-                case Type x when x == typeof(GroupSequentialCommandArgs): return new GroupSequentialCommandArgs(Guid.NewGuid(), true, []);
-                case Type x when x == typeof(CustomCommandArgs): return new CustomCommandArgs
-                                        (
-                                            Guid.NewGuid(),
-                                            new LiteralScalarResolver<string>($@"{FileOnDisk.GetDirectoryPath()}\NBi.Core.Testing.dll"),
-                                            new LiteralScalarResolver<string>("NBi.Core.Testing.Resources.CustomCommand"),
-                                            new ReadOnlyDictionary<string, IScalarResolver>(new Dictionary<string, IScalarResolver>())
-                                        );
-                default: throw new ArgumentOutOfRangeException();
-            }
+                Type x when x == typeof(ConnectionWaitCommandArgs) => new ConnectionWaitCommandArgs(Guid.NewGuid(), ConnectionStringReader.GetSqlClient(), new LiteralScalarResolver<int>(100)),
+                Type x when x == typeof(IoDeleteCommandArgs) => new IoDeleteCommandArgs(Guid.NewGuid(), new LiteralScalarResolver<string>("name"), "basePath", new LiteralScalarResolver<string>("path")),
+                Type x when x == typeof(IoDeletePatternCommandArgs) => new IoDeletePatternCommandArgs(Guid.NewGuid(), new LiteralScalarResolver<string>("pattern"), "basePath", new LiteralScalarResolver<string>("path")),
+                Type x when x == typeof(IoDeleteExtensionCommandArgs) => new IoDeleteExtensionCommandArgs(Guid.NewGuid(), new LiteralScalarResolver<string>("extension"), "basePath", new LiteralScalarResolver<string>("path")),
+                Type x when x == typeof(IoCopyCommandArgs) => new IoCopyCommandArgs(Guid.NewGuid(), new LiteralScalarResolver<string>("sourceName"), new LiteralScalarResolver<string>("sourcePath"), new LiteralScalarResolver<string>("destinationName"), new LiteralScalarResolver<string>("destinationPath"), "basePath"),
+                Type x when x == typeof(IoCopyPatternCommandArgs) => new IoCopyPatternCommandArgs(Guid.NewGuid(), new LiteralScalarResolver<string>("source"), new LiteralScalarResolver<string>("destinatin"), new LiteralScalarResolver<string>("pattern"), "basePath"),
+                Type x when x == typeof(IoCopyExtensionCommandArgs) => new IoCopyExtensionCommandArgs(Guid.NewGuid(), new LiteralScalarResolver<string>("source"), new LiteralScalarResolver<string>("destinatin"), new LiteralScalarResolver<string>("extension"), "basePath"),
+                Type x when x == typeof(ProcessKillCommandArgs) => new ProcessKillCommandArgs(Guid.NewGuid(), new LiteralScalarResolver<string>("name")),
+                Type x when x == typeof(ProcessRunCommandArgs) => new ProcessRunCommandArgs(Guid.NewGuid(), new LiteralScalarResolver<string>("name"), new LiteralScalarResolver<string>("path"), "basePath", new LiteralScalarResolver<string>("name"), new LiteralScalarResolver<int>(100)),
+                Type x when x == typeof(ServiceStartCommandArgs) => new ServiceStartCommandArgs(Guid.NewGuid(), new LiteralScalarResolver<string>("name"), new LiteralScalarResolver<int>(100)),
+                Type x when x == typeof(ServiceStopCommandArgs) => new ServiceStopCommandArgs(Guid.NewGuid(), new LiteralScalarResolver<string>("name"), new LiteralScalarResolver<int>(100)),
+                Type x when x == typeof(WaitCommandArgs) => new WaitCommandArgs(Guid.NewGuid(), new LiteralScalarResolver<int>(100)),
+                Type x when x == typeof(GroupParallelCommandArgs) => new GroupParallelCommandArgs(Guid.NewGuid(), true, []),
+                Type x when x == typeof(GroupSequentialCommandArgs) => new GroupSequentialCommandArgs(Guid.NewGuid(), true, []),
+                Type x when x == typeof(CustomCommandArgs) => new CustomCommandArgs
+                                                        (
+                                                            Guid.NewGuid(),
+                                                            new LiteralScalarResolver<string>($@"{FileOnDisk.GetDirectoryPath()}\NBi.Core.Testing.dll"),
+                                                            new LiteralScalarResolver<string>("NBi.Core.Testing.Resources.CustomCommand"),
+                                                            new ReadOnlyDictionary<string, IScalarResolver>(new Dictionary<string, IScalarResolver>())
+                                                        ),
+                _ => throw new ArgumentOutOfRangeException(),
+            };
         }
 
         [Test]
@@ -123,18 +123,18 @@ namespace NBi.Core.Testing.Decoration.DataEngineering
 
         private IDecorationConditionArgs GetConditionArgsMock(Type type)
         {
-            switch (type)
+            return type switch
             {
-                case Type x when x == typeof(IRunningConditionArgs): return Mock.Of<IRunningConditionArgs>();
-                case Type x when x == typeof(FolderExistsConditionArgs): return new FolderExistsConditionArgs(string.Empty, new LiteralScalarResolver<string>(""), new LiteralScalarResolver<string>(""), new LiteralScalarResolver<bool>(true));
-                case Type x when x == typeof(FileExistsConditionArgs): return new FileExistsConditionArgs (string.Empty, new LiteralScalarResolver<string>(""), new LiteralScalarResolver<string>(""), new LiteralScalarResolver<bool>(true));
-                case Type x when x == typeof(ICustomConditionArgs): return Mock.Of<ICustomConditionArgs>
-                        (
-                            y => y.AssemblyPath == new LiteralScalarResolver<string>($@"{FileOnDisk.GetDirectoryPath()}\NBi.Core.Testing.dll")
-                            && y.TypeName == new LiteralScalarResolver<string>("NBi.Core.Testing.Resources.CustomConditionTrue")
-                        );
-                default: throw new ArgumentOutOfRangeException();
-            }
+                Type x when x == typeof(IRunningConditionArgs) => Mock.Of<IRunningConditionArgs>(),
+                Type x when x == typeof(FolderExistsConditionArgs) => new FolderExistsConditionArgs(string.Empty, new LiteralScalarResolver<string>(""), new LiteralScalarResolver<string>(""), new LiteralScalarResolver<bool>(true)),
+                Type x when x == typeof(FileExistsConditionArgs) => new FileExistsConditionArgs(string.Empty, new LiteralScalarResolver<string>(""), new LiteralScalarResolver<string>(""), new LiteralScalarResolver<bool>(true)),
+                Type x when x == typeof(ICustomConditionArgs) => Mock.Of<ICustomConditionArgs>
+                                        (
+                                            y => y.AssemblyPath == new LiteralScalarResolver<string>($@"{FileOnDisk.GetDirectoryPath()}\NBi.Core.Testing.dll")
+                                            && y.TypeName == new LiteralScalarResolver<string>("NBi.Core.Testing.Resources.CustomConditionTrue")
+                                        ),
+                _ => throw new ArgumentOutOfRangeException(),
+            };
         }
 
         [Test]

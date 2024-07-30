@@ -44,10 +44,7 @@ namespace NBi.Core.FlatFile
                 var parameters = reader.Value;
 
                 var extension = parameters.TryGetValue("extension", out var value) ? value : "*.*";
-                var ctor = type.GetConstructor([]);
-
-                if (ctor == null)
-                    throw new ArgumentException($"Can't load an extension. Can't find a constructor without parameter for the type '{type.Name}'");
+                var ctor = type.GetConstructor([]) ?? throw new ArgumentException($"Can't load an extension. Can't find a constructor without parameter for the type '{type.Name}'");
                 object ctorInvocation() => ctor.Invoke([]);
 
                 if (Readers.ContainsKey(extension))

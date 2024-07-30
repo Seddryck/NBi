@@ -24,26 +24,14 @@ namespace NBi.Core.Transformation
 
             if (info.Language == LanguageType.NCalc && (info.OriginalType == ResultSet.ColumnType.Boolean || info.OriginalType == ResultSet.ColumnType.DateTime))
                 throw new InvalidOperationException("Language 'ncalc' is only supporting transformation from 'numeric' and 'text' data types");
-
-            Type valueType;
-            switch (info.OriginalType)
+            var valueType = info.OriginalType switch
             {
-                case ResultSet.ColumnType.Text:
-                    valueType = typeof(string);
-                    break;
-                case ResultSet.ColumnType.Numeric:
-                    valueType = typeof(decimal);
-                    break;
-                case ResultSet.ColumnType.DateTime:
-                    valueType = typeof(DateTime);
-                    break;
-                case ResultSet.ColumnType.Boolean:
-                    valueType = typeof(bool);
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
-
+                ResultSet.ColumnType.Text => typeof(string),
+                ResultSet.ColumnType.Numeric => typeof(decimal),
+                ResultSet.ColumnType.DateTime => typeof(DateTime),
+                ResultSet.ColumnType.Boolean => typeof(bool),
+                _ => throw new ArgumentOutOfRangeException(),
+            };
             var providerType = info.Language switch
             {
                 LanguageType.CSharp => typeof(CSharpTransformer<>),

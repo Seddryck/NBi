@@ -111,7 +111,7 @@ namespace NBi.Core.Scalar.Comparer
 
         internal static bool IsValidInterval(object value)
         {
-            if (!(value is string))
+            if (value is not string)
                 return false;
 
             var valueString = ((string)value).Replace(" ","");

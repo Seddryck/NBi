@@ -15,14 +15,14 @@ namespace NBi.Core.Sequence.Transformation.Aggregation.Strategy
 
         internal static ReturnDefaultStrategy Instantiate(ColumnType columnType)
         {
-            switch (columnType)
+            return columnType switch
             {
-                case ColumnType.Text: return new ReturnDefaultStrategy(string.Empty);
-                case ColumnType.Numeric: return new ReturnDefaultStrategy(0);
-                case ColumnType.DateTime: return new ReturnDefaultStrategy(new DateTime(1900, 1, 1));
-                case ColumnType.Boolean: return new ReturnDefaultStrategy(false);
-                default: throw new ArgumentOutOfRangeException();
-            }
+                ColumnType.Text => new ReturnDefaultStrategy(string.Empty),
+                ColumnType.Numeric => new ReturnDefaultStrategy(0),
+                ColumnType.DateTime => new ReturnDefaultStrategy(new DateTime(1900, 1, 1)),
+                ColumnType.Boolean => new ReturnDefaultStrategy(false),
+                _ => throw new ArgumentOutOfRangeException(),
+            };
         }
 
         public object Execute() => DefaultValue;

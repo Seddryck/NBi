@@ -26,7 +26,7 @@ namespace NBi.Core.Variable
             value = Resolver.Execute();
             isEvaluated = true;
 
-            Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceVerbose, $"Time needed for evaluation of the variable: {stopWatch.Elapsed.ToString(@"d\d\.hh\h\:mm\m\:ss\s\ \+fff\m\s")}");
+            Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceVerbose, $"Time needed for evaluation of the variable: {stopWatch.Elapsed:d\\d\\.hh\\h\\:mm\\m\\:ss\\s\\ \\+fff\\m\\s}");
 
             var invariantCulture = new CultureFactory().Invariant;
             var msg = $"Variable evaluated to: {value}";

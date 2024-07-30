@@ -36,21 +36,15 @@ namespace NBi.Core.Structure.Relational
 
         protected virtual IDiscoveryCommandBuilder InstantiateBuilder(Target target)
         {
-            switch (target)
+            return target switch
             {
-                case Target.Perspectives:
-                    return new SchemaDiscoveryCommandBuilder();
-                case Target.Tables:
-                    return new TableDiscoveryCommandBuilder();
-                case Target.Columns:
-                    return new ColumnDiscoveryCommandBuilder();
-                case Target.Routines:
-                    return new RoutineDiscoveryCommandBuilder();
-                case Target.Parameters:
-                    return new RoutineParameterDiscoveryCommandBuilder();
-                default:
-                    throw new ArgumentOutOfRangeException(string.Format("The value '{0}' is not supported when instantiating with 'RelationalStructureDiscoveryFactory'.", target));
-            }
+                Target.Perspectives => new SchemaDiscoveryCommandBuilder(),
+                Target.Tables => new TableDiscoveryCommandBuilder(),
+                Target.Columns => new ColumnDiscoveryCommandBuilder(),
+                Target.Routines => new RoutineDiscoveryCommandBuilder(),
+                Target.Parameters => new RoutineParameterDiscoveryCommandBuilder(),
+                _ => throw new ArgumentOutOfRangeException(string.Format("The value '{0}' is not supported when instantiating with 'RelationalStructureDiscoveryFactory'.", target)),
+            };
         }
 
     }

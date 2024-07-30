@@ -11,13 +11,11 @@ namespace NBi.Core.Variable
     {
         public IVariable Instantiate(VariableScope scope, IScalarResolver resolver)
         {
-            switch (scope)
+            return scope switch
             {
-                case VariableScope.Global: return new GlobalVariable(resolver);
-                case VariableScope.Local:
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
+                VariableScope.Global => new GlobalVariable(resolver),
+                _ => throw new ArgumentOutOfRangeException(),
+            };
         }
     }
 }

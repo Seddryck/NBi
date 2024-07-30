@@ -42,17 +42,13 @@ namespace NBi.Core.ResultSet
             if (ColumnsDef.Any(c => (c.Identifier as ColumnOrdinalIdentifier)?.Ordinal == index && c.Role == ColumnRole.Key))
                 return true;
 
-            switch (KeysDef)
+            return KeysDef switch
             {
-                case KeysChoice.First:
-                    return index == 0;
-                case KeysChoice.AllExpectLast:
-                    return index != GetLastColumnOrdinal();
-                case KeysChoice.All:
-                    return true;
-            }
-
-            return false;
+                KeysChoice.First => index == 0,
+                KeysChoice.AllExpectLast => index != GetLastColumnOrdinal(),
+                KeysChoice.All => true,
+                _ => false,
+            };
         }
 
         protected override bool IsValue(int index)
@@ -75,17 +71,13 @@ namespace NBi.Core.ResultSet
                     return false;
             }
 
-            switch (ValuesDef)
+            return ValuesDef switch
             {
-                case ValuesChoice.AllExpectFirst:
-                    return index != 0;
-                case ValuesChoice.Last:
-                    return index == GetLastColumnOrdinal();
-                case ValuesChoice.None:
-                    return false;
-            }
-
-            return false;
+                ValuesChoice.AllExpectFirst => index != 0,
+                ValuesChoice.Last => index == GetLastColumnOrdinal(),
+                ValuesChoice.None => false,
+                _ => false,
+            };
         }
 
         public override bool IsRounding(int index)
@@ -157,17 +149,13 @@ namespace NBi.Core.ResultSet
             var col = ColumnsDef.FirstOrDefault(c => (c.Identifier as ColumnOrdinalIdentifier)?.Ordinal == index);
             if (col == null || !col.IsToleranceSpecified)
             {
-                switch (GetColumnType(index))
+                return GetColumnType(index) switch
                 {
-                    case ColumnType.Text:
-                        return (DefaultTolerance as TextSingleMethodTolerance) ?? TextTolerance.None;
-                    case ColumnType.Numeric:
-                        return (DefaultTolerance as NumericTolerance) ?? NumericAbsoluteTolerance.None;
-                    case ColumnType.DateTime:
-                        return (DefaultTolerance as DateTimeTolerance) ?? DateTimeTolerance.None;
-                    default:
-                        return null;
-                }
+                    ColumnType.Text => (DefaultTolerance as TextSingleMethodTolerance) ?? TextTolerance.None,
+                    ColumnType.Numeric => (DefaultTolerance as NumericTolerance) ?? NumericAbsoluteTolerance.None,
+                    ColumnType.DateTime => (DefaultTolerance as DateTimeTolerance) ?? DateTimeTolerance.None,
+                    _ => null,
+                };
             }
 
             return new ToleranceFactory().Instantiate(col);

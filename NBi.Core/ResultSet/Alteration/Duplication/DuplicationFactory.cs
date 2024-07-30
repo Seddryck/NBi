@@ -18,11 +18,12 @@ namespace NBi.Core.ResultSet.Alteration.Duplication
 
         public IDuplicationEngine Instantiate(IDuplicationArgs args)
         {
-            switch (args)
+            return args switch
             {
-                case DuplicateArgs x: return new DuplicateEngine(ServiceLocator, Context, x.Predication, x.Times, x.Outputs);
-                default: throw new ArgumentException();
+                DuplicateArgs x => new DuplicateEngine(ServiceLocator, Context, x.Predication, x.Times, x.Outputs),
+                _ => throw new ArgumentException(),
             };
+            ;
         }
     }
 }

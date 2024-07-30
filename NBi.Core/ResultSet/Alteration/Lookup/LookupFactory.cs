@@ -10,11 +10,11 @@ namespace NBi.Core.ResultSet.Alteration.Lookup
     {
         public ILookupEngine Instantiate(ILookupArgs args)
         {
-            switch(args)
+            return args switch
             {
-                case LookupReplaceArgs x: return new LookupReplaceEngine(x);
-                default: throw new ArgumentException();
-            }
+                LookupReplaceArgs x => new LookupReplaceEngine(x),
+                _ => throw new ArgumentException(),
+            };
         }
     }
 }

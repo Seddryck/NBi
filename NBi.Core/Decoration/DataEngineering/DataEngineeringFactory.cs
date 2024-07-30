@@ -22,11 +22,11 @@ namespace NBi.Core.Decoration.DataEngineering
                         var sessionFactory = new ClientProvider();
                         var connection = sessionFactory.Instantiate(args.ConnectionString).CreateNew() as IDbConnection;
 
-                        switch (connection)
+                        return connection switch
                         {
-                            case SqlConnection sqlConnection: return new SqlServerDataEngineeringFactory().Instantiate(args, sqlConnection);
-                            default: throw new ArgumentException();
-                        }
+                            SqlConnection sqlConnection => new SqlServerDataEngineeringFactory().Instantiate(args, sqlConnection),
+                            _ => throw new ArgumentException(),
+                        };
                     }
             }
         }

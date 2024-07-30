@@ -49,44 +49,29 @@ namespace NBi.Core.Structure.Olap
 
         protected virtual IDiscoveryCommandBuilder InstantiateBuilder(Target target, TargetType type)
         {
-            
-            switch (type)
+
+            return type switch
             {
-                case TargetType.Object:
-                    switch (target)
-                    {
-                        case Target.Perspectives:
-                            return new PerspectiveDiscoveryCommandBuilder();
-                        case Target.MeasureGroups:
-                            return new MeasureGroupDiscoveryCommandBuilder();
-                        case Target.Measures:
-                            return new MeasureDiscoveryCommandBuilder();
-                        case Target.Dimensions:
-                            return new DimensionDiscoveryCommandBuilder();
-                        case Target.Hierarchies:
-                            return new HierarchyDiscoveryCommandBuilder();
-                        case Target.Levels:
-                            return new LevelDiscoveryCommandBuilder();
-                        case Target.Properties:
-                            return new PropertyDiscoveryCommandBuilder();
-                        case Target.Sets:
-                            return new SetDiscoveryCommandBuilder();
-                        default:
-                            throw new ArgumentOutOfRangeException();
-                    }
-                case TargetType.Relation:
-                    switch (target)
-                    {
-                        case Target.MeasureGroups:
-                            return new MeasureGroupRelationDiscoveryCommandBuilder();
-                        case Target.Dimensions:
-                            return new DimensionRelationDiscoveryCommandBuilder();
-                        default:
-                            throw new ArgumentOutOfRangeException();
-                    }
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
+                TargetType.Object => target switch
+                {
+                    Target.Perspectives => new PerspectiveDiscoveryCommandBuilder(),
+                    Target.MeasureGroups => new MeasureGroupDiscoveryCommandBuilder(),
+                    Target.Measures => new MeasureDiscoveryCommandBuilder(),
+                    Target.Dimensions => new DimensionDiscoveryCommandBuilder(),
+                    Target.Hierarchies => new HierarchyDiscoveryCommandBuilder(),
+                    Target.Levels => new LevelDiscoveryCommandBuilder(),
+                    Target.Properties => new PropertyDiscoveryCommandBuilder(),
+                    Target.Sets => new SetDiscoveryCommandBuilder(),
+                    _ => throw new ArgumentOutOfRangeException(),
+                },
+                TargetType.Relation => target switch
+                {
+                    Target.MeasureGroups => new MeasureGroupRelationDiscoveryCommandBuilder(),
+                    Target.Dimensions => new DimensionRelationDiscoveryCommandBuilder(),
+                    _ => throw new ArgumentOutOfRangeException(),
+                },
+                _ => throw new ArgumentOutOfRangeException(),
+            };
         }
         
     }

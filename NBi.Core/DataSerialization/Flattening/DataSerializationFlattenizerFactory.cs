@@ -12,12 +12,12 @@ namespace NBi.Core.DataSerialization.Flattening
     {
         public IDataSerializationFlattenizer Instantiate(IFlattenizerArgs args)
         {
-            switch (args)
+            return args switch
             {
-                case XPathArgs xpathArgs: return new XPathEngine(xpathArgs.From, xpathArgs.Selects, xpathArgs.DefaultNamespacePrefix, xpathArgs.IsIgnoreNamespace);
-                case JsonPathArgs jsonPathArgs: return new JsonPathEngine(jsonPathArgs.From, jsonPathArgs.Selects);
-                default: throw new ArgumentOutOfRangeException();
-            }
+                XPathArgs xpathArgs => new XPathEngine(xpathArgs.From, xpathArgs.Selects, xpathArgs.DefaultNamespacePrefix, xpathArgs.IsIgnoreNamespace),
+                JsonPathArgs jsonPathArgs => new JsonPathEngine(jsonPathArgs.From, jsonPathArgs.Selects),
+                _ => throw new ArgumentOutOfRangeException(),
+            };
         }
     }
 }

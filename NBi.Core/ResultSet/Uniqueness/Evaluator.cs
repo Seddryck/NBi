@@ -67,8 +67,8 @@ namespace NBi.Core.ResultSet.Uniqueness
 
                 //Check that the rows in the reference are unique
                 // All the rows should be unique regardless of whether it is the system under test or the result set.
-                if (dict.ContainsKey(keys))
-                    dict[keys]++;
+                if (dict.TryGetValue(keys, out var value))
+                    dict[keys] = ++value;
                 else
                     dict.Add(keys, 1);
             }

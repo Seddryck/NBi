@@ -21,10 +21,10 @@ namespace NBi.Core.FlatFile
                 return new CsvReader(csvProfile);
             }
 
-            if (Readers.ContainsKey(fileExtension))
-                return Instantiate(Readers[fileExtension]);
-            else if (Readers.ContainsKey("*.*"))
-                return Instantiate(Readers["*.*"]);
+            if (Readers.TryGetValue(fileExtension, out var value))
+                return Instantiate(value);
+            else if (Readers.TryGetValue("*.*", out var value))
+                return Instantiate(value);
             throw new ArgumentException();
         }
 
@@ -43,7 +43,7 @@ namespace NBi.Core.FlatFile
                 var type = reader.Key;
                 var parameters = reader.Value;
 
-                var extension = parameters.ContainsKey("extension") ? parameters["extension"] : "*.*";
+                var extension = parameters.TryGetValue("extension", out var value) ? value : "*.*";
                 var ctor = type.GetConstructor([]);
 
                 if (ctor == null)
@@ -52,7 +52,7 @@ namespace NBi.Core.FlatFile
 
                 if (Readers.ContainsKey(extension))
                 {
-                    var otherTypes = readers.Where(x => (x.Value.ContainsKey("extension") ? x.Value["extension"] : "*.*") == extension && x.Key != reader.Key).Select(x => x.Key.Name);
+                    var otherTypes = readers.Where(x => (x.Value.TryGetValue("extension", out var value) ? value : "*.*") == extension && x.Key != reader.Key).Select(x => x.Key.Name);
                     var sentence = otherTypes.Count() > 1
                         ? $"the other types '{string.Join("', '", otherTypes.Take(otherTypes.Count() - 1))}' and '{otherTypes.ElementAt(otherTypes.Count() - 1)}' are"
                         : $"another type '{otherTypes.ElementAt(0)}' is";

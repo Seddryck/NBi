@@ -40,10 +40,10 @@ namespace NBi.Core.DataType
             var connection = (IDbConnection)sessionFactory.Instantiate(connectionString).CreateNew();
             var dbType = MapConnectionTypeToDatabaseType(connection);
 
-            if (!dico.ContainsKey(dbType))
+            if (!dico.TryGetValue(dbType, out var value))
                 throw new ArgumentException();
 
-            var factoryType = dico[dbType];
+            var factoryType = value;
             var ctor = factoryType.GetConstructor([typeof(IDbConnection)]) ?? throw new NullReferenceException();
             var factory = (IDataTypeDiscoveryFactory)ctor.Invoke([connection]);
 

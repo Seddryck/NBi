@@ -54,10 +54,10 @@ namespace NBi.Core.ResultSet.Lookup
             {
                 var keys = keyRetriever.GetColumns(row);
                 var values = valuesRetriever.GetColumns(row);
-                if (!references.ContainsKey(keys))
+                if (!references.TryGetValue(keys, out var value))
                     references.Add(keys, new HashSet<KeyCollection>() { values });
                 else
-                    references[keys].Add(values);
+                    value.Add(values);
             }
 
             return references;
@@ -70,12 +70,12 @@ namespace NBi.Core.ResultSet.Lookup
             foreach (var row in table.Rows)
             {
                 var keys = keyRetriever.GetColumns(row);
-                if (!references.ContainsKey(keys))
+                if (!references.TryGetValue(keys, out var value))
                     violations.Register(keys, row);
                 else
                 {
                     var setResults = new List<Dictionary<IResultColumn, ComparerResult>>();
-                    foreach (var valueFields in references[keys])
+                    foreach (var valueFields in value)
                     {
                         var rowResults = new Dictionary<IResultColumn, ComparerResult>();
                         var tuples = valueFields.Members.Zip(Values,
@@ -85,7 +85,7 @@ namespace NBi.Core.ResultSet.Lookup
                                 CandidateValue = row[c.CandidateColumn],
                                 c.Type,
                                 Column = table.GetColumn(c.CandidateColumn),
-                                Tolerance = tolerances.ContainsKey(c.CandidateColumn) ? tolerances[c.CandidateColumn] : null
+                                Tolerance = tolerances.TryGetValue(c.CandidateColumn, out var value) ? value : null
                             });
 
                         foreach (var tuple in tuples)

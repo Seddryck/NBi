@@ -37,8 +37,8 @@ namespace NBi.Core.ResultSet.Alteration.Lookup
             foreach (var row in candidate.Rows)
             {
                 var candidateKeys = candidateKeyBuilder.GetColumns(row);
-                if (index.ContainsKey(candidateKeys))
-                    row[newColumn.Ordinal] = index[candidateKeys].Single().Members[0];
+                if (index.TryGetValue(candidateKeys, out var value))
+                    row[newColumn.Ordinal] = value.Single().Members[0];
                 else
                     Args.MissingStrategy.Execute(row, originalColumn, newColumn);
             }
@@ -73,10 +73,10 @@ namespace NBi.Core.ResultSet.Alteration.Lookup
             {
                 var keys = keyRetriever.GetColumns(row);
                 var values = valuesRetriever.GetColumns(row);
-                if (!references.ContainsKey(keys))
+                if (!references.TryGetValue(keys, out var value))
                     references.Add(keys, new HashSet<KeyCollection>() { values });
                 else
-                    references[keys].Add(values);
+                    value.Add(values);
             }
 
             return references;

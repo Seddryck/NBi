@@ -130,7 +130,7 @@ namespace NBi.Core.ResultSet.Equivalence
 
                 //Check that the rows in the reference are unique
                 // All the rows should be unique regardless of whether it is the system under test or the result set.
-                if (dict.ContainsKey(keys))
+                if (dict.TryGetValue(keys, out var value))
                 {
                     throw new EquivalerException(
                         string.Format("The {0} data set has some duplicated keys. Check your keys definition or the result set defined in your {1}. The duplicated hashcode is {2}.\r\nRow to insert:{3}.\r\nRow already inserted:{4}.",
@@ -138,7 +138,7 @@ namespace NBi.Core.ResultSet.Equivalence
                             isSystemUnderTest ? "system-under-test" : "assertion",
                             keys.GetHashCode(),
                             RowToString(row),
-                            RowToString(dict[keys].DataRowObj!)
+                            RowToString(value.DataRowObj!)
                             )
                         );
                 }

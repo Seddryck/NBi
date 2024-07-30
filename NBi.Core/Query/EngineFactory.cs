@@ -49,8 +49,8 @@ namespace NBi.Core.Query
             var cmd = commandFactory.Instantiate(session, query);
 
             var key = cmd.Implementation.GetType().FullName ?? throw new NullReferenceException();
-            if (engines.ContainsKey(key))
-                return Instantiate(engines[key], cmd);
+            if (engines.TryGetValue(key, out var value))
+                return Instantiate(value, cmd);
             throw new ArgumentException();
         }
 

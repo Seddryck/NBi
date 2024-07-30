@@ -17,7 +17,7 @@ namespace NBi.Core.Testing.ResultSet.Alteration.Duplication
             var extender = factory.Instantiate(new DuplicateArgs(
                 new PredicationFactory().Instantiate(new PredicateFactory().Instantiate(new PredicateArgs()), new ColumnOrdinalIdentifier(0)),
                 new LiteralScalarResolver<int>(1),
-                new List<OutputArgs>()
+                []
                 ));
             Assert.That(extender, Is.Not.Null);
             Assert.That(extender, Is.TypeOf<DuplicateEngine>());

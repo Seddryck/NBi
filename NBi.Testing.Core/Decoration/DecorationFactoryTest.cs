@@ -78,8 +78,8 @@ namespace NBi.Core.Testing.Decoration.DataEngineering
                 case Type x when x == typeof(ServiceStartCommandArgs): return new ServiceStartCommandArgs(Guid.NewGuid(), new LiteralScalarResolver<string>("name"), new LiteralScalarResolver<int>(100));
                 case Type x when x == typeof(ServiceStopCommandArgs): return new ServiceStopCommandArgs(Guid.NewGuid(), new LiteralScalarResolver<string>("name"), new LiteralScalarResolver<int>(100));
                 case Type x when x == typeof(WaitCommandArgs): return new WaitCommandArgs(Guid.NewGuid(), new LiteralScalarResolver<int>(100));
-                case Type x when x == typeof(GroupParallelCommandArgs): return new GroupParallelCommandArgs(Guid.NewGuid(), true, new List<IDecorationCommandArgs>());
-                case Type x when x == typeof(GroupSequentialCommandArgs): return new GroupSequentialCommandArgs(Guid.NewGuid(), true, new List<IDecorationCommandArgs>());
+                case Type x when x == typeof(GroupParallelCommandArgs): return new GroupParallelCommandArgs(Guid.NewGuid(), true, []);
+                case Type x when x == typeof(GroupSequentialCommandArgs): return new GroupSequentialCommandArgs(Guid.NewGuid(), true, []);
                 case Type x when x == typeof(CustomCommandArgs): return new CustomCommandArgs
                                         (
                                             Guid.NewGuid(),

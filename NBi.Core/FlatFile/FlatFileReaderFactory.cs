@@ -32,7 +32,7 @@ namespace NBi.Core.FlatFile
 
         public FlatFileReaderFactory(IExtensionsConfiguration config)
         {
-            var extensions = config?.Extensions?.Where(x => typeof(IFlatFileReader).IsAssignableFrom(x.Key) && !x.Key.IsAbstract) ?? new List<KeyValuePair<Type, IDictionary<string, string>>>();
+            var extensions = config?.Extensions?.Where(x => typeof(IFlatFileReader).IsAssignableFrom(x.Key) && !x.Key.IsAbstract) ?? [];
             RegisterExtensions(extensions.ToArray());
         }
 

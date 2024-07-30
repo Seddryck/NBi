@@ -15,8 +15,8 @@ namespace NBi.Core.Testing
         {
             var listComparer = new ListComparer();
             var res = listComparer.Compare(
-                new List<string> { "a", "b", "c" },
-                new List<string> { "a", "b", "c" },
+                ["a", "b", "c"],
+                ["a", "b", "c"],
                 ListComparer.Comparison.Both
                 );
 
@@ -30,8 +30,8 @@ namespace NBi.Core.Testing
         {
             var listComparer = new ListComparer();
             var res = listComparer.Compare(
-                new List<string> { "a", "b", "c" },
-                new List<string> { "a", "b", "c" },
+                ["a", "b", "c"],
+                ["a", "b", "c"],
                 ListComparer.Comparison.MissingItems
                 );
 
@@ -45,8 +45,8 @@ namespace NBi.Core.Testing
         {
             var listComparer = new ListComparer();
             var res = listComparer.Compare(
-                new List<string> { "a", "b", "c" },
-                new List<string> { "a", "b", "c" },
+                ["a", "b", "c"],
+                ["a", "b", "c"],
                 ListComparer.Comparison.UnexpectedItems
                 );
 
@@ -60,8 +60,8 @@ namespace NBi.Core.Testing
         {
             var listComparer = new ListComparer();
             var res = listComparer.Compare(
-                new List<string> { "a", "b", "c" },
-                new List<string> { "a", "b", "d" },
+                ["a", "b", "c"],
+                ["a", "b", "d"],
                 ListComparer.Comparison.Both
                 );
 
@@ -75,8 +75,8 @@ namespace NBi.Core.Testing
         {
             var listComparer = new ListComparer();
             var res = listComparer.Compare(
-                new List<string> { "a", "b", "z"},
-                new List<string> { "a", "b" },
+                ["a", "b", "z"],
+                ["a", "b"],
                 ListComparer.Comparison.Both
                 );
 
@@ -91,8 +91,8 @@ namespace NBi.Core.Testing
         {
             var listComparer = new ListComparer();
             var res = listComparer.Compare(
-                new List<string> { "a", "b" },
-                new List<string> { "a", "b", "z" },
+                ["a", "b"],
+                ["a", "b", "z"],
                 ListComparer.Comparison.Both
                 );
 
@@ -106,8 +106,8 @@ namespace NBi.Core.Testing
         {
             var listComparer = new ListComparer();
             var res = listComparer.Compare(
-                new List<string> { "a", "b", "c", "d", "e", "f", "g", "h" },
-                new List<string> { "z" },
+                ["a", "b", "c", "d", "e", "f", "g", "h"],
+                ["z"],
                 ListComparer.Comparison.Both
                 );
 

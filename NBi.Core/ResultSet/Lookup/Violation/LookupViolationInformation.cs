@@ -19,7 +19,7 @@ namespace NBi.Core.ResultSet.Lookup.Violation
 
     public class LookupExistsViolationInformation : LookupViolationInformation
     {
-        public ICollection<IResultRow> CandidateRows { get; private set; } = new List<IResultRow>();
+        public ICollection<IResultRow> CandidateRows { get; private set; } = [];
 
         public override IEnumerable<IResultRow> Rows => CandidateRows;
 
@@ -30,11 +30,11 @@ namespace NBi.Core.ResultSet.Lookup.Violation
 
     public class LookupMatchesViolationInformation : LookupViolationInformation
     {
-        public ICollection<LookupMatchesViolationComposite> CandidateRows { get; private set; } = new List<LookupMatchesViolationComposite>();
+        public ICollection<LookupMatchesViolationComposite> CandidateRows { get; private set; } = [];
         public LookupMatchesViolationInformation(RowViolationState state)
             : base(state) { }
         public override void AddCandidateRow(IResultRow row) 
-            => CandidateRows.Add(new LookupMatchesViolationComposite(row, new List<LookupMatchesViolationRecord>()));
+            => CandidateRows.Add(new LookupMatchesViolationComposite(row, []));
 
         public override IEnumerable<IResultRow> Rows => CandidateRows.Select(x => x.CandidateRow);
     }

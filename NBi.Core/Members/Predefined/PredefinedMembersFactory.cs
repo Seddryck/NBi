@@ -11,7 +11,7 @@ namespace NBi.Core.Members.Predefined
 
         public PredefinedMembersFactory()
         {
-            registrations = new List<BuilderRegistration>();
+            registrations = [];
             RegisterDefaults();
         }
 

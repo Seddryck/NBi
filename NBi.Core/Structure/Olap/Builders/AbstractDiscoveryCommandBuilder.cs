@@ -45,7 +45,7 @@ namespace NBi.Core.Structure.Olap.Builders
 
         protected abstract IEnumerable<IFilter> BuildCaptionFilters(IEnumerable<CaptionFilter> filters);
         protected virtual IEnumerable<ICommandFilter> BuildNonCaptionFilters(IEnumerable<IFilter> filters)
-            => new List<ICommandFilter>();
+            => [];
 
         protected string BuildCommandText()
         {

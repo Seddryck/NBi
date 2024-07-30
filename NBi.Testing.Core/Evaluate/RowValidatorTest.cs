@@ -44,7 +44,7 @@ namespace NBi.Core.Testing.Evaluate
             var expressions = new List<ValuedExpression>() { new ValuedExpression("=4+4", 8) };
 
             var validator = new RowValidator();
-            var result = validator.Execute(new Dictionary<string, object>(), expressions).Aggregate(true, (total, r) => total && r.IsValid);
+            var result = validator.Execute([], expressions).Aggregate(true, (total, r) => total && r.IsValid);
 
             Assert.That(result, Is.True);
         }
@@ -55,7 +55,7 @@ namespace NBi.Core.Testing.Evaluate
             var expressions = new List<ValuedExpression>() { new ValuedExpression("=4+4", 0) };
 
             var validator = new RowValidator();
-            var result = validator.Execute(new Dictionary<string, object>(), expressions).Aggregate(true, (total, r) => total && r.IsValid);
+            var result = validator.Execute([], expressions).Aggregate(true, (total, r) => total && r.IsValid);
 
             Assert.That(result, Is.False);
         }

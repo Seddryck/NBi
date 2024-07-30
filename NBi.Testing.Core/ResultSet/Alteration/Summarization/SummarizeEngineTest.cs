@@ -47,10 +47,8 @@ namespace NBi.Core.Testing.ResultSet.Alteration.Summarization
             var rs = Build();
 
             var args = new SummarizeArgs(
-                    new List<ColumnAggregationArgs>()
-                    { new ColumnAggregationArgs(new ColumnNameIdentifier("valueColumn"), AggregationFunctionType.Sum, ColumnType.Numeric, []) },
-                    new List<IColumnDefinitionLight>()
-                    { Mock.Of<IColumnDefinitionLight>(x => x.Identifier == new ColumnNameIdentifier("keyColumn") && x.Type == ColumnType.Text) }
+                    [new ColumnAggregationArgs(new ColumnNameIdentifier("valueColumn"), AggregationFunctionType.Sum, ColumnType.Numeric, [])],
+                    [Mock.Of<IColumnDefinitionLight>(x => x.Identifier == new ColumnNameIdentifier("keyColumn") && x.Type == ColumnType.Text)]
                 );
 
             var summarize = new SummarizeEngine(args);
@@ -159,7 +157,7 @@ namespace NBi.Core.Testing.ResultSet.Alteration.Summarization
                     [
                         new ColumnAggregationArgs(new ColumnNameIdentifier("valueColumn"), AggregationFunctionType.Sum, ColumnType.Numeric, []),
                     ],
-                    new List<IColumnDefinitionLight>()
+                    []
                 );
 
             var summarize = new SummarizeEngine(args);

@@ -11,7 +11,7 @@ namespace NBi.Core.Query.Client
 {
     public class ClientProvider
     {
-        private readonly IList<IClientFactory> factories = new List<IClientFactory>();
+        private readonly IList<IClientFactory> factories = [];
         private readonly Type[] classics =
             [
                 typeof(DubUrlClientFactory),

@@ -74,7 +74,7 @@ namespace NBi.Core.ResultSet.Alteration.Lookup
                 var keys = keyRetriever.GetColumns(row);
                 var values = valuesRetriever.GetColumns(row);
                 if (!references.TryGetValue(keys, out var value))
-                    references.Add(keys, new HashSet<KeyCollection>() { values });
+                    references.Add(keys, [values]);
                 else
                     value.Add(values);
             }

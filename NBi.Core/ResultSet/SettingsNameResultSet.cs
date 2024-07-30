@@ -162,15 +162,15 @@ namespace NBi.Core.ResultSet
         public SettingsNameResultSet(ColumnType valuesDefaultType, Tolerance defaultTolerance, IEnumerable<IColumnDefinition> columnsDef)
         : base(valuesDefaultType, defaultTolerance, new ReadOnlyCollection<IColumnDefinition>(columnsDef.ToList()))
         {
-            KeyNames = new List<string>();
-            ValueNames = new List<string>();
+            KeyNames = [];
+            ValueNames = [];
         }
 
         internal SettingsNameResultSet(IEnumerable<IColumnDefinition> columnsDef)
         : base(ColumnType.Numeric, NumericAbsoluteTolerance.None, new ReadOnlyCollection<IColumnDefinition>(columnsDef.ToList()))
         {
-            KeyNames = new List<string>();
-            ValueNames = new List<string>();
+            KeyNames = [];
+            ValueNames = [];
         }
 
         public IEnumerable<string> GetKeyNames()

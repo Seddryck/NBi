@@ -12,9 +12,7 @@ namespace NBi.Core.Analysis.Request.FactoryValidations
         internal AtLeastOneNotNull(IEnumerable<IFilter> filters, DiscoveryTarget firstElement, DiscoveryTarget secondElement)
             : base (filters)
         {
-            elements = new List<DiscoveryTarget>();
-            elements.Add(firstElement);
-            elements.Add(secondElement);
+            elements = [firstElement, secondElement];
         }
 
         internal override void Apply()

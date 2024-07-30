@@ -12,10 +12,10 @@ namespace NBi.Core.Sequence.Transformation.Aggregation
     {
         public ColumnType ColumnType { get; }
         public AggregationFunctionType Function { get; }
-        public IList<IScalarResolver> Parameters { get; } = new List<IScalarResolver>();
-        public IList<IAggregationStrategy> Strategies { get; } = new List<IAggregationStrategy>();
+        public IList<IScalarResolver> Parameters { get; } = [];
+        public IList<IAggregationStrategy> Strategies { get; } = [];
 
         public AggregationArgs(AggregationFunctionType function, ColumnType columnType, IList<IScalarResolver> parameters)
-            => (ColumnType, Function, Parameters) = (columnType, function, parameters ?? new List<IScalarResolver>());
+            => (ColumnType, Function, Parameters) = (columnType, function, parameters ?? []);
     }
 }

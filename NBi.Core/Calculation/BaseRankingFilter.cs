@@ -38,7 +38,7 @@ namespace NBi.Core.Calculation
 
         public IResultSet Apply(IResultSet rs)
         {
-            IList<ScoredObject> subset = new List<ScoredObject>();
+            IList<ScoredObject> subset = [];
             var scorer = new DataRowScorer(Operand, Aliases, Expressions);
             foreach (var row in rs.Rows)
             {

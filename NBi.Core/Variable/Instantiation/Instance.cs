@@ -16,7 +16,7 @@ namespace NBi.Core.Variable.Instantiation
         public Instance(IDictionary<string, IVariable> variables, IEnumerable<string> categories, IDictionary<string, string> traits)
         {
             Variables = variables;
-            Categories = categories ?? new List<string>();
+            Categories = categories ?? [];
             Traits = traits ?? new Dictionary<string, string>();
         }
 

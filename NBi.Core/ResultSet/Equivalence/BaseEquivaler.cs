@@ -55,16 +55,16 @@ namespace NBi.Core.ResultSet.Equivalence
             stopWatch.Reset();
 
             var missingRowsAnalyzer = analyzers.FirstOrDefault(a => a.GetType() == typeof(MissingRowsAnalyzer));
-            var missingRows = missingRowsAnalyzer?.Retrieve(xDict, yDict) ?? new List<RowHelper>();
+            var missingRows = missingRowsAnalyzer?.Retrieve(xDict, yDict) ?? [];
 
             var unexpectedRowsAnalyzer = analyzers.FirstOrDefault(a => a.GetType() == typeof(UnexpectedRowsAnalyzer));
-            var unexpectedRows = unexpectedRowsAnalyzer?.Retrieve(xDict, yDict) ?? new List<RowHelper>();
+            var unexpectedRows = unexpectedRowsAnalyzer?.Retrieve(xDict, yDict) ?? [];
 
             var keyMatchingRowsAnalyzer = analyzers.FirstOrDefault(a => a.GetType() == typeof(KeyMatchingRowsAnalyzer));
-            var keyMatchingRows = keyMatchingRowsAnalyzer?.Retrieve(xDict, yDict) ?? new List<RowHelper>();
+            var keyMatchingRows = keyMatchingRowsAnalyzer?.Retrieve(xDict, yDict) ?? [];
 
             stopWatch.Start();
-            var nonMatchingValueRows = !CanSkipValueComparison() ? CompareSets(keyMatchingRows) : new List<IResultRow>();
+            var nonMatchingValueRows = !CanSkipValueComparison() ? CompareSets(keyMatchingRows) : [];
             Trace.WriteLineIf(NBiTraceSwitch.TraceInfo
                 , $"Rows with a matching key but without matching value: {nonMatchingValueRows.Count} [{stopWatch.Elapsed:d\\d\\.hh\\h\\:mm\\m\\:ss\\s\\ \\+fff\\m\\s}]");
             stopWatch.Reset();

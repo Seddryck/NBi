@@ -55,7 +55,7 @@ namespace NBi.Core.ResultSet.Lookup
                 var keys = keyRetriever.GetColumns(row);
                 var values = valuesRetriever.GetColumns(row);
                 if (!references.TryGetValue(keys, out var value))
-                    references.Add(keys, new HashSet<KeyCollection>() { values });
+                    references.Add(keys, [values]);
                 else
                     value.Add(values);
             }
@@ -102,7 +102,7 @@ namespace NBi.Core.ResultSet.Lookup
 
                     if (!setResults.Any(x => x.All(y => y.Value.AreEqual)))
                     {
-                        var composite = new LookupMatchesViolationComposite(row, new List<LookupMatchesViolationRecord>());
+                        var composite = new LookupMatchesViolationComposite(row, []);
                         foreach (var rowResults in setResults)
                         {
                             var cases = new LookupMatchesViolationRecord();

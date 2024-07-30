@@ -34,7 +34,7 @@ namespace NBi.Core.Testing.ResultSet.Alteration.Duplication
                 new Context(),
                 Predication.AlwaysTrue,
                 new LiteralScalarResolver<int>(1),
-                new List<OutputArgs>()
+                []
                 );
             var newRs = duplicator.Execute(rs);
 
@@ -66,7 +66,7 @@ namespace NBi.Core.Testing.ResultSet.Alteration.Duplication
                 new Context(),
                 new PredicationFactory().Instantiate(new PredicateFactory().Instantiate(referenceArgs), new ColumnOrdinalIdentifier(1)),
                 new LiteralScalarResolver<int>(1),
-                new List<OutputArgs>()
+                []
                 );
             var newRs = duplicator.Execute(rs);
 
@@ -128,7 +128,7 @@ namespace NBi.Core.Testing.ResultSet.Alteration.Duplication
                 new Context(),
                 Predication.AlwaysTrue,
                 new LiteralScalarResolver<int>(1),
-                new List<OutputArgs>() { new OutputValueArgs(new ColumnNameIdentifier("NewValue"), "Static Value") }
+                [new OutputValueArgs(new ColumnNameIdentifier("NewValue"), "Static Value")]
                 );
             var newRs = duplicator.Execute(rs);
 
@@ -155,7 +155,7 @@ namespace NBi.Core.Testing.ResultSet.Alteration.Duplication
                 new Context(),
                 Predication.AlwaysTrue,
                 new LiteralScalarResolver<int>(1),
-                new List<OutputArgs>() { new (new ColumnNameIdentifier("Index"), OutputClass.Index) }
+                [new (new ColumnNameIdentifier("Index"), OutputClass.Index)]
                 );
             var newRs = duplicator.Execute(rs);
 
@@ -189,7 +189,7 @@ namespace NBi.Core.Testing.ResultSet.Alteration.Duplication
                 context,
                 new PredicationFactory().Instantiate(new PredicateFactory().Instantiate(referenceArgs), new ColumnOrdinalIdentifier(1)),
                 new ContextScalarResolver<int>(context, new ColumnOrdinalIdentifier(2)),
-                new List<OutputArgs>() { new(new ColumnNameIdentifier("Total"), OutputClass.Total) }
+                [new(new ColumnNameIdentifier("Total"), OutputClass.Total)]
                 );
             var newRs = duplicator.Execute(rs);
 
@@ -224,7 +224,7 @@ namespace NBi.Core.Testing.ResultSet.Alteration.Duplication
                 context,
                 new PredicationFactory().Instantiate(new PredicateFactory().Instantiate(referenceArgs), new ColumnOrdinalIdentifier(1)),
                 new ContextScalarResolver<int>(context, new ColumnOrdinalIdentifier(2)),
-                new List<OutputArgs>() { new OutputArgs(new ColumnNameIdentifier("IsOriginal"), OutputClass.IsOriginal) }
+                [new OutputArgs(new ColumnNameIdentifier("IsOriginal"), OutputClass.IsOriginal)]
                 );
             var newRs = duplicator.Execute(rs);
 
@@ -254,7 +254,7 @@ namespace NBi.Core.Testing.ResultSet.Alteration.Duplication
                 context,
                 new PredicationFactory().Instantiate(new PredicateFactory().Instantiate(referenceArgs), new ColumnOrdinalIdentifier(1)),
                 new ContextScalarResolver<int>(context, new ColumnOrdinalIdentifier(2)),
-                new List<OutputArgs>() { new OutputArgs(new ColumnNameIdentifier("IsDuplicable"), OutputClass.IsDuplicable) }
+                [new OutputArgs(new ColumnNameIdentifier("IsDuplicable"), OutputClass.IsDuplicable)]
                 );
             var newRs = duplicator.Execute(rs);
 
@@ -284,10 +284,10 @@ namespace NBi.Core.Testing.ResultSet.Alteration.Duplication
                 context,
                 new PredicationFactory().Instantiate(new PredicateFactory().Instantiate(referenceArgs), new ColumnOrdinalIdentifier(1)),
                 new ContextScalarResolver<int>(context, new ColumnOrdinalIdentifier(2)),
-                new List<OutputArgs>() { new OutputScriptArgs(
+                [ new OutputScriptArgs(
                     new ServiceLocator(), context, new ColumnNameIdentifier("NewValue")
                     , LanguageType.Native, "#1 | numeric-to-divide(#2)")
-                }
+                ]
             );
             var newRs = duplicator.Execute(rs);
 
@@ -321,10 +321,10 @@ namespace NBi.Core.Testing.ResultSet.Alteration.Duplication
                 context,
                 new PredicationFactory().Instantiate(new PredicateFactory().Instantiate(referenceArgs), new ColumnOrdinalIdentifier(1)),
                 new ContextScalarResolver<int>(context, new ColumnOrdinalIdentifier(2)),
-                new List<OutputArgs>() { new OutputScriptArgs(
+                [ new OutputScriptArgs(
                     new ServiceLocator(), context, new ColumnNameIdentifier("Value")
                     , LanguageType.Native, "[Value] | numeric-to-divide(#2)")
-                }
+                ]
             );
             var newRs = duplicator.Execute(rs);
 
@@ -363,14 +363,14 @@ namespace NBi.Core.Testing.ResultSet.Alteration.Duplication
                 context,
                 new PredicationFactory().Instantiate(new PredicateFactory().Instantiate(referenceArgs), new ColumnOrdinalIdentifier(1)),
                 new ContextScalarResolver<int>(context, new ColumnOrdinalIdentifier(2)),
-                new List<OutputArgs>() {
+                [
                     new (new ColumnNameIdentifier("Total"), OutputClass.Total),
                     new (new ColumnNameIdentifier("Index"), OutputClass.Index),
                     new OutputScriptArgs(
                         serviceLocator, context, new ColumnNameIdentifier("Value")
                         , LanguageType.NCalc, "[Value]/[Total]*([Index]+1)"
                     )
-                }
+                ]
             );
             var newRs = duplicator.Execute(rs);
 
@@ -418,7 +418,7 @@ namespace NBi.Core.Testing.ResultSet.Alteration.Duplication
                 context,
                 new PredicationFactory().Instantiate(new PredicateFactory().Instantiate(referenceArgs), new ColumnNameIdentifier("a")),
                 new LiteralScalarResolver<int>(1),
-                new List<OutputArgs>() { new (new ColumnNameIdentifier("Index"), OutputClass.Index) }
+                [new (new ColumnNameIdentifier("Index"), OutputClass.Index)]
                 );
             duplicator.Execute(rs);
             stopWatch.Stop();

@@ -13,7 +13,7 @@ namespace NBi.Core.Testing
         public void Compare_MultipleMissing_Plural()
         {
             var res = new ListComparer.Result(
-                new List<string> { "a", "b", "c" },
+                ["a", "b", "c"],
                 null
                 );
 
@@ -31,7 +31,7 @@ namespace NBi.Core.Testing
         public void Compare_NoUnexpected_UnexpectedNotVisible()
         {
             var res = new ListComparer.Result(
-                new List<string> { "a", "b", "c" },
+                ["a", "b", "c"],
                 null
                 );
 
@@ -47,8 +47,8 @@ namespace NBi.Core.Testing
         public void Compare_Mix_CorrectDisplay()
         {
             var res = new ListComparer.Result(
-                new List<string> { "x" },
-                new List<string> { "a", "b", "c" }
+                ["x"],
+                ["a", "b", "c"]
                 );
 
             var formatter = new ListComparisonFormatter();
@@ -68,8 +68,8 @@ namespace NBi.Core.Testing
         public void Compare_BothEmpty_CorrectDisplay()
         {
             var res = new ListComparer.Result(
-                new List<string> { },
-                new List<string> { }
+                [],
+                []
                 );
 
             var formatter = new ListComparisonFormatter();

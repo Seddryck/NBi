@@ -21,11 +21,10 @@ namespace NBi.Core.Testing.ResultSet.Resolver
         public void Instantiate_ColumnsBased_CorrectType()
         {
             var args = new EmptyResultSetResolverArgs(
-                new List<ColumnNameIdentifier>
-                {
+                [
                     new ColumnNameIdentifier("myFirstColumn"),
                     new ColumnNameIdentifier("mySecondColumn"),
-                }
+                ]
             );
             var resolver = new EmptyResultSetResolver(args);
 
@@ -49,11 +48,10 @@ namespace NBi.Core.Testing.ResultSet.Resolver
         public void Instantiate_ColumnsAndColumnCountBased_CorrectType()
         {
             var args = new EmptyResultSetResolverArgs(
-                new List<ColumnNameIdentifier>
-                {
+                [
                     new ColumnNameIdentifier("myFirstColumn"),
                     new ColumnNameIdentifier("mySecondColumn"),
-                }, new LiteralScalarResolver<int>(4)
+                ], new LiteralScalarResolver<int>(4)
             );
             var resolver = new EmptyResultSetResolver(args);
 

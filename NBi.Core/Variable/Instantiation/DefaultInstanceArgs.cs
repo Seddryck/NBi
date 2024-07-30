@@ -8,7 +8,7 @@ namespace NBi.Core.Variable.Instantiation
 {
     public class DefaultInstanceArgs : IInstanceArgs
     {
-        public IEnumerable<string> Categories { get; } = new List<string>();
+        public IEnumerable<string> Categories { get; } = [];
         public IDictionary<string, string> Traits { get; } = new Dictionary<string, string>();
     }
 }

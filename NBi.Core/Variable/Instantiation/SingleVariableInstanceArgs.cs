@@ -16,7 +16,7 @@ namespace NBi.Core.Variable.Instantiation
         public SingleVariableInstanceArgs(string name, ISequenceResolver resolver)
             => (Name, Resolver) = (name, resolver);
 
-        public IEnumerable<string> Categories { get; set; } = new List<string>();
+        public IEnumerable<string> Categories { get; set; } = [];
         public IDictionary<string, string> Traits { get; set; } = new Dictionary<string, string>();
     }
 }

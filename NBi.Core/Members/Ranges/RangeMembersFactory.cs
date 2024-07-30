@@ -11,7 +11,7 @@ namespace NBi.Core.Members.Ranges
 
         public RangeMembersFactory()
         {
-            registrations = new List<BuilderRegistration>();
+            registrations = [];
             RegisterDefaults();
         }
 
@@ -20,7 +20,7 @@ namespace NBi.Core.Members.Ranges
             Register([typeof(IIntegerRange), typeof(IPatternDecorator)]
                 , new CompositeBuilder(
                     new IntegerRangeBuilder()
-                    , new List<IDecoratorBuilder>() { new PatternDecoratorBuilder() }
+                    , [new PatternDecoratorBuilder()]
                     ));
             Register(typeof(IIntegerRange), new IntegerRangeBuilder());
             Register(typeof(IDateRange), new DateRangeBuilder());
@@ -34,7 +34,7 @@ namespace NBi.Core.Members.Ranges
         /// <param name="builder">Instance of builder deicated for these types of System Under Test and Constraint</param>
         public void Register(Type rangeType, IRangeMembersBuilder builder)
         {
-            Register(new List<Type>() { rangeType }, builder);
+            Register([rangeType], builder);
         }
 
         /// <summary>
@@ -67,7 +67,7 @@ namespace NBi.Core.Members.Ranges
 
             public BuilderRegistration(Type rangeType, IRangeMembersBuilder builder)
             {
-                Types = new List<Type>() {rangeType};
+                Types = [rangeType];
                 Builder = builder;
             }
 

@@ -39,7 +39,7 @@ namespace NBi.Core.Testing.ResultSet.Resolver
 
             var sequenceResolver = new ListSequenceResolver<decimal>(
                 new ListSequenceResolverArgs(
-                    new List<IScalarResolver>() { new LiteralScalarResolver<decimal>(0), new LiteralScalarResolver<decimal>(1) }
+                    [new LiteralScalarResolver<decimal>(0), new LiteralScalarResolver<decimal>(1)]
                 ));
 
             var resolver = new IterativeResultSetResolver(sequenceResolver, "i", variables, new DummyResultSetResolver(variables, "i"));
@@ -57,11 +57,11 @@ namespace NBi.Core.Testing.ResultSet.Resolver
 
             var sequenceResolver = new ListSequenceResolver<decimal>(
                 new ListSequenceResolverArgs(
-                    new List<IScalarResolver>() {
+                    [
                         new LiteralScalarResolver<decimal>(0)
                         , new LiteralScalarResolver<decimal>(1)
                         , new LiteralScalarResolver<decimal>(2)
-                    }
+                    ]
                 ));
 
             var resolver = new IterativeResultSetResolver(sequenceResolver, "i", variables, new DummyResultSetResolver(variables, "i"));
@@ -80,9 +80,9 @@ namespace NBi.Core.Testing.ResultSet.Resolver
 
             var sequenceResolver = new ListSequenceResolver<decimal>(
                 new ListSequenceResolverArgs(
-                    new List<IScalarResolver>() {
+                    [
                         new LiteralScalarResolver<decimal>(0)
-                    }
+                    ]
                 ));
 
             var resolver = new IterativeResultSetResolver(sequenceResolver, "i", variables, new DummyResultSetResolver(variables, "i"));
@@ -99,7 +99,7 @@ namespace NBi.Core.Testing.ResultSet.Resolver
 
             var sequenceResolver = new ListSequenceResolver<decimal>(
                 new ListSequenceResolverArgs(
-                    new List<IScalarResolver>() {}
+                    []
                 ));
 
             var resolver = new IterativeResultSetResolver(sequenceResolver, "i", variables, new DummyResultSetResolver(variables, "i"));

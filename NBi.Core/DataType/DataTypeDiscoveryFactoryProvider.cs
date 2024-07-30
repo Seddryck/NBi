@@ -70,8 +70,10 @@ namespace NBi.Core.DataType
                 using (var conn = new AdomdConnection(connectionString))
                 {
                     conn.Open();
-                    var restrictions = new AdomdRestrictionCollection();
-                    restrictions.Add(new AdomdRestriction("ObjectExpansion", "ReferenceOnly"));
+                    var restrictions = new AdomdRestrictionCollection
+                    {
+                        new AdomdRestriction("ObjectExpansion", "ReferenceOnly")
+                    };
                     var ds = conn.GetSchemaDataSet("DISCOVER_XML_METADATA", restrictions);
                     var xml = ds.Tables[0].Rows[0].ItemArray[0]?.ToString() ?? string.Empty;
                     var doc = new XmlDocument();

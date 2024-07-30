@@ -54,12 +54,11 @@ namespace NBi.Core.Testing.ResultSet.Uniqueness
         public void Execute_Duplicate_False()
         {
             var resultSet = BuildDataTable(
-                new List<List<object>>()
-                {
-                    new List<object>() {"a" , "b", 120 },
-                    new List<object>() {"a" , "b", 120 },
-                    new List<object>() {"a" , "d", 150 },
-                });
+                [
+                    ["a" , "b", 120],
+                    ["a" , "b", 120],
+                    ["a" , "d", 150],
+                ]);
 
             var finder = new OrdinalEvaluator();
             var result = finder.Execute(resultSet);
@@ -70,12 +69,11 @@ namespace NBi.Core.Testing.ResultSet.Uniqueness
         public void Execute_Duplicate_OneOccurence()
         {
             var resultSet = BuildDataTable(
-                new List<List<object>>()
-                {
-                    new List<object>() {"a" , "b", 120 },
-                    new List<object>() {"a" , "b", 120 },
-                    new List<object>() {"a" , "d", 150 },
-                });
+                [
+                    ["a" , "b", 120],
+                    ["a" , "b", 120],
+                    ["a" , "d", 150],
+                ]);
 
             var finder = new OrdinalEvaluator();
             var result = finder.Execute(resultSet);
@@ -87,12 +85,11 @@ namespace NBi.Core.Testing.ResultSet.Uniqueness
         public void Execute_Duplicate_TwoOccurences()
         {
             var resultSet = BuildDataTable(
-                new List<List<object>>()
-                {
-                    new List<object>() {"a" , "b", 120 },
-                    new List<object>() {"a" , "b", 120 },
-                    new List<object>() {"a" , "b", 120 },
-                });
+                [
+                    ["a" , "b", 120],
+                    ["a" , "b", 120],
+                    ["a" , "b", 120],
+                ]);
 
             var finder = new OrdinalEvaluator();
             var result = finder.Execute(resultSet);

@@ -22,7 +22,7 @@ namespace NBi.Core.Testing.ResultSet.Resolver
             var embeddedResolverMock = new Mock<IResultSetResolver>();
             embeddedResolverMock.Setup(r => r.Execute()).Returns(new DataTableResultSet());
 
-            var resolver = new AlterationResultSetResolver(embeddedResolverMock.Object, new List<IAlteration>());
+            var resolver = new AlterationResultSetResolver(embeddedResolverMock.Object, []);
             resolver.Execute();
 
             embeddedResolverMock.Verify(l => l.Execute(), Times.Once);
@@ -37,7 +37,7 @@ namespace NBi.Core.Testing.ResultSet.Resolver
             var embeddedresolverMock = new Mock<IResultSetResolver>();
             embeddedresolverMock.Setup(r => r.Execute()).Returns(rs);
             
-            var resolver = new AlterationResultSetResolver(embeddedresolverMock.Object, new List<IAlteration>());
+            var resolver = new AlterationResultSetResolver(embeddedresolverMock.Object, []);
             var result = resolver.Execute();
 
             Assert.That(result, Is.EqualTo(rs));
@@ -61,7 +61,7 @@ namespace NBi.Core.Testing.ResultSet.Resolver
             var alterMock = new Mock<IAlteration>();
             alterMock.Setup(t => t.Execute(rs)).Returns(new DataTableResultSet());
 
-            var resolver = new AlterationResultSetResolver(embeddedResolverMock.Object, new List<IAlteration>() { alterMock.Object });
+            var resolver = new AlterationResultSetResolver(embeddedResolverMock.Object, [alterMock.Object]);
             var result = resolver.Execute();
 
             Assert.That(result, Is.Not.EqualTo(rs));
@@ -86,7 +86,7 @@ namespace NBi.Core.Testing.ResultSet.Resolver
             var alterMock2 = new Mock<IAlteration>();
             alterMock2.Setup(t => t.Execute(intermediateResultSet)).Returns(finalResultSet);
 
-            var resolver = new AlterationResultSetResolver(embeddedresolverMock.Object, new List<IAlteration>() { alterMock1.Object, alterMock2.Object });
+            var resolver = new AlterationResultSetResolver(embeddedresolverMock.Object, [alterMock1.Object, alterMock2.Object]);
             var result = resolver.Execute();
 
             Assert.That(intermediateResultSet, Is.Not.SameAs(finalResultSet));

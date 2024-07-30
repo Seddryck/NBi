@@ -18,8 +18,7 @@ namespace NBi.Core.Analysis.Request
         {
             //Validations
             Validate( 
-                new List<Validation>()
-                {
+                [
                     new ConnectionStringNotEmpty(connectionString),
                     !target.Equals(DiscoveryTarget.Perspectives) ? (Validation)new PerspectiveNotNull(filters) : new NoValidation(),
                     new MeasureGroupWithoutDimension(filters),
@@ -29,7 +28,7 @@ namespace NBi.Core.Analysis.Request
                     new HierarchyNotNullIfLevel(target, filters),
                     new LevelNotNullIfProperty(target, filters),
                     new TableNotNullIfColumn(target, filters)
-                }
+                ]
             );
             
             //If validation of parameters is successfull then we build the object
@@ -40,10 +39,9 @@ namespace NBi.Core.Analysis.Request
         public virtual MembersDiscoveryRequest Build(string connectionString, IEnumerable<string> excludedMembers, IEnumerable<PatternValue> excludedPatterns, string perspective, string set)
         {
             Validate(
-                new List<Validation>()
-                {
+                [
                     new ConnectionStringNotEmpty(connectionString)
-                }
+                ]
             );
 
             //If validation of parameters is successfull then we build the object
@@ -74,13 +72,12 @@ namespace NBi.Core.Analysis.Request
         {
             //Validations
             Validate(
-                new List<Validation>()
-                {
+                [
                     new ConnectionStringNotEmpty(connectionString),
                     //new PerspectiveNotNull(perspective),
                     //new DimensionNotNullIfHierarchy(dimension),
                     //!string.IsNullOrEmpty(level) ? (Validation)new HierarchyNotNullIfLevel(hierarchy) : new NoValidation()
-                }
+                ]
             );
 
             //If validation of parameters is successfull then we build the object
@@ -97,12 +94,11 @@ namespace NBi.Core.Analysis.Request
         {
             //Validations
             Validate(
-                new List<Validation>()
-                {
+                [
                     new ConnectionStringNotEmpty(connectionString),
                     new PerspectiveNotNull(filters),
                     new AtLeastOneNotNull(filters, DiscoveryTarget.Dimensions, DiscoveryTarget.MeasureGroups)
-                }
+                ]
             );
 
             //If validation of parameters is successfull then we build the object

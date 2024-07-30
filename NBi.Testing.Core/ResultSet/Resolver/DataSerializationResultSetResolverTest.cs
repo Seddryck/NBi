@@ -23,7 +23,7 @@ namespace NBi.Core.Testing.ResultSet.Resolver
                 new JsonPathArgs()
                 {
                     From = new LiteralScalarResolver<string>("$"),
-                    Selects = new List<IPathSelect>() { new ElementSelect(new LiteralScalarResolver<string>("$.glossary.title")) }
+                    Selects = [new ElementSelect(new LiteralScalarResolver<string>("$.glossary.title"))]
                 }
             );
             var resolver = new DataSerializationResultSetResolver(args);

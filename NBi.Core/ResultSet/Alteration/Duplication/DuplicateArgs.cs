@@ -12,7 +12,7 @@ namespace NBi.Core.ResultSet.Alteration.Duplication
     {
         public IPredication Predication { get; set; }
         public IScalarResolver<int> Times {get; set;}
-        public IList<OutputArgs> Outputs { get; set; } = new List<OutputArgs>();
+        public IList<OutputArgs> Outputs { get; set; } = [];
 
         public DuplicateArgs(IPredication predication, IScalarResolver<int> times, IList<OutputArgs> outputs)
             => (Predication, Times, Outputs) = (predication, times, outputs);

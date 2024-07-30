@@ -65,7 +65,7 @@ namespace NBi.Core.Testing.ResultSet.Combination
             var rs = Initialize().rs;
             var initColumnCount = rs.ColumnCount;
 
-            var resolver = new ListSequenceResolver<DateTime>(new ListSequenceResolverArgs(new List<IScalarResolver>()));
+            var resolver = new ListSequenceResolver<DateTime>(new ListSequenceResolverArgs([]));
             var combination = new CartesianProductSequenceCombination(resolver);
             combination.Execute(rs);
 

@@ -12,7 +12,7 @@ namespace NBi.Core.Query.Command
 {
     public class CommandProvider
     {
-        private readonly IList<ICommandFactory> factories = new List<ICommandFactory>();
+        private readonly IList<ICommandFactory> factories = [];
         private readonly Type[] classics =
             [
                 typeof(DubUrlCommandFactory),

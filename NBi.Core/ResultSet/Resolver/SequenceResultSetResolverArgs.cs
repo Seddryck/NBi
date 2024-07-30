@@ -13,6 +13,6 @@ namespace NBi.Core.ResultSet.Resolver
     public class SequenceResultSetResolverArgs : SequenceCombinationResultSetResolverArgs
     {
         public SequenceResultSetResolverArgs(ISequenceResolver resolver)
-            : base(new List<ISequenceResolver>() { resolver }) { }
+            : base([resolver]) { }
     }
 }

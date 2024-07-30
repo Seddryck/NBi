@@ -71,8 +71,8 @@ namespace NBi.Core.ResultSet.Equivalence
             return ResultResultSet.Build(
                 missingRows,
                 unexpectedRows,
-                new List<IResultRow>(),
-                new List<IResultRow>(),
+                [],
+                [],
                 nonMatchingValueRows
                 );
         }

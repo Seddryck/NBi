@@ -23,7 +23,7 @@ namespace NBi.Core.Scalar.Format
         protected string Prepare(string text, out IList<IScalarResolverArgs> args)
         {
             var res = text;
-            args = new List<IScalarResolverArgs>();
+            args = [];
             var match = Regex.Match(text, SCALAR_PATTERN, RegexOptions.IgnoreCase);
 
             var i = 0;

@@ -59,7 +59,7 @@ namespace NBi.Core.ResultSet
             if (columnsDef != null)
                 ColumnsDef = columnsDef;
             else
-                ColumnsDef = new List<IColumnDefinition>(0);
+                ColumnsDef = [];
         }
         
 	}

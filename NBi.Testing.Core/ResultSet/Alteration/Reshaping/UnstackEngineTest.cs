@@ -192,9 +192,8 @@ namespace NBi.Core.Testing.ResultSet.Alteration.Reshaping
 
             var args = new UnstackArgs(
                     new ColumnNameIdentifier("headerColumn"),
-                    new List<IColumnDefinitionLight>()
-                    { Mock.Of<IColumnDefinitionLight>(x => x.Identifier == new ColumnNameIdentifier("keyColumn") && x.Type == ColumnType.Text) },
-                    new List<ColumnNameIdentifier>() { new ColumnNameIdentifier("A"), new ColumnNameIdentifier("B") }
+                    [Mock.Of<IColumnDefinitionLight>(x => x.Identifier == new ColumnNameIdentifier("keyColumn") && x.Type == ColumnType.Text)],
+                    [new ColumnNameIdentifier("A"), new ColumnNameIdentifier("B")]
                 );
 
             var unstack = new UnstackEngine(args);

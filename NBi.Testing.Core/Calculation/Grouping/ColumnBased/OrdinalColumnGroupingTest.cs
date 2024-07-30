@@ -56,11 +56,11 @@ namespace NBi.Core.Testing.Calculation.Grouping.ColumnBased
             var resolver = new ObjectsResultSetResolver(args);
             var rs = resolver.Execute();
 
-            var settings = new SettingsOrdinalResultSet(new List<IColumnDefinition>()
-                {
+            var settings = new SettingsOrdinalResultSet(
+                [
                     new Column(new ColumnOrdinalIdentifier(0), ColumnRole.Key, ColumnType.Text ),
                     new Column(new ColumnOrdinalIdentifier(1), ColumnRole.Key, ColumnType.Numeric ),
-                }
+                ]
             );
             var grouping = new OrdinalColumnGrouping(settings, Context.None);
 

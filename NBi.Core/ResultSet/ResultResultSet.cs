@@ -52,7 +52,7 @@ namespace NBi.Core.ResultSet
         }
 
         private static Sample GetSubset(IEnumerable<IResultRow> rows, IEnumerable<IResultRow> reference)
-            =>  new (rows?.ToList() ?? new List<IResultRow>(0), reference, rows?.Count() ?? 0);
+            =>  new (rows?.ToList() ?? [], reference, rows?.Count() ?? 0);
 
         public class Sample(IEnumerable<IResultRow> rows, IEnumerable<IResultRow> refs, int count)
         {

@@ -21,8 +21,8 @@ namespace NBi.Core.Testing.Query.Resolver
             return new EmbeddedQueryResolverArgs(
                 "select * from myTable;",
                 ConnectionStringReader.GetSqlClient(),
-                new List<IQueryParameter>() { new QueryParameter("param", "10") },
-                new List<IQueryTemplateVariable>() { Mock.Of<IQueryTemplateVariable>(x => x.Name == "operator" && x.Value == "not in") },
+                [new QueryParameter("param", "10")],
+                [Mock.Of<IQueryTemplateVariable>(x => x.Name == "operator" && x.Value == "not in")],
                 new TimeSpan(0, 0, 10));
         }
 

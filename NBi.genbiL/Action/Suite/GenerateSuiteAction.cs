@@ -23,7 +23,7 @@ namespace NBi.GenbiL.Action.Suite
         protected List<List<List<object>>> GetCases(DataTable dataTable, bool useGrouping)
         {
             if (dataTable.Rows.Count == 0)
-                return new List<List<List<object>>>();
+                return [];
 
             int groupedColumn = dataTable.Rows[0].ItemArray.Length - 1;
 
@@ -36,7 +36,7 @@ namespace NBi.GenbiL.Action.Suite
                 var k = 0;
                 while (k < grouping.Count && isIdentical)
                 {
-                    if (grouping[k].ToString() != variableTests[variableTests.Count - 1][k][0].ToString())
+                    if (grouping[k]!.ToString() != variableTests[^1][k][0].ToString())
                         isIdentical = false;
                     k++;
                 }
@@ -44,21 +44,21 @@ namespace NBi.GenbiL.Action.Suite
 
                 if (!isIdentical)
                 {
-                    variableTests.Add(new List<List<object>>());
+                    variableTests.Add([]);
                     for (int j = 0; j < dataTable.Rows[i].ItemArray.Length; j++)
                     {
-                        variableTests[variableTests.Count - 1].Add(new List<object>());
+                        variableTests[^1].Add([]);
                         if (dataTable.Rows[i].ItemArray[j] is IEnumerable<string>)
                         {
-                            foreach (var item in (IEnumerable<string>)dataTable.Rows[i].ItemArray[j])
-                                variableTests[variableTests.Count - 1][j].Add(item);
+                            foreach (var item in (IEnumerable<string>)dataTable.Rows[i]!.ItemArray[j]!)
+                                variableTests[^1][j].Add(item);
                         }
                         else
-                            variableTests[variableTests.Count - 1][j].Add(dataTable.Rows[i].ItemArray[j].ToString());
+                            variableTests[^1][j].Add(dataTable.Rows[i]!.ItemArray[j]!.ToString()!);
                     }
                 }
                 else
-                    variableTests[variableTests.Count - 1][groupedColumn].Add(dataTable.Rows[i].ItemArray[groupedColumn].ToString());
+                    variableTests[^1][groupedColumn].Add(dataTable.Rows[i]!.ItemArray[groupedColumn]!.ToString()!);
             }
 
             return variableTests;
@@ -75,7 +75,7 @@ namespace NBi.GenbiL.Action.Suite
             );
 
             var patternArray = new List<string>();
-            for (int i = 0; i < state.Templates.Count(); i++)
+            for (int i = 0; i < state.Templates.Count; i++)
                 patternArray.Add(GroupByPattern);
 
             var groupNames = RenderGroupNames(
@@ -97,15 +97,15 @@ namespace NBi.GenbiL.Action.Suite
         {
             var generator = new StringTemplateEngine(template, variables);
             var cases = GetCases(dataTable, useGrouping);
-            generator.Progressed += new EventHandler<ProgressEventArgs>(this.OnTestGenerated);
+            generator.Progressed += new EventHandler<ProgressEventArgs>(OnTestGenerated!);
             var lastGeneration = generator.Build<T>(cases, globalVariables).ToList();
-            generator.Progressed -= new EventHandler<ProgressEventArgs>(this.OnTestGenerated);
+            generator.Progressed -= new EventHandler<ProgressEventArgs>(OnTestGenerated!);
             return lastGeneration;
         }
 
         protected IEnumerable<T> Build(IEnumerable<string> templates, string[] variables, DataTable dataTable, bool useGrouping, IDictionary<string, object> globalVariables)
         {
-            if (templates.Count() == 0)
+            if (!templates.Any())
                 throw new ArgumentException("No template was specified. You must at least define a template before generating a test suite.");
 
             if (templates.Count() == 1)
@@ -119,9 +119,9 @@ namespace NBi.GenbiL.Action.Suite
                     foreach (var template in templates)
                     {
                         var engine = new StringTemplateEngine(template, variables);
-                        engine.Progressed += new EventHandler<ProgressEventArgs>(this.OnTestGenerated);
-                        lastGeneration.AddRange(engine.Build<T>(new List<List<List<object>>>() { indiv }, globalVariables).ToList());
-                        engine.Progressed -= new EventHandler<ProgressEventArgs>(this.OnTestGenerated);
+                        engine.Progressed += new EventHandler<ProgressEventArgs>(OnTestGenerated!);
+                        lastGeneration.AddRange(engine.Build<T>([indiv], globalVariables).ToList());
+                        engine.Progressed -= new EventHandler<ProgressEventArgs>(OnTestGenerated!);
                     }
                 }
                 return lastGeneration;
@@ -152,7 +152,7 @@ namespace NBi.GenbiL.Action.Suite
                 var engine = new StringTemplateEngine(template, variables);
                 foreach (var indiv in cases)
                 {
-                    var newNames = engine.Build<string>(new List<List<List<object>>>() { indiv }, globalVariables).ToList();
+                    var newNames = engine.Build<string>([indiv], globalVariables).ToList();
                     names.AddRange(newNames);
                 }
 
@@ -162,7 +162,7 @@ namespace NBi.GenbiL.Action.Suite
 
 
         public void OnTestGenerated(object sender, ProgressEventArgs e) => InvokeProgress(e);
-        public event EventHandler<ProgressEventArgs> Progressed;
+        public event EventHandler<ProgressEventArgs>? Progressed;
         public void InvokeProgress(ProgressEventArgs e) => Progressed?.Invoke(this, e);
     }
 }

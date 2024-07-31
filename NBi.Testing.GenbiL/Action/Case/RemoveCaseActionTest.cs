@@ -21,7 +21,7 @@ namespace NBi.GenbiL.Testing.Action.Case
             state.CaseCollection.CurrentScope.Content.Columns.Add("secondColumn");
             state.CaseCollection.CurrentScope.Content.Columns.Add("thirdColumn");
 
-            var action = new RemoveCaseAction(new[] { "firstColumn" });
+            var action = new RemoveCaseAction(["firstColumn"]);
             action.Execute(state);
             Assert.That(state.CaseCollection.CurrentScope.Content.Columns, Has.Count.EqualTo(2));
         }
@@ -29,7 +29,7 @@ namespace NBi.GenbiL.Testing.Action.Case
         [Test]
         public void Display_FirstColumn_CorrectMessage()
         {
-            var action = new RemoveCaseAction(new[] { "firstColumn" });
+            var action = new RemoveCaseAction(["firstColumn"]);
             Assert.That(action.Display, Is.EqualTo("Removing column 'firstColumn'"));
         }
 

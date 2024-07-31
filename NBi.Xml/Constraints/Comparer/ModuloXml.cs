@@ -1,5 +1,4 @@
 ﻿using NBi.Core.Calculation;
-using NBi.Core.Calculation.Predicate;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;

@@ -36,6 +36,7 @@ namespace NBi.Core.ResultSet.Resolver
         private class Cell: ICell
         {
             public object Value { get; set; }
+            public string? ColumnName { get; set; }
 
             public Cell(object value)
                 => (Value) = (value);

@@ -31,9 +31,9 @@ namespace NBi.GenbiL.Action.Case
 
             var index = testCases.Variables.ToList().IndexOf(Column);
 
-            DataTableReader dataReader = null;
-            var filteredRows = testCases.Content.AsEnumerable().Where(row => compare(row[index].ToString(), Values) != Negation);
-            if (filteredRows.Count() > 0)
+            DataTableReader? dataReader = null;
+            var filteredRows = testCases.Content.AsEnumerable().Where(row => compare(row[index].ToString() ?? string.Empty, Values) != Negation);
+            if (filteredRows.Any())
             {
                 var filteredTable = filteredRows.CopyToDataTable();
                 dataReader = filteredTable.CreateDataReader();

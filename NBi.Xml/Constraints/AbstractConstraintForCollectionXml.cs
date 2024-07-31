@@ -15,7 +15,7 @@ namespace NBi.Xml.Constraints
         [XmlIgnore()]
         public override DefaultXml Default
         {
-            get { return base.Default; }
+            get => base.Default;
             set
             {
                 base.Default = value;
@@ -26,25 +26,25 @@ namespace NBi.Xml.Constraints
 
         [XmlAttribute("ignore-case")]
         [DefaultValue(false)]
-        public bool IgnoreCase { get; set; }
+        public bool IgnoreCase { get; set; } = false;
 
         [XmlElement("item")]
-        public List<string> Items { get; set; }
+        public List<string> Items { get; set; } = [];
 
         [XmlElement("predefined")]
-        public PredefinedItemsXml PredefinedItems { get; set; }
+        public PredefinedItemsXml? PredefinedItems { get; set; }
 
         [XmlElement("range-integer")]
-        public IntegerRangeXml IntegerRange { get; set; }
+        public IntegerRangeXml? IntegerRange { get; set; }
 
         [XmlElement("range-date")]
-        public DateRangeXml DateRange { get; set; }
+        public DateRangeXml? DateRange { get; set; }
 
         [XmlElement("range-integer-pattern")]
-        public PatternIntegerRangeXml PatternIntegerRange { get; set; }
+        public PatternIntegerRangeXml? PatternIntegerRange { get; set; }
 
         [XmlIgnore]
-        public RangeXml Range
+        public RangeXml? Range
         {
             get
             {
@@ -58,12 +58,12 @@ namespace NBi.Xml.Constraints
             }
             set
             {
-                if (value is PatternIntegerRangeXml)
-                    PatternIntegerRange = (PatternIntegerRangeXml)value;
-                if (value is IntegerRangeXml)
-                    IntegerRange = (IntegerRangeXml)value;
-                if (value is DateRangeXml)
-                    DateRange = (DateRangeXml)value;
+                if (value is PatternIntegerRangeXml patternInteger)
+                    PatternIntegerRange = patternInteger;
+                if (value is IntegerRangeXml integerRange)
+                    IntegerRange = integerRange;
+                if (value is DateRangeXml dateRange)
+                    DateRange = dateRange;
             }
         }
 
@@ -88,7 +88,7 @@ namespace NBi.Xml.Constraints
 
         public AbstractConstraintForCollectionXml()
         {
-            Items = new List<string>();
+            Items = [];
         }
 
         public override BaseItem BaseItem

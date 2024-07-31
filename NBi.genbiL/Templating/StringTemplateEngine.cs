@@ -15,8 +15,8 @@ namespace NBi.GenbiL.Templating
         private readonly IDictionary<Type, XmlSerializer> cacheDeserializer;
 
         public string TemplateXml { get; private set; }
-        protected Template Template { get; private set; }
-        public string PreProcessedTemplate { get; private set; }
+        protected Template? Template { get; private set; }
+        public string PreProcessedTemplate { get; private set; } = string.Empty;
         public string[] Variables { get; private set; }
 
         public StringTemplateEngine(string templateXml, string[] variables)
@@ -43,12 +43,12 @@ namespace NBi.GenbiL.Templating
 
                 //Cleanup the variables in the template for next iteration.
                 foreach (var variable in Variables)
-                    Template.Remove(variable);
+                    Template?.Remove(variable);
 
                 var obj = (typeof(T) == typeof(string)) ? (T)Convert.ChangeType(str, typeof(T)) : Deserialize<T>(str);
-                if (obj is TestStandaloneXml)
-                    (obj as TestStandaloneXml).Content = XmlSerializeFrom(obj as TestStandaloneXml);
-                InvokeProgress(new ProgressEventArgs(count, table.Count()));
+                if (obj is TestStandaloneXml standalone)
+                    standalone.Content = XmlSerializeFrom(standalone);
+                InvokeProgress(new ProgressEventArgs(count, table.Count));
                 yield return obj;
             }
         }
@@ -63,7 +63,7 @@ namespace NBi.GenbiL.Templating
             return obj;
         }
 
-        internal void InitializeTemplate(IDictionary<string, object> consumables)
+        protected internal virtual void InitializeTemplate(IDictionary<string, object> consumables)
         {
             var group = new TemplateGroup('$', '$');
             group.RegisterRenderer(typeof(string), new StringRenderer());
@@ -75,77 +75,69 @@ namespace NBi.GenbiL.Templating
                     Template.Add(variable.Key, variable.Value);
         }
 
-        internal string RenderTemplate(List<List<object>> values)
+        protected internal virtual string RenderTemplate(List<List<object>> values)
         {
-            for (int i = 0; i < Variables.Count(); i++)
+            for (int i = 0; i < Variables.Length; i++)
             {
                 // If the variable is not initialized or if it's value is "(none)" then we skip it.
-                if (!(values[i].Count() == 0 || (values[i].Count == 1 && (values[i][0].ToString() == "(none)" || values[i][0].ToString() == string.Empty))))
-                    Template.Add(Variables[i], values[i]);
+                if (!(values[i].Count == 0 || (values[i].Count == 1 && (values[i][0].ToString() == "(none)" || values[i][0].ToString() == string.Empty))))
+                    Template?.Add(Variables[i], values[i]);
                 else
-                    Template.Add(Variables[i], null);
+                    Template?.Add(Variables[i], null);
             }
 
-            var str = Template.Render();
-            return str;
+            var str = Template?.Render();
+            return str ?? throw new NullReferenceException();
         }
 
         protected internal T XmlDeserializeFromString<T>(string objectData)
             => (T)XmlDeserializeFromString(objectData, typeof(T));
 
         protected internal string XmlSerializeFrom<T>(T objectData)
-            => SerializeFrom(objectData, typeof(T));
+            => SerializeFrom(objectData!, typeof(T));
 
 
-        protected object XmlDeserializeFromString(string objectData, Type type)
+        protected virtual object XmlDeserializeFromString(string objectData, Type type)
         {
-            if (!cacheDeserializer.ContainsKey(type))
+            if (!cacheDeserializer.TryGetValue(type, out var value))
             {
                 var overrides = new ReadOnlyAttributes();
                 overrides.Build();
                 var builtDeserializer = new XmlSerializer(type, overrides);
-                cacheDeserializer.Add(type, builtDeserializer);
+                value = builtDeserializer;
+                cacheDeserializer.Add(type, value);
             }
 
-            var serializer = cacheDeserializer[type];
-            object result;
+            var serializer = value;
 
-            using (TextReader reader = new StringReader(objectData))
-            {
-                result = serializer.Deserialize(reader);
-            }
-
-            return result;
+            using TextReader reader = new StringReader(objectData);
+            return serializer.Deserialize(reader) ?? throw new NullReferenceException();
         }
 
-        protected string SerializeFrom(object objectData, Type type)
+        protected virtual string SerializeFrom(object objectData, Type type)
         {
-            if (!cacheSerializer.ContainsKey(type))
+            if (!cacheSerializer.TryGetValue(type, out var value))
             {
                 var overrides = new WriteOnlyAttributes();
                 overrides.Build();
                 var builtSerializer = new XmlSerializer(type, overrides);
-                cacheSerializer.Add(type, builtSerializer);
+                value = builtSerializer;
+                cacheSerializer.Add(type, value);
             }
 
-            var serializer = cacheSerializer[type];
+            var serializer = value;
 
             var result = string.Empty;
             using (var writer = new StringWriter())
             {
-                // Use the Serialize method to store the object's state.
-                try
-                { serializer.Serialize(writer, objectData); }
-                catch (Exception e)
-                { throw e; }
-
+                serializer.Serialize(writer, objectData);
                 result = writer.ToString();
             }
             return result;
         }
 
-        public event EventHandler<ProgressEventArgs> Progressed;
-        public void InvokeProgress(ProgressEventArgs e)
+        public event EventHandler<ProgressEventArgs>? Progressed;
+        protected virtual void InvokeProgress(ProgressEventArgs e)
         {
             Progressed?.Invoke(this, e);
         }

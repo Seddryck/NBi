@@ -59,7 +59,7 @@ namespace NBi.GenbiL.Testing.Action.Case
             secondRow[1] = "foo/bar";
             state.CaseCollection.CurrentScope.Content.Rows.Add(secondRow);
 
-            var splitAction = new SplitCaseAction(new[] { "secondColumn" }, "/");
+            var splitAction = new SplitCaseAction(["secondColumn"], "/");
             splitAction.Execute(state);
 
             var action = new FilterDistinctCaseAction();
@@ -86,7 +86,7 @@ namespace NBi.GenbiL.Testing.Action.Case
             secondRow[1] = "foo/bar/x";
             state.CaseCollection.CurrentScope.Content.Rows.Add(secondRow);
 
-            var splitAction = new SplitCaseAction(new[] { "secondColumn" }, "/");
+            var splitAction = new SplitCaseAction(["secondColumn"], "/");
             splitAction.Execute(state);
 
             var action = new FilterDistinctCaseAction();

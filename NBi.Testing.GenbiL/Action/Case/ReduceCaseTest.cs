@@ -15,7 +15,7 @@ namespace NBi.GenbiL.Testing.Action.Case
         [Test]
         public void Display_LikeOneValue_CorrectString()
         {
-            var action = new ReduceCaseAction(new[] { "foo", "bar" });
+            var action = new ReduceCaseAction(["foo", "bar"]);
             Assert.That(action.Display, Is.EqualTo("Reducing the length of groups for columns 'foo', 'bar'"));
         }
 
@@ -34,13 +34,13 @@ namespace NBi.GenbiL.Testing.Action.Case
             state.CaseCollection.CurrentScope.Content.Rows.Add(firstRow);
 
 
-            var action = new ReduceCaseAction(new[] { "thirdColumn" });
+            var action = new ReduceCaseAction(["thirdColumn"]);
             action.Execute(state);
 
             Assert.That(state.CaseCollection.CurrentScope.Content.Rows, Has.Count.EqualTo(1));
             Assert.That(state.CaseCollection.CurrentScope.Content.Rows[0]["thirdColumn"], Is.TypeOf<string[]>());
             Assert.That(state.CaseCollection.CurrentScope.Content.Rows[0]["thirdColumn"], Has.Member("thirdCell1"));
-            Assert.That((state.CaseCollection.CurrentScope.Content.Rows[0]["thirdColumn"] as Array).Length, Is.EqualTo(1));
+            Assert.That((state.CaseCollection.CurrentScope.Content.Rows[0]["thirdColumn"] as Array)!.Length, Is.EqualTo(1));
         }
 
         [Test]
@@ -58,18 +58,18 @@ namespace NBi.GenbiL.Testing.Action.Case
             state.CaseCollection.CurrentScope.Content.Rows.Add(firstRow);
 
 
-            var action = new ReduceCaseAction(new[] { "thirdColumn", "secondColumn" });
+            var action = new ReduceCaseAction(["thirdColumn", "secondColumn"]);
             action.Execute(state);
 
             Assert.That(state.CaseCollection.CurrentScope.Content.Rows, Has.Count.EqualTo(1));
             Assert.That(state.CaseCollection.CurrentScope.Content.Rows[0]["thirdColumn"], Is.TypeOf<string[]>());
             Assert.That(state.CaseCollection.CurrentScope.Content.Rows[0]["thirdColumn"], Has.Member("thirdCell1"));
-            Assert.That((state.CaseCollection.CurrentScope.Content.Rows[0]["thirdColumn"] as Array).Length, Is.EqualTo(1));
+            Assert.That((state.CaseCollection.CurrentScope.Content.Rows[0]["thirdColumn"] as Array)!.Length, Is.EqualTo(1));
 
             Assert.That(state.CaseCollection.CurrentScope.Content.Rows[0]["secondColumn"], Is.TypeOf<string[]>());
             Assert.That(state.CaseCollection.CurrentScope.Content.Rows[0]["secondColumn"], Has.Member("secondCell1"));
             Assert.That(state.CaseCollection.CurrentScope.Content.Rows[0]["secondColumn"], Has.Member("secondCell2"));
-            Assert.That((state.CaseCollection.CurrentScope.Content.Rows[0]["secondColumn"] as Array).Length, Is.EqualTo(2));
+            Assert.That((state.CaseCollection.CurrentScope.Content.Rows[0]["secondColumn"] as Array)!.Length, Is.EqualTo(2));
         }
 
     }

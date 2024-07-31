@@ -25,7 +25,7 @@ namespace NBi.GenbiL.Testing.Templating
             using (Stream stream = Assembly.GetExecutingAssembly()
                                            .GetManifestResourceStream(
                                            $"{GetType().Namespace}.Resources.{filename}.nbitt"
-                ))
+                ) ?? throw new FileNotFoundException())
             using (StreamReader reader = new StreamReader(stream))
             {
                 template = reader.ReadToEnd();
@@ -33,11 +33,11 @@ namespace NBi.GenbiL.Testing.Templating
             return template;
         }
 
-        private List<List<object>> BuildCase(IEnumerable<string> inlineCase)
+        protected virtual List<List<object>> BuildCase(IEnumerable<string> inlineCase)
         {
             var caseBuilt = new List<List<object>>();
             foreach (var item in inlineCase)
-                caseBuilt.Add(new List<object>() { item });
+                caseBuilt.Add([item]);
 
             return caseBuilt;
         }
@@ -50,19 +50,19 @@ namespace NBi.GenbiL.Testing.Templating
             var variables = new string[] { "perspective", "dimension", "hierarchy", "order" };
             var data = new List<List<List<object>>>()
             {
-                BuildCase(new string[] { "myPerspective", "myDimension", "myHierarchy", "numerical" })
+                BuildCase(["myPerspective", "myDimension", "myHierarchy", "numerical"])
             };
             var engine = new StringTemplateEngine(template, variables);
-            var testSuite = engine.Build<TestStandaloneXml>(data, null);
+            var testSuite = engine.Build<TestStandaloneXml>(data, new Dictionary<string, object>());
             var test = testSuite.ElementAt(0);
 
             //Test the object
             var members = test.Systems[0] as MembersXml;
-            Assert.That(members.Exclude.Items, Is.Null.Or.Empty);
-            Assert.That(members.Exclude.Patterns, Is.Null.Or.Empty);
+            Assert.That(members!.Exclude.Items, Is.Null.Or.Empty);
+            Assert.That(members!.Exclude.Patterns, Is.Null.Or.Empty);
 
             var ordered = test.Constraints[0] as OrderedXml;
-            Assert.That(ordered.Rule, Is.EqualTo(OrderedXml.Order.Numerical));
+            Assert.That(ordered!.Rule, Is.EqualTo(OrderedXml.Order.Numerical));
             Assert.That(ordered.Descending, Is.EqualTo(false));
             Assert.That(ordered.Definition, Is.Null.Or.Empty);
 
@@ -82,10 +82,10 @@ namespace NBi.GenbiL.Testing.Templating
             var variables = new string[] { "perspective", "dimension", "hierarchy", "order" };
             var data = new List<List<List<object>>>()
             {
-                BuildCase(new string[] { "myPerspective", "myDimension", "myHierarchy", "numerical" })
+                BuildCase(["myPerspective", "myDimension", "myHierarchy", "numerical"])
             };
             var engine = new StringTemplateEngine(template, variables);
-            var testSuite = engine.Build<TestStandaloneXml>(data, null);
+            var testSuite = engine.Build<TestStandaloneXml>(data, new Dictionary<string, object>());
             var test = testSuite.ElementAt(0);
 
             //Test the content serialized
@@ -102,19 +102,19 @@ namespace NBi.GenbiL.Testing.Templating
             var variables = new string[] { "perspective", "dimension", "hierarchy", "order", "descending", "exclude" };
             var data = new List<List<List<object>>>()
             {
-                    BuildCase(new string[] { "myPerspective", "myDimension", "myHierarchy", "specific", "true", "Unknown" })
+                    BuildCase(["myPerspective", "myDimension", "myHierarchy", "specific", "true", "Unknown"])
             };
 
             var engine = new StringTemplateEngine(template, variables);
-            var testSuite = engine.Build<TestStandaloneXml>(data, null);
+            var testSuite = engine.Build<TestStandaloneXml>(data, new Dictionary<string, object>());
             var test = testSuite.ElementAt(0);
 
             //Test the object
             var members = test.Systems[0] as MembersXml;
-            Assert.That(members.Exclude.Items, Is.Not.Null.And.Not.Empty);
+            Assert.That(members!.Exclude.Items, Is.Not.Null.And.Not.Empty);
 
             var ordered = test.Constraints[0] as OrderedXml;
-            Assert.That(ordered.Rule, Is.EqualTo(OrderedXml.Order.Specific));
+            Assert.That(ordered!.Rule, Is.EqualTo(OrderedXml.Order.Specific));
             Assert.That(ordered.Descending, Is.EqualTo(true));
             Assert.That(ordered.Definition, Is.Not.Null.And.Not.Empty);
 
@@ -130,7 +130,7 @@ namespace NBi.GenbiL.Testing.Templating
         public void BuildTestString_OneSimpleRow_CorrectRendering()
         {
             var template = "<dimension caption='$dimension$' perspective='$perspective$'/>";
-            var engine = new StringTemplateEngine(template, new string[] {"dimension", "perspective"});
+            var engine = new StringTemplateEngine(template, ["dimension", "perspective"]);
 
             var values = new List<List<object>>();
             var firstCell = new List<object>() {"myDim"};
@@ -138,7 +138,7 @@ namespace NBi.GenbiL.Testing.Templating
             values.Add(firstCell);
             values.Add(secondCell);
 
-            engine.InitializeTemplate(null);
+            engine.InitializeTemplate(new Dictionary<string, object>());
             var result = engine.RenderTemplate(values);
 
             Assert.That(result, Is.EqualTo("<dimension caption='myDim' perspective='myPersp'/>"));
@@ -149,7 +149,7 @@ namespace NBi.GenbiL.Testing.Templating
         public void BuildTestString_OneRowWithMultipleItems_CorrectRendering()
         {
             var template = "$dimension$ ... <subsetOf>\r\n\t<item>$items; separator=\"</item>\r\n\t<item>\"$</item>\r\n</subsetOf>";
-            var engine = new StringTemplateEngine(template, new string[] { "dimension", "items" });
+            var engine = new StringTemplateEngine(template, ["dimension", "items"]);
 
             var values = new List<List<object>>();
             var firstCell = new List<object>() { "myDim" };
@@ -157,7 +157,7 @@ namespace NBi.GenbiL.Testing.Templating
             values.Add(firstCell);
             values.Add(secondCell);
 
-            engine.InitializeTemplate(null);
+            engine.InitializeTemplate(new Dictionary<string, object>());
             var result = engine.RenderTemplate(values);
 
             Assert.That(result, Is.EqualTo("myDim ... <subsetOf>\r\n\t<item>item A</item>\r\n\t<item>item B</item>\r\n</subsetOf>"));
@@ -167,7 +167,7 @@ namespace NBi.GenbiL.Testing.Templating
         public void BuildTestString_OneRowWithNoneVariable_CorrectRenderingTextIsIgnored()
         {
             var template = "$dimension$ ... $if(ignore)$<ignore>$ignore$</ignore>$endif$";
-            var engine = new StringTemplateEngine(template, new string[] { "dimension", "ignore" });
+            var engine = new StringTemplateEngine(template, ["dimension", "ignore"]);
 
             var values = new List<List<object>>();
             var firstCell = new List<object>() { "myDim" };
@@ -175,7 +175,7 @@ namespace NBi.GenbiL.Testing.Templating
             values.Add(firstCell);
             values.Add(secondCell);
 
-            engine.InitializeTemplate(null);
+            engine.InitializeTemplate(new Dictionary<string, object>());
             var result = engine.RenderTemplate(values);
 
             Assert.That(result, Is.EqualTo("myDim ... "));
@@ -185,7 +185,7 @@ namespace NBi.GenbiL.Testing.Templating
         public void BuildTestString_OneRowWithEmptyVariable_CorrectRenderingTextIsIgnoredAndVariablePlaceHolderIsEmpty()
         {
             var template = "$dimension$ ->$empty$<- ... $if(empty)$<ignore>$empty$</ignore>$endif$";
-            var engine = new StringTemplateEngine(template, new string[] { "dimension", "empty" });
+            var engine = new StringTemplateEngine(template, ["dimension", "empty"]);
 
             var values = new List<List<object>>();
             var firstCell = new List<object>() { "myDim" };
@@ -193,7 +193,7 @@ namespace NBi.GenbiL.Testing.Templating
             values.Add(firstCell);
             values.Add(secondCell);
 
-            engine.InitializeTemplate(null);
+            engine.InitializeTemplate(new Dictionary<string, object>());
             var result = engine.RenderTemplate(values);
 
             Assert.That(result, Is.EqualTo("myDim -><- ... "));
@@ -203,7 +203,7 @@ namespace NBi.GenbiL.Testing.Templating
         public void BuildTestString_OneRowWithNotIgnoredVariable_CorrectRenderingTextIsDisplayed()
         {
             var template = "$dimension$ ... $if(ignore)$<ignore>$ignore$</ignore>$endif$";
-            var engine = new StringTemplateEngine(template, new string[] { "dimension", "ignore" });
+            var engine = new StringTemplateEngine(template, ["dimension", "ignore"]);
 
             var values = new List<List<object>>();
             var firstCell = new List<object>() { "myDim" };
@@ -211,20 +211,17 @@ namespace NBi.GenbiL.Testing.Templating
             values.Add(firstCell);
             values.Add(secondCell);
 
-            engine.InitializeTemplate(null);
+            engine.InitializeTemplate(new Dictionary<string, object>());
             var result = engine.RenderTemplate(values);
 
             Assert.That(result, Is.EqualTo("myDim ... <ignore>reason to ignore</ignore>"));
         }
 
-        
-        
-
         [Test]
         public void BuildTestString_EncodeXml_CorrectEncoding()
         {
             var template = "<element attribute=\"$value; format=\"xml-encode\"$\" other-attribute=\"$other$\">";
-            var engine = new StringTemplateEngine(template, new string[] { "value", "other" });
+            var engine = new StringTemplateEngine(template, ["value", "other"]);
 
             var values = new List<List<object>>();
             var firstCell = new List<object>() { "<value&"};
@@ -232,7 +229,7 @@ namespace NBi.GenbiL.Testing.Templating
             values.Add(firstCell);
             values.Add(secondCell);
 
-            engine.InitializeTemplate(null);
+            engine.InitializeTemplate(new Dictionary<string, object>());
             var result = engine.RenderTemplate(values);
 
             Assert.That(result, Is.EqualTo("<element attribute=\"&lt;value&amp;\" other-attribute=\"<value&\">"));

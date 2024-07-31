@@ -25,6 +25,7 @@ namespace NBi.GenbiL.Testing.Action.Consumable
         [TestCase("en-gb")]
         public void Execute_CultureIndependant_ConsumableNow(string culture)
         {
+            Thread.CurrentThread.CurrentCulture = new CultureInfo(culture, false);
             var state = new GenerationState();
             state.Consumables.Clear();
 
@@ -43,13 +44,14 @@ namespace NBi.GenbiL.Testing.Action.Consumable
         [TestCase("en-gb")]
         public void Execute_CultureIndependant_ConsumableTime(string culture)
         {
+            Thread.CurrentThread.CurrentCulture = new CultureInfo(culture, false);
             var state = new GenerationState();
             state.Consumables.Clear();
 
             var action = new AutoConsumableAction(true, new DateTime(2014, 09, 26, 9, 16, 55));
             action.Execute(state);
 
-            Assert.That(DateTime.Parse(state.Consumables["time"].ToString()).TimeOfDay, Is.EqualTo(new TimeSpan(9, 16, 55)));
+            Assert.That(DateTime.Parse(state.Consumables["time"].ToString() ?? string.Empty).TimeOfDay, Is.EqualTo(new TimeSpan(9, 16, 55)));
         }
 
         [Test]
@@ -61,13 +63,14 @@ namespace NBi.GenbiL.Testing.Action.Consumable
         [TestCase("en-gb")]
         public void Execute_CultureIndependant_ConsumableDate(string culture)
         {
+            Thread.CurrentThread.CurrentCulture = new CultureInfo(culture, false);
             var state = new GenerationState();
             state.Consumables.Clear();
 
             var action = new AutoConsumableAction(true, new DateTime(2014, 09, 26, 9, 16, 55));
             action.Execute(state);
 
-            Assert.That(DateTime.Parse(state.Consumables["today"].ToString()).Date, Is.EqualTo(new DateTime(2014, 09, 26)));
+            Assert.That(DateTime.Parse(state.Consumables["today"].ToString() ?? string.Empty).Date, Is.EqualTo(new DateTime(2014, 09, 26)));
         }
         
     }

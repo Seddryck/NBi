@@ -24,7 +24,7 @@ namespace NBi.GenbiL.Testing.Action.Setting
             action.Execute(state);
             var target = state.Settings.References.FirstOrDefault(x => x.Name == "myRef");
             Assert.That(target, Is.Not.Null);
-            Assert.That(target.ConnectionStringSpecified, Is.True);
+            Assert.That(target!.ConnectionStringSpecified, Is.True);
             Assert.That(target.ConnectionString.Inline, Is.EqualTo(ConnectionStringValue));
         }
 
@@ -38,7 +38,7 @@ namespace NBi.GenbiL.Testing.Action.Setting
             action.Execute(state);
             var target = state.Settings.References.FirstOrDefault(x => x.Name == "myRef");
             Assert.That(target, Is.Not.Null);
-            Assert.That(target.ConnectionStringSpecified, Is.True);
+            Assert.That(target!.ConnectionStringSpecified, Is.True);
             Assert.That(target.ConnectionString.Inline, Is.EqualTo(ConnectionStringValue));
         }
     }

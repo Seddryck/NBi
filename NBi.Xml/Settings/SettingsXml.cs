@@ -125,7 +125,7 @@ namespace NBi.Xml.Settings
                     if (string.IsNullOrEmpty(key))
                         throw new ArgumentOutOfRangeException($"Some connection-strings are provided through the config file but the default connection string is trying to reference a connection string named '{def.ConnectionString.Inline}' which has not been found.");
 
-                    def.ConnectionString.Inline = connectionStrings.Get(key);
+                    def.ConnectionString.Inline = connectionStrings.Get(key) ?? string.Empty;
                 }
             }
 
@@ -140,7 +140,7 @@ namespace NBi.Xml.Settings
                     if (string.IsNullOrEmpty(key))
                         throw new ArgumentOutOfRangeException(string.Format("Some connectionStrings are provided through the config file but a reference connection string is trying to reference a connection string named '{0}' which has not been found.", reference.ConnectionString));
 
-                    reference.ConnectionString.Inline = connectionStrings.Get(key);
+                    reference.ConnectionString.Inline = connectionStrings.Get(key) ?? string.Empty;
                 }
             }
         }

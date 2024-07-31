@@ -12,7 +12,7 @@ namespace NBi.GenbiL.Testing.Action.Suite
 {
     public class GenerateTestGroupBySuiteActionTest
     {
-        protected GenerationState BuildInitialState()
+        protected virtual GenerationState BuildInitialState()
         {
             var state = new GenerationState();
             state.CaseCollection.CurrentScope.Content.Columns.Add("group");
@@ -51,7 +51,7 @@ namespace NBi.GenbiL.Testing.Action.Suite
 
             Assert.That(state.Suite.Children, Has.Count.EqualTo(1));
             var parentGroup = state.Suite.Children[0] as BranchNode;
-            Assert.That(parentGroup.Children, Has.Count.EqualTo(2));
+            Assert.That(parentGroup!.Children, Has.Count.EqualTo(2));
             Assert.That(parentGroup.Children, Has.All.TypeOf<GroupNode>());
             Assert.That(parentGroup.Children[0].Name, Is.EqualTo("b"));
             Assert.That(parentGroup.Children[1].Name, Is.EqualTo("d"));
@@ -66,7 +66,7 @@ namespace NBi.GenbiL.Testing.Action.Suite
 
             Assert.That(state.Suite.Children, Has.Count.EqualTo(1));
             var parentGroup = state.Suite.Children[0] as BranchNode;
-            foreach (var childGroup in parentGroup.Children.Cast<GroupNode>())
+            foreach (var childGroup in parentGroup!.Children.Cast<GroupNode>())
             {
                 Assert.That(childGroup.Children, Has.Count.EqualTo(1));
                 Assert.That(childGroup.Children, Has.All.TypeOf<TestNode>());

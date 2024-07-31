@@ -32,7 +32,7 @@ namespace NBi.GenbiL.Testing.Action.Case
             state.CaseCollection.CurrentScope.Content.Rows.Add(secondRow);
 
 
-            var action = new CrossVectorCaseAction(state.CaseCollection.CurrentScopeName, "fourthColumn", new [] {"Hello", "World"});
+            var action = new CrossVectorCaseAction(state.CaseCollection.CurrentScopeName, "fourthColumn", ["Hello", "World"]);
             action.Execute(state);
             Assert.That(state.CaseCollection.CurrentScope.Content.Columns, Has.Count.EqualTo(4));
             Assert.That(state.CaseCollection.CurrentScope.Variables.ToArray()[3], Is.EqualTo("fourthColumn"));
@@ -51,10 +51,10 @@ namespace NBi.GenbiL.Testing.Action.Case
             secondRow[0] = "firstCell2.1/firstCell2.2";
             state.CaseCollection.CurrentScope.Content.Rows.Add(secondRow);
 
-            var splitAction = new SplitCaseAction(new[] { "firstColumn" }, "/");
+            var splitAction = new SplitCaseAction(["firstColumn"], "/");
             splitAction.Execute(state);
 
-            var action = new CrossVectorCaseAction(state.CaseCollection.CurrentScopeName, "helloColumn", new[] { "Hello" });
+            var action = new CrossVectorCaseAction(state.CaseCollection.CurrentScopeName, "helloColumn", ["Hello"]);
             action.Execute(state);
             Assert.That(state.CaseCollection.CurrentScope.Content.Columns, Has.Count.EqualTo(2));
             Assert.That(state.CaseCollection.CurrentScope.Variables.ToArray()[1], Is.EqualTo("helloColumn"));
@@ -66,7 +66,7 @@ namespace NBi.GenbiL.Testing.Action.Case
         [Test]
         public void Display_SecondAndThirdColumns_CorrectMessage()
         {
-            var action = new CrossVectorCaseAction("initialSet", "vector", new[] { "Hello", "World" });
+            var action = new CrossVectorCaseAction("initialSet", "vector", ["Hello", "World"]);
             Assert.That(action.Display, Is.EqualTo("Crossing set of test-cases 'initialSet' with vector 'vector' defined as 'Hello', 'World'"));
         }
     }

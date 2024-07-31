@@ -9,10 +9,10 @@ namespace NBi.GenbiL.Stateful.Tree
 {
     public class BranchNode : TreeNode, IEnumerable<TreeNode>
     {
-        protected readonly List<TreeNode> ChildrenList = new List<TreeNode>();
+        protected readonly List<TreeNode> ChildrenList = [];
         public IReadOnlyList<TreeNode> Children => ChildrenList;
 
-        public string FullPath => Parent == Root ? Name : $@"{Parent.FullPath}\{Name}";
+        public string FullPath => Parent == Root ? Name : $@"{Parent?.FullPath}\{Name}";
 
         public BranchNode(string name) 
             : base(name) { }
@@ -35,23 +35,22 @@ namespace NBi.GenbiL.Stateful.Tree
         public BranchNode FindChildBranch(string path)
         {
             var node = this;
-            var subPathes = path.Split(new[] { '|' });
+            var subPathes = path.Split(['|']);
             foreach (var subPath in subPathes)
                 node = node?.Children.FirstOrDefault(x => x is BranchNode && x.Name == subPath) as BranchNode;
-            return node;
+            return node!;
         }
 
-        public BranchNode GetChildBranch(string path)
+        public BranchNode? GetChildBranch(string path)
         {
             var node = this;
             if (path == RootNode.Path)
                 return Root;
 
-            var subPathes = path.Split(new[] { '|' });
+            var subPathes = path.Split(['|']);
             foreach (var subPath in subPathes)
-            { 
-                var child = node.Children.FirstOrDefault(x => x is BranchNode && x.Name == subPath) as BranchNode;
-                if (child==null)
+            {
+                if (node.Children.FirstOrDefault(x => x is BranchNode && x.Name == subPath) is not BranchNode child)
                 {
                     child = new GroupNode(subPath);
                     node.AddChild(child);

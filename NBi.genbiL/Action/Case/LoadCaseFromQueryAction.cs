@@ -8,8 +8,8 @@ namespace NBi.GenbiL.Action.Case
 {
     public class LoadCaseFromQueryAction : ISingleCaseAction
     {
-        public string Query { get; set; }
-        public string ConnectionString { get; set; }
+        public string Query { get; set; } = string.Empty;
+        public string ConnectionString { get; set; } = string.Empty;
 
         protected LoadCaseFromQueryAction() { }
 

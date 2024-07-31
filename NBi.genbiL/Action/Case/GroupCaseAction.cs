@@ -26,8 +26,6 @@ namespace NBi.GenbiL.Action.Case
             foreach (var columnName in ColumnNames)
                 dataTable.Columns.Add($"_{columnName}", typeof(List<string>));
 
-            
-
             int i = 0;
             var firstRow = 0;
             while(i < dataTable.Rows.Count)
@@ -35,7 +33,7 @@ namespace NBi.GenbiL.Action.Case
                 var isIdentical = true;
                 for (int j = 0; j < dataTable.Columns.Count - ColumnNames.Count; j++)
                 {
-                    if (!ColumnNames.Contains(dataTable.Columns[j].ColumnName) && !(dataTable.Rows[i][j] is IEnumerable<string>))
+                    if (!ColumnNames.Contains(dataTable.Columns[j].ColumnName) && dataTable.Rows[i][j] is not IEnumerable<string>)
                         isIdentical &= dataTable.Rows[i][j].ToString() == dataTable.Rows[firstRow][j].ToString();
                 }
 
@@ -44,17 +42,17 @@ namespace NBi.GenbiL.Action.Case
                 
                 foreach (var columnName in ColumnNames)
                 {
-                    var columnListId =  dataTable.Columns[$"_{columnName}"].Ordinal;
-                    var columnId = dataTable.Columns[columnName].Ordinal;
+                    var columnListId =  dataTable.Columns[$"_{columnName}"]!.Ordinal;
+                    var columnId = dataTable.Columns[columnName]!.Ordinal;
 
                     if (dataTable.Rows[firstRow][columnListId] == DBNull.Value)
                         dataTable.Rows[firstRow][columnListId] = new List<string>();
 
-                    var list = dataTable.Rows[firstRow][columnListId] as List<string>;
-                    if (dataTable.Rows[i][columnId] is IEnumerable<string>)
-                        list.AddRange(dataTable.Rows[i][columnId] as IEnumerable<string>);
+                    var list = (List<string>)dataTable.Rows[firstRow][columnListId];
+                    if (dataTable.Rows[i][columnId] is IEnumerable<string> strings)
+                        list.AddRange(strings);
                     else
-                        list.Add(dataTable.Rows[i][columnId].ToString());
+                        list.Add(dataTable.Rows[i]![columnId]!.ToString()!);
                 }
 
                 if (isIdentical && i != 0)
@@ -68,16 +66,16 @@ namespace NBi.GenbiL.Action.Case
 
             foreach (DataRow row in dataTable.Rows.Cast<DataRow>().Where(x => x.RowState!=DataRowState.Deleted))
                 foreach (var columnName in ColumnNames)
-                    row[$"_{columnName}_"] = (row[$"_{columnName}"] as List<string>).ToArray();
+                    row[$"_{columnName}_"] = ((List<string>)row[$"_{columnName}"]).ToArray();
 
             foreach (var columnName in ColumnNames)
             {
-                var columnId = dataTable.Columns[columnName].Ordinal;
+                var columnId = dataTable.Columns[columnName]!.Ordinal;
 
-                dataTable.Columns[$"_{columnName}_"].SetOrdinal(columnId);
+                dataTable.Columns[$"_{columnName}_"]!.SetOrdinal(columnId);
                 dataTable.Columns.Remove(columnName);
                 dataTable.Columns.Remove($"_{columnName}");
-                dataTable.Columns[$"_{columnName}_"].ColumnName = columnName;
+                dataTable.Columns[$"_{columnName}_"]!.ColumnName = columnName;
             }
 
             dataTable.AcceptChanges();

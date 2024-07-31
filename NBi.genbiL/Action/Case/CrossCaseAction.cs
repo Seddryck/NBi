@@ -23,15 +23,15 @@ namespace NBi.GenbiL.Action.Case
 
         public virtual void Execute(GenerationState state)
         {
-            if (!state.CaseCollection.ContainsKey(FirstSet))
+            if (!state.CaseCollection.TryGetValue(FirstSet, out var first))
                 throw new ArgumentException($"The test case set named '{FirstSet}' doesn't exist.", nameof(FirstSet));
 
-            if (!state.CaseCollection.ContainsKey(SecondSet))
+            if (!state.CaseCollection.TryGetValue(SecondSet, out var second))
                 throw new ArgumentException($"The test case set named '{SecondSet}' doesn't exist.", nameof(SecondSet));
 
             Cross(
-                state.CaseCollection[FirstSet].Content,
-                state.CaseCollection[SecondSet].Content,
+                first.Content,
+                second.Content,
                 state.CaseCollection.CurrentScope,
                 MatchingRow);
         }
@@ -64,7 +64,7 @@ namespace NBi.GenbiL.Action.Case
             destination.Content.AcceptChanges();
         }
 
-        private DataTable BuildStructure(DataTable firstSet, DataTable secondSet)
+        protected virtual DataTable BuildStructure(DataTable firstSet, DataTable secondSet)
         {
             var table = new DataTable();
             foreach (DataColumn column in firstSet.Columns)
@@ -72,8 +72,8 @@ namespace NBi.GenbiL.Action.Case
             foreach (DataColumn column in secondSet.Columns)
                 if (table.Columns.Contains(column.ColumnName))
                 {
-                    if (table.Columns[column.ColumnName].DataType == typeof(object) && column.DataType == typeof(string[]))
-                        table.Columns[column.ColumnName].DataType = typeof(string[]);
+                    if (table.Columns[column.ColumnName]!.DataType == typeof(object) && column.DataType == typeof(string[]))
+                        table.Columns[column.ColumnName]!.DataType = typeof(string[]);
                 }
                 else
                     table.Columns.Add(column.ColumnName, column.DataType);

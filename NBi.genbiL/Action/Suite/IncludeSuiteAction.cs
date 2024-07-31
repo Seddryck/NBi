@@ -19,24 +19,20 @@ namespace NBi.GenbiL.Action.Suite
         
         public virtual void Execute(GenerationState state)
         {
-            using (var stream = new FileStream(Filename, FileMode.Open, FileAccess.Read))
-            {
-                var testXml = Include(stream);
-                GetParentNode(state.Suite).AddChild(new TestNode(testXml));
-            }
+            using var stream = new FileStream(Filename, FileMode.Open, FileAccess.Read);
+            var testXml = Include(stream);
+            GetParentNode(state.Suite).AddChild(new TestNode(testXml));
         }
 
         protected BranchNode GetParentNode(RootNode root) => root.GetChildBranch(GroupPath);
 
         protected internal TestStandaloneXml Include(Stream stream)
         {
-            using (StreamReader reader = new StreamReader(stream, Encoding.UTF8, true))
-            {
-                var str = reader.ReadToEnd();
-                var test = XmlDeserializeFromString<TestStandaloneXml>(str);
-                test.Content = XmlSerializeFrom(test);
-                return test;
-            }
+            using StreamReader reader = new StreamReader(stream, Encoding.UTF8, true);
+            var str = reader.ReadToEnd();
+            var test = XmlDeserializeFromString<TestStandaloneXml>(str);
+            test.Content = XmlSerializeFrom(test);
+            return test;
         }
 
         public virtual string Display => $"Include test from '{Filename}'";

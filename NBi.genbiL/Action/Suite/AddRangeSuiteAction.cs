@@ -16,22 +16,18 @@ namespace NBi.GenbiL.Action.Suite
 
         public override void Execute(GenerationState state)
         {
-            using (var stream = new FileStream(Filename, FileMode.Open, FileAccess.Read))
-            {
-                var testSuite = AddRange(stream);
-                var parentNode = GetParentNode(state.Suite);
-                foreach (var testXml in testSuite.GetAllTests())
-                    parentNode.AddChild(new TestNode(new TestStandaloneXml(testXml)));
-            }
+            using var stream = new FileStream(Filename, FileMode.Open, FileAccess.Read);
+            var testSuite = AddRange(stream);
+            var parentNode = GetParentNode(state.Suite);
+            foreach (var testXml in testSuite.GetAllTests())
+                parentNode.AddChild(new TestNode(new TestStandaloneXml(testXml)));
         }
 
         protected internal TestSuiteXml AddRange(Stream stream)
         {
-            using (StreamReader reader = new StreamReader(stream, Encoding.UTF8, true))
-            {
-                var str = reader.ReadToEnd();
-                return XmlDeserializeFromString<TestSuiteXml>(str);
-            }
+            using StreamReader reader = new StreamReader(stream, Encoding.UTF8, true);
+            var str = reader.ReadToEnd();
+            return XmlDeserializeFromString<TestSuiteXml>(str);
         }
 
         public override string Display { get => $"Add a range of tests from '{Filename}'";}

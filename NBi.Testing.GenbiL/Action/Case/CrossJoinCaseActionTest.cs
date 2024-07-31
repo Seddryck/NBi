@@ -50,7 +50,7 @@ namespace NBi.GenbiL.Testing.Action.Case
             state.CaseCollection.Add("beta", betaCase);
             state.CaseCollection.CurrentScopeName = "alpha";
 
-            var action = new CrossJoinCaseAction("alpha", "beta", new[] { "keyColumn" });
+            var action = new CrossJoinCaseAction("alpha", "beta", ["keyColumn"]);
             action.Execute(state);
 
             Assert.That(alphaCase.Content.Rows, Has.Count.EqualTo(3));
@@ -95,7 +95,7 @@ namespace NBi.GenbiL.Testing.Action.Case
             state.CaseCollection.Add("beta", betaCase);
             state.CaseCollection.CurrentScopeName = "alpha";
 
-            var action = new CrossJoinCaseAction("alpha", "beta", new[] { "keyColumn1", "keyColumn2" });
+            var action = new CrossJoinCaseAction("alpha", "beta", ["keyColumn1", "keyColumn2"]);
             action.Execute(state);
 
             Assert.That(alphaCase.Content.Rows, Has.Count.EqualTo(3));
@@ -141,7 +141,7 @@ namespace NBi.GenbiL.Testing.Action.Case
             state.CaseCollection.Add("beta", betaCase);
             state.CaseCollection.CurrentScopeName = "beta";
 
-            var action = new CrossJoinCaseAction("alpha", "beta", new[] { "keyColumn1", "keyColumn2" });
+            var action = new CrossJoinCaseAction("alpha", "beta", ["keyColumn1", "keyColumn2"]);
             action.Execute(state);
 
             Assert.That(alphaCase.Content.Rows, Has.Count.EqualTo(2));

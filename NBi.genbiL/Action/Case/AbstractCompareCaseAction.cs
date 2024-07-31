@@ -11,14 +11,12 @@ namespace NBi.GenbiL.Action.Case
     public abstract class AbstractCompareCaseAction : ISingleCaseAction
     {
         protected Func<string, IEnumerable<string>, bool> AssignCompare(OperatorType @operator)
-        {
-            switch (@operator)
+            => @operator switch
             {
-                case OperatorType.Equal: return Equal;
-                case OperatorType.Like: return Like;
-                default: throw new ArgumentOutOfRangeException();
-            }
-        }
+                OperatorType.Equal => Equal,
+                OperatorType.Like => Like,
+                _ => throw new ArgumentOutOfRangeException(),
+            };
         private bool Like(string value, IEnumerable<string> patterns)
         {
             var result = false;
@@ -35,7 +33,7 @@ namespace NBi.GenbiL.Action.Case
             return result;
         }
 
-        private bool Like(string value, string pattern)
+        protected virtual bool Like(string value, string pattern)
         {
             //Turn a SQL-like-pattern into regex, by turning '%' into '.*'
             //Doesn't handle SQL's underscore into single character wild card '.{1,1}',
@@ -50,7 +48,7 @@ namespace NBi.GenbiL.Action.Case
             return regex.IsMatch(value);
         }
 
-        protected string GetOperatorText(OperatorType @operator)
+        protected virtual string GetOperatorText(OperatorType @operator)
         {
             switch (@operator)
             {

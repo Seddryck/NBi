@@ -44,7 +44,7 @@ namespace NBi.GenbiL.Testing.Action.Case
         {
             var state = BuildInitialState();
             
-            var action = new DuplicateCaseAction("secondColumn", new[] { "fourthColumn" });
+            var action = new DuplicateCaseAction("secondColumn", ["fourthColumn"]);
             action.Execute(state);
             Assert.That(state.CaseCollection.CurrentScope.Content.Columns, Has.Count.EqualTo(4));
             Assert.That(state.CaseCollection.CurrentScope.Content.Columns[3].ColumnName, Is.EqualTo("fourthColumn"));
@@ -59,7 +59,7 @@ namespace NBi.GenbiL.Testing.Action.Case
         {
             var state = BuildInitialState();
 
-            var action = new DuplicateCaseAction("secondColumn", new[] { "fourthColumn", "fifthColumn" });
+            var action = new DuplicateCaseAction("secondColumn", ["fourthColumn", "fifthColumn"]);
             action.Execute(state);
             Assert.That(state.CaseCollection.CurrentScope.Content.Columns, Has.Count.EqualTo(5));
             Assert.That(state.CaseCollection.CurrentScope.Content.Columns[3].ColumnName, Is.EqualTo("fourthColumn"));

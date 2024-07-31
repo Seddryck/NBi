@@ -20,12 +20,9 @@ namespace NBi.Xml
             this.path = path;
         }
 
-        public override Uri ResolveUri(Uri baseUri, string relativeUri)
-        {
-            if (baseUri != null)
-                return base.ResolveUri(baseUri, relativeUri);
-            else
-                return base.ResolveUri(new Uri(path), relativeUri);
-        }
+        public override Uri ResolveUri(Uri? baseUri, string? relativeUri)
+            => baseUri is null
+                ? base.ResolveUri(new Uri(path), relativeUri ?? string.Empty)
+                : base.ResolveUri(baseUri, relativeUri ?? string.Empty);
     }
 }

@@ -20,38 +20,34 @@ namespace NBi.GenbiL.Action.Setting
 
         public void Execute(GenerationState state)
         {
-            using (var stream = new FileStream(Filename, FileMode.Open, FileAccess.Read))
-            {
-                var settings = Include(stream);
+            using var stream = new FileStream(Filename, FileMode.Open, FileAccess.Read);
+            var settings = Include(stream);
 
-                state.Settings.Defaults.Clear();
-                foreach (var defaultSetting in settings.Defaults)
-                    state.Settings.Defaults.Add(defaultSetting);
+            state.Settings.Defaults.Clear();
+            foreach (var defaultSetting in settings.Defaults)
+                state.Settings.Defaults.Add(defaultSetting);
 
-                state.Settings.References.Clear();
-                foreach (var refSetting in settings.References)
-                    state.Settings.References.Add(refSetting);
+            state.Settings.References.Clear();
+            foreach (var refSetting in settings.References)
+                state.Settings.References.Add(refSetting);
 
-                state.Settings.ParallelizeQueries = settings.ParallelizeQueries;
-                state.Settings.CsvProfile = settings.CsvProfile;
-            }
+            state.Settings.ParallelizeQueries = settings.ParallelizeQueries;
+            state.Settings.CsvProfile = settings.CsvProfile;
         }
 
         protected internal SettingsXml Include(Stream stream)
         {
-            using (StreamReader reader = new StreamReader(stream, Encoding.UTF8, true))
+            using StreamReader reader = new StreamReader(stream, Encoding.UTF8, true);
+            var str = reader.ReadToEnd();
+            var standalone = XmlDeserializeFromString<SettingsStandaloneXml>(str);
+            var settings = new SettingsXml()
             {
-                var str = reader.ReadToEnd();
-                var standalone = XmlDeserializeFromString<SettingsStandaloneXml>(str);
-                var settings = new SettingsXml()
-                {
-                    Defaults = standalone.Defaults,
-                    References = standalone.References,
-                    ParallelizeQueries = standalone.ParallelizeQueries,
-                    CsvProfile = standalone.CsvProfile,
-                };
-                return settings;
-            }
+                Defaults = standalone.Defaults,
+                References = standalone.References,
+                ParallelizeQueries = standalone.ParallelizeQueries,
+                CsvProfile = standalone.CsvProfile,
+            };
+            return settings;
         }
 
         public string Display => $"Include settings from '{Filename}'";

@@ -16,22 +16,17 @@ namespace NBi.GenbiL.Action
             => (T)XmlDeserializeFromString(objectData, typeof(T));
 
         protected internal static string XmlSerializeFrom<T>(T objectData)
-            => SerializeFrom(objectData, typeof(T));
+            => SerializeFrom(objectData!, typeof(T));
 
-        protected object XmlDeserializeFromString(string objectData, Type type)
+        protected virtual object XmlDeserializeFromString(string objectData, Type type)
         {
             var overrides = new ReadOnlyAttributes();
             overrides.Build();
 
             var serializer = new XmlSerializer(type, overrides);
-            object result;
 
-            using (TextReader reader = new StringReader(objectData))
-            {
-                result = serializer.Deserialize(reader);
-            }
-
-            return result;
+            using TextReader reader = new StringReader(objectData);
+            return serializer.Deserialize(reader) ?? throw new NullReferenceException();
         }
 
         protected static string SerializeFrom(object objectData, Type type)
@@ -40,17 +35,7 @@ namespace NBi.GenbiL.Action
             var result = string.Empty;
             using (var writer = new StringWriter())
             {
-                // Use the Serialize method to store the object's state.
-                try
-                {
-                    serializer.Serialize(writer, objectData);
-                }
-                catch (Exception e)
-                {
-
-                    throw e;
-                }
-
+                serializer.Serialize(writer, objectData);
                 result = writer.ToString();
             }
             return result;

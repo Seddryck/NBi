@@ -14,28 +14,28 @@ namespace NBi.GenbiL.Testing.Action.Case
         [Test]
         public void Display_LikeOneValue_CorrectString()
         {
-            var action = new FilterCaseAction("myColumn", OperatorType.Like, new[] { "first value" }, false);
+            var action = new FilterCaseAction("myColumn", OperatorType.Like, ["first value"], false);
             Assert.That(action.Display, Is.EqualTo("Filtering on column 'myColumn' all instances like 'first value'"));
         }
 
         [Test]
         public void Display_NotLikeOneValue_CorrectString()
         {
-            var action = new FilterCaseAction("myColumn", OperatorType.Like, new[] { "first value" }, true);
+            var action = new FilterCaseAction("myColumn", OperatorType.Like, ["first value"], true);
             Assert.That(action.Display, Is.EqualTo("Filtering on column 'myColumn' all instances not like 'first value'"));
         }
 
         [Test]
         public void Display_EqualOneValue_CorrectString()
         {
-            var action = new FilterCaseAction("myColumn", OperatorType.Equal, new[] { "first value" }, false);
+            var action = new FilterCaseAction("myColumn", OperatorType.Equal, ["first value"], false);
             Assert.That(action.Display, Is.EqualTo("Filtering on column 'myColumn' all instances equal to 'first value'"));
         }
 
         [Test]
         public void Display_LikeMultipleValues_CorrectString()
         {
-            var action = new FilterCaseAction("myColumn", OperatorType.Like, new[] { "first value", "second value" }, false);
+            var action = new FilterCaseAction("myColumn", OperatorType.Like, ["first value", "second value"], false);
             Assert.That(action.Display, Is.EqualTo("Filtering on column 'myColumn' all instances like 'first value', 'second value'"));
         }
     }

@@ -65,7 +65,7 @@ namespace NBi.Xsd.Preprocess
 
             while (e.MoveNext())
             {
-                outSch.Items.Add((XmlSchemaObject)e.Value);
+                outSch.Items.Add((XmlSchemaObject)(e.Value ?? throw new NullReferenceException()));
             }
         }
     }

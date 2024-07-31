@@ -40,7 +40,7 @@ namespace NBi.GenbiL.Testing.Action.Case
         {
             var state = BuildInitialState();
 
-            var action = new TrimCaseAction(new string[] { "firstColumn" }, DirectionType.Left);
+            var action = new TrimCaseAction(["firstColumn"], DirectionType.Left);
             action.Execute(state);
             Assert.That(state.CaseCollection.CurrentScope.Content.Rows[0]["firstColumn"], Is.EqualTo("Cell "));
             Assert.That(state.CaseCollection.CurrentScope.Content.Rows[1]["firstColumn"], Is.EqualTo("Cell"));
@@ -51,7 +51,7 @@ namespace NBi.GenbiL.Testing.Action.Case
         {
             var state = BuildInitialState();
 
-            var action = new TrimCaseAction(new string[] { "firstColumn" }, DirectionType.Right);
+            var action = new TrimCaseAction(["firstColumn"], DirectionType.Right);
             action.Execute(state);
             Assert.That(state.CaseCollection.CurrentScope.Content.Rows[0]["firstColumn"], Is.EqualTo("Cell"));
             Assert.That(state.CaseCollection.CurrentScope.Content.Rows[1]["firstColumn"], Is.EqualTo("Cell"));
@@ -62,7 +62,7 @@ namespace NBi.GenbiL.Testing.Action.Case
         {
             var state = BuildInitialState();
 
-            var action = new TrimCaseAction(new string[] { "secondColumn" }, DirectionType.Both);
+            var action = new TrimCaseAction(["secondColumn"], DirectionType.Both);
             action.Execute(state);
             Assert.That(state.CaseCollection.CurrentScope.Content.Rows[0]["secondColumn"], Is.EqualTo("secondCell1"));
             Assert.That(state.CaseCollection.CurrentScope.Content.Rows[1]["secondColumn"], Is.EqualTo("(none)"));
@@ -74,7 +74,7 @@ namespace NBi.GenbiL.Testing.Action.Case
         {
             var state = BuildInitialState();
 
-            var action = new TrimCaseAction(new string[] {}, DirectionType.Both);
+            var action = new TrimCaseAction([], DirectionType.Both);
             action.Execute(state);
             Assert.That(state.CaseCollection.CurrentScope.Content.Rows[0]["firstColumn"], Is.EqualTo("Cell"));
             Assert.That(state.CaseCollection.CurrentScope.Content.Rows[0]["secondColumn"], Is.EqualTo("secondCell1"));

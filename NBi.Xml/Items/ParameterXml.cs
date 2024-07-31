@@ -10,13 +10,13 @@ namespace NBi.Xml.Items
     {
         [DefaultValue(false)]
         [XmlAttribute("remove")]
-        public bool IsRemoved { get; set; }
+        public bool IsRemoved { get; set; } = false;
 
         [XmlAttribute("name")]
-        public string Name { get; set; }
+        public string Name { get; set; } = string.Empty;
 
         [XmlText]
-        public string StringValue { get; set; }
+        public string StringValue { get; set; } = string.Empty;
 
         public virtual T GetValue<T>()
         {
@@ -24,15 +24,10 @@ namespace NBi.Xml.Items
             if (converter != null)
             {
                 var stringWithoutSpecialChars = StringValue.Replace("\n", "").Replace("\t", "").Replace("\n", "").Trim();
-                return (T)converter.ConvertFrom(stringWithoutSpecialChars);
+                return (T)(converter.ConvertFrom(stringWithoutSpecialChars) ?? throw new NullReferenceException());
             }
             else
                 throw new InvalidOperationException();
-        }
-
-        public ParameterXml()
-        {
-            IsRemoved = false;
         }
     }
 }

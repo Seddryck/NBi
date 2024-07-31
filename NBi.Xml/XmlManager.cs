@@ -334,7 +334,7 @@ namespace NBi.Xml
             {
                 //Add indentation and line breaks
                 var nodeXml = new XmlDocument();
-                nodeXml.LoadXml(testNodes[i].OuterXml);
+                nodeXml.LoadXml(testNodes[i]!.OuterXml);
                 var content = XmlBeautifier.Beautify(nodeXml);
                 //Add the content to the test (Used for StackTrace)
                 TestSuite.Tests[i].Content = content;
@@ -359,7 +359,7 @@ namespace NBi.Xml
         }
 
         protected internal string XmlSerializeFrom<T>(T objectData)
-            =>SerializeFrom(objectData, typeof(T));
+            =>SerializeFrom(objectData!, typeof(T));
 
         protected string SerializeFrom(object objectData, Type type)
         {
@@ -375,7 +375,7 @@ namespace NBi.Xml
         }
 
         protected internal string XmlSerializeFrom<T>(T objectData, ReadWriteAttributes attr)
-            =>  SerializeFrom(objectData, typeof(T), attr);
+            =>  SerializeFrom(objectData!, typeof(T), attr);
 
         protected string SerializeFrom(object objectData, Type type, ReadWriteAttributes attr)
         {
@@ -393,8 +393,8 @@ namespace NBi.Xml
         protected object DeserializeTo(string objectData, Type type)
         {
             var serializer = new XmlSerializer(type);
-            using (var reader = new StringReader(objectData))
-                return serializer.Deserialize(reader);
+            using var reader = new StringReader(objectData);
+            return serializer.Deserialize(reader) ?? throw new NullReferenceException();
         }
 
         protected internal T XmlDeserializeTo<T>(string objectData, ReadWriteAttributes attr)
@@ -403,8 +403,8 @@ namespace NBi.Xml
         protected object DeserializeTo(string objectData, Type type, ReadWriteAttributes attr)
         {
             var serializer = new XmlSerializer(type, attr);
-            using (var reader = new StringReader(objectData))
-                return serializer.Deserialize(reader);
+            using var reader = new StringReader(objectData);
+            return serializer.Deserialize(reader) ?? throw new NullReferenceException();
         }
     }
 }

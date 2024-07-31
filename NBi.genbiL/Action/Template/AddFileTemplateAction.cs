@@ -17,8 +17,8 @@ namespace NBi.GenbiL.Action.Template
 
         public void Execute(GenerationState state)
         {
-            using (var stream = new StreamReader(Filename))
-                state.Templates.Add(stream.ReadToEnd());
+            using var stream = new StreamReader(Filename);
+            state.Templates.Add(stream.ReadToEnd());
         }
         
         public string Display

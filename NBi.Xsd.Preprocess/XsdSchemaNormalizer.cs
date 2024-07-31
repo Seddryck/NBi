@@ -28,7 +28,7 @@ namespace NBi.Xsd.Preprocess
             try
             {
                 var txtRead = new XmlTextReader(url);
-                var sch = XmlSchema.Read(txtRead, null);
+                var sch = XmlSchema.Read(txtRead, null) ?? throw new NullReferenceException();
                 var schemaSet = new XmlSchemaSet();
                 schemaSet.Add(sch);
 

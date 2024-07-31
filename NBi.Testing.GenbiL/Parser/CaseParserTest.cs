@@ -300,7 +300,7 @@ namespace NBi.GenbiL.Testing.Parser
             Assert.That(result, Is.InstanceOf<CrossFullCaseAction>());
 
             var crossCase = result as CrossFullCaseAction;
-            Assert.That(crossCase.FirstSet, Is.EqualTo("alpha"));
+            Assert.That(crossCase!.FirstSet, Is.EqualTo("alpha"));
             Assert.That(crossCase.SecondSet, Is.EqualTo("beta"));
         }
 
@@ -314,7 +314,7 @@ namespace NBi.GenbiL.Testing.Parser
             Assert.That(result, Is.InstanceOf<CrossJoinCaseAction>());
 
             var crossCase = result as CrossJoinCaseAction;
-            Assert.That(crossCase.FirstSet, Is.EqualTo("alpha"));
+            Assert.That(crossCase!.FirstSet, Is.EqualTo("alpha"));
             Assert.That(crossCase.SecondSet, Is.EqualTo("beta"));
             Assert.That(crossCase.MatchingColumns.Count(), Is.EqualTo(1));
             Assert.That(crossCase.MatchingColumns, Has.Member("myKey"));
@@ -330,7 +330,7 @@ namespace NBi.GenbiL.Testing.Parser
             Assert.That(result, Is.InstanceOf<CrossJoinCaseAction>());
 
             var crossCase = result as CrossJoinCaseAction;
-            Assert.That(crossCase.FirstSet, Is.EqualTo("alpha"));
+            Assert.That(crossCase!.FirstSet, Is.EqualTo("alpha"));
             Assert.That(crossCase.SecondSet, Is.EqualTo("beta"));
             Assert.That(crossCase.MatchingColumns.Count(), Is.EqualTo(2));
             Assert.That(crossCase.MatchingColumns, Has.Member("myKey1"));
@@ -347,7 +347,7 @@ namespace NBi.GenbiL.Testing.Parser
             Assert.That(result, Is.InstanceOf<CrossVectorCaseAction>());
 
             var crossCase = result as CrossVectorCaseAction;
-            Assert.That(crossCase.FirstSet, Is.EqualTo("alpha"));
+            Assert.That(crossCase!.FirstSet, Is.EqualTo("alpha"));
             Assert.That(crossCase.SecondSet, Is.EqualTo("beta"));
             Assert.That(crossCase.Values, Has.Member("value1"));
             Assert.That(crossCase.Values, Has.Member("value2"));
@@ -363,7 +363,7 @@ namespace NBi.GenbiL.Testing.Parser
             Assert.That(result, Is.InstanceOf<SaveCaseAction>());
 
             var saveCase = result as SaveCaseAction;
-            Assert.That(saveCase.Filename, Is.EqualTo("myfile.csv"));
+            Assert.That(saveCase!.Filename, Is.EqualTo("myfile.csv"));
         }
 
         [Test]
@@ -376,7 +376,7 @@ namespace NBi.GenbiL.Testing.Parser
             Assert.That(result, Is.InstanceOf<SaveCaseAction>());
 
             var saveCase = result as SaveCaseAction;
-            Assert.That(saveCase.Filename, Is.EqualTo("myfile.csv"));
+            Assert.That(saveCase!.Filename, Is.EqualTo("myfile.csv"));
         }
 
         [Test]
@@ -389,7 +389,7 @@ namespace NBi.GenbiL.Testing.Parser
             Assert.That(result, Is.InstanceOf<CopyCaseAction>());
 
             var copyCase = result as CopyCaseAction;
-            Assert.That(copyCase.From, Is.EqualTo("master"));
+            Assert.That(copyCase!.From, Is.EqualTo("master"));
             Assert.That(copyCase.To, Is.EqualTo("copied-to"));
         }
 

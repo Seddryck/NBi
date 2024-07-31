@@ -46,9 +46,9 @@ namespace NBi.GenbiL.Testing.Action.Case
             Assert.That(dataTable.Rows[0]["otherColumn"], Is.TypeOf<string>());
             Assert.That(dataTable.Rows[0]["initialColumn"], Is.TypeOf<string[]>());
             
-            Assert.That((dataTable.Rows[0]["initialColumn"] as Array).Length, Is.EqualTo(3));
-            Assert.That((dataTable.Rows[1]["initialColumn"] as Array).Length, Is.EqualTo(2));
-            Assert.That((dataTable.Rows[2]["initialColumn"] as Array).Length, Is.EqualTo(4));
+            Assert.That((dataTable.Rows[0]["initialColumn"] as Array)!.Length, Is.EqualTo(3));
+            Assert.That((dataTable.Rows[1]["initialColumn"] as Array)!.Length, Is.EqualTo(2));
+            Assert.That((dataTable.Rows[2]["initialColumn"] as Array)!.Length, Is.EqualTo(4));
         }
 
         [Test]
@@ -89,13 +89,13 @@ namespace NBi.GenbiL.Testing.Action.Case
             Assert.That(dataTable.Rows[0]["initialColumn"], Is.TypeOf<string[]>());
             Assert.That(dataTable.Rows[0]["thirdColumn"], Is.TypeOf<string[]>());
 
-            Assert.That((dataTable.Rows[0]["initialColumn"] as Array).Length, Is.EqualTo(3));
-            Assert.That((dataTable.Rows[1]["initialColumn"] as Array).Length, Is.EqualTo(2));
-            Assert.That((dataTable.Rows[2]["initialColumn"] as Array).Length, Is.EqualTo(4));
+            Assert.That((dataTable.Rows[0]["initialColumn"] as Array)!.Length, Is.EqualTo(3));
+            Assert.That((dataTable.Rows[1]["initialColumn"] as Array)!.Length, Is.EqualTo(2));
+            Assert.That((dataTable.Rows[2]["initialColumn"] as Array)!.Length, Is.EqualTo(4));
 
-            Assert.That((dataTable.Rows[0]["thirdColumn"] as Array).Length, Is.EqualTo(2));
-            Assert.That((dataTable.Rows[1]["thirdColumn"] as Array).Length, Is.EqualTo(2));
-            Assert.That((dataTable.Rows[2]["thirdColumn"] as Array).Length, Is.EqualTo(4));
+            Assert.That((dataTable.Rows[0]["thirdColumn"] as Array)!.Length, Is.EqualTo(2));
+            Assert.That((dataTable.Rows[1]["thirdColumn"] as Array)!.Length, Is.EqualTo(2));
+            Assert.That((dataTable.Rows[2]["thirdColumn"] as Array)!.Length, Is.EqualTo(4));
         }
     }
 }

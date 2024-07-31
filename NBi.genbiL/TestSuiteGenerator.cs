@@ -12,7 +12,7 @@ namespace NBi.GenbiL
 {
     public class TestSuiteGenerator
     {
-        public string Text { get; private set; }
+        public string Text { get; private set; } = string.Empty;
 
         public TestSuiteGenerator()
         {
@@ -21,26 +21,26 @@ namespace NBi.GenbiL
 
         public void Load(string filename)
         {
-            using(var stream = new FileStream(filename, FileMode.Open, FileAccess.Read))
-                Load(stream);
+            using var stream = new FileStream(filename, FileMode.Open, FileAccess.Read);
+            Load(stream);
         }
 
         protected internal virtual void Load(Stream stream)
         {
-            using (var reader = new StreamReader(stream, System.Text.Encoding.UTF8, true))
-                Text = reader.ReadToEnd();
+            using var reader = new StreamReader(stream, System.Text.Encoding.UTF8, true);
+            Text = reader.ReadToEnd();
         }
 
         public void Save(string filename)
         {
-            using (var stream = new FileStream(filename, FileMode.OpenOrCreate, FileAccess.Write))
-                Save(stream);
+            using var stream = new FileStream(filename, FileMode.OpenOrCreate, FileAccess.Write);
+            Save(stream);
         }
 
         protected internal virtual void Save(Stream stream)
         {
-            using (var writer = new StreamWriter(stream, System.Text.Encoding.UTF8))
-                writer.Write(Text);
+            using var writer = new StreamWriter(stream, System.Text.Encoding.UTF8);
+            writer.Write(Text);
         }
 
         public void WriteLine(string line)
@@ -51,10 +51,10 @@ namespace NBi.GenbiL
         public void Execute()
         {
             var recipe = Interpret(Text);
-            var testSuite = Apply(recipe);
+            Apply(recipe);
         }
 
-        protected IEnumerable<IAction> Interpret(string input)
+        protected virtual IEnumerable<IAction> Interpret(string input)
         {
             return Recipe.Parser.Parse(input);
         }
@@ -71,8 +71,8 @@ namespace NBi.GenbiL
             return state;
         }
 
-       
-        protected void Save(string filename, TestSuiteXml testSuite)
+
+        protected virtual void Save(string filename, TestSuiteXml testSuite)
         {
             var xmlManager = new XmlManager();
             xmlManager.Persist(filename, testSuite);
@@ -87,14 +87,14 @@ namespace NBi.GenbiL
             public string Message { get; set; }
         }
 
-        public event EventHandler<ActionInfoEventArgs> ActionInfoEvent;
+        public event EventHandler<ActionInfoEventArgs>? ActionInfoEvent;
 
         protected virtual void OnActionInfoEvent(ActionInfoEventArgs e)
         {
             // Make a temporary copy of the event to avoid possibility of 
             // a race condition if the last subscriber unsubscribes 
             // immediately after the null check and before the event is raised.
-            EventHandler<ActionInfoEventArgs> handler = ActionInfoEvent;
+            EventHandler<ActionInfoEventArgs> handler = ActionInfoEvent!;
 
             // Event will be null if there are no subscribers 
             if (handler != null)

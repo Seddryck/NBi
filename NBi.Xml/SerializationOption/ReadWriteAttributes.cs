@@ -131,17 +131,14 @@ namespace NBi.Xml.SerializationOption
         private MemberInfo GetMemberInfo<T, U>(Expression<Func<T, U>> propertyExpression)
         {
             var memberExpression = propertyExpression?.Body as MemberExpression
-                ?? throw new ArgumentNullException(nameof(propertyExpression));
+                ?? throw new ArgumentException($"Expression not a MemberExpresssion: {propertyExpression}", nameof(propertyExpression));
 
-            if (memberExpression == null)
-                throw new ArgumentException($"Expression not a MemberExpresssion: {propertyExpression}", nameof(propertyExpression));
+            var realType = memberExpression.Expression?.Type
+                ?? throw new ArgumentException($"Member expression '{memberExpression}' has no DeclaringType: {propertyExpression})");
 
-            var realType = memberExpression.Expression.Type;
-            if (realType == null) throw new ArgumentException($"Expression has no DeclaringType: {propertyExpression})");
-
-            return realType.GetProperty(memberExpression.Member.Name);
+            return realType.GetProperty(memberExpression.Member.Name)
+                ?? throw new ArgumentException($"Type '{realType}' has no property '{memberExpression.Member.Name}')");
         }
-
 
         private string GetXmlName(string input) => string.Concat(input.Select((x, i) => i > 0 && char.IsUpper(x) ? "-" + x.ToString() : x.ToString().ToLowerInvariant()));
     }

@@ -17,12 +17,12 @@ namespace NBi.GenbiL.Action.Case
 
         public void Execute(CaseSet testCases)
         {
-            DataTableReader dataReader = null;
+            DataTableReader? dataReader = null;
 
             var content = testCases.Content;
             var distinctRows = content.AsEnumerable().Distinct(DataRowComparer.Default);
 
-            if (distinctRows.Count() > 0)
+            if (distinctRows.Any())
             {
                 var distinctTable = distinctRows.CopyToDataTable();
                 dataReader = distinctTable.CreateDataReader();

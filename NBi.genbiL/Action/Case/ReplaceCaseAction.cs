@@ -10,7 +10,7 @@ namespace NBi.GenbiL.Action.Case
     {
         public string Column { get; set; }
         public string NewValue { get; set; }
-        public IEnumerable<string> Values { get; set; }
+        public IEnumerable<string> Values { get; set; } = [];
         public bool Negation { get; set; }
         public OperatorType Operator { get; set; }
 
@@ -30,13 +30,13 @@ namespace NBi.GenbiL.Action.Case
 
         public override void Execute(CaseSet testCases)
         {
-            if (Values==null || Values.Count()==0)
+            if (!Values.Any())
                 Replace(testCases, Column, NewValue);
             else
                 Replace(testCases, Column, NewValue, Operator, Negation, Values);
         }
 
-        public void Replace(CaseSet testCases, string columnName, string newValue)
+        public virtual void Replace(CaseSet testCases, string columnName, string newValue)
         {
             if (!testCases.Variables.Contains(columnName))
                 throw new ArgumentException($"No column named '{columnName}' has been found.");
@@ -60,7 +60,7 @@ namespace NBi.GenbiL.Action.Case
 
             foreach (DataRow row in testCases.Content.Rows)
             {
-                if (compare(row[index].ToString(), values) != negation)
+                if (compare(row[index].ToString() ?? "(null)", values) != negation)
                     row[index] = newValue;
             }
 
@@ -76,7 +76,7 @@ namespace NBi.GenbiL.Action.Case
                         , Column
                         , NewValue);
 
-                if (Values != null && Values.Count() > 0)
+                if (Values != null && Values.Any())
                     display += string.Format(
                         " when values {0}{1} '{2}'"
                         , Negation ? "not " : string.Empty

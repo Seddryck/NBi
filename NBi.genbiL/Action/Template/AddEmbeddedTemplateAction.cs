@@ -29,13 +29,11 @@ namespace NBi.GenbiL.Action.Template
             if (Filename.StartsWith("SubsetOf"))
                 Filename = Filename.Replace("SubsetOf", "ContainedIn");
 
-            using (var stream = assembly.GetManifestResourceStream($"{GetTemplatesPath()}.{Filename}.txt"))
-            {
-                if (stream == null)
-                    throw new ArgumentOutOfRangeException($"{GetTemplatesPath()}.{Filename}.txt");
-                using (var reader = new StreamReader(stream))
-                    state.Templates.Add(reader.ReadToEnd());
-            }
+            using var stream = assembly.GetManifestResourceStream($"{GetTemplatesPath()}.{Filename}.txt");
+            if (stream == null)
+                throw new ArgumentOutOfRangeException($"{GetTemplatesPath()}.{Filename}.txt");
+            using var reader = new StreamReader(stream);
+            state.Templates.Add(reader.ReadToEnd());
         }
         
         public string Display

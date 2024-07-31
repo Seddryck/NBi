@@ -71,37 +71,36 @@ namespace NBi.Xml.Items
 
         private void AssignDefaultOrReference(string propertyName, IEnumerable<ReferenceXml> references)
         {
-            if (this.GetType().GetProperty(propertyName).PropertyType==typeof(string))
+            var property = GetType().GetProperty(propertyName) ?? throw new NullReferenceException(propertyName);
+            if (property.PropertyType==typeof(string))
             {
-                var currentValue = (string)this.GetType().GetProperty(propertyName).GetValue(this, null);
+                var currentValue = (string?)property.GetValue(this, null);
+                var etl = typeof(EtlBaseXml).GetProperty(propertyName) ?? throw new NullReferenceException(propertyName);
 
                 if (string.IsNullOrEmpty(currentValue))
                 {
-                    var defaultValue = typeof(EtlBaseXml).GetProperty(propertyName).GetValue(Default.Etl, null);
-                    this.GetType().GetProperty(propertyName).SetValue(this, defaultValue);
+                    var defaultValue = etl.GetValue(Default.Etl, null);
+                    property.SetValue(this, defaultValue);
                 }
                 else if (currentValue.StartsWith("@"))
                 {
-                    var refName = ((string)currentValue).Substring(1);
+                    var refName = currentValue[1..];
                     var refChoice = GetReference(references, refName);
                     if (refChoice.Etl == null)
                         throw new NullReferenceException(string.Format("A reference named '{0}' has been found, but no element 'etl' has been defined", refName));
 
-                    var referenceValue = typeof(EtlBaseXml).GetProperty(propertyName).GetValue(refChoice.Etl, null);
-                    this.GetType().GetProperty(propertyName).SetValue(this, referenceValue);
+                    var referenceValue = etl.GetValue(refChoice.Etl, null);
+                    property.SetValue(this, referenceValue);
                 }
             }
         }
         
         protected ReferenceXml GetReference(IEnumerable<ReferenceXml> references, string value)
         {
-            if (references == null || references.Count() == 0)
+            if (!references.Any())
                 throw new InvalidOperationException("No reference has been defined for this constraint");
 
-            var refChoice = references.FirstOrDefault(r => r.Name == value);
-            if (refChoice == null)
-                throw new IndexOutOfRangeException(string.Format("No reference named '{0}' has been defined.", value));
-            return refChoice;
+            return references.FirstOrDefault(r => r.Name == value) ?? throw new IndexOutOfRangeException($"No reference named '{value}' has been defined.");
         }
     }
 }

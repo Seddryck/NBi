@@ -25,7 +25,7 @@ namespace NBi.GenbiL.Testing.Action.Case
         public void Execute_FileMissing_EmptyDataSetWithExpectedColumns()
         {
             var state = new GenerationState();
-            var action = new LoadOptionalCaseFromFileActionTestable("file.csv", new[] { "foo", "bar" });
+            var action = new LoadOptionalCaseFromFileActionTestable("file.csv", ["foo", "bar"]);
             action.Execute(state);
 
             var caseSet = state.CaseCollection.First().Value;

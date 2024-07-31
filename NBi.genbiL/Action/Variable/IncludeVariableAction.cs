@@ -31,20 +31,18 @@ namespace NBi.GenbiL.Action.Variable
 
         protected virtual IEnumerable<GlobalVariableXml> ReadXml(string filename)
         {
-            using (var stream = new FileStream(Filename, FileMode.Open, FileAccess.Read))
-                return ReadXml(stream);
+            using var stream = new FileStream(Filename, FileMode.Open, FileAccess.Read);
+            return ReadXml(stream);
         }
 
         protected internal IEnumerable<GlobalVariableXml> ReadXml(Stream stream)
         {
-            using (StreamReader reader = new StreamReader(stream, Encoding.UTF8, true))
-            {
-                var str = reader.ReadToEnd();
-                var standalone = XmlDeserializeFromString<GlobalVariablesStandaloneXml>(str);
-                var globalVariables = new List<GlobalVariableXml>();
-                globalVariables = standalone.Variables;
-                return globalVariables;
-            }
+            using StreamReader reader = new StreamReader(stream, Encoding.UTF8, true);
+            var str = reader.ReadToEnd();
+            var standalone = XmlDeserializeFromString<GlobalVariablesStandaloneXml>(str);
+            var globalVariables = new List<GlobalVariableXml>();
+            globalVariables = standalone.Variables;
+            return globalVariables;
         }
 
         public string Display => $"Include variables from '{Filename}'";

@@ -8,7 +8,7 @@ namespace NBi.GenbiL.Action.Template
     public class ClearTemplateAction : ITemplateAction
     {
         public LoadType LoadType { get; set; }
-        public string Filename { get; set; }
+        public string Filename { get; set; } = string.Empty;
         public ClearTemplateAction()
             : base()
         {

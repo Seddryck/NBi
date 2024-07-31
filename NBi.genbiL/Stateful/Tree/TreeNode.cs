@@ -11,9 +11,9 @@ namespace NBi.GenbiL.Stateful.Tree
     {
         protected TreeNode(string name) => Name = name;
 
-        public RootNode Root { get; internal set; }
+        public RootNode? Root { get; internal set; }
         public int Level { get; internal set; }
-        public BranchNode Parent { get; internal set; }
+        public BranchNode? Parent { get; internal set; }
         public string Name { get; }
 
     }

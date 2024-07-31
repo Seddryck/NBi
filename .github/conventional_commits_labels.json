@@ -1,0 +1,14 @@
+{
+    "!": "breaking-change",
+    "chore": "dependency-update",
+    "docs": "docs",
+    "style": "none",
+    "ci": "build",
+    "build": "build",
+    "feat": "new-feature",
+    "test": "none",
+    "refactor": "none",
+    "revert": "bug",
+    "perf": "enhancement",
+    "fix": "bug"
+}

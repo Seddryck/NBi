@@ -7,17 +7,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NBi.Core", "NBi.Core\NBi.Co
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NBi.Testing", "NBi.Testing\NBi.Testing.csproj", "{6AEEBCF9-90B3-4594-B015-8BBBE9E126EF}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".project", ".project", "{DA70ECE5-216D-43A1-9E14-902E06050B8E}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{DA70ECE5-216D-43A1-9E14-902E06050B8E}"
 	ProjectSection(SolutionItems) = preProject
-		.commitlint.yaml = .commitlint.yaml
-		appveyor.yml = appveyor.yml
 		AssemblyInfo.cs = AssemblyInfo.cs
-		Directory.Build.props = Directory.Build.props
-		Directory.Build.targets = Directory.Build.targets
-		GitVersion.yml = GitVersion.yml
-		install-roapi-for-testing.ps1 = install-roapi-for-testing.ps1
-		Readme.md = Readme.md
-		restore-database-for-testing.ps1 = restore-database-for-testing.ps1
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NBi.NUnit", "NBi.NUnit\NBi.NUnit.csproj", "{66314704-AA76-4153-80D8-CA2C5FF06976}"
@@ -56,6 +48,39 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NUnit", "NUnit", "{2C5CA732-9AC2-4519-A54D-8D9D54F23ED6}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DSL", "DSL", "{C46EB4A8-197B-4458-8AC4-DE2753406777}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Building", "Building", "{C9284A3C-66B9-48BA-ADA4-2C5C0F1C29D2}"
+	ProjectSection(SolutionItems) = preProject
+		appveyor.yml = appveyor.yml
+		.github\conventional_commits_labels.json = .github\conventional_commits_labels.json
+		Directory.Build.props = Directory.Build.props
+		Directory.Build.targets = Directory.Build.targets
+		github.ps1 = github.ps1
+		GitVersion.yml = GitVersion.yml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Edition", "Edition", "{9C6CB454-073D-4DC4-9D11-2F9B83C4FEC5}"
+	ProjectSection(SolutionItems) = preProject
+		.commitlint.yaml = .commitlint.yaml
+		.editorconfig = .editorconfig
+		.gitattributes = .gitattributes
+		.gitignore = .gitignore
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Project", "Project", "{ED27BC4C-6CE1-4BF1-8F67-F3457AFF5379}"
+	ProjectSection(SolutionItems) = preProject
+		CODE_OF_CONDUCT.md = CODE_OF_CONDUCT.md
+		CONTRIBUTING.md = CONTRIBUTING.md
+		LICENSE = LICENSE
+		Readme.md = Readme.md
+		SECURITY.md = SECURITY.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Testing", "Testing", "{B74C4905-2F82-4A6E-A194-6393ED7134D2}"
+	ProjectSection(SolutionItems) = preProject
+		install-roapi-for-testing.ps1 = install-roapi-for-testing.ps1
+		restore-database-for-testing.ps1 = restore-database-for-testing.ps1
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -398,6 +423,10 @@ Global
 		{365DDF92-A186-493C-8920-C2E1509DA37D} = {73288164-F3CB-4796-B9AA-CEC585F45583}
 		{365DDF92-A186-493C-8920-C2E1509DA37E} = {C46EB4A8-197B-4458-8AC4-DE2753406777}
 		{365DDF92-A186-493C-8920-C2E1509DA37F} = {D24366A7-9673-40B9-811E-59A513995A20}
+		{C9284A3C-66B9-48BA-ADA4-2C5C0F1C29D2} = {DA70ECE5-216D-43A1-9E14-902E06050B8E}
+		{9C6CB454-073D-4DC4-9D11-2F9B83C4FEC5} = {DA70ECE5-216D-43A1-9E14-902E06050B8E}
+		{ED27BC4C-6CE1-4BF1-8F67-F3457AFF5379} = {DA70ECE5-216D-43A1-9E14-902E06050B8E}
+		{B74C4905-2F82-4A6E-A194-6393ED7134D2} = {DA70ECE5-216D-43A1-9E14-902E06050B8E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F1501AB9-EC0D-46A3-8272-02CCFC4DE98E}

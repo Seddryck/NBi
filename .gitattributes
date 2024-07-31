@@ -1,0 +1,10 @@
+###############################################################################
+# Define language based on file's extension
+###############################################################################
+*.st linguist-language=StringTemplate
+*.stg linguist-language=StringTemplate
+
+###############################################################################
+# Set default behavior to automatically normalize line endings.
+###############################################################################
+* text=auto

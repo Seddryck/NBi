@@ -24,7 +24,7 @@ namespace NBi.Framework.FailureMessage.Markdown
 
         protected override void RenderAnalysis(LookupViolationCollection violations, IEnumerable<ColumnMetadata> metadata, ISampler<IResultRow> sampler, ColumnMappingCollection keyMappings, ColumnMappingCollection valueMappings, MarkdownContainer container)
         {
-            if (violations.Values.Any())
+            if (violations.Values.Count == 0)
             {
                 container.Append("Analysis".ToMarkdownHeader());
                 var state = violations.Values.Select(x => x.State).First();

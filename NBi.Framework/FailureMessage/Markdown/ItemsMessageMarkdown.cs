@@ -31,7 +31,7 @@ namespace NBi.Framework.FailureMessage.Markdown
             expected = BuildList(expectedItems, samplers["expected"]);
             actual = BuildList(actualItems, samplers["actual"]);
             analysis = BuildIfNotEmptyList(result.Missing ?? [], "Missing", samplers["analysis"]);
-            analysis.Append(BuildIfNotEmptyList(result.Unexpected ?? new List<string>(), "Unexpected", samplers["analysis"]));
+            analysis.Append(BuildIfNotEmptyList(result.Unexpected ?? [], "Unexpected", samplers["analysis"]));
         }
 
         protected virtual MarkdownContainer BuildList(IEnumerable<string> items, ISampler<string> sampler)

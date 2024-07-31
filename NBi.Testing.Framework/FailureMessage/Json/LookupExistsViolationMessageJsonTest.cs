@@ -27,17 +27,17 @@ namespace NBi.Framework.Testing.FailureMessage.Json
             var referenceTable = new DataTable() { TableName = "MyTable" };
             referenceTable.Columns.Add(new DataColumn("ForeignKey"));
             referenceTable.Columns.Add(new DataColumn("Numeric value"));
-            referenceTable.LoadDataRow(new object[] { "Alpha", 15 }, false);
-            referenceTable.LoadDataRow(new object[] { "Beta", 20 }, false);
-            referenceTable.LoadDataRow(new object[] { "Delta", 30 }, false);
+            referenceTable.LoadDataRow(["Alpha", 15], false);
+            referenceTable.LoadDataRow(["Beta", 20], false);
+            referenceTable.LoadDataRow(["Delta", 30], false);
             var rsReference = new DataTableResultSet(referenceTable);
 
             var candidateTable = new DataTable() { TableName = "MyTable" };
             candidateTable.Columns.Add(new DataColumn("ForeignKey"));
             candidateTable.Columns.Add(new DataColumn("Numeric value"));
             candidateTable.Columns.Add(new DataColumn("Boolean value"));
-            candidateTable.LoadDataRow(new object[] { "Alpha", 10, true }, false);
-            candidateTable.LoadDataRow(new object[] { "Gamma", 20, false }, false);
+            candidateTable.LoadDataRow(["Alpha", 10, true], false);
+            candidateTable.LoadDataRow(["Gamma", 20, false], false);
             var rsCandidate = new DataTableResultSet(candidateTable);
 
             var foreignKeyDefinition = new ColumnMetadata() { Identifier = new ColumnIdentifierFactory().Instantiate("ForeignKey"), Role = ColumnRole.Key };
@@ -72,21 +72,20 @@ namespace NBi.Framework.Testing.FailureMessage.Json
             var referenceTable = new DataTable() { TableName = "MyTable" };
             referenceTable.Columns.Add(new DataColumn("ForeignKey"));
             referenceTable.Columns.Add(new DataColumn("Numeric value"));
-            referenceTable.LoadDataRow(new object[] { "Alpha", 15 }, false);
-            referenceTable.LoadDataRow(new object[] { "Beta", 20 }, false);
-            referenceTable.LoadDataRow(new object[] { "Delta", 30 }, false);
+            referenceTable.LoadDataRow(["Alpha", 15], false);
+            referenceTable.LoadDataRow(["Beta", 20], false);
+            referenceTable.LoadDataRow(["Delta", 30], false);
             var rsReference = new DataTableResultSet(referenceTable);
 
             var candidateTable = new DataTable() { TableName = "MyTable" };
             candidateTable.Columns.Add(new DataColumn("ForeignKey"));
             candidateTable.Columns.Add(new DataColumn("Numeric value"));
             candidateTable.Columns.Add(new DataColumn("Boolean value"));
-            candidateTable.LoadDataRow(new object[] { "Alpha", 10, true }, false);
-            candidateTable.LoadDataRow(new object[] { "Gamma", 20, false }, false);
+            candidateTable.LoadDataRow(["Alpha", 10, true], false);
+            candidateTable.LoadDataRow(["Gamma", 20, false], false);
             var rsCandidate = new DataTableResultSet(candidateTable);
 
             var foreignKeyDefinition = new ColumnMetadata() { Identifier = new ColumnIdentifierFactory().Instantiate("ForeignKey"), Role = ColumnRole.Key };
-            var numericDefinition = new ColumnMetadata() { Identifier = new ColumnIdentifierFactory().Instantiate("Numeric value"), Role = ColumnRole.Value };
 
             var keyMappings = new ColumnMappingCollection() { new ColumnMapping(foreignKeyDefinition.Identifier, ColumnType.Text) };
 

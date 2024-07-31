@@ -20,14 +20,14 @@ namespace NBi.Framework.Testing.FailureMessage.Json
     public class DataRowsMessageJsonTest
     {
         #region Helpers
-        private IEnumerable<IResultRow> GetDataRows(int count)
+        private static IEnumerable<IResultRow> GetDataRows(int count)
         {
             var dataTable = new DataTable() { TableName = "MyTable" };
             dataTable.Columns.Add(new DataColumn("Id"));
             dataTable.Columns.Add(new DataColumn("Numeric value"));
             dataTable.Columns.Add(new DataColumn("Boolean value"));
             for (int i = 0; i < count; i++)
-                dataTable.LoadDataRow(new object[] { "Alpha", i, true }, false);
+                dataTable.LoadDataRow(["Alpha", i, true], false);
             var rs = new DataTableResultSet(dataTable);
 
             return rs.Rows;
@@ -42,7 +42,7 @@ namespace NBi.Framework.Testing.FailureMessage.Json
             dataTable.Columns.Add(new DataColumn("Numeric value"));
             dataTable.Columns.Add(new DataColumn("Boolean value"));
             for (int i = 0; i < 20; i++)
-                dataTable.LoadDataRow(new object[] { "Alpha", i, true }, false);
+                dataTable.LoadDataRow(["Alpha", i, true], false);
             var rs = new DataTableResultSet(dataTable);
 
             var samplers = new SamplersFactory<IResultRow>().Instantiate(FailureReportProfile.Default);
@@ -61,7 +61,7 @@ namespace NBi.Framework.Testing.FailureMessage.Json
             dataTable.Columns.Add(new DataColumn("Numeric value"));
             dataTable.Columns.Add(new DataColumn("Boolean value"));
             for (int i = 0; i < 20; i++)
-                dataTable.LoadDataRow(new object[] { "Alpha", i, true }, false);
+                dataTable.LoadDataRow(["Alpha", i, true], false);
             var rs = new DataTableResultSet(dataTable);
 
             var samplers = new SamplersFactory<IResultRow>().Instantiate(FailureReportProfile.Default);
@@ -70,7 +70,7 @@ namespace NBi.Framework.Testing.FailureMessage.Json
             var value = msg.RenderExpected();
             Assert.That(value, Does.Contain("\"sampled-rows\":10"));
 
-            value = value.Substring(value.IndexOf("\"rows\""));
+            value = value[value.IndexOf("\"rows\"")..];
             Assert.That(value.Count(x => x == '['), Is.EqualTo(10 + 1));
         }
 
@@ -84,7 +84,7 @@ namespace NBi.Framework.Testing.FailureMessage.Json
             dataTable.Columns.Add(new DataColumn("Numeric value"));
             dataTable.Columns.Add(new DataColumn("Boolean value"));
             for (int i = 0; i < rowCount; i++)
-                dataTable.LoadDataRow(new object[] { "Alpha", i, true }, false);
+                dataTable.LoadDataRow(["Alpha", i, true], false);
             var rs = new DataTableResultSet(dataTable);
 
             var samplers = new SamplersFactory<IResultRow>().Instantiate(FailureReportProfile.Default);
@@ -94,7 +94,7 @@ namespace NBi.Framework.Testing.FailureMessage.Json
             var value = msg.RenderExpected();
             Assert.That(value, Does.Not.Contain("\"sampled-rows\":"));
 
-            value = value.Substring(value.IndexOf("\"rows\""));
+            value = value[value.IndexOf("\"rows\"")..];
             Assert.That(value.Count(x => x == '['), Is.EqualTo(rowCount + 1));
         }
 
@@ -110,7 +110,7 @@ namespace NBi.Framework.Testing.FailureMessage.Json
             dataTable.Columns.Add(new DataColumn("Numeric value"));
             dataTable.Columns.Add(new DataColumn("Boolean value"));
             for (int i = 0; i < rowCount; i++)
-                dataTable.LoadDataRow(new object[] { "Alpha", i, true }, false);
+                dataTable.LoadDataRow(["Alpha", i, true], false);
             var rs = new DataTableResultSet(dataTable);
 
             var profile = Mock.Of<IFailureReportProfile>(p =>
@@ -124,7 +124,7 @@ namespace NBi.Framework.Testing.FailureMessage.Json
             var value = msg.RenderExpected();
             Assert.That(value, Does.Not.Contain("\"sampled-rows\":"));
 
-            value = value.Substring(value.IndexOf("\"rows\""));
+            value = value[value.IndexOf("\"rows\"")..];
 
             Assert.That(value.Count(x => x == '['), Is.EqualTo(rowCount + 1));
         }
@@ -141,7 +141,7 @@ namespace NBi.Framework.Testing.FailureMessage.Json
             dataTable.Columns.Add(new DataColumn("Numeric value"));
             dataTable.Columns.Add(new DataColumn("Boolean value"));
             for (int i = 0; i < rowCount; i++)
-                dataTable.LoadDataRow(new object[] { "Alpha", i, true }, false);
+                dataTable.LoadDataRow(["Alpha", i, true], false);
             var rs = new DataTableResultSet(dataTable);
 
             var profile = Mock.Of<IFailureReportProfile>(p =>
@@ -156,7 +156,7 @@ namespace NBi.Framework.Testing.FailureMessage.Json
             Assert.That(value, Does.Contain($"\"total-rows\":{rowCount}"));
             Assert.That(value, Does.Contain($"\"sampled-rows\":{max}"));
 
-            value = value.Substring(value.IndexOf("\"rows\""));
+            value = value[value.IndexOf("\"rows\"")..];
 
             Assert.That(value.Count(x => x == '['), Is.EqualTo(max + 1));
         }
@@ -222,6 +222,7 @@ namespace NBi.Framework.Testing.FailureMessage.Json
             Assert.That(value, Does.Not.Contain($"\"{expectedText}\":{{\"total-rows\":3}}}}"));
         }
 
+        [Test]
         public void RenderMessage_NoAdditional_IncludeTimestamp()
         {
             var samplers = new SamplersFactory<IResultRow>().Instantiate(FailureReportProfile.Default);

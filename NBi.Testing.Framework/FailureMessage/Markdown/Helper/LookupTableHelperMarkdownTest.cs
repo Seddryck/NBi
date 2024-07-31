@@ -22,8 +22,8 @@ namespace NBi.Framework.Testing.FailureMessage.Markdown.Helper
             candidateTable.Columns.Add(new DataColumn("ForeignKey"));
             candidateTable.Columns.Add(new DataColumn("Numeric value"));
             candidateTable.Columns.Add(new DataColumn("Boolean value"));
-            candidateTable.LoadDataRow(new object[] { "Alpha", 10, true }, false);
-            candidateTable.LoadDataRow(new object[] { "Beta", 20, false }, false);
+            candidateTable.LoadDataRow(["Alpha", 10, true], false);
+            candidateTable.LoadDataRow(["Beta", 20, false], false);
             var rsCandidate = new DataTableResultSet(candidateTable);
 
             var foreignKeyDefinition = new ColumnMetadata() { Identifier = new ColumnIdentifierFactory().Instantiate("ForeignKey"), Role = ColumnRole.Key };
@@ -34,7 +34,7 @@ namespace NBi.Framework.Testing.FailureMessage.Markdown.Helper
 
             var records = new List<LookupMatchesViolationRecord>()
             {
-                new LookupMatchesViolationRecord()
+                new()
                 {
                     { rsCandidate.GetColumn(1) ?? throw new NullReferenceException(), new LookupMatchesViolationData(false, 15) },
                 },
@@ -42,9 +42,9 @@ namespace NBi.Framework.Testing.FailureMessage.Markdown.Helper
             var association = new LookupMatchesViolationComposite(rsCandidate.Rows.ElementAt(0), records);
 
             var sampler = new FullSampler<LookupMatchesViolationComposite>();
-            sampler.Build(new[] { association });
-            var msg = new LookupTableHelperMarkdown(new[] { association }
-                , new[] { foreignKeyDefinition, numericDefinition }
+            sampler.Build([association]);
+            var msg = new LookupTableHelperMarkdown([association]
+                , [foreignKeyDefinition, numericDefinition]
                 , sampler);
             var container = new MarkdownContainer();
             msg.Render(container);
@@ -68,8 +68,8 @@ namespace NBi.Framework.Testing.FailureMessage.Markdown.Helper
             candidateTable.Columns.Add(new DataColumn("ForeignKey"));
             candidateTable.Columns.Add(new DataColumn("Numeric value"));
             candidateTable.Columns.Add(new DataColumn("Boolean value"));
-            candidateTable.LoadDataRow(new object[] { 1, "Alpha", 10, true }, false);
-            candidateTable.LoadDataRow(new object[] { 2, "Beta", 20, false }, false);
+            candidateTable.LoadDataRow([1, "Alpha", 10, true], false);
+            candidateTable.LoadDataRow([2, "Beta", 20, false], false);
             var rsCandidate = new DataTableResultSet(candidateTable);
 
             var foreignKeyDefinition = new ColumnMetadata() { Identifier = new ColumnIdentifierFactory().Instantiate("ForeignKey"), Role = ColumnRole.Key };
@@ -78,7 +78,7 @@ namespace NBi.Framework.Testing.FailureMessage.Markdown.Helper
 
             var records = new List<LookupMatchesViolationRecord>()
             {
-                new LookupMatchesViolationRecord()
+                new()
                 {
                     { rsCandidate.GetColumn(2) ?? throw new NullReferenceException(), new LookupMatchesViolationData(false, 15) },
                     { rsCandidate.GetColumn(3) ?? throw new NullReferenceException(), new LookupMatchesViolationData(false, false) },
@@ -87,9 +87,9 @@ namespace NBi.Framework.Testing.FailureMessage.Markdown.Helper
             var association = new LookupMatchesViolationComposite(rsCandidate.Rows.ElementAt(0), records);
 
             var sampler = new FullSampler<LookupMatchesViolationComposite>();
-            sampler.Build(new[] { association });
-            var msg = new LookupTableHelperMarkdown(new[] { association }
-                , new[] { foreignKeyDefinition, numericDefinition, booleanDefinition }
+            sampler.Build([association]);
+            var msg = new LookupTableHelperMarkdown([association]
+                , [foreignKeyDefinition, numericDefinition, booleanDefinition]
                 , sampler);
             var container = new MarkdownContainer();
             msg.Render(container);
@@ -107,8 +107,8 @@ namespace NBi.Framework.Testing.FailureMessage.Markdown.Helper
             candidateTable.Columns.Add(new DataColumn("ForeignKey"));
             candidateTable.Columns.Add(new DataColumn("Numeric value"));
             candidateTable.Columns.Add(new DataColumn("Boolean value"));
-            candidateTable.LoadDataRow(new object[] { 1, "Alpha", 10, true }, false);
-            candidateTable.LoadDataRow(new object[] { 2, "Beta", 20, false }, false);
+            candidateTable.LoadDataRow([1, "Alpha", 10, true], false);
+            candidateTable.LoadDataRow([2, "Beta", 20, false], false);
             var rsCandidate = new DataTableResultSet(candidateTable);
 
             var foreignKeyDefinition = new ColumnMetadata() { Identifier = new ColumnIdentifierFactory().Instantiate("ForeignKey"), Role = ColumnRole.Key };
@@ -117,7 +117,7 @@ namespace NBi.Framework.Testing.FailureMessage.Markdown.Helper
 
             var records = new List<LookupMatchesViolationRecord>()
             {
-                new LookupMatchesViolationRecord()
+                new()
                 {
                     { rsCandidate.GetColumn(3) ?? throw new NullReferenceException(), new LookupMatchesViolationData(false, false) },
                 },
@@ -125,9 +125,9 @@ namespace NBi.Framework.Testing.FailureMessage.Markdown.Helper
             var association = new LookupMatchesViolationComposite(rsCandidate.Rows.ElementAt(0), records);
 
             var sampler = new FullSampler<LookupMatchesViolationComposite>();
-            sampler.Build(new[] { association });
-            var msg = new LookupTableHelperMarkdown(new[] { association }
-                , new[] { foreignKeyDefinition, numericDefinition, booleanDefinition }
+            sampler.Build([association]);
+            var msg = new LookupTableHelperMarkdown([association]
+                , [foreignKeyDefinition, numericDefinition, booleanDefinition]
                 , sampler);
             var container = new MarkdownContainer();
             msg.Render(container);
@@ -145,8 +145,8 @@ namespace NBi.Framework.Testing.FailureMessage.Markdown.Helper
             candidateTable.Columns.Add(new DataColumn("ForeignKey"));
             candidateTable.Columns.Add(new DataColumn("Numeric value"));
             candidateTable.Columns.Add(new DataColumn("Boolean value"));
-            candidateTable.LoadDataRow(new object[] { 1, "Alpha", 10, true }, false);
-            candidateTable.LoadDataRow(new object[] { 2, "Beta", 20, false }, false);
+            candidateTable.LoadDataRow([1, "Alpha", 10, true], false);
+            candidateTable.LoadDataRow([2, "Beta", 20, false], false);
             var rsCandidate = new DataTableResultSet(candidateTable);
 
             var foreignKeyDefinition = new ColumnMetadata() { Identifier = new ColumnIdentifierFactory().Instantiate("ForeignKey"), Role = ColumnRole.Key };
@@ -155,17 +155,17 @@ namespace NBi.Framework.Testing.FailureMessage.Markdown.Helper
 
             var records = new List<LookupMatchesViolationRecord>()
             {
-                new LookupMatchesViolationRecord()
+                new()
                 {
                     { rsCandidate.GetColumn(2)! , new LookupMatchesViolationData(true, "10.0") },
                     { rsCandidate.GetColumn(3)! , new LookupMatchesViolationData(false, false) },
                 },
-                new LookupMatchesViolationRecord()
+                new()
                 {
                     { rsCandidate.GetColumn(2)! , new LookupMatchesViolationData(false, "12") },
                     { rsCandidate.GetColumn(3)! , new LookupMatchesViolationData(false, false) },
                 },
-                new LookupMatchesViolationRecord()
+                new()
                 {
                     { rsCandidate.GetColumn(2)! , new LookupMatchesViolationData(false, "18") },
                     { rsCandidate.GetColumn(3)! , new LookupMatchesViolationData(true, true) },
@@ -174,9 +174,9 @@ namespace NBi.Framework.Testing.FailureMessage.Markdown.Helper
             var association = new LookupMatchesViolationComposite(rsCandidate.Rows.ElementAt(0), records);
 
             var sampler = new FullSampler<LookupMatchesViolationComposite>();
-            sampler.Build(new[] { association });
-            var msg = new LookupTableHelperMarkdown(new[] { association }
-                , new[] { foreignKeyDefinition, numericDefinition, booleanDefinition }
+            sampler.Build([association]);
+            var msg = new LookupTableHelperMarkdown([association]
+                , [foreignKeyDefinition, numericDefinition, booleanDefinition]
                 , sampler);
             var container = new MarkdownContainer();
             msg.Render(container);
@@ -199,8 +199,8 @@ namespace NBi.Framework.Testing.FailureMessage.Markdown.Helper
             candidateTable.Columns.Add(new DataColumn("ForeignKey"));
             candidateTable.Columns.Add(new DataColumn("Numeric value"));
             candidateTable.Columns.Add(new DataColumn("Boolean value"));
-            candidateTable.LoadDataRow(new object[] { 1, "Alpha", 10, true }, false);
-            candidateTable.LoadDataRow(new object[] { 2, "Alpha", 20, false }, false);
+            candidateTable.LoadDataRow([1, "Alpha", 10, true], false);
+            candidateTable.LoadDataRow([2, "Alpha", 20, false], false);
             var rsCandidate = new DataTableResultSet(candidateTable);
 
             var foreignKeyDefinition = new ColumnMetadata() { Identifier = new ColumnIdentifierFactory().Instantiate("ForeignKey"), Role = ColumnRole.Key };
@@ -209,17 +209,17 @@ namespace NBi.Framework.Testing.FailureMessage.Markdown.Helper
 
             var records = new List<LookupMatchesViolationRecord>()
             {
-                new LookupMatchesViolationRecord()
+                new()
                 {
                     { rsCandidate.GetColumn(2)! , new LookupMatchesViolationData(false, "17.0") },
                     { rsCandidate.GetColumn(3)! , new LookupMatchesViolationData(false, false) },
                 },
-                new LookupMatchesViolationRecord()
+                new()
                 {
                     { rsCandidate.GetColumn(2)! , new LookupMatchesViolationData(false, "12") },
                     { rsCandidate.GetColumn(3)! , new LookupMatchesViolationData(false, false) },
                 },
-                new LookupMatchesViolationRecord()
+                new()
                 {
                     { rsCandidate.GetColumn(2)! , new LookupMatchesViolationData(false, "18") },
                     { rsCandidate.GetColumn(3)! , new LookupMatchesViolationData(true, true) },
@@ -229,9 +229,9 @@ namespace NBi.Framework.Testing.FailureMessage.Markdown.Helper
             var secondAssociation = new LookupMatchesViolationComposite(rsCandidate.Rows.ElementAt(1), records);
 
             var sampler = new FullSampler<LookupMatchesViolationComposite>();
-            sampler.Build(new[] { firstAssociation, secondAssociation });
-            var msg = new LookupTableHelperMarkdown(new[] { firstAssociation, secondAssociation }
-                , new[] { foreignKeyDefinition, numericDefinition, booleanDefinition }
+            sampler.Build([firstAssociation, secondAssociation]);
+            var msg = new LookupTableHelperMarkdown([firstAssociation, secondAssociation]
+                , [foreignKeyDefinition, numericDefinition, booleanDefinition]
                 , sampler);
             var container = new MarkdownContainer();
             msg.Render(container);

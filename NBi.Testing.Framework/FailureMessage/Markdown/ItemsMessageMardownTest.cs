@@ -18,7 +18,7 @@ namespace NBi.Framework.Testing.FailureMessage.Markdown
     public class ItemsMessageMardownTest
     {
         #region Helpers
-        private IEnumerable<string> GetDataRows(int count)
+        private static IEnumerable<string> GetDataRows(int count)
         {
             var list = new List<string>();
             for (int i = 0; i < count; i++)
@@ -47,6 +47,7 @@ namespace NBi.Framework.Testing.FailureMessage.Markdown
             Assert.That(firstLine, Is.EqualTo("Set of 20 items"));
         }
 
+        [Test]
         public void RenderExpected_OneRow_ReturnCorrectNumberOfRowsOnTopWithoutPlurial()
         {
             var list = new List<string>() { "Item 01" };
@@ -63,6 +64,7 @@ namespace NBi.Framework.Testing.FailureMessage.Markdown
             Assert.That(firstLine, Is.EqualTo("Set of 1 item"));
         }
 
+        [Test]
         public void RenderExpected_MoreThanMaxRowsCount_ReturnSampleRowsCountAndHeaderAndSeparation()
         {
             var list = new List<string>();
@@ -79,7 +81,7 @@ namespace NBi.Framework.Testing.FailureMessage.Markdown
             var lines = value.Replace("\n", string.Empty).Split('\r');
 
 
-            Assert.That(lines.Count(l => l.Contains("*")), Is.EqualTo(10));
+            Assert.That(lines.Count(l => l.Contains('*')), Is.EqualTo(10));
         }
 
         [Test]
@@ -101,7 +103,7 @@ namespace NBi.Framework.Testing.FailureMessage.Markdown
             var lines = value.Replace("\n", string.Empty).Split('\r');
 
 
-            Assert.That(lines.Count(l => l.Contains("*")), Is.EqualTo(rowCount));
+            Assert.That(lines.Count(l => l.Contains('*')), Is.EqualTo(rowCount));
         }
 
         [Test]
@@ -131,7 +133,7 @@ namespace NBi.Framework.Testing.FailureMessage.Markdown
             var lines = value.Replace("\n", string.Empty).Split('\r');
 
 
-            Assert.That(lines.Count(l => l.Contains("*")), Is.EqualTo(max));
+            Assert.That(lines.Count(l => l.Contains('*')), Is.EqualTo(max));
         }
 
         [Test]

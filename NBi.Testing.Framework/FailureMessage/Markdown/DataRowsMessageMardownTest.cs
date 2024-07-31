@@ -20,14 +20,14 @@ namespace NBi.Framework.Testing.FailureMessage.Markdown
     public class DataRowsMessageMardownTest
     {
         #region Helpers
-        private IEnumerable<IResultRow> GetDataRows(int count)
+        private static IEnumerable<IResultRow> GetDataRows(int count)
         {
             var dataTable = new DataTable() { TableName = "MyTable" };
             dataTable.Columns.Add(new DataColumn("Id"));
             dataTable.Columns.Add(new DataColumn("Numeric value"));
             dataTable.Columns.Add(new DataColumn("Boolean value"));
             for (int i = 0; i < count; i++)
-                dataTable.LoadDataRow(new object[] { "Alpha", i, true }, false);
+                dataTable.LoadDataRow(["Alpha", i, true], false);
             var rs = new DataTableResultSet(dataTable);
 
             return rs.Rows;
@@ -42,7 +42,7 @@ namespace NBi.Framework.Testing.FailureMessage.Markdown
             dataTable.Columns.Add(new DataColumn("Numeric value"));
             dataTable.Columns.Add(new DataColumn("Boolean value"));
             for (int i = 0; i < 20; i++)
-                dataTable.LoadDataRow(new object[] { "Alpha", i, true }, false);
+                dataTable.LoadDataRow(["Alpha", i, true], false);
             var rs = new DataTableResultSet(dataTable);
 
             var samplers = new SamplersFactory<IResultRow>().Instantiate(FailureReportProfile.Default);
@@ -62,7 +62,7 @@ namespace NBi.Framework.Testing.FailureMessage.Markdown
             dataTable.Columns.Add(new DataColumn("Numeric value"));
             dataTable.Columns.Add(new DataColumn("Boolean value"));
             for (int i = 0; i < 1; i++)
-                dataTable.LoadDataRow(new object[] { "Alpha", i, true }, false);
+                dataTable.LoadDataRow(["Alpha", i, true], false);
             var rs = new DataTableResultSet(dataTable);
 
             var samplers = new SamplersFactory<IResultRow>().Instantiate(FailureReportProfile.Default);
@@ -84,7 +84,7 @@ namespace NBi.Framework.Testing.FailureMessage.Markdown
             dataTable.Columns.Add(new DataColumn("Boolean value"));
             dataTable.Columns["Id"]!.ExtendedProperties.Add("NBi::Role", ColumnRole.Key);
             for (int i = 0; i < 20; i++)
-                dataTable.LoadDataRow(new object[] { "Alpha", i, true }, false);
+                dataTable.LoadDataRow(["Alpha", i, true], false);
             var rs = new DataTableResultSet(dataTable);
 
             var samplers = new SamplersFactory<IResultRow>().Instantiate(FailureReportProfile.Default);
@@ -93,7 +93,7 @@ namespace NBi.Framework.Testing.FailureMessage.Markdown
             var value = msg.RenderExpected();
             var lines = value.Replace("\n", string.Empty).Split('\r');
 
-            Assert.That(lines.Count(l => l.Contains("|")), Is.EqualTo(10 + 3));
+            Assert.That(lines.Count(l => l.Contains('|')), Is.EqualTo(10 + 3));
         }
 
         [Test]
@@ -104,7 +104,7 @@ namespace NBi.Framework.Testing.FailureMessage.Markdown
             dataTable.Columns.Add(new DataColumn("Numeric value"));
             dataTable.Columns.Add(new DataColumn("Boolean value"));
             for (int i = 0; i < 20; i++)
-                dataTable.LoadDataRow(new object[] { "Alpha", i, true }, false);
+                dataTable.LoadDataRow(["Alpha", i, true], false);
             var rs = new DataTableResultSet(dataTable);
 
             var samplers = new SamplersFactory<IResultRow>().Instantiate(FailureReportProfile.Default);
@@ -113,7 +113,7 @@ namespace NBi.Framework.Testing.FailureMessage.Markdown
             var value = msg.RenderExpected();
             var lines = value.Replace("\n", string.Empty).Split('\r');
 
-            Assert.That(lines.Count(l => l.Contains("|")), Is.EqualTo(10 + 3 -1)); //-1 because we've no ExtendedProperties
+            Assert.That(lines.Count(l => l.Contains('|')), Is.EqualTo(10 + 3 -1)); //-1 because we've no ExtendedProperties
         }
 
         [Test]
@@ -127,7 +127,7 @@ namespace NBi.Framework.Testing.FailureMessage.Markdown
             dataTable.Columns.Add(new DataColumn("Boolean value"));
             dataTable.Columns["Id"]!.ExtendedProperties.Add("NBi::Role", ColumnRole.Key);
             for (int i = 0; i < rowCount; i++)
-                dataTable.LoadDataRow(new object[] { "Alpha", i, true }, false);
+                dataTable.LoadDataRow(["Alpha", i, true], false);
             var rs = new DataTableResultSet(dataTable);
 
             var samplers = new SamplersFactory<IResultRow>().Instantiate(FailureReportProfile.Default);
@@ -136,7 +136,7 @@ namespace NBi.Framework.Testing.FailureMessage.Markdown
             var value = msg.RenderExpected();
             var lines = value.Replace("\n", string.Empty).Split('\r');
             
-            Assert.That(lines.Count(l => l.Contains("|")), Is.EqualTo(rowCount + 3));
+            Assert.That(lines.Count(l => l.Contains('|')), Is.EqualTo(rowCount + 3));
         }
 
         [Test]
@@ -152,7 +152,7 @@ namespace NBi.Framework.Testing.FailureMessage.Markdown
             dataTable.Columns.Add(new DataColumn("Boolean value"));
             dataTable.Columns["Id"]!.ExtendedProperties.Add("NBi::Role", ColumnRole.Key);
             for (int i = 0; i < rowCount; i++)
-                dataTable.LoadDataRow(new object[] { "Alpha", i, true }, false);
+                dataTable.LoadDataRow(["Alpha", i, true], false);
             var rs = new DataTableResultSet(dataTable);
 
             var profile = Mock.Of<IFailureReportProfile>(p =>
@@ -167,7 +167,7 @@ namespace NBi.Framework.Testing.FailureMessage.Markdown
             var value = msg.RenderExpected();
             var lines = value.Replace("\n", string.Empty).Split('\r');
             
-            Assert.That(lines.Count(l => l.Contains("|")), Is.EqualTo(max + 3));
+            Assert.That(lines.Count(l => l.Contains('|')), Is.EqualTo(max + 3));
         }
 
         [Test]
@@ -183,7 +183,7 @@ namespace NBi.Framework.Testing.FailureMessage.Markdown
             dataTable.Columns.Add(new DataColumn("Boolean value"));
             dataTable.Columns["Id"]!.ExtendedProperties.Add("NBi::Role", ColumnRole.Key);
             for (int i = 0; i < rowCount; i++)
-                dataTable.LoadDataRow(new object[] { "Alpha", i, true }, false);
+                dataTable.LoadDataRow(["Alpha", i, true], false);
             var rs = new DataTableResultSet(dataTable);
 
             var profile = Mock.Of<IFailureReportProfile>(p =>
@@ -198,7 +198,7 @@ namespace NBi.Framework.Testing.FailureMessage.Markdown
             var value = msg.RenderExpected();
             var lines = value.Replace("\n", string.Empty).Split('\r');
             
-            Assert.That(lines.Count(l => l.Contains("|")), Is.EqualTo(rowCount + 3));
+            Assert.That(lines.Count(l => l.Contains('|')), Is.EqualTo(rowCount + 3));
         }
 
         [Test]
@@ -213,7 +213,7 @@ namespace NBi.Framework.Testing.FailureMessage.Markdown
             dataTable.Columns.Add(new DataColumn("Numeric value"));
             dataTable.Columns.Add(new DataColumn("Boolean value"));
             for (int i = 0; i < rowCount; i++)
-                dataTable.LoadDataRow(new object[] { "Alpha", i, true }, false);
+                dataTable.LoadDataRow(["Alpha", i, true], false);
             var rs = new DataTableResultSet(dataTable);
 
             var profile = Mock.Of<IFailureReportProfile>(p =>
@@ -229,7 +229,7 @@ namespace NBi.Framework.Testing.FailureMessage.Markdown
             var lines = value.Replace("\n", string.Empty).Split('\r');
 
 
-            Assert.That(lines.Count(l => l.Contains("|")), Is.EqualTo(0));
+            Assert.That(lines.Count(l => l.Contains('|')), Is.EqualTo(0));
             Assert.That(lines, Has.All.EqualTo("Display skipped."));
         }
 
@@ -241,7 +241,7 @@ namespace NBi.Framework.Testing.FailureMessage.Markdown
             dataTable.Columns.Add(new DataColumn("Numeric value"));
             dataTable.Columns.Add(new DataColumn("Boolean value"));
             for (int i = 0; i < 22; i++)
-                dataTable.LoadDataRow(new object[] { "Alpha", i, true }, false);
+                dataTable.LoadDataRow(["Alpha", i, true], false);
             var rs = new DataTableResultSet(dataTable);
 
             var samplers = new SamplersFactory<IResultRow>().Instantiate(FailureReportProfile.Default);
@@ -265,7 +265,7 @@ namespace NBi.Framework.Testing.FailureMessage.Markdown
             dataTable.Columns.Add(new DataColumn("Numeric value"));
             dataTable.Columns.Add(new DataColumn("Boolean value"));
             for (int i = 0; i < rowCount; i++)
-                dataTable.LoadDataRow(new object[] { "Alpha", i, true }, false);
+                dataTable.LoadDataRow(["Alpha", i, true], false);
             var rs = new DataTableResultSet(dataTable);
 
             var samplers = new SamplersFactory<IResultRow>().Instantiate(FailureReportProfile.Default);

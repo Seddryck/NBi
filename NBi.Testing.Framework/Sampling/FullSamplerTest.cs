@@ -51,7 +51,7 @@ namespace NBi.Framework.Testing.Sampling
         [Test]
         public void GetResult_EmptyList_Empty()
         {
-            var values = new int[0];
+            var values = Array.Empty<int>();
 
             var sampler = new FullSampler<int>();
             sampler.Build(values);
@@ -62,7 +62,7 @@ namespace NBi.Framework.Testing.Sampling
         [Test]
         public void IsSampled_EmptyList_False()
         {
-            var values = new int[0];
+            var values = Array.Empty<int>();
 
             var sampler = new FullSampler<int>();
             sampler.Build(values);
@@ -73,7 +73,7 @@ namespace NBi.Framework.Testing.Sampling
         [Test]
         public void GetExcludedRowCount_EmptyList_0()
         {
-            var values = new int[0];
+            var values = Array.Empty<int>();
 
             var sampler = new FullSampler<int>();
             sampler.Build(values);

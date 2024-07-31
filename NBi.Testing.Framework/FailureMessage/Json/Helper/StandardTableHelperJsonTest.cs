@@ -24,8 +24,8 @@ namespace NBi.Framework.Testing.FailureMessage.Json.Helper
             dataTable.Columns.Add(new DataColumn("Id"));
             dataTable.Columns.Add(new DataColumn("Numeric value"));
             dataTable.Columns.Add(new DataColumn("Boolean value"));
-            dataTable.LoadDataRow(new object[] { "Alpha", 10, true }, false);
-            dataTable.LoadDataRow(new object[] { "Beta", 20, false }, false);
+            dataTable.LoadDataRow(["Alpha", 10, true], false);
+            dataTable.LoadDataRow(["Beta", 20, false], false);
             var rs = new DataTableResultSet(dataTable);
 
             var idDefinition = new ColumnMetadata() { Identifier = new ColumnIdentifierFactory().Instantiate("Id"), Role = ColumnRole.Key };
@@ -33,19 +33,17 @@ namespace NBi.Framework.Testing.FailureMessage.Json.Helper
             var sampler = new FullSampler<IResultRow>();
             sampler.Build(rs.Rows);
             var msg = new StandardTableHelperJson(rs.Rows
-                , new ColumnMetadata[] { idDefinition }
+                , [idDefinition]
                 , sampler);
             var sb = new StringBuilder();
-            using (var sw = new StringWriter(sb))
-            using (var writer = new JsonTextWriter(sw))
-            {
-                msg.Render(writer);
-                var value = sb.ToString();
-                Assert.That(sb.ToString, Does.Contain("\"total-rows\":2"));
-                Assert.That(sb.ToString, Does.Contain("\"table\":{\"columns\":[{"));
-                Assert.That(sb.ToString, Does.Contain("{\"position\":0,\"name\":\"Id\",\"role\":\"KEY\",\"type\":\"Text\"}"));
-                Assert.That(sb.ToString, Does.Contain("\"rows\":[[\"Alpha\",\"10\",\"True\"],["));
-            }
+            using var sw = new StringWriter(sb);
+            using var writer = new JsonTextWriter(sw);
+            msg.Render(writer);
+            var value = sb.ToString();
+            Assert.That(sb.ToString, Does.Contain("\"total-rows\":2"));
+            Assert.That(sb.ToString, Does.Contain("\"table\":{\"columns\":[{"));
+            Assert.That(sb.ToString, Does.Contain("{\"position\":0,\"name\":\"Id\",\"role\":\"KEY\",\"type\":\"Text\"}"));
+            Assert.That(sb.ToString, Does.Contain("\"rows\":[[\"Alpha\",\"10\",\"True\"],["));
         }
 
         [Test]
@@ -55,8 +53,8 @@ namespace NBi.Framework.Testing.FailureMessage.Json.Helper
             dataTable.Columns.Add(new DataColumn("Id"));
             dataTable.Columns.Add(new DataColumn("Numeric value"));
             dataTable.Columns.Add(new DataColumn("Boolean value"));
-            dataTable.LoadDataRow(new object[] { "Alpha", 10, true }, false);
-            dataTable.LoadDataRow(new object[] { "Beta", 20, false }, false);
+            dataTable.LoadDataRow(["Alpha", 10, true], false);
+            dataTable.LoadDataRow(["Beta", 20, false], false);
             var rs = new DataTableResultSet(dataTable);
 
             var idDefinition = new ColumnMetadata() { Identifier = new ColumnIdentifierFactory().Instantiate("#0"), Role = ColumnRole.Key };
@@ -66,18 +64,16 @@ namespace NBi.Framework.Testing.FailureMessage.Json.Helper
             var sampler = new FullSampler<IResultRow>();
             sampler.Build(rs.Rows);
             var msg = new StandardTableHelperJson(rs.Rows
-                , new ColumnMetadata[] { idDefinition, numericDefinition, booleanDefinition }
+                , [idDefinition, numericDefinition, booleanDefinition]
                 , sampler);
             var sb = new StringBuilder();
-            using (var sw = new StringWriter(sb))
-            using (var writer = new JsonTextWriter(sw))
-            {
-                msg.Render(writer);
-                var value = sb.ToString();
-                Assert.That(sb.ToString, Does.Contain("{\"position\":0,\"name\":\"Id\",\"role\":\"KEY\",\"type\":\"Text\"}"));
-                Assert.That(sb.ToString, Does.Contain("{\"position\":1,\"name\":\"Numeric value\",\"role\":\"VALUE\",\"type\":\"Numeric\"}"));
-                Assert.That(sb.ToString, Does.Contain("{\"position\":2,\"name\":\"Boolean value\",\"role\":\"VALUE\",\"type\":\"Boolean\"}"));
-            }
+            using var sw = new StringWriter(sb);
+            using var writer = new JsonTextWriter(sw);
+            msg.Render(writer);
+            var value = sb.ToString();
+            Assert.That(sb.ToString, Does.Contain("{\"position\":0,\"name\":\"Id\",\"role\":\"KEY\",\"type\":\"Text\"}"));
+            Assert.That(sb.ToString, Does.Contain("{\"position\":1,\"name\":\"Numeric value\",\"role\":\"VALUE\",\"type\":\"Numeric\"}"));
+            Assert.That(sb.ToString, Does.Contain("{\"position\":2,\"name\":\"Boolean value\",\"role\":\"VALUE\",\"type\":\"Boolean\"}"));
         }
     }
 }

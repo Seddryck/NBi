@@ -13,7 +13,7 @@ using Newtonsoft.Json;
 using NBi.Framework.Sampling;
 using NBi.Extensibility;
 
-namespace NBi.Testing.Framework.FailureMessage.Json.Helper
+namespace NBi.Framework.Testing.FailureMessage.Json.Helper
 {
     public class StandardTableHelperJsonTest
     {

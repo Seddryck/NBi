@@ -17,9 +17,9 @@ namespace NBi.Framework.FailureMessage.Json
         private readonly IDictionary<string, ISampler<IResultRow>> samplers;
         private readonly EngineStyle style;
 
-        private string expected;
-        private string actual;
-        private string analysis;
+        private string expected = string.Empty;
+        private string actual = string.Empty;
+        private string analysis = string.Empty;
 
 
         public DataRowsMessageJson(EngineStyle style, IDictionary<string, ISampler<IResultRow>> samplers)
@@ -28,21 +28,20 @@ namespace NBi.Framework.FailureMessage.Json
             this.samplers = samplers;
         }
 
-        public void BuildComparaison(IEnumerable<IResultRow> expectedRows, IEnumerable<IResultRow> actualRows, ResultResultSet compareResult)
+        public void BuildComparaison(IEnumerable<IResultRow> expectedRows, IEnumerable<IResultRow> actualRows, ResultResultSet? compareResult)
         {
-            compareResult = compareResult ?? ResultResultSet.Build(new List<IResultRow>(), new List<IResultRow>(), new List<IResultRow>(), new List<IResultRow>(), new List<IResultRow>());
+            compareResult ??= ResultResultSet.Build([], [], [], [], []);
 
             expected = BuildTable(expectedRows, samplers["expected"]);
             actual = BuildTable(actualRows, samplers["actual"]);
 
             analysis = BuildMultipleTables(
-                new[]
-                {
-                    new Tuple<string, IEnumerable<IResultRow>, TableHelperJson>("unexpected", compareResult.Unexpected, new TableHelperJson()),
-                    new Tuple<string, IEnumerable<IResultRow>, TableHelperJson>("missing", compareResult.Missing, new TableHelperJson()),
-                    new Tuple<string, IEnumerable<IResultRow>, TableHelperJson>("duplicated", compareResult.Duplicated, new TableHelperJson()),
-                    new Tuple<string, IEnumerable<IResultRow>, TableHelperJson>("non-matching", compareResult.NonMatchingValue.Rows, new CompareTableHelperJson()),
-                }, samplers["analysis"]
+                [
+                    new Tuple<string, IEnumerable<IResultRow>, TableHelperJson>("unexpected", compareResult.Unexpected ?? [], new TableHelperJson()),
+                    new Tuple<string, IEnumerable<IResultRow>, TableHelperJson>("missing", compareResult.Missing ?? [], new TableHelperJson()),
+                    new Tuple<string, IEnumerable<IResultRow>, TableHelperJson>("duplicated", compareResult.Duplicated ?? [], new TableHelperJson()),
+                    new Tuple<string, IEnumerable<IResultRow>, TableHelperJson>("non-matching", compareResult.NonMatchingValue?.Rows ?? [], new CompareTableHelperJson()),
+                ], samplers["analysis"]
              );
         }
 

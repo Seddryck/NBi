@@ -13,7 +13,7 @@ namespace NBi.Framework.Sampling
 
         private bool isBuild = false;
 
-        private IEnumerable<T> result;
+        private IEnumerable<T> result = [];
         private bool isSampled = false;
         private int excludedRowCount = 0;
 

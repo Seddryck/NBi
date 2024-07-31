@@ -31,9 +31,8 @@ namespace NBi.Framework.FailureMessage.Common.Helper
         {
             var metadataDico = new Dictionary<IResultColumn, ColumnMetadata>();
             foreach (var definition in existingDefinitions)
-                metadataDico.Add(definition.Identifier.GetColumn(table), definition);
+                metadataDico.Add(definition.Identifier?.GetColumn(table) ?? throw new NullReferenceException(), definition);
 
-            var identifierFactory = new ColumnIdentifierFactory();
             foreach (var dataColumn in table.Columns)
             {
                 var metadata = metadataDico.ContainsKey(dataColumn) 
@@ -57,7 +56,7 @@ namespace NBi.Framework.FailureMessage.Common.Helper
 
         protected internal class ExtendedMetadata : ColumnMetadata
         {
-            public string Name { get; set; }
+            public string Name { get; set; } = string.Empty;
             public int Ordinal { get; set; }
         }
     }

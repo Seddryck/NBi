@@ -46,17 +46,17 @@ namespace NBi.Framework.FailureMessage.Markdown.Helper
             var cells = new List<TableCellExtended>();
             for (int i = 0; i < row.Parent.ColumnCount; i++)
             {
-                if (record.ContainsKey(row.Parent.GetColumn(i)))
+                if (record.ContainsKey(row.Parent.GetColumn(i) ?? throw new NullReferenceException()))
                 {
                     var displayValue = RenderCell(
-                        row.IsNull(i) ? DBNull.Value : row.ItemArray[i]
-                        , record[row.Parent.GetColumn(i)]
+                        row.IsNull(i) ? DBNull.Value : row.ItemArray[i]!
+                        , record[row.Parent.GetColumn(i)!]
                         , metadatas.ElementAt(i).Type);
                     cells.Add(new TableCellExtended() { Text = displayValue });
                 }
                 else
                 {
-                    var displayValue = RenderCell(row.IsNull(i) ? DBNull.Value : row.ItemArray[i], metadatas.ElementAt(i).Type);
+                    var displayValue = RenderCell(row.IsNull(i) ? DBNull.Value : row.ItemArray[i]!, metadatas.ElementAt(i).Type);
                     cells.Add(new TableCellExtended() { Text = displayValue });
                 }
             }
@@ -68,11 +68,11 @@ namespace NBi.Framework.FailureMessage.Markdown.Helper
             var cells = new List<TableCellExtended>();
             for (int i = 0; i < row.Parent.ColumnCount; i++)
             {
-                if (record.ContainsKey(row.Parent.GetColumn(i)))
+                if (record.ContainsKey(row.Parent.GetColumn(i) ?? throw new NullReferenceException()))
                 {
                     var displayValue = RenderCell(
-                        row.IsNull(i) ? DBNull.Value : row.ItemArray[i]
-                        , record[row.Parent.GetColumn(i)]
+                        row.IsNull(i) ? DBNull.Value : row.ItemArray[i]!
+                        , record[row.Parent.GetColumn(i)!]
                         , metadatas.ElementAt(i).Type);
                     cells.Add(new TableCellExtended() { Text = displayValue });
                 }

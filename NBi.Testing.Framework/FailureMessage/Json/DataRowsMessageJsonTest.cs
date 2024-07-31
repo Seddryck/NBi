@@ -15,7 +15,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Testing.Framework.FailureMessage.Json
+namespace NBi.Framework.Testing.FailureMessage.Json
 {
     public class DataRowsMessageJsonTest
     {
@@ -47,7 +47,7 @@ namespace NBi.Testing.Framework.FailureMessage.Json
 
             var samplers = new SamplersFactory<IResultRow>().Instantiate(FailureReportProfile.Default);
             var msg = new DataRowsMessageJson(EngineStyle.ByIndex, samplers);
-            msg.BuildComparaison(rs.Rows, null, null);
+            msg.BuildComparaison(rs.Rows, [], null);
             var value = msg.RenderExpected();
 
             Assert.That(value, Does.Contain("\"total-rows\":20"));
@@ -66,7 +66,7 @@ namespace NBi.Testing.Framework.FailureMessage.Json
 
             var samplers = new SamplersFactory<IResultRow>().Instantiate(FailureReportProfile.Default);
             var msg = new DataRowsMessageJson(EngineStyle.ByIndex, samplers);
-            msg.BuildComparaison(rs.Rows, null, null);
+            msg.BuildComparaison(rs.Rows, [], null);
             var value = msg.RenderExpected();
             Assert.That(value, Does.Contain("\"sampled-rows\":10"));
 
@@ -89,7 +89,7 @@ namespace NBi.Testing.Framework.FailureMessage.Json
 
             var samplers = new SamplersFactory<IResultRow>().Instantiate(FailureReportProfile.Default);
             var msg = new DataRowsMessageJson(EngineStyle.ByIndex, samplers);
-            msg.BuildComparaison(rs.Rows, null, null);
+            msg.BuildComparaison(rs.Rows, [], null);
 
             var value = msg.RenderExpected();
             Assert.That(value, Does.Not.Contain("\"sampled-rows\":"));
@@ -120,7 +120,7 @@ namespace NBi.Testing.Framework.FailureMessage.Json
             );
             var samplers = new SamplersFactory<IResultRow>().Instantiate(profile);
             var msg = new DataRowsMessageJson(EngineStyle.ByIndex, samplers);
-            msg.BuildComparaison(rs.Rows, null, null);
+            msg.BuildComparaison(rs.Rows, [], null);
             var value = msg.RenderExpected();
             Assert.That(value, Does.Not.Contain("\"sampled-rows\":"));
 
@@ -151,7 +151,7 @@ namespace NBi.Testing.Framework.FailureMessage.Json
             );
             var samplers = new SamplersFactory<IResultRow>().Instantiate(profile);
             var msg = new DataRowsMessageJson(EngineStyle.ByIndex, samplers);
-            msg.BuildComparaison(rs.Rows, null, null);
+            msg.BuildComparaison(rs.Rows, [], null);
             var value = msg.RenderExpected();
             Assert.That(value, Does.Contain($"\"total-rows\":{rowCount}"));
             Assert.That(value, Does.Contain($"\"sampled-rows\":{max}"));
@@ -185,7 +185,7 @@ namespace NBi.Testing.Framework.FailureMessage.Json
 
             var samplers = new SamplersFactory<IResultRow>().Instantiate(FailureReportProfile.Default);
             var msg = new DataRowsMessageJson(EngineStyle.ByIndex, samplers);
-            msg.BuildComparaison(null, null, compared);
+            msg.BuildComparaison([], [], compared);
             var value = msg.RenderAnalysis();
 
             Assert.That(value, Does.Contain($"\"{expectedText}\":{{\"total-rows\":0}}"));
@@ -215,7 +215,7 @@ namespace NBi.Testing.Framework.FailureMessage.Json
 
             var samplers = new SamplersFactory<IResultRow>().Instantiate(FailureReportProfile.Default);
             var msg = new DataRowsMessageJson(EngineStyle.ByIndex, samplers);
-            msg.BuildComparaison(null, null, compared);
+            msg.BuildComparaison([], [], compared);
             var value = msg.RenderAnalysis();
 
             Assert.That(value, Does.Contain($"\"{expectedText}\":{{\"total-rows\":3"));

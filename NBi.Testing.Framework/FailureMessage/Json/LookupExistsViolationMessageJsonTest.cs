@@ -17,7 +17,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Testing.Framework.FailureMessage.Json
+namespace NBi.Framework.Testing.FailureMessage.Json
 {
     public class LookupExistsViolationMessageJsonTest
     {
@@ -101,7 +101,7 @@ namespace NBi.Testing.Framework.FailureMessage.Json
             };
 
             var message = new LookupExistsViolationMessageJson(samplers);
-            message.Generate(rsReference.Rows, rsCandidate.Rows, violations, keyMappings, null);
+            message.Generate(rsReference.Rows, rsCandidate.Rows, violations, keyMappings, []);
 
             var text = message.RenderMessage();
             Assert.That(text, Does.Contain("\"actual\":{\"total-rows\":2}"));

@@ -37,7 +37,7 @@ namespace NBi.Framework.Markdown.MarkdownLogExtension
         {
             private class Row
             {
-                public IList<ITableCellExtended> Cells { get; set; }
+                public IList<ITableCellExtended> Cells { get; set; } = [];
             }
 
             private readonly List<Row> _rows;

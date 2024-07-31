@@ -32,7 +32,7 @@ namespace NBi.Framework.FailureMessage.Json.Helper
             writer.WriteStartArray();
             for (int i = 0; i < row.Parent.ColumnCount; i++)
             {
-                RenderCell(row.IsNull(i) ? DBNull.Value : row.ItemArray[i], columnTypes.ElementAt(i), writer);
+                RenderCell(row.IsNull(i) ? DBNull.Value : row.ItemArray[i]!, columnTypes.ElementAt(i), writer);
             }
             writer.WriteEndArray();
         }

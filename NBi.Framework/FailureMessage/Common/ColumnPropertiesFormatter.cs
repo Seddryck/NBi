@@ -17,7 +17,7 @@ namespace NBi.Framework.FailureMessage.Markdown.Helper
         public virtual string GetText(ColumnMetadata metadata)
             => GetText(metadata.Role, metadata.Type, metadata.Tolerance, metadata.Rounding);
 
-        public virtual string GetText(ColumnRole role, ColumnType type, Tolerance tolerance, Rounding rounding)
+        public virtual string GetText(ColumnRole role, ColumnType type, Tolerance? tolerance, Rounding? rounding)
         {
             var roleText = GetRoleText(role);
             if (string.IsNullOrEmpty(roleText))
@@ -61,7 +61,7 @@ namespace NBi.Framework.FailureMessage.Markdown.Helper
             return "?";
         }
 
-        public string GetToleranceText(Tolerance tolerance)
+        public string GetToleranceText(Tolerance? tolerance)
         {
             var toleranceText = string.Empty;
             if (tolerance != null && tolerance!=TextSingleMethodTolerance.None && tolerance!=DateTimeTolerance.None && tolerance!=NumericAbsoluteTolerance.None)
@@ -69,7 +69,7 @@ namespace NBi.Framework.FailureMessage.Markdown.Helper
             return toleranceText;
         }
 
-        public string GetRoundingText(Rounding rounding)
+        public string GetRoundingText(Rounding? rounding)
         {
             var roundingText = string.Empty;
             if (rounding != null)

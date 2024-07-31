@@ -20,11 +20,11 @@ namespace NBi.Framework.FailureMessage.Json
         public void Execute(IEnumerable<IResultRow> rows, ISampler<IResultRow> sampler, JsonWriter writer)
         {
             rows = rows ?? Enumerable.Empty<IResultRow>();
-            Execute(rows, sampler, BuildMetadataFromTable(rows.Count() > 0 ? rows.ElementAt(0).Parent : null), writer);
+            Execute(rows, sampler, BuildMetadataFromTable(rows.Any() ? rows.ElementAt(0)!.Parent : null), writer);
         }
             
 
-        private IEnumerable<ColumnMetadata> BuildMetadataFromTable(IResultSet table)
+        private IEnumerable<ColumnMetadata> BuildMetadataFromTable(IResultSet? table)
         {
             if (table == null)
                 yield break;
@@ -35,8 +35,8 @@ namespace NBi.Framework.FailureMessage.Json
                 {
                     Role = (ColumnRole)(column.GetProperty("Role") ?? ColumnRole.Key),
                     Type = (ColumnType)(column.GetProperty("Type") ?? ColumnType.Text),
-                    Tolerance = (Tolerance)(column.GetProperty("Tolerance")),
-                    Rounding = (Rounding)(column.GetProperty("Rounding"))
+                    Tolerance = (Tolerance?)(column.GetProperty("Tolerance")),
+                    Rounding = (Rounding?)(column.GetProperty("Rounding"))
                 };
             }
         }
@@ -72,9 +72,9 @@ namespace NBi.Framework.FailureMessage.Json
 
                     writer.WriteStartObject();
                     writer.WritePropertyName("position");
-                    writer.WriteValue(table.GetColumn(i).Ordinal);
+                    writer.WriteValue(table.GetColumn(i)?.Ordinal);
                     writer.WritePropertyName("name");
-                    writer.WriteValue(table.GetColumn(i).Name);
+                    writer.WriteValue(table.GetColumn(i)?.Name);
 
                     var cpFormatter = new ColumnPropertiesFormatter();
                     writer.WritePropertyName("role");

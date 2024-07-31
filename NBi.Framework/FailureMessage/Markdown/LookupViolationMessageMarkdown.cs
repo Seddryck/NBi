@@ -37,17 +37,12 @@ namespace NBi.Framework.FailureMessage.Markdown
         protected virtual IEnumerable<IColumnDefinition> BuildMetadata(ColumnMappingCollection mappings, ColumnRole role, Func<ColumnMapping, IColumnIdentifier> identify)
         {
             foreach (var mapping in mappings ?? new ColumnMappingCollection())
-                yield return new Column()
-                {
-                    Identifier = identify.Invoke(mapping),
-                    Role = role,
-                    Type = mapping.Type,
-                };
+                yield return new Column(identify.Invoke(mapping),role,mapping.Type);
         }
 
-        public override string RenderReference() => reference.ToMarkdown();
-        public override string RenderCandidate() => candidate.ToMarkdown();
-        public override string RenderAnalysis() => analysis.ToMarkdown();
+        public override string RenderReference() => reference?.ToMarkdown() ?? string.Empty;
+        public override string RenderCandidate() => candidate?.ToMarkdown() ?? string.Empty;
+        public override string RenderAnalysis() => analysis?.ToMarkdown() ?? string.Empty;
 
         private string Textify(RowViolationState s)
         {

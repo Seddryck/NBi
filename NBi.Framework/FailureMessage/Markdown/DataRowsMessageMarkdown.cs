@@ -17,9 +17,9 @@ namespace NBi.Framework.FailureMessage.Markdown
         private readonly IDictionary<string, ISampler<IResultRow>> samplers;
         private readonly EngineStyle style;
 
-        private MarkdownContainer expected;
-        private MarkdownContainer actual;
-        private MarkdownContainer analysis;
+        private MarkdownContainer? expected;
+        private MarkdownContainer? actual;
+        private MarkdownContainer? analysis;
 
         public DataRowsMessageMarkdown(EngineStyle style, IDictionary<string, ISampler<IResultRow>> samplers)
         {
@@ -27,16 +27,16 @@ namespace NBi.Framework.FailureMessage.Markdown
             this.samplers = samplers;
         }
 
-        public void BuildComparaison(IEnumerable<IResultRow> expectedRows, IEnumerable<IResultRow> actualRows, ResultResultSet compareResult)
+        public void BuildComparaison(IEnumerable<IResultRow> expectedRows, IEnumerable<IResultRow> actualRows, ResultResultSet? compareResult)
         {
-            compareResult = compareResult ?? ResultResultSet.Build(new List<IResultRow>(), new List<IResultRow>(), new List<IResultRow>(), new List<IResultRow>(), new List<IResultRow>());
+            compareResult ??= ResultResultSet.Build([], [], [], [], []);
 
             expected = BuildTable(style, expectedRows, samplers["expected"]);
             actual = BuildTable(style, actualRows, samplers["actual"]);
-            analysis = BuildNonEmptyTable(style, compareResult.Unexpected, "Unexpected", samplers["analysis"]);
-            analysis.Append(BuildNonEmptyTable(style, compareResult.Missing ?? new List<IResultRow>(), "Missing", samplers["analysis"]));
-            analysis.Append(BuildNonEmptyTable(style, compareResult.Duplicated ?? new List<IResultRow>(), "Duplicated", samplers["analysis"]));
-            analysis.Append(BuildCompareTable(style, compareResult.NonMatchingValue.Rows ?? new List<IResultRow>(), "Non matching value", samplers["analysis"]));
+            analysis = BuildNonEmptyTable(style, compareResult.Unexpected ?? [], "Unexpected", samplers["analysis"]);
+            analysis.Append(BuildNonEmptyTable(style, compareResult.Missing ?? [], "Missing", samplers["analysis"]));
+            analysis.Append(BuildNonEmptyTable(style, compareResult.Duplicated ?? [], "Duplicated", samplers["analysis"]));
+            analysis.Append(BuildCompareTable(style, compareResult.NonMatchingValue?.Rows ?? [], "Non matching value", samplers["analysis"]));
         }
 
         public void BuildDuplication(IEnumerable<IResultRow> actualRows, ResultUniqueRows result)
@@ -50,7 +50,7 @@ namespace NBi.Framework.FailureMessage.Markdown
             actual.Append(new Paragraph(sb.ToString()));
             actual.Append(BuildTable(style, actualRows, samplers["actual"]));
             analysis = new MarkdownContainer();
-            analysis.Append(BuildNonEmptyTable(style, result.Rows, "Duplicated", samplers["analysis"]));
+            analysis.Append(BuildNonEmptyTable(style, result.Rows!, "Duplicated", samplers["analysis"]));
         }
 
         public void BuildFilter(IEnumerable<IResultRow> actualRows, IEnumerable<IResultRow> filteredRows)
@@ -125,7 +125,7 @@ namespace NBi.Framework.FailureMessage.Markdown
             if (samplers["expected"] is NoneSampler<IResultRow>)
                 return "Display skipped.";
             else
-                return expected?.ToMarkdown();
+                return expected?.ToMarkdown() ?? string.Empty;
         }
 
         public string RenderActual()
@@ -133,7 +133,7 @@ namespace NBi.Framework.FailureMessage.Markdown
             if (samplers["actual"] is NoneSampler<IResultRow>)
                 return "Display skipped.";
             else
-                return actual.ToMarkdown();
+                return actual?.ToMarkdown() ?? string.Empty;
         }
 
         public string RenderAnalysis()
@@ -141,7 +141,7 @@ namespace NBi.Framework.FailureMessage.Markdown
             if (samplers["analysis"] is NoneSampler<IResultRow>)
                 return "Display skipped.";
             else
-                return analysis.ToMarkdown();
+                return analysis?.ToMarkdown() ?? string.Empty;
         }
 
         public string RenderMessage()

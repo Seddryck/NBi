@@ -105,8 +105,8 @@ namespace NBi.Framework.FailureMessage.Markdown.Helper
                 {
                     var role = (ColumnRole)(dataColumn.GetProperty("Role") ?? ColumnRole.Key);
                     var type = (ColumnType)(dataColumn.GetProperty("Type") ?? ColumnType.Text);
-                    var tolerance = (Tolerance)(dataColumn.GetProperty("Tolerance"));
-                    var rounding = (Rounding)(dataColumn.GetProperty("Rounding"));
+                    var tolerance = (Tolerance?)(dataColumn.GetProperty("Tolerance"));
+                    var rounding = (Rounding?)(dataColumn.GetProperty("Rounding"));
                     columnTypes.Add(type);
 
                     var subHeader = formatter.GetText(role, type, tolerance, rounding);

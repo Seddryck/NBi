@@ -5,7 +5,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-namespace NBi.Testing.Framework
+namespace NBi.Framework.Testing
 {
     public static class StringExtensions
     {

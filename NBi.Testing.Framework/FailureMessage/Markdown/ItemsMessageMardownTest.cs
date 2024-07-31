@@ -13,7 +13,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Testing.Framework.FailureMessage.Markdown
+namespace NBi.Framework.Testing.FailureMessage.Markdown
 {
     public class ItemsMessageMardownTest
     {
@@ -39,7 +39,7 @@ namespace NBi.Testing.Framework.FailureMessage.Markdown
             var samplers = factory.Instantiate(FailureReportProfile.Default);
 
             var msg = new ItemsMessageMarkdown(samplers);
-            msg.Build(list, null, null);
+            msg.Build(list, [], null);
             var value = msg.RenderExpected();
             var lines = value.Replace("\n", string.Empty).Split('\r');
             var firstLine = lines[0];
@@ -55,7 +55,7 @@ namespace NBi.Testing.Framework.FailureMessage.Markdown
             var samplers = factory.Instantiate(FailureReportProfile.Default);
 
             var msg = new ItemsMessageMarkdown(samplers);
-            msg.Build(list, null, null);
+            msg.Build(list, [], null);
             var value = msg.RenderExpected();
             var lines = value.Replace("\n", string.Empty).Split('\r');
             var firstLine = lines[0];
@@ -74,7 +74,7 @@ namespace NBi.Testing.Framework.FailureMessage.Markdown
             var samplers = factory.Instantiate(FailureReportProfile.Default);
 
             var msg = new ItemsMessageMarkdown(samplers);
-            msg.Build(list, null, null);
+            msg.Build(list, [], null);
             var value = msg.RenderExpected();
             var lines = value.Replace("\n", string.Empty).Split('\r');
 
@@ -96,7 +96,7 @@ namespace NBi.Testing.Framework.FailureMessage.Markdown
             var samplers = factory.Instantiate(FailureReportProfile.Default);
 
             var msg = new ItemsMessageMarkdown(samplers);
-            msg.Build(list, null, null);
+            msg.Build(list, [], null);
             var value = msg.RenderExpected();
             var lines = value.Replace("\n", string.Empty).Split('\r');
 
@@ -126,7 +126,7 @@ namespace NBi.Testing.Framework.FailureMessage.Markdown
             var samplers = factory.Instantiate(profile);
 
             var msg = new ItemsMessageMarkdown(samplers);
-            msg.Build(list, null, null);
+            msg.Build(list, [], null);
             var value = msg.RenderExpected();
             var lines = value.Replace("\n", string.Empty).Split('\r');
 
@@ -145,7 +145,7 @@ namespace NBi.Testing.Framework.FailureMessage.Markdown
             var samplers = factory.Instantiate(FailureReportProfile.Default);
 
             var msg = new ItemsMessageMarkdown(samplers);
-            msg.Build(list, null, null);
+            msg.Build(list, [], null);
             var value = msg.RenderExpected();
             var lines = value.Replace("\n", string.Empty).Split('\r');
             //Not exactly the last line but the previous due to paragraph rendering.
@@ -167,7 +167,7 @@ namespace NBi.Testing.Framework.FailureMessage.Markdown
             var samplers = factory.Instantiate(FailureReportProfile.Default);
 
             var msg = new ItemsMessageMarkdown(samplers);
-            msg.Build(list, null, null);
+            msg.Build(list, [], null);
             var value = msg.RenderExpected();
 
             Assert.That(value, Does.Not.Contain(" others not displayed."));
@@ -191,7 +191,7 @@ namespace NBi.Testing.Framework.FailureMessage.Markdown
             var samplers = factory.Instantiate(FailureReportProfile.Default);
 
             var msg = new ItemsMessageMarkdown(samplers);
-            msg.Build(null, null, compared);
+            msg.Build([], [], compared);
             var value = msg.RenderAnalysis();
 
             Assert.That(value, Does.Not.Contain(unexpectedText));
@@ -214,7 +214,7 @@ namespace NBi.Testing.Framework.FailureMessage.Markdown
             var samplers = factory.Instantiate(FailureReportProfile.Default);
 
             var msg = new ItemsMessageMarkdown(samplers);
-            msg.Build(null, null, compared);
+            msg.Build([], [], compared);
             var value = msg.RenderAnalysis();
 
             Assert.That(value, Does.Contain(expectedText));

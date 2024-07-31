@@ -28,7 +28,7 @@ namespace NBi.Framework.FailureMessage.Markdown.Helper
         {
             for (int i = 0; i < row.Parent.ColumnCount; i++)
             {
-                var displayValue = RenderCell(row.IsNull(i) ? DBNull.Value : row.ItemArray[i], columnTypes.ElementAt(i));
+                var displayValue = RenderCell(row.IsNull(i) ? DBNull.Value : row.ItemArray[i]!, columnTypes.ElementAt(i));
                 yield return new TableCellExtended() { Text = displayValue };
             }
         }

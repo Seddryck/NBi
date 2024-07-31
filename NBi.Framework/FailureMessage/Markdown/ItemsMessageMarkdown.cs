@@ -13,16 +13,16 @@ namespace NBi.Framework.FailureMessage.Markdown
     {
         private readonly IDictionary<string, ISampler<string>> samplers;
 
-        private MarkdownContainer expected;
-        private MarkdownContainer actual;
-        private MarkdownContainer analysis;
+        private MarkdownContainer? expected;
+        private MarkdownContainer? actual;
+        private MarkdownContainer? analysis;
 
         public ItemsMessageMarkdown(IDictionary<string, ISampler<string>> samplers)
         {
             this.samplers = samplers;
         }
 
-        public void Build(IEnumerable<string> expectedItems, IEnumerable<string> actualItems, ListComparer.Result result)
+        public void Build(IEnumerable<string> expectedItems, IEnumerable<string> actualItems, ListComparer.Result? result)
         {
             expectedItems = expectedItems ?? new List<string>();
             actualItems = actualItems ?? new List<string>();
@@ -77,7 +77,7 @@ namespace NBi.Framework.FailureMessage.Markdown
             if (samplers["expected"] is NoneSampler<string>)
                 return "Display skipped.";
             else
-                return expected.ToMarkdown();
+                return expected?.ToMarkdown() ?? string.Empty;
         }
 
         public virtual string RenderActual()
@@ -85,7 +85,7 @@ namespace NBi.Framework.FailureMessage.Markdown
             if (samplers["actual"] is NoneSampler<string>)
                 return "Display skipped.";
             else
-                return actual.ToMarkdown();
+                return actual?.ToMarkdown() ?? string.Empty;
         }
 
         public virtual string RenderAnalysis()
@@ -93,7 +93,7 @@ namespace NBi.Framework.FailureMessage.Markdown
             if (samplers["analysis"] is NoneSampler<string>)
                 return "Display skipped.";
             else
-                return analysis.ToMarkdown();
+                return analysis?.ToMarkdown() ?? string.Empty;
         }
     }
 }

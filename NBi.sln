@@ -46,7 +46,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NBi.Core.Testing", "NBi.Tes
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NBi.GenbiL.Testing", "NBi.Testing.GenbiL\NBi.GenbiL.Testing.csproj", "{365DDF92-A186-493C-8920-C2E1509DA37E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NBi.Testing.Framework", "NBi.Testing.Framework\NBi.Testing.Framework.csproj", "{365DDF92-A186-493C-8920-C2E1509DA37F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NBi.Framework.Testing", "NBi.Testing.Framework\NBi.Framework.Testing.csproj", "{365DDF92-A186-493C-8920-C2E1509DA37F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{73288164-F3CB-4796-B9AA-CEC585F45583}"
 EndProject

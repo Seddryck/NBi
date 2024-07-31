@@ -10,7 +10,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 
-namespace NBi.Testing.Framework.FailureMessage.Json
+namespace NBi.Framework.Testing.FailureMessage.Json
 {
     public class LookupMatchesViolationMessageJsonTest
     {
@@ -43,7 +43,7 @@ namespace NBi.Testing.Framework.FailureMessage.Json
             information.AddCandidateRow(rsCandidate.Rows.ElementAt(0));
             information.CandidateRows.ElementAt(0).Records.Add(new LookupMatchesViolationRecord()
                 {
-                    { rsCandidate.GetColumn(1), new LookupMatchesViolationData(false, 15) },
+                    { rsCandidate.GetColumn(1) ?? throw new NullReferenceException(), new LookupMatchesViolationData(false, 15) },
                 });
             var violations = new LookupMatchesViolationCollection(keyMappings, valueMappings)
             {
@@ -96,7 +96,7 @@ namespace NBi.Testing.Framework.FailureMessage.Json
             information.AddCandidateRow(rsCandidate.Rows.ElementAt(0));
             information.CandidateRows.ElementAt(0).Records.Add(new LookupMatchesViolationRecord()
                 {
-                    { rsCandidate.GetColumn(1) , new LookupMatchesViolationData(false, 15) },
+                    { rsCandidate.GetColumn(1) ?? throw new NullReferenceException() , new LookupMatchesViolationData(false, 15) },
                 });
             var violations = new LookupMatchesViolationCollection(keyMappings, valueMappings)
             {

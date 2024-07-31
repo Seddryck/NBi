@@ -14,7 +14,7 @@ using Newtonsoft.Json;
 using NBi.Framework.FailureMessage.Json.Helper;
 using NBi.Framework.Sampling;
 
-namespace NBi.Testing.Framework.FailureMessage.Json.Helper
+namespace NBi.Framework.Testing.FailureMessage.Json.Helper
 {
     public class LookupTableHelperJsonTest
     {
@@ -39,7 +39,7 @@ namespace NBi.Testing.Framework.FailureMessage.Json.Helper
             {
                 new LookupMatchesViolationRecord()
                 {
-                    { rsCandidate.GetColumn(1) , new LookupMatchesViolationData(false, 15) },
+                    { rsCandidate.GetColumn(1) ?? throw new NullReferenceException() , new LookupMatchesViolationData(false, 15) },
                 },
             };
             var association = new LookupMatchesViolationComposite(rsCandidate.Rows.ElementAt(0), records);

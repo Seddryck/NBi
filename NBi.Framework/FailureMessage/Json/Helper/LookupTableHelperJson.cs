@@ -50,17 +50,17 @@ namespace NBi.Framework.FailureMessage.Json.Helper
             writer.WriteStartArray();
             for (int i = 0; i < row.Parent.ColumnCount; i++)
             {
-                if (record.ContainsKey(row.Parent.GetColumn(i)))
+                if (record.ContainsKey(row.Parent.GetColumn(i) ?? throw new NullReferenceException()))
                 {
                     RenderCell(
-                        row.IsNull(i) ? DBNull.Value : row.ItemArray[i]
-                        , record[row.Parent.GetColumn(i)]
+                        row.IsNull(i) ? DBNull.Value : row.ItemArray[i]!
+                        , record[row.Parent.GetColumn(i)!]
                         , metadatas.ElementAt(i).Type
                         , writer);
                 }
                 else
                 {
-                    RenderCell(row.IsNull(i) ? DBNull.Value : row.ItemArray[i], metadatas.ElementAt(i).Type, writer);
+                    RenderCell(row.IsNull(i) ? DBNull.Value : row.ItemArray[i]!, metadatas.ElementAt(i).Type, writer);
                 }
             }
             writer.WriteEndArray();
@@ -71,17 +71,17 @@ namespace NBi.Framework.FailureMessage.Json.Helper
             writer.WriteStartArray();
             for (int i = 0; i < row.Parent.ColumnCount; i++)
             {
-                if (record.ContainsKey(row.Parent.GetColumn(i)))
+                if (record.ContainsKey(row.Parent.GetColumn(i) ?? throw new NullReferenceException()))
                 {
                     RenderCell(
-                        row.IsNull(i) ? DBNull.Value : row.ItemArray[i]
-                        , record[row.Parent.GetColumn(i)]
+                        row.IsNull(i) ? DBNull.Value : row.ItemArray[i]!
+                        , record[row.Parent.GetColumn(i)!]
                         , metadatas.ElementAt(i).Type
                         , writer);
                 }
                 else
                 {
-                    RenderCell(row.IsNull(i) ? DBNull.Value : row.ItemArray[i], metadatas.ElementAt(i).Type, writer);
+                    RenderCell(row.IsNull(i) ? DBNull.Value : row.ItemArray[i]!, metadatas.ElementAt(i).Type, writer);
                 }
             }
             writer.WriteEndArray();

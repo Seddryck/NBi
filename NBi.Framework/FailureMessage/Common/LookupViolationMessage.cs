@@ -18,9 +18,9 @@ namespace NBi.Framework.FailureMessage.Common
     {
         public IDictionary<string, ISampler<IResultRow>> Samplers { get; }
 
-        protected T reference;
-        protected T candidate;
-        protected T analysis;
+        protected T? reference;
+        protected T? candidate;
+        protected T? analysis;
 
         public LookupViolationMessage(IDictionary<string, ISampler<IResultRow>> samplers) => Samplers = samplers;
 
@@ -28,12 +28,12 @@ namespace NBi.Framework.FailureMessage.Common
         {
             var metadata = BuildMetadata(keyMappings, ColumnRole.Key, x => x.ReferenceColumn)
                 .Union(BuildMetadata(valueMappings, ColumnRole.Value, x => x.ReferenceColumn));
-            RenderStandardTable(referenceRows, metadata, Samplers["reference"], "Reference", reference);
+            RenderStandardTable(referenceRows, metadata, Samplers["reference"], "Reference", reference!);
 
             metadata = BuildMetadata(keyMappings, ColumnRole.Key, x => x.CandidateColumn)
                 .Union(BuildMetadata(valueMappings, ColumnRole.Value, x => x.CandidateColumn));
-            RenderStandardTable(candidateRows, metadata, Samplers["candidate"], "Candidate", candidate);
-            RenderAnalysis(violations, metadata, Samplers["analysis"], keyMappings, valueMappings, analysis);
+            RenderStandardTable(candidateRows, metadata, Samplers["candidate"], "Candidate", candidate!);
+            RenderAnalysis(violations, metadata, Samplers["analysis"], keyMappings, valueMappings, analysis!);
         }
 
         private IEnumerable<ColumnMetadata> BuildMetadata(ColumnMappingCollection mappings, ColumnRole role, Func<ColumnMapping, IColumnIdentifier> identify)

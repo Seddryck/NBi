@@ -9,7 +9,7 @@ namespace NBi.Framework.Markdown.MarkdownLogExtension
 {
     class TableCellExtended : ITableCellExtended
     {
-        private string _text;
+        private string _text = string.Empty;
 
         public string Text
         {

@@ -14,7 +14,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Testing.Framework.FailureMessage.Markdown
+namespace NBi.Framework.Testing.FailureMessage.Markdown
 {
     public class ScoreMessageMardownTest
     {

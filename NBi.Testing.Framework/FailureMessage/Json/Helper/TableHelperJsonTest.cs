@@ -15,7 +15,7 @@ using System.Threading;
 using NBi.Framework.FailureMessage.Json.Helper;
 using NBi.Extensibility;
 
-namespace NBi.Testing.Framework.FailureMessage.Json.Helper
+namespace NBi.Framework.Testing.FailureMessage.Json.Helper
 {
     public class TableHelperJsonTest
     {
@@ -24,7 +24,7 @@ namespace NBi.Testing.Framework.FailureMessage.Json.Helper
         {
             var dataTable = new DataTable() { TableName = "MyTable" };
             dataTable.Columns.Add(new DataColumn("Id"));
-            dataTable.Columns["Id"].ExtendedProperties["NBi::Role"] = ColumnRole.Key;
+            dataTable.Columns["Id"]!.ExtendedProperties["NBi::Role"] = ColumnRole.Key;
             dataTable.Columns.Add(new DataColumn("Numeric value"));
             dataTable.Columns.Add(new DataColumn("Boolean value"));
             dataTable.LoadDataRow(new object[] { "Alpha", 10, true }, false);
@@ -47,7 +47,7 @@ namespace NBi.Testing.Framework.FailureMessage.Json.Helper
         {
             var dataTable = new DataTable() { TableName = "MyTable" };
             dataTable.Columns.Add(new DataColumn("Id"));
-            dataTable.Columns["Id"].ExtendedProperties["NBi::Role"] = ColumnRole.Key;
+            dataTable.Columns["Id"]!.ExtendedProperties["NBi::Role"] = ColumnRole.Key;
             dataTable.Columns.Add(new DataColumn("Numeric value"));
             dataTable.Columns.Add(new DataColumn("Boolean value"));
             dataTable.LoadDataRow(new object[] { "Alpha", 10, true }, false);
@@ -70,7 +70,7 @@ namespace NBi.Testing.Framework.FailureMessage.Json.Helper
         {
             var dataTable = new DataTable() { TableName = "MyTable" };
             dataTable.Columns.Add(new DataColumn("Id"));
-            dataTable.Columns["Id"].ExtendedProperties["NBi::Role"] = ColumnRole.Key;
+            dataTable.Columns["Id"]!.ExtendedProperties["NBi::Role"] = ColumnRole.Key;
             dataTable.Columns.Add(new DataColumn("Numeric value"));
             dataTable.Columns.Add(new DataColumn("Boolean value"));
             dataTable.LoadDataRow(new object[] { "Alpha", 10, true }, false);
@@ -94,13 +94,13 @@ namespace NBi.Testing.Framework.FailureMessage.Json.Helper
         {
             var dataTable = new DataTable() { TableName = "MyTable" };
             dataTable.Columns.Add(new DataColumn("Id"));
-            dataTable.Columns["Id"].ExtendedProperties["NBi::Role"] = ColumnRole.Key;
+            dataTable.Columns["Id"]!.ExtendedProperties["NBi::Role"] = ColumnRole.Key;
             dataTable.Columns.Add(new DataColumn("Numeric value"));
-            dataTable.Columns["Numeric value"].ExtendedProperties["NBi::Role"] = ColumnRole.Value;
-            dataTable.Columns["Numeric value"].ExtendedProperties["NBi::Type"] = ColumnType.Numeric;
+            dataTable.Columns["Numeric value"]!.ExtendedProperties["NBi::Role"] = ColumnRole.Value;
+            dataTable.Columns["Numeric value"]!.ExtendedProperties["NBi::Type"] = ColumnType.Numeric;
             dataTable.Columns.Add(new DataColumn("Boolean value"));
-            dataTable.Columns["Boolean value"].ExtendedProperties["NBi::Role"] = ColumnRole.Value;
-            dataTable.Columns["Boolean value"].ExtendedProperties["NBi::Type"] = ColumnType.Boolean;
+            dataTable.Columns["Boolean value"]!.ExtendedProperties["NBi::Role"] = ColumnRole.Value;
+            dataTable.Columns["Boolean value"]!.ExtendedProperties["NBi::Type"] = ColumnType.Boolean;
             dataTable.LoadDataRow(new object[] { "Alpha", 10, true }, false);
             dataTable.LoadDataRow(new object[] { "Beta", 20, false }, false);
             var rs = new DataTableResultSet(dataTable);
@@ -125,11 +125,11 @@ namespace NBi.Testing.Framework.FailureMessage.Json.Helper
         {
             var dataTable = new DataTable() { TableName = "MyTable" };
             dataTable.Columns.Add(new DataColumn("Id"));
-            dataTable.Columns["Id"].ExtendedProperties["NBi::Role"] = ColumnRole.Key;
+            dataTable.Columns["Id"]!.ExtendedProperties["NBi::Role"] = ColumnRole.Key;
             dataTable.Columns.Add(new DataColumn("Numeric value"));
-            dataTable.Columns["Numeric value"].ExtendedProperties["NBi::Role"] = ColumnRole.Value;
-            dataTable.Columns["Numeric value"].ExtendedProperties["NBi::Type"] = ColumnType.Numeric;
-            dataTable.Columns["Numeric value"].ExtendedProperties["NBi::Tolerance"] = new NumericAbsoluteTolerance(10, SideTolerance.Both);
+            dataTable.Columns["Numeric value"]!.ExtendedProperties["NBi::Role"] = ColumnRole.Value;
+            dataTable.Columns["Numeric value"]!.ExtendedProperties["NBi::Type"] = ColumnType.Numeric;
+            dataTable.Columns["Numeric value"]!.ExtendedProperties["NBi::Tolerance"] = new NumericAbsoluteTolerance(10, SideTolerance.Both);
             dataTable.LoadDataRow(new object[] { "Alpha", 10 }, false);
             dataTable.LoadDataRow(new object[] { "Beta", 20 }, false);
             var rs = new DataTableResultSet(dataTable);
@@ -155,13 +155,13 @@ namespace NBi.Testing.Framework.FailureMessage.Json.Helper
 
             var dataTable = new DataTable() { TableName = "MyTable" };
             dataTable.Columns.Add(new DataColumn("Id"));
-            dataTable.Columns["Id"].ExtendedProperties["NBi::Role"] = ColumnRole.Key;
+            dataTable.Columns["Id"]!.ExtendedProperties["NBi::Role"] = ColumnRole.Key;
             dataTable.Columns.Add("Numeric value", typeof(decimal));
-            dataTable.Columns["Numeric value"].ExtendedProperties["NBi::Type"] = ColumnType.Numeric;
+            dataTable.Columns["Numeric value"]!.ExtendedProperties["NBi::Type"] = ColumnType.Numeric;
             dataTable.Columns.Add(new DataColumn("Boolean value"));
-            dataTable.Columns["Boolean value"].ExtendedProperties["NBi::Type"] = ColumnType.Boolean;
+            dataTable.Columns["Boolean value"]!.ExtendedProperties["NBi::Type"] = ColumnType.Boolean;
             dataTable.Columns.Add("DateTime value", typeof(DateTime));
-            dataTable.Columns["DateTime value"].ExtendedProperties["NBi::Type"] = ColumnType.DateTime;
+            dataTable.Columns["DateTime value"]!.ExtendedProperties["NBi::Type"] = ColumnType.DateTime;
             dataTable.LoadDataRow(new object[] { "Alpha", 10.5, true, new DateTime(2010, 5, 6) }, false);
             dataTable.LoadDataRow(new object[] { "Beta", 20, false, new DateTime(2010, 5, 15, 7, 45, 12) }, false);
             var rs = new DataTableResultSet(dataTable);

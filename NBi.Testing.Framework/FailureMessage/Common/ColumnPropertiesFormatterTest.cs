@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Testing.Framework.FailureMessage.Common
+namespace NBi.Framework.Testing.FailureMessage.Common
 {
     public class ColumnPropertiesFormatterTest
     {

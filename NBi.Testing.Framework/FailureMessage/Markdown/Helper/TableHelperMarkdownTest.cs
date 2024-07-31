@@ -7,7 +7,7 @@ using NUnit.Framework;
 using NBi.Core.ResultSet;
 using NBi.Framework.FailureMessage.Markdown.Helper;
 
-namespace NBi.Testing.Framework.FailureMessage.Markdown.Helper
+namespace NBi.Framework.Testing.FailureMessage.Markdown.Helper
 {
     public class TableHelperMarkdownTest
     {
@@ -16,7 +16,7 @@ namespace NBi.Testing.Framework.FailureMessage.Markdown.Helper
         {
             var dataTable = new DataTable() { TableName = "MyTable" };
             dataTable.Columns.Add(new DataColumn("Id"));
-            dataTable.Columns["Id"].ExtendedProperties["NBi::Role"] = ColumnRole.Key;
+            dataTable.Columns["Id"]!.ExtendedProperties["NBi::Role"] = ColumnRole.Key;
             dataTable.Columns.Add(new DataColumn("Numeric value"));
             dataTable.Columns.Add(new DataColumn("Boolean value"));
             dataTable.LoadDataRow(new object[] { "Alpha", 10, true }, false);
@@ -43,7 +43,7 @@ namespace NBi.Testing.Framework.FailureMessage.Markdown.Helper
         {
             var dataTable = new DataTable() { TableName = "MyTable" };
             dataTable.Columns.Add(new DataColumn("Id"));
-            dataTable.Columns["Id"].ExtendedProperties["NBi::Role"] = ColumnRole.Key;
+            dataTable.Columns["Id"]!.ExtendedProperties["NBi::Role"] = ColumnRole.Key;
             dataTable.Columns.Add(new DataColumn("Numeric value"));
             dataTable.Columns.Add(new DataColumn("Boolean value"));
             dataTable.LoadDataRow(new object[] { "Alpha", 10, true }, false);
@@ -66,7 +66,7 @@ namespace NBi.Testing.Framework.FailureMessage.Markdown.Helper
         {
             var dataTable = new DataTable() { TableName = "MyTable" };
             dataTable.Columns.Add(new DataColumn("Id"));
-            dataTable.Columns["Id"].ExtendedProperties["NBi::Role"] = ColumnRole.Key;
+            dataTable.Columns["Id"]!.ExtendedProperties["NBi::Role"] = ColumnRole.Key;
             dataTable.Columns.Add(new DataColumn("Numeric value"));
             dataTable.Columns.Add(new DataColumn("Boolean value"));
             dataTable.LoadDataRow(new object[] { "Alpha", 10, true }, false);
@@ -89,7 +89,7 @@ namespace NBi.Testing.Framework.FailureMessage.Markdown.Helper
         {
             var dataTable = new DataTable() { TableName = "MyTable" };
             dataTable.Columns.Add(new DataColumn("Id"));
-            dataTable.Columns["Id"].ExtendedProperties.Add("NBi::Role", ColumnRole.Key);
+            dataTable.Columns["Id"]!.ExtendedProperties.Add("NBi::Role", ColumnRole.Key);
             dataTable.Columns.Add(new DataColumn("Numeric value"));
             dataTable.Columns.Add(new DataColumn("Boolean value"));
             dataTable.LoadDataRow(new object[] { "Alpha", 10, true }, false);

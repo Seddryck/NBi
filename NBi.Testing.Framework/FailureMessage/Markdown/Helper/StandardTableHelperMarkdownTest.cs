@@ -11,7 +11,7 @@ using NBi.Framework.Sampling;
 using System.Text.RegularExpressions;
 using NBi.Extensibility;
 
-namespace NBi.Testing.Framework.FailureMessage.Markdown.Helper
+namespace NBi.Framework.Testing.FailureMessage.Markdown.Helper
 {
     public class StandardTableHelperMarkdownTest
     {
@@ -84,7 +84,7 @@ namespace NBi.Testing.Framework.FailureMessage.Markdown.Helper
         {
             var dataTable = new DataTable() { TableName = "MyTable" };
             dataTable.Columns.Add(new DataColumn("Id"));
-            dataTable.Columns["Id"].ExtendedProperties["NBi::Role"] = ColumnRole.Key;
+            dataTable.Columns["Id"]!.ExtendedProperties["NBi::Role"] = ColumnRole.Key;
             dataTable.Columns.Add(new DataColumn("Numeric value"));
             dataTable.Columns.Add(new DataColumn("Boolean value"));
             dataTable.LoadDataRow(new object[] { "Alpha", 10, true }, false);

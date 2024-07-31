@@ -11,7 +11,7 @@ using NBi.Core.ResultSet.Lookup;
 using MarkdownLog;
 using NBi.Framework.Sampling;
 
-namespace NBi.Testing.Framework.FailureMessage.Markdown.Helper
+namespace NBi.Framework.Testing.FailureMessage.Markdown.Helper
 {
     public class LookupTableHelperMarkdownTest
     {
@@ -36,7 +36,7 @@ namespace NBi.Testing.Framework.FailureMessage.Markdown.Helper
             {
                 new LookupMatchesViolationRecord()
                 {
-                    { rsCandidate.GetColumn(1) , new LookupMatchesViolationData(false, 15) },
+                    { rsCandidate.GetColumn(1) ?? throw new NullReferenceException(), new LookupMatchesViolationData(false, 15) },
                 },
             };
             var association = new LookupMatchesViolationComposite(rsCandidate.Rows.ElementAt(0), records);
@@ -80,8 +80,8 @@ namespace NBi.Testing.Framework.FailureMessage.Markdown.Helper
             {
                 new LookupMatchesViolationRecord()
                 {
-                    { rsCandidate.GetColumn(2) , new LookupMatchesViolationData(false, 15) },
-                    { rsCandidate.GetColumn(3) , new LookupMatchesViolationData(false, false) },
+                    { rsCandidate.GetColumn(2) ?? throw new NullReferenceException(), new LookupMatchesViolationData(false, 15) },
+                    { rsCandidate.GetColumn(3) ?? throw new NullReferenceException(), new LookupMatchesViolationData(false, false) },
                 },
             };
             var association = new LookupMatchesViolationComposite(rsCandidate.Rows.ElementAt(0), records);
@@ -119,7 +119,7 @@ namespace NBi.Testing.Framework.FailureMessage.Markdown.Helper
             {
                 new LookupMatchesViolationRecord()
                 {
-                    { rsCandidate.GetColumn(3) , new LookupMatchesViolationData(false, false) },
+                    { rsCandidate.GetColumn(3) ?? throw new NullReferenceException(), new LookupMatchesViolationData(false, false) },
                 },
             };
             var association = new LookupMatchesViolationComposite(rsCandidate.Rows.ElementAt(0), records);
@@ -157,18 +157,18 @@ namespace NBi.Testing.Framework.FailureMessage.Markdown.Helper
             {
                 new LookupMatchesViolationRecord()
                 {
-                    { rsCandidate.GetColumn(2) , new LookupMatchesViolationData(true, "10.0") },
-                    { rsCandidate.GetColumn(3) , new LookupMatchesViolationData(false, false) },
+                    { rsCandidate.GetColumn(2)! , new LookupMatchesViolationData(true, "10.0") },
+                    { rsCandidate.GetColumn(3)! , new LookupMatchesViolationData(false, false) },
                 },
                 new LookupMatchesViolationRecord()
                 {
-                    { rsCandidate.GetColumn(2) , new LookupMatchesViolationData(false, "12") },
-                    { rsCandidate.GetColumn(3) , new LookupMatchesViolationData(false, false) },
+                    { rsCandidate.GetColumn(2)! , new LookupMatchesViolationData(false, "12") },
+                    { rsCandidate.GetColumn(3)! , new LookupMatchesViolationData(false, false) },
                 },
                 new LookupMatchesViolationRecord()
                 {
-                    { rsCandidate.GetColumn(2) , new LookupMatchesViolationData(false, "18") },
-                    { rsCandidate.GetColumn(3) , new LookupMatchesViolationData(true, true) },
+                    { rsCandidate.GetColumn(2)! , new LookupMatchesViolationData(false, "18") },
+                    { rsCandidate.GetColumn(3)! , new LookupMatchesViolationData(true, true) },
                 },
             };
             var association = new LookupMatchesViolationComposite(rsCandidate.Rows.ElementAt(0), records);
@@ -211,18 +211,18 @@ namespace NBi.Testing.Framework.FailureMessage.Markdown.Helper
             {
                 new LookupMatchesViolationRecord()
                 {
-                    { rsCandidate.GetColumn(2) , new LookupMatchesViolationData(false, "17.0") },
-                    { rsCandidate.GetColumn(3) , new LookupMatchesViolationData(false, false) },
+                    { rsCandidate.GetColumn(2)! , new LookupMatchesViolationData(false, "17.0") },
+                    { rsCandidate.GetColumn(3)! , new LookupMatchesViolationData(false, false) },
                 },
                 new LookupMatchesViolationRecord()
                 {
-                    { rsCandidate.GetColumn(2) , new LookupMatchesViolationData(false, "12") },
-                    { rsCandidate.GetColumn(3) , new LookupMatchesViolationData(false, false) },
+                    { rsCandidate.GetColumn(2)! , new LookupMatchesViolationData(false, "12") },
+                    { rsCandidate.GetColumn(3)! , new LookupMatchesViolationData(false, false) },
                 },
                 new LookupMatchesViolationRecord()
                 {
-                    { rsCandidate.GetColumn(2) , new LookupMatchesViolationData(false, "18") },
-                    { rsCandidate.GetColumn(3) , new LookupMatchesViolationData(true, true) },
+                    { rsCandidate.GetColumn(2)! , new LookupMatchesViolationData(false, "18") },
+                    { rsCandidate.GetColumn(3)! , new LookupMatchesViolationData(true, true) },
                 },
             };
             var firstAssociation = new LookupMatchesViolationComposite(rsCandidate.Rows.ElementAt(0), records);

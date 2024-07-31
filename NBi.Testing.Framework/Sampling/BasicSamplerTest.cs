@@ -11,7 +11,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Testing.Framework.Sampling
+namespace NBi.Framework.Testing.Sampling
 {
     public class BasicSamplerTest
     {

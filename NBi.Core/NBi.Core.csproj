@@ -10,14 +10,13 @@
     <PackageReference Include="Azure.Identity" Version="1.12.0" /> 
     <PackageReference Include="Deedle" Version="3.0.0" />
     <PackageReference Include="Domemtech.StringTemplate4" Version="4.3.0" />
-    <PackageReference Include="DubUrl" Version="0.9.2" />
-    <PackageReference Include="DubUrl.Adomd" Version="0.9.2" />
-    <PackageReference Include="DubUrl.Extensions" Version="0.9.2" />
-    <PackageReference Include="DubUrl.OleDb" Version="0.9.2" />
+    <PackageReference Include="DubUrl" Version="0.18.51" />
+    <PackageReference Include="DubUrl.Adomd" Version="0.18.51" />
+    <PackageReference Include="DubUrl.Extensions" Version="0.18.51" />
+    <PackageReference Include="DubUrl.OleDb" Version="0.18.51" />
     <PackageReference Include="FSharp.Core" Version="8.0.101" />
     <PackageReference Include="FuzzyString.NETStandard" Version="1.0.0" />
-    <PackageReference Include="Microsoft.AnalysisServices.AdomdClient.NetCore.retail.amd64" Version="19.74.2" />
-    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.8.0" /> 
+    <PackageReference Include="Microsoft.AnalysisServices.AdomdClient.NetCore.retail.amd64" Version="19.84.1" /><PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.8.0" /> 
     <PackageReference Include="Microsoft.Data.SqlClient" Version="5.1.4" /> 
     <PackageReference Include="NCalcSync" Version="3.10.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />

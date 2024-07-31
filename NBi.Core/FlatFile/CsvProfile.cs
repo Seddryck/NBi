@@ -21,10 +21,10 @@ namespace NBi.Core.FlatFile
 
         public IDictionary<string, object> Attributes => new Dictionary<string, object>()
                 {
-                    { "field-separator", base.FieldSeparator },
-                    { "text-qualifier", base.TextQualifier },
-                    { "record-separator", base.RecordSeparator },
-                    { "first-row-header", base.FirstRowHeader },
+                    { "field-separator", Descriptor.Delimiter },
+                    { "text-qualifier", Descriptor.QuoteChar },
+                    { "record-separator", Descriptor.LineTerminator },
+                    { "first-row-header", Descriptor.Header },
                     { "performance-optimized", base.PerformanceOptmized },
                     { "missing-cell", base.MissingCell },
                     { "empty-cell", base.EmptyCell },

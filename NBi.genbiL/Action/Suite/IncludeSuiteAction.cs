@@ -24,7 +24,7 @@ namespace NBi.GenbiL.Action.Suite
             GetParentNode(state.Suite).AddChild(new TestNode(testXml));
         }
 
-        protected BranchNode GetParentNode(RootNode root) => root.GetChildBranch(GroupPath);
+        protected BranchNode GetParentNode(RootNode root) => root.GetChildBranch(GroupPath) ?? throw new NullReferenceException();
 
         protected internal TestStandaloneXml Include(Stream stream)
         {

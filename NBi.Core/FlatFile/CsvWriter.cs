@@ -57,11 +57,11 @@ namespace NBi.Core.FlatFile
                 for (int i = 0; i < table.Columns.Count; i++)
                 {
                     var content = row[i].ToString() ?? string.Empty;
-                    if (content.Contains(Definition.FieldSeparator) || content.Contains(Definition.RecordSeparator))
-                        content = Definition.TextQualifier + content + Definition.TextQualifier;
+                    if (content.Contains(Definition.Descriptor.Delimiter) || content.Contains(Definition.Descriptor.LineTerminator))
+                        content = $"{Definition.Descriptor.QuoteChar}{content}{Definition.Descriptor.QuoteChar}";
                     
                     writer.Write(content);
-                    writer.Write(i == table.Columns.Count - 1 ? Definition.RecordSeparator : Definition.FieldSeparator.ToString());
+                    writer.Write(i == table.Columns.Count - 1 ? Definition.Descriptor.LineTerminator : Definition.Descriptor.Delimiter);
                 }
             }
         }
@@ -72,7 +72,7 @@ namespace NBi.Core.FlatFile
             for (int i = 0; i < table.Columns.Count; i++)
             {
                 writer.Write(table.Columns[i].ColumnName);
-                writer.Write(i == table.Columns.Count - 1 ? Definition.RecordSeparator : Definition.FieldSeparator.ToString());
+                writer.Write(i == table.Columns.Count - 1 ? Definition.Descriptor.LineTerminator : Definition.Descriptor.Delimiter);
             }
         }
     }

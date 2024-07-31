@@ -9,11 +9,11 @@ namespace NBi.Xml.Systems
     public abstract class AbstractSystemUnderTestXml
     {
         [XmlAttribute("name")]
-        public string Name { get; set; }
+        public string? Name { get; set; }
 
-        private DefaultXml _default;
+        private DefaultXml? _default;
         [XmlIgnore()]
-        public virtual DefaultXml Default
+        public virtual DefaultXml? Default
         {
             get { return _default; }
             set
@@ -23,9 +23,9 @@ namespace NBi.Xml.Systems
                     BaseItem.Default = value;
             }
         }
-        private SettingsXml settings;
+        private SettingsXml? settings;
         [XmlIgnore()]
-        public virtual SettingsXml Settings
+        public virtual SettingsXml? Settings
         {
             get { return settings; }
             set
@@ -36,7 +36,7 @@ namespace NBi.Xml.Systems
             }
         }
 
-        public abstract BaseItem BaseItem { get; }
+        public abstract BaseItem? BaseItem { get; }
 
         public AbstractSystemUnderTestXml()
         {

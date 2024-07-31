@@ -11,9 +11,9 @@ namespace NBi.Xml.Items
     public abstract class BaseItem
     {
         [XmlIgnore()]
-        public virtual DefaultXml Default { get; set; }
+        public virtual DefaultXml? Default { get; set; }
         [XmlIgnore()]
-        public virtual SettingsXml Settings { get; set; }
+        public virtual SettingsXml? Settings { get; set; }
 
         public BaseItem()
         {
@@ -22,17 +22,17 @@ namespace NBi.Xml.Items
         }
 
         [XmlAttribute("connection-string")]
-        public string ConnectionString { get; set; }
+        public string? ConnectionString { get; set; }
 
         [XmlIgnore]
         [Obsolete("Replaced by connection-string")]
-        public string ConnectionStringOld
+        public string? ConnectionStringOld
         {
             get => ConnectionString;
             set { ConnectionString = value; }
         }
 
         [XmlAttribute("roles")]
-        public string Roles { get; set; }
+        public string? Roles { get; set; }
     }
 }

@@ -53,7 +53,7 @@ namespace NBi.Xml.SerializationOption
         {
             var parent = GetMemberInfo(expression);
             var attrs = new XmlAttributes() { XmlAttribute = (new XmlAttributeAttribute(alias)) };
-            Add(parent.DeclaringType, parent.Name, attrs);
+            Add(parent.DeclaringType ?? throw new NullReferenceException(), parent.Name, attrs);
         }
 
         protected void AddAsElement<T, U>(Expression<Func<T, U>> expression, string alias)
@@ -61,7 +61,7 @@ namespace NBi.Xml.SerializationOption
             var parent = GetMemberInfo(expression);
             var attrs = new XmlAttributes();
             attrs.XmlElements.Add(new XmlElementAttribute(alias));
-            Add(parent.DeclaringType, parent.Name, attrs);
+            Add(parent.DeclaringType ?? throw new NullReferenceException(), parent.Name, attrs);
         }
 
         protected void AddAsElement<T, U>(Expression<Func<T, U>> expression, string alias, int order)
@@ -70,21 +70,21 @@ namespace NBi.Xml.SerializationOption
             var attrs = new XmlAttributes();
             var attr = new XmlElementAttribute(alias) { Order = order };
             attrs.XmlElements.Add(attr);
-            Add(parent.DeclaringType, parent.Name, attrs);
+            Add(parent.DeclaringType ?? throw new NullReferenceException(), parent.Name, attrs);
         }
 
         protected void AddAsIgnore<T, U>(Expression<Func<T, U>> expression, bool value = true)
         {
             var parent = GetMemberInfo(expression);
             var attrs = new XmlAttributes() { XmlIgnore = value };
-            Add(parent.DeclaringType, parent.Name, attrs);
+            Add(parent.DeclaringType ?? throw new NullReferenceException(), parent.Name, attrs);
         }
 
         protected void AddAsText<T, U>(Expression<Func<T, U>> expression)
         {
             var parent = GetMemberInfo(expression);
             var attrs = new XmlAttributes() { XmlText = new XmlTextAttribute() };
-            Add(parent.DeclaringType, parent.Name, attrs);
+            Add(parent.DeclaringType ?? throw new NullReferenceException(), parent.Name, attrs);
         }
 
         protected void AddAsAnyNotIgnore<T, U>(Expression<Func<T, U>> expression)
@@ -92,7 +92,7 @@ namespace NBi.Xml.SerializationOption
             var parent = GetMemberInfo(expression);
             var attrs = new XmlAttributes() { XmlIgnore = false };
             attrs.XmlAnyElements.Add(new XmlAnyElementAttribute());
-            Add(parent.DeclaringType, parent.Name, attrs);
+            Add(parent.DeclaringType ?? throw new NullReferenceException(), parent.Name, attrs);
         }
 
         protected void AddToArrayAttributes<T, U>(Expression<Func<T, U>> expression, Dictionary<string, Type> mappings)
@@ -104,7 +104,7 @@ namespace NBi.Xml.SerializationOption
             arrayItemAttrs.ForEach(i => attrs.XmlArrayItems.Add(i));
             foreach (var key in mappings.Keys)
                 attrs.XmlArrayItems.Add(new XmlArrayItemAttribute(key, mappings[key]));
-            Add(parent.DeclaringType, parent.Name, attrs);
+            Add(parent.DeclaringType ?? throw new NullReferenceException(), parent.Name, attrs);
         }
 
         protected void AddToElements<T, U>(Expression<Func<T, U>> expression, string alias, Type aliasType)
@@ -114,7 +114,7 @@ namespace NBi.Xml.SerializationOption
             var attrs = new XmlAttributes();
             arrayAttr.ForEach(i => attrs.XmlElements.Add(i));
             attrs.XmlElements.Add((new XmlElementAttribute(alias, aliasType)));
-            Add(parent.DeclaringType, parent.Name, attrs);
+            Add(parent.DeclaringType ?? throw new NullReferenceException(), parent.Name, attrs);
         }
 
 

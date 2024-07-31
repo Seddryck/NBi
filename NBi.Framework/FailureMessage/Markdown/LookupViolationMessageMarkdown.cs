@@ -34,7 +34,7 @@ namespace NBi.Framework.FailureMessage.Markdown
             tableHelper.Render(container);
         }
 
-        protected virtual IEnumerable<IColumnDefinition> BuildMetadata(ColumnMappingCollection mappings, ColumnRole role, Func<ColumnMapping, IColumnIdentifier> identify)
+        protected new IEnumerable<IColumnDefinition> BuildMetadata(ColumnMappingCollection mappings, ColumnRole role, Func<ColumnMapping, IColumnIdentifier> identify)
         {
             foreach (var mapping in mappings ?? [])
                 yield return new Column(identify.Invoke(mapping),role,mapping.Type);

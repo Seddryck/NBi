@@ -12,7 +12,7 @@ namespace NBi.Xml.Settings
     public class SettingsXml
     {
         [XmlIgnore]
-        public string BasePath { get; set; }
+        public string? BasePath { get; set; }
 
         [XmlElement("default")]
         public List<DefaultXml> Defaults { get; set; }
@@ -155,7 +155,7 @@ namespace NBi.Xml.Settings
 
         public static T GetDefaultValue<T>(Expression<Func<CsvProfileXml, T>> propertySelector)
         {
-            MemberExpression memberExpression = null;
+            MemberExpression? memberExpression = null;
 
             switch (propertySelector.Body.NodeType)
             {
@@ -179,7 +179,7 @@ namespace NBi.Xml.Settings
             }
 
 
-            MemberInfo member = memberExpression.Member;
+            var member = memberExpression!.Member;
 
             // Check for field and property types. 
             // All other types are not supported by attribute model.
@@ -193,11 +193,11 @@ namespace NBi.Xml.Settings
 
             var property = (PropertyInfo)member;
 
-            switch(property.GetCustomAttribute(typeof(DefaultValueAttribute)))
+            return property.GetCustomAttribute(typeof(DefaultValueAttribute)) switch
             {
-                case DefaultValueAttribute attribute: return (T)attribute.Value;
-                default: throw new ArgumentException();
-            }
+                DefaultValueAttribute attribute => (T)(attribute.Value ?? throw new NullReferenceException()),
+                _ => throw new ArgumentException(),
+            };
         }
     }
 }

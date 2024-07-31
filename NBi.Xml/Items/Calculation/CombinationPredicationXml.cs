@@ -19,6 +19,6 @@ namespace NBi.Xml.Items.Calculation
         public bool Not { get; set; }
 
         [XmlElement("predicate")]
-        public List<SinglePredicationXml> Predications { get; set; }
+        public List<SinglePredicationXml> Predications { get; set; } = [];
     }
 }

@@ -10,9 +10,9 @@ namespace NBi.Xml.Constraints
 {
     public abstract class AbstractConstraintXml
     {
-        private DefaultXml _default;
+        private DefaultXml? _default;
         [XmlIgnore()]
-        public virtual DefaultXml Default
+        public virtual DefaultXml? Default
         {
             get { return _default; }
             set
@@ -22,9 +22,9 @@ namespace NBi.Xml.Constraints
                     BaseItem.Default = value;
             }
         }
-        private SettingsXml settings;
+        private SettingsXml? settings;
         [XmlIgnore()]
-        public virtual SettingsXml Settings
+        public virtual SettingsXml? Settings
         {
             get { return settings; }
             set
@@ -36,10 +36,8 @@ namespace NBi.Xml.Constraints
         }
 
         [XmlIgnore]
-        public virtual BaseItem BaseItem 
-        { 
-            get {return null;} 
-        }
+        public virtual BaseItem? BaseItem
+            => null;
 
         [XmlAttribute("not")]
         [DefaultValue(false)]

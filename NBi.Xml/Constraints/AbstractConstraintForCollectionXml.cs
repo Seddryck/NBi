@@ -13,7 +13,7 @@ namespace NBi.Xml.Constraints
     public abstract class AbstractConstraintForCollectionXml : AbstractConstraintXml
     {
         [XmlIgnore()]
-        public override DefaultXml Default
+        public override DefaultXml? Default
         {
             get => base.Default;
             set
@@ -68,10 +68,10 @@ namespace NBi.Xml.Constraints
         }
 
         [XmlElement("one-column-query")]
-        public QueryXml Query { get; set; }
+        public QueryXml? Query { get; set; }
 
         [XmlElement("members")]
-        public MembersXml Members { get; set; }
+        public MembersXml? Members { get; set; }
 
         public IEnumerable<string> GetItems()
         {
@@ -91,7 +91,7 @@ namespace NBi.Xml.Constraints
             Items = [];
         }
 
-        public override BaseItem BaseItem
+        public override BaseItem? BaseItem
         {
             get
             {

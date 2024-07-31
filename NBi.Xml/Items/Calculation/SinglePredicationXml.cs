@@ -26,18 +26,16 @@ namespace NBi.Xml.Items.Calculation
         [XmlAttribute("operand")]
         public string OperandSerialized
         {
-            get => Operand?.Label;
+            get => Operand?.Label ?? string.Empty;
             set { Operand = new ColumnIdentifierFactory().Instantiate(value); }
         }
 
         [XmlIgnore()]
-        public IColumnIdentifier Operand { get; set; }
+        public IColumnIdentifier? Operand { get; set; }
 
         [Obsolete("Deprecated. Use operand in place of name")]
         [XmlIgnore()]
-        public string Name { get => Operand.Label; set => Operand=new ColumnIdentifierFactory().Instantiate(value); }
-
-        
+        public string Name { get => Operand!.Label; set => Operand=new ColumnIdentifierFactory().Instantiate(value); }
     }
 
     public abstract class BasePredicationXml : AbstractPredicationXml
@@ -74,7 +72,7 @@ namespace NBi.Xml.Items.Calculation
         [XmlElement(Type = typeof(OnTheMinuteXml), ElementName = "on-the-minute")]
         [XmlElement(Type = typeof(TrueXml), ElementName = "true")]
         [XmlElement(Type = typeof(FalseXml), ElementName = "false")]
-        public PredicateXml Predicate { get; set; }
+        public PredicateXml? Predicate { get; set; }
     }
         
 }

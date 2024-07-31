@@ -11,7 +11,7 @@ namespace NBi.Xml.Items.ResultSet
     public class ResultSetXml : BaseItem
     {
         [XmlElement("row")]
-        public List<RowXml> _rows { get; set; }
+        public List<RowXml> _rows { get; set; } = [];
 
         public IList<IRow> Rows
         {
@@ -41,19 +41,14 @@ namespace NBi.Xml.Items.ResultSet
 
         [XmlIgnore]
         public IContent Content
-        {
-            get
-            {
-                return new Content(Rows, Columns);
-            }
-        }
+            => new Content(Rows, Columns);
 
         [XmlAttribute("file")]
-        public string File { get; set; }
+        public string? File { get; set; }
 
         public ResultSetXml()
         {
-            _rows = new List<RowXml>();
+            _rows = [];
         }
 
     }

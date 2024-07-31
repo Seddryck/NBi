@@ -16,34 +16,34 @@ namespace NBi.Xml.Items
         protected const string DEFAULT_VERSION = "SqlServer2014";
 
         [XmlAttribute("version")]
-        public string Version { get; set; }
+        public string? Version { get; set; }
 
         [XmlAttribute("server")]
-        public string Server { get; set; }
+        public string? Server { get; set; }
 
         [XmlAttribute("path")]
-        public string Path { get; set; }
+        public string? Path { get; set; }
 
         [XmlAttribute("name")]
-        public string Name { get; set; }
+        public string? Name { get; set; }
 
         [XmlAttribute("username")]
-        public string UserName { get; set; }
+        public string? UserName { get; set; }
 
         [XmlAttribute("password")]
-        public string Password { get; set; }
+        public string? Password { get; set; }
 
         [XmlAttribute("catalog")]
-        public string Catalog { get; set; }
+        public string? Catalog { get; set; }
 
         [XmlAttribute("folder")]
-        public string Folder { get; set; }
+        public string? Folder { get; set; }
 
         [XmlAttribute("project")]
-        public string Project { get; set; }
+        public string? Project { get; set; }
 
         [XmlAttribute("environment")]
-        public string Environment { get; set; }
+        public string? Environment { get; set; }
 
         [DefaultValue(false)]
         [XmlAttribute("bits-32")]
@@ -79,7 +79,7 @@ namespace NBi.Xml.Items
 
                 if (string.IsNullOrEmpty(currentValue))
                 {
-                    var defaultValue = etl.GetValue(Default.Etl, null);
+                    var defaultValue = etl.GetValue(Default!.Etl, null);
                     property.SetValue(this, defaultValue);
                 }
                 else if (currentValue.StartsWith("@"))

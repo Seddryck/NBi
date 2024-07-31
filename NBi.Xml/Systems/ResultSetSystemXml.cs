@@ -30,12 +30,10 @@ namespace NBi.Xml.Systems
     public class ResultSetSystemXml : AbstractSystemUnderTestXml
     {
         [XmlElement("row")]
-        public List<RowXml> _rows { get; set; }
+        public List<RowXml> _rows { get; set; } = [];
 
         public IList<IRow> Rows
-        {
-            get { return _rows.Cast<IRow>().ToList(); }
-        }
+            => _rows.Cast<IRow>().ToList();
 
         public IList<string> Columns
         {
@@ -60,23 +58,18 @@ namespace NBi.Xml.Systems
 
         [XmlIgnore]
         public IContent Content
-        {
-            get
-            {
-                return new Content(Rows, Columns);
-            }
-        }
+            => new Content(Rows, Columns);
 
         [XmlAttribute("path")]
         [Obsolete("Use File in place of FileAttribute")]
         public virtual string FilePath
         {
-            get => File.Path + (File.IsBasic() ? string.Empty : $"!{File.Parser.Name}");
+            get => File.Path + (File.IsBasic() ? string.Empty : $"!{File.Parser!.Name}");
             set
             {
                 var tokens = value.Split(new[] { '!' }, StringSplitOptions.RemoveEmptyEntries);
                 File.Path = tokens[0];
-                if (tokens.Count() > 1)
+                if (tokens.Length > 1)
                     File.Parser = new ParserXml() { Name = tokens[1] };
                 else
                     File.Parser = null;
@@ -84,10 +77,10 @@ namespace NBi.Xml.Systems
         }
 
         [XmlElement("iteration")]
-        public virtual IterationXml Iteration { get; set; } = null;
+        public virtual IterationXml? Iteration { get; set; } = null;
 
         [XmlElement("result-set")]
-        public virtual ResultSetSystemXml NestedResultSet { get; set; } = null;
+        public virtual ResultSetSystemXml? NestedResultSet { get; set; } = null;
 
         [XmlElement("file")]
         public virtual FileXml File { get; set; } = new FileXml();
@@ -95,31 +88,26 @@ namespace NBi.Xml.Systems
         public bool ShouldSerializeFilePath() => File.IsBasic() && !File.IsEmpty();
         public bool ShouldSerializeFile() => !File.IsBasic() || !File.IsEmpty();
 
-        public override BaseItem BaseItem
-        {
-            get
-            {
-                return Query;
-            }
-        }
+        public override BaseItem? BaseItem
+            => Query;
 
         [XmlElement("query")]
-        public virtual QueryXml Query { get; set; }
+        public virtual QueryXml? Query { get; set; }
 
         [XmlElement("sequences-combination")]
-        public virtual SequenceCombinationXml SequenceCombination { get; set; }
+        public virtual SequenceCombinationXml? SequenceCombination { get; set; }
 
         [XmlElement("sequence")]
-        public virtual SequenceXml Sequence { get; set; }
+        public virtual SequenceXml? Sequence { get; set; }
 
         [XmlElement("xml-source")]
-        public virtual XmlSourceXml XmlSource { get; set; }
+        public virtual XmlSourceXml? XmlSource { get; set; }
 
         [XmlElement("json-source")]
-        public virtual JsonSourceXml JsonSource { get; set; }
+        public virtual JsonSourceXml? JsonSource { get; set; }
 
         [XmlElement("empty")]
-        public virtual EmptyResultSetXml Empty { get; set; }
+        public virtual EmptyResultSetXml? Empty { get; set; }
 
         [XmlIgnore]
         public bool SequenceCombinationSpecified { get => SequenceCombination != null; set { } }
@@ -139,17 +127,17 @@ namespace NBi.Xml.Systems
             XmlArrayItem(Type = typeof(UnionXml), ElementName = "union"),
             XmlArrayItem(Type = typeof(DuplicateXml), ElementName = "duplicate"),
         ]
-        public virtual List<AlterationXml> Alterations { get; set; }
+        public virtual List<AlterationXml> Alterations { get; set; } = [];
 
         [XmlIgnore]
         public bool AlterationsSpecified
         {
-            get => (Alterations?.Count ?? 0) > 0;
+            get => Alterations.Count > 0;
             set {}
         }
 
         [XmlElement("if-unavailable")]
-        public virtual IfUnavailableXml IfUnavailable { get; set; }
+        public virtual IfUnavailableXml? IfUnavailable { get; set; }
 
         public override ICollection<string> GetAutoCategories()
         {

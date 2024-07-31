@@ -17,44 +17,44 @@ namespace NBi.Xml.Decoration.Command
         protected const string DEFAULT_VERSION = "SqlServer2014";
 
         [XmlAttribute("version")]
-        public string Version { get; set; }
+        public string? Version { get; set; }
         
         [XmlAttribute("server")]
-        public string Server { get; set; }
+        public string? Server { get; set; }
 
         [XmlAttribute("path")]
-        public string Path { get; set; }
+        public string? Path { get; set; }
 
         [XmlAttribute("name")]
-        public string Name { get; set; }
+        public string? Name { get; set; }
 
         [XmlAttribute("username")]
-        public string UserName { get; set; }
+        public string? UserName { get; set; }
 
         [XmlAttribute("password")]
-        public string Password { get; set; }
+        public string? Password { get; set; }
 
         [XmlAttribute("catalog")]
-        public string Catalog { get; set; }
+        public string? Catalog { get; set; }
 
         [XmlAttribute("folder")]
-        public string Folder { get; set; }
+        public string? Folder { get; set; }
 
         [XmlAttribute("project")]
-        public string Project { get; set; }
+        public string? Project { get; set; }
 
         [XmlAttribute("environment")]
-        public string Environment { get; set; }
+        public string? Environment { get; set; }
 
         [XmlAttribute("bits-32")]
-        public bool Is32Bits { get; set; }
+        public bool Is32Bits { get; set; } = false;
 
         [DefaultValue(DEFAULT_TIMEOUT)]
         [XmlAttribute("timeout")]
-        public int Timeout { get; set; }
+        public int Timeout { get; set; } = DEFAULT_TIMEOUT;
 
         [XmlElement("parameter")]
-        public List<EtlParameterXml> Parameters { get; set; } = new List<EtlParameterXml>();
+        public List<EtlParameterXml> Parameters { get; set; } = [];
 
         public EtlRunXml()
         {

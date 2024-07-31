@@ -167,7 +167,7 @@ namespace NBi.Framework.Testing.FailureMessage.Markdown.Helper
             while ((pos = lines[0].IndexOf('|', pos + 1)) > 0)
             {
                 foreach (var line in lines.TakeWhile(l => l.Length > 0))
-                    Assert.That(line[pos], Is.EqualTo('|'), "The line '{0}' was expecting to have a '|' at position {1} but it was a '{2}'", new object[] { line, pos, line[pos] });
+                    Assert.That(line[pos], Is.EqualTo('|')); //, "The line '{0}' was expecting to have a '|' at position {1} but it was a '{2}'", new object[] { line, pos, line[pos] });
             }
         }
 

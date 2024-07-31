@@ -127,15 +127,15 @@ namespace NBi.Framework.Testing.FailureMessage.Markdown.Helper
             int pos = 0;
             while ((pos = lines[0].IndexOf('|', pos + 1)) > 0)
             {
-                foreach (var line in lines.TakeWhile(l => l.Length>0))
-                    Assert.That(line[pos], Is.EqualTo('|'), "The line '{0}' was expecting to have a '|' at position {1} but it was a '{2}'", new object[] {line, pos, line[pos]});
+                foreach (var line in lines.TakeWhile(l => l.Length > 0))
+                    Assert.That(line[pos], Is.EqualTo('|'));//, "The line '{0}' was expecting to have a '|' at position {1} but it was a '{2}'", new object[] {line, pos, line[pos]});
             }
         }
 
         [Test]
         public void Build_TwoRows_NumericValuesNonRounded()
         {
-            System.Threading.Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("en-us");
+            Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("en-us", false);
             var dataTable = new DataTable() { TableName = "MyTable" };
             dataTable.Columns.Add(new DataColumn("Id"));
             var numericDataColumn = new DataColumn("Numeric value");

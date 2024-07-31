@@ -9,6 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NBi.Testing", "NBi.Testing\
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".project", ".project", "{DA70ECE5-216D-43A1-9E14-902E06050B8E}"
 	ProjectSection(SolutionItems) = preProject
+		.commitlint.yaml = .commitlint.yaml
 		appveyor.yml = appveyor.yml
 		AssemblyInfo.cs = AssemblyInfo.cs
 		Directory.Build.props = Directory.Build.props
@@ -21,7 +22,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".project", ".project", "{DA
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NBi.NUnit", "NBi.NUnit\NBi.NUnit.csproj", "{66314704-AA76-4153-80D8-CA2C5FF06976}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NBi.Xml", "NBi.Xml\NBi.Xml.csproj", "{3A9822B3-CCE4-441B-9C3E-D52817A994CA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NBi.Xml", "NBi.Xml\NBi.Xml.csproj", "{3A9822B3-CCE4-441B-9C3E-D52817A994CA}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NBi.NUnit.Runtime", "NBi.NUnit.Runtime\NBi.NUnit.Runtime.csproj", "{5AA137A9-C158-4A4F-B07D-3DF787618C24}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -32,21 +33,21 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UI", "UI", "{C6B7BEE9-9968-
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NBi.UI.Genbi", "NBi.UI.Genbi\NBi.UI.Genbi.csproj", "{28B43C12-C599-49CD-B712-92B5590A6F20}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NBi.GenbiL", "NBi.genbiL\NBi.GenbiL.csproj", "{DFB8AA0E-A144-49E3-976B-AD03BF2A55E7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NBi.GenbiL", "NBi.genbiL\NBi.GenbiL.csproj", "{DFB8AA0E-A144-49E3-976B-AD03BF2A55E7}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NBi.Framework", "NBi.Framework\NBi.Framework.csproj", "{1AD339DC-60E0-4334-86CF-60EEAFEAA6E4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NBi.Xsd.Preprocess", "NBi.Xsd.Preprocess\NBi.Xsd.Preprocess.csproj", "{DD62992F-BA69-4837-AC16-55BFBD8B0F58}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NBi.Xsd.Preprocess", "NBi.Xsd.Preprocess\NBi.Xsd.Preprocess.csproj", "{DD62992F-BA69-4837-AC16-55BFBD8B0F58}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NBi.Extensibility", "NBi.Extensibility\NBi.Extensibility.csproj", "{A06CBA63-D848-4DBC-ABFC-63172613999D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NBi.Xml.Testing", "NBi.Testing.Xml\NBi.Xml.Testing.csproj", "{172B38C0-9095-4C0B-AF10-9BAC55AD19A2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NBi.Xml.Testing", "NBi.Testing.Xml\NBi.Xml.Testing.csproj", "{172B38C0-9095-4C0B-AF10-9BAC55AD19A2}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NBi.Core.Testing", "NBi.Testing.Core\NBi.Core.Testing.csproj", "{365DDF92-A186-493C-8920-C2E1509DA37D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NBi.GenbiL.Testing", "NBi.Testing.GenbiL\NBi.GenbiL.Testing.csproj", "{365DDF92-A186-493C-8920-C2E1509DA37E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NBi.GenbiL.Testing", "NBi.Testing.GenbiL\NBi.GenbiL.Testing.csproj", "{365DDF92-A186-493C-8920-C2E1509DA37E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NBi.Framework.Testing", "NBi.Testing.Framework\NBi.Framework.Testing.csproj", "{365DDF92-A186-493C-8920-C2E1509DA37F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NBi.Framework.Testing", "NBi.Testing.Framework\NBi.Framework.Testing.csproj", "{365DDF92-A186-493C-8920-C2E1509DA37F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{73288164-F3CB-4796-B9AA-CEC585F45583}"
 EndProject

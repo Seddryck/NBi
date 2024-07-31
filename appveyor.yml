@@ -1,14 +1,73 @@
 version: build.{build}
-image: Visual Studio 2017
-init:
-  - cmd: git config --global core.autocrlf true
-before_build:
-- cmd: >-
-    gitversion /l console /output buildserver /updateAssemblyInfo /verbosity Minimal
+image: Visual Studio 2022
 
-    nuget restore
-build:
-  verbosity: minimal
+branches:
+  except:
+    - /v\d+\.\d+\.\d+/
+skip_commits:
+  files:
+    - docs/
+    - misc/
+    - README.md
+    - LICENSE
+    - CODE_OF_CONDUCT.md
+    - CONTRIBUTING.md
+    - SECURITY.md
+
+init:
+- cmd: git config --global core.autocrlf true
+- cmd: setx IGNORE_NORMALISATION_GIT_HEAD_MOVE "1"
+- cmd: RefreshEnv.cmd
+- pwsh: Write-Host "Target branch is '$($env:APPVEYOR_REPO_BRANCH)'"
+
+before_build:
+- cmd: gitversion /output buildserver /verbosity Minimal
+- pwsh: Write-Host "Building NBi version $($env:GitVersion_SemVer)"
+- pwsh: |
+    . "$env:APPVEYOR_BUILD_FOLDER\github.ps1"
+    if (($env:APPVEYOR_REPO_BRANCH -eq "main") -and ($null -eq $env:APPVEYOR_PULL_REQUEST_NUMBER)) {
+      $context = [PSCustomObject] @{
+        Id = $env:APPVEYOR_REPO_COMMIT
+        Owner = ($env:APPVEYOR_REPO_NAME -Split '/')[0]
+        Repository = ($env:APPVEYOR_REPO_NAME -Split '/')[1]
+        SecretToken = $env:github_access_token
+      }
+      foreach($id in ($context | Get-Commit-Associated-Pull-Requests)) {
+        $context.Id = $id
+        $context | Set-Pull-Request-Expected-Labels -Config '.github\conventional_commits_labels.json'
+      }
+    } else {
+        Write-Host 'Not a merge on main built on appveyor. Skipping mapping conventional commits and labels.'
+    }
+
+build_script:
+  #- dotnet --info
+  - dotnet build NBi.sln -p:version="%GitVersion_SemVer%" -c Release /p:ContinuousIntegrationBuild=true --nologo
+
+before_test:
+  - ps: .\install-roapi-for-testing.ps1
+  - ps: .\restore-database-for-testing.ps1
+
+test_script:
+- pwsh: |
+    $ErrorActionPreference = "Stop"
+    dotnet test NBi.Core.Testing -c Release /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:Threshold=10 /p:ThresholdType=line /p:CoverletOutput=../.coverage/coverage.DubUrl.xml --test-adapter-path:. --logger:Appveyor --no-build --nologo
+    $globalTestResult = $LastExitCode
+    dotnet test NBi.GenbiL.Testing -c Release /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:Threshold=10 /p:ThresholdType=line /p:Exclude=[DubUrl.Testing]* /p:CoverletOutput=../.coverage/coverage.DubUrl.OleDb.xml --test-adapter-path:. --logger:Appveyor --no-build --nologo
+    $globalTestResult += $LastExitCode
+    dotnet test NBi.Xml.Testing -c Release /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:Threshold=10 /p:ThresholdType=line /p:Exclude=[DubUrl.Testing]* /p:CoverletOutput=../.coverage/coverage.DubUrl.Adomd.xml --test-adapter-path:. --logger:Appveyor --no-build --nologo
+    $globalTestResult += $LastExitCode
+    dotnet test NBi.Framework.Testing -c Release /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:Threshold=10 /p:ThresholdType=line /p:CoverletOutput=../.coverage/coverage.DubUrl.Extensions.xml --test-adapter-path:. --logger:Appveyor --no-build --nologo
+    $globalTestResult += $LastExitCode
+    if($globalTestResult -ne 0) { $host.SetShouldExit($globalTestResult) }
+
+#test_script:
+#- cmd: >-
+#    nunit3-console NBi.Testing.Core\bin\debug\NBi.Testing.Core.dll NBi.Testing.Framework\bin\debug\NBi.Testing.Framework.dll NBi.Testing.GenbiL\bin\debug\NBi.Testing.GenbiL.dll NBi.Testing.Xml\bin\debug\NBi.Testing.Xml.dll  --where "cat!=Acceptance and cat!=Olap and cat!=Etl and cat!=WindowsService and cat!=ReportServerDB and cat!=LocalSQL" --result=myresults.xml;format=AppVeyor
+#    
+#    nunit-console-x86 NBi.Testing\bin\debug\NBi.Testing.dll /exclude:Olap,Etl,WindowsService,ReportServerDB,LocalSQL
+    
+
 before_package:
   - cmd: clone-extensions.cmd
 after_build:
@@ -16,15 +75,8 @@ after_build:
     $nuget_version = "$env:GitVersion_NuGetVersionV2"
 
     .\.packages\package-NBi.ps1 $nuget_version
-before_test:
-  - ps: .\install-roapi-for-testing.ps1
-  - ps: .\restore-database-for-testing.ps1
-test_script:
-- cmd: >-
-    nunit3-console NBi.Testing.Core\bin\debug\NBi.Testing.Core.dll NBi.Testing.Framework\bin\debug\NBi.Testing.Framework.dll NBi.Testing.GenbiL\bin\debug\NBi.Testing.GenbiL.dll NBi.Testing.Xml\bin\debug\NBi.Testing.Xml.dll  --where "cat!=Acceptance and cat!=Olap and cat!=Etl and cat!=WindowsService and cat!=ReportServerDB and cat!=LocalSQL" --result=myresults.xml;format=AppVeyor
-    
-    nunit-console-x86 NBi.Testing\bin\debug\NBi.Testing.dll /exclude:Olap,Etl,WindowsService,ReportServerDB,LocalSQL
-    
+
+
 artifacts:
 - path: NBi.NUnit.Runtime\bin\Debug
   name: Framework

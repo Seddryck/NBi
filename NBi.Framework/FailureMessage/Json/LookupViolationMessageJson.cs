@@ -19,9 +19,9 @@ namespace NBi.Framework.FailureMessage.Json
 {
     abstract class LookupViolationMessageJson : LookupViolationMessage<JsonWriter>
     {
-        private readonly StringBuilder sbReference = new StringBuilder();
-        private readonly StringBuilder sbCandidate = new StringBuilder();
-        private readonly StringBuilder sbAnalysis = new StringBuilder();
+        private readonly StringBuilder sbReference = new();
+        private readonly StringBuilder sbCandidate = new();
+        private readonly StringBuilder sbAnalysis = new();
 
         public LookupViolationMessageJson(IDictionary<string, ISampler<IResultRow>> samplers)
             : base(samplers)
@@ -42,30 +42,28 @@ namespace NBi.Framework.FailureMessage.Json
         public override string RenderMessage()
         {
             var sb = new StringBuilder();
-            using (var sw = new StringWriter(sb))
-            using (var writer = new JsonTextWriter(sw))
+            using var sw = new StringWriter(sb);
+            using var writer = new JsonTextWriter(sw);
+            writer.WriteStartObject();
+            writer.WritePropertyName("timestamp");
+            writer.WriteValue(DateTime.Now);
+            if (!string.IsNullOrEmpty(sbReference.ToString()))
             {
-                writer.WriteStartObject();
-                writer.WritePropertyName("timestamp");
-                writer.WriteValue(DateTime.Now);
-                if (!string.IsNullOrEmpty(sbReference.ToString()))
-                {
-                    writer.WritePropertyName(ReferenceName);
-                    writer.WriteRawValue(sbReference.ToString());
-                }
-                if (!string.IsNullOrEmpty(sbCandidate.ToString()))
-                {
-                    writer.WritePropertyName(CandidateName);
-                    writer.WriteRawValue(sbCandidate.ToString());
-                }
-                if (!string.IsNullOrEmpty(sbAnalysis.ToString()))
-                {
-                    writer.WritePropertyName("analysis");
-                    writer.WriteRawValue(sbAnalysis.ToString());
-                }
-                writer.WriteEndObject();
-                return sb.ToString();
+                writer.WritePropertyName(ReferenceName);
+                writer.WriteRawValue(sbReference.ToString());
             }
+            if (!string.IsNullOrEmpty(sbCandidate.ToString()))
+            {
+                writer.WritePropertyName(CandidateName);
+                writer.WriteRawValue(sbCandidate.ToString());
+            }
+            if (!string.IsNullOrEmpty(sbAnalysis.ToString()))
+            {
+                writer.WritePropertyName("analysis");
+                writer.WriteRawValue(sbAnalysis.ToString());
+            }
+            writer.WriteEndObject();
+            return sb.ToString();
         }
 
         protected virtual string ReferenceName { get => "expected"; }

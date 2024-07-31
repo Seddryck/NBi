@@ -14,18 +14,14 @@ namespace NBi.Framework.FailureMessage
 {
     public class ScoreMessageFormatterFactory
     {
-        public IScoreMessageFormatter Instantiate(IFailureReportProfile profile)
+        public virtual IScoreMessageFormatter Instantiate(IFailureReportProfile profile)
         {
-            switch (profile.Format)
+            return profile.Format switch
             {
-                case FailureReportFormat.Markdown:
-                    return new ScoreMessageMarkdown();
-                case FailureReportFormat.Json:
-                    return new ScoreMessageJson();
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
-            
+                FailureReportFormat.Markdown => new ScoreMessageMarkdown(),
+                FailureReportFormat.Json => new ScoreMessageJson(),
+                _ => throw new ArgumentOutOfRangeException(),
+            };
         }
     }
 }

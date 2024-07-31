@@ -30,19 +30,15 @@ namespace NBi.Framework.Sampling
             };
         }
 
-        private ISampler<T> SelectSampler(FailureReportSetType type, int thresholdSampleItem, int maxSampleItem)
+        protected virtual ISampler<T> SelectSampler(FailureReportSetType type, int thresholdSampleItem, int maxSampleItem)
         {
-            switch (type)
+            return type switch
             {
-                case FailureReportSetType.None:
-                    return new NoneSampler<T>();
-                case FailureReportSetType.Sample:
-                    return new BasicSampler<T>(thresholdSampleItem, maxSampleItem);
-                case FailureReportSetType.Full:
-                    return new FullSampler<T>();
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
+                FailureReportSetType.None => new NoneSampler<T>(),
+                FailureReportSetType.Sample => new BasicSampler<T>(thresholdSampleItem, maxSampleItem),
+                FailureReportSetType.Full => new FullSampler<T>(),
+                _ => throw new ArgumentOutOfRangeException(),
+            };
         }
     }
 }

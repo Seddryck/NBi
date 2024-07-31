@@ -20,7 +20,7 @@ namespace NBi.Framework.FailureMessage.Json
             foreach (var row in rows)
             {
                 writer.WriteStartArray();
-                for (int i = 0; i < row.ItemArray.Count(); i++)
+                for (int i = 0; i < row.ItemArray.Length; i++)
                 {
                     var presenter = presenters.ElementAt(i);
                     writer.WriteStartObject();

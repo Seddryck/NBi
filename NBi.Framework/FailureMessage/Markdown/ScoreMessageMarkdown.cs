@@ -29,7 +29,7 @@ namespace NBi.Framework.FailureMessage.Markdown
 
         public string RenderMessage() => $"{(Result ? "A good" : "An insufficient")} score of {Score.ToString(CultureInfo.InvariantCulture.NumberFormat)} was received when the threshold was set {Threshold.ToString(CultureInfo.InvariantCulture.NumberFormat)}.";
 
-        private string WriteJson(IDictionary<string, decimal> values)
+        protected virtual string WriteJson(IDictionary<string, decimal> values)
         {
             var sb = new StringBuilder();
             var sw = new StringWriter(sb);

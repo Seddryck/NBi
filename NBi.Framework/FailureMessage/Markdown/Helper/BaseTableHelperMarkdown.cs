@@ -22,7 +22,7 @@ namespace NBi.Framework.FailureMessage.Markdown.Helper
 
         public override void Render(MarkdownContainer container)
         {
-            if (Rows.Count() == 0)
+            if (Rows.Count == 0)
                 RenderEmptyTable(container);
             else
                 RenderNonEmptyTable(Rows, Metadatas, Sampler, container);
@@ -40,7 +40,7 @@ namespace NBi.Framework.FailureMessage.Markdown.Helper
 
             if (Sampler.GetIsSampled())
             {
-                var rowsSkipped = $"{Sampler.GetExcludedRowCount()} (of {Rows.Count()}) rows have been skipped for display purpose.";
+                var rowsSkipped = $"{Sampler.GetExcludedRowCount()} (of {Rows.Count}) rows have been skipped for display purpose.";
                 container.Append(rowsSkipped.ToMarkdownParagraph());
             }
         }
@@ -58,7 +58,7 @@ namespace NBi.Framework.FailureMessage.Markdown.Helper
 
         protected abstract IEnumerable<TableCellExtended> RenderRow(T row, IEnumerable<ColumnType> columnTypes);
 
-        protected IEnumerable<TableColumnExtended> RenderColumns(IEnumerable<ExtendedMetadata> metadatas)
+        protected virtual IEnumerable<TableColumnExtended> RenderColumns(IEnumerable<ExtendedMetadata> metadatas)
         {
             var formatter = new ColumnPropertiesFormatter();
             foreach (var metadata in metadatas)

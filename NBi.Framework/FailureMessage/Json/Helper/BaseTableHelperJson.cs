@@ -25,12 +25,12 @@ namespace NBi.Framework.FailureMessage.Json.Helper
 
         protected virtual void RenderTable(JsonWriter writer)
         {
-            var rows = Rows ?? new List<T>();
+            var rows = Rows ?? [];
 
             writer.WriteStartObject();
             writer.WritePropertyName("total-rows");
-            writer.WriteValue(rows.Count());
-            if (Sampler.GetResult().Count() > 0)
+            writer.WriteValue(rows.Count);
+            if (Sampler.GetResult().Any())
                 RenderNonEmptyTable(writer);
             writer.WriteEndObject();
         }
@@ -42,7 +42,7 @@ namespace NBi.Framework.FailureMessage.Json.Helper
             if (sampler.GetIsSampled())
             {
                 writer.WritePropertyName("sampled-rows");
-                writer.WriteValue(rows.Count() - sampler.GetExcludedRowCount());
+                writer.WriteValue(rows.Count - sampler.GetExcludedRowCount());
             }
 
             writer.WritePropertyName("table");

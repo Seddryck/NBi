@@ -16,23 +16,17 @@ namespace NBi.Framework.FailureMessage
 {
     public class LookupExistsViolationsMessageFormatterFactory
     {
-        public ILookupViolationMessageFormatter Instantiate(IFailureReportProfile profile)
+        public virtual ILookupViolationMessageFormatter Instantiate(IFailureReportProfile profile)
         {
             var dataRowsFactory = new SamplersFactory<IResultRow>();
             var dataRowsSamplers = dataRowsFactory.InstantiateLookup(profile);
 
-            var keysCollectionFactory = new SamplersFactory<KeyCollection>();
-            var keysCollectionSamplers = keysCollectionFactory.Instantiate(profile);
-
-            switch (profile.Format)
+            return profile.Format switch
             {
-                case FailureReportFormat.Markdown:
-                    return new LookupExistsViolationMessageMarkdown(dataRowsSamplers);
-                case FailureReportFormat.Json:
-                    return new LookupExistsViolationMessageJson(dataRowsSamplers);
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
+                FailureReportFormat.Markdown => new LookupExistsViolationMessageMarkdown(dataRowsSamplers),
+                FailureReportFormat.Json => new LookupExistsViolationMessageJson(dataRowsSamplers),
+                _ => throw new ArgumentOutOfRangeException(),
+            };
         }
     }
 }

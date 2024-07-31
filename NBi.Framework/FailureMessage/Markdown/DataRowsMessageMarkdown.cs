@@ -71,7 +71,7 @@ namespace NBi.Framework.FailureMessage.Markdown
 
         private MarkdownContainer BuildTable(TableHelperMarkdown tableBuilder, IEnumerable<IResultRow> rows, string title, ISampler<IResultRow> sampler)
         {
-            rows = rows ?? new List<IResultRow>();
+            rows ??= [];
 
             sampler.Build(rows);
             var table = tableBuilder.Build(sampler.GetResult());
@@ -99,7 +99,7 @@ namespace NBi.Framework.FailureMessage.Markdown
         private MarkdownContainer BuildNonEmptyTable(EngineStyle style, IEnumerable<IResultRow> rows, string title, ISampler<IResultRow> sampler)
         {
             var tableBuilder = new TableHelperMarkdown(style);
-            if (rows !=null && rows.Count() > 0)
+            if (rows !=null && rows.Any())
                 return BuildTable(tableBuilder, rows, title, sampler);
             else
                 return new MarkdownContainer();
@@ -109,13 +109,13 @@ namespace NBi.Framework.FailureMessage.Markdown
         private MarkdownContainer BuildCompareTable(EngineStyle style, IEnumerable<IResultRow> rows, string title, ISampler<IResultRow> sampler)
         {
             var tableBuilder = new CompareTableHelperMarkdown(style);
-            if (rows.Count() > 0)
+            if (rows.Any())
                 return BuildTable(tableBuilder, rows, title, sampler);
             else
                 return new MarkdownContainer();
         }
 
-        protected Paragraph BuildRowCount(int rowCount)
+        protected virtual Paragraph BuildRowCount(int rowCount)
         {
             return ($"Result-set with {rowCount} row{(rowCount > 1 ? "s" : string.Empty)}".ToMarkdownParagraph());
         }

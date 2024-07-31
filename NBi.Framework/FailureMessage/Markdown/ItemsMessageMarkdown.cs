@@ -24,23 +24,23 @@ namespace NBi.Framework.FailureMessage.Markdown
 
         public void Build(IEnumerable<string> expectedItems, IEnumerable<string> actualItems, ListComparer.Result? result)
         {
-            expectedItems = expectedItems ?? new List<string>();
-            actualItems = actualItems ?? new List<string>();
-            result = result ?? new ListComparer.Result(null, null);
+            expectedItems ??= [];
+            actualItems ??= [];
+            result ??= new ListComparer.Result(null, null);
 
             expected = BuildList(expectedItems, samplers["expected"]);
             actual = BuildList(actualItems, samplers["actual"]);
-            analysis = BuildIfNotEmptyList(result.Missing ?? new List<string>(), "Missing", samplers["analysis"]);
+            analysis = BuildIfNotEmptyList(result.Missing ?? [], "Missing", samplers["analysis"]);
             analysis.Append(BuildIfNotEmptyList(result.Unexpected ?? new List<string>(), "Unexpected", samplers["analysis"]));
         }
 
-        private MarkdownContainer BuildList(IEnumerable<string> items, ISampler<string> sampler)
+        protected virtual MarkdownContainer BuildList(IEnumerable<string> items, ISampler<string> sampler)
         {
             sampler.Build(items);
             var sampledItems = sampler.GetResult();
 
             var container = new MarkdownContainer();
-            if (items.Count() > 0)
+            if (items.Any())
             {
                 container.Append($"Set of {items.Count()} item{(items.Count() > 1 ? "s" : string.Empty)}".ToMarkdownParagraph());
                 container.Append(sampledItems.ToMarkdownBulletedList());
@@ -66,7 +66,7 @@ namespace NBi.Framework.FailureMessage.Markdown
 
         private MarkdownContainer BuildIfNotEmptyList(IEnumerable<string> items, string title, ISampler<string> sampler)
         {
-            if (items.Count() == 0)
+            if (!items.Any())
                 return new MarkdownContainer();
             else
                 return BuildList(items, title, sampler);

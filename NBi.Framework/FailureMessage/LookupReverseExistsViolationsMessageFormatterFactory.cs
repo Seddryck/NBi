@@ -16,23 +16,17 @@ namespace NBi.Framework.FailureMessage
 {
     public class LookupReverseExistsViolationsMessageFormatterFactory
     {
-        public ILookupViolationMessageFormatter Instantiate(IFailureReportProfile profile)
+        public virtual ILookupViolationMessageFormatter Instantiate(IFailureReportProfile profile)
         {
             var dataRowsFactory = new SamplersFactory<IResultRow>();
             var dataRowsSamplers = dataRowsFactory.InstantiateLookup(profile);
 
-            var keysCollectionFactory = new SamplersFactory<KeyCollection>();
-            var keysCollectionSamplers = keysCollectionFactory.Instantiate(profile);
-
-            switch (profile.Format)
+            return profile.Format switch
             {
-                case FailureReportFormat.Markdown:
-                    return new LookupReverseExistsViolationMessageMarkdown(dataRowsSamplers);
-                case FailureReportFormat.Json:
-                    return new LookupReverseExistsViolationMessageJson(dataRowsSamplers);
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
+                FailureReportFormat.Markdown => new LookupReverseExistsViolationMessageMarkdown(dataRowsSamplers),
+                FailureReportFormat.Json => new LookupReverseExistsViolationMessageJson(dataRowsSamplers),
+                _ => throw new ArgumentOutOfRangeException(),
+            };
         }
     }
 }

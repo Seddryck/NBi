@@ -87,7 +87,7 @@ namespace NBi.Framework.FailureMessage.Json.Helper
             writer.WriteEndArray();
         }
 
-        private string RenderSupplementaryCell() => " >> ";
+        protected virtual string RenderSupplementaryCell() => " >> ";
 
         protected virtual void RenderCell(object value, LookupMatchesViolationData data, ColumnType columnType, JsonWriter writer)
         {

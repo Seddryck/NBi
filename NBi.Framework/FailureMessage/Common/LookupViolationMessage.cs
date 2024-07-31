@@ -36,9 +36,9 @@ namespace NBi.Framework.FailureMessage.Common
             RenderAnalysis(violations, metadata, Samplers["analysis"], keyMappings, valueMappings, analysis!);
         }
 
-        private IEnumerable<ColumnMetadata> BuildMetadata(ColumnMappingCollection mappings, ColumnRole role, Func<ColumnMapping, IColumnIdentifier> identify)
+        protected virtual IEnumerable<ColumnMetadata> BuildMetadata(ColumnMappingCollection mappings, ColumnRole role, Func<ColumnMapping, IColumnIdentifier> identify)
         {
-            foreach (var mapping in mappings ?? new ColumnMappingCollection())
+            foreach (var mapping in mappings ?? [])
                 yield return new ColumnMetadata()
                 {
                     Identifier = identify.Invoke(mapping),

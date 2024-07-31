@@ -84,7 +84,7 @@ namespace NBi.Framework.FailureMessage.Markdown.Helper
             return new TableRowExtended() { Cells = cells };
         }
 
-        private string RenderSupplementaryCell() => " >> ";
+        protected virtual string RenderSupplementaryCell() => " >> ";
 
         protected override IEnumerable<TableCellExtended> RenderRow(LookupMatchesViolationComposite row, IEnumerable<ColumnType> columnTypes)
             => throw new NotImplementedException();

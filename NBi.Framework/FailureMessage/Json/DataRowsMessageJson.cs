@@ -15,7 +15,6 @@ namespace NBi.Framework.FailureMessage.Json
     class DataRowsMessageJson : IDataRowsMessageFormatter
     {
         private readonly IDictionary<string, ISampler<IResultRow>> samplers;
-        private readonly EngineStyle style;
 
         private string expected = string.Empty;
         private string actual = string.Empty;
@@ -24,7 +23,6 @@ namespace NBi.Framework.FailureMessage.Json
 
         public DataRowsMessageJson(EngineStyle style, IDictionary<string, ISampler<IResultRow>> samplers)
         {
-            this.style = style;
             this.samplers = samplers;
         }
 
@@ -49,20 +47,18 @@ namespace NBi.Framework.FailureMessage.Json
         {
             actual = BuildTable(actualRows, samplers["actual"]);
             analysis = BuildMultipleTables(
-                new[]
-                {
+                [
                     new Tuple<string, IEnumerable<IResultRow>, TableHelperJson>("not-unique", result.Rows, new TableHelperJson())
-                }, samplers["analysis"]);
+                ], samplers["analysis"]);
         }
 
         public void BuildFilter(IEnumerable<IResultRow> actualRows, IEnumerable<IResultRow> filteredRows)
         {
             actual = BuildTable(actualRows, samplers["actual"]);
             analysis = BuildMultipleTables(
-                new[]
-                {
+                [
                     new Tuple<string, IEnumerable<IResultRow>, TableHelperJson>("filtered", filteredRows, new TableHelperJson())
-                }, samplers["analysis"]);
+                ], samplers["analysis"]);
         }
         public void BuildCount(IEnumerable<IResultRow> actualRows)
         {
@@ -104,7 +100,7 @@ namespace NBi.Framework.FailureMessage.Json
             BuildTable(rows, sampler, new TableHelperJson(), writer);
         }
 
-        private void BuildTable(IEnumerable<IResultRow> rows, ISampler<IResultRow> sampler, TableHelperJson tableHelper, JsonWriter writer)
+        protected virtual void BuildTable(IEnumerable<IResultRow> rows, ISampler<IResultRow> sampler, TableHelperJson tableHelper, JsonWriter writer)
         {
             tableHelper.Execute(rows, sampler, writer);
         }
@@ -119,30 +115,28 @@ namespace NBi.Framework.FailureMessage.Json
         public string RenderMessage()
         {
             var sb = new StringBuilder();
-            using (var sw = new StringWriter(sb))
-            using (var writer = new JsonTextWriter(sw))
+            using var sw = new StringWriter(sb);
+            using var writer = new JsonTextWriter(sw);
+            writer.WriteStartObject();
+            writer.WritePropertyName("timestamp");
+            writer.WriteValue(DateTime.Now);
+            if (!string.IsNullOrEmpty(expected))
             {
-                writer.WriteStartObject();
-                writer.WritePropertyName("timestamp");
-                writer.WriteValue(DateTime.Now);
-                if (!string.IsNullOrEmpty(expected))
-                {
-                    writer.WritePropertyName("expected");
-                    writer.WriteRawValue(expected);
-                }
-                if (!string.IsNullOrEmpty(actual))
-                {
-                    writer.WritePropertyName("actual");
-                    writer.WriteRawValue(actual);
-                }
-                if (!string.IsNullOrEmpty(analysis))
-                {
-                    writer.WritePropertyName("analysis");
-                    writer.WriteRawValue(analysis);
-                }
-                writer.WriteEndObject();
-                return sb.ToString();
+                writer.WritePropertyName("expected");
+                writer.WriteRawValue(expected);
             }
+            if (!string.IsNullOrEmpty(actual))
+            {
+                writer.WritePropertyName("actual");
+                writer.WriteRawValue(actual);
+            }
+            if (!string.IsNullOrEmpty(analysis))
+            {
+                writer.WritePropertyName("analysis");
+                writer.WriteRawValue(analysis);
+            }
+            writer.WriteEndObject();
+            return sb.ToString();
         }
     }
 }

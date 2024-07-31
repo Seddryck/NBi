@@ -8,12 +8,12 @@ namespace NBi.Framework.Markdown.MarkdownLogExtension
 {
     class TableRowExtended
     {
-        private IEnumerable<ITableCellExtended> _cells = Enumerable.Empty<ITableCellExtended>();
+        private IEnumerable<ITableCellExtended> _cells = [];
 
         public IEnumerable<ITableCellExtended> Cells
         {
             get { return _cells; }
-            set { _cells = value ?? Enumerable.Empty<ITableCellExtended>(); }
+            set { _cells = value ?? []; }
         }
     }
 }

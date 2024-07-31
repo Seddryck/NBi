@@ -10,21 +10,21 @@ namespace NBi.Framework.Markdown.MarkdownLogExtension
     class TableExtended : MarkdownElement
     {
 
-        private static readonly EmptyTableCellExtended EmptyCell = new EmptyTableCellExtended();
+        private static readonly EmptyTableCellExtended EmptyCell = new();
         
-        private IEnumerable<TableRowExtended> _rows = new List<TableRowExtended>();
-        private IEnumerable<TableColumnExtended> _columns = new List<TableColumnExtended>();
+        private IEnumerable<TableRowExtended> _rows = [];
+        private IEnumerable<TableColumnExtended> _columns = [];
 
         public IEnumerable<TableRowExtended> Rows
         {
             get { return _rows; }
-            set { _rows = value ?? Enumerable.Empty<TableRowExtended>(); }
+            set { _rows = value ?? []; }
         }
 
         public IEnumerable<TableColumnExtended> Columns
         {
             get { return _columns; }
-            set { _columns = value ?? new List<TableColumnExtended>(); }
+            set { _columns = value ?? []; }
         }
 
         public override string ToMarkdown()
@@ -42,7 +42,7 @@ namespace NBi.Framework.Markdown.MarkdownLogExtension
 
             private readonly List<Row> _rows;
             private readonly List<TableColumnExtended> _columns;
-            private readonly StringBuilder _builder = new StringBuilder();
+            private readonly StringBuilder _builder = new();
             private readonly IList<TableCellRenderSpecificationExtended> _columnRenderSpecs;
 
             internal MarkdownBuilder(TableExtended table)
@@ -110,17 +110,13 @@ namespace NBi.Framework.Markdown.MarkdownLogExtension
             {
                 var dashes = new string('-', spec.MaximumWidth);
 
-                switch (spec.Alignment)
+                return spec.Alignment switch
                 {
-                    case TableColumnAlignment.Left:
-                        return ":" + dashes + " ";
-                    case TableColumnAlignment.Center:
-                        return ":" + dashes + ":";
-                    case TableColumnAlignment.Right:
-                        return " " + dashes + ":";
-                    default:
-                        return " " + dashes + " ";
-                }
+                    TableColumnAlignment.Left => ":" + dashes + " ",
+                    TableColumnAlignment.Center => ":" + dashes + ":",
+                    TableColumnAlignment.Right => " " + dashes + ":",
+                    _ => " " + dashes + " ",
+                };
             }
 
             private void BuildBodyRow(Row row)
@@ -139,7 +135,7 @@ namespace NBi.Framework.Markdown.MarkdownLogExtension
                 var maximumWidth = columnSpec.MaximumWidth;
 
                 var cellText = cell.BuildCodeFormattedString(new TableCellRenderSpecificationExtended(columnSpec.Alignment, maximumWidth));
-                var truncatedCellText = cellText.Length > maximumWidth ? cellText.Substring(0, maximumWidth) : cellText.PadRight(maximumWidth);
+                var truncatedCellText = cellText.Length > maximumWidth ? cellText[..maximumWidth] : cellText.PadRight(maximumWidth);
 
                 return truncatedCellText;
             }
@@ -167,7 +163,7 @@ namespace NBi.Framework.Markdown.MarkdownLogExtension
                 return new TableColumnExtended { HeaderCell = new TableCellExtended { Text = columnIndex.ToColumnTitle() } };
             }
 
-            private ITableCellExtended GetCellAt(IList<ITableCellExtended> cells, int index)
+            protected virtual ITableCellExtended GetCellAt(IList<ITableCellExtended> cells, int index)
             {
                 return index < cells.Count ? cells[index] : EmptyCell;
             }

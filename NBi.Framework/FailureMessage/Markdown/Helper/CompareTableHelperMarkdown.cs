@@ -35,7 +35,7 @@ namespace NBi.Framework.FailureMessage.Markdown.Helper
             return rows;
         }
 
-        protected string GetCompareText(List<ColumnType> columnTypes, IResultRow dataRow, int i)
+        protected virtual string GetCompareText(List<ColumnType> columnTypes, IResultRow dataRow, int i)
         {
             if (string.IsNullOrEmpty(dataRow.GetColumnError(i)))
                 return string.Empty;

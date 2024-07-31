@@ -27,7 +27,7 @@ namespace NBi.Framework.FailureMessage.Markdown.Helper
         {
             var container = new MarkdownContainer();
 
-            if (dataRows.Count() == 0)
+            if (!dataRows.Any())
                 container.Append(BuildEmptyTable());
             else
                 container.Append(BuildNonEmptyTable(dataRows));
@@ -35,10 +35,8 @@ namespace NBi.Framework.FailureMessage.Markdown.Helper
             return container;
         }
 
-        protected Paragraph BuildEmptyTable()
-        {
-            return "This result set is empty.".ToMarkdownParagraph();
-        }
+        protected virtual Paragraph BuildEmptyTable()
+            => "This result set is empty.".ToMarkdownParagraph();
 
         protected TableExtended BuildNonEmptyTable(IEnumerable<IResultRow> dataRows)
         {
@@ -65,40 +63,32 @@ namespace NBi.Framework.FailureMessage.Markdown.Helper
             return rows;
         }
 
-        protected string GetText(List<ColumnType> columnTypes, IResultRow dataRow, int i)
+        protected virtual string GetText(List<ColumnType> columnTypes, IResultRow dataRow, int i)
         {
             var factory = new PresenterFactory();
             var formatter = factory.Instantiate(columnTypes[i]);
 
-            var text = string.Empty;
-            if (dataRow.IsNull(i))
-                text = formatter.Execute(DBNull.Value);
-            else
-                text = formatter.Execute(dataRow.ItemArray[i]);
+            var text = dataRow.IsNull(i)
+                        ? formatter.Execute(DBNull.Value)
+                        : formatter.Execute(dataRow.ItemArray[i]);
             return text;
         }
 
         private List<TableColumnExtended> BuildColumns(IEnumerable<IResultRow> dataRows, out List<ColumnType> columnTypes)
         {
             var headers = new List<TableColumnExtended>();
-            columnTypes = new List<ColumnType>();
+            columnTypes = [];
             foreach (var dataColumn in dataRows.ElementAt(0).Parent.Columns)
             {
                 var formatter = new ColumnPropertiesFormatter();
                 var tableColumn = new TableColumnExtended();
                 var headerCell = new TableCellExtended() {  };
-                switch (style)
+                headerCell.Text = style switch
                 {
-                    case EngineStyle.ByIndex:
-                        headerCell.Text = $"#{headers.Count} ({dataColumn.Name})";
-                        break;
-                    case EngineStyle.ByName:
-                        headerCell.Text = $"{dataColumn.Name}";
-                        break;
-                    default:
-                        throw new ArgumentOutOfRangeException();
-                }
-                
+                    EngineStyle.ByIndex => $"#{headers.Count} ({dataColumn.Name})",
+                    EngineStyle.ByName => $"{dataColumn.Name}",
+                    _ => throw new ArgumentOutOfRangeException(),
+                };
                 tableColumn.HeaderCell = headerCell;
                 
                 if (dataColumn.HasProperties())

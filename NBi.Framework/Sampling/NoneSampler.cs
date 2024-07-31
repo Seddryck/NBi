@@ -19,7 +19,7 @@ namespace NBi.Framework.Sampling
 
         public void Build(IEnumerable<T> fullSet)
         {
-            result = new List<T>(0);
+            result = [];
             excludedRowCount = fullSet.Count();
             isBuild = true;
         }

@@ -34,7 +34,7 @@ namespace NBi.Framework.FailureMessage.Json
                 { "threshold", Threshold },
             });
 
-        private string WriteJson(IDictionary<string, object> values)
+        protected virtual string WriteJson(IDictionary<string, object> values)
         {
             var sb = new StringBuilder();
             var sw = new StringWriter(sb);

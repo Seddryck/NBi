@@ -36,7 +36,7 @@ namespace NBi.Framework.FailureMessage.Markdown
 
         protected virtual IEnumerable<IColumnDefinition> BuildMetadata(ColumnMappingCollection mappings, ColumnRole role, Func<ColumnMapping, IColumnIdentifier> identify)
         {
-            foreach (var mapping in mappings ?? new ColumnMappingCollection())
+            foreach (var mapping in mappings ?? [])
                 yield return new Column(identify.Invoke(mapping),role,mapping.Type);
         }
 
@@ -44,18 +44,18 @@ namespace NBi.Framework.FailureMessage.Markdown
         public override string RenderCandidate() => candidate?.ToMarkdown() ?? string.Empty;
         public override string RenderAnalysis() => analysis?.ToMarkdown() ?? string.Empty;
 
-        private string Textify(RowViolationState s)
+        protected virtual string Textify(RowViolationState s)
         {
-            switch (s)
+            return s switch
             {
-                case RowViolationState.Missing: return "Missing";
-                case RowViolationState.Unexpected: return "Unexpected";
-                case RowViolationState.Mismatch: return "Non-matching";
-                default: throw new ArgumentOutOfRangeException();
-            }
+                RowViolationState.Missing => "Missing",
+                RowViolationState.Unexpected => "Unexpected",
+                RowViolationState.Mismatch => "Non-matching",
+                _ => throw new ArgumentOutOfRangeException(),
+            };
         }
 
-        protected string GetExplanationText(LookupViolationCollection violations, RowViolationState state)
+        protected virtual string GetExplanationText(LookupViolationCollection violations, RowViolationState state)
         {
             string Pluralize(int x) => x > 1 ? "s" : string.Empty;
             string Verbalize(int x) => x > 1 ? "are" : "is";
@@ -63,13 +63,13 @@ namespace NBi.Framework.FailureMessage.Markdown
             string This(int x) => x > 1 ? $"These {x} distinct" : $"This";
             string Textify(RowViolationState s, int x)
             {
-                switch (s)
+                return s switch
                 {
-                    case RowViolationState.Missing: return $"missing. It means {This(x).ToLower()} key{Pluralize(x)} {Verbalize(x)} not available in the system-under-test but {Verbalize(x)} found in the result-set defined in the assertion";
-                    case RowViolationState.Unexpected: return $"unexpected. It means {This(x).ToLower()} key{Pluralize(x)} {Verbalize(x)} available in the system-under-test but {Verbalize(x)} not found in the result-set defined in the assertion";
-                    case RowViolationState.Mismatch: return $"non-matching. It means the values associated to {This(x).ToLower()} key{Pluralize(x)} {Verbalize(x)} not equal in the candidate and reference tables";
-                    default: throw new ArgumentOutOfRangeException();
-                }
+                    RowViolationState.Missing => $"missing. It means {This(x).ToLower()} key{Pluralize(x)} {Verbalize(x)} not available in the system-under-test but {Verbalize(x)} found in the result-set defined in the assertion",
+                    RowViolationState.Unexpected => $"unexpected. It means {This(x).ToLower()} key{Pluralize(x)} {Verbalize(x)} available in the system-under-test but {Verbalize(x)} not found in the result-set defined in the assertion",
+                    RowViolationState.Mismatch => $"non-matching. It means the values associated to {This(x).ToLower()} key{Pluralize(x)} {Verbalize(x)} not equal in the candidate and reference tables",
+                    _ => throw new ArgumentOutOfRangeException(),
+                };
             }
             string GetText(int x, int y) => $"{x} distinct key{Pluralize(x)} found in the candidate table {Verbalize(x)} {Textify(state, x)}. {This(x)} key{Pluralize(x)} appear{PluralizeVerb(x)} in {y} row{Pluralize(y)} of the candidate table.";
 

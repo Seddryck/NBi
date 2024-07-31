@@ -19,12 +19,12 @@ namespace NBi.Framework.FailureMessage.Json
     {
         public void Execute(IEnumerable<IResultRow> rows, ISampler<IResultRow> sampler, JsonWriter writer)
         {
-            rows = rows ?? Enumerable.Empty<IResultRow>();
+            rows ??= [];
             Execute(rows, sampler, BuildMetadataFromTable(rows.Any() ? rows.ElementAt(0)!.Parent : null), writer);
         }
             
 
-        private IEnumerable<ColumnMetadata> BuildMetadataFromTable(IResultSet? table)
+        protected virtual IEnumerable<ColumnMetadata> BuildMetadataFromTable(IResultSet? table)
         {
             if (table == null)
                 yield break;
@@ -43,7 +43,7 @@ namespace NBi.Framework.FailureMessage.Json
 
         public void Execute(IEnumerable<IResultRow> rows, ISampler<IResultRow> sampler, IEnumerable<ColumnMetadata> metadata, JsonWriter writer)
         {
-            rows = rows ?? new List<IResultRow>();
+            rows ??= [];
             sampler.Build(rows);
             var sampled = sampler.GetResult();
 
@@ -56,7 +56,7 @@ namespace NBi.Framework.FailureMessage.Json
                 writer.WriteValue(rows.Count() - sampler.GetExcludedRowCount());
             }
 
-            if (sampled.Count() > 0)
+            if (sampled.Any())
             {
                 writer.WritePropertyName("table");
                 writer.WriteStartObject();
@@ -112,7 +112,7 @@ namespace NBi.Framework.FailureMessage.Json
             {
 
                 writer.WriteStartArray();
-                for (int i = 0; i < row.ItemArray.Count(); i++)
+                for (int i = 0; i < row.ItemArray.Length; i++)
                 {
                     var value = presenters.ElementAt(i).Execute(row[i]);
                     writer.WriteValue(value);

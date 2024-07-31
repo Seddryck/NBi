@@ -15,21 +15,17 @@ namespace NBi.Framework.FailureMessage
 {
     public class DataRowsMessageFormatterFactory
     {
-        public IDataRowsMessageFormatter Instantiate(IFailureReportProfile profile, Core.ResultSet.EngineStyle style)
+        public virtual IDataRowsMessageFormatter Instantiate(IFailureReportProfile profile, Core.ResultSet.EngineStyle style)
         {
             var factory = new SamplersFactory<IResultRow>();
             var samplers = factory.Instantiate(profile);
 
-            switch (profile.Format)
+            return profile.Format switch
             {
-                case FailureReportFormat.Markdown:
-                    return new DataRowsMessageMarkdown(style, samplers);
-                case FailureReportFormat.Json:
-                    return new DataRowsMessageJson(style, samplers);
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
-            
+                FailureReportFormat.Markdown => new DataRowsMessageMarkdown(style, samplers),
+                FailureReportFormat.Json => new DataRowsMessageJson(style, samplers),
+                _ => throw new ArgumentOutOfRangeException(),
+            };
         }
     }
 }

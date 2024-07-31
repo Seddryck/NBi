@@ -32,36 +32,29 @@ namespace NBi.Framework.FailureMessage.Markdown.Helper
             return value;
         }
 
-        public string GetRoleText(ColumnRole role)
+        public virtual string GetRoleText(ColumnRole role)
         {
-            switch (role)
+            return role switch
             {
-                case ColumnRole.Key:
-                    return "KEY";
-                case ColumnRole.Value:
-                    return "VALUE"; 
-                default:
-                    return string.Empty;
-            }
+                ColumnRole.Key => "KEY",
+                ColumnRole.Value => "VALUE",
+                _ => string.Empty,
+            };
         }
 
-        public string GetTypeText(ColumnType type)
+        public virtual string GetTypeText(ColumnType type)
         {
-            switch (type)
+            return type switch
             {
-                case ColumnType.Numeric:
-                    return "Numeric";
-                case ColumnType.Text:
-                    return "Text";
-                case ColumnType.DateTime:
-                    return "DateTime";
-                case ColumnType.Boolean:
-                    return "Boolean";
-            }
-            return "?";
+                ColumnType.Numeric => "Numeric",
+                ColumnType.Text => "Text",
+                ColumnType.DateTime => "DateTime",
+                ColumnType.Boolean => "Boolean",
+                _ => "?",
+            };
         }
 
-        public string GetToleranceText(Tolerance? tolerance)
+        public virtual string GetToleranceText(Tolerance? tolerance)
         {
             var toleranceText = string.Empty;
             if (tolerance != null && tolerance!=TextSingleMethodTolerance.None && tolerance!=DateTimeTolerance.None && tolerance!=NumericAbsoluteTolerance.None)
@@ -77,20 +70,16 @@ namespace NBi.Framework.FailureMessage.Markdown.Helper
             return roundingText;
         }
 
-        private string GetRoundingStyleText(Rounding rounding)
+        protected virtual string GetRoundingStyleText(Rounding rounding)
         {
-            switch (rounding.Style)
+            return rounding.Style switch
             {
-                case Rounding.RoundingStyle.None:
-                    return string.Empty;
-                case Rounding.RoundingStyle.Floor:
-                    return "floor";
-                case Rounding.RoundingStyle.Round:
-                    return "round";
-                case Rounding.RoundingStyle.Ceiling:
-                    return "ceiling";
-            }
-            return "?";
+                Rounding.RoundingStyle.None => string.Empty,
+                Rounding.RoundingStyle.Floor => "floor",
+                Rounding.RoundingStyle.Round => "round",
+                Rounding.RoundingStyle.Ceiling => "ceiling",
+                _ => "?",
+            };
         }
 
     }

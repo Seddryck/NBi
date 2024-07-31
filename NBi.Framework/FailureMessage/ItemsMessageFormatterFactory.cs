@@ -13,20 +13,17 @@ namespace NBi.Framework.FailureMessage
 {
     public class ItemsMessageFormatterFactory
     {
-        public IItemsMessageFormatter Instantiate(IFailureReportProfile profile)
+        public virtual IItemsMessageFormatter Instantiate(IFailureReportProfile profile)
         {
             var factory = new SamplersFactory<string>();
             var samplers = factory.Instantiate(profile);
 
-            switch (profile.Format)
+            return profile.Format switch
             {
-                case FailureReportFormat.Markdown:
-                    return new ItemsMessageMarkdown(samplers);
-                case FailureReportFormat.Json:
-                    return new ItemsMessageJson(samplers);
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
+                FailureReportFormat.Markdown => new ItemsMessageMarkdown(samplers),
+                FailureReportFormat.Json => new ItemsMessageJson(samplers),
+                _ => throw new ArgumentOutOfRangeException(),
+            };
         }
     }
 }

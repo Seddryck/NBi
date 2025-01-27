@@ -40,25 +40,12 @@ artifacts:
 deploy:
 - provider: NuGet
   api_key:
-    secure: O0hLRt0g8WWz1ltyvA5FsC0ZRrfYvAtCp79d9WbkKvEGLC3up1N+1sv42J1SCSDg
+    secure: 4QlvXCPZjlS9KZY9jzLAMNKJ06C0JYXTsIbTFddgCiiC8apCgIW4MX+fcPf3wxhh
   on:
     branch: develop
 - provider: NuGet
   api_key:
-    secure: O0hLRt0g8WWz1ltyvA5FsC0ZRrfYvAtCp79d9WbkKvEGLC3up1N+1sv42J1SCSDg
+    secure: 4QlvXCPZjlS9KZY9jzLAMNKJ06C0JYXTsIbTFddgCiiC8apCgIW4MX+fcPf3wxhh
   on:
     APPVEYOR_REPO_TAG: true
-- provider: NuGet
-  server: https://nuget.pkg.github.com/Seddryck/index.json
-  username: Seddryck
-  api_key:
-    secure: vmXLz/XAhXz3eNJPtg5mP78yhliNVtPy4ieiwuGD9Ym47b5CvdXLT0B4tr/VHDoX
-  on:
-    branch: develop
-- provider: NuGet
-  server: https://nuget.pkg.github.com/Seddryck/index.json
-  username: Seddryck
-  api_key:
-    secure: vmXLz/XAhXz3eNJPtg5mP78yhliNVtPy4ieiwuGD9Ym47b5CvdXLT0B4tr/VHDoX
-  on:
-    APPVEYOR_REPO_TAG: true
+    

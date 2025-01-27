@@ -11,31 +11,30 @@ using System.Xml.Linq;
 using System.Xml.XPath;
 using NBi.Core.Compiling;
 
-namespace NBi.Core.Scalar.Resolver
+namespace NBi.Core.Scalar.Resolver;
+
+class CSharpScalarResolver<T> : IScalarResolver<T>
 {
-    class CSharpScalarResolver<T> : IScalarResolver<T>
+    private CSharpScalarResolverArgs Args { get; }
+    private DynamicVariableCompiler? Compiler { get; set; }
+
+    public CSharpScalarResolver(CSharpScalarResolverArgs args)
+        => (Args) = (args);
+
+    public CSharpScalarResolver(string code)
+        : this(new CSharpScalarResolverArgs(code))
+    { }
+
+    public T? Execute()
     {
-        private CSharpScalarResolverArgs Args { get; }
-        private DynamicVariableCompiler? Compiler { get; set; }
-
-        public CSharpScalarResolver(CSharpScalarResolverArgs args)
-            => (Args) = (args);
-
-        public CSharpScalarResolver(string code)
-            : this(new CSharpScalarResolverArgs(code))
-        { }
-
-        public T? Execute()
+        if (Compiler is null)
         {
-            if (Compiler is null)
-            {
-                Compiler = new DynamicVariableCompiler();
-                Compiler.Compile(Args.Code);
-            }
-            var value = Compiler.Evaluate();
-            return (T?)Convert.ChangeType(value, typeof(T));
+            Compiler = new DynamicVariableCompiler();
+            Compiler.Compile(Args.Code);
         }
-
-        object? IResolver.Execute() => Execute();
+        var value = Compiler.Evaluate();
+        return (T?)Convert.ChangeType(value, typeof(T));
     }
+
+    object? IResolver.Execute() => Execute();
 }

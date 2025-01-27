@@ -14,47 +14,46 @@ using NBi.Xml.Items.Calculation;
 using NBi.Core.Evaluate;
 using System;
 
-namespace NBi.Xml.Constraints
+namespace NBi.Xml.Constraints;
+
+public class NoRowsXml : AbstractConstraintXml
 {
-    public class NoRowsXml : AbstractConstraintXml
+    [XmlIgnore()]
+    public List<IColumnAlias> Aliases { get => InternalAliases.ToList<IColumnAlias>(); }
+
+
+    [XmlElement("alias", Order = 1)]
+    
+    public List<AliasXml> InternalAliases
     {
-        [XmlIgnore()]
-        public List<IColumnAlias> Aliases { get => InternalAliases.ToList<IColumnAlias>(); }
+        get { return internalAliases; }
+        set { internalAliases = value; }
+    }
+
+    //Receiving the order 2 when readonly attribute is activated
+    [XmlIgnore()]
+    [Obsolete("Use InternalAlias in place of InternalAliasOld")]
+    public List<AliasXml> InternalAliasesOld
+    {
+        get { return internalAliases; }
+        set { internalAliases = value; }
+    }
 
 
-        [XmlElement("alias", Order = 1)]
-        
-        public List<AliasXml> InternalAliases
-        {
-            get { return internalAliases; }
-            set { internalAliases = value; }
-        }
+    [XmlElement("expression", Order = 3)]
+    public List<ExpressionXml> Expressions { get; set; }
 
-        //Receiving the order 2 when readonly attribute is activated
-        [XmlIgnore()]
-        [Obsolete("Use InternalAlias in place of InternalAliasOld")]
-        public List<AliasXml> InternalAliasesOld
-        {
-            get { return internalAliases; }
-            set { internalAliases = value; }
-        }
+    private List<AliasXml> internalAliases;
 
+    [XmlElement("predicate", Order = 4)]
+    public SinglePredicationXml Predication { get; set; }
 
-        [XmlElement("expression", Order = 3)]
-        public List<ExpressionXml> Expressions { get; set; }
+    [XmlElement("combination", Order = 5)]
+    public CombinationPredicationXml Combination { get; set; }
 
-        private List<AliasXml> internalAliases;
-
-        [XmlElement("predicate", Order = 4)]
-        public SinglePredicationXml Predication { get; set; }
-
-        [XmlElement("combination", Order = 5)]
-        public CombinationPredicationXml Combination { get; set; }
-
-        public NoRowsXml()
-        {
-            internalAliases = new List<AliasXml>();
-            Expressions = new List<ExpressionXml>();
-        }
+    public NoRowsXml()
+    {
+        internalAliases = new List<AliasXml>();
+        Expressions = new List<ExpressionXml>();
     }
 }

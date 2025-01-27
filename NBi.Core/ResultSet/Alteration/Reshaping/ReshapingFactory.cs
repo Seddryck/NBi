@@ -4,17 +4,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.ResultSet.Alteration.Reshaping
+namespace NBi.Core.ResultSet.Alteration.Reshaping;
+
+public class ReshapingFactory
 {
-    public class ReshapingFactory
+    public IReshapingEngine Instantiate(IReshapingArgs args)
     {
-        public IReshapingEngine Instantiate(IReshapingArgs args)
+        return args switch
         {
-            return args switch
-            {
-                UnstackArgs x => new UnstackEngine(x),
-                _ => throw new ArgumentException(),
-            };
-        }
+            UnstackArgs x => new UnstackEngine(x),
+            _ => throw new ArgumentException(),
+        };
     }
 }

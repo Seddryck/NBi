@@ -8,18 +8,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.Injection
+namespace NBi.Core.Injection;
+
+public class ConfigurationModule : NinjectModule
 {
-    public class ConfigurationModule : NinjectModule
+    public override void Load()
     {
-        public override void Load()
-        {
-            Bind<
-                Configuration.Configuration,
-                IExtensionsConfiguration,
-                IFailureReportProfileConfiguration>()
-                .To<Configuration.Configuration>()
-                .InSingletonScope();
-        }
+        Bind<
+            Configuration.Configuration,
+            IExtensionsConfiguration,
+            IFailureReportProfileConfiguration>()
+            .To<Configuration.Configuration>()
+            .InSingletonScope();
     }
 }

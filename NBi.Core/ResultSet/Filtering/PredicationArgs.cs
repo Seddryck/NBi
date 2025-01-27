@@ -6,11 +6,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.ResultSet.Filtering
+namespace NBi.Core.ResultSet.Filtering;
+
+public class PredicationArgs(PredicateArgs predicateArgs, IColumnIdentifier identifier) : IFilteringArgs
 {
-    public class PredicationArgs(PredicateArgs predicateArgs, IColumnIdentifier identifier) : IFilteringArgs
-    {
-        public virtual PredicateArgs Predicate { get; } = predicateArgs;
-        public virtual IColumnIdentifier Identifier { get; } = identifier;
-    }
+    public virtual PredicateArgs Predicate { get; } = predicateArgs;
+    public virtual IColumnIdentifier Identifier { get; } = identifier;
 }

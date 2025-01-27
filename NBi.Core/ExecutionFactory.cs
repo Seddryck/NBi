@@ -5,17 +5,16 @@ using NBi.Extensibility;
 using NBi.Core.Decoration.DataEngineering;
 using NBi.Extensibility.Decoration.DataEngineering;
 
-namespace NBi.Core
+namespace NBi.Core;
+
+public class ExecutionFactory
 {
-    public class ExecutionFactory
+    public IExecutable Instantiate(IExecutableArgs args)
     {
-        public IExecutable Instantiate(IExecutableArgs args)
+        return args switch
         {
-            return args switch
-            {
-                IEtlArgs etl => new EtlRunnerProvider().Instantiate(etl.Version).Instantiate(etl),
-                _ => throw new ArgumentException(),
-            };
-        }
+            IEtlArgs etl => new EtlRunnerProvider().Instantiate(etl.Version).Instantiate(etl),
+            _ => throw new ArgumentException(),
+        };
     }
 }

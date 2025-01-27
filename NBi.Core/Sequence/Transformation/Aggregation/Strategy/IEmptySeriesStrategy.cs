@@ -5,10 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.Sequence.Transformation.Aggregation.Strategy
+namespace NBi.Core.Sequence.Transformation.Aggregation.Strategy;
+
+public interface IEmptySeriesStrategy : IAggregationStrategy
 {
-    public interface IEmptySeriesStrategy : IAggregationStrategy
-    {
-        object Execute();
-    }
+    object Execute();
 }

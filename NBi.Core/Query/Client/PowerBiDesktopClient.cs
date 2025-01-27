@@ -6,12 +6,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.Query.Client
+namespace NBi.Core.Query.Client;
+
+class PowerBiDesktopClient : AdomdClient
 {
-    class PowerBiDesktopClient : AdomdClient
-    {
-        public PowerBiDesktopClient(string connectionString)
-            : base(connectionString)
-        { }
-    }
+    public PowerBiDesktopClient(string connectionString)
+        : base(connectionString)
+    { }
 }

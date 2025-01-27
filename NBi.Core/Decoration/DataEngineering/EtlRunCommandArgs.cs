@@ -7,19 +7,18 @@ using System.Linq;
 using System.Text;
 using NBi.Extensibility.Decoration.DataEngineering;
 
-namespace NBi.Core.Decoration.DataEngineering
-{
-    public class EtlRunCommandArgs : IDataEngineeringCommandArgs
-    {
-        public EtlRunCommandArgs(Guid guid, string connectionString, IEtlArgs etl)
-        {
-            Guid = guid;
-            ConnectionString = connectionString;
-            Etl = etl;
-        }
+namespace NBi.Core.Decoration.DataEngineering;
 
-        public Guid Guid { get; set; }
-        public string ConnectionString { get; }
-        public IEtlArgs Etl { get; }
+public class EtlRunCommandArgs : IDataEngineeringCommandArgs
+{
+    public EtlRunCommandArgs(Guid guid, string connectionString, IEtlArgs etl)
+    {
+        Guid = guid;
+        ConnectionString = connectionString;
+        Etl = etl;
     }
+
+    public Guid Guid { get; set; }
+    public string ConnectionString { get; }
+    public IEtlArgs Etl { get; }
 }

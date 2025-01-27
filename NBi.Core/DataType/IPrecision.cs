@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.DataType
+namespace NBi.Core.DataType;
+
+public interface IPrecision
 {
-    public interface IPrecision
-    {
-        int? Precision { get; set; }
-    }
+    int? Precision { get; set; }
 }

@@ -6,10 +6,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.Calculation.Asserting
+namespace NBi.Core.Calculation.Asserting;
+
+public interface IPredication
 {
-    public interface IPredication
-    {
-        bool Execute(Context context);
-    }
+    bool Execute(Context context);
 }

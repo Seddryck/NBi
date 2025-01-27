@@ -11,75 +11,74 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Framework.Testing.Sampling
+namespace NBi.Framework.Testing.Sampling;
+
+public class NoneSamplerTest
 {
-    public class NoneSamplerTest
+    [Test]
+    public void GetResult_NonEmptyList_Empty()
     {
-        [Test]
-        public void GetResult_NonEmptyList_Empty()
-        {
-            var values = new[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+        var values = new[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
 
-            var sampler = new NoneSampler<int>();
-            sampler.Build(values);
+        var sampler = new NoneSampler<int>();
+        sampler.Build(values);
 
-            Assert.That(sampler.GetResult(), Is.Empty);
-        }
-
-        [Test]
-        public void IsSampled_NonEmptyList_True()
-        {
-            var values = new[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
-
-            var sampler = new NoneSampler<int>();
-            sampler.Build(values);
-
-            Assert.That(sampler.GetIsSampled, Is.True);
-        }
-
-        [Test]
-        public void GetExcludedRowCount_NonEmptyList_10()
-        {
-            var values = new[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
-
-            var sampler = new NoneSampler<int>();
-            sampler.Build(values);
-
-            Assert.That(sampler.GetExcludedRowCount, Is.EqualTo(10));
-        }
-
-        [Test]
-        public void GetResult_EmptyList_Empty()
-        {
-            var values = Array.Empty<int>();
-
-            var sampler = new NoneSampler<int>();
-            sampler.Build(values);
-
-            Assert.That(sampler.GetResult(), Is.Empty);
-        }
-
-        [Test]
-        public void IsSampled_EmptyList_True()
-        {
-            var values = Array.Empty<int>();
-
-            var sampler = new NoneSampler<int>();
-            sampler.Build(values);
-
-            Assert.That(sampler.GetIsSampled, Is.True);
-        }
-
-        [Test]
-        public void GetExcludedRowCount_EmptyList_0()
-        {
-            var values = Array.Empty<int>();
-
-            var sampler = new NoneSampler<int>();
-            sampler.Build(values);
-
-            Assert.That(sampler.GetExcludedRowCount, Is.EqualTo(0));
-        }
-
+        Assert.That(sampler.GetResult(), Is.Empty);
     }
+
+    [Test]
+    public void IsSampled_NonEmptyList_True()
+    {
+        var values = new[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+
+        var sampler = new NoneSampler<int>();
+        sampler.Build(values);
+
+        Assert.That(sampler.GetIsSampled, Is.True);
+    }
+
+    [Test]
+    public void GetExcludedRowCount_NonEmptyList_10()
+    {
+        var values = new[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+
+        var sampler = new NoneSampler<int>();
+        sampler.Build(values);
+
+        Assert.That(sampler.GetExcludedRowCount, Is.EqualTo(10));
+    }
+
+    [Test]
+    public void GetResult_EmptyList_Empty()
+    {
+        var values = Array.Empty<int>();
+
+        var sampler = new NoneSampler<int>();
+        sampler.Build(values);
+
+        Assert.That(sampler.GetResult(), Is.Empty);
+    }
+
+    [Test]
+    public void IsSampled_EmptyList_True()
+    {
+        var values = Array.Empty<int>();
+
+        var sampler = new NoneSampler<int>();
+        sampler.Build(values);
+
+        Assert.That(sampler.GetIsSampled, Is.True);
+    }
+
+    [Test]
+    public void GetExcludedRowCount_EmptyList_0()
+    {
+        var values = Array.Empty<int>();
+
+        var sampler = new NoneSampler<int>();
+        sampler.Build(values);
+
+        Assert.That(sampler.GetExcludedRowCount, Is.EqualTo(0));
+    }
+
 }

@@ -7,24 +7,25 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.Testing.Scalar.Resolver
+namespace NBi.Core.Testing.Scalar.Resolver;
+
+public class EnvironmentScalarResolverTest
 {
-    public class EnvironmentScalarResolverTest
+    [SetUp]
+    public void CreateEnvironmentVariable()
+        => Environment.SetEnvironmentVariable("NBiTesting", "the_value", EnvironmentVariableTarget.Process);
+    [TearDown]
+    public void DeleteEnvironmentVariable()
+        => Environment.SetEnvironmentVariable("NBiTesting", null, EnvironmentVariableTarget.Process);
+
+    [Test]
+    public void Instantiate_GetValueObject_CorrectRead()
     {
-        [SetUp]
-        public void CreateEnvironmentVariable() => Environment.SetEnvironmentVariable("NBiTesting", "the_value", EnvironmentVariableTarget.User);
-        [TearDown]
-        public void DeleteEnvironmentVariable() => Environment.SetEnvironmentVariable("NBiTesting", null, EnvironmentVariableTarget.User);
+        var args = new EnvironmentScalarResolverArgs("NBiTesting");
+        var resolver = new EnvironmentScalarResolver<string>(args);
 
-        [Test]
-        public void Instantiate_GetValueObject_CorrectRead()
-        {
-            var args = new EnvironmentScalarResolverArgs("NBiTesting");
-            var resolver = new EnvironmentScalarResolver<string>(args);
+        var output = resolver.Execute();
 
-            var output = resolver.Execute();
-
-            Assert.That(output, Is.EqualTo("the_value"));
-        }
+        Assert.That(output, Is.EqualTo("the_value"));
     }
 }

@@ -4,9 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.ResultSet.Alteration.Projection
+namespace NBi.Core.ResultSet.Alteration.Projection;
+
+public interface IProjectionArgs
 {
-    public interface IProjectionArgs
-    {
-    }
 }

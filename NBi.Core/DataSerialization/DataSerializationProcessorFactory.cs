@@ -7,15 +7,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.DataSerialization
+namespace NBi.Core.DataSerialization;
+
+public class DataSerializationProcessorFactory
 {
-    public class DataSerializationProcessorFactory
+    public DataSerializationProcessor Instantiate(DataSerializationResultSetResolverArgs args)
     {
-        public DataSerializationProcessor Instantiate(DataSerializationResultSetResolverArgs args)
-        {
-            var reader = new DataSerializationReaderFactory().Instantiate(args.Reader);
-            var flattenizer = new DataSerializationFlattenizerFactory().Instantiate(args.Flattenizer);
-            return new DataSerializationProcessor(reader, flattenizer);
-        }
+        var reader = new DataSerializationReaderFactory().Instantiate(args.Reader);
+        var flattenizer = new DataSerializationFlattenizerFactory().Instantiate(args.Flattenizer);
+        return new DataSerializationProcessor(reader, flattenizer);
     }
 }

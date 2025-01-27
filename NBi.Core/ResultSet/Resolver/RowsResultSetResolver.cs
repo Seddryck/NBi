@@ -8,22 +8,21 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.ResultSet.Resolver
+namespace NBi.Core.ResultSet.Resolver;
+
+public class RowsResultSetResolver : IResultSetResolver
 {
-    public class RowsResultSetResolver : IResultSetResolver
+    private readonly RowsResultSetResolverArgs args;
+
+    public RowsResultSetResolver(RowsResultSetResolverArgs args)
     {
-        private readonly RowsResultSetResolverArgs args;
-
-        public RowsResultSetResolver(RowsResultSetResolverArgs args)
-        {
-            this.args = args;
-        }
-
-        public virtual IResultSet Execute()
-        {
-            var rs = new DataTableResultSet();
-            rs.Load(args.Rows);
-            return rs;
-            }
+        this.args = args;
     }
+
+    public virtual IResultSet Execute()
+    {
+        var rs = new DataTableResultSet();
+        rs.Load(args.Rows);
+        return rs;
+        }
 }

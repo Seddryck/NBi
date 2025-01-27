@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.Sequence.Transformation.Aggregation.Strategy
+namespace NBi.Core.Sequence.Transformation.Aggregation.Strategy;
+
+class FailureEmptySeriesStrategy : IEmptySeriesStrategy
 {
-    class FailureEmptySeriesStrategy : IEmptySeriesStrategy
-    {
-        public object Execute() => throw new ArgumentNullException();
-    }
+    public object Execute() => throw new ArgumentNullException();
 }

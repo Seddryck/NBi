@@ -7,35 +7,34 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.ResultSet.Lookup.Violation
+namespace NBi.Core.ResultSet.Lookup.Violation;
+
+public abstract class LookupViolationInformation
 {
-    public abstract class LookupViolationInformation
-    {
-        public RowViolationState State { get; private set; }
-        public LookupViolationInformation(RowViolationState state) => State = state;
-        public abstract void AddCandidateRow(IResultRow row);
-        public abstract IEnumerable<IResultRow> Rows { get; }
-    }
+    public RowViolationState State { get; private set; }
+    public LookupViolationInformation(RowViolationState state) => State = state;
+    public abstract void AddCandidateRow(IResultRow row);
+    public abstract IEnumerable<IResultRow> Rows { get; }
+}
 
-    public class LookupExistsViolationInformation : LookupViolationInformation
-    {
-        public ICollection<IResultRow> CandidateRows { get; private set; } = [];
+public class LookupExistsViolationInformation : LookupViolationInformation
+{
+    public ICollection<IResultRow> CandidateRows { get; private set; } = [];
 
-        public override IEnumerable<IResultRow> Rows => CandidateRows;
+    public override IEnumerable<IResultRow> Rows => CandidateRows;
 
-        public LookupExistsViolationInformation(RowViolationState state) : base(state) { }
+    public LookupExistsViolationInformation(RowViolationState state) : base(state) { }
 
-        public override void AddCandidateRow(IResultRow row) => CandidateRows.Add(row);
-    }
+    public override void AddCandidateRow(IResultRow row) => CandidateRows.Add(row);
+}
 
-    public class LookupMatchesViolationInformation : LookupViolationInformation
-    {
-        public ICollection<LookupMatchesViolationComposite> CandidateRows { get; private set; } = [];
-        public LookupMatchesViolationInformation(RowViolationState state)
-            : base(state) { }
-        public override void AddCandidateRow(IResultRow row) 
-            => CandidateRows.Add(new LookupMatchesViolationComposite(row, []));
+public class LookupMatchesViolationInformation : LookupViolationInformation
+{
+    public ICollection<LookupMatchesViolationComposite> CandidateRows { get; private set; } = [];
+    public LookupMatchesViolationInformation(RowViolationState state)
+        : base(state) { }
+    public override void AddCandidateRow(IResultRow row) 
+        => CandidateRows.Add(new LookupMatchesViolationComposite(row, []));
 
-        public override IEnumerable<IResultRow> Rows => CandidateRows.Select(x => x.CandidateRow);
-    }
+    public override IEnumerable<IResultRow> Rows => CandidateRows.Select(x => x.CandidateRow);
 }

@@ -8,19 +8,18 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 
-namespace NBi.Xml.Constraints.Comparer
+namespace NBi.Xml.Constraints.Comparer;
+
+public class MatchesRegexXml : ScalarReferencePredicateXml, ICaseSensitiveTextPredicateXml
 {
-    public class MatchesRegexXml : ScalarReferencePredicateXml, ICaseSensitiveTextPredicateXml
-    {
-        [XmlAttribute("ignore-case")]
-        [DefaultValue(false)]
-        public bool IgnoreCase { get; set; }
+    [XmlAttribute("ignore-case")]
+    [DefaultValue(false)]
+    public bool IgnoreCase { get; set; }
 
-        [XmlIgnore]
-        public CData ValueWrite { get => Reference; set => Reference = value; }
+    [XmlIgnore]
+    public CData ValueWrite { get => Reference; set => Reference = value; }
 
-        public override bool ShouldSerializeReference() => false;
+    public override bool ShouldSerializeReference() => false;
 
-        public override ComparerType ComparerType { get => ComparerType.MatchesRegex; }
-    }
+    public override ComparerType ComparerType { get => ComparerType.MatchesRegex; }
 }

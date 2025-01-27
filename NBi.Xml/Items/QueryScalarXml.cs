@@ -8,9 +8,8 @@ using System.Xml.Serialization;
 using NBi.Core;
 using NBi.Xml.SerializationOption;
 
-namespace NBi.Xml.Items
+namespace NBi.Xml.Items;
+
+public class QueryScalarXml : QueryXml
 {
-    public class QueryScalarXml : QueryXml
-    {
-    }
 }

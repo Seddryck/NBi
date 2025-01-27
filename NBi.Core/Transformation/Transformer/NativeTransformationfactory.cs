@@ -10,19 +10,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.Transformation.Transformer
-{
-    public class NativeTransformationFactory
-    {
-        protected ServiceLocator ServiceLocator { get; }
-        protected Context Context { get; }
-        public NativeTransformationFactory(ServiceLocator serviceLocator, Context context)
-            => (ServiceLocator, Context) = (serviceLocator, context);
+namespace NBi.Core.Transformation.Transformer;
 
-        public INativeTransformation Instantiate(string code)
-        {
-            var expression = new Expressif.Expression(code, Context);
-            return new NativeTransformation(expression);
-        }
+public class NativeTransformationFactory
+{
+    protected ServiceLocator ServiceLocator { get; }
+    protected Context Context { get; }
+    public NativeTransformationFactory(ServiceLocator serviceLocator, Context context)
+        => (ServiceLocator, Context) = (serviceLocator, context);
+
+    public INativeTransformation Instantiate(string code)
+    {
+        var expression = new Expressif.Expression(code, Context);
+        return new NativeTransformation(expression);
     }
 }

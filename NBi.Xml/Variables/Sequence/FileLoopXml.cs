@@ -7,14 +7,13 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 
-namespace NBi.Xml.Variables.Sequence
-{
-    public class FileLoopXml
-    {
-        [XmlAttribute("path")]
-        public string Path { get; set; }
+namespace NBi.Xml.Variables.Sequence;
 
-        [XmlAttribute("pattern")]
-        public string Pattern { get; set; }
-    }
+public class FileLoopXml
+{
+    [XmlAttribute("path")]
+    public string Path { get; set; }
+
+    [XmlAttribute("pattern")]
+    public string Pattern { get; set; }
 }

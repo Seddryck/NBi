@@ -7,11 +7,10 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 
-namespace NBi.Xml.Items.Alteration.Merging
+namespace NBi.Xml.Items.Alteration.Merging;
+
+public class MergeXml : AlterationXml
 {
-    public class MergeXml : AlterationXml
-    {
-        [XmlElement("result-set")]
-        public ResultSetSystemXml ResultSet { get; set; }
-    }
+    [XmlElement("result-set")]
+    public ResultSetSystemXml ResultSet { get; set; }
 }

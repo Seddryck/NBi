@@ -6,15 +6,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.Scalar.Casting
+namespace NBi.Core.Scalar.Casting;
+
+class ImplicitCaster : ICaster<object>
 {
-    class ImplicitCaster : ICaster<object>
-    {
-        public object Execute(object? value) => value ?? new NBiException($"Can't cast the value '(null)'");
+    public object Execute(object? value) => value ?? new NBiException($"Can't cast the value '(null)'");
 
-        object ICaster.Execute(object? value) => Execute(value);
+    object ICaster.Execute(object? value) => Execute(value);
 
-        public bool IsValid(object? value) => true;
-        public bool IsStrictlyValid(object? value) => true;
-    }
+    public bool IsValid(object? value) => true;
+    public bool IsStrictlyValid(object? value) => true;
 }

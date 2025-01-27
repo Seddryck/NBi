@@ -7,14 +7,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.ResultSet.Lookup.Violation
-{
-    public class LookupMatchesViolationComposite
-    {
-        public IResultRow CandidateRow { get; private set; }
-        public ICollection<LookupMatchesViolationRecord> Records { get; private set; }
+namespace NBi.Core.ResultSet.Lookup.Violation;
 
-        public LookupMatchesViolationComposite(IResultRow candidateRow, ICollection<LookupMatchesViolationRecord> records) 
-            => (CandidateRow, Records) = (candidateRow, records);
-    }
+public class LookupMatchesViolationComposite
+{
+    public IResultRow CandidateRow { get; private set; }
+    public ICollection<LookupMatchesViolationRecord> Records { get; private set; }
+
+    public LookupMatchesViolationComposite(IResultRow candidateRow, ICollection<LookupMatchesViolationRecord> records) 
+        => (CandidateRow, Records) = (candidateRow, records);
 }

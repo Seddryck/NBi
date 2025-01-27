@@ -6,15 +6,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.ResultSet.Alteration.Duplication
-{
-    public class DuplicateArgs : IDuplicationArgs
-    {
-        public IPredication Predication { get; set; }
-        public IScalarResolver<int> Times {get; set;}
-        public IList<OutputArgs> Outputs { get; set; } = [];
+namespace NBi.Core.ResultSet.Alteration.Duplication;
 
-        public DuplicateArgs(IPredication predication, IScalarResolver<int> times, IList<OutputArgs> outputs)
-            => (Predication, Times, Outputs) = (predication, times, outputs);
-    }
+public class DuplicateArgs : IDuplicationArgs
+{
+    public IPredication Predication { get; set; }
+    public IScalarResolver<int> Times {get; set;}
+    public IList<OutputArgs> Outputs { get; set; } = [];
+
+    public DuplicateArgs(IPredication predication, IScalarResolver<int> times, IList<OutputArgs> outputs)
+        => (Predication, Times, Outputs) = (predication, times, outputs);
 }

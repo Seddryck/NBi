@@ -4,8 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.ResultSet.Alteration.Merging
-{
-    public interface IMergingArgs
-    { }
-}
+namespace NBi.Core.ResultSet.Alteration.Merging;
+
+public interface IMergingArgs
+{ }

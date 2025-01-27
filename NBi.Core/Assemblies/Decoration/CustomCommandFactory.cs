@@ -7,13 +7,12 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.Assemblies.Decoration
-{
-    public class CustomCommandFactory : AbstractCustomFactory<ICustomCommand>
-    {
-        protected override string CustomKind => "custom command in a setup or cleanup";
+namespace NBi.Core.Assemblies.Decoration;
 
-        public IDecorationCommand Instantiate(CustomCommandArgs args)
-            => new CustomCommand(base.Instantiate(args));
-    }
+public class CustomCommandFactory : AbstractCustomFactory<ICustomCommand>
+{
+    protected override string CustomKind => "custom command in a setup or cleanup";
+
+    public IDecorationCommand Instantiate(CustomCommandArgs args)
+        => new CustomCommand(base.Instantiate(args));
 }

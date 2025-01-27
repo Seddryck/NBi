@@ -4,9 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.ResultSet.Projecting
+namespace NBi.Core.ResultSet.Projecting;
+
+class ColumnAggregation
 {
-    class ColumnAggregation
-    {
-    }
 }

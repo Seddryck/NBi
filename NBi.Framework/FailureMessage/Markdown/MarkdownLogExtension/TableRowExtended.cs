@@ -4,16 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Framework.Markdown.MarkdownLogExtension
-{
-    class TableRowExtended
-    {
-        private IEnumerable<ITableCellExtended> _cells = [];
+namespace NBi.Framework.Markdown.MarkdownLogExtension;
 
-        public IEnumerable<ITableCellExtended> Cells
-        {
-            get { return _cells; }
-            set { _cells = value ?? []; }
-        }
+class TableRowExtended
+{
+    private IEnumerable<ITableCellExtended> _cells = [];
+
+    public IEnumerable<ITableCellExtended> Cells
+    {
+        get { return _cells; }
+        set { _cells = value ?? []; }
     }
 }

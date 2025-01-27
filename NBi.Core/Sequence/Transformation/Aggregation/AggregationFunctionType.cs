@@ -4,15 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.Sequence.Transformation.Aggregation
+namespace NBi.Core.Sequence.Transformation.Aggregation;
+
+public enum AggregationFunctionType
 {
-    public enum AggregationFunctionType
-    {
-        Average,
-        Sum,
-        Max,
-        Min,
-        Concatenation,
-        Count,
-    }
+    Average,
+    Sum,
+    Max,
+    Min,
+    Concatenation,
+    Count,
 }

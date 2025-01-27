@@ -4,10 +4,9 @@ using System.Data;
 using Microsoft.Data.SqlClient;
 using System.Linq;
 
-namespace NBi.Core.Decoration.DataEngineering
+namespace NBi.Core.Decoration.DataEngineering;
+
+interface IDataEngineeringFactory
 {
-    interface IDataEngineeringFactory
-    {
-        IDecorationCommand Instantiate(IDataEngineeringCommandArgs args, IDbConnection connection);
-    }
+    IDecorationCommand Instantiate(IDataEngineeringCommandArgs args, IDbConnection connection);
 }

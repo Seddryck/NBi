@@ -7,26 +7,25 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.ResultSet.Resolver
+namespace NBi.Core.ResultSet.Resolver;
+
+class ObjectsResultSetResolver : IResultSetResolver
 {
-    class ObjectsResultSetResolver : IResultSetResolver
+    private readonly ObjectsResultSetResolverArgs args;
+
+    public ObjectsResultSetResolver(ObjectsResultSetResolverArgs args)
     {
-        private readonly ObjectsResultSetResolverArgs args;
-
-        public ObjectsResultSetResolver(ObjectsResultSetResolverArgs args)
-        {
-            this.args = args;
-        }
-
-        public virtual IResultSet Execute()
-        {
-            var helper = new ObjectsToRowsHelper();
-            var rows = helper.Execute(args.Objects);
-
-            var rs = new DataTableResultSet();
-            rs.Load(rows);
-            return rs;
-        }
-
+        this.args = args;
     }
+
+    public virtual IResultSet Execute()
+    {
+        var helper = new ObjectsToRowsHelper();
+        var rows = helper.Execute(args.Objects);
+
+        var rs = new DataTableResultSet();
+        rs.Load(rows);
+        return rs;
+    }
+
 }

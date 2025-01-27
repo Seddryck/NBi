@@ -2,11 +2,10 @@
 using System.Linq;
 using System.Xml.Serialization;
 
-namespace NBi.Xml.Settings
+namespace NBi.Xml.Settings;
+
+public class DescriptionXml
 {
-    public class DescriptionXml
-    {
-        [XmlText]
-        public string Value { get; set; }
-    }
+    [XmlText]
+    public string Value { get; set; }
 }

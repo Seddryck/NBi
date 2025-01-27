@@ -1,7 +1,6 @@
-﻿namespace NBi.Xml.Items.Filters
+﻿namespace NBi.Xml.Items.Filters;
+
+public interface IDisplayFolderFilter
 {
-    public interface IDisplayFolderFilter
-    {
-        string DisplayFolder { get; set; }
-    }
+    string DisplayFolder { get; set; }
 }

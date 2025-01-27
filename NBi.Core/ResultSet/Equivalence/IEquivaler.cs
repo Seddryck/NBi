@@ -1,11 +1,10 @@
 ﻿using NBi.Extensibility;
 
-namespace NBi.Core.ResultSet.Equivalence
+namespace NBi.Core.ResultSet.Equivalence;
+
+public interface IEquivaler
 {
-    public interface IEquivaler
-    {
-        ResultResultSet Compare(IResultSet x, IResultSet y);
-        ISettingsResultSet? Settings { get; }
-        EngineStyle Style { get; }
-    }
+    ResultResultSet Compare(IResultSet x, IResultSet y);
+    ISettingsResultSet? Settings { get; }
+    EngineStyle Style { get; }
 }

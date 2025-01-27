@@ -5,12 +5,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.Structure
+namespace NBi.Core.Structure;
+
+public interface IDiscoveryCommandBuilder
 {
-    public interface IDiscoveryCommandBuilder
-    {
-        void Build(IEnumerable<IFilter> filters);
-        string GetCommandText();
-        IEnumerable<IPostCommandFilter> GetPostFilters();
-    }
+    void Build(IEnumerable<IFilter> filters);
+    string GetCommandText();
+    IEnumerable<IPostCommandFilter> GetPostFilters();
 }

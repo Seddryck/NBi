@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.Structure.Olap
+namespace NBi.Core.Structure.Olap;
+
+interface IDisplayFolder
 {
-    interface IDisplayFolder
-    {
-        string DisplayFolder { get; set; }
-    }
+    string DisplayFolder { get; set; }
 }

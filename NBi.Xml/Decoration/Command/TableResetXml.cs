@@ -2,12 +2,11 @@
 using System.Linq;
 using System.Xml.Serialization;
 
-namespace NBi.Xml.Decoration.Command
+namespace NBi.Xml.Decoration.Command;
+
+public class TableResetXml : DataManipulationAbstractXml
 {
-    public class TableResetXml : DataManipulationAbstractXml
-    {
-        [XmlAttribute("name")]
-        public string TableName {get; set;}
-        
-    }
+    [XmlAttribute("name")]
+    public string TableName {get; set;}
+    
 }

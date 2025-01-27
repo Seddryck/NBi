@@ -6,14 +6,13 @@ using System.Data.OleDb;
 using System.Diagnostics;
 using NBi.Extensibility.Query;
 
-namespace NBi.Core.Query.Performance
+namespace NBi.Core.Query.Performance;
+
+[SupportedCommandType(typeof(OleDbCommand))]
+internal class OleDbPerformanceEngine : DbCommandPerformanceEngine
 {
-    [SupportedCommandType(typeof(OleDbCommand))]
-    internal class OleDbPerformanceEngine : DbCommandPerformanceEngine
-    {
-        
-        protected internal OleDbPerformanceEngine(OleDbConnection connection, OleDbCommand command)
-            : base(new OleDbExecutionEngine(connection, command))
-        { }
-    }
+    
+    protected internal OleDbPerformanceEngine(OleDbConnection connection, OleDbCommand command)
+        : base(new OleDbExecutionEngine(connection, command))
+    { }
 }

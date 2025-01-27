@@ -10,33 +10,34 @@ using NBi.Xml.Settings;
 using NUnit.Framework;
 using NBi.Xml.Systems;
 
-namespace NBi.Xml.Testing.Unit.Items
+namespace NBi.Xml.Testing.Unit.Items;
+
+[TestFixture]
+public class RoutineXmlTest
 {
-    [TestFixture]
-    public class RoutineXmlTest
+    [Test]
+    public void Serialize_RoutineXml_Serialize()
     {
-        [Test]
-        public void Serialize_RoutineXml_Serialize()
+        var structureXml = new StructureXml();
+        var routineXml = new RoutineXml
         {
-            var structureXml = new StructureXml();
-            var routineXml = new RoutineXml();
-            routineXml.Caption = "My Caption";
-            routineXml.Perspective = "My Perspective";
-            structureXml.Item = routineXml;
+            Caption = "My Caption",
+            Perspective = "My Perspective"
+        };
+        structureXml.Item = routineXml;
 
-            var serializer = new XmlSerializer(typeof(StructureXml));
-            var stream = new MemoryStream();
-            var writer = new StreamWriter(stream, Encoding.UTF8);
-            serializer.Serialize(writer, structureXml);
-            var content = Encoding.UTF8.GetString(stream.ToArray());
-            writer.Close();
-            stream.Close();
+        var serializer = new XmlSerializer(typeof(StructureXml));
+        var stream = new MemoryStream();
+        var writer = new StreamWriter(stream, Encoding.UTF8);
+        serializer.Serialize(writer, structureXml);
+        var content = Encoding.UTF8.GetString(stream.ToArray());
+        writer.Close();
+        stream.Close();
 
-            Debug.WriteLine(content);
+        Debug.WriteLine(content);
 
-            Assert.That(content, Does.Contain("caption=\"My Caption\""));
-            Assert.That(content, Does.Contain("perspective=\"My Perspective\""));
-            Assert.That(content, Does.Contain("<routine"));
-        }
+        Assert.That(content, Does.Contain("caption=\"My Caption\""));
+        Assert.That(content, Does.Contain("perspective=\"My Perspective\""));
+        Assert.That(content, Does.Contain("<routine"));
     }
 }

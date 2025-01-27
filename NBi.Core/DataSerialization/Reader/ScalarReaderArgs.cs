@@ -5,13 +5,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.DataSerialization.Reader
-{
-    public class ScalarReaderArgs : IReaderArgs
-    {
-        public IScalarResolver<string> Value { get; }
+namespace NBi.Core.DataSerialization.Reader;
 
-        public ScalarReaderArgs(IScalarResolver<string> value)
-            => (Value) = (value);
-    }
+public class ScalarReaderArgs : IReaderArgs
+{
+    public IScalarResolver<string> Value { get; }
+
+    public ScalarReaderArgs(IScalarResolver<string> value)
+        => (Value) = (value);
 }

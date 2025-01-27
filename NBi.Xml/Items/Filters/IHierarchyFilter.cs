@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Xml.Items.Filters
+namespace NBi.Xml.Items.Filters;
+
+public interface IHierarchyFilter
 {
-    public interface IHierarchyFilter
-    {
-        string Hierarchy { get; set; }
-    }
+    string Hierarchy { get; set; }
 }

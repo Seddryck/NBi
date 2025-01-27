@@ -11,9 +11,6 @@
     <ProjectReference Include="..\NBi.Xml\NBi.Xml.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="Templating\Resources\ContainedInDimensions.txt" />
     <EmbeddedResource Include="Templating\Resources\ContainedInHierarchies.txt" />
     <EmbeddedResource Include="Templating\Resources\ContainedInLevels.txt" />

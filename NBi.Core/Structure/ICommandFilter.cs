@@ -4,9 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.Structure
+namespace NBi.Core.Structure;
+
+public interface ICommandFilter: IFilter
 {
-    public interface ICommandFilter: IFilter
-    {
-    }
 }

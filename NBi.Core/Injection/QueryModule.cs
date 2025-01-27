@@ -7,14 +7,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.Injection
+namespace NBi.Core.Injection;
+
+public class QueryModule : NinjectModule
 {
-    public class QueryModule : NinjectModule
+    public override void Load()
     {
-        public override void Load()
-        {
-            Bind<ClientProvider>().ToSelf().InSingletonScope();
-            Bind<CommandProvider>().ToSelf().InSingletonScope();
-        }
+        Bind<ClientProvider>().ToSelf().InSingletonScope();
+        Bind<CommandProvider>().ToSelf().InSingletonScope();
     }
 }

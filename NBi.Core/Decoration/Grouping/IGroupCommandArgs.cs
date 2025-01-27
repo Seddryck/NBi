@@ -5,11 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.Decoration.Grouping
+namespace NBi.Core.Decoration.Grouping;
+
+public interface IGroupCommandArgs : IDecorationCommandArgs
 {
-    public interface IGroupCommandArgs : IDecorationCommandArgs
-    {
-        IEnumerable<IDecorationCommandArgs> Commands { get; }
-        bool RunOnce { get; }
-    }
+    IEnumerable<IDecorationCommandArgs> Commands { get; }
+    bool RunOnce { get; }
 }

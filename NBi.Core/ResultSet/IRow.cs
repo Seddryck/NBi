@@ -3,10 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace NBi.Core.ResultSet
+namespace NBi.Core.ResultSet;
+
+public interface IRow
 {
-    public interface IRow
-    {
-        IList<ICell> Cells { get; }
-    }
+    IList<ICell> Cells { get; }
 }

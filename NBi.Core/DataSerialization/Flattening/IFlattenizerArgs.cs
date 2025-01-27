@@ -6,11 +6,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.DataSerialization.Flattening
+namespace NBi.Core.DataSerialization.Flattening;
+
+public interface IFlattenizerArgs
 {
-    public interface IFlattenizerArgs
-    {
-        IScalarResolver<string> From { get; }
-        IEnumerable<IPathSelect> Selects { get; }
-    }
+    IScalarResolver<string> From { get; }
+    IEnumerable<IPathSelect> Selects { get; }
 }

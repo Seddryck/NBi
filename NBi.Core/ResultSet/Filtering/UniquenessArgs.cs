@@ -6,13 +6,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.ResultSet.Filtering
-{
-    public class UniquenessArgs : IFilteringArgs
-    {
-        public IGroupBy GroupBy { get; }
+namespace NBi.Core.ResultSet.Filtering;
 
-        public UniquenessArgs(IGroupBy groupBy)
-            => GroupBy = groupBy;
-    }
+public class UniquenessArgs : IFilteringArgs
+{
+    public IGroupBy GroupBy { get; }
+
+    public UniquenessArgs(IGroupBy groupBy)
+        => GroupBy = groupBy;
 }

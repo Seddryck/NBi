@@ -8,43 +8,41 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.ResultSet.Resolver
+namespace NBi.Core.ResultSet.Resolver;
+
+class SequenceCombinationResultSetResolver : IResultSetResolver
 {
-    class SequenceCombinationResultSetResolver : IResultSetResolver
+    private SequenceCombinationResultSetResolverArgs Args { get; }
+    public SequenceCombinationResultSetResolver(SequenceCombinationResultSetResolverArgs args)
+        => Args = args;
+
+    public IResultSet Execute()
     {
-        private SequenceCombinationResultSetResolverArgs Args { get; }
-        public SequenceCombinationResultSetResolver(SequenceCombinationResultSetResolverArgs args)
-            => Args = args;
+        if (!Args.Resolvers.Any())
+            throw new InvalidOperationException();
 
-        public IResultSet Execute()
+        var rs = Initialize(Args.Resolvers.First());
+        foreach (var resolver in Args.Resolvers.Skip(1))
         {
-            if (!Args.Resolvers.Any())
-                throw new InvalidOperationException();
-
-            var rs = Initialize(Args.Resolvers.First());
-            foreach (var resolver in Args.Resolvers.Skip(1))
-            {
-                var cartesianProduct = new CartesianProductSequenceCombination(resolver);
-                cartesianProduct.Execute(rs);
-            }
-            return rs;
+            var cartesianProduct = new CartesianProductSequenceCombination(resolver);
+            cartesianProduct.Execute(rs);
         }
-        
-        private IResultSet Initialize(ISequenceResolver resolver)
+        return rs;
+    }
+    
+    private IResultSet Initialize(ISequenceResolver resolver)
+    {
+        var dataTable = new DataTable();
+        var newColumn = new DataColumn($"Column0", typeof(object));
+        dataTable.Columns.Add(newColumn);
+        var sequence = resolver.Execute();
+        foreach (var item in sequence)
         {
-            var dataTable = new DataTable();
-            var newColumn = new DataColumn($"Column0", typeof(object));
-            dataTable.Columns.Add(newColumn);
-            var sequence = resolver.Execute();
-            foreach (var item in sequence)
-            {
-                var newRow = dataTable.NewRow();
-                newRow[newColumn] = item;
-                dataTable.Rows.Add(newRow);
-            }
-            dataTable.AcceptChanges();
-            return new DataTableResultSet(dataTable);
+            var newRow = dataTable.NewRow();
+            newRow[newColumn] = item;
+            dataTable.Rows.Add(newRow);
         }
+        dataTable.AcceptChanges();
+        return new DataTableResultSet(dataTable);
     }
 }
- 

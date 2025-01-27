@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.Structure
+namespace NBi.Core.Structure;
+
+public interface IPostCommandFilter: IFilter
 {
-    public interface IPostCommandFilter: IFilter
-    {
-        bool Evaluate(object row);
-    }
+    bool Evaluate(object row);
 }

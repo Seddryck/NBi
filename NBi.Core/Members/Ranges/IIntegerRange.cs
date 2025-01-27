@@ -3,12 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace NBi.Core.Members.Ranges
+namespace NBi.Core.Members.Ranges;
+
+public interface IIntegerRange : IRange
 {
-    public interface IIntegerRange : IRange
-    {
-        int Start { get; set; }
-        int End { get; set; }
-        int Step { get; set; }
-    }
+    int Start { get; set; }
+    int End { get; set; }
+    int Step { get; set; }
 }

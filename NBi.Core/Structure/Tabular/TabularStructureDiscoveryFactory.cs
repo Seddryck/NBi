@@ -11,35 +11,34 @@ using NBi.Core.Structure;
 using NBi.Core.Structure.Tabular.Builders;
 using NBi.Core.Structure.Olap;
 
-namespace NBi.Core.Structure.Tabular
+namespace NBi.Core.Structure.Tabular;
+
+class TabularStructureDiscoveryFactory : OlapStructureDiscoveryFactory
 {
-    class TabularStructureDiscoveryFactory : OlapStructureDiscoveryFactory
+    public TabularStructureDiscoveryFactory(IDbConnection connection)
+        : base(connection)
     {
-        public TabularStructureDiscoveryFactory(IDbConnection connection)
-            : base(connection)
-        {
-        }
-
-        protected override IDiscoveryCommandBuilder InstantiateBuilder(Target target, TargetType type)
-        {
-            if (type != TargetType.Object)
-                throw new ArgumentOutOfRangeException();
-
-            return target switch
-            {
-                Target.Perspectives => new PerspectiveDiscoveryCommandBuilder(),
-                Target.MeasureGroups => new MeasureGroupDiscoveryCommandBuilder(),
-                Target.Measures => new MeasureDiscoveryCommandBuilder(),
-                Target.Dimensions => new DimensionDiscoveryCommandBuilder(),
-                Target.Hierarchies => new HierarchyDiscoveryCommandBuilder(),
-                Target.Levels => new LevelDiscoveryCommandBuilder(),
-                Target.Properties => new PropertyDiscoveryCommandBuilder(),
-                Target.Tables => new TableDiscoveryCommandBuilder(),
-                Target.Columns => new ColumnDiscoveryCommandBuilder(),
-                Target.Sets => new SetDiscoveryCommandBuilder(),
-                _ => throw new ArgumentOutOfRangeException(),
-            };
-        }
-        
     }
+
+    protected override IDiscoveryCommandBuilder InstantiateBuilder(Target target, TargetType type)
+    {
+        if (type != TargetType.Object)
+            throw new ArgumentOutOfRangeException();
+
+        return target switch
+        {
+            Target.Perspectives => new PerspectiveDiscoveryCommandBuilder(),
+            Target.MeasureGroups => new MeasureGroupDiscoveryCommandBuilder(),
+            Target.Measures => new MeasureDiscoveryCommandBuilder(),
+            Target.Dimensions => new DimensionDiscoveryCommandBuilder(),
+            Target.Hierarchies => new HierarchyDiscoveryCommandBuilder(),
+            Target.Levels => new LevelDiscoveryCommandBuilder(),
+            Target.Properties => new PropertyDiscoveryCommandBuilder(),
+            Target.Tables => new TableDiscoveryCommandBuilder(),
+            Target.Columns => new ColumnDiscoveryCommandBuilder(),
+            Target.Sets => new SetDiscoveryCommandBuilder(),
+            _ => throw new ArgumentOutOfRangeException(),
+        };
+    }
+    
 }

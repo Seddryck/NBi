@@ -9,77 +9,76 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.ResultSet.Alteration.Lookup
+namespace NBi.Core.ResultSet.Alteration.Lookup;
+
+class LookupReplaceEngine : ILookupEngine
 {
-    class LookupReplaceEngine : ILookupEngine
+    private LookupReplaceArgs Args { get; }
+
+    public LookupReplaceEngine(LookupReplaceArgs args)
+        => (Args) = (args);
+
+    public IResultSet Execute(IResultSet candidate)
     {
-        private LookupReplaceArgs Args { get; }
+        var reference = Args.Reference.Execute();
 
-        public LookupReplaceEngine(LookupReplaceArgs args)
-            => (Args) = (args);
+        var stopWatch = new Stopwatch();
+        stopWatch.Start();
+        var referenceKeyRetriever = BuildColumnsRetriever(Args.Mapping, x => x.ReferenceColumn);
+        var referenceValueRetriever = BuildColumnsRetriever(new ColumnMapping(Args.Replacement, ColumnType.Untyped), x => x.ReferenceColumn);
+        var index = BuildReferenceIndex(reference, referenceKeyRetriever, referenceValueRetriever);
+        Trace.WriteLineIf(NBiTraceSwitch.TraceInfo, $"Built the index for reference table containing {index.Count} rows [{stopWatch.Elapsed:d'.'hh':'mm':'ss'.'fff'ms'}]");
 
-        public IResultSet Execute(IResultSet candidate)
+        stopWatch.Restart();
+        var candidateKeyBuilder = BuildColumnsRetriever(Args.Mapping, x => x.CandidateColumn);
+
+        var originalColumn = candidate.GetColumn(Args.Mapping.CandidateColumn) ?? throw new NullReferenceException();
+        var newColumn = candidate.AddColumn($"tmp_{originalColumn.Name}");
+        foreach (var row in candidate.Rows)
         {
-            var reference = Args.Reference.Execute();
-
-            var stopWatch = new Stopwatch();
-            stopWatch.Start();
-            var referenceKeyRetriever = BuildColumnsRetriever(Args.Mapping, x => x.ReferenceColumn);
-            var referenceValueRetriever = BuildColumnsRetriever(new ColumnMapping(Args.Replacement, ColumnType.Untyped), x => x.ReferenceColumn);
-            var index = BuildReferenceIndex(reference, referenceKeyRetriever, referenceValueRetriever);
-            Trace.WriteLineIf(NBiTraceSwitch.TraceInfo, $"Built the index for reference table containing {index.Count} rows [{stopWatch.Elapsed:d'.'hh':'mm':'ss'.'fff'ms'}]");
-
-            stopWatch.Restart();
-            var candidateKeyBuilder = BuildColumnsRetriever(Args.Mapping, x => x.CandidateColumn);
-
-            var originalColumn = candidate.GetColumn(Args.Mapping.CandidateColumn) ?? throw new NullReferenceException();
-            var newColumn = candidate.AddColumn($"tmp_{originalColumn.Name}");
-            foreach (var row in candidate.Rows)
-            {
-                var candidateKeys = candidateKeyBuilder.GetColumns(row);
-                if (index.TryGetValue(candidateKeys, out var value))
-                    row[newColumn.Ordinal] = value.Single().Members[0];
-                else
-                    Args.MissingStrategy.Execute(row, originalColumn, newColumn);
-            }
-
-            //Replace the original column by the new column
-            originalColumn.ReplaceBy(newColumn);
-
-            Trace.WriteLineIf(NBiTraceSwitch.TraceInfo, $"Performed lookup replacement (based on keys) for the {candidate.RowCount} rows from candidate table [{stopWatch.Elapsed:d'.'hh':'mm':'ss'.'fff'ms'}]");
-            candidate.AcceptChanges();
-            return candidate;
+            var candidateKeys = candidateKeyBuilder.GetColumns(row);
+            if (index.TryGetValue(candidateKeys, out var value))
+                row[newColumn.Ordinal] = value.Single().Members[0];
+            else
+                Args.MissingStrategy.Execute(row, originalColumn, newColumn);
         }
 
-        protected CellRetriever BuildColumnsRetriever(ColumnMapping column, Func<ColumnMapping, IColumnIdentifier> target)
-        {
-            var defColumns = new Collection<IColumnDefinition>();
-            var defColumn = column.ToColumnDefinition(() => target(column));
-            defColumns.Add(defColumn);
+        //Replace the original column by the new column
+        originalColumn.ReplaceBy(newColumn);
 
-            return target(column) switch
-            {
-                ColumnOrdinalIdentifier _ => new CellRetrieverByOrdinal(defColumns),
-                ColumnNameIdentifier _ => new CellRetrieverByName(defColumns),
-                _ => throw new ArgumentException(),
-            };
+        Trace.WriteLineIf(NBiTraceSwitch.TraceInfo, $"Performed lookup replacement (based on keys) for the {candidate.RowCount} rows from candidate table [{stopWatch.Elapsed:d'.'hh':'mm':'ss'.'fff'ms'}]");
+        candidate.AcceptChanges();
+        return candidate;
+    }
+
+    protected CellRetriever BuildColumnsRetriever(ColumnMapping column, Func<ColumnMapping, IColumnIdentifier> target)
+    {
+        var defColumns = new Collection<IColumnDefinition>();
+        var defColumn = column.ToColumnDefinition(() => target(column));
+        defColumns.Add(defColumn);
+
+        return target(column) switch
+        {
+            ColumnOrdinalIdentifier _ => new CellRetrieverByOrdinal(defColumns),
+            ColumnNameIdentifier _ => new CellRetrieverByName(defColumns),
+            _ => throw new ArgumentException(),
+        };
+    }
+
+    protected IDictionary<KeyCollection, ICollection<KeyCollection>> BuildReferenceIndex(IResultSet rs, CellRetriever keyRetriever, CellRetriever valuesRetriever)
+    {
+        var references = new Dictionary<KeyCollection, ICollection<KeyCollection>>();
+
+        foreach (var row in rs.Rows)
+        {
+            var keys = keyRetriever.GetColumns(row);
+            var values = valuesRetriever.GetColumns(row);
+            if (!references.TryGetValue(keys, out var value))
+                references.Add(keys, [values]);
+            else
+                value.Add(values);
         }
 
-        protected IDictionary<KeyCollection, ICollection<KeyCollection>> BuildReferenceIndex(IResultSet rs, CellRetriever keyRetriever, CellRetriever valuesRetriever)
-        {
-            var references = new Dictionary<KeyCollection, ICollection<KeyCollection>>();
-
-            foreach (var row in rs.Rows)
-            {
-                var keys = keyRetriever.GetColumns(row);
-                var values = valuesRetriever.GetColumns(row);
-                if (!references.TryGetValue(keys, out var value))
-                    references.Add(keys, [values]);
-                else
-                    value.Add(values);
-            }
-
-            return references;
-        }
+        return references;
     }
 }

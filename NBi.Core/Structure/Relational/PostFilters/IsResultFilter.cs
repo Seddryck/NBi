@@ -4,16 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.Structure.Relational.PostFilters
-{
-    public class IsResultFilter : ICommandFilter, IValueFilter
-    {
-        private string value;
-        public string Value { get { return value; } }
+namespace NBi.Core.Structure.Relational.PostFilters;
 
-        public IsResultFilter(bool isResult)
-        {
-            this.value = isResult ? "YES" : "NO";
-        }
+public class IsResultFilter : ICommandFilter, IValueFilter
+{
+    private string value;
+    public string Value { get { return value; } }
+
+    public IsResultFilter(bool isResult)
+    {
+        this.value = isResult ? "YES" : "NO";
     }
 }

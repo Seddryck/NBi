@@ -7,10 +7,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 
-namespace NBi.Xml.Constraints.Comparer
+namespace NBi.Xml.Constraints.Comparer;
+
+public class LowerCaseXml : PredicateXml
 {
-    public class LowerCaseXml : PredicateXml
-    {
-        public override ComparerType ComparerType { get => ComparerType.LowerCase; }
-    }
+    public override ComparerType ComparerType { get => ComparerType.LowerCase; }
 }

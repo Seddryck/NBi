@@ -4,9 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.ResultSet.Alteration.Extension
+namespace NBi.Core.ResultSet.Alteration.Extension;
+
+public interface IExtensionArgs
 {
-    public interface IExtensionArgs
-    {
-    }
 }

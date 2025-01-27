@@ -3,13 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace NBi.GenbiL.Templating
+namespace NBi.GenbiL.Templating;
+
+public class TemplateExecutionException : Exception
 {
-    public class TemplateExecutionException : Exception
+    public TemplateExecutionException(string message): base(message)
     {
-        public TemplateExecutionException(string message): base(message)
-        {
-            
-        }
+        
     }
 }

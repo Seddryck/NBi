@@ -5,11 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.DataType
+namespace NBi.Core.DataType;
+
+public interface IDiscoveryCommandBuilder
 {
-    public interface IDiscoveryCommandBuilder
-    {
-        void Build(IEnumerable<CaptionFilter> filters);
-        string GetCommandText();
-    }
+    void Build(IEnumerable<CaptionFilter> filters);
+    string GetCommandText();
 }

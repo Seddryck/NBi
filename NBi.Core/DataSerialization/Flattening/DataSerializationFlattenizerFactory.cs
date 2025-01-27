@@ -6,18 +6,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.DataSerialization.Flattening
+namespace NBi.Core.DataSerialization.Flattening;
+
+class DataSerializationFlattenizerFactory
 {
-    class DataSerializationFlattenizerFactory
+    public IDataSerializationFlattenizer Instantiate(IFlattenizerArgs args)
     {
-        public IDataSerializationFlattenizer Instantiate(IFlattenizerArgs args)
+        return args switch
         {
-            return args switch
-            {
-                XPathArgs xpathArgs => new XPathEngine(xpathArgs.From, xpathArgs.Selects, xpathArgs.DefaultNamespacePrefix, xpathArgs.IsIgnoreNamespace),
-                JsonPathArgs jsonPathArgs => new JsonPathEngine(jsonPathArgs.From, jsonPathArgs.Selects),
-                _ => throw new ArgumentOutOfRangeException(),
-            };
-        }
+            XPathArgs xpathArgs => new XPathEngine(xpathArgs.From, xpathArgs.Selects, xpathArgs.DefaultNamespacePrefix, xpathArgs.IsIgnoreNamespace),
+            JsonPathArgs jsonPathArgs => new JsonPathEngine(jsonPathArgs.From, jsonPathArgs.Selects),
+            _ => throw new ArgumentOutOfRangeException(),
+        };
     }
 }

@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace NBi.Core.Members.Ranges
-{
+namespace NBi.Core.Members.Ranges;
+
 	internal class PatternDecoratorBuilder : BaseDecoratorBuilder
 	{
 		protected override IEnumerable<string> InternalApply(IEnumerable<string> results)
@@ -35,9 +35,8 @@ namespace NBi.Core.Members.Ranges
 		}
 
 		protected string ApplyPatternAsPrefix(string pattern, string value)
-            => $"{pattern}{value}";
+        => $"{pattern}{value}";
 
-        protected string ApplyPatternAsSuffix(string pattern, string value)
+    protected string ApplyPatternAsSuffix(string pattern, string value)
 			=> $"{value}{pattern}";
 	}
-}

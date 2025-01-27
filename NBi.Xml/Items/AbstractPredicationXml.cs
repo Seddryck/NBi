@@ -4,8 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Xml.Items
-{
-    public abstract class AbstractPredicationXml
-    { }
-}
+namespace NBi.Xml.Items;
+
+public abstract class AbstractPredicationXml
+{ }

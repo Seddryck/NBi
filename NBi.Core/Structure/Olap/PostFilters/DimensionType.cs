@@ -5,21 +5,20 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.Structure.Olap.PostFilters
+namespace NBi.Core.Structure.Olap.PostFilters;
+
+class DimensionType : IPostCommandFilter
 {
-    class DimensionType : IPostCommandFilter
+    public bool Evaluate(object row)
     {
-        public bool Evaluate(object row)
-        {
-            if (row is IDimensionType)
-                return Evaluate((IDimensionType)row);
+        if (row is IDimensionType)
+            return Evaluate((IDimensionType)row);
 
-            throw new ArgumentException();
-        }
+        throw new ArgumentException();
+    }
 
-        protected bool Evaluate(IDimensionType row)
-        {
-            return !row.DimensionType.Equals(2);
-        }
+    protected bool Evaluate(IDimensionType row)
+    {
+        return !row.DimensionType.Equals(2);
     }
 }

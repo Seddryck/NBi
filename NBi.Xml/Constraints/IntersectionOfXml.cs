@@ -6,17 +6,16 @@ using NBi.Xml.Items;
 using NBi.Xml.Settings;
 using NBi.Xml.Systems;
 
-namespace NBi.Xml.Constraints
+namespace NBi.Xml.Constraints;
+
+public class IntersectionOfXml : EqualToXml
 {
-    public class IntersectionOfXml : EqualToXml
-    {
-        internal IntersectionOfXml()
-            : base() { }
+    internal IntersectionOfXml()
+        : base() { }
 
-        internal IntersectionOfXml(SettingsXml settings)
-            : base(settings) { }
+    internal IntersectionOfXml(SettingsXml settings)
+        : base(settings) { }
 
-        internal IntersectionOfXml(bool parallelizeQueries)
-            : base(parallelizeQueries) { }
-    }
+    internal IntersectionOfXml(bool parallelizeQueries)
+        : base(parallelizeQueries) { }
 }

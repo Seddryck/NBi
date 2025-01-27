@@ -13,16 +13,15 @@ using NBi.Core.ResultSet;
 using NBi.Core.Scalar.Resolver;
 using NBi.Extensibility.Resolving;
 
-namespace NBi.Core.DataSerialization.Flattening
+namespace NBi.Core.DataSerialization.Flattening;
+
+public abstract class PathFlattenizer : IDataSerializationFlattenizer
 {
-    public abstract class PathFlattenizer : IDataSerializationFlattenizer
-    {
-        protected IEnumerable<IPathSelect> Selects { get; }
-        protected IScalarResolver<string> From { get; }
+    protected IEnumerable<IPathSelect> Selects { get; }
+    protected IScalarResolver<string> From { get; }
 
-        protected PathFlattenizer(IScalarResolver<string> from, IEnumerable<IPathSelect> selects)
-            => (From, Selects) = (from, selects);
+    protected PathFlattenizer(IScalarResolver<string> from, IEnumerable<IPathSelect> selects)
+        => (From, Selects) = (from, selects);
 
-        public abstract IEnumerable<object> Execute(TextReader textReader);
-    }
+    public abstract IEnumerable<object> Execute(TextReader textReader);
 }

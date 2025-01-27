@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <PackageId>NBi.Framework</PackageId>
@@ -13,9 +13,6 @@
   <ItemGroup>
     <ProjectReference Include="..\NBi.Core\NBi.Core.csproj"/>
     <ProjectReference Include="..\NBi.Extensibility\NBi.Extensibility.csproj"/>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="app.config" />
   </ItemGroup>
   <ItemGroup />
 </Project>

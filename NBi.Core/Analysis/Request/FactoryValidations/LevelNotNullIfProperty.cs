@@ -3,24 +3,23 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace NBi.Core.Analysis.Request.FactoryValidations
+namespace NBi.Core.Analysis.Request.FactoryValidations;
+
+internal class LevelNotNullIfProperty : FilterNotNull
 {
-    internal class LevelNotNullIfProperty : FilterNotNull
+
+    internal LevelNotNullIfProperty(DiscoveryTarget target, IEnumerable<IFilter> filters)
+        : base(DiscoveryTarget.Levels, target, filters)
     {
+    }
 
-        internal LevelNotNullIfProperty(DiscoveryTarget target, IEnumerable<IFilter> filters)
-            : base(DiscoveryTarget.Levels, target, filters)
-        {
-        }
+    protected override bool IsApplicable()
+    {
+        return GetSpecificFilter(DiscoveryTarget.Properties) != null || Target==DiscoveryTarget.Properties;
+    }
 
-        protected override bool IsApplicable()
-        {
-            return GetSpecificFilter(DiscoveryTarget.Properties) != null || Target==DiscoveryTarget.Properties;
-        }
-
-        internal override void GenerateException()
-        {
-            throw new DiscoveryRequestFactoryException("level");
-        }
+    internal override void GenerateException()
+    {
+        throw new DiscoveryRequestFactoryException("level");
     }
 }

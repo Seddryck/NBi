@@ -5,10 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 
-namespace NBi.Xml.Items.Filters
+namespace NBi.Xml.Items.Filters;
+
+public interface IResultFilter
 {
-    public interface IResultFilter
-    {
-        IsResultOption IsResult { get; set; }
-    }
+    IsResultOption IsResult { get; set; }
 }

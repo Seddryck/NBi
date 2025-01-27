@@ -4,11 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.Transformation
+namespace NBi.Core.Transformation;
+
+public interface ITransformer
 {
-    public interface ITransformer
-    {
-        void Initialize(string code);
-        object? Execute(object value);
-    }
+    void Initialize(string code);
+    object? Execute(object value);
 }

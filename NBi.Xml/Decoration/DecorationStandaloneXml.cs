@@ -2,22 +2,21 @@
 using System.Linq;
 using System.Xml.Serialization;
 
-namespace NBi.Xml.Decoration
+namespace NBi.Xml.Decoration;
+
+public class DecorationStandaloneXml : DecorationXml
 {
-    public class DecorationStandaloneXml : DecorationXml
+    public DecorationStandaloneXml()
+    { }
+
+    public DecorationStandaloneXml(DecorationXml full)
     {
-        public DecorationStandaloneXml()
-        { }
-
-        public DecorationStandaloneXml(DecorationXml full)
-        {
-            Commands = full.Commands;
-        }
+        Commands = full.Commands;
     }
-
-    [XmlRoot(ElementName = "setup", Namespace = "")]
-    public class SetupStandaloneXml : DecorationStandaloneXml { }
-
-    [XmlRoot(ElementName = "cleanup", Namespace = "")]
-    public class CleanupStandaloneXml : DecorationStandaloneXml { }
 }
+
+[XmlRoot(ElementName = "setup", Namespace = "")]
+public class SetupStandaloneXml : DecorationStandaloneXml { }
+
+[XmlRoot(ElementName = "cleanup", Namespace = "")]
+public class CleanupStandaloneXml : DecorationStandaloneXml { }

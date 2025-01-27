@@ -5,12 +5,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.Transformation
+namespace NBi.Core.Transformation;
+
+public interface ITransformationInfo
 {
-    public interface ITransformationInfo
-    {
-        ColumnType OriginalType { get; set; }
-        LanguageType Language { get; set; }
-        string Code { get; set; }
-    }
+    ColumnType OriginalType { get; set; }
+    LanguageType Language { get; set; }
+    string Code { get; set; }
 }

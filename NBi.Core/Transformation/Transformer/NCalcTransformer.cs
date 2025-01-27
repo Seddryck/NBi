@@ -2,36 +2,35 @@
 using NBi.Core.Variable;
 using NCalc;
 
-namespace NBi.Core.Transformation.Transformer
+namespace NBi.Core.Transformation.Transformer;
+
+class NCalcTransformer<T> : ITransformer
 {
-    class NCalcTransformer<T> : ITransformer
+    protected Context Context { get; }
+    private Expression? method;
+
+    public NCalcTransformer() 
+        : this(null, Context.None) { }
+    public NCalcTransformer(ServiceLocator? serviceLocator, Context context)
+        => (Context) = (context);
+
+    public void Initialize(string code)
     {
-        protected Context Context { get; }
-        private Expression? method;
+       method = new Expression(code);
+    }
 
-        public NCalcTransformer() 
-            : this(null, Context.None) { }
-        public NCalcTransformer(ServiceLocator? serviceLocator, Context context)
-            => (Context) = (context);
+    public object Execute(object value)
+    {
+        if (method is null)
+            throw new InvalidOperationException();
 
-        public void Initialize(string code)
-        {
-           method = new Expression(code);
-        }
+        if (method.Parameters.ContainsKey("value"))
+            method.Parameters["value"] = value;
+        else
+            method.Parameters.Add("value", value);
 
-        public object Execute(object value)
-        {
-            if (method is null)
-                throw new InvalidOperationException();
+        var transformedValue = method.Evaluate();
 
-            if (method.Parameters.ContainsKey("value"))
-                method.Parameters["value"] = value;
-            else
-                method.Parameters.Add("value", value);
-
-            var transformedValue = method.Evaluate();
-
-            return transformedValue;
-        }
+        return transformedValue;
     }
 }

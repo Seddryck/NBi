@@ -5,11 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 
-namespace NBi.Xml.Items.Hierarchical.Xml
+namespace NBi.Xml.Items.Hierarchical.Xml;
+
+public class DefaultNamespacePrefixXml
 {
-    public class DefaultNamespacePrefixXml
-    {
-        [XmlText]
-        public string Value { get; set; }
-    }
+    [XmlText]
+    public string Value { get; set; }
 }

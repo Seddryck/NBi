@@ -11,19 +11,18 @@ using System.Text;
 using System.Threading.Tasks;
 using NBi.Extensibility.Query;
 
-namespace NBi.Core.Query.Command
-{
-    class SqlCommandFactory : DbCommandFactory
-    {
-        public override bool CanHandle(IClient client) => client.UnderlyingSessionType == typeof(SqlConnection);
+namespace NBi.Core.Query.Command;
 
-        protected override string RenameParameter(string originalName)
-        {
-            if (!originalName.StartsWith("@") && char.IsLetter(originalName[0]))
-                return "@" + originalName;
-            else
-                return originalName;
-        }
+class SqlCommandFactory : DbCommandFactory
+{
+    public override bool CanHandle(IClient client) => client.UnderlyingSessionType == typeof(SqlConnection);
+
+    protected override string RenameParameter(string originalName)
+    {
+        if (!originalName.StartsWith("@") && char.IsLetter(originalName[0]))
+            return "@" + originalName;
+        else
+            return originalName;
     }
 }
 

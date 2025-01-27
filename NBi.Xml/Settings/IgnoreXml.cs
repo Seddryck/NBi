@@ -2,11 +2,10 @@
 using System.Linq;
 using System.Xml.Serialization;
 
-namespace NBi.Xml.Settings
+namespace NBi.Xml.Settings;
+
+public class IgnoreXml
 {
-    public class IgnoreXml
-    {
-        [XmlText]
-        public string Reason { get; set; }
-    }
+    [XmlText]
+    public string Reason { get; set; }
 }

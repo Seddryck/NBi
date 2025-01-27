@@ -5,10 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.ResultSet.Lookup
+namespace NBi.Core.ResultSet.Lookup;
+
+public interface ILookupAnalyzer
 {
-    public interface ILookupAnalyzer
-    {
-        LookupViolationCollection Execute(object candidate, object reference);
-    }
+    LookupViolationCollection Execute(object candidate, object reference);
 }

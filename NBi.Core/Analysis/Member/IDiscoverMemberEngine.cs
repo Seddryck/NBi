@@ -1,10 +1,9 @@
 using System;
 using NBi.Core.Analysis.Request;
 
-namespace NBi.Core.Analysis.Member
+namespace NBi.Core.Analysis.Member;
+
+public interface IDiscoverMemberEngine
 {
-    public interface IDiscoverMemberEngine
-    {
-        MemberResult Execute(MembersDiscoveryRequest cmd);
-    }
+    MemberResult Execute(MembersDiscoveryRequest cmd);
 }

@@ -6,14 +6,13 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 
-namespace NBi.Xml.Items.Alteration.Reshaping
-{
-    public class HeaderXml
-    {
-        [XmlElement("column")]
-        public ColumnDefinitionLightXml Column { get; set; }
+namespace NBi.Xml.Items.Alteration.Reshaping;
 
-        [XmlElement("enforced-value")]
-        public List<string> EnforcedValues { get; set; } = new List<string>();
-    }
+public class HeaderXml
+{
+    [XmlElement("column")]
+    public ColumnDefinitionLightXml Column { get; set; }
+
+    [XmlElement("enforced-value")]
+    public List<string> EnforcedValues { get; set; } = new List<string>();
 }

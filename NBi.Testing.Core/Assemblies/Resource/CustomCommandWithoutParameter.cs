@@ -5,13 +5,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Resource
-{
-    class CustomCommandWithoutParameter : ICustomCommand
-    {
-        public CustomCommandWithoutParameter()
-        { }
+namespace Resource;
 
-        public void Execute() { }
-    }
+class CustomCommandWithoutParameter : ICustomCommand
+{
+    public CustomCommandWithoutParameter()
+    { }
+
+    public void Execute() { }
 }

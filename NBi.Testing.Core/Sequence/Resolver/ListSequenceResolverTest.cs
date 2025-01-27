@@ -8,38 +8,37 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.Testing.Sequence.Resolver
+namespace NBi.Core.Testing.Sequence.Resolver;
+
+[TestFixture]
+public class ListSequenceResolverTest
 {
-    [TestFixture]
-    public class ListSequenceResolverTest
+    [Test]
+    public void Execute_OneArg_OneElement()
     {
-        [Test]
-        public void Execute_OneArg_OneElement()
+        var resolvers = new List<IScalarResolver>() { new LiteralScalarResolver<string>("1") };
+        var args = new ListSequenceResolverArgs(resolvers);
+
+        var resolver = new ListSequenceResolver<decimal>(args);
+        var elements = resolver.Execute();
+        Assert.That(elements.Count, Is.EqualTo(1));
+        Assert.That(elements, Has.Member(1));
+    }
+
+    [Test]
+    public void Execute_TwoArgs_TwoElements()
+    {
+        var resolvers = new List<IScalarResolver>()
         {
-            var resolvers = new List<IScalarResolver>() { new LiteralScalarResolver<string>("1") };
-            var args = new ListSequenceResolverArgs(resolvers);
+            new LiteralScalarResolver<string>("2015-01-01"),
+            new LiteralScalarResolver<string>("2016-01-01"),
+        };
+        var args = new ListSequenceResolverArgs(resolvers);
 
-            var resolver = new ListSequenceResolver<decimal>(args);
-            var elements = resolver.Execute();
-            Assert.That(elements.Count, Is.EqualTo(1));
-            Assert.That(elements, Has.Member(1));
-        }
-
-        [Test]
-        public void Execute_TwoArgs_TwoElements()
-        {
-            var resolvers = new List<IScalarResolver>()
-            {
-                new LiteralScalarResolver<string>("2015-01-01"),
-                new LiteralScalarResolver<string>("2016-01-01"),
-            };
-            var args = new ListSequenceResolverArgs(resolvers);
-
-            var resolver = new ListSequenceResolver<DateTime>(args);
-            var elements = resolver.Execute();
-            Assert.That(elements.Count, Is.EqualTo(2));
-            Assert.That(elements, Has.Member(new DateTime(2015, 1, 1)));
-            Assert.That(elements, Has.Member(new DateTime(2016, 1, 1)));
-        }
+        var resolver = new ListSequenceResolver<DateTime>(args);
+        var elements = resolver.Execute();
+        Assert.That(elements.Count, Is.EqualTo(2));
+        Assert.That(elements, Has.Member(new DateTime(2015, 1, 1)));
+        Assert.That(elements, Has.Member(new DateTime(2016, 1, 1)));
     }
 }

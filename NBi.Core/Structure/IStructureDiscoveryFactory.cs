@@ -6,10 +6,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.Structure
+namespace NBi.Core.Structure;
+
+public interface IStructureDiscoveryFactory
 {
-    public interface IStructureDiscoveryFactory
-    {
-        StructureDiscoveryCommand Instantiate(Target target, TargetType type, IEnumerable<IFilter> filters);
-    }
+    StructureDiscoveryCommand Instantiate(Target target, TargetType type, IEnumerable<IFilter> filters);
 }

@@ -7,40 +7,39 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.DataType.Relational
+namespace NBi.Core.DataType.Relational;
+
+class RelationalDataTypeDiscoveryFactory : IDataTypeDiscoveryFactory
 {
-    class RelationalDataTypeDiscoveryFactory : IDataTypeDiscoveryFactory
+    private readonly IDbConnection connection;
+    public RelationalDataTypeDiscoveryFactory(IDbConnection connection)
     {
-        private readonly IDbConnection connection;
-        public RelationalDataTypeDiscoveryFactory(IDbConnection connection)
-        {
-            this.connection = (SqlConnection)connection;
-        }
-
-        public IDataTypeDiscoveryCommand Instantiate(Target target, IEnumerable<CaptionFilter> filters)
-        {
-            var builder = InstantiateBuilder(target);
-            builder.Build(filters);
-
-            var cmd = connection.CreateCommand();
-            cmd.CommandText = builder.GetCommandText();
-
-            var description = new CommandDescription(target, filters);
-
-            var command = new RelationalCommand(cmd, description);
-
-            return command;
-        }
-
-
-        protected virtual IDiscoveryCommandBuilder InstantiateBuilder(Target target)
-        {
-            return target switch
-            {
-                Target.Columns => new ColumnDiscoveryCommandBuilder(),
-                _ => throw new ArgumentOutOfRangeException(),
-            };
-        }
-
+        this.connection = (SqlConnection)connection;
     }
+
+    public IDataTypeDiscoveryCommand Instantiate(Target target, IEnumerable<CaptionFilter> filters)
+    {
+        var builder = InstantiateBuilder(target);
+        builder.Build(filters);
+
+        var cmd = connection.CreateCommand();
+        cmd.CommandText = builder.GetCommandText();
+
+        var description = new CommandDescription(target, filters);
+
+        var command = new RelationalCommand(cmd, description);
+
+        return command;
+    }
+
+
+    protected virtual IDiscoveryCommandBuilder InstantiateBuilder(Target target)
+    {
+        return target switch
+        {
+            Target.Columns => new ColumnDiscoveryCommandBuilder(),
+            _ => throw new ArgumentOutOfRangeException(),
+        };
+    }
+
 }

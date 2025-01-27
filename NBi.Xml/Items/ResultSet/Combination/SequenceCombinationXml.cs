@@ -8,20 +8,19 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 
-namespace NBi.Xml.Items.ResultSet.Combination
+namespace NBi.Xml.Items.ResultSet.Combination;
+
+public class SequenceCombinationXml
 {
-    public class SequenceCombinationXml
-    {
-        [XmlAttribute("operation")]
-        [DefaultValue(SequenceCombinationOperation.CartesianProduct)]
-        public SequenceCombinationOperation Operation { get; set; }
+    [XmlAttribute("operation")]
+    [DefaultValue(SequenceCombinationOperation.CartesianProduct)]
+    public SequenceCombinationOperation Operation { get; set; }
 
-        [XmlElement("sequence")]
-        public List<SequenceXml> Sequences { get; set; } = new List<SequenceXml>();
+    [XmlElement("sequence")]
+    public List<SequenceXml> Sequences { get; set; } = new List<SequenceXml>();
 
-        [XmlIgnore]
-        public bool SequencesSpecified { get => Sequences.Count > 0; set { } }
+    [XmlIgnore]
+    public bool SequencesSpecified { get => Sequences.Count > 0; set { } }
 
-        public SequenceCombinationXml() => Operation = SequenceCombinationOperation.CartesianProduct;
-    }
+    public SequenceCombinationXml() => Operation = SequenceCombinationOperation.CartesianProduct;
 }

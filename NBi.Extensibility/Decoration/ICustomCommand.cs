@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Extensibility.Decoration
+namespace NBi.Extensibility.Decoration;
+
+public interface ICustomCommand
 {
-    public interface ICustomCommand
-    {
-        void Execute();
-    }
+    void Execute();
 }

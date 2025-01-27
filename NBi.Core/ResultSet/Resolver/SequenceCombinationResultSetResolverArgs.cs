@@ -8,12 +8,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.ResultSet.Resolver
+namespace NBi.Core.ResultSet.Resolver;
+
+public class SequenceCombinationResultSetResolverArgs : ResultSetResolverArgs
 {
-    public class SequenceCombinationResultSetResolverArgs : ResultSetResolverArgs
-    {
-        public IEnumerable<ISequenceResolver> Resolvers { get; }
-        public SequenceCombinationResultSetResolverArgs(IEnumerable<ISequenceResolver> resolvers)
-            => Resolvers = resolvers;
-    }
+    public IEnumerable<ISequenceResolver> Resolvers { get; }
+    public SequenceCombinationResultSetResolverArgs(IEnumerable<ISequenceResolver> resolvers)
+        => Resolvers = resolvers;
 }

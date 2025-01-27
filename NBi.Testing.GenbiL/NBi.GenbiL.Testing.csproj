@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
   <ItemGroup>
     <ProjectReference Include="..\NBi.Core\NBi.Core.csproj" />
@@ -14,7 +14,6 @@
     <PackageReference Include="Moq" Version="4.20.70" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
     <EmbeddedResource Include="Templating\Resources\OrderedFull.nbitt" />
     <EmbeddedResource Include="Templating\Resources\OrderedLight.nbitt" />
   </ItemGroup>

@@ -4,14 +4,13 @@ using System.Linq;
 using System.Xml.Serialization;
 using NBi.Core.Query;
 
-namespace NBi.Xml.Items.Api.Rest
-{
-    public class RestHeaderXml
-    {
-        [XmlAttribute("name")]
-        public string Name { get; set; }
+namespace NBi.Xml.Items.Api.Rest;
 
-        [XmlText]
-        public string Value { get; set; }
-    }
+public class RestHeaderXml
+{
+    [XmlAttribute("name")]
+    public string Name { get; set; }
+
+    [XmlText]
+    public string Value { get; set; }
 }

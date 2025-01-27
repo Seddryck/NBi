@@ -6,11 +6,10 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 
-namespace NBi.Xml.Variables.Sequence
+namespace NBi.Xml.Variables.Sequence;
+
+public class FilterSequenceXml
 {
-    public class FilterSequenceXml
-    {
-        [XmlElement("predicate")]
-        public PredicationSequenceXml Predication { get; set; }
-    }
+    [XmlElement("predicate")]
+    public PredicationSequenceXml Predication { get; set; }
 }

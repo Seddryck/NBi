@@ -6,22 +6,21 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.Sequence.Transformation.Aggregation.Strategy
+namespace NBi.Core.Sequence.Transformation.Aggregation.Strategy;
+
+public class FailureMissingValueStrategy : IMissingValueStrategy
 {
-    public class FailureMissingValueStrategy : IMissingValueStrategy
+    private ColumnType ColumnType { get; }
+
+    public FailureMissingValueStrategy(ColumnType columnType)
+        => ColumnType = columnType;
+
+    public IEnumerable<object> Execute(IEnumerable<object?> values)
     {
-        private ColumnType ColumnType { get; }
-
-        public FailureMissingValueStrategy(ColumnType columnType)
-            => ColumnType = columnType;
-
-        public IEnumerable<object> Execute(IEnumerable<object?> values)
-        {
-            var caster = new CasterFactory().Instantiate(ColumnType);
-            if (values.All(x => ((NumericCaster)caster).IsStrictlyValid(x)))
-                return values.Select(x => caster.Execute(x)).Cast<object>();
-            else
-                throw new ArgumentException();
-        }
+        var caster = new CasterFactory().Instantiate(ColumnType);
+        if (values.All(x => ((NumericCaster)caster).IsStrictlyValid(x)))
+            return values.Select(x => caster.Execute(x)).Cast<object>();
+        else
+            throw new ArgumentException();
     }
 }

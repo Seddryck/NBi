@@ -2,13 +2,12 @@
 using System.Linq;
 using System.Xml.Serialization;
 
-namespace NBi.Core.Members.Predefined
+namespace NBi.Core.Members.Predefined;
+
+public enum PredefinedMembers
 {
-    public enum PredefinedMembers
-    {
-        [XmlEnum(Name = "days-of-week")]
-        DaysOfWeek = 1,
-        [XmlEnum(Name = "months-of-year")]
-        MonthsOfYear = 2
-    }
+    [XmlEnum(Name = "days-of-week")]
+    DaysOfWeek = 1,
+    [XmlEnum(Name = "months-of-year")]
+    MonthsOfYear = 2
 }

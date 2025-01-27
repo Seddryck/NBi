@@ -4,12 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Extensibility.Query
+namespace NBi.Extensibility.Query;
+
+public interface IClient
 {
-    public interface IClient
-    {
-        string ConnectionString { get; }
-        object CreateNew();
-        Type UnderlyingSessionType { get; }
-    }
+    string ConnectionString { get; }
+    object CreateNew();
+    Type UnderlyingSessionType { get; }
 }

@@ -8,21 +8,20 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 
-namespace NBi.Xml.Constraints.Comparer
+namespace NBi.Xml.Constraints.Comparer;
+
+public abstract class PredicateXml
 {
-    public abstract class PredicateXml
-    {
-        [DefaultValue(false)]
-        [XmlAttribute("not")]
-        public bool Not { get; set; }
+    [DefaultValue(false)]
+    [XmlAttribute("not")]
+    public bool Not { get; set; }
 
-        [XmlElement("projection")]
-        public ProjectionOldXml Projection { get; set; }
+    [XmlElement("projection")]
+    public ProjectionOldXml? Projection { get; set; }
 
-        [XmlElement("query-scalar")]
-        public QueryScalarXml QueryScalar { get; set; }
+    [XmlElement("query-scalar")]
+    public QueryScalarXml? QueryScalar { get; set; }
 
-        [XmlIgnore]
-        public abstract ComparerType ComparerType { get; }
-    }
+    [XmlIgnore]
+    public abstract ComparerType ComparerType { get; }
 }

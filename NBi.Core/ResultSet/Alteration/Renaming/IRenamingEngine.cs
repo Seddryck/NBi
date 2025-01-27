@@ -5,8 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using NBi.Extensibility;
 
-namespace NBi.Core.ResultSet.Alteration.Renaming
-{
-    public interface IRenamingEngine : IAlteration
-    { }
-}
+namespace NBi.Core.ResultSet.Alteration.Renaming;
+
+public interface IRenamingEngine : IAlteration
+{ }

@@ -7,14 +7,13 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 
-namespace NBi.Xml.Constraints.Comparer
-{
-    public class MatchesDateXml : PredicateXml, ICultureSensitiveTextPredicateXml
-    {
-        [XmlAttribute("culture")]
-        public string Culture { get; set; }
+namespace NBi.Xml.Constraints.Comparer;
 
-        public override ComparerType ComparerType { get => ComparerType.MatchesDate; }
-        
-    }
+public class MatchesDateXml : PredicateXml, ICultureSensitiveTextPredicateXml
+{
+    [XmlAttribute("culture")]
+    public string? Culture { get; set; }
+
+    public override ComparerType ComparerType { get => ComparerType.MatchesDate; }
+    
 }

@@ -8,15 +8,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Framework.FailureMessage
+namespace NBi.Framework.FailureMessage;
+
+public interface ILookupViolationMessageFormatter
 {
-    public interface ILookupViolationMessageFormatter
-    {
-        void Generate(IEnumerable<IResultRow> referenceRows, IEnumerable<IResultRow> candidateRows, LookupViolationCollection violations, ColumnMappingCollection keyMappings, ColumnMappingCollection valueMappings);
-        string RenderReference();
-        string RenderCandidate();
-        string RenderAnalysis();
-        string RenderPredicate();
-        string RenderMessage();
-    }
+    void Generate(IEnumerable<IResultRow> referenceRows, IEnumerable<IResultRow> candidateRows, LookupViolationCollection violations, ColumnMappingCollection keyMappings, ColumnMappingCollection valueMappings);
+    string RenderReference();
+    string RenderCandidate();
+    string RenderAnalysis();
+    string RenderPredicate();
+    string RenderMessage();
 }

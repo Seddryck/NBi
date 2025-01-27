@@ -14,13 +14,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Framework.FailureMessage.Markdown
+namespace NBi.Framework.FailureMessage.Markdown;
+
+class LookupReverseExistsViolationMessageMarkdown : LookupExistsViolationMessageMarkdown
 {
-    class LookupReverseExistsViolationMessageMarkdown : LookupExistsViolationMessageMarkdown
-    {
 
-        public LookupReverseExistsViolationMessageMarkdown(IDictionary<string, ISampler<IResultRow>> samplers)
-            : base(samplers) { }
+    public LookupReverseExistsViolationMessageMarkdown(IDictionary<string, ISampler<IResultRow>> samplers)
+        : base(samplers) { }
 
-    }
 }

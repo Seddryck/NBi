@@ -8,17 +8,16 @@ using NBi.Core.ResultSet;
 using NBi.Core.Variable;
 using NBi.Extensibility;
 
-namespace NBi.Core.Calculation.Grouping.ColumnBased
+namespace NBi.Core.Calculation.Grouping.ColumnBased;
+
+class NameColumnGrouping : ColumnGrouping
 {
-    class NameColumnGrouping : ColumnGrouping
-    {
-        protected new SettingsNameResultSet Settings 
-            => (base.Settings as SettingsNameResultSet)!; 
+    protected new SettingsNameResultSet Settings 
+        => (base.Settings as SettingsNameResultSet)!; 
 
-        public NameColumnGrouping(SettingsNameResultSet settings, Context context)
-            : base(settings, context) { }
+    public NameColumnGrouping(SettingsNameResultSet settings, Context context)
+        : base(settings, context) { }
 
-        protected override DataRowKeysComparer BuildDataRowsKeyComparer(IResultSet x)
-            => new DataRowKeysComparerByName(Settings);
-    }
+    protected override DataRowKeysComparer BuildDataRowsKeyComparer(IResultSet x)
+        => new DataRowKeysComparerByName(Settings);
 }

@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Linq;
 
-namespace NBi.Core.Scalar.Interval
-{
+namespace NBi.Core.Scalar.Interval;
+
 	public class NumericInterval : BaseInterval<double>
 	{
-        public NumericInterval(EndPoint<double> left, EndPoint<double> right)
-            : base(left, right)
-        { }
+    public NumericInterval(EndPoint<double> left, EndPoint<double> right)
+        : base(left, right)
+    { }
 
 
 		public override bool Contains(double value)
@@ -24,9 +24,8 @@ namespace NBi.Core.Scalar.Interval
 			return true;
 		}
 
-        public bool Contains(decimal value)
-        {
-            return Contains(Convert.ToDouble(value));
-        }
+    public bool Contains(decimal value)
+    {
+        return Contains(Convert.ToDouble(value));
     }
 }

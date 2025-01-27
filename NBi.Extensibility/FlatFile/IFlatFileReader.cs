@@ -5,11 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Extensibility.FlatFile
+namespace NBi.Extensibility.FlatFile;
+
+public interface IFlatFileReader
 {
-    public interface IFlatFileReader
-    {
-        event ProgressStatusHandler ProgressStatusChanged;
-        DataTable ToDataTable(string filename);
-    }
+    event ProgressStatusHandler ProgressStatusChanged;
+    DataTable ToDataTable(string filename);
 }

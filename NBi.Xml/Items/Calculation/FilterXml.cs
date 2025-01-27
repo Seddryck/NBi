@@ -10,56 +10,55 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 
-namespace NBi.Xml.Items.Calculation
+namespace NBi.Xml.Items.Calculation;
+
+public class FilterXml : AlterationXml
 {
-    public class FilterXml : AlterationXml
+    [XmlIgnore()]
+    public IReadOnlyCollection<IColumnAlias> Aliases
     {
-        [XmlIgnore()]
-        public IReadOnlyCollection<IColumnAlias> Aliases
+        get
         {
-            get
-            {
-                return new ReadOnlyCollection<IColumnAlias>(internalAliases.Cast<IColumnAlias>().ToList());
-            }
+            return new ReadOnlyCollection<IColumnAlias>(internalAliases.Cast<IColumnAlias>().ToList());
         }
+    }
 
-        [XmlElement("alias")]
-        public List<AliasXml> InternalAliases
-        {
-            get { return internalAliases; }
-            set { internalAliases = value; }
-        }
+    [XmlElement("alias")]
+    public List<AliasXml> InternalAliases
+    {
+        get { return internalAliases; }
+        set { internalAliases = value; }
+    }
 
-        [XmlIgnore]
-        [Obsolete("Use InternalAlias in place of InternalAliasOld")]
-        public List<AliasXml> InternalAliasesOld
-        {
-            get { return internalAliases; }
-            set { internalAliases = value; }
-        }
+    [XmlIgnore]
+    [Obsolete("Use InternalAlias in place of InternalAliasOld")]
+    public List<AliasXml> InternalAliasesOld
+    {
+        get { return internalAliases; }
+        set { internalAliases = value; }
+    }
 
-        private List<AliasXml> internalAliases;
+    private List<AliasXml> internalAliases;
 
-        [XmlElement("expression")]
-        public ExpressionXml Expression { get; set; }
+    [XmlElement("expression")]
+    public ExpressionXml Expression { get; set; }
 
-        [XmlElement("predicate")]
-        public SinglePredicationXml Predication { get; set; }
+    [XmlElement("predicate")]
+    public SinglePredicationXml Predication { get; set; }
 
-        [XmlElement("ranking")]
-        public RankingXml Ranking { get; set; }
-        [XmlElement("unique")]
-        public UniqueXml Uniqueness { get; set; }
+    [XmlElement("ranking")]
+    public RankingXml Ranking { get; set; }
+    [XmlElement("unique")]
+    public UniqueXml Uniqueness { get; set; }
 
-        [XmlElement("combination")]
-        public CombinationPredicationXml Combination { get; set; }
+    [XmlElement("combination")]
+    public CombinationPredicationXml Combination { get; set; }
 
-        //[XmlElement("ranking")]
-        //public RankingXml Ranking { get; set; }
+    //[XmlElement("ranking")]
+    //public RankingXml Ranking { get; set; }
 
-        public FilterXml()
-        {
-            internalAliases = new List<AliasXml>();
-        }
+    public FilterXml()
+    {
+        internalAliases = new List<AliasXml>();
     }
 }

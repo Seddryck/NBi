@@ -4,23 +4,22 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.Scalar.Comparer
+namespace NBi.Core.Scalar.Comparer;
+
+public class TextTolerance : Tolerance
 {
-    public class TextTolerance : Tolerance
+    protected TextTolerance(string value)
+        : base(value)
+    { }
+
+    public static TextTolerance None
     {
-        protected TextTolerance(string value)
-            : base(value)
-        { }
-
-        public static TextTolerance None
+        get
         {
-            get
-            {
-                none ??= new TextTolerance("None");
-                return none;
-            }
+            none ??= new TextTolerance("None");
+            return none;
         }
-
-        private static TextTolerance? none;
     }
+
+    private static TextTolerance? none;
 }

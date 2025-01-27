@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace NBi.Core
+namespace NBi.Core;
+
+public interface IDecorationCondition
 {
-    public interface IDecorationCondition
-    {
-        bool Validate();
-        string? Message { get; }
-    }
+    bool Validate();
+    string? Message { get; }
 }

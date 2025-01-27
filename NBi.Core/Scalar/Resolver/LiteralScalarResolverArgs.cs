@@ -5,15 +5,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.Scalar.Resolver
-{
-    public class LiteralScalarResolverArgs : IScalarResolverArgs
-    {
-        public object Object { get; }
+namespace NBi.Core.Scalar.Resolver;
 
-        public LiteralScalarResolverArgs(object @object)
-        {
-            this.Object = @object;
-        }
+public class LiteralScalarResolverArgs : IScalarResolverArgs
+{
+    public object Object { get; }
+
+    public LiteralScalarResolverArgs(object @object)
+    {
+        this.Object = @object;
     }
 }

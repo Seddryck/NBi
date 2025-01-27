@@ -6,16 +6,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.Sequence.Transformation.Aggregation.Function
-{
-    abstract class Average<T>(ICaster<T> caster) : BaseAggregation<T>(caster)
-    {
-        protected override T? Execute(Series<int, T>? series) => Caster.Execute(series.Mean());
-    }
+namespace NBi.Core.Sequence.Transformation.Aggregation.Function;
 
-    class AverageNumeric : Average<decimal>
-    {
-        public AverageNumeric() : base(new NumericCaster())
-        { }
-    }
+abstract class Average<T>(ICaster<T> caster) : BaseAggregation<T>(caster)
+{
+    protected override T? Execute(Series<int, T>? series) => Caster.Execute(series.Mean());
+}
+
+class AverageNumeric : Average<decimal>
+{
+    public AverageNumeric() : base(new NumericCaster())
+    { }
 }

@@ -7,14 +7,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.Scalar.Resolver
-{
-    public class ContextScalarResolverArgs : IScalarResolverArgs
-    {
-        public Context Context { get; }
-        public IColumnIdentifier ColumnIdentifier { get; }
+namespace NBi.Core.Scalar.Resolver;
 
-        public ContextScalarResolverArgs(Context context, IColumnIdentifier columnIdentifier)
-            => (Context, ColumnIdentifier) = (context, columnIdentifier);
-    }
+public class ContextScalarResolverArgs : IScalarResolverArgs
+{
+    public Context Context { get; }
+    public IColumnIdentifier ColumnIdentifier { get; }
+
+    public ContextScalarResolverArgs(Context context, IColumnIdentifier columnIdentifier)
+        => (Context, ColumnIdentifier) = (context, columnIdentifier);
 }

@@ -9,21 +9,20 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.Query.Client
+namespace NBi.Core.Query.Client;
+
+internal class DubUrlClient : IClient
 {
-    internal class DubUrlClient : IClient
-    {
-        public string ConnectionString { get; }
-        private SchemeMapperBuilder SchemeMapperBuilder { get; }
+    public string ConnectionString { get; }
+    private SchemeMapperBuilder SchemeMapperBuilder { get; }
 
-        public Type UnderlyingSessionType => throw new NotImplementedException();
+    public Type UnderlyingSessionType => throw new NotImplementedException();
 
-        public DubUrlClient(string connectionString, SchemeMapperBuilder schemeMapperBuilder)
-            => (SchemeMapperBuilder, ConnectionString) = (schemeMapperBuilder, connectionString);
+    public DubUrlClient(string connectionString, SchemeMapperBuilder schemeMapperBuilder)
+        => (SchemeMapperBuilder, ConnectionString) = (schemeMapperBuilder, connectionString);
 
-        public object CreateNew() => CreateConnection();
+    public object CreateNew() => CreateConnection();
 
-        public IDbConnection CreateConnection()
-            => new ConnectionUrl(ConnectionString, SchemeMapperBuilder).Connect();
-    }
+    public IDbConnection CreateConnection()
+        => new ConnectionUrl(ConnectionString, SchemeMapperBuilder).Connect();
 }

@@ -4,17 +4,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.Calculation.Ranking.Scoring
+namespace NBi.Core.Calculation.Ranking.Scoring;
+
+interface IScorer
 {
-    interface IScorer
-    {
-        ScoredObject Execute(object obj);
-    }
-
-    interface IScorer<T>
-    {
-        ScoredObject Execute(T obj);
-    }
-
-    
+    ScoredObject Execute(object obj);
 }
+
+interface IScorer<T>
+{
+    ScoredObject Execute(T obj);
+}
+
+

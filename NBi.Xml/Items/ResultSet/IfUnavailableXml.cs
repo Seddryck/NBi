@@ -6,11 +6,10 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 
-namespace NBi.Xml.Items.ResultSet
+namespace NBi.Xml.Items.ResultSet;
+
+public class IfUnavailableXml
 {
-    public class IfUnavailableXml
-    {
-        [XmlElement("result-set")]
-        public virtual ResultSetSystemXml ResultSet { get; set; }
-    }
+    [XmlElement("result-set")]
+    public virtual ResultSetSystemXml ResultSet { get; set; }
 }

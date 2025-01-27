@@ -4,11 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.ResultSet
+namespace NBi.Core.ResultSet;
+
+public interface IContent
 {
-    public interface IContent
-    {
-        IList<IRow> Rows { get; set; }
-        IList<string> Columns { get; set; }
-    }
+    IList<IRow> Rows { get; set; }
+    IList<string> Columns { get; set; }
 }

@@ -5,10 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.DataSerialization.Flattening
+namespace NBi.Core.DataSerialization.Flattening;
+
+public interface IPathSelect
 {
-    public interface IPathSelect
-    {
-        IScalarResolver<string> Path { get; }
-    }
+    IScalarResolver<string> Path { get; }
 }

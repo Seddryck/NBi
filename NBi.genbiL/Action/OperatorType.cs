@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace NBi.GenbiL.Action
+namespace NBi.GenbiL.Action;
+
+public enum OperatorType
 {
-    public enum OperatorType
-    {
-        Equal = 1,
-        Like = 2
-    }
+    Equal = 1,
+    Like = 2
 }

@@ -8,20 +8,19 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 
-namespace NBi.Xml.SerializationOption
+namespace NBi.Xml.SerializationOption;
+
+public class WriteOnlyAttributes : ReadWriteAttributes
 {
-    public class WriteOnlyAttributes : ReadWriteAttributes
+
+    public WriteOnlyAttributes()
+        : base() { }
+
+    protected override void AdditionalBuild()
     {
+        AddAsIgnore((QueryXml x) => x.InlineQuery, true);
+        AddAsAnyNotIgnore((QueryXml x) => x.InlineQueryWrite);
 
-        public WriteOnlyAttributes()
-            : base() { }
-
-        protected override void AdditionalBuild()
-        {
-            AddAsIgnore((QueryXml x) => x.InlineQuery, true);
-            AddAsAnyNotIgnore((QueryXml x) => x.InlineQueryWrite);
-
-            AddAsAnyNotIgnore((MatchesRegexXml x) => x.ValueWrite);
-        }
+        AddAsAnyNotIgnore((MatchesRegexXml x) => x.ValueWrite);
     }
 }

@@ -4,20 +4,19 @@ using System.Linq;
 using System.Xml.Serialization;
 using NBi.Core.Members.Predefined;
 
-namespace NBi.Xml.Items
+namespace NBi.Xml.Items;
+
+public class PredefinedItemsXml
 {
-    public class PredefinedItemsXml
+    [XmlAttribute("type")]
+    public PredefinedMembers Type { get; set; }
+
+    [XmlAttribute("language")]
+    public string Language { get; set; }
+
+    public IEnumerable<string> GetItems()
     {
-        [XmlAttribute("type")]
-        public PredefinedMembers Type { get; set; }
-
-        [XmlAttribute("language")]
-        public string Language { get; set; }
-
-        public IEnumerable<string> GetItems()
-        {
-            var factory = new PredefinedMembersFactory();
-            return factory.Instantiate(Type, Language);
-        }
+        var factory = new PredefinedMembersFactory();
+        return factory.Instantiate(Type, Language);
     }
 }

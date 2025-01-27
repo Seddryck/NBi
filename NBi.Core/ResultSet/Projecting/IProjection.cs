@@ -5,10 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.ResultSet.Projecting
+namespace NBi.Core.ResultSet.Projecting;
+
+public interface IProjection
 {
-    public interface IProjection
-    {
-        IResultRow Execute(IResultRow resultSet);
-    }
+    IResultRow Execute(IResultRow resultSet);
 }

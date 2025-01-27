@@ -5,10 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Extensibility.FlatFile
+namespace NBi.Extensibility.FlatFile;
+
+public interface IFlatFileProfile
 {
-    public interface IFlatFileProfile
-    {
-        IDictionary<string, object> Attributes { get; }
-    }
+    IDictionary<string, object> Attributes { get; }
 }

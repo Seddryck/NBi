@@ -5,25 +5,24 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.GenbiL.Parser.Valuable
+namespace NBi.GenbiL.Parser.Valuable;
+
+class Value : IValuable
 {
-    class Value : IValuable
+    public string Text { get; private set; }
+
+    public Value(string text)
     {
-        public string Text { get; private set; }
+        Text = text;
+    }
 
-        public Value(string text)
-        {
-            Text = text;
-        }
+    public string Display
+    {
+        get { return string.Format("value '{0}'", Text); }
+    }
 
-        public string Display
-        {
-            get { return string.Format("value '{0}'", Text); }
-        }
-
-        public string GetValue(DataRow data)
-        {
-            return Text;
-        }
+    public string GetValue(DataRow data)
+    {
+        return Text;
     }
 }

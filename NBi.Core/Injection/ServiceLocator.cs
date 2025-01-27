@@ -16,67 +16,66 @@ using NBi.Core.FlatFile;
 using NBi.Core.Transformation.Transformer;
 using NBi.Core.Transformation;
 
-namespace NBi.Core.Injection
+namespace NBi.Core.Injection;
+
+public class ServiceLocator
 {
-    public class ServiceLocator
+    private readonly IKernel kernel;
+    private readonly ConfigurationModule config;
+
+    private static readonly NoneServiceLocator noneServiceLocator = new();
+    public static ServiceLocator None => noneServiceLocator;
+
+    public ServiceLocator()
     {
-        private readonly IKernel kernel;
-        private readonly ConfigurationModule config;
+        config = new ConfigurationModule();
+        kernel = new StandardKernel(config, new QueryModule());
+        kernel.Bind<ServiceLocator>().ToConstant(this).InSingletonScope();
+    }
 
-        private static readonly NoneServiceLocator noneServiceLocator = new();
-        public static ServiceLocator None => noneServiceLocator;
+    public virtual ClientProvider GetSessionFactory()
+        => kernel.Get<ClientProvider>();
 
-        public ServiceLocator()
-        {
-            config = new ConfigurationModule();
-            kernel = new StandardKernel(config, new QueryModule());
-            kernel.Bind<ServiceLocator>().ToConstant(this).InSingletonScope();
-        }
+    public virtual CommandProvider GetCommandFactory()
+        => kernel.Get<CommandProvider>();
 
-        public virtual ClientProvider GetSessionFactory()
-            => kernel.Get<ClientProvider>();
+    public virtual ExecutionEngineFactory GetExecutionEngineFactory()
+        => kernel.Get<ExecutionEngineFactory>();
 
-        public virtual CommandProvider GetCommandFactory()
-            => kernel.Get<CommandProvider>();
+    public virtual ResultSetResolverFactory GetResultSetResolverFactory()
+        => kernel.Get<ResultSetResolverFactory>();
 
-        public virtual ExecutionEngineFactory GetExecutionEngineFactory()
-            => kernel.Get<ExecutionEngineFactory>();
+    public virtual QueryResolverFactory GetQueryResolverFactory()
+        => kernel.Get<QueryResolverFactory>();
 
-        public virtual ResultSetResolverFactory GetResultSetResolverFactory()
-            => kernel.Get<ResultSetResolverFactory>();
+    public virtual FlatFileReaderFactory GetFlatFileReaderFactory()
+        => kernel.Get<FlatFileReaderFactory>();
 
-        public virtual QueryResolverFactory GetQueryResolverFactory()
-            => kernel.Get<QueryResolverFactory>();
+    public virtual ScalarResolverFactory GetScalarResolverFactory()
+        => kernel.Get<ScalarResolverFactory>();
 
-        public virtual FlatFileReaderFactory GetFlatFileReaderFactory()
-            => kernel.Get<FlatFileReaderFactory>();
+    public virtual Configuration.Configuration GetConfiguration()
+        => kernel.Get<Configuration.Configuration>();
 
-        public virtual ScalarResolverFactory GetScalarResolverFactory()
-            => kernel.Get<ScalarResolverFactory>();
+    public virtual FormatterFactory GetFormatterFactory()
+        => kernel.Get<FormatterFactory>();
 
-        public virtual Configuration.Configuration GetConfiguration()
-            => kernel.Get<Configuration.Configuration>();
+    public void Dispose()
+    {
+        config?.Dispose();
+        kernel?.Dispose();
+    }
 
-        public virtual FormatterFactory GetFormatterFactory()
-            => kernel.Get<FormatterFactory>();
-
-        public void Dispose()
-        {
-            config?.Dispose();
-            kernel?.Dispose();
-        }
-
-        private class NoneServiceLocator : ServiceLocator
-        {
-            public override ClientProvider GetSessionFactory() => new ();
-            public override CommandProvider GetCommandFactory() => new();
-            public override ExecutionEngineFactory GetExecutionEngineFactory() => new();
-            public override ResultSetResolverFactory GetResultSetResolverFactory() => new(this);
-            public override QueryResolverFactory GetQueryResolverFactory() => new(this);
-            public override FlatFileReaderFactory GetFlatFileReaderFactory() => new(Configuration.Configuration.Default);
-            public override ScalarResolverFactory GetScalarResolverFactory() => new();
-            public override Configuration.Configuration GetConfiguration() => new();
-            public override FormatterFactory GetFormatterFactory() => new(this);
-        }
+    private class NoneServiceLocator : ServiceLocator
+    {
+        public override ClientProvider GetSessionFactory() => new ();
+        public override CommandProvider GetCommandFactory() => new();
+        public override ExecutionEngineFactory GetExecutionEngineFactory() => new();
+        public override ResultSetResolverFactory GetResultSetResolverFactory() => new(this);
+        public override QueryResolverFactory GetQueryResolverFactory() => new(this);
+        public override FlatFileReaderFactory GetFlatFileReaderFactory() => new(Configuration.Configuration.Default);
+        public override ScalarResolverFactory GetScalarResolverFactory() => new();
+        public override Configuration.Configuration GetConfiguration() => new();
+        public override FormatterFactory GetFormatterFactory() => new(this);
     }
 }

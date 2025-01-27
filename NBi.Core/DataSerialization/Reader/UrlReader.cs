@@ -8,52 +8,51 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.DataSerialization.Reader
+namespace NBi.Core.DataSerialization.Reader;
+
+class UrlReader : IDataSerializationReader, IDisposable
 {
-    class UrlReader : IDataSerializationReader, IDisposable
+
+    private HttpClient Client { get; }
+    private MemoryStream? Stream { get; set; }
+    private StreamReader? StreamReader { get; set; }
+
+    public IScalarResolver<string> UrlResolver { get; }
+
+    public UrlReader(HttpClient client, IScalarResolver<string> urlResolver)
+        => (Client, UrlResolver) = (client, urlResolver);
+
+    public UrlReader(IScalarResolver<string> urlResolver)
+        : this(new HttpClient(), urlResolver) { }
+
+    public TextReader Execute()
     {
+        var response = Client.GetAsync(UrlResolver.Execute() ?? throw new NullReferenceException()).Result;
+        response.EnsureSuccessStatusCode();
 
-        private HttpClient Client { get; }
-        private MemoryStream? Stream { get; set; }
-        private StreamReader? StreamReader { get; set; }
+        var responseStream = response.Content.ReadAsStreamAsync().Result;
+        StreamReader = new StreamReader(responseStream);
+        return StreamReader;
+    }
 
-        public IScalarResolver<string> UrlResolver { get; }
+    bool disposed = false;
+    protected virtual void Dispose(bool disposing)
+    {
+        if (disposed)
+            return;
 
-        public UrlReader(HttpClient client, IScalarResolver<string> urlResolver)
-            => (Client, UrlResolver) = (client, urlResolver);
-
-        public UrlReader(IScalarResolver<string> urlResolver)
-            : this(new HttpClient(), urlResolver) { }
-
-        public TextReader Execute()
+        if (disposing)
         {
-            HttpResponseMessage response = Client.GetAsync(UrlResolver.Execute() ?? throw new NullReferenceException()).Result;
-            response.EnsureSuccessStatusCode();
-
-            var responseStream = response.Content.ReadAsStreamAsync().Result;
-            StreamReader = new StreamReader(responseStream);
-            return StreamReader;
+            StreamReader?.Dispose();
+            Stream?.Dispose();
+            Client?.Dispose();
         }
+        disposed = true;
+    }
 
-        bool disposed = false;
-        protected virtual void Dispose(bool disposing)
-        {
-            if (disposed)
-                return;
-
-            if (disposing)
-            {
-                StreamReader?.Dispose();
-                Stream?.Dispose();
-                Client?.Dispose();
-            }
-            disposed = true;
-        }
-
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
+    public void Dispose()
+    {
+        Dispose(true);
+        GC.SuppressFinalize(this);
     }
 }

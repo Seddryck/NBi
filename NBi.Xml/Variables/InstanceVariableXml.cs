@@ -8,8 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 
-namespace NBi.Xml.Variables
-{
-    public class InstanceVariableXml : SequenceXml
-    { }
-}
+namespace NBi.Xml.Variables;
+
+public class InstanceVariableXml : SequenceXml
+{ }

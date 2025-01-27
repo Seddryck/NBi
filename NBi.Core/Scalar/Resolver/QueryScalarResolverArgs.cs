@@ -7,15 +7,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.Scalar.Resolver
-{
-    public class QueryScalarResolverArgs : IScalarResolverArgs
-    {
-        public BaseQueryResolverArgs QueryArgs { get; }
+namespace NBi.Core.Scalar.Resolver;
 
-        public QueryScalarResolverArgs(BaseQueryResolverArgs args)
-        {
-            this.QueryArgs = args;
-        }
+public class QueryScalarResolverArgs : IScalarResolverArgs
+{
+    public BaseQueryResolverArgs QueryArgs { get; }
+
+    public QueryScalarResolverArgs(BaseQueryResolverArgs args)
+    {
+        this.QueryArgs = args;
     }
 }

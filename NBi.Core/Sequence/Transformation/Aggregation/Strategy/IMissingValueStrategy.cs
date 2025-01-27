@@ -7,10 +7,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.Sequence.Transformation.Aggregation.Strategy
+namespace NBi.Core.Sequence.Transformation.Aggregation.Strategy;
+
+public interface IMissingValueStrategy : IAggregationStrategy
 {
-    public interface IMissingValueStrategy : IAggregationStrategy
-    {
-        IEnumerable<object> Execute(IEnumerable<object?> values);
-    }
+    IEnumerable<object> Execute(IEnumerable<object?> values);
 }

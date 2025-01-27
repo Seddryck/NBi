@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.GenbiL.Templating.Resources
-{
-    public class ResourcesFolder { }
-}
+namespace NBi.GenbiL.Templating.Resources;
+
+public class ResourcesFolder { }

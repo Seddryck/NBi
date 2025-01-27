@@ -7,22 +7,21 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 
-namespace NBi.Xml.Items
+namespace NBi.Xml.Items;
+
+public class ProjectionOldXml
 {
-    public class ProjectionOldXml
+    [XmlAttribute("type")]
+    public ProjectionType Type { get; set; }
+
+    [XmlElement("result-set")]
+    public ResultSetSystemXml ResultSet { get; set; }
+
+    [Obsolete("Replaced by result-set")]
+    [XmlIgnore()]
+    public ResultSetSystemXml ResultSetOld
     {
-        [XmlAttribute("type")]
-        public ProjectionType Type { get; set; }
-
-        [XmlElement("result-set")]
-        public ResultSetSystemXml ResultSet { get; set; }
-
-        [Obsolete("Replaced by result-set")]
-        [XmlIgnore()]
-        public ResultSetSystemXml ResultSetOld
-        {
-            get => ResultSet;
-            set { ResultSet = value; }
-        }
+        get => ResultSet;
+        set { ResultSet = value; }
     }
 }

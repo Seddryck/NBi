@@ -6,13 +6,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Framework.FailureMessage.Json
+namespace NBi.Framework.FailureMessage.Json;
+
+class ItemsMessageJson : ItemsMessageMarkdown
 {
-    class ItemsMessageJson : ItemsMessageMarkdown
+    public ItemsMessageJson(IDictionary<string, ISampler<string>> samplers)
+        : base(samplers)
     {
-        public ItemsMessageJson(IDictionary<string, ISampler<string>> samplers)
-            : base(samplers)
-        {
-        }
     }
 }

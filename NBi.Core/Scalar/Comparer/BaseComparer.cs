@@ -4,127 +4,126 @@ using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Linq;
 
-namespace NBi.Core.Scalar.Comparer
+namespace NBi.Core.Scalar.Comparer;
+
+abstract class BaseComparer
 {
-    abstract class BaseComparer
+    public ComparerResult Compare(object? x, object? y)
+        => CompareBasic(x,y) ?? CompareObjects(x!,y!);
+
+    public ComparerResult Compare(object? x, object? y, Rounding rounding)
     {
-        public ComparerResult Compare(object? x, object? y)
-            => CompareBasic(x,y) ?? CompareObjects(x!,y!);
+        var eq = CompareBasic(x, y);
+        if (eq != null)
+            return eq;
 
-        public ComparerResult Compare(object? x, object? y, Rounding rounding)
+        return CompareObjects(x, y, rounding);
+    }
+
+    public ComparerResult Compare(object? x, object? y, Tolerance? tolerance)
+    {
+        var eq = CompareBasic(x, y);
+        if (eq != null)
+            return eq;
+
+        if (tolerance is null)
+            return new ComparerResult(x is null ? "(null)" : x.ToString() ?? "(empty)");
+
+        return CompareObjects(x, y, tolerance);
+    }
+
+    protected abstract bool IsValidObject (object x);
+    protected abstract ComparerResult CompareObjects(object? x, object? y);
+    protected abstract ComparerResult CompareObjects(object? x, object? y, Tolerance tolerance);
+    protected abstract ComparerResult CompareObjects(object? x, object? y, Rounding rounding);
+
+    protected ComparerResult? CompareBasic(object? x, object? y)
+    {
+        if (x is string v && v == "(null)")
+            x = null;
+
+        if (y is string v1 && v1 == "(null)")
+            y = null;
+
+        if (EqualByRangeValue(x, y))
+            return ComparerResult.Equality;
+
+        var eq = EqualByNull(x, y);
+        if (eq != null)
+            return eq;
+
+        return null;
+    }
+
+    protected virtual ComparerResult? EqualByNull(object? x, object? y)
+    {
+        if (x == null && y == null)
+            return ComparerResult.Equality;
+
+        if (y==null && x is string xStr && xStr == "(blank)")
+            return ComparerResult.Equality;
+
+        if (x==null && y is string yStr && yStr == "(blank)")
+            return ComparerResult.Equality;
+
+        if (x == null || y == null)
+            return new ComparerResult("(null)");
+
+        return null;
+    }
+
+    protected bool EqualByRangeValue(object? x, object? y)
+    {
+        if (x is string xStrValue && xStrValue == "(value)")
+            return y != null && IsValidObject(y);
+
+        if (y is string yStrValue && yStrValue == "(value)")
+            return x != null && IsValidObject(x);
+
+        if (x is string xStrAny && xStrAny == "(any)")
+            return y == null || IsValidObject(y);
+
+        if (y is string yStrAny && yStrAny == "(any)")
+            return x == null || IsValidObject(x);
+
+        return false;
+    }
+
+    public static bool IsValidDateTime(string value)
+    {
+        if (value == "(value)")
+            return true;
+
+        var dateTime = DateTime.MinValue;
+        var result = DateTime.TryParse(value
+                            , CultureInfo.InvariantCulture.DateTimeFormat
+                            , DateTimeStyles.AllowWhiteSpaces
+                            , out dateTime);
+        if (!result)
         {
-            var eq = CompareBasic(x, y);
-            if (eq != null)
-                return eq;
-
-            return CompareObjects(x, y, rounding);
+            result = DateTime.TryParse(value
+                            , new CultureInfo("fr-fr").DateTimeFormat
+                            , DateTimeStyles.AllowWhiteSpaces
+                            , out dateTime);
         }
+        return result;
+    }
 
-        public ComparerResult Compare(object? x, object? y, Tolerance? tolerance)
-        {
-            var eq = CompareBasic(x, y);
-            if (eq != null)
-                return eq;
-
-            if (tolerance is null)
-                return new ComparerResult(x is null ? "(null)" : x.ToString() ?? "(empty)");
-
-            return CompareObjects(x, y, tolerance);
-        }
-
-        protected abstract bool IsValidObject (object x);
-        protected abstract ComparerResult CompareObjects(object? x, object? y);
-        protected abstract ComparerResult CompareObjects(object? x, object? y, Tolerance tolerance);
-        protected abstract ComparerResult CompareObjects(object? x, object? y, Rounding rounding);
-
-        protected ComparerResult? CompareBasic(object? x, object? y)
-        {
-            if (x is string v && v == "(null)")
-                x = null;
-
-            if (y is string v1 && v1 == "(null)")
-                y = null;
-
-            if (EqualByRangeValue(x, y))
-                return ComparerResult.Equality;
-
-            var eq = EqualByNull(x, y);
-            if (eq != null)
-                return eq;
-
-            return null;
-        }
-
-        protected virtual ComparerResult? EqualByNull(object? x, object? y)
-        {
-            if (x == null && y == null)
-                return ComparerResult.Equality;
-
-            if (y==null && x is string xStr && xStr == "(blank)")
-                return ComparerResult.Equality;
-
-            if (x==null && y is string yStr && yStr == "(blank)")
-                return ComparerResult.Equality;
-
-            if (x == null || y == null)
-                return new ComparerResult("(null)");
-
-            return null;
-        }
-
-        protected bool EqualByRangeValue(object? x, object? y)
-        {
-            if (x is string xStrValue && xStrValue == "(value)")
-                return y != null && IsValidObject(y);
-
-            if (y is string yStrValue && yStrValue == "(value)")
-                return x != null && IsValidObject(x);
-
-            if (x is string xStrAny && xStrAny == "(any)")
-                return y == null || IsValidObject(y);
-
-            if (y is string yStrAny && yStrAny == "(any)")
-                return x == null || IsValidObject(x);
-
+    internal static bool IsValidInterval(object value)
+    {
+        if (value is not string)
             return false;
-        }
 
-        public static bool IsValidDateTime(string value)
-        {
-            if (value == "(value)")
-                return true;
+        var valueString = ((string)value).Replace(" ","");
 
-            DateTime dateTime = DateTime.MinValue;
-            var result = DateTime.TryParse(value
-                                , CultureInfo.InvariantCulture.DateTimeFormat
-                                , DateTimeStyles.AllowWhiteSpaces
-                                , out dateTime);
-            if (!result)
-            {
-                result = DateTime.TryParse(value
-                                , new CultureInfo("fr-fr").DateTimeFormat
-                                , DateTimeStyles.AllowWhiteSpaces
-                                , out dateTime);
-            }
-            return result;
-        }
+        if (valueString.StartsWith("(") && valueString.EndsWith(")"))
+            return true;
 
-        internal static bool IsValidInterval(object value)
-        {
-            if (value is not string)
-                return false;
+        if (valueString.StartsWith("[") || valueString.StartsWith("]")
+            && valueString.EndsWith("[") || valueString.EndsWith("]")
+            && valueString.Contains(';'))
+            return true;
 
-            var valueString = ((string)value).Replace(" ","");
-
-            if (valueString.StartsWith("(") && valueString.EndsWith(")"))
-                return true;
-
-            if (valueString.StartsWith("[") || valueString.StartsWith("]")
-                && valueString.EndsWith("[") || valueString.EndsWith("]")
-                && valueString.Contains(';'))
-                return true;
-
-            return false;
-        }
+        return false;
     }
 }

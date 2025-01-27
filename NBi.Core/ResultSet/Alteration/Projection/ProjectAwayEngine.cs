@@ -7,14 +7,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.ResultSet.Alteration.Projection
-{
-    class ProjectAwayEngine : ProjectEngine
-    {
-        public ProjectAwayEngine(ProjectAwayArgs args)
-            : base(args) { }
+namespace NBi.Core.ResultSet.Alteration.Projection;
 
-        protected override bool IsColumnToRemove(IResultColumn dataColumn, IEnumerable<IResultColumn> columns)
-            => columns.Contains(dataColumn);
-    }
+class ProjectAwayEngine : ProjectEngine
+{
+    public ProjectAwayEngine(ProjectAwayArgs args)
+        : base(args) { }
+
+    protected override bool IsColumnToRemove(IResultColumn dataColumn, IEnumerable<IResultColumn> columns)
+        => columns.Contains(dataColumn);
 }

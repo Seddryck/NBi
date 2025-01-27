@@ -5,10 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Extensibility.Decoration.DataEngineering
+namespace NBi.Extensibility.Decoration.DataEngineering;
+
+public interface IBatchRunner
 {
-    public interface IBatchRunner
-    {
-        void Execute();
-    }
+    void Execute();
 }

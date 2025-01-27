@@ -11,34 +11,33 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.Transformation.Transformer
+namespace NBi.Core.Transformation.Transformer;
+
+class CSharpTransformer<T> : ITransformer
 {
-    class CSharpTransformer<T> : ITransformer
+    protected Context Context { get; }
+    private TransformerCompiler<T>? Compiler { get; set; }
+
+    public CSharpTransformer() : this(null, Context.None) { }
+    public CSharpTransformer(ServiceLocator? serviceLocator, Context context)
+        => (Context) = (context);
+
+    public void Initialize(string code)
     {
-        protected Context Context { get; }
-        private TransformerCompiler<T>? Compiler { get; set; }
+        Compiler = new();
+        Compiler.Compile(code);
+    }
 
-        public CSharpTransformer() : this(null, Context.None) { }
-        public CSharpTransformer(ServiceLocator? serviceLocator, Context context)
-            => (Context) = (context);
+    public object? Execute(object value)
+    {
+        if (Compiler is null)
+            throw new InvalidOperationException();
 
-        public void Initialize(string code)
-        {
-            Compiler = new();
-            Compiler.Compile(code);
-        }
+        var factory = new CasterFactory<T>();
+        var caster = factory.Instantiate();
+        var typedValue = caster.Execute(value);
+        var transformedValue = Compiler.Evaluate(typedValue);
 
-        public object? Execute(object value)
-        {
-            if (Compiler is null)
-                throw new InvalidOperationException();
-
-            var factory = new CasterFactory<T>();
-            var caster = factory.Instantiate();
-            var typedValue = caster.Execute(value);
-            var transformedValue = Compiler.Evaluate(typedValue);
-
-            return transformedValue;
-        }
+        return transformedValue;
     }
 }

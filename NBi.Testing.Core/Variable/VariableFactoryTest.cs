@@ -12,43 +12,42 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.Testing.Variable
+namespace NBi.Core.Testing.Variable;
+
+public class VariableFactoryTest
 {
-    public class VariableFactoryTest
+    [Test]
+    public void Instantiate_CSharp_GlobalVariable()
     {
-        [Test]
-        public void Instantiate_CSharp_GlobalVariable()
-        {
-            var factory = new VariableFactory();
-            var resolver = new CSharpScalarResolver<object>(new CSharpScalarResolverArgs("DateTime.Now.Year"));
-            var variable = factory.Instantiate(VariableScope.Global, resolver);
+        var factory = new VariableFactory();
+        var resolver = new CSharpScalarResolver<object>(new CSharpScalarResolverArgs("DateTime.Now.Year"));
+        var variable = factory.Instantiate(VariableScope.Global, resolver);
 
-            Assert.That(variable, Is.AssignableTo<IVariable>());
-            Assert.That(variable, Is.AssignableTo<IRuntimeVariable>());
-            Assert.That(variable, Is.TypeOf<GlobalVariable>());
-        }
+        Assert.That(variable, Is.AssignableTo<IVariable>());
+        Assert.That(variable, Is.AssignableTo<IRuntimeVariable>());
+        Assert.That(variable, Is.TypeOf<GlobalVariable>());
+    }
 
-        [Test]
-        public void Instantiate_QueryScalar_GlobalVariable()
-        {
-            var factory = new VariableFactory();
-            var queryResolverArgsMock = new Mock<BaseQueryResolverArgs>(string.Empty, Array.Empty<IQueryParameter>(), Array.Empty<IQueryTemplateVariable>(), TimeSpan.Zero);
-            var resolver = new QueryScalarResolver<object>(new QueryScalarResolverArgs(queryResolverArgsMock.Object), new ServiceLocator());
-            var variable = factory.Instantiate(VariableScope.Global, resolver);
+    [Test]
+    public void Instantiate_QueryScalar_GlobalVariable()
+    {
+        var factory = new VariableFactory();
+        var queryResolverArgsMock = new Mock<BaseQueryResolverArgs>(string.Empty, Array.Empty<IQueryParameter>(), Array.Empty<IQueryTemplateVariable>(), TimeSpan.Zero);
+        var resolver = new QueryScalarResolver<object>(new QueryScalarResolverArgs(queryResolverArgsMock.Object), new ServiceLocator());
+        var variable = factory.Instantiate(VariableScope.Global, resolver);
 
-            Assert.That(variable, Is.AssignableTo<IVariable>());
-            Assert.That(variable, Is.AssignableTo<IRuntimeVariable>());
-            Assert.That(variable, Is.TypeOf<GlobalVariable>());
-        }
+        Assert.That(variable, Is.AssignableTo<IVariable>());
+        Assert.That(variable, Is.AssignableTo<IRuntimeVariable>());
+        Assert.That(variable, Is.TypeOf<GlobalVariable>());
+    }
 
-        [Test]
-        public void Instantiate_CSharp_IsNotEvaluated()
-        {
-            var factory = new VariableFactory();
-            var resolver = new CSharpScalarResolver<object>(new CSharpScalarResolverArgs("DateTime.Now.Year"));
-            var variable = factory.Instantiate(VariableScope.Global, resolver);
+    [Test]
+    public void Instantiate_CSharp_IsNotEvaluated()
+    {
+        var factory = new VariableFactory();
+        var resolver = new CSharpScalarResolver<object>(new CSharpScalarResolverArgs("DateTime.Now.Year"));
+        var variable = factory.Instantiate(VariableScope.Global, resolver);
 
-            Assert.That(variable.IsEvaluated, Is.False);
-        }
+        Assert.That(variable.IsEvaluated, Is.False);
     }
 }

@@ -1,17 +1,22 @@
 next-version: 2.0
-mode: ContinuousDelivery
-next-version: 2.0
+mode: Mainline
+major-version-bump-message: "^(feat|fix|perf|revert)(\\([\\w\\s-]*\\))?(!:|:.*\\n\\n((.+\\n)+\\n)?BREAKING CHANGE:\\s.+)"
+minor-version-bump-message: "^(feat)(\\([\\w\\s-]*\\))?:"
+patch-version-bump-message: "^(chore|fix|perf|refactor|revert)(\\([\\w\\s-]*\\))?:"
+no-bump-message: "^(.*)(\\([\\w\\s-]*\\))?:"
+commit-message-incrementing: MergeMessageOnly
 branches:
-  develop:
-    regex: dev(elop)?(ment)?(_v2)?$
-    tag: beta
   feature:
+    tag: alpha.{BranchName}
     regex: features?[/-]
-    tag: alpha
-    source-branches: ['master', 'develop', 'feature', 'hotfix', 'support']
-  release:
-    regex: releases?[/-]
-    tag: rc
-    source-branches: ['hotfix', 'develop', 'master', 'feature', 'support']
+    source-branches:
+    - main
+    - feature
+  main:
+    tag: beta
+    regex: ^main$
+    is-mainline: true
+    increment: Patch
 ignore:
   sha: []
+merge-message-formats: {}

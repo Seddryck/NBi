@@ -5,8 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using NBi.Extensibility;
 
-namespace NBi.Core.ResultSet.Alteration.Merging
-{
-    public interface IMergingEngine : IAlteration
-    { }
-}
+namespace NBi.Core.ResultSet.Alteration.Merging;
+
+public interface IMergingEngine : IAlteration
+{ }

@@ -4,17 +4,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Extensibility.Query
+namespace NBi.Extensibility.Query;
+
+[AttributeUsage(AttributeTargets.Class)]
+
+public class SupportedCommandTypeAttribute : Attribute
 {
-    [AttributeUsage(AttributeTargets.Class)]
+    public Type Value { get; }
 
-    public class SupportedCommandTypeAttribute : Attribute
+    public SupportedCommandTypeAttribute(Type type)
     {
-        public Type Value { get; }
-
-        public SupportedCommandTypeAttribute(Type type)
-        {
-            Value = type;
-        }
+        Value = type;
     }
 }

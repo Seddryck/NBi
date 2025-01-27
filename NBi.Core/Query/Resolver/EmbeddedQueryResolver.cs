@@ -7,21 +7,20 @@ using System.Text;
 using System.Threading.Tasks;
 using NBi.Extensibility.Query;
 
-namespace NBi.Core.Query.Resolver
+namespace NBi.Core.Query.Resolver;
+
+class EmbeddedQueryResolver : IQueryResolver
 {
-    class EmbeddedQueryResolver : IQueryResolver
+    private readonly EmbeddedQueryResolverArgs args;
+
+    public EmbeddedQueryResolver(EmbeddedQueryResolverArgs args)
     {
-        private readonly EmbeddedQueryResolverArgs args;
+        this.args = args;
+    }
 
-        public EmbeddedQueryResolver(EmbeddedQueryResolverArgs args)
-        {
-            this.args = args;
-        }
-
-        public IQuery Execute()
-        {
-            var query = new Query(args.CommandText, args.ConnectionString, args.Timeout, args.Parameters, args.Variables);
-            return query;
-        }
+    public IQuery Execute()
+    {
+        var query = new Query(args.CommandText, args.ConnectionString, args.Timeout, args.Parameters, args.Variables);
+        return query;
     }
 }

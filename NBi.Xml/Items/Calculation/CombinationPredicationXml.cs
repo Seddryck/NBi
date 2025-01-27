@@ -7,18 +7,17 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 
-namespace NBi.Xml.Items.Calculation
+namespace NBi.Xml.Items.Calculation;
+
+public class CombinationPredicationXml : AbstractPredicationXml
 {
-    public class CombinationPredicationXml : AbstractPredicationXml
-    {
-        [XmlAttribute("operator")]
-        public CombinationOperator Operator { get; set; }
+    [XmlAttribute("operator")]
+    public CombinationOperator Operator { get; set; }
 
-        [DefaultValue(false)]
-        [XmlAttribute("not")]
-        public bool Not { get; set; }
+    [DefaultValue(false)]
+    [XmlAttribute("not")]
+    public bool Not { get; set; }
 
-        [XmlElement("predicate")]
-        public List<SinglePredicationXml> Predications { get; set; } = [];
-    }
+    [XmlElement("predicate")]
+    public List<SinglePredicationXml> Predications { get; set; } = [];
 }

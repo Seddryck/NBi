@@ -5,10 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using RestSharp.Authenticators;
 
-namespace NBi.Core.Api.Authentication
+namespace NBi.Core.Api.Authentication;
+
+public class Anonymous : IAuthentication
 {
-    public class Anonymous : IAuthentication
-    {
-        public IAuthenticator? GetAuthenticator() => null;
-    }
+    public IAuthenticator? GetAuthenticator() => null;
 }

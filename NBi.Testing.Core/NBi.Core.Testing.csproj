@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.8.0" />
@@ -29,15 +29,11 @@
     <EmbeddedResource Include="Scalar\Resolver\Resources\PurchaseOrders.xml" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="ConnectionString.azuredevops.config">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
     <EmbeddedResource Include="ConnectionString.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <MyOptionalItems Include="ConnectionString.user.config">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </MyOptionalItems>
-    <None Include="app.config" />
   </ItemGroup>
 </Project>

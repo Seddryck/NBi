@@ -9,24 +9,23 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.Assemblies.Decoration
+namespace NBi.Core.Assemblies.Decoration;
+
+public class CustomCommandArgs : ICustomArgs, IDecorationCommandArgs
 {
-    public class CustomCommandArgs : ICustomArgs, IDecorationCommandArgs
+    public CustomCommandArgs(Guid guid, IScalarResolver<string> assemblyPath, IScalarResolver<string> typeName, IReadOnlyDictionary<string, IScalarResolver> parameters)
     {
-        public CustomCommandArgs(Guid guid, IScalarResolver<string> assemblyPath, IScalarResolver<string> typeName, IReadOnlyDictionary<string, IScalarResolver> parameters)
-        {
-            Guid = guid;
-            AssemblyPath = assemblyPath;
-            TypeName = typeName;
-            Parameters = parameters;
-        }
-
-        public Guid Guid { get; set; }
-
-        public IScalarResolver<string> AssemblyPath { get; }
-
-        public IScalarResolver<string> TypeName { get; }
-
-        public IReadOnlyDictionary<string, IScalarResolver> Parameters { get; }
+        Guid = guid;
+        AssemblyPath = assemblyPath;
+        TypeName = typeName;
+        Parameters = parameters;
     }
+
+    public Guid Guid { get; set; }
+
+    public IScalarResolver<string> AssemblyPath { get; }
+
+    public IScalarResolver<string> TypeName { get; }
+
+    public IReadOnlyDictionary<string, IScalarResolver> Parameters { get; }
 }

@@ -3,10 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace NBi.Core
+namespace NBi.Core;
+
+public interface IDecorationCommand
 {
-    public interface IDecorationCommand
-    {
-        void Execute();
-    }
+    void Execute();
 }

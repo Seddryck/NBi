@@ -7,13 +7,12 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 
-namespace NBi.Xml.Constraints.Comparer
+namespace NBi.Xml.Constraints.Comparer;
+
+public class StartsWithXml : ScalarReferencePredicateXml, ICaseSensitiveTextPredicateXml
 {
-    public class StartsWithXml : ScalarReferencePredicateXml, ICaseSensitiveTextPredicateXml
-    {
-        [XmlAttribute("ignore-case")]
-        [DefaultValue(false)]
-        public bool IgnoreCase { get; set; }
-        public override ComparerType ComparerType { get => ComparerType.StartsWith; }
-    }
+    [XmlAttribute("ignore-case")]
+    [DefaultValue(false)]
+    public bool IgnoreCase { get; set; }
+    public override ComparerType ComparerType { get => ComparerType.StartsWith; }
 }

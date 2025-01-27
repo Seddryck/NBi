@@ -4,8 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.ResultSet.Alteration.Renaming
-{
-    public interface IRenamingArgs
-    { }
-}
+namespace NBi.Core.ResultSet.Alteration.Renaming;
+
+public interface IRenamingArgs
+{ }

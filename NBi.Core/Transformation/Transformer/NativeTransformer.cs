@@ -13,41 +13,40 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.Transformation.Transformer
+namespace NBi.Core.Transformation.Transformer;
+
+class NativeTransformer<T> : ITransformer
 {
-    class NativeTransformer<T> : ITransformer
+    protected ServiceLocator ServiceLocator { get; }
+    protected Context Context { get; }
+
+    protected Exssif.IFunction? InternalTransformation { get; set; }
+
+
+    public NativeTransformer(ServiceLocator serviceLocator, Context context)
+        => (ServiceLocator, Context) = (serviceLocator, context);
+
+    public void Initialize(string code)
     {
-        protected ServiceLocator ServiceLocator { get; }
-        protected Context Context { get; }
+        InternalTransformation = new Expressif.Expression(code, Context);
+    }
 
-        protected Exssif.IFunction? InternalTransformation { get; set; }
+    public object? Execute(object? value)
+    {
+        if (InternalTransformation is null)
+            throw new InvalidOperationException();
 
+        var factory = new CasterFactory<T>();
+        var caster = factory.Instantiate();
 
-        public NativeTransformer(ServiceLocator serviceLocator, Context context)
-            => (ServiceLocator, Context) = (serviceLocator, context);
+        object? typedValue;
+        if (value == null || value == DBNull.Value || value as string == "(null)")
+            typedValue = null;
+        else if ((typeof(T) != typeof(string)) && (value is string) && ((string.IsNullOrEmpty(value as string) || value as string == "(empty)")))
+            typedValue = null;
+        else
+            typedValue = caster.Execute(value);
 
-        public void Initialize(string code)
-        {
-            InternalTransformation = new Expressif.Expression(code, Context);
-        }
-
-        public object? Execute(object? value)
-        {
-            if (InternalTransformation is null)
-                throw new InvalidOperationException();
-
-            var factory = new CasterFactory<T>();
-            var caster = factory.Instantiate();
-
-            object? typedValue;
-            if (value == null || value == DBNull.Value || value as string == "(null)")
-                typedValue = null;
-            else if ((typeof(T) != typeof(string)) && (value is string) && ((string.IsNullOrEmpty(value as string) || value as string == "(empty)")))
-                typedValue = null;
-            else
-                typedValue = caster.Execute(value);
-
-            return InternalTransformation.Evaluate(typedValue);
-        }
+        return InternalTransformation.Evaluate(typedValue);
     }
 }

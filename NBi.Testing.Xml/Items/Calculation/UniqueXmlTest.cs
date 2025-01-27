@@ -18,39 +18,38 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 
-namespace NBi.Xml.Testing.Unit.Items.Calculation
+namespace NBi.Xml.Testing.Unit.Items.Calculation;
+
+public class UniqueXmlTest : BaseXmlTest
 {
-    public class UniqueXmlTest : BaseXmlTest
+
+    [Test]
+    public void Deserialize_RankingWithDefaultType_RankingXml()
     {
+        int testNr = 0;
 
-        [Test]
-        public void Deserialize_RankingWithDefaultType_RankingXml()
-        {
-            int testNr = 0;
+        // Create an instance of the XmlSerializer specifying type and namespace.
+        var ts = DeserializeSample();
 
-            // Create an instance of the XmlSerializer specifying type and namespace.
-            TestSuiteXml ts = DeserializeSample();
+        Assert.That(ts.Tests[testNr].Systems[0], Is.AssignableTo<ResultSetSystemXml>());
+        var alterations = ((ResultSetSystemXml)ts.Tests[testNr].Systems[0]).Alterations;
+        Assert.That(alterations, Is.Not.Null.And.Not.Empty);
+        Assert.That(((FilterXml)alterations[0]).Uniqueness, Is.Not.Null);
+    }
 
-            Assert.That(ts.Tests[testNr].Systems[0], Is.AssignableTo<ResultSetSystemXml>());
-            var alterations = (ts.Tests[testNr].Systems[0] as ResultSetSystemXml).Alterations;
-            Assert.That(alterations, Is.Not.Null.And.Not.Empty);
-            Assert.That((alterations[0] as FilterXml).Uniqueness, Is.Not.Null);
-        }
+    [Test]
+    public void Deserialize_UniqueWithGroupBy_GroupByXml()
+    {
+        int testNr = 0;
 
-        [Test]
-        public void Deserialize_UniqueWithGroupBy_GroupByXml()
-        {
-            int testNr = 0;
+        // Create an instance of the XmlSerializer specifying type and namespace.
+        var ts = DeserializeSample();
 
-            // Create an instance of the XmlSerializer specifying type and namespace.
-            var ts = DeserializeSample();
-
-            Assert.That(ts.Tests[testNr].Systems[0], Is.AssignableTo<ResultSetSystemXml>());
-            var alterations = (ts.Tests[testNr].Systems[0] as ResultSetSystemXml).Alterations;
-            Assert.That(alterations, Is.Not.Null.And.Not.Empty);
-            Assert.That((alterations[0] as FilterXml).Uniqueness.GroupBy, Is.Not.Null);
-            Assert.That((alterations[0] as FilterXml).Uniqueness.GroupBy.Columns, Is.Not.Null.And.Not.Empty);
-            Assert.That((alterations[0] as FilterXml).Uniqueness.GroupBy.Columns, Has.Count.EqualTo(2));
-        }
+        Assert.That(ts.Tests[testNr].Systems[0], Is.AssignableTo<ResultSetSystemXml>());
+        var alterations = ((ResultSetSystemXml)ts.Tests[testNr].Systems[0]).Alterations;
+        Assert.That(alterations, Is.Not.Null.And.Not.Empty);
+        Assert.That(((FilterXml)alterations[0]).Uniqueness.GroupBy, Is.Not.Null);
+        Assert.That(((FilterXml)alterations[0]).Uniqueness.GroupBy.Columns, Is.Not.Null.And.Not.Empty);
+        Assert.That(((FilterXml)alterations[0]).Uniqueness.GroupBy.Columns, Has.Count.EqualTo(2));
     }
 }

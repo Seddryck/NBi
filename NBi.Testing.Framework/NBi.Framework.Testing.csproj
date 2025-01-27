@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.8.0" />
@@ -12,8 +12,5 @@
     <ProjectReference Include="..\NBi.Core\NBi.Core.csproj" />
     <ProjectReference Include="..\NBi.Extensibility\NBi.Extensibility.csproj" />
     <ProjectReference Include="..\NBi.Framework\NBi.Framework.csproj" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="app.config" />
   </ItemGroup>
 </Project>

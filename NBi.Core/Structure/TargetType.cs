@@ -2,12 +2,11 @@
 using System.Linq;
 using System.Xml.Serialization;
 
-namespace NBi.Core.Structure
+namespace NBi.Core.Structure;
+
+public enum TargetType
 {
-    public enum TargetType
-    {
-        Undefined = 0,
-        Object,
-        Relation
-    }
+    Undefined = 0,
+    Object,
+    Relation
 }

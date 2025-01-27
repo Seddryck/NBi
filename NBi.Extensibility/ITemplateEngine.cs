@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Extensibility
+namespace NBi.Extensibility;
+
+public interface ITemplateEngine
 {
-    public interface ITemplateEngine
-    {
-        string Render(string template, IEnumerable<KeyValuePair<string, object>> variables);
-    }
+    string Render(string template, IEnumerable<KeyValuePair<string, object>> variables);
 }

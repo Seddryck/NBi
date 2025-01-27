@@ -6,13 +6,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.ResultSet.Filtering
-{
-    public interface IResultSetFilter : IAlteration
-    {
-        IResultSet Apply(IResultSet rs);
-        IResultSet AntiApply(IResultSet rs);
+namespace NBi.Core.ResultSet.Filtering;
 
-        string Describe();
-    }
+public interface IResultSetFilter : IAlteration
+{
+    IResultSet Apply(IResultSet rs);
+    IResultSet AntiApply(IResultSet rs);
+
+    string Describe();
 }

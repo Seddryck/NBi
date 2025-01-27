@@ -1,6 +1,5 @@
-﻿namespace NBi.Xml.Constraints
+﻿namespace NBi.Xml.Constraints;
+
+public class SuccessfulXml : AbstractConstraintXml
 {
-    public class SuccessfulXml : AbstractConstraintXml
-    {
-    }
 }

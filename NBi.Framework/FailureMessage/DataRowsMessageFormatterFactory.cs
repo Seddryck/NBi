@@ -11,21 +11,20 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Framework.FailureMessage
-{
-    public class DataRowsMessageFormatterFactory
-    {
-        public virtual IDataRowsMessageFormatter Instantiate(IFailureReportProfile profile, Core.ResultSet.EngineStyle style)
-        {
-            var factory = new SamplersFactory<IResultRow>();
-            var samplers = factory.Instantiate(profile);
+namespace NBi.Framework.FailureMessage;
 
-            return profile.Format switch
-            {
-                FailureReportFormat.Markdown => new DataRowsMessageMarkdown(style, samplers),
-                FailureReportFormat.Json => new DataRowsMessageJson(style, samplers),
-                _ => throw new ArgumentOutOfRangeException(),
-            };
-        }
+public class DataRowsMessageFormatterFactory
+{
+    public virtual IDataRowsMessageFormatter Instantiate(IFailureReportProfile profile, Core.ResultSet.EngineStyle style)
+    {
+        var factory = new SamplersFactory<IResultRow>();
+        var samplers = factory.Instantiate(profile);
+
+        return profile.Format switch
+        {
+            FailureReportFormat.Markdown => new DataRowsMessageMarkdown(style, samplers),
+            FailureReportFormat.Json => new DataRowsMessageJson(style, samplers),
+            _ => throw new ArgumentOutOfRangeException(),
+        };
     }
 }

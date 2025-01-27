@@ -2,11 +2,10 @@
 using System;
 using System.Linq;
 
-namespace NBi.GenbiL.Action
+namespace NBi.GenbiL.Action;
+
+public interface IAction
 {
-    public interface IAction
-    {
-        void Execute(GenerationState state);
-        string Display { get; }
-    }
+    void Execute(GenerationState state);
+    string Display { get; }
 }

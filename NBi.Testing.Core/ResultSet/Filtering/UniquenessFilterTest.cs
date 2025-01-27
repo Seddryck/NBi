@@ -16,42 +16,41 @@ using System.Text;
 using System.Threading.Tasks;
 using static NBi.Core.ResultSet.SettingsOrdinalResultSet;
 
-namespace NBi.Core.Testing.ResultSet.Filtering
+namespace NBi.Core.Testing.ResultSet.Filtering;
+
+public class UniquenessFilterTest
 {
-    public class UniquenessFilterTest
+    [Test]
+    public void Execute_OnlyUniqueRows_ResultSetConstant()
     {
-        [Test]
-        public void Execute_OnlyUniqueRows_ResultSetConstant()
-        {
-            var args = new ObjectsResultSetResolverArgs(new[] { new object[] { "alpha", 1 }, ["alpha", 2], ["beta", 3], ["alpha", 4] });
-            var resolver = new ObjectsResultSetResolver(args);
-            var rs = resolver.Execute();
+        var args = new ObjectsResultSetResolverArgs(new[] { new object[] { "alpha", 1 }, ["alpha", 2], ["beta", 3], ["alpha", 4] });
+        var resolver = new ObjectsResultSetResolver(args);
+        var rs = resolver.Execute();
 
-            var settings = new SettingsOrdinalResultSet(KeysChoice.All, ValuesChoice.None, NumericAbsoluteTolerance.None);
-            var grouping = new OrdinalColumnGrouping(settings, Context.None);
+        var settings = new SettingsOrdinalResultSet(KeysChoice.All, ValuesChoice.None, NumericAbsoluteTolerance.None);
+        var grouping = new OrdinalColumnGrouping(settings, Context.None);
 
-            var uniquenessFilter = new UniquenessFilter(grouping);
+        var uniquenessFilter = new UniquenessFilter(grouping);
 
-            var result = uniquenessFilter.Apply(rs);
-            Assert.That(result.Columns.Count(), Is.EqualTo(2));
-            Assert.That(result.Rows.Count(), Is.EqualTo(4));
-        }
+        var result = uniquenessFilter.Apply(rs);
+        Assert.That(result.Columns.Count(), Is.EqualTo(2));
+        Assert.That(result.Rows.Count(), Is.EqualTo(4));
+    }
 
-        [Test]
-        public void Execute_SomeDuplicatesButNotOnValues_ResultSetReduced()
-        {
-            var args = new ObjectsResultSetResolverArgs(new[] { new object[] { "alpha", 1 }, ["alpha", 2], ["beta", 3], ["alpha", 4] });
-            var resolver = new ObjectsResultSetResolver(args);
-            var rs = resolver.Execute();
+    [Test]
+    public void Execute_SomeDuplicatesButNotOnValues_ResultSetReduced()
+    {
+        var args = new ObjectsResultSetResolverArgs(new[] { new object[] { "alpha", 1 }, ["alpha", 2], ["beta", 3], ["alpha", 4] });
+        var resolver = new ObjectsResultSetResolver(args);
+        var rs = resolver.Execute();
 
-            var settings = new SettingsOrdinalResultSet(KeysChoice.First, ValuesChoice.None, NumericAbsoluteTolerance.None);
-            var grouping = new OrdinalColumnGrouping(settings, Context.None);
+        var settings = new SettingsOrdinalResultSet(KeysChoice.First, ValuesChoice.None, NumericAbsoluteTolerance.None);
+        var grouping = new OrdinalColumnGrouping(settings, Context.None);
 
-            var uniquenessFilter = new UniquenessFilter(grouping);
+        var uniquenessFilter = new UniquenessFilter(grouping);
 
-            var result = uniquenessFilter.Apply(rs);
-            Assert.That(result.Columns.Count(), Is.EqualTo(2));
-            Assert.That(result.Rows.Count(), Is.EqualTo(1));
-        }
+        var result = uniquenessFilter.Apply(rs);
+        Assert.That(result.Columns.Count(), Is.EqualTo(2));
+        Assert.That(result.Rows.Count(), Is.EqualTo(1));
     }
 }

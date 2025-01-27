@@ -2,8 +2,8 @@
 using System.Globalization;
 using System.Linq;
 
-namespace NBi.Core.Scalar.Interval
-{
+namespace NBi.Core.Scalar.Interval;
+
 	public class NumericIntervalBuilder
 	{
 		private readonly string? value;
@@ -153,4 +153,3 @@ namespace NBi.Core.Scalar.Interval
 			return ex;
 		}
 	}
-}

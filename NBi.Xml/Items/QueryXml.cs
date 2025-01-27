@@ -10,61 +10,60 @@ using NBi.Core.Query.Client;
 using NBi.Xml.SerializationOption;
 using NBi.Xml.Settings;
 
-namespace NBi.Xml.Items
+namespace NBi.Xml.Items;
+
+public class QueryXml : QueryableXml
 {
-    public class QueryXml : QueryableXml
+    [XmlIgnore()]
+    private SettingsXml? settings;
+
+    [XmlIgnore()]
+    public override SettingsXml? Settings
     {
-        [XmlIgnore()]
-        private SettingsXml settings;
-
-        [XmlIgnore()]
-        public override SettingsXml Settings
+        get => settings;
+        set
         {
-            get => settings;
-            set
-            {
-                settings = value;
-                if (Assembly != null)
-                    Assembly.Settings = value;
-                if (Report != null)
-                    Report.Settings = value;
-                if (SharedDataset != null)
-                    SharedDataset.Settings = value;
-            }
+            settings = value;
+            if (Assembly != null)
+                Assembly.Settings = value;
+            if (Report != null)
+                Report.Settings = value;
+            if (SharedDataset != null)
+                SharedDataset.Settings = value;
         }
-
-
-        [XmlAttribute("file")]
-        public string File { get; set; }
-
-        [XmlAttribute("connectionString-ref")]
-        public string ConnectionStringReference { get; set; }
-
-        [XmlIgnore]
-        private string inlineQuery;
-
-        [XmlIgnore]
-        public CData InlineQueryWrite
-        {
-            get { return inlineQuery; }
-            set { inlineQuery = value; }
-        }
-
-        [XmlText]
-        public virtual string InlineQuery
-        {
-            get { return inlineQuery; }
-            set { inlineQuery = value; }
-        }
-
-        [XmlElement("assembly")]
-        public AssemblyXml Assembly { get; set; }
-
-        [XmlElement("report")]
-        public virtual ReportXml Report { get; set; }
-
-        [XmlElement("shared-dataset")]
-        public virtual SharedDatasetXml SharedDataset { get; set; }
-
     }
+
+
+    [XmlAttribute("file")]
+    public string File { get; set; } = string.Empty;
+
+    [XmlAttribute("connectionString-ref")]
+    public string ConnectionStringReference { get; set; } = string.Empty;
+
+    [XmlIgnore]
+    private string inlineQuery = string.Empty;
+
+    [XmlIgnore]
+    public CData InlineQueryWrite
+    {
+        get { return inlineQuery; }
+        set { inlineQuery = value; }
+    }
+
+    [XmlText]
+    public virtual string InlineQuery
+    {
+        get { return inlineQuery; }
+        set { inlineQuery = value; }
+    }
+
+    [XmlElement("assembly")]
+    public AssemblyXml? Assembly { get; set; }
+
+    [XmlElement("report")]
+    public virtual ReportXml? Report { get; set; }
+
+    [XmlElement("shared-dataset")]
+    public virtual SharedDatasetXml? SharedDataset { get; set; }
+
 }

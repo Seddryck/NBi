@@ -5,13 +5,12 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 
-namespace NBi.Core.Sequence.Resolver.Loop
+namespace NBi.Core.Sequence.Resolver.Loop;
+
+public enum IntervalMode
 {
-    public enum IntervalMode
-    {
-        [XmlEnum("close")]
-        Close = 0,
-        [XmlEnum("half-open")]
-        HalfOpen = 1
-    }
+    [XmlEnum("close")]
+    Close = 0,
+    [XmlEnum("half-open")]
+    HalfOpen = 1
 }

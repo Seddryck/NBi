@@ -5,13 +5,12 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 
-namespace NBi.Xml.Constraints.Comparer
-{
-    public abstract class ScalarReferencePredicateXml : ReferencePredicateXml
-    {
-        [XmlText]
-        public string Reference { get; set; }
+namespace NBi.Xml.Constraints.Comparer;
 
-        public virtual bool ShouldSerializeReference() => true;
-    }
+public abstract class ScalarReferencePredicateXml : ReferencePredicateXml
+{
+    [XmlText]
+    public string? Reference { get; set; }
+
+    public virtual bool ShouldSerializeReference() => true;
 }

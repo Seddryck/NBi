@@ -9,56 +9,55 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.Structure.Olap
+namespace NBi.Core.Structure.Olap;
+
+
+class OlapCommand : StructureDiscoveryCommand
 {
+    public OlapCommand(IDbCommand command, IEnumerable<IPostCommandFilter> postFilters, CommandDescription description)
+        : base(command, postFilters, description)
+    { }
 
-    class OlapCommand : StructureDiscoveryCommand
+    public override IEnumerable<string> Execute()
     {
-        public OlapCommand(IDbCommand command, IEnumerable<IPostCommandFilter> postFilters, CommandDescription description)
-            : base(command, postFilters, description)
-        { }
+        var values = new List<OlapRow>();
 
-        public override IEnumerable<string> Execute()
+        (command.Connection ?? throw new InvalidOperationException()).Open();
+        var rdr = ExecuteReader(command as AdomdCommand ?? throw new InvalidOperationException());
+        while (rdr.Read())
         {
-            var values = new List<OlapRow>();
+            var row = BuildRow(rdr);
 
-            (command.Connection ?? throw new InvalidOperationException()).Open();
-            var rdr = ExecuteReader(command as AdomdCommand ?? throw new InvalidOperationException());
-            while (rdr.Read())
-            {
-                var row = BuildRow(rdr);
+            var isValid = true;
+            foreach (var postFilter in postFilters)
+                isValid = postFilter.Evaluate(row);
 
-                var isValid = true;
-                foreach (var postFilter in postFilters)
-                    isValid = postFilter.Evaluate(row);
-
-                if (isValid)
-                    values.Add(row);
-            }
-            command.Connection.Close();
-
-            return values.Select(v => v.Caption);
+            if (isValid)
+                values.Add(row);
         }
+        command.Connection.Close();
 
-        protected virtual OlapRow BuildRow(AdomdDataReader rdr)
+        return values.Select(v => v.Caption);
+    }
+
+    protected virtual OlapRow BuildRow(AdomdDataReader rdr)
+    {
+        var row = new OlapRow(rdr.GetString(0), rdr.GetString(1));
+        return row;
+    }
+
+    protected AdomdDataReader ExecuteReader(AdomdCommand cmd)
+    {
+        Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceInfo, cmd.CommandText);
+
+        try
         {
-            var row = new OlapRow(rdr.GetString(0), rdr.GetString(1));
-            return row;
+            var rdr = cmd.ExecuteReader();
+            return rdr;
         }
-
-        protected AdomdDataReader ExecuteReader(AdomdCommand cmd)
-        {
-            Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceInfo, cmd.CommandText);
-
-            try
-            {
-                var rdr = cmd.ExecuteReader();
-                return rdr;
-            }
-            catch (AdomdConnectionException ex)
-            { throw new ConnectionException(ex, cmd.Connection.ConnectionString); }
-            catch (AdomdErrorResponseException ex)
-            { throw new ConnectionException(ex, cmd.Connection.ConnectionString); }
-        }
+        catch (AdomdConnectionException ex)
+        { throw new ConnectionException(ex, cmd.Connection.ConnectionString); }
+        catch (AdomdErrorResponseException ex)
+        { throw new ConnectionException(ex, cmd.Connection.ConnectionString); }
     }
 }

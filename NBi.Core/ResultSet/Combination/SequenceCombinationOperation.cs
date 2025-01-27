@@ -5,11 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 
-namespace NBi.Core.ResultSet.Combination
+namespace NBi.Core.ResultSet.Combination;
+
+public enum SequenceCombinationOperation
 {
-    public enum SequenceCombinationOperation
-    {
-        [XmlEnum("cartesian-product")]
-        CartesianProduct = 1
-    }
+    [XmlEnum("cartesian-product")]
+    CartesianProduct = 1
 }

@@ -6,12 +6,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.GenbiL.Stateful.Tree
+namespace NBi.GenbiL.Stateful.Tree;
+
+public class SetupNode : TreeNode
 {
-    public class SetupNode : TreeNode
-    {
-        public SetupStandaloneXml Content { get; }
-        public SetupNode(SetupStandaloneXml setup)
-            : base("setup") => Content = setup;
-    }
+    public SetupStandaloneXml Content { get; }
+    public SetupNode(SetupStandaloneXml setup)
+        : base("setup") => Content = setup;
 }

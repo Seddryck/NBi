@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Linq;
 
-namespace NBi.Core.Scalar.Interval
-{
+namespace NBi.Core.Scalar.Interval;
+
 	public abstract class BaseInterval<T>
 	{
 		public EndPoint<T> Left { get; set; }
@@ -15,9 +15,8 @@ namespace NBi.Core.Scalar.Interval
 		}
 
 
-        public abstract bool Contains(T value);
-        
-        public override string ToString()
+    public abstract bool Contains(T value);
+    
+    public override string ToString()
 			=> $"{Left};{Right}";
 	}
-}

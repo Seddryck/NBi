@@ -4,9 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.ResultSet.Alteration.Reshaping
+namespace NBi.Core.ResultSet.Alteration.Reshaping;
+
+public interface IReshapingArgs
 {
-    public interface IReshapingArgs
-    {
-    }
 }

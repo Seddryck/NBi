@@ -9,20 +9,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.Structure.Olap
+namespace NBi.Core.Structure.Olap;
+
+
+class DimensionCommand : OlapCommand
 {
+    protected internal DimensionCommand(IDbCommand command, IEnumerable<IPostCommandFilter> postFilters, CommandDescription description)
+        : base(command, postFilters, description)
+    { } 
 
-    class DimensionCommand : OlapCommand
+    protected override OlapRow BuildRow(AdomdDataReader rdr)
     {
-        protected internal DimensionCommand(IDbCommand command, IEnumerable<IPostCommandFilter> postFilters, CommandDescription description)
-            : base(command, postFilters, description)
-        { } 
-
-        protected override OlapRow BuildRow(AdomdDataReader rdr)
-        {
-            var row = new DimensionRow(rdr.GetString(0), rdr.GetString(1), rdr.GetInt16(2));
-            return row;
-        }
-
+        var row = new DimensionRow(rdr.GetString(0), rdr.GetString(1), rdr.GetInt16(2));
+        return row;
     }
+
 }

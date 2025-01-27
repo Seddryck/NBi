@@ -10,41 +10,40 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.Query.Client
+namespace NBi.Core.Query.Client;
+
+internal class DubUrlClientFactory : IClientFactory
 {
-    internal class DubUrlClientFactory : IClientFactory
+    private ProviderFactoriesRegistrator Registrator { get; } = new();
+    private SchemeMapperBuilder SchemeMapperBuilder { get; } = new();
+
+    public DubUrlClientFactory()
     {
-        private ProviderFactoriesRegistrator Registrator { get; } = new();
-        private SchemeMapperBuilder SchemeMapperBuilder { get; } = new();
+        //Automatically load the 3 assemblies (DubUrl, DubUrl.OleDb and DubUrl.Adomd)
+        var assemblies = new[] 
+        { 
+            typeof(OdbcRewriter).Assembly,
+            typeof(OleDbRewriter).Assembly,
+            typeof(PowerBiDesktopDatabase).Assembly 
+        };
 
-        public DubUrlClientFactory()
-        {
-            //Automatically load the 3 assemblies (DubUrl, DubUrl.OleDb and DubUrl.Adomd)
-            var assemblies = new[] 
-            { 
-                typeof(OdbcRewriter).Assembly,
-                typeof(OleDbRewriter).Assembly,
-                typeof(PowerBiDesktopDatabase).Assembly 
-            };
+        var discovery = new BinFolderDiscoverer(assemblies);
+        Registrator = new ProviderFactoriesRegistrator(discovery);
+        Registrator.Register();
 
-            var discovery = new BinFolderDiscoverer(assemblies);
-            Registrator = new ProviderFactoriesRegistrator(discovery);
-            Registrator.Register();
-
-            SchemeMapperBuilder = new SchemeMapperBuilder(assemblies);
-            SchemeMapperBuilder.Build();
-        }
-
-        public bool CanHandle(string connectionString)
-        {
-            if (connectionString.IndexOf("://") < 0)
-                return false;
-
-            var scheme = connectionString.Split("://")[0];
-            return SchemeMapperBuilder.CanHandle(scheme);
-        }
-
-        public IClient Instantiate(string connectionString) 
-            => new DubUrlClient(connectionString, SchemeMapperBuilder);
+        SchemeMapperBuilder = new SchemeMapperBuilder(assemblies);
+        SchemeMapperBuilder.Build();
     }
+
+    public bool CanHandle(string connectionString)
+    {
+        if (connectionString.IndexOf("://") < 0)
+            return false;
+
+        var scheme = connectionString.Split("://")[0];
+        return SchemeMapperBuilder.CanHandle(scheme);
+    }
+
+    public IClient Instantiate(string connectionString) 
+        => new DubUrlClient(connectionString, SchemeMapperBuilder);
 }

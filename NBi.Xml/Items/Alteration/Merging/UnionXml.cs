@@ -8,12 +8,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 
-namespace NBi.Xml.Items.Alteration.Merging
+namespace NBi.Xml.Items.Alteration.Merging;
+
+public class UnionXml : MergeXml
 {
-    public class UnionXml : MergeXml
-    {
-        [XmlAttribute("column-identity")]
-        [DefaultValue(ColumnIdentity.Ordinal)]
-        public ColumnIdentity ColumnIdentity { get; set; } = ColumnIdentity.Ordinal;
-    }
+    [XmlAttribute("column-identity")]
+    [DefaultValue(ColumnIdentity.Ordinal)]
+    public ColumnIdentity ColumnIdentity { get; set; } = ColumnIdentity.Ordinal;
 }

@@ -7,15 +7,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.ResultSet.Alteration.Extension
-{
-    public class ExtendArgs : IExtensionArgs
-    {
-        public IColumnIdentifier NewColumn { get; set; }
-        public string Code { get; set; }
-        public LanguageType Language { get; set; }
+namespace NBi.Core.ResultSet.Alteration.Extension;
 
-        public ExtendArgs(IColumnIdentifier newColumn, string code, LanguageType language)
-            => (NewColumn, Code, Language) = (newColumn, code, language);
-    }
+public class ExtendArgs : IExtensionArgs
+{
+    public IColumnIdentifier NewColumn { get; set; }
+    public string Code { get; set; }
+    public LanguageType Language { get; set; }
+
+    public ExtendArgs(IColumnIdentifier newColumn, string code, LanguageType language)
+        => (NewColumn, Code, Language) = (newColumn, code, language);
 }

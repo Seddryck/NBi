@@ -8,17 +8,16 @@ using System.Collections.Generic;
 using NBi.Core.Query.Execution;
 using Microsoft.Data.SqlClient;
 
-namespace NBi.Core.Query.Format
-{
-    internal class SqlFormatEngine : SqlExecutionEngine, IFormatEngine
-    {
-        protected internal SqlFormatEngine(SqlConnection connection, SqlCommand command)
-            : base(connection, command)
-        { }
+namespace NBi.Core.Query.Format;
 
-        public IEnumerable<string> ExecuteFormat()
-        {
-            return base.ExecuteList<string>();
-        }
+internal class SqlFormatEngine : SqlExecutionEngine, IFormatEngine
+{
+    protected internal SqlFormatEngine(SqlConnection connection, SqlCommand command)
+        : base(connection, command)
+    { }
+
+    public IEnumerable<string> ExecuteFormat()
+    {
+        return base.ExecuteList<string>();
     }
 }

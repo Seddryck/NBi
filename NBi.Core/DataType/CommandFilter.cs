@@ -4,15 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.DataType
-{
-    class CommandFilter : ICommandFilter
-    {
-        public CommandFilter(string value)
-        {
-            Value = value;
-        }
+namespace NBi.Core.DataType;
 
-        public string Value { get; private set; }
+class CommandFilter : ICommandFilter
+{
+    public CommandFilter(string value)
+    {
+        Value = value;
     }
+
+    public string Value { get; private set; }
 }

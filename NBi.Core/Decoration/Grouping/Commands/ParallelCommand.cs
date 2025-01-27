@@ -5,27 +5,26 @@ using System.Linq;
 using System.Text;
 using Tasks = System.Threading.Tasks;
 
-namespace NBi.Core.Decoration.Grouping.Commands
+namespace NBi.Core.Decoration.Grouping.Commands;
+
+class ParallelCommand : IGroupCommand
 {
-    class ParallelCommand : IGroupCommand
+    private readonly IEnumerable<IDecorationCommand> commands;
+
+    public ParallelCommand(IEnumerable<IDecorationCommand> commands, bool runOnce) 
+        => (this.commands, this.RunOnce) = (commands, runOnce);
+
+    public bool RunOnce { get; set; }
+    public bool HasRun { get; set; }
+
+    public void Execute() => Execute(commands);
+
+    internal void Execute(IEnumerable<IDecorationCommand> commands)
     {
-        private readonly IEnumerable<IDecorationCommand> commands;
-
-        public ParallelCommand(IEnumerable<IDecorationCommand> commands, bool runOnce) 
-            => (this.commands, this.RunOnce) = (commands, runOnce);
-
-        public bool RunOnce { get; set; }
-        public bool HasRun { get; set; }
-
-        public void Execute() => Execute(commands);
-
-        internal void Execute(IEnumerable<IDecorationCommand> commands)
-        {
-            Tasks.Parallel.ForEach
-                (
-                    commands,
-                    x => x.Execute()
-                );
-        }
+        Tasks.Parallel.ForEach
+            (
+                commands,
+                x => x.Execute()
+            );
     }
 }

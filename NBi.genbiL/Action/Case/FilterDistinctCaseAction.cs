@@ -5,35 +5,34 @@ using System.Data;
 using System.Linq;
 using System.Text;
 
-namespace NBi.GenbiL.Action.Case
+namespace NBi.GenbiL.Action.Case;
+
+public class FilterDistinctCaseAction: ISingleCaseAction
 {
-    public class FilterDistinctCaseAction: ISingleCaseAction
+
+    public FilterDistinctCaseAction()
+    { }
+
+    public void Execute(GenerationState state) => Execute(state.CaseCollection.CurrentScope);
+
+    public void Execute(CaseSet testCases)
     {
+        DataTableReader? dataReader = null;
 
-        public FilterDistinctCaseAction()
-        { }
+        var content = testCases.Content;
+        var distinctRows = content.AsEnumerable().Distinct(DataRowComparer.Default);
 
-        public void Execute(GenerationState state) => Execute(state.CaseCollection.CurrentScope);
-
-        public void Execute(CaseSet testCases)
+        if (distinctRows.Any())
         {
-            DataTableReader? dataReader = null;
-
-            var content = testCases.Content;
-            var distinctRows = content.AsEnumerable().Distinct(DataRowComparer.Default);
-
-            if (distinctRows.Any())
-            {
-                var distinctTable = distinctRows.CopyToDataTable();
-                dataReader = distinctTable.CreateDataReader();
-            }
-            content.Clear();
-
-            if (dataReader != null)
-                content.Load(dataReader, LoadOption.PreserveChanges);
-            content.AcceptChanges();
+            var distinctTable = distinctRows.CopyToDataTable();
+            dataReader = distinctTable.CreateDataReader();
         }
+        content.Clear();
 
-        public virtual string Display { get => $"Filtering distinct cases."; }
+        if (dataReader != null)
+            content.Load(dataReader, LoadOption.PreserveChanges);
+        content.AcceptChanges();
     }
+
+    public virtual string Display { get => $"Filtering distinct cases."; }
 }

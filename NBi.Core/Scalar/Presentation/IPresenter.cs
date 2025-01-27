@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.Scalar.Presentation
+namespace NBi.Core.Scalar.Presentation;
+
+public interface IPresenter
 {
-    public interface IPresenter
-    {
-        string Execute(object? value);
-    }
+    string Execute(object? value);
 }

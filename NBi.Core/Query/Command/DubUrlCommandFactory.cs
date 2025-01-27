@@ -6,16 +6,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.Query.Command
-{
-    internal class DubUrlCommandFactory : DbCommandFactory
-    {
-        public override bool CanHandle(IClient client)
-            => client is DubUrlClient;
+namespace NBi.Core.Query.Command;
 
-        protected override string RenameParameter(string originalName)
-            => !originalName.StartsWith("@") && char.IsLetter(originalName[0])
-                ? "@" + originalName
-                : originalName;
-    }
+internal class DubUrlCommandFactory : DbCommandFactory
+{
+    public override bool CanHandle(IClient client)
+        => client is DubUrlClient;
+
+    protected override string RenameParameter(string originalName)
+        => !originalName.StartsWith("@") && char.IsLetter(originalName[0])
+            ? "@" + originalName
+            : originalName;
 }

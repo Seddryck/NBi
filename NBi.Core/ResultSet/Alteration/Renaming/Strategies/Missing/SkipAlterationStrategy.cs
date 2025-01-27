@@ -7,13 +7,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.ResultSet.Alteration.Renaming.Strategies.Missing
+namespace NBi.Core.ResultSet.Alteration.Renaming.Strategies.Missing;
+
+public class SkipAlterationStrategy : IMissingColumnStrategy
 {
-    public class SkipAlterationStrategy : IMissingColumnStrategy
+    public void Execute(string originalColumnName, IResultSet dataTable)
     {
-        public void Execute(string originalColumnName, IResultSet dataTable)
-        {
-            Trace.WriteLineIf(NBiTraceSwitch.TraceInfo, $"Alteration renaming for column '{originalColumnName}' was skipped because no column has this name in the result-set.");
-        }
+        Trace.WriteLineIf(NBiTraceSwitch.TraceInfo, $"Alteration renaming for column '{originalColumnName}' was skipped because no column has this name in the result-set.");
     }
 }

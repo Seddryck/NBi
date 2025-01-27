@@ -5,7 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 
-namespace NBi.Core.ResultSet.Lookup
-{
-    
-}
+namespace NBi.Core.ResultSet.Lookup;
+
+

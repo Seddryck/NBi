@@ -3,13 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace NBi.Xml.Decoration
-{
-    public class SetupXml : DecorationXml
-    {
-        public SetupXml() { }
+namespace NBi.Xml.Decoration;
 
-        public SetupXml(SetupStandaloneXml standalone)
-            => Commands = standalone.Commands;
-    }
+public class SetupXml : DecorationXml
+{
+    public SetupXml() { }
+
+    public SetupXml(SetupStandaloneXml standalone)
+        => Commands = standalone.Commands;
 }

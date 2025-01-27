@@ -5,11 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 
-namespace NBi.Xml.Constraints.Comparer
+namespace NBi.Xml.Constraints.Comparer;
+
+public abstract class SecondOperandPredicateXml : ScalarReferencePredicateXml
 {
-    public abstract class SecondOperandPredicateXml : ScalarReferencePredicateXml
-    {
-        [XmlAttribute("second-operand")]
-        public string SecondOperand { get; set; }
-    }
+    [XmlAttribute("second-operand")]
+    public string SecondOperand { get; set; }
 }

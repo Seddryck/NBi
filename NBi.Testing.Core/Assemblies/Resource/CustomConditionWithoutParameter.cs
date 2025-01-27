@@ -5,13 +5,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Resource
-{
-    class CustomConditionWithoutParameter : ICustomCondition
-    {
-        public CustomConditionWithoutParameter()
-        { }
+namespace Resource;
 
-        public CustomConditionResult Execute() => CustomConditionResult.SuccessfullCondition;
-    }
+class CustomConditionWithoutParameter : ICustomCondition
+{
+    public CustomConditionWithoutParameter()
+    { }
+
+    public CustomConditionResult Execute() => CustomConditionResult.SuccessfullCondition;
 }

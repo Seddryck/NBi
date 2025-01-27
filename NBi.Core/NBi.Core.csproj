@@ -6,6 +6,9 @@
     <PackageTags>testing;database;etl;nunit;test-automation;business-intelligence;data-quality-checks;data-quality;pipeline;data-engineering;pipeline-testing;</PackageTags>
     <Description>NBi is an open-source framework to test your Business Intelligence solutions or validate your data quality.</Description>
   </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\NBi.Extensibility\NBi.Extensibility.csproj" />
+  </ItemGroup>
   <ItemGroup> 
     <PackageReference Include="Azure.Identity" Version="1.12.0" /> 
     <PackageReference Include="Deedle" Version="3.0.0" />
@@ -33,11 +36,5 @@
     <EmbeddedResource Include="Report\ReportServerListDataSet.sql" />
     <EmbeddedResource Include="Report\ReportServerListSharedDataSet.sql" />
     <EmbeddedResource Include="Report\ReportServerQueryFromSharedDataSet.sql" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="app.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\NBi.Extensibility\NBi.Extensibility.csproj" />
   </ItemGroup>
 </Project>

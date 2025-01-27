@@ -5,13 +5,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Resource
-{
-    class CustomCommandWithTwoParameters : ICustomCommand
-    {
-        public CustomCommandWithTwoParameters(string name, int count)
-        { }
+namespace Resource;
 
-        public void Execute() { }
-    }
+class CustomCommandWithTwoParameters : ICustomCommand
+{
+    public CustomCommandWithTwoParameters(string name, int count)
+    { }
+
+    public void Execute() { }
 }

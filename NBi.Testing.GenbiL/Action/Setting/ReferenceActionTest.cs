@@ -9,37 +9,36 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.GenbiL.Testing.Action.Setting
+namespace NBi.GenbiL.Testing.Action.Setting;
+
+public class ReferenceActionTest
 {
-    public class ReferenceActionTest
+    private const string ConnectionStringValue = "data source='.';uid=myself";
+
+    [Test]
+    public void Execute_NewReferenceConnectionString_ReferenceAdded()
     {
-        private const string ConnectionStringValue = "data source='.';uid=myself";
+        var state = new GenerationState();
 
-        [Test]
-        public void Execute_NewReferenceConnectionString_ReferenceAdded()
-        {
-            var state = new GenerationState();
+        var action = new ReferenceAction("myRef", "ConnectionString", ConnectionStringValue);
+        action.Execute(state);
+        var target = state.Settings.References.FirstOrDefault(x => x.Name == "myRef");
+        Assert.That(target, Is.Not.Null);
+        Assert.That(target!.ConnectionStringSpecified, Is.True);
+        Assert.That(target.ConnectionString.Inline, Is.EqualTo(ConnectionStringValue));
+    }
 
-            var action = new ReferenceAction("myRef", "ConnectionString", ConnectionStringValue);
-            action.Execute(state);
-            var target = state.Settings.References.FirstOrDefault(x => x.Name == "myRef");
-            Assert.That(target, Is.Not.Null);
-            Assert.That(target!.ConnectionStringSpecified, Is.True);
-            Assert.That(target.ConnectionString.Inline, Is.EqualTo(ConnectionStringValue));
-        }
+    [Test]
+    public void Execute_OverrideExistingReferenceConnectionString_ReferenceOverriden()
+    {
+        var state = new GenerationState();
+        state.Settings.References.Add(new ReferenceXml() { Name = "myRef", ConnectionString = new ConnectionStringXml() { Inline = "other connString" } });
 
-        [Test]
-        public void Execute_OverrideExistingReferenceConnectionString_ReferenceOverriden()
-        {
-            var state = new GenerationState();
-            state.Settings.References.Add(new ReferenceXml() { Name = "myRef", ConnectionString = new ConnectionStringXml() { Inline = "other connString" } });
-
-            var action = new ReferenceAction("myRef", "ConnectionString", ConnectionStringValue);
-            action.Execute(state);
-            var target = state.Settings.References.FirstOrDefault(x => x.Name == "myRef");
-            Assert.That(target, Is.Not.Null);
-            Assert.That(target!.ConnectionStringSpecified, Is.True);
-            Assert.That(target.ConnectionString.Inline, Is.EqualTo(ConnectionStringValue));
-        }
+        var action = new ReferenceAction("myRef", "ConnectionString", ConnectionStringValue);
+        action.Execute(state);
+        var target = state.Settings.References.FirstOrDefault(x => x.Name == "myRef");
+        Assert.That(target, Is.Not.Null);
+        Assert.That(target!.ConnectionStringSpecified, Is.True);
+        Assert.That(target.ConnectionString.Inline, Is.EqualTo(ConnectionStringValue));
     }
 }

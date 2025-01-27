@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.Configuration
-{
-    public interface IConfiguration :
-        IFailureReportProfileConfiguration, 
-        IExtensionsConfiguration
-    { }
-}
+namespace NBi.Core.Configuration;
+
+public interface IConfiguration :
+    IFailureReportProfileConfiguration, 
+    IExtensionsConfiguration
+{ }

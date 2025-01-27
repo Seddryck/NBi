@@ -9,16 +9,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.GenbiL.Action.Suite
+namespace NBi.GenbiL.Action.Suite;
+
+class GenerateSetupGroupBySuiteAction : GenerateSuiteAction<SetupStandaloneXml>
 {
-    class GenerateSetupGroupBySuiteAction : GenerateSuiteAction<SetupStandaloneXml>
-    {
-        public GenerateSetupGroupBySuiteAction(string groupByPattern)
-            : base(false, groupByPattern) { }
+    public GenerateSetupGroupBySuiteAction(string groupByPattern)
+        : base(false, groupByPattern) { }
 
-        public override string Display { get => $"Generating Items in groups '{GroupByPattern}'"; }      
+    public override string Display { get => $"Generating Items in groups '{GroupByPattern}'"; }      
 
-        protected override TreeNode BuildNode(SetupStandaloneXml content)
-            => new SetupNode(content);
-    }
+    protected override TreeNode BuildNode(SetupStandaloneXml content)
+        => new SetupNode(content);
 }

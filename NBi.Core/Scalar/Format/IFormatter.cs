@@ -5,10 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.Scalar.Format
+namespace NBi.Core.Scalar.Format;
+
+public interface IFormatter
 {
-    public interface IFormatter
-    {
-        string Execute(string text);
-    }
+    string Execute(string text);
 }

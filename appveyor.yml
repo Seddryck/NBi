@@ -1,11 +1,10 @@
 version: build.{build}
 image: Visual Studio 2022
 
-branches:
-  except:
-    - /v\d+\.\d+\.\d+/
+skip_tags: true
 skip_commits:
   files:
+    - .github/
     - docs/
     - misc/
     - README.md
@@ -14,9 +13,16 @@ skip_commits:
     - CONTRIBUTING.md
     - SECURITY.md
 
+environment:
+  github_access_token:
+    secure: gtEHCUmmDjYfrp/NEe2qUFa/xhr+1Qet7lyN4fj/Ned2oBc+bGJbdz3GqG+tC/rkm8E+/YmV6bUearNlu1+cBGm51XmbzIJexf7IK93i3H8fnC5QFodO9sVvXpzZX9gO
+
 init:
 - cmd: git config --global core.autocrlf true
-- cmd: setx IGNORE_NORMALISATION_GIT_HEAD_MOVE "1"
+- cmd: setx IGNORE_NORMALISATION_GIT_HEAD_MOVE 1
+- cmd: setx DOTNET_NO_WORKLOAD_UPDATE_NOTIFICATION 1
+- cmd: setx DOTNET_CLI_TELEMETRY_OPTOUT 1
+- cmd: setx DOTNET_NOLOGO 1
 - cmd: RefreshEnv.cmd
 - pwsh: Write-Host "Target branch is '$($env:APPVEYOR_REPO_BRANCH)'"
 
@@ -45,75 +51,36 @@ build_script:
   - dotnet build NBi.sln -p:version="%GitVersion_SemVer%" -c Release /p:ContinuousIntegrationBuild=true --nologo
 
 before_test:
-  - ps: .\install-roapi-for-testing.ps1
-  - ps: .\restore-database-for-testing.ps1
+   - ps: .\install-roapi-for-testing.ps1
+   - ps: .\install-odbc-drivers-for-testing.ps1
+#   - ps: .\restore-database-for-testing.ps1
+#   - ps: .\restore-database-for-testing.ps1
 
 test_script:
 - pwsh: |
     $ErrorActionPreference = "Stop"
-    dotnet test NBi.Core.Testing -c Release /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:Threshold=10 /p:ThresholdType=line /p:CoverletOutput=../.coverage/coverage.DubUrl.xml --test-adapter-path:. --logger:Appveyor --no-build --nologo
+    dotnet test NBi.Testing.Core -c Release /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:Threshold=10 /p:ThresholdType=line /p:CoverletOutput=../.coverage/coverage.NBi.Testing.Core.xml --test-adapter-path:. --logger:Appveyor --no-build --nologo
     $globalTestResult = $LastExitCode
-    dotnet test NBi.GenbiL.Testing -c Release /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:Threshold=10 /p:ThresholdType=line /p:Exclude=[DubUrl.Testing]* /p:CoverletOutput=../.coverage/coverage.DubUrl.OleDb.xml --test-adapter-path:. --logger:Appveyor --no-build --nologo
+    dotnet test NBi.Testing.GenbiL -c Release /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:Threshold=10 /p:ThresholdType=line /p:Exclude=[DubUrl.Testing]* /p:CoverletOutput=../.coverage/coverage.NBi.Testing.GenbiL.xml --test-adapter-path:. --logger:Appveyor --no-build --nologo
     $globalTestResult += $LastExitCode
-    dotnet test NBi.Xml.Testing -c Release /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:Threshold=10 /p:ThresholdType=line /p:Exclude=[DubUrl.Testing]* /p:CoverletOutput=../.coverage/coverage.DubUrl.Adomd.xml --test-adapter-path:. --logger:Appveyor --no-build --nologo
+    dotnet test NBi.Testing.Xml -c Release /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:Threshold=10 /p:ThresholdType=line /p:Exclude=[DubUrl.Testing]* /p:CoverletOutput=../.coverage/coverage.NBi.Testing.Xml.xml --test-adapter-path:. --logger:Appveyor --no-build --nologo
     $globalTestResult += $LastExitCode
-    dotnet test NBi.Framework.Testing -c Release /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:Threshold=10 /p:ThresholdType=line /p:CoverletOutput=../.coverage/coverage.DubUrl.Extensions.xml --test-adapter-path:. --logger:Appveyor --no-build --nologo
+    dotnet test NBi.Testing.Framework -c Release /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:Threshold=10 /p:ThresholdType=line /p:CoverletOutput=../.coverage/coverage.NBi.Testing.Framework.xml --test-adapter-path:. --logger:Appveyor --no-build --nologo
     $globalTestResult += $LastExitCode
     if($globalTestResult -ne 0) { $host.SetShouldExit($globalTestResult) }
 
-#test_script:
-#- cmd: >-
-#    nunit3-console NBi.Testing.Core\bin\debug\NBi.Testing.Core.dll NBi.Testing.Framework\bin\debug\NBi.Testing.Framework.dll NBi.Testing.GenbiL\bin\debug\NBi.Testing.GenbiL.dll NBi.Testing.Xml\bin\debug\NBi.Testing.Xml.dll  --where "cat!=Acceptance and cat!=Olap and cat!=Etl and cat!=WindowsService and cat!=ReportServerDB and cat!=LocalSQL" --result=myresults.xml;format=AppVeyor
-#    
-#    nunit-console-x86 NBi.Testing\bin\debug\NBi.Testing.dll /exclude:Olap,Etl,WindowsService,ReportServerDB,LocalSQL
-    
-
-before_package:
-  - cmd: clone-extensions.cmd
-after_build:
-- ps: >-
-    $nuget_version = "$env:GitVersion_NuGetVersionV2"
-
-    .\.packages\package-NBi.ps1 $nuget_version
-
+after_test:
+- clone-extensions.cmd
+- dotnet pack NBi.Extensibility -p:version="%GitVersion_SemVer%" -c Release --include-symbols --no-build --nologo
+- dotnet pack NBi.Framework -p:version="%GitVersion_SemVer%" -c Release --include-symbols --no-build --nologo 
 
 artifacts:
-- path: NBi.NUnit.Runtime\bin\Debug
-  name: Framework
-- path: NBi.UI.Genbi\bin\Debug
-  name: UI
-- path: Extensions\genbil
-  name: TextMate Bundle
-- path: .nupkg\NBi.*.nupkg
-  name: Nuget packages
+- path: '**\*.nupkg'
+- path: '**\*.snupkg'
+
 deploy:
 - provider: NuGet
   api_key:
-    secure: t7JvzzVXlMoVuWTv1GNr11HcGHylr2xt9c0iFimeURp27wmzXg3R4TwW57huAmIf
+    secure: 4QlvXCPZjlS9KZY9jzLAMNKJ06C0JYXTsIbTFddgCiiC8apCgIW4MX+fcPf3wxhh
   on:
-    branch: develop
-- provider: NuGet
-  api_key:
-    secure: t7JvzzVXlMoVuWTv1GNr11HcGHylr2xt9c0iFimeURp27wmzXg3R4TwW57huAmIf
-  on:
-    APPVEYOR_REPO_TAG: true
-- provider: NuGet
-  server: https://www.myget.org/F/nbi-framework/api/v2/package
-  api_key:
-    secure: +E89GuWTCkM1DpiRGoO3oRLIvLIjb8aPsHqNvga0ID/xdUx0cvDjI7XVdF12rmEm
-  on:
-    branch: /^(develop|feature\/.+|hotfix\/.+)$/
-- provider: NuGet
-  server: https://nuget.pkg.github.com/Seddryck/index.json
-  username: Seddryck
-  api_key:
-    secure: vmXLz/XAhXz3eNJPtg5mP78yhliNVtPy4ieiwuGD9Ym47b5CvdXLT0B4tr/VHDoX
-  on:
-    branch: develop
-- provider: NuGet
-  server: https://nuget.pkg.github.com/Seddryck/index.json
-  username: Seddryck
-  api_key:
-    secure: vmXLz/XAhXz3eNJPtg5mP78yhliNVtPy4ieiwuGD9Ym47b5CvdXLT0B4tr/VHDoX
-  on:
-    APPVEYOR_REPO_TAG: true
+    branch: main

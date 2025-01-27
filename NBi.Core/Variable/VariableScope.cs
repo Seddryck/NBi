@@ -4,11 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.Variable
+namespace NBi.Core.Variable;
+
+public enum VariableScope
 {
-    public enum VariableScope
-    {
-        Global = 1,
-        Local = 2,
-    }
+    Global = 1,
+    Local = 2,
 }

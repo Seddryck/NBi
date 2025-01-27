@@ -4,8 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.IO.Filtering
-{
-    public interface IFileFilter
-    { }
-}
+namespace NBi.Core.IO.Filtering;
+
+public interface IFileFilter
+{ }

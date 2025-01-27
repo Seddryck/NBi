@@ -6,19 +6,18 @@ using System.Xml.Serialization;
 using NBi.Core;
 using NBi.Core.Report;
 
-namespace NBi.Xml.Items
+namespace NBi.Xml.Items;
+
+public class ReportBaseXml
 {
-    public class ReportBaseXml
+    [XmlAttribute("source")]
+    public string Source { get; set; }
+    
+    [XmlAttribute("path")]
+    public string Path { get; set; }
+
+    public ReportBaseXml()
     {
-        [XmlAttribute("source")]
-        public string Source { get; set; }
-        
-        [XmlAttribute("path")]
-        public string Path { get; set; }
 
-        public ReportBaseXml()
-        {
-
-        }
     }
 }

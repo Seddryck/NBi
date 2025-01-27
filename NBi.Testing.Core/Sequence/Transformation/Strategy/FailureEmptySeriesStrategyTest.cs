@@ -6,15 +6,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Testing.Unit.Core.Sequence.Transformation.Strategy
+namespace NBi.Testing.Unit.Core.Sequence.Transformation.Strategy;
+
+public class FailureEmptySeriesStrategyTest
 {
-    public class FailureEmptySeriesStrategyTest
+    [Test]
+    public void Execute_Anyway_Exception()
     {
-        [Test]
-        public void Execute_Anyway_Exception()
-        {
-            var strategy = new FailureEmptySeriesStrategy();
-            Assert.Throws<ArgumentNullException>(() => strategy.Execute());
-        }
+        var strategy = new FailureEmptySeriesStrategy();
+        Assert.Throws<ArgumentNullException>(() => strategy.Execute());
     }
 }

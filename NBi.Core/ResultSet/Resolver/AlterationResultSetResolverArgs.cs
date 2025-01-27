@@ -7,14 +7,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.ResultSet.Resolver
-{
-    public class AlterationResultSetResolverArgs : ResultSetResolverArgs
-    {
-        public IResultSetResolver Resolver { get; }
-        public IEnumerable<IAlteration> Alterations { get; }
+namespace NBi.Core.ResultSet.Resolver;
 
-        public AlterationResultSetResolverArgs(IResultSetResolver resolver, IEnumerable<IAlteration> alterations)
-            => (Resolver, Alterations) = (resolver, alterations);
-    }
+public class AlterationResultSetResolverArgs : ResultSetResolverArgs
+{
+    public IResultSetResolver Resolver { get; }
+    public IEnumerable<IAlteration> Alterations { get; }
+
+    public AlterationResultSetResolverArgs(IResultSetResolver resolver, IEnumerable<IAlteration> alterations)
+        => (Resolver, Alterations) = (resolver, alterations);
 }

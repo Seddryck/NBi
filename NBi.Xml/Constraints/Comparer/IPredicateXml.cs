@@ -5,11 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Xml.Constraints.Comparer
+namespace NBi.Xml.Constraints.Comparer;
+
+public interface IPredicateXml
 {
-    public interface IPredicateXml
-    {
-        bool Not { get; set; }
-        ComparerType ComparerType { get; }
-    }
+    bool Not { get; set; }
+    ComparerType ComparerType { get; }
 }

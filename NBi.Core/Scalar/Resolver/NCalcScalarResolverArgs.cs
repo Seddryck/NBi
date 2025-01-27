@@ -6,15 +6,14 @@ using System.Data;
 using System.Threading.Tasks;
 using NBi.Core.Variable;
 
-namespace NBi.Core.Scalar.Resolver
+namespace NBi.Core.Scalar.Resolver;
+
+class NCalcScalarResolverArgs : IScalarResolverArgs
 {
-    class NCalcScalarResolverArgs : IScalarResolverArgs
-    {
-        public string Code { get; }
-        public Context Context { get; }
+    public string Code { get; }
+    public Context Context { get; }
 
-        public NCalcScalarResolverArgs(string code, Context context)
-         => (Code, Context) = (code, context);
+    public NCalcScalarResolverArgs(string code, Context context)
+     => (Code, Context) = (code, context);
 
-    }
 }

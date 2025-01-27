@@ -7,11 +7,10 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 
-namespace NBi.Xml.Items.Alteration.Projection
+namespace NBi.Xml.Items.Alteration.Projection;
+
+public abstract class AbstractProjectionXml : AlterationXml
 {
-    public abstract class AbstractProjectionXml : AlterationXml
-    {
-        [XmlElement("column")]
-        public List<ColumnDefinitionLightXml> Columns { get; set; } = new List<ColumnDefinitionLightXml>();
-    }
+    [XmlElement("column")]
+    public List<ColumnDefinitionLightXml> Columns { get; set; } = new List<ColumnDefinitionLightXml>();
 }

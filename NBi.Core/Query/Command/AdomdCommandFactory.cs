@@ -10,19 +10,18 @@ using System.Text;
 using System.Threading.Tasks;
 using NBi.Extensibility.Query;
 
-namespace NBi.Core.Query.Command
-{
-    class AdomdCommandFactory : DbCommandFactory
-    {
-        public override bool CanHandle(IClient client) => client.UnderlyingSessionType == typeof(AdomdConnection);
+namespace NBi.Core.Query.Command;
 
-        protected override string RenameParameter(string originalName)
-        {
-            if (originalName.StartsWith("@"))
-                return originalName[1..];
-            else
-                return originalName;
-        }
+class AdomdCommandFactory : DbCommandFactory
+{
+    public override bool CanHandle(IClient client) => client.UnderlyingSessionType == typeof(AdomdConnection);
+
+    protected override string RenameParameter(string originalName)
+    {
+        if (originalName.StartsWith("@"))
+            return originalName[1..];
+        else
+            return originalName;
     }
 }
 

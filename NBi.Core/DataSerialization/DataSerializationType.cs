@@ -4,11 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.DataSerialization
+namespace NBi.Core.DataSerialization;
+
+public enum DataSerializationType
 {
-    public enum DataSerializationType
-    {
-        Json = 1,
-        Xml = 2,
-    }
+    Json = 1,
+    Xml = 2,
 }

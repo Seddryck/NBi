@@ -7,20 +7,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.Testing.DataSerialization.Reader
-{
-    public class ScalarReaderTest
-    {
-        [Test]
-        public void Execute_Literal_Returned()
-        {
-            var json = "{\"glossary\": {\"title\": \"example glossary\"}}";
-            var scalarResolver = new LiteralScalarResolver<string>(json);
-            var reader = new ScalarReader(scalarResolver);
-            var textReader = reader.Execute();
+namespace NBi.Core.Testing.DataSerialization.Reader;
 
-            Assert.That(textReader, Is.Not.Null);
-            Assert.That(textReader.ReadToEnd(), Is.EqualTo(json));
-        }
+public class ScalarReaderTest
+{
+    [Test]
+    public void Execute_Literal_Returned()
+    {
+        var json = "{\"glossary\": {\"title\": \"example glossary\"}}";
+        var scalarResolver = new LiteralScalarResolver<string>(json);
+        var reader = new ScalarReader(scalarResolver);
+        var textReader = reader.Execute();
+
+        Assert.That(textReader, Is.Not.Null);
+        Assert.That(textReader.ReadToEnd(), Is.EqualTo(json));
     }
 }

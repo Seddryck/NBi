@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace NBi.Core.Decoration.IO
-{
-    public interface IIoConditionArgs : IDecorationConditionArgs
-    { }
-}
+namespace NBi.Core.Decoration.IO;
+
+public interface IIoConditionArgs : IDecorationConditionArgs
+{ }

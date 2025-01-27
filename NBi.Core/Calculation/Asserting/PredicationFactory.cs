@@ -5,11 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.Calculation.Asserting
+namespace NBi.Core.Calculation.Asserting;
+
+internal class PredicationFactory
 {
-    internal class PredicationFactory
-    {
-        public IPredication Instantiate(IPredicate predicate, IColumnIdentifier identifier)
-            => new Predication(predicate, identifier);
-    }
+    public IPredication Instantiate(IPredicate predicate, IColumnIdentifier identifier)
+        => new Predication(predicate, identifier);
 }

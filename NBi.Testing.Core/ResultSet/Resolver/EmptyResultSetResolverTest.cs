@@ -13,52 +13,51 @@ using NBi.Core.Injection;
 using NBi.Core.ResultSet;
 using Moq;
 
-namespace NBi.Core.Testing.ResultSet.Resolver
+namespace NBi.Core.Testing.ResultSet.Resolver;
+
+public class EmptyResultSetResolverTest
 {
-    public class EmptyResultSetResolverTest
+    [Test()]
+    public void Instantiate_ColumnsBased_CorrectType()
     {
-        [Test()]
-        public void Instantiate_ColumnsBased_CorrectType()
-        {
-            var args = new EmptyResultSetResolverArgs(
-                [
-                    new ColumnNameIdentifier("myFirstColumn"),
-                    new ColumnNameIdentifier("mySecondColumn"),
-                ]
-            );
-            var resolver = new EmptyResultSetResolver(args);
+        var args = new EmptyResultSetResolverArgs(
+            [
+                new ColumnNameIdentifier("myFirstColumn"),
+                new ColumnNameIdentifier("mySecondColumn"),
+            ]
+        );
+        var resolver = new EmptyResultSetResolver(args);
 
-            var rs = resolver.Execute();
-            Assert.That(rs.ColumnCount, Is.EqualTo(2));
-            Assert.That(rs?.GetColumn(0)?.Name, Is.EqualTo("myFirstColumn"));
-            Assert.That(rs?.GetColumn(1)?.Name, Is.EqualTo("mySecondColumn"));
-        }
+        var rs = resolver.Execute();
+        Assert.That(rs.ColumnCount, Is.EqualTo(2));
+        Assert.That(rs?.GetColumn(0)?.Name, Is.EqualTo("myFirstColumn"));
+        Assert.That(rs?.GetColumn(1)?.Name, Is.EqualTo("mySecondColumn"));
+    }
 
-        [Test()]
-        public void Instantiate_ColumnCountBased_CorrectType()
-        {
-            var args = new EmptyResultSetResolverArgs(new LiteralScalarResolver<int>(4));
-            var resolver = new EmptyResultSetResolver(args);
+    [Test()]
+    public void Instantiate_ColumnCountBased_CorrectType()
+    {
+        var args = new EmptyResultSetResolverArgs(new LiteralScalarResolver<int>(4));
+        var resolver = new EmptyResultSetResolver(args);
 
-            var rs = resolver.Execute();
-            Assert.That(rs.ColumnCount, Is.EqualTo(4));
-        }
+        var rs = resolver.Execute();
+        Assert.That(rs.ColumnCount, Is.EqualTo(4));
+    }
 
-        [Test()]
-        public void Instantiate_ColumnsAndColumnCountBased_CorrectType()
-        {
-            var args = new EmptyResultSetResolverArgs(
-                [
-                    new ColumnNameIdentifier("myFirstColumn"),
-                    new ColumnNameIdentifier("mySecondColumn"),
-                ], new LiteralScalarResolver<int>(4)
-            );
-            var resolver = new EmptyResultSetResolver(args);
+    [Test()]
+    public void Instantiate_ColumnsAndColumnCountBased_CorrectType()
+    {
+        var args = new EmptyResultSetResolverArgs(
+            [
+                new ColumnNameIdentifier("myFirstColumn"),
+                new ColumnNameIdentifier("mySecondColumn"),
+            ], new LiteralScalarResolver<int>(4)
+        );
+        var resolver = new EmptyResultSetResolver(args);
 
-            var rs = resolver.Execute();
-            Assert.That(rs.ColumnCount, Is.EqualTo(4));
-            Assert.That(rs?.GetColumn(0)?.Name, Is.EqualTo("myFirstColumn"));
-            Assert.That(rs?.GetColumn(1)?.Name, Is.EqualTo("mySecondColumn"));
-        }
+        var rs = resolver.Execute();
+        Assert.That(rs.ColumnCount, Is.EqualTo(4));
+        Assert.That(rs?.GetColumn(0)?.Name, Is.EqualTo("myFirstColumn"));
+        Assert.That(rs?.GetColumn(1)?.Name, Is.EqualTo("mySecondColumn"));
     }
 }

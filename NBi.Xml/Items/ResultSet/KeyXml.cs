@@ -1,10 +1,9 @@
 ﻿using System.Xml.Serialization;
 
-namespace NBi.Xml.Items.ResultSet
+namespace NBi.Xml.Items.ResultSet;
+
+public class KeyXml
 {
-    public class KeyXml
-    {
-        [XmlAttribute("index")]
-        public int Index { get; set; }
-    }
+    [XmlAttribute("index")]
+    public int Index { get; set; }
 }

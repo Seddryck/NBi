@@ -1,0 +1,38 @@
+# To get started with Dependabot version updates, you'll need to specify which
+# package ecosystems to update and where the package manifests are located.
+# Please see the documentation for all configuration options:
+# https://docs.github.com/github/administering-a-repository/configuration-options-for-dependency-updates
+
+version: 2
+updates:
+  - package-ecosystem: "nuget" 
+    directories:
+      - "/src/*" 
+    schedule:
+      interval: "daily"
+    labels:
+      - "dependency-update"
+    commit-message:
+      prefix: "chore"
+    groups:
+      NUnit:
+          patterns:
+            - "NUnit"
+      NUnit.Analyzers:
+          patterns:
+            - "NUnit.Analyzers"
+      Microsoft.NET.Test.Sdk:
+          patterns:
+            - "Microsoft.NET.Test.Sdk"
+      Moq:
+          patterns:
+            - "Moq"
+      Coverlet:
+          patterns:
+            - "coverlet.*"
+      DotNet.ReproducibleBuilds:
+          patterns:
+            - "DotNet.ReproducibleBuilds"
+      Microsoft.Extensions:
+          patterns:
+            - "Microsoft.Extensions*"

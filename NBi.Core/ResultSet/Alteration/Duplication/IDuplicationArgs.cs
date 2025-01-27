@@ -4,9 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.ResultSet.Alteration.Duplication
+namespace NBi.Core.ResultSet.Alteration.Duplication;
+
+public interface IDuplicationArgs
 {
-    public interface IDuplicationArgs
-    {
-    }
 }

@@ -7,10 +7,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 
-namespace NBi.Xml.Constraints.Comparer
+namespace NBi.Xml.Constraints.Comparer;
+
+public interface ICultureSensitiveTextPredicateXml : IPredicateXml
 {
-    public interface ICultureSensitiveTextPredicateXml : IPredicateXml
-    {
-        string Culture { get; set; }
-    }
+    string? Culture { get; set; }
 }

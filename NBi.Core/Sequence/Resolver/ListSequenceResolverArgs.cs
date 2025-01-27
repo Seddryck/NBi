@@ -6,15 +6,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.Sequence.Resolver
-{
-    public class ListSequenceResolverArgs : ISequenceResolverArgs
-    {
-        public IEnumerable<IScalarResolver> Resolvers { get; }
+namespace NBi.Core.Sequence.Resolver;
 
-        public ListSequenceResolverArgs(IEnumerable<IScalarResolver> resolvers)
-        {
-            Resolvers = resolvers;
-        }
+public class ListSequenceResolverArgs : ISequenceResolverArgs
+{
+    public IEnumerable<IScalarResolver> Resolvers { get; }
+
+    public ListSequenceResolverArgs(IEnumerable<IScalarResolver> resolvers)
+    {
+        Resolvers = resolvers;
     }
 }

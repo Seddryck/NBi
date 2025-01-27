@@ -4,13 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.Scalar.Comparer
+namespace NBi.Core.Scalar.Comparer;
+
+class DateTimeToleranceFactory
 {
-    class DateTimeToleranceFactory
+    public DateTimeTolerance Instantiate(string value)
     {
-        public DateTimeTolerance Instantiate(string value)
-        {
-            return new DateTimeTolerance(TimeSpan.Parse(value));
-        }
+        return new DateTimeTolerance(TimeSpan.Parse(value));
     }
 }

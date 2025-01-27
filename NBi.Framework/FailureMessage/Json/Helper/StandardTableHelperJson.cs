@@ -13,29 +13,28 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Framework.FailureMessage.Json.Helper
+namespace NBi.Framework.FailureMessage.Json.Helper;
+
+class StandardTableHelperJson : BaseTableHelperJson<IResultRow>
 {
-    class StandardTableHelperJson : BaseTableHelperJson<IResultRow>
+    public StandardTableHelperJson(IEnumerable<IResultRow> rows, IEnumerable<ColumnMetadata> definitions, ISampler<IResultRow> sampler)
+        : base(rows, definitions, sampler) { }
+
+
+    protected override void RenderNonEmptyTable(JsonWriter writer)
     {
-        public StandardTableHelperJson(IEnumerable<IResultRow> rows, IEnumerable<ColumnMetadata> definitions, ISampler<IResultRow> sampler)
-            : base(rows, definitions, sampler) { }
+        var extendedMetadata = ExtendMetadata(Rows.ElementAt(0).Parent, Metadatas);
+        RenderNonEmptyTable(Rows, extendedMetadata, Sampler, writer);
+    }
 
-
-        protected override void RenderNonEmptyTable(JsonWriter writer)
+    protected override void RenderRow(IResultRow row, IEnumerable<ColumnType> columnTypes, JsonWriter writer)
+    {
+        writer.WriteStartArray();
+        for (int i = 0; i < row.Parent.ColumnCount; i++)
         {
-            var extendedMetadata = ExtendMetadata(Rows.ElementAt(0).Parent, Metadatas);
-            RenderNonEmptyTable(Rows, extendedMetadata, Sampler, writer);
+            RenderCell(row.IsNull(i) ? DBNull.Value : row.ItemArray[i]!, columnTypes.ElementAt(i), writer);
         }
-
-        protected override void RenderRow(IResultRow row, IEnumerable<ColumnType> columnTypes, JsonWriter writer)
-        {
-            writer.WriteStartArray();
-            for (int i = 0; i < row.Parent.ColumnCount; i++)
-            {
-                RenderCell(row.IsNull(i) ? DBNull.Value : row.ItemArray[i]!, columnTypes.ElementAt(i), writer);
-            }
-            writer.WriteEndArray();
-        }
+        writer.WriteEndArray();
     }
 }
 

@@ -7,10 +7,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 
-namespace NBi.Xml.Constraints.Comparer
+namespace NBi.Xml.Constraints.Comparer;
+
+public class WithinRangeXml : ScalarReferencePredicateXml
 {
-    public class WithinRangeXml : ScalarReferencePredicateXml
-    {
-        public override ComparerType ComparerType { get => ComparerType.WithinRange; }
-    }
+    public override ComparerType ComparerType { get => ComparerType.WithinRange; }
 }

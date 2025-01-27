@@ -5,9 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.Scalar.Duration
-{
-    [TypeConverter(typeof(DurationConverter))]
-    public interface IDuration
-    { }
-}
+namespace NBi.Core.Scalar.Duration;
+
+[TypeConverter(typeof(DurationConverter))]
+public interface IDuration
+{ }

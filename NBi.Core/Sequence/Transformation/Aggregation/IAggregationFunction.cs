@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.Sequence.Transformation.Aggregation
+namespace NBi.Core.Sequence.Transformation.Aggregation;
+
+public interface IAggregationFunction : ISequenceTransformation
 {
-    public interface IAggregationFunction : ISequenceTransformation
-    {
-        object? Execute(IEnumerable<object> values);
-    }
+    object? Execute(IEnumerable<object> values);
 }

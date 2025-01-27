@@ -5,10 +5,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace NBi.Core.Decoration.IO
+namespace NBi.Core.Decoration.IO;
+
+public interface IIoCommandArgs : IDecorationCommandArgs
 {
-    public interface IIoCommandArgs : IDecorationCommandArgs
-    {
-        string BasePath { get; }
-    }
+    string BasePath { get; }
 }

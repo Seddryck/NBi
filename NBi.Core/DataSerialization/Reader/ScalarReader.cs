@@ -6,41 +6,40 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.DataSerialization.Reader
+namespace NBi.Core.DataSerialization.Reader;
+
+class ScalarReader : IDataSerializationReader, IDisposable
 {
-    class ScalarReader : IDataSerializationReader, IDisposable
+    private IScalarResolver<string> ScalarResolver { get; }
+    private MemoryStream? Stream { get; set; }
+    private StreamReader? StreamReader { get; set; }
+
+    public ScalarReader(IScalarResolver<string> scalarResolver)
+        => ScalarResolver = scalarResolver;
+
+    public TextReader Execute()
     {
-        private IScalarResolver<string> ScalarResolver { get; }
-        private MemoryStream? Stream { get; set; }
-        private StreamReader? StreamReader { get; set; }
+        Stream = new MemoryStream(Encoding.UTF8.GetBytes(ScalarResolver.Execute() ?? string.Empty));
+        StreamReader = new StreamReader(Stream);
+        return StreamReader;
+    }
 
-        public ScalarReader(IScalarResolver<string> scalarResolver)
-            => ScalarResolver = scalarResolver;
+    bool disposed = false;
+    protected virtual void Dispose(bool disposing)
+    {
+        if (disposed)
+            return;
 
-        public TextReader Execute()
+        if (disposing)
         {
-            Stream = new MemoryStream(Encoding.UTF8.GetBytes(ScalarResolver.Execute() ?? string.Empty));
-            StreamReader = new StreamReader(Stream);
-            return StreamReader;
+            StreamReader?.Dispose();
+            Stream?.Dispose();
         }
-
-        bool disposed = false;
-        protected virtual void Dispose(bool disposing)
-        {
-            if (disposed)
-                return;
-
-            if (disposing)
-            {
-                StreamReader?.Dispose();
-                Stream?.Dispose();
-            }
-            disposed = true;
-        }
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
+        disposed = true;
+    }
+    public void Dispose()
+    {
+        Dispose(true);
+        GC.SuppressFinalize(this);
     }
 }

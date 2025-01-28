@@ -6,18 +6,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.Scalar.Format
+namespace NBi.Core.Scalar.Format;
+
+public class FormatterFactory(ServiceLocator serviceLocator)
 {
-    public class FormatterFactory
-    {
-        private readonly ServiceLocator serviceLocator;
+    private readonly ServiceLocator serviceLocator = serviceLocator;
 
-        public FormatterFactory(ServiceLocator serviceLocator)
-        {
-            this.serviceLocator = serviceLocator;
-        }
-
-        public IFormatter Instantiate(IDictionary<string, IVariable> globalVariables)
-            => new InvariantFormatter(serviceLocator, globalVariables);
-    }
+    public IFormatter Instantiate(Context context)
+        => new InvariantFormatter(serviceLocator, context);
 }

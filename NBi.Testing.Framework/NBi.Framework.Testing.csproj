@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.8.0" />
+    <PackageReference Include="NUnit" Version="4.0.1" />
+    <!--<PackageReference Include="NUnit.Analyzers" Version="3.10.0" />-->
+    <PackageReference Include="NUnit3TestAdapter" Version="4.6.0" />
+    <PackageReference Include="Appveyor.TestLogger" Version="2.0.0" />
+    <PackageReference Include="Moq" Version="4.20.70" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\NBi.Core\NBi.Core.csproj" />
+    <ProjectReference Include="..\NBi.Extensibility\NBi.Extensibility.csproj" />
+    <ProjectReference Include="..\NBi.Framework\NBi.Framework.csproj" />
+  </ItemGroup>
+</Project>

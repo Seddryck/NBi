@@ -7,36 +7,35 @@ using NBi.Core.Decoration.IO;
 using System.Diagnostics;
 using NBi.Extensibility;
 
-namespace NBi.Core.Decoration.IO.Commands
+namespace NBi.Core.Decoration.IO.Commands;
+
+class DeletePatternCommand : IDecorationCommand
 {
-    class DeletePatternCommand : IDecorationCommand
+    private readonly IoDeletePatternCommandArgs args;
+
+    public DeletePatternCommand(IoDeletePatternCommandArgs args) => this.args = args;
+
+    public void Execute()
     {
-        private readonly IoDeletePatternCommandArgs args;
+        var path = PathExtensions.CombineOrRoot(args.BasePath, args.Path.Execute() ?? string.Empty);
+        Execute(path, args.Pattern.Execute() ?? string.Empty);
+    }
 
-        public DeletePatternCommand(IoDeletePatternCommandArgs args) => this.args = args;
+    internal void Execute(string path, string pattern)
+    {
+        Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceVerbose, $"Deleting file from '{path}' when pattern '{pattern}' is matching ...");
+        var dir = new DirectoryInfo(path);
 
-        public void Execute()
+        if (!dir.Exists)
+            throw new ExternalDependencyNotFoundException(path);
+
+        var files = dir.GetFiles(pattern, SearchOption.TopDirectoryOnly);
+
+        foreach (var file in files)
         {
-            var path = PathExtensions.CombineOrRoot(args.BasePath, args.Path.Execute());
-            Execute(path, args.Pattern.Execute());
+            Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceVerbose, $"Deleting file from '{file.FullName}' ...");
+            File.Delete(file.FullName);
         }
-
-        internal void Execute(string path, string pattern)
-        {
-            Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceVerbose, $"Deleting file from '{path}' when pattern '{pattern}' is matching ...");
-            var dir = new DirectoryInfo(path);
-
-            if (!dir.Exists)
-                throw new ExternalDependencyNotFoundException(path);
-
-            var files = dir.GetFiles(pattern, SearchOption.TopDirectoryOnly);
-
-            foreach (var file in files)
-            {
-                Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceVerbose, $"Deleting file from '{file.FullName}' ...");
-                File.Delete(file.FullName);
-            }
-            Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceInfo, $"{files.Count()} file{(files.Count()>1 ? "s" : string.Empty)} deleted from '{path}'.");
-        }
+        Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceInfo, $"{files.Length} file{(files.Length > 1 ? "s" : string.Empty)} deleted from '{path}'.");
     }
 }

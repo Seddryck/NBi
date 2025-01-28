@@ -15,25 +15,24 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Framework.FailureMessage.Json
-{
-    class LookupMatchesViolationMessageJson : LookupViolationMessageJson
-    {
-        public LookupMatchesViolationMessageJson(IDictionary<string, ISampler<IResultRow>> samplers)
-            : base(samplers) { }
+namespace NBi.Framework.FailureMessage.Json;
 
-        protected override void RenderAnalysis(LookupViolationCollection violations, IEnumerable<ColumnMetadata> metadata, ISampler<IResultRow> sampler, ColumnMappingCollection keyMappings, ColumnMappingCollection valueMappings, JsonWriter writer)
-        {
-            writer.WriteStartObject();
-            writer.WritePropertyName("non-matching");
-            var localSampler = new FullSampler<LookupMatchesViolationComposite>();
-            var rows = violations.Values.Where(x => x is LookupMatchesViolationInformation)
-                                .Cast<LookupMatchesViolationInformation>()
-                                .SelectMany(x => x.CandidateRows);
-            localSampler.Build(rows);
-            var tableHelper = new LookupTableHelperJson(rows, metadata, localSampler);
-            tableHelper.Render(writer);
-            writer.WriteEndObject();
-        }
+class LookupMatchesViolationMessageJson : LookupViolationMessageJson
+{
+    public LookupMatchesViolationMessageJson(IDictionary<string, ISampler<IResultRow>> samplers)
+        : base(samplers) { }
+
+    protected override void RenderAnalysis(LookupViolationCollection violations, IEnumerable<ColumnMetadata> metadata, ISampler<IResultRow> sampler, ColumnMappingCollection keyMappings, ColumnMappingCollection valueMappings, JsonWriter writer)
+    {
+        writer.WriteStartObject();
+        writer.WritePropertyName("non-matching");
+        var localSampler = new FullSampler<LookupMatchesViolationComposite>();
+        var rows = violations.Values.Where(x => x is LookupMatchesViolationInformation)
+                            .Cast<LookupMatchesViolationInformation>()
+                            .SelectMany(x => x.CandidateRows);
+        localSampler.Build(rows);
+        var tableHelper = new LookupTableHelperJson(rows, metadata, localSampler);
+        tableHelper.Render(writer);
+        writer.WriteEndObject();
     }
 }

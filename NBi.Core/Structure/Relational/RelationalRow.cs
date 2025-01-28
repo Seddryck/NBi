@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.Structure.Relational
+namespace NBi.Core.Structure.Relational;
+
+class RelationalRow (string caption)
 {
-    class RelationalRow
-    {
-        public string Caption { get; set; }
-    }
+    public string Caption { get; set; } = caption;
 }

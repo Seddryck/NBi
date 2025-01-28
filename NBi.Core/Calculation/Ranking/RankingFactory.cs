@@ -4,21 +4,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.Calculation.Ranking
+namespace NBi.Core.Calculation.Ranking;
+
+public class RankingFactory
 {
-    public class RankingFactory
+    public AbstractRanking Instantiate(RankingArgs args)
     {
-        public AbstractRanking Instantiate(RankingArgs args)
+        return args.Option switch
         {
-            switch (args.Option)
-            {
-                case RankingOption.Top:
-                    return new TopRanking(args.Count, args.Operand, args.Type);
-                case RankingOption.Bottom:
-                    return new BottomRanking(args.Count, args.Operand, args.Type);
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
-        }
+            RankingOption.Top => new TopRanking(args.Count, args.Operand, args.Type),
+            RankingOption.Bottom => new BottomRanking(args.Count, args.Operand, args.Type),
+            _ => throw new ArgumentOutOfRangeException(),
+        };
     }
 }

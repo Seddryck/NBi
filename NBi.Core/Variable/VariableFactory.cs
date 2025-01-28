@@ -5,19 +5,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.Variable
+namespace NBi.Core.Variable;
+
+public class VariableFactory
 {
-    public class VariableFactory
+    public IVariable Instantiate(VariableScope scope, IScalarResolver resolver)
     {
-        public IVariable Instantiate(VariableScope scope, IScalarResolver resolver)
+        return scope switch
         {
-            switch (scope)
-            {
-                case VariableScope.Global: return new GlobalVariable(resolver);
-                case VariableScope.Local:
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
-        }
+            VariableScope.Global => new GlobalVariable(resolver),
+            _ => throw new ArgumentOutOfRangeException(),
+        };
     }
 }

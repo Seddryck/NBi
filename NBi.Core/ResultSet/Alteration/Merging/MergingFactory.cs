@@ -4,24 +4,22 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.ResultSet.Alteration.Merging
+namespace NBi.Core.ResultSet.Alteration.Merging;
+
+public class MergingFactory
 {
-    public class MergingFactory
+    public IMergingEngine Instantiate(IMergingArgs args)
     {
-        public IMergingEngine Instantiate(IMergingArgs args)
+        return args switch
         {
-            switch (args)
+            UnionArgs x => x.Identity switch
             {
-                case UnionArgs x:
-                    switch (x.Identity)
-                    {
-                        case ColumnIdentity.Ordinal: return new UnionByOrdinalEngine(x.ResultSetResolver);
-                        case ColumnIdentity.Name: return new UnionByNameEngine(x.ResultSetResolver);
-                        default: throw new NotImplementedException();
-                    }
-                case CartesianProductArgs x: return new CartesianProductEngine(x);
-                default: throw new ArgumentException();
-            }
-        }
+                ColumnIdentity.Ordinal => new UnionByOrdinalEngine(x.ResultSetResolver),
+                ColumnIdentity.Name => new UnionByNameEngine(x.ResultSetResolver),
+                _ => throw new NotImplementedException(),
+            },
+            CartesianProductArgs x => new CartesianProductEngine(x),
+            _ => throw new ArgumentException(),
+        };
     }
 }

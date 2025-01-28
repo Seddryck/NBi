@@ -16,46 +16,45 @@ using System.Text;
 using System.Diagnostics;
 #endregion
 
-namespace NBi.Testing.Xml.Unit.Constraints
+namespace NBi.Xml.Testing.Unit.Constraints;
+
+[TestFixture]
+public class ScoreXmlTest : BaseXmlTest
 {
-    [TestFixture]
-    public class ScoreXmlTest : BaseXmlTest
+
+    [Test]
+    public void Deserialize_SampleFile_ReadCorrectlyScore()
     {
+        int testNr = 0;
 
-        [Test]
-        public void Deserialize_SampleFile_ReadCorrectlyScore()
-        {
-            int testNr = 0;
+        // Create an instance of the XmlSerializer specifying type and namespace.
+        var ts = DeserializeSample();
 
-            // Create an instance of the XmlSerializer specifying type and namespace.
-            TestSuiteXml ts = DeserializeSample();
+        Assert.That(ts.Tests[testNr].Constraints[0], Is.TypeOf<ScoreXml>());
+        Assert.That(ts.Tests[testNr].Constraints[0].Not, Is.False);
+    }
 
-            Assert.That(ts.Tests[testNr].Constraints[0], Is.TypeOf<ScoreXml>());
-            Assert.That(ts.Tests[testNr].Constraints[0].Not, Is.False);
-        }
+    [Test]
+    public void Deserialize_SampleFile_DefaultThersholdIsOne()
+    {
+        int testNr = 0;
 
-        [Test]
-        public void Deserialize_SampleFile_DefaultThersholdIsOne()
-        {
-            int testNr = 0;
+        // Create an instance of the XmlSerializer specifying type and namespace.
+        var ts = DeserializeSample();
 
-            // Create an instance of the XmlSerializer specifying type and namespace.
-            TestSuiteXml ts = DeserializeSample();
+        Assert.That(ts.Tests[testNr].Constraints[0], Is.TypeOf<ScoreXml>());
+        Assert.That(((ScoreXml)ts.Tests[testNr].Constraints[0]).Threshold, Is.EqualTo(1));
+    }
 
-            Assert.That(ts.Tests[testNr].Constraints[0], Is.TypeOf<ScoreXml>());
-            Assert.That((ts.Tests[testNr].Constraints[0] as ScoreXml).Threshold, Is.EqualTo(1));
-        }
+    [Test]
+    public void Deserialize_SampleFile_DefaultThersholdIsValueAssigned()
+    {
+        int testNr = 1;
 
-        [Test]
-        public void Deserialize_SampleFile_DefaultThersholdIsValueAssigned()
-        {
-            int testNr = 1;
+        // Create an instance of the XmlSerializer specifying type and namespace.
+        var ts = DeserializeSample();
 
-            // Create an instance of the XmlSerializer specifying type and namespace.
-            TestSuiteXml ts = DeserializeSample();
-
-            Assert.That(ts.Tests[testNr].Constraints[0], Is.TypeOf<ScoreXml>());
-            Assert.That((ts.Tests[testNr].Constraints[0] as ScoreXml).Threshold, Is.EqualTo(0.95));
-        }
+        Assert.That(ts.Tests[testNr].Constraints[0], Is.TypeOf<ScoreXml>());
+        Assert.That(((ScoreXml)ts.Tests[testNr].Constraints[0]).Threshold, Is.EqualTo(0.95));
     }
 }

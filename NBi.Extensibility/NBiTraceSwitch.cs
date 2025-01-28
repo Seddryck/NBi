@@ -2,75 +2,40 @@
 using System.Diagnostics;
 using System.Linq;
 
-namespace NBi.Extensibility
+namespace NBi.Extensibility;
+
+public class NBiTraceSwitch
 {
-    public class NBiTraceSwitch
+    private static volatile TraceSwitch? instance;
+    private readonly static object syncRoot = new();
+
+    private NBiTraceSwitch() { }
+
+    private static TraceSwitch Instance
     {
-        private static volatile TraceSwitch instance;
-        private readonly static object syncRoot = new Object();
-
-        private NBiTraceSwitch() { }
-
-        private static TraceSwitch Instance
+        get
         {
-            get
-            {
-                if (instance == null)
+            if (instance == null)
+                lock (syncRoot)
                 {
-                    lock (syncRoot)
-                    {
-                        if (instance == null)
-                            instance = new TraceSwitch("NBi", "NBi trace", "3");
-                    }
+                    instance ??= new TraceSwitch("NBi", "NBi trace", "3");
                 }
 
-                return instance;
-            }
+            return instance;
         }
-
-        public static TraceLevel Level
-        {
-            get
-            {
-                return Instance.Level;
-            }
-            set
-            {
-                Instance.Level = value;
-            }
-        }
-
-        public static bool TraceError
-        {
-            get
-            {
-                return Instance.TraceError;
-            }
-        }
-
-        public static bool TraceWarning
-        {
-            get
-            {
-                return Instance.TraceWarning;
-            }
-        }
-
-        public static bool TraceInfo
-        {
-            get
-            {
-                return Instance.TraceInfo;
-            }
-        }
-
-        public static bool TraceVerbose
-        {
-            get
-            {
-                return Instance.TraceVerbose;
-            }
-        }
-
     }
+
+    public static TraceLevel Level
+    {
+        get => Instance.Level;
+        set => Instance.Level = value;
+    }
+
+    public static bool TraceError => Instance.TraceError;
+
+    public static bool TraceWarning => Instance.TraceWarning;
+
+    public static bool TraceInfo => Instance.TraceInfo;
+
+    public static bool TraceVerbose => Instance.TraceVerbose;
 }

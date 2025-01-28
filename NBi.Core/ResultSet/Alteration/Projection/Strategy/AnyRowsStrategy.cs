@@ -1,5 +1,5 @@
 ﻿//using NBi.Core.Calculation;
-//using NBi.Core.Calculation.Predicate;
+//using NBi.Core.Calculation.InternalPredicate;
 //using System;
 //using System.Collections.Generic;
 //using System.Data;
@@ -15,13 +15,13 @@
 //        {
 //            var result = false;
 //            var factory = new PredicateFactory();
-//            var predicate = factory.Instantiate(predicateInfo);
+//            var InternalPredicate = factory.Instantiate(predicateInfo);
 
 //            var enumeratorRow = resultSet.Rows.GetEnumerator();
 //            while (enumeratorRow.MoveNext() && !result)
 //            {
 //                var value = getValueFromRow(enumeratorRow.Current as DataRow, predicateInfo.Operand);
-//                result = predicate.Execute(value);
+//                result = InternalPredicate.Execute(value);
 //            }
             
 //            return result;

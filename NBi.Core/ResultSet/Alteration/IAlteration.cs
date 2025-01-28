@@ -5,10 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.ResultSet.Alteration
+namespace NBi.Core.ResultSet.Alteration;
+
+public interface IAlteration
 {
-    public interface IAlteration
-    {
-        IResultSet Execute(IResultSet resultSet);
-    }
+    IResultSet Execute(IResultSet resultSet);
 }

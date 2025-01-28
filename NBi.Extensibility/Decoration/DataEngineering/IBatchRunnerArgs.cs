@@ -4,11 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Extensibility.Decoration.DataEngineering
+namespace NBi.Extensibility.Decoration.DataEngineering;
+
+public interface IBatchRunnerArgs
 {
-    public interface IBatchRunnerArgs
-    {
-        string FullPath { get; set; }
-        string ConnectionString { get; set; }
-    }
+    string FullPath { get; set; }
+    string ConnectionString { get; set; }
 }

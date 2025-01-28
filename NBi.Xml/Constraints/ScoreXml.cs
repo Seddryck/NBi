@@ -13,16 +13,15 @@ using NBi.Xml.Constraints.Comparer;
 using NBi.Xml.Items.Calculation;
 using NBi.Core.Evaluate;
 
-namespace NBi.Xml.Constraints
-{
-    public class ScoreXml : AbstractConstraintXml
-    {
-        public ScoreXml() : base()
-        {
-            Threshold = 1;
-        }
+namespace NBi.Xml.Constraints;
 
-        [XmlAttribute("threshold")]
-        public virtual decimal Threshold { get; set; }
+public class ScoreXml : AbstractConstraintXml
+{
+    public ScoreXml() : base()
+    {
+        Threshold = 1;
     }
+
+    [XmlAttribute("threshold")]
+    public virtual decimal Threshold { get; set; }
 }

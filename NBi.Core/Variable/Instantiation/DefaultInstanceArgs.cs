@@ -4,11 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.Variable.Instantiation
+namespace NBi.Core.Variable.Instantiation;
+
+public class DefaultInstanceArgs : IInstanceArgs
 {
-    public class DefaultInstanceArgs : IInstanceArgs
-    {
-        public IEnumerable<string> Categories { get; } = new List<string>();
-        public IDictionary<string, string> Traits { get; } = new Dictionary<string, string>();
-    }
+    public IEnumerable<string> Categories { get; } = [];
+    public IDictionary<string, string> Traits { get; } = new Dictionary<string, string>();
 }

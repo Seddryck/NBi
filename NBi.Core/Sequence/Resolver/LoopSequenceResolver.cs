@@ -7,26 +7,25 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.Sequence.Resolver
+namespace NBi.Core.Sequence.Resolver;
+
+public class LoopSequenceResolver<T> : ISequenceResolver<T>
 {
-    public class LoopSequenceResolver<T> : ISequenceResolver<T>
+    private readonly ILoopStrategy strategy;
+
+    public LoopSequenceResolver(ILoopStrategy args)
     {
-        private readonly ILoopStrategy strategy;
+        strategy = args;
+    }
 
-        public LoopSequenceResolver(ILoopStrategy args)
-        {
-            strategy = args;
-        }
+    IList ISequenceResolver.Execute() => this.Execute();
+    object IResolver.Execute() => this.Execute();
 
-        IList ISequenceResolver.Execute() => this.Execute();
-        object IResolver.Execute() => this.Execute();
-
-        public List<T> Execute()
-        {
-            var list = new List<T>();
-            while (strategy.IsOngoing())
-                list.Add((T)strategy.GetNext());
-            return list;
-        }
+    public List<T> Execute()
+    {
+        var list = new List<T>();
+        while (strategy.IsOngoing())
+            list.Add((T)(strategy.GetNext() ?? throw new NullReferenceException()));
+        return list;
     }
 }

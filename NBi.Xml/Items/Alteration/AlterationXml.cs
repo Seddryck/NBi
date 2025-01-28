@@ -5,8 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 
-namespace NBi.Xml.Items.Alteration
-{
-    public abstract class AlterationXml
-    { }
-}
+namespace NBi.Xml.Items.Alteration;
+
+public abstract class AlterationXml
+{ }

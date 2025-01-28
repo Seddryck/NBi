@@ -5,10 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Testing.Core.Resources
+namespace NBi.Core.Testing.Resources;
+
+public class CustomCommand : ICustomCommand
 {
-    public class CustomCommand : ICustomCommand
-    {
-        public void Execute() { }
-    }
+    public void Execute() { }
 }

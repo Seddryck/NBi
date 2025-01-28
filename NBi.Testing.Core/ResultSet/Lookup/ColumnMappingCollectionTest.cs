@@ -9,36 +9,35 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Testing.Core.ResultSet.Lookup
+namespace NBi.Core.Testing.ResultSet.Lookup;
+
+public class ColumnMappingCollectionTest
 {
-    public class ColumnMappingCollectionTest
+    [Test]
+    public void Add_MixOfNameAndOrdinal_NBiException()
     {
-        [Test]
-        public void Add_MixOfNameAndOrdinal_NBiException()
+        var mappings = new ColumnMappingCollection
         {
-            var mappings = new ColumnMappingCollection
-            {
-                new ColumnMapping(new ColumnNameIdentifier("name"), ColumnType.Text)
-            };
-            Assert.Throws<NBiException>(() => mappings.Add(new ColumnMapping(new ColumnOrdinalIdentifier(1), ColumnType.Text)));
-        }
+            new ColumnMapping(new ColumnNameIdentifier("name"), ColumnType.Text)
+        };
+        Assert.Throws<NBiException>(() => mappings.Add(new ColumnMapping(new ColumnOrdinalIdentifier(1), ColumnType.Text)));
+    }
 
-        [Test]
-        public void Add_MixOfNameAndOrdinalInOneMapping_NoException()
-        {
-            var mappings = new ColumnMappingCollection();
-            Assert.DoesNotThrow(() => mappings.Add(new ColumnMapping(new ColumnNameIdentifier("name"), new ColumnOrdinalIdentifier(1), ColumnType.Text)));
-        }
+    [Test]
+    public void Add_MixOfNameAndOrdinalInOneMapping_NoException()
+    {
+        var mappings = new ColumnMappingCollection();
+        Assert.DoesNotThrow(() => mappings.Add(new ColumnMapping(new ColumnNameIdentifier("name"), new ColumnOrdinalIdentifier(1), ColumnType.Text)));
+    }
 
 
-        [Test]
-        public void Add_MixOfNameAndOrdinalInSecondMapping_NoException()
+    [Test]
+    public void Add_MixOfNameAndOrdinalInSecondMapping_NoException()
+    {
+        var mappings = new ColumnMappingCollection()
         {
-            var mappings = new ColumnMappingCollection()
-            {
-                new ColumnMapping(new ColumnNameIdentifier("zero"), new ColumnOrdinalIdentifier(0), ColumnType.Text)
-            };
-            Assert.DoesNotThrow(() => mappings.Add(new ColumnMapping(new ColumnNameIdentifier("name"), new ColumnOrdinalIdentifier(1), ColumnType.Text)));
-        }
+            new ColumnMapping(new ColumnNameIdentifier("zero"), new ColumnOrdinalIdentifier(0), ColumnType.Text)
+        };
+        Assert.DoesNotThrow(() => mappings.Add(new ColumnMapping(new ColumnNameIdentifier("name"), new ColumnOrdinalIdentifier(1), ColumnType.Text)));
     }
 }

@@ -7,13 +7,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.ResultSet.Alteration.Merging
-{
-    public class CartesianProductArgs : IMergingArgs
-    {
-        public IResultSetResolver ResultSetResolver { get; }
+namespace NBi.Core.ResultSet.Alteration.Merging;
 
-        public CartesianProductArgs(IResultSetResolver resultSetResolver)
-            => (ResultSetResolver) = (resultSetResolver);
-    }
+public class CartesianProductArgs : IMergingArgs
+{
+    public IResultSetResolver ResultSetResolver { get; }
+
+    public CartesianProductArgs(IResultSetResolver resultSetResolver)
+        => (ResultSetResolver) = (resultSetResolver);
 }

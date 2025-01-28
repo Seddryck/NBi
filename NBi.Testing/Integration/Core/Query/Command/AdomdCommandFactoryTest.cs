@@ -66,7 +66,7 @@ namespace NBi.Testing.Integration.Core.Query.Command
                 });
             var factory = new CommandProvider();
             var cmd = factory.Instantiate(conn, query).Implementation;
-            Assert.IsInstanceOf<AdomdCommand>(cmd);
+            Assert.That(cmd, Is.InstanceOf<AdomdCommand>());
 
             (cmd as AdomdCommand).Connection.Open();
             var dr = (cmd as AdomdCommand).ExecuteReader(System.Data.CommandBehavior.CloseConnection);

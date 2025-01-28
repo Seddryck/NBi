@@ -3,116 +3,58 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace NBi.Core.Scalar.Interval
+namespace NBi.Core.Scalar.Interval;
+
+public abstract class EndPoint<T>(T value, bool isClosed)
 {
-    public abstract class EndPoint<T>
-    {
-        public T Value { get; set; }
-        public bool IsClosed { get; set; }
-        public bool IsOpen
-        {
-            get
-            {
-                return !IsClosed;
-            }
-        }
+    public T Value { get; set; } = value;
+    public bool IsClosed { get; set; } = isClosed;
+    public bool IsOpen
+        => !IsClosed;
 
-        public EndPoint(T value, bool isClosed)
-        {
-            Value = value;
-            IsClosed = isClosed;
-        }
+    public abstract string BoundSymbol { get; }
+}
 
-        public abstract string BoundSymbol { get; }
-    }
+public abstract class LeftEndPoint<T>(T value, bool isClosed) : EndPoint<T>(value, isClosed)
+{
+    public override string BoundSymbol
+        => IsClosed ? "[" : "]";
 
-    public abstract class LeftEndPoint<T> : EndPoint<T>
-    {
-        public LeftEndPoint(T value, bool isClosed)
-            : base(value, isClosed)
-        {
-        }
+    public override string ToString()
+        => $"{BoundSymbol}{Value}";
+}
 
-        public override string BoundSymbol
-        {
-            get
-            {
-                return IsClosed ? "[" : "]";
-            }
-        }
+public abstract class RightEndPoint<T>(T value, bool isClosed) : EndPoint<T>(value, isClosed)
+{
+    public override string BoundSymbol
+        => IsClosed ? "]" : "[";
 
-        public override string ToString()
-        {
-            return string.Format("{0}{1}", BoundSymbol, Value.ToString());
-        }
-    }
+    public override string ToString()
+        => $"{Value}{BoundSymbol}";
+}
 
-    public abstract class RightEndPoint<T> : EndPoint<T>
-    {
-        public RightEndPoint(T value, bool isClosed)
-            : base(value, isClosed)
-        {
-        }
+public class LeftEndPointClosed<T>(T value) : LeftEndPoint<T>(value, true)
+{ }
 
-        public override string BoundSymbol
-        {
-            get
-            {
-                return IsClosed ? "]" : "[";
-            }
-        }
+public class LeftEndPointOpen<T>(T value) : LeftEndPoint<T>(value, false)
+{ }
 
-        public override string ToString()
-        {
-            return string.Format("{1}{0}", BoundSymbol, Value.ToString());
-        }
-    }
+public class RightEndPointClosed<T>(T value) : RightEndPoint<T>(value, true)
+{ }
 
-    public class LeftEndPointClosed<T> : LeftEndPoint<T>
-    {
-        public LeftEndPointClosed(T value)
-            : base(value, true)
-        {
-        }
-    }
+public class RightEndPointOpen<T>(T value) : RightEndPoint<T>(value, false)
+{ }
 
-    public class LeftEndPointOpen<T> : LeftEndPoint<T>
-    {
-        public LeftEndPointOpen(T value)
-            : base(value, false)
-        {
-        }
-    }
+public class LeftEndPointNegativeInfinity : LeftEndPoint<double>
+{
+    public LeftEndPointNegativeInfinity()
+        : base(double.NegativeInfinity, true)
+    { }
+}
 
-    public class RightEndPointClosed<T> : RightEndPoint<T>
-    {
-        public RightEndPointClosed(T value)
-            : base(value, true)
-        {
-        }
-    }
-
-    public class RightEndPointOpen<T> : RightEndPoint<T>
-    {
-        public RightEndPointOpen(T value)
-            : base(value, false)
-        {
-        }
-    }
-
-    public class LeftEndPointNegativeInfinity : LeftEndPoint<double>
-    {
-        public LeftEndPointNegativeInfinity()
-            : base(double.NegativeInfinity, true)
-        {
-        }
-    }
-
-    public class RightEndPointPositiveInfinity : RightEndPoint<double>
-    {
-        public RightEndPointPositiveInfinity()
-            : base(double.PositiveInfinity, true)
-        {
-        }
-    }
+public class RightEndPointPositiveInfinity : RightEndPoint<double>
+{
+    public RightEndPointPositiveInfinity()
+        : base(double.PositiveInfinity, true)
+    { }
 }

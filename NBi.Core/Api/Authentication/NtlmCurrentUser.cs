@@ -6,14 +6,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.Api.Authentication
+namespace NBi.Core.Api.Authentication;
+
+public class NtlmCurrentUser : IAuthentication
 {
-    public class NtlmCurrentUser : IAuthentication
-    {
-        public NtlmCurrentUser()
-        { }
+    public NtlmCurrentUser()
+    { }
 
-        public IAuthenticator GetAuthenticator() => new NtlmAuthenticator();
-    }
-
+    public IAuthenticator GetAuthenticator() => new NtlmAuthenticator();
 }

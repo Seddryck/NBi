@@ -7,9 +7,8 @@ using System.Text;
 using System.Xml.Serialization;
 using NBi.Core;
 
-namespace NBi.Xml.Items
+namespace NBi.Xml.Items;
+
+public class OneRowQueryXml : QueryXml
 {
-    public class OneRowQueryXml : QueryXml
-    {
-    }
 }

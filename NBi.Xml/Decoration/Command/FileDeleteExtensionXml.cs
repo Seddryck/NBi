@@ -4,13 +4,12 @@ using System.Xml.Serialization;
 using System.IO;
 using NBi.Core;
 
-namespace NBi.Xml.Decoration.Command
+namespace NBi.Xml.Decoration.Command;
+
+public class FileDeleteExtensionXml : IOAbstractXml
 {
-    public class FileDeleteExtensionXml : IOAbstractXml
-    {
-        [XmlAttribute("path")]
-        public string Path { get; set; }
-        [XmlAttribute("extension")]
-        public string Extension { get; set; }
-    }
+    [XmlAttribute("path")]
+    public string Path { get; set; }
+    [XmlAttribute("extension")]
+    public string Extension { get; set; }
 }

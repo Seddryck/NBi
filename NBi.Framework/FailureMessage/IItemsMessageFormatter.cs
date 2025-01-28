@@ -7,14 +7,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Framework.FailureMessage
-{
-    public interface IItemsMessageFormatter
-    {
-        void Build(IEnumerable<string> expectedItems, IEnumerable<string> actualItems, ListComparer.Result result);
+namespace NBi.Framework.FailureMessage;
 
-        string RenderExpected();
-        string RenderActual();
-        string RenderAnalysis();
-    }
+public interface IItemsMessageFormatter
+{
+    void Build(IEnumerable<string> expectedItems, IEnumerable<string> actualItems, ListComparer.Result result);
+
+    string RenderExpected();
+    string RenderActual();
+    string RenderAnalysis();
 }

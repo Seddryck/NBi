@@ -7,25 +7,24 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Testing.Unit.Core.Sequence.Transformation.Aggregation.Numeric
+namespace NBi.Testing.Unit.Core.Sequence.Transformation.Aggregation.Numeric;
+
+public class MinTest
 {
-    public class MinTest
+    [Test]
+    public void Execute_Array_CorrectValue()
     {
-        [Test]
-        public void Execute_Array_CorrectValue()
-        {
-            var list = new List<object>() { 1, 3, 5};
-            var aggregation = new MinNumeric();
-            Assert.That(aggregation.Execute(list), Is.EqualTo(1));
-        }
+        var list = new List<object>() { 1, 3, 5};
+        var aggregation = new MinNumeric();
+        Assert.That(aggregation.Execute(list), Is.EqualTo(1));
+    }
 
 
-        [Test]
-        public void Execute_DateTime_CorrectValue()
-        {
-            var list = new List<object>() { new DateTime(2010, 1, 1), new DateTime(2016, 1, 1), new DateTime(2019, 1, 1) };
-            var aggregation = new MinDateTime();
-            Assert.That(aggregation.Execute(list), Is.EqualTo(new DateTime(2010, 1, 1)));
-        }
+    [Test]
+    public void Execute_DateTime_CorrectValue()
+    {
+        var list = new List<object>() { new DateTime(2010, 1, 1), new DateTime(2016, 1, 1), new DateTime(2019, 1, 1) };
+        var aggregation = new MinDateTime();
+        Assert.That(aggregation.Execute(list), Is.EqualTo(new DateTime(2010, 1, 1)));
     }
 }

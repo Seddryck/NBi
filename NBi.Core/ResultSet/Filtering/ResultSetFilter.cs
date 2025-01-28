@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.ResultSet.Filtering
+namespace NBi.Core.ResultSet.Filtering;
+
+public abstract class ResultSetFilter
 {
-    public abstract class ResultSetFilter
-    {
-        public static IResultSetFilter None { get; } = new NoneFilter();
-    }
+    public static IResultSetFilter None { get; } = new NoneFilter();
 }

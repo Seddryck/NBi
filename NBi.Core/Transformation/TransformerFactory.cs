@@ -7,66 +7,43 @@ using NBi.Core.Injection;
 using NBi.Core.Transformation.Transformer;
 using NBi.Core.Variable;
 
-namespace NBi.Core.Transformation
+namespace NBi.Core.Transformation;
+
+public class TransformerFactory
 {
-    public class TransformerFactory
+    protected ServiceLocator ServiceLocator { get; }
+    protected Context Context { get; }
+
+    public TransformerFactory(ServiceLocator serviceLocator, Context context)
+        => (ServiceLocator, Context) = (serviceLocator, context);
+
+    public ITransformer Instantiate(ITransformationInfo info)
     {
-        protected ServiceLocator ServiceLocator { get; }
-        protected Context Context { get; }
+        if (info.Language == LanguageType.Format && (info.OriginalType == ResultSet.ColumnType.Boolean || info.OriginalType == ResultSet.ColumnType.Text))
+            throw new InvalidOperationException("Language 'format' is only supporting transformation from 'numeric' and 'dateTime' data types");
 
-        public TransformerFactory(ServiceLocator serviceLocator, Context context)
-            => (ServiceLocator, Context) = (serviceLocator, context);
-
-        public ITransformer Instantiate(ITransformationInfo info)
+        if (info.Language == LanguageType.NCalc && (info.OriginalType == ResultSet.ColumnType.Boolean || info.OriginalType == ResultSet.ColumnType.DateTime))
+            throw new InvalidOperationException("Language 'ncalc' is only supporting transformation from 'numeric' and 'text' data types");
+        var valueType = info.OriginalType switch
         {
-            if (info.Language == LanguageType.Format && (info.OriginalType == ResultSet.ColumnType.Boolean || info.OriginalType == ResultSet.ColumnType.Text))
-                throw new InvalidOperationException("Language 'format' is only supporting transformation from 'numeric' and 'dateTime' data types");
+            ResultSet.ColumnType.Text => typeof(string),
+            ResultSet.ColumnType.Numeric => typeof(decimal),
+            ResultSet.ColumnType.DateTime => typeof(DateTime),
+            ResultSet.ColumnType.Boolean => typeof(bool),
+            _ => throw new ArgumentOutOfRangeException(),
+        };
+        var providerType = info.Language switch
+        {
+            LanguageType.CSharp => typeof(CSharpTransformer<>),
+            LanguageType.NCalc => typeof(NCalcTransformer<>),
+            LanguageType.Format => typeof(FormatTransformer<>),
+            LanguageType.Native => typeof(NativeTransformer<>),
+            _ => throw new ArgumentOutOfRangeException(),
+        };
+        var provider = providerType.MakeGenericType(valueType);
+        var transformer = (ITransformer)(Activator.CreateInstance(provider, [ServiceLocator, Context])
+                            ?? throw new NullReferenceException());
 
-            if (info.Language == LanguageType.NCalc && (info.OriginalType == ResultSet.ColumnType.Boolean || info.OriginalType == ResultSet.ColumnType.DateTime))
-                throw new InvalidOperationException("Language 'ncalc' is only supporting transformation from 'numeric' and 'text' data types");
-
-            Type valueType;
-            switch (info.OriginalType)
-            {
-                case ResultSet.ColumnType.Text:
-                    valueType = typeof(string);
-                    break;
-                case ResultSet.ColumnType.Numeric:
-                    valueType = typeof(decimal);
-                    break;
-                case ResultSet.ColumnType.DateTime:
-                    valueType = typeof(DateTime);
-                    break;
-                case ResultSet.ColumnType.Boolean:
-                    valueType = typeof(bool);
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
-
-            Type providerType;
-            switch (info.Language)
-            {
-                case LanguageType.CSharp:
-                    providerType = typeof(CSharpTransformer<>);
-                    break;
-                case LanguageType.NCalc:
-                    providerType = typeof(NCalcTransformer<>);
-                    break;
-                case LanguageType.Format:
-                    providerType = typeof(FormatTransformer<>);
-                    break;
-                case LanguageType.Native:
-                    providerType = typeof(NativeTransformer<>);
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
-
-            var provider = providerType.MakeGenericType(valueType);
-            var transformer = (ITransformer)Activator.CreateInstance(provider, new object[] { ServiceLocator, Context });
-
-            return transformer;
-        }
+        return transformer;
     }
 }

@@ -5,11 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.Decoration.DataEngineering.Commands.SqlServer
+namespace NBi.Core.Decoration.DataEngineering.Commands.SqlServer;
+
+class BatchRunnerArgs : IBatchRunnerArgs
 {
-    class BatchRunnerArgs : IBatchRunnerArgs
-    {
-        public string FullPath { get; set; }
-        public string ConnectionString { get; set; }
-    }
+    public string FullPath { get; set; } = string.Empty;
+    public string ConnectionString { get; set; } = string.Empty;
 }

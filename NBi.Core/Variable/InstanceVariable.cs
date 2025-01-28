@@ -5,17 +5,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.Variable
+namespace NBi.Core.Variable;
+
+public class InstanceVariable : ILoadtimeVariable
 {
-    public class InstanceVariable : ILoadtimeVariable
-    {
-        private object Value { get; }
+    private object Value { get; }
 
-        public InstanceVariable(object value)
-            => Value = value;
+    public InstanceVariable(object value)
+        => Value = value;
 
-        public object GetValue() => Value;
+    public object GetValue() => Value;
 
-        public bool IsEvaluated() => true;
-    }
+    public bool IsEvaluated() => true;
 }

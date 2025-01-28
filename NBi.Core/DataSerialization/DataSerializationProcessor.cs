@@ -7,22 +7,21 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.DataSerialization
+namespace NBi.Core.DataSerialization;
+
+public class DataSerializationProcessor
 {
-    public class DataSerializationProcessor
+    public IDataSerializationFlattenizer Flattenizer { get; }
+    public IDataSerializationReader Reader { get; }
+
+    public DataSerializationProcessor(IDataSerializationReader reader, IDataSerializationFlattenizer flattenizer)
+        => (Reader, Flattenizer) = (reader, flattenizer);
+
+    public IEnumerable<object> Execute()
     {
-        public IDataSerializationFlattenizer Flattenizer { get; }
-        public IDataSerializationReader Reader { get; }
-
-        public DataSerializationProcessor(IDataSerializationReader reader, IDataSerializationFlattenizer flattenizer)
-            => (Reader, Flattenizer) = (reader, flattenizer);
-
-        public IEnumerable<object> Execute()
-        {
-            var textReader = Reader.Execute();
-            var result = Flattenizer.Execute(textReader);
-            Reader.Dispose();
-            return result;
-        }
+        var textReader = Reader.Execute();
+        var result = Flattenizer.Execute(textReader);
+        Reader.Dispose();
+        return result;
     }
 }

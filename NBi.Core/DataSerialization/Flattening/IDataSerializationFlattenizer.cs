@@ -5,10 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.DataSerialization.Flattening
+namespace NBi.Core.DataSerialization.Flattening;
+
+public interface IDataSerializationFlattenizer
 {
-    public interface IDataSerializationFlattenizer
-    {
-        IEnumerable<object> Execute(TextReader textReader);
-    }
+    IEnumerable<object> Execute(TextReader textReader);
 }

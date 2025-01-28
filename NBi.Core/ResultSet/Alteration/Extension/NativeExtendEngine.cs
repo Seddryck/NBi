@@ -9,26 +9,25 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.ResultSet.Alteration.Extension
+namespace NBi.Core.ResultSet.Alteration.Extension;
+
+class NativeExtendEngine : AbstractExtendEngine
 {
-    class NativeExtendEngine : AbstractExtendEngine
+    public NativeExtendEngine(ServiceLocator serviceLocator, Context context, IColumnIdentifier newColumn, string code)
+        : base(serviceLocator, context, newColumn, code) { }
+
+    protected override IResultSet Execute(IResultSet rs, int ordinal)
     {
-        public NativeExtendEngine(ServiceLocator serviceLocator, Context context, IColumnIdentifier newColumn, string code)
-            : base(serviceLocator, context, newColumn, code) { }
+        var argsFactory = new ScalarResolverArgsFactory(ServiceLocator, Context);
+        var args = argsFactory.Instantiate(Code);
+        var factory = ServiceLocator.GetScalarResolverFactory();
+        var resolver = factory.Instantiate(args);
 
-        protected override IResultSet Execute(IResultSet rs, int ordinal)
+        foreach (var row in rs.Rows)
         {
-            var argsFactory = new ScalarResolverArgsFactory(ServiceLocator, Context);
-            var args = argsFactory.Instantiate(Code);
-            var factory = ServiceLocator.GetScalarResolverFactory();
-            var resolver = factory.Instantiate(args);
-
-            foreach (var row in rs.Rows)
-            {
-                Context.Switch(row);
-                row[ordinal] = resolver.Execute();
-            }
-            return rs;
+            Context.Switch(row);
+            row[ordinal] = resolver.Execute();
         }
+        return rs;
     }
 }

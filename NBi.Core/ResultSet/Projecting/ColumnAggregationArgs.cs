@@ -1,22 +1,17 @@
 ﻿using NBi.Core.Sequence.Transformation.Aggregation;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using NBi.Extensibility;
 
-namespace NBi.Core.ResultSet.Projecting
+namespace NBi.Core.ResultSet.Projecting;
+
+public class ColumnAggregationArgs : AggregationArgs
 {
-    public class ColumnAggregationArgs : AggregationArgs
-    {
-        public IColumnIdentifier Source { get; }
-        public IColumnIdentifier Destination { get; }
+    public IColumnIdentifier Source { get; }
+    public IColumnIdentifier Destination { get; }
 
-        public ColumnAggregationArgs(IColumnIdentifier column, AggregationArgs aggregation)
-            : this(column, column, aggregation) { }
+    public ColumnAggregationArgs(IColumnIdentifier column, AggregationArgs aggregation)
+        : this(column, column, aggregation) { }
 
-        public ColumnAggregationArgs(IColumnIdentifier source, IColumnIdentifier destination, AggregationArgs aggregation)
-            : base(aggregation.Function, aggregation.ColumnType)
-            => (Source, Destination) = (source, destination);
-    }
+    public ColumnAggregationArgs(IColumnIdentifier source, IColumnIdentifier destination, AggregationArgs aggregation)
+        : base(aggregation.Function, aggregation.ColumnType, [])
+        => (Source, Destination) = (source, destination);
 }

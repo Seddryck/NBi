@@ -5,14 +5,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.Sequence.Resolver.Loop
-{
-    class SentinelHalfOpenDateTimeLoopStrategy : SentinelCloseDateTimeLoopStrategy
-    {
-        public SentinelHalfOpenDateTimeLoopStrategy(DateTime seed, DateTime terminal, IDuration step)
-            : base(seed, terminal, step)
-        { }
+namespace NBi.Core.Sequence.Resolver.Loop;
 
-        public override bool IsOngoing() => (CurrentValue < Terminal && FirstLoop) || (GetNextValue(CurrentValue, Step) < Terminal);
-    }
+class SentinelHalfOpenDateTimeLoopStrategy : SentinelCloseDateTimeLoopStrategy
+{
+    public SentinelHalfOpenDateTimeLoopStrategy(DateTime seed, DateTime terminal, IDuration step)
+        : base(seed, terminal, step)
+    { }
+
+    public override bool IsOngoing() => (CurrentValue < Terminal && FirstLoop) || (GetNextValue(CurrentValue, Step) < Terminal);
 }

@@ -6,46 +6,45 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.Scalar.Duration
+namespace NBi.Core.Scalar.Duration;
+
+public class DurationConverter : TypeConverter
 {
-    public class DurationConverter : TypeConverter
+    public override bool CanConvertFrom(ITypeDescriptorContext? context, Type sourceType)
+        => sourceType==typeof(string);
+
+    public override bool CanConvertTo(ITypeDescriptorContext? context, Type? destinationType)
+        => destinationType == typeof(string);
+
+    public override object ConvertFrom(ITypeDescriptorContext? context, CultureInfo? culture, object? value)
     {
-        public override bool CanConvertFrom(ITypeDescriptorContext context, Type sourceType) => sourceType==typeof(string);
+        if (value is not string)
+            throw new ArgumentOutOfRangeException();
 
-        public override bool CanConvertTo(ITypeDescriptorContext context, Type destinationType) => destinationType == typeof(string);
+        var str = (value as string)?.Trim()?.ToLowerInvariant() ?? throw new ArgumentNullException();
+        if (str.EndsWith("month") || str.EndsWith("months"))
+            return new MonthDuration(DurationConverter.ParseValue(str));
+        if (str.EndsWith("year") || str.EndsWith("years"))
+            return new YearDuration(DurationConverter.ParseValue(str));
 
-        public override object ConvertFrom(ITypeDescriptorContext context, CultureInfo culture, object value)
+        if (str.EndsWith("day") || str.EndsWith("days"))
+            return new FixedDuration(new TimeSpan(DurationConverter.ParseValue(str),0,0,0));
+
+        var ts = TimeSpan.Parse(str, (culture ?? CultureInfo.InvariantCulture).DateTimeFormat);
+        return new FixedDuration(ts);
+    }
+
+    private static int ParseValue(string value) 
+        => int.Parse(string.Concat(value.TakeWhile(c => char.IsDigit(c))));
+
+    public override object ConvertTo(ITypeDescriptorContext? context, CultureInfo? culture, object? value, Type destinationType)
+    {
+        return value switch
         {
-            if (!(value is string))
-                throw new ArgumentOutOfRangeException();
-            if (value == null)
-                throw new ArgumentNullException();
-
-            var str = (value as string).Trim().ToLowerInvariant();
-            if (str.EndsWith("month") || str.EndsWith("months"))
-                return new MonthDuration(ParseValue(str));
-            if (str.EndsWith("year") || str.EndsWith("years"))
-                return new YearDuration(ParseValue(str));
-
-            if (str.EndsWith("day") || str.EndsWith("days"))
-                return new FixedDuration(new TimeSpan(ParseValue(str),0,0,0));
-
-            var ts = TimeSpan.Parse(str, culture.DateTimeFormat);
-            return new FixedDuration(ts);
-        }
-
-        private int ParseValue(string value) => int.Parse(string.Concat(value.TakeWhile(c => char.IsDigit(c))));
-
-        public override object ConvertTo(ITypeDescriptorContext context, CultureInfo culture, object value, Type destinationType)
-        {
-            switch (value)
-            {
-                case MonthDuration x: return $"{x.Count} month{(x.Count>1 ? "s" : string.Empty)}";
-                case YearDuration x: return $"{x.Count} year{(x.Count > 1 ? "s" : string.Empty)}";
-                case FixedDuration x: return x.TimeSpan.ToString();
-                default:
-                    throw new ArgumentException();
-            }
-        }
+            MonthDuration x => $"{x.Count} month{(x.Count > 1 ? "s" : string.Empty)}",
+            YearDuration x => $"{x.Count} year{(x.Count > 1 ? "s" : string.Empty)}",
+            FixedDuration x => x.TimeSpan.ToString(),
+            _ => throw new ArgumentException(),
+        };
     }
 }

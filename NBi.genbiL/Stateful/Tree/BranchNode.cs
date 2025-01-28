@@ -5,60 +5,58 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.GenbiL.Stateful.Tree
+namespace NBi.GenbiL.Stateful.Tree;
+
+public class BranchNode : TreeNode, IEnumerable<TreeNode>
 {
-    public class BranchNode : TreeNode, IEnumerable<TreeNode>
+    protected readonly List<TreeNode> ChildrenList = [];
+    public IReadOnlyList<TreeNode> Children => ChildrenList;
+
+    public string FullPath => Parent == Root ? Name : $@"{Parent?.FullPath}\{Name}";
+
+    public BranchNode(string name) 
+        : base(name) { }
+
+    public IEnumerator<TreeNode> GetEnumerator() => ChildrenList.GetEnumerator();
+
+    IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+
+    public void AddChild(TreeNode item)
     {
-        protected readonly List<TreeNode> ChildrenList = new List<TreeNode>();
-        public IReadOnlyList<TreeNode> Children => ChildrenList;
+        item.Parent = this;
+        item.Root = Root;
+        item.Level = Level + 1;
+        ChildrenList.Add(item);
+    }
 
-        public string FullPath => Parent == Root ? Name : $@"{Parent.FullPath}\{Name}";
+    public void AddChildren(IEnumerable<TreeNode> items)
+        => items.ToList().ForEach(x => AddChild(x));
 
-        public BranchNode(string name) 
-            : base(name) { }
+    public BranchNode FindChildBranch(string path)
+    {
+        var node = this;
+        var subPathes = path.Split(['|']);
+        foreach (var subPath in subPathes)
+            node = node?.Children.FirstOrDefault(x => x is BranchNode && x.Name == subPath) as BranchNode;
+        return node!;
+    }
 
-        public IEnumerator<TreeNode> GetEnumerator() => ChildrenList.GetEnumerator();
+    public BranchNode? GetChildBranch(string path)
+    {
+        var node = this;
+        if (path == RootNode.Path)
+            return Root;
 
-        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
-
-        public void AddChild(TreeNode item)
+        var subPathes = path.Split(['|']);
+        foreach (var subPath in subPathes)
         {
-            item.Parent = this;
-            item.Root = Root;
-            item.Level = Level + 1;
-            ChildrenList.Add(item);
-        }
-
-        public void AddChildren(IEnumerable<TreeNode> items)
-            => items.ToList().ForEach(x => AddChild(x));
-
-        public BranchNode FindChildBranch(string path)
-        {
-            var node = this;
-            var subPathes = path.Split(new[] { '|' });
-            foreach (var subPath in subPathes)
-                node = node?.Children.FirstOrDefault(x => x is BranchNode && x.Name == subPath) as BranchNode;
-            return node;
-        }
-
-        public BranchNode GetChildBranch(string path)
-        {
-            var node = this;
-            if (path == RootNode.Path)
-                return Root;
-
-            var subPathes = path.Split(new[] { '|' });
-            foreach (var subPath in subPathes)
-            { 
-                var child = node.Children.FirstOrDefault(x => x is BranchNode && x.Name == subPath) as BranchNode;
-                if (child==null)
-                {
-                    child = new GroupNode(subPath);
-                    node.AddChild(child);
-                }
-                node = child;
+            if (node.Children.FirstOrDefault(x => x is BranchNode && x.Name == subPath) is not BranchNode child)
+            {
+                child = new GroupNode(subPath);
+                node.AddChild(child);
             }
-            return node;
+            node = child;
         }
+        return node;
     }
 }

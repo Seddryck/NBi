@@ -15,70 +15,69 @@ using NBi.Core.ResultSet;
 using NBi.Xml.Variables.Sequence;
 using NBi.Core.Calculation;
 
-namespace NBi.Testing.Xml.Unit.Variables.Sequence
+namespace NBi.Xml.Testing.Unit.Variables.Sequence;
+
+public class FileLoopXmlTest : BaseXmlTest
 {
-    public class FileLoopXmlTest : BaseXmlTest
+
+    [Test]
+    public void Deserialize_SampleFile_VariableHasFileLoop()
     {
+        var ts = DeserializeSample();
+        var variable = ts.Tests[0].InstanceSettling.Variable as InstanceVariableXml;
 
-        [Test]
-        public void Deserialize_SampleFile_VariableHasFileLoop()
+        // Check the properties of the object.
+        Assert.That(variable.FileLoop, Is.Not.Null);
+        Assert.That(variable.FileLoop, Is.TypeOf<FileLoopXml>());
+    }
+
+    [Test]
+    public void Deserialize_SampleFile_VariableHasCorrectNameAndType()
+    {
+        var ts = DeserializeSample();
+        var variable = ts.Tests[0].InstanceSettling.Variable;
+
+        // Check the properties of the object.
+        Assert.That(variable.FileLoop!.Path, Is.EqualTo(@"C:\Temp\"));
+        Assert.That(variable.FileLoop.Pattern, Is.EqualTo("foo-*.txt"));
+    }
+
+
+    [Test]
+    public void Deserialize_SampleFile_FilterCorrectly()
+    {
+        var ts = DeserializeSample();
+        var localVariable = ts.Tests[1].InstanceSettling.Variable;
+
+        // Check the properties of the object.
+        Assert.That(localVariable.Filter!.Predication.Operand, Is.EqualTo(@"value | file-to-size(C:\Temp\)"));
+        Assert.That(localVariable.Filter.Predication.Predicate!.ComparerType, Is.EqualTo(ComparerType.MoreThan));
+    }
+
+    [Test]
+    public void Serialize_Variable_FileLoopCorrectlySerialized()
+    {
+        var instanceVariable = new InstanceVariableXml()
         {
-            TestSuiteXml ts = DeserializeSample();
-            var variable = ts.Tests[0].InstanceSettling.Variable as InstanceVariableXml;
-
-            // Check the properties of the object.
-            Assert.That(variable.FileLoop, Is.Not.Null);
-            Assert.That(variable.FileLoop, Is.TypeOf<FileLoopXml>());
-        }
-
-        [Test]
-        public void Deserialize_SampleFile_VariableHasCorrectNameAndType()
-        {
-            TestSuiteXml ts = DeserializeSample();
-            var variable = ts.Tests[0].InstanceSettling.Variable as InstanceVariableXml;
-
-            // Check the properties of the object.
-            Assert.That(variable.FileLoop.Path, Is.EqualTo(@"C:\Temp\"));
-            Assert.That(variable.FileLoop.Pattern, Is.EqualTo("foo-*.txt"));
-        }
-
-
-        [Test]
-        public void Deserialize_SampleFile_FilterCorrectly()
-        {
-            TestSuiteXml ts = DeserializeSample();
-            var localVariable = ts.Tests[1].InstanceSettling.Variable as InstanceVariableXml;
-
-            // Check the properties of the object.
-            Assert.That(localVariable.Filter.Predication.Operand, Is.EqualTo(@"value | file-to-size(C:\Temp\)"));
-            Assert.That(localVariable.Filter.Predication.Predicate.ComparerType, Is.EqualTo(ComparerType.MoreThan));
-        }
-
-        [Test]
-        public void Serialize_Variable_FileLoopCorrectlySerialized()
-        {
-            var instanceVariable = new InstanceVariableXml()
+            FileLoop = new FileLoopXml()
             {
-                FileLoop = new FileLoopXml()
-                {
-                    Path = @"C:\Temp\",
-                    Pattern = "foo-*.txt",
-                }
-            };
+                Path = @"C:\Temp\",
+                Pattern = "foo-*.txt",
+            }
+        };
 
-            var serializer = new XmlSerializer(typeof(InstanceVariableXml));
-            var stream = new MemoryStream();
-            var writer = new StreamWriter(stream, Encoding.UTF8);
-            serializer.Serialize(writer, instanceVariable);
-            var content = Encoding.UTF8.GetString(stream.ToArray());
-            writer.Close();
-            stream.Close();
+        var serializer = new XmlSerializer(typeof(InstanceVariableXml));
+        var stream = new MemoryStream();
+        var writer = new StreamWriter(stream, Encoding.UTF8);
+        serializer.Serialize(writer, instanceVariable);
+        var content = Encoding.UTF8.GetString(stream.ToArray());
+        writer.Close();
+        stream.Close();
 
-            Debug.WriteLine(content);
+        Debug.WriteLine(content);
 
-            Assert.That(content, Does.Contain("<loop-file"));
-            Assert.That(content, Does.Contain("path=\"C:\\Temp\\\""));
-            Assert.That(content, Does.Contain("pattern=\"foo-*.txt\""));
-        }
+        Assert.That(content, Does.Contain("<loop-file"));
+        Assert.That(content, Does.Contain("path=\"C:\\Temp\\\""));
+        Assert.That(content, Does.Contain("pattern=\"foo-*.txt\""));
     }
 }

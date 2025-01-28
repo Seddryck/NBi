@@ -4,37 +4,36 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.ResultSet
-{
-    //class ColumnDynamicIdentifier : ColumnOrdinalIdentifier, IEquatable<ColumnDynamicIdentifier>
-    //{
-    //    public string Name { get; }
-    //    private Func<int, int> InternalNext { get; }
+namespace NBi.Core.ResultSet;
 
-    //    public override string Label => $"&{Name}";
+//class ColumnDynamicIdentifier : ColumnOrdinalIdentifier, IEquatable<ColumnDynamicIdentifier>
+//{
+//    public string Name { get; }
+//    private Func<int, int> InternalNext { get; }
 
-    //    public ColumnDynamicIdentifier(string name, Func<int, int> nextFunction)
-    //        : base(0)
-    //    {
-    //        Name = name;
-    //        InternalNext = nextFunction;
-    //    }
+//    public override string Label => $"&{Name}";
 
-    //    public bool Next()
-    //    {
-    //        Ordinal = InternalNext(Ordinal);
-    //        return true;
-    //    }
-        
+//    public ColumnDynamicIdentifier(string name, Func<int, int> nextFunction)
+//        : base(0)
+//    {
+//        Name = name;
+//        InternalNext = nextFunction;
+//    }
 
-    //    public override bool Equals(object obj) => this.Equals(obj as ColumnDynamicIdentifier);
-    //    public override int GetHashCode() => Name.GetHashCode() ^35 * Ordinal.GetHashCode() ^17;
+//    public bool Next()
+//    {
+//        Ordinal = InternalNext(Ordinal);
+//        return true;
+//    }
+    
 
-    //    public bool Equals(ColumnDynamicIdentifier other)
-    //    {
-    //        if (other is null)
-    //            return false;
-    //        return (other.Name == Name && other.Ordinal == Ordinal);
-    //    }
-    //}
-}
+//    public override bool Equals(object obj) => this.Equals(obj as ColumnDynamicIdentifier);
+//    public override int GetHashCode() => Name.GetHashCode() ^35 * Ordinal.GetHashCode() ^17;
+
+//    public bool Equals(ColumnDynamicIdentifier other)
+//    {
+//        if (other is null)
+//            return false;
+//        return (other.Name == Name && other.Ordinal == Ordinal);
+//    }
+//}

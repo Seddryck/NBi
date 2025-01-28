@@ -13,152 +13,152 @@ using System.Text;
 using System.Threading.Tasks;
 using NBi.Extensibility.Query;
 using NBi.Extensibility;
+using NBi.Testing;
 
-namespace NBi.Testing.Core.Query.Execution
+namespace NBi.Core.Testing.Query.Execution;
+
+public class ExecutionEngineFactoryTest
 {
-    public class ExecutionEngineFactoryTest
+    private readonly ServiceLocator serviceLocator = new ServiceLocator();
+
+    [Test]
+    public void Instantiate_SqlClient_SqlExecutionEngine()
     {
-        private readonly ServiceLocator serviceLocator = new ServiceLocator();
+        var query = Mock.Of<IQuery>(
+            x => x.ConnectionString == ConnectionStringReader.GetSqlClient()
+            && x.Statement == "select 1"
+            );
 
-        [Test]
-        public void Instantiate_SqlClient_SqlExecutionEngine()
-        {
-            var query = Mock.Of<IQuery>(
-                x => x.ConnectionString == ConnectionStringReader.GetSqlClient()
-                && x.Statement == "select 1"
-                );
+        var factory = serviceLocator.GetExecutionEngineFactory();
+        var engine = factory.Instantiate(query);
+        Assert.That(engine, Is.InstanceOf<SqlExecutionEngine>());
+    }
 
-            var factory = serviceLocator.GetExecutionEngineFactory();
-            var engine = factory.Instantiate(query);
-            Assert.IsInstanceOf<SqlExecutionEngine>(engine);
-        }
+    [Test]
+    public void Instantiate_Adomd_AdomdExecutionEngine()
+    {
+        var query = Mock.Of<IQuery>(
+            x => x.ConnectionString == ConnectionStringReader.GetAdomd()
+            && x.Statement == "select 1 on 0"
+            );
 
-        [Test]
-        public void Instantiate_Adomd_AdomdExecutionEngine()
-        {
-            var query = Mock.Of<IQuery>(
-                x => x.ConnectionString == ConnectionStringReader.GetAdomd()
-                && x.Statement == "select 1 on 0"
-                );
+        var factory = serviceLocator.GetExecutionEngineFactory();
+        var engine = factory.Instantiate(query);
+        Assert.That(engine, Is.InstanceOf<AdomdExecutionEngine>());
+    }
 
-            var factory = serviceLocator.GetExecutionEngineFactory();
-            var engine = factory.Instantiate(query);
-            Assert.IsInstanceOf<AdomdExecutionEngine>(engine);
-        }
+    [Test]
+    public void Instantiate_Odbc_OdbcExecutionEngine()
+    {
+        var query = Mock.Of<IQuery>(
+            x => x.ConnectionString == ConnectionStringReader.GetOdbcSql()
+            && x.Statement == "select 1"
+            );
 
-        [Test]
-        public void Instantiate_Odbc_OdbcExecutionEngine()
-        {
-            var query = Mock.Of<IQuery>(
-                x => x.ConnectionString == ConnectionStringReader.GetOdbcSql()
-                && x.Statement == "select 1"
-                );
+        var factory = serviceLocator.GetExecutionEngineFactory();
+        var engine = factory.Instantiate(query);
+        Assert.That(engine, Is.InstanceOf<OdbcExecutionEngine>());
+    }
 
-            var factory = serviceLocator.GetExecutionEngineFactory();
-            var engine = factory.Instantiate(query);
-            Assert.IsInstanceOf<OdbcExecutionEngine>(engine);
-        }
+    [Test]
+    public void Instantiate_OleDb_OleDbExecutionEngine()
+    {
+        var query = Mock.Of<IQuery>(
+            x => x.ConnectionString == ConnectionStringReader.GetOleDbSql()
+            && x.Statement == "select 1"
+            );
 
-        [Test]
-        public void Instantiate_OleDb_OleDbExecutionEngine()
-        {
-            var query = Mock.Of<IQuery>(
-                x => x.ConnectionString == ConnectionStringReader.GetOleDbSql()
-                && x.Statement == "select 1"
-                );
+        var factory = serviceLocator.GetExecutionEngineFactory();
+        var engine = factory.Instantiate(query);
+        Assert.That(engine, Is.InstanceOf<OleDbExecutionEngine>());
+    }
 
-            var factory = serviceLocator.GetExecutionEngineFactory();
-            var engine = factory.Instantiate(query);
-            Assert.IsInstanceOf<OleDbExecutionEngine>(engine);
-        }
+    #region Fake
+    public class FakeSession : IClient
+    {
+        public string ConnectionString => "fake://MyConnectionString";
 
-        #region Fake
-        public class FakeSession : IClient
-        {
-            public string ConnectionString => "fake://MyConnectionString";
+        public Type UnderlyingSessionType => typeof(object);
 
-            public Type UnderlyingSessionType => typeof(object);
+        public object CreateNew() => throw new NotImplementedException();
+    }
 
-            public object CreateNew() => throw new NotImplementedException();
-        }
+    public class FakeSessionFactory : IClientFactory
+    {
+        public bool CanHandle(string connectionString) => connectionString.StartsWith("fake://");
 
-        public class FakeSessionFactory : IClientFactory
-        {
-            public bool CanHandle(string connectionString) => connectionString.StartsWith("fake://");
+        public IClient Instantiate(string connectionString) => new FakeSession();
+    }
 
-            public IClient Instantiate(string connectionString) => new FakeSession();
-        }
+    public class FakeCommand : ICommand
+    {
+        public object Implementation => new FakeImplementationCommand();
 
-        public class FakeCommand : ICommand
-        {
-            public object Implementation => new FakeImplementationCommand();
+        public object Client => new FakeSession();
 
-            public object Client => new FakeSession();
+        public object CreateNew() => throw new NotImplementedException();
+    }
 
-            public object CreateNew() => throw new NotImplementedException();
-        }
+    public class FakeImplementationCommand
+    { }
 
-        public class FakeImplementationCommand
+    public class FakeCommandFactory : ICommandFactory
+    {
+        public bool CanHandle(IClient session) => session is FakeSession;
+
+        public ICommand Instantiate(IClient session, IQuery query, ITemplateEngine engine) => new FakeCommand();
+    }
+
+    [SupportedCommandType(typeof(FakeImplementationCommand))]
+    private class FakeExecutionEngine : IExecutionEngine
+    {
+        public FakeExecutionEngine(FakeSession session, object command)
         { }
 
-        public class FakeCommandFactory : ICommandFactory
+        public DataSet Execute() => throw new NotImplementedException();
+        public IEnumerable<T> ExecuteList<T>() => throw new NotImplementedException();
+        public object ExecuteScalar() => throw new NotImplementedException();
+    }
+
+    #endregion
+
+    [Test]
+    public void Instantiate_FakeConnectionString_FakeExecutionEngine()
+    {
+        var localServiceLocator = new ServiceLocator();
+
+        var query = Mock.Of<IQuery>(x => x.ConnectionString == "fake://MyConnectionString");
+
+        var sessionFactory = localServiceLocator.GetSessionFactory();
+        sessionFactory.RegisterFactories([typeof(FakeSessionFactory)]);
+
+        var commandFactory = localServiceLocator.GetCommandFactory();
+        commandFactory.RegisterFactories([typeof(FakeCommandFactory)]);
+
+        var factory = new ExecutionEngineFactory(sessionFactory, commandFactory);
+        factory.RegisterEngines([typeof(FakeExecutionEngine)]);
+
+        var engine = factory.Instantiate(query);
+        Assert.That(engine, Is.InstanceOf<FakeExecutionEngine>());
+    }
+
+    [Test]
+    public void Instantiate_FakeConnectionStringExtensions_FakeExecutionEngine()
+    {
+        var localServiceLocator = new ServiceLocator();
+        var setupConfig = localServiceLocator.GetConfiguration();
+        var extensions = new Dictionary<Type, IDictionary<string, string>>
         {
-            public bool CanHandle(IClient session) => session is FakeSession;
+            { typeof(FakeSessionFactory), new Dictionary<string, string>() },
+            { typeof(FakeCommandFactory), new Dictionary<string, string>() },
+            { typeof(FakeExecutionEngine), new Dictionary<string, string>() },
+        };
+        setupConfig.LoadExtensions(extensions);
 
-            public ICommand Instantiate(IClient session, IQuery query, ITemplateEngine engine) => new FakeCommand();
-        }
+        var query = Mock.Of<IQuery>(x => x.ConnectionString == "fake://MyConnectionString");
 
-        [SupportedCommandType(typeof(FakeImplementationCommand))]
-        private class FakeExecutionEngine : IExecutionEngine
-        {
-            public FakeExecutionEngine(FakeSession session, object command)
-            { }
-
-            public DataSet Execute() => throw new NotImplementedException();
-            public IEnumerable<T> ExecuteList<T>() => throw new NotImplementedException();
-            public object ExecuteScalar() => throw new NotImplementedException();
-        }
-
-        #endregion
-
-        [Test]
-        public void Instantiate_FakeConnectionString_FakeExecutionEngine()
-        {
-            var localServiceLocator = new ServiceLocator();
-
-            var query = Mock.Of<IQuery>(x => x.ConnectionString == "fake://MyConnectionString");
-
-            var sessionFactory = localServiceLocator.GetSessionFactory();
-            sessionFactory.RegisterFactories(new[] { typeof(FakeSessionFactory) });
-
-            var commandFactory = localServiceLocator.GetCommandFactory();
-            commandFactory.RegisterFactories(new[] { typeof(FakeCommandFactory) });
-
-            var factory = new ExecutionEngineFactory(sessionFactory, commandFactory);
-            factory.RegisterEngines(new[] { typeof(FakeExecutionEngine) });
-
-            var engine = factory.Instantiate(query);
-            Assert.IsInstanceOf<FakeExecutionEngine>(engine);
-        }
-
-        [Test]
-        public void Instantiate_FakeConnectionStringExtensions_FakeExecutionEngine()
-        {
-            var localServiceLocator = new ServiceLocator();
-            var setupConfig = localServiceLocator.GetConfiguration();
-            var extensions = new Dictionary<Type, IDictionary<string, string>>
-            {
-                { typeof(FakeSessionFactory), new Dictionary<string, string>() },
-                { typeof(FakeCommandFactory), new Dictionary<string, string>() },
-                { typeof(FakeExecutionEngine), new Dictionary<string, string>() },
-            };
-            setupConfig.LoadExtensions(extensions);
-
-            var query = Mock.Of<IQuery>(x => x.ConnectionString == "fake://MyConnectionString");
-
-            var factory = localServiceLocator.GetExecutionEngineFactory();
-            var engine = factory.Instantiate(query);
-            Assert.IsInstanceOf<FakeExecutionEngine>(engine);
-        }
+        var factory = localServiceLocator.GetExecutionEngineFactory();
+        var engine = factory.Instantiate(query);
+        Assert.That(engine, Is.InstanceOf<FakeExecutionEngine>());
     }
 }

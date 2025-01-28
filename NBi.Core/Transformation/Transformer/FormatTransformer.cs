@@ -10,35 +10,33 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.Transformation.Transformer
+namespace NBi.Core.Transformation.Transformer;
+
+class FormatTransformer<T> : ITransformer
 {
-    class FormatTransformer<T> : ITransformer
+    protected Context Context { get; }
+    private string? method;
+
+    public FormatTransformer() : this(null, Context.None) { }
+    public FormatTransformer(ServiceLocator? serviceLocator, Context context)
+        => (Context) = (context);
+
+    public void Initialize(string code)
     {
-        private ServiceLocator ServiceLocator { get; }
-        protected Context Context { get; }
-        private string method;
+       method = "{0:" + code + "}";
+    }
 
-        public FormatTransformer() : this(null, null) { }
-        public FormatTransformer(ServiceLocator serviceLocator, Context context)
-            => (ServiceLocator, Context) = (serviceLocator, context);
+    public object Execute(object value)
+    {
+        if (method == null)
+            throw new InvalidOperationException();
 
-        public void Initialize(string code)
-        {
-           method = "{0:" + code + "}";
-        }
+        var factory = new CasterFactory<T>();
+        var caster = factory.Instantiate();
+        var typedValue = caster.Execute(value);
 
-        public object Execute(object value)
-        {
-            if (method == null)
-                throw new InvalidOperationException();
+        var transformedValue = string.Format(method, typedValue);
 
-            var factory = new CasterFactory<T>();
-            var caster = factory.Instantiate();
-            var typedValue = caster.Execute(value);
-
-            var transformedValue = String.Format(method, typedValue);
-
-            return transformedValue;
-        }
+        return transformedValue;
     }
 }

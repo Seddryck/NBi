@@ -5,25 +5,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.Scalar.Presentation
+namespace NBi.Core.Scalar.Presentation;
+
+public class PresenterFactory
 {
-    public class PresenterFactory
+    public IPresenter Instantiate(ColumnType columnType)
     {
-        public IPresenter Instantiate(ColumnType columnType)
+        return columnType switch
         {
-            switch (columnType)
-            {
-                case ColumnType.Text:
-                    return new TextPresenter();
-                case ColumnType.Numeric:
-                    return new NumericPresenter();
-                case ColumnType.DateTime:
-                    return new DateTimePresenter();
-                case ColumnType.Boolean:
-                    return new BooleanPresenter();
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
-        }
+            ColumnType.Text => new TextPresenter(),
+            ColumnType.Numeric => new NumericPresenter(),
+            ColumnType.DateTime => new DateTimePresenter(),
+            ColumnType.Boolean => new BooleanPresenter(),
+            _ => throw new ArgumentOutOfRangeException(),
+        };
     }
 }

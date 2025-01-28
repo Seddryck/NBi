@@ -9,76 +9,64 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.Sequence.Resolver
+namespace NBi.Core.Sequence.Resolver;
+
+public class SequenceResolverFactory
 {
-    public class SequenceResolverFactory
+    private ServiceLocator ServiceLocator { get; }
+    public SequenceResolverFactory(ServiceLocator serviceLocator)
+        => ServiceLocator = serviceLocator;
+    
+    internal ISequenceResolver<T> Instantiate<T>(ISequenceResolverArgs args)
     {
-        private ServiceLocator ServiceLocator { get; }
-        public SequenceResolverFactory(ServiceLocator serviceLocator)
-            => ServiceLocator = serviceLocator;
-        
-        internal ISequenceResolver<T> Instantiate<T>(ISequenceResolverArgs args)
+        switch (args)
         {
-            switch (args)
-            {
-                case QuerySequenceResolverArgs queryArgs: return new QuerySequenceResolver<T>(queryArgs, ServiceLocator);
-                case ListSequenceResolverArgs listArgs: return new ListSequenceResolver<T>(listArgs);
-                case CustomSequenceResolverArgs customArgs: return new CustomSequenceResolver<T>(customArgs);
-                case FileLoopSequenceResolverArgs fileArgs: return (ISequenceResolver<T>)new FileLoopSequenceResolver(fileArgs);
-                case ILoopSequenceResolverArgs loopArgs:
-                    {
-                        var strategy = MapStrategy<T>(loopArgs);
-                        return new LoopSequenceResolver<T>(strategy);
-                    }
-                case FilterSequenceResolverArgs filterArgs: return new FilterSequenceResolver<T>(filterArgs);
-                default:
-                    throw new ArgumentOutOfRangeException($"Type '{args.GetType().Name}' is not expected when building a Sequence");
-            }
+            case QuerySequenceResolverArgs queryArgs: return new QuerySequenceResolver<T>(queryArgs, ServiceLocator);
+            case ListSequenceResolverArgs listArgs: return new ListSequenceResolver<T>(listArgs);
+            case CustomSequenceResolverArgs customArgs: return new CustomSequenceResolver<T>(customArgs);
+            case FileLoopSequenceResolverArgs fileArgs: return (ISequenceResolver<T>)new FileLoopSequenceResolver(fileArgs);
+            case ILoopSequenceResolverArgs loopArgs:
+                {
+                    var strategy = MapStrategy<T>(loopArgs);
+                    return new LoopSequenceResolver<T>(strategy);
+                }
+            case FilterSequenceResolverArgs filterArgs: return new FilterSequenceResolver<T>(filterArgs);
+            default:
+                throw new ArgumentOutOfRangeException($"Type '{args.GetType().Name}' is not expected when building a Sequence");
         }
+    }
 
-        public ISequenceResolver Instantiate(ColumnType type, ISequenceResolverArgs args)
+    public ISequenceResolver Instantiate(ColumnType type, ISequenceResolverArgs args)
+    {
+        return type switch
         {
-            switch (type)
-            {
-                case ColumnType.Text: return Instantiate<string>(args);
-                case ColumnType.Numeric: return Instantiate<decimal>(args);
-                case ColumnType.DateTime: return Instantiate<DateTime>(args);
-                case ColumnType.Boolean: return Instantiate<bool>(args);
-                default: throw new ArgumentOutOfRangeException();
-            }
-        }
+            ColumnType.Text => Instantiate<string>(args),
+            ColumnType.Numeric => Instantiate<decimal>(args),
+            ColumnType.DateTime => Instantiate<DateTime>(args),
+            ColumnType.Boolean => Instantiate<bool>(args),
+            _ => throw new ArgumentOutOfRangeException(),
+        };
+    }
 
-        private ILoopStrategy MapStrategy<T>(ILoopSequenceResolverArgs args)
+    private ILoopStrategy MapStrategy<T>(ILoopSequenceResolverArgs args)
+    {
+        return args switch
         {
-            switch (args)
+            CountLoopSequenceResolverArgs<decimal, decimal> x => new CountNumericLoopStrategy(x.Count, x.Seed, x.Step) as ILoopStrategy,
+            CountLoopSequenceResolverArgs<DateTime, IDuration> x => new CountDateTimeLoopStrategy(x.Count, x.Seed, x.Step) as ILoopStrategy,
+            SentinelLoopSequenceResolverArgs<decimal, decimal> x => x.IntervalMode switch
             {
-                case CountLoopSequenceResolverArgs<decimal, decimal> x:
-                    return new CountNumericLoopStrategy(x.Count, x.Seed, x.Step) as ILoopStrategy;
-                case CountLoopSequenceResolverArgs<DateTime, IDuration> x:
-                    return new CountDateTimeLoopStrategy(x.Count, x.Seed, x.Step) as ILoopStrategy;
-                case SentinelLoopSequenceResolverArgs<decimal, decimal> x:
-                    switch (x.IntervalMode)
-                    {
-                        case IntervalMode.Close:
-                            return new SentinelCloseNumericLoopStrategy(x.Seed, x.Terminal, x.Step) as ILoopStrategy;
-                        case IntervalMode.HalfOpen:
-                            return new SentinelHalfOpenNumericLoopStrategy(x.Seed, x.Terminal, x.Step) as ILoopStrategy;
-                        default:
-                            throw new ArgumentOutOfRangeException();
-                    }
-                case SentinelLoopSequenceResolverArgs<DateTime, IDuration> x:
-                    switch (x.IntervalMode)
-                    {
-                        case IntervalMode.Close:
-                            return new SentinelCloseDateTimeLoopStrategy(x.Seed, x.Terminal, x.Step) as ILoopStrategy;
-                        case IntervalMode.HalfOpen:
-                            return new SentinelHalfOpenDateTimeLoopStrategy(x.Seed, x.Terminal, x.Step) as ILoopStrategy;
-                        default:
-                            throw new ArgumentOutOfRangeException();
-                    }
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
-        }
+                IntervalMode.Close => new SentinelCloseNumericLoopStrategy(x.Seed, x.Terminal, x.Step) as ILoopStrategy,
+                IntervalMode.HalfOpen => new SentinelHalfOpenNumericLoopStrategy(x.Seed, x.Terminal, x.Step) as ILoopStrategy,
+                _ => throw new ArgumentOutOfRangeException(),
+            },
+            SentinelLoopSequenceResolverArgs<DateTime, IDuration> x => x.IntervalMode switch
+            {
+                IntervalMode.Close => new SentinelCloseDateTimeLoopStrategy(x.Seed, x.Terminal, x.Step) as ILoopStrategy,
+                IntervalMode.HalfOpen => new SentinelHalfOpenDateTimeLoopStrategy(x.Seed, x.Terminal, x.Step) as ILoopStrategy,
+                _ => throw new ArgumentOutOfRangeException(),
+            },
+            _ => throw new ArgumentOutOfRangeException(),
+        };
     }
 }

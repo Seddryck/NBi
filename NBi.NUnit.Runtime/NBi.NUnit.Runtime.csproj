@@ -1,147 +1,21 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>8.0.30703</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{5AA137A9-C158-4A4F-B07D-3DF787618C24}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>NBi.NUnit.Runtime</RootNamespace>
-    <AssemblyName>NBi.NUnit.Runtime</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
-    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
-    <RestorePackages>true</RestorePackages>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
-    <PlatformTarget>x64</PlatformTarget>
-    <OutputPath>bin\x64\Debug\</OutputPath>
-    <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
-    <PlatformTarget>x64</PlatformTarget>
-    <OutputPath>bin\x64\Release\</OutputPath>
-    <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>
+<Project Sdk="Microsoft.NET.Sdk">
   <ItemGroup>
-    <Reference Include="Dynamitey, Version=2.0.9.136, Culture=neutral, PublicKeyToken=cbf53ea3aeb972c6, processorArchitecture=MSIL">
-      <HintPath>..\packages\Dynamitey.2.0.9.136\lib\net40\Dynamitey.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="Ninject, Version=3.3.4.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
-      <HintPath>..\packages\Ninject.3.3.4\lib\net45\Ninject.dll</HintPath>
-    </Reference>
-    <Reference Include="nunit.core, Version=2.7.1.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
-      <HintPath>..\packages\NUnitV2.Core.2.7.1\lib\nunit.core.dll</HintPath>
-    </Reference>
-    <Reference Include="nunit.core.interfaces, Version=2.7.1.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
-      <HintPath>..\packages\NUnitV2.Core.2.7.1\lib\nunit.core.interfaces.dll</HintPath>
-    </Reference>
-    <Reference Include="nunit.util, Version=2.7.1.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
-      <HintPath>..\packages\NUnit.Runners.2.7.1\tools\lib\nunit.util.dll</HintPath>
-    </Reference>
-    <Reference Include="nunit.framework, Version=2.7.1.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
-      <HintPath>..\packages\NUnit.2.7.1\lib\nunit.framework.dll</HintPath>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.configuration" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
+    <PackageReference Include="Dynamitey" Version="2.0.9.136" />
+    <PackageReference Include="Ninject" Version="3.3.4.0" />
+    <PackageReference Include="NUnit" Version="4.0.1"/>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\AssemblyInfo.cs">
-      <Link>Properties\AssemblyInfo.cs</Link>
-    </Compile>
-    <Compile Include="CategoryHelper.cs" />
-    <Compile Include="Configuration\VariableElement.cs" />
-    <Compile Include="Configuration\VariableCollection.cs" />
-    <Compile Include="Embed\Engine.cs" />
-    <Compile Include="Embed\Filter\NBiNameFilter.cs" />
-    <Compile Include="Embed\Filter\PropertyFilter.cs" />
-    <Compile Include="Embed\NBiPackage.cs" />
-    <Compile Include="Embed\Result\AggregatedResult.cs" />
-    <Compile Include="Embed\Result\DetailledResult.cs" />
-    <Compile Include="Embed\Result\FlatResultBuilder.cs" />
-    <Compile Include="Embed\Result\ScoreResult.cs" />
-    <Compile Include="NullConfigurationProvider.cs" />
-    <Compile Include="Configuration\FailureReportProfileElement.cs" />
-    <Compile Include="Configuration\ExtensionCollection.cs" />
-    <Compile Include="Configuration\ExtensionElement.cs" />
-    <Compile Include="ConnectionStringsFinder.cs" />
-    <Compile Include="ConfigurationProvider.cs" />
-    <Compile Include="CustomStackTraceErrorException.cs" />
-    <Compile Include="CustomStackTraceAssertionException.cs" />
-    <Compile Include="Configuration\NBiSection.cs" />
-    <Compile Include="TestSuite.cs" />
-    <Compile Include="Properties\ProjectAssemblyInfo.cs" />
-    <Compile Include="TestSuiteProvider.cs" />
+    <ProjectReference Include="..\NBi.Core\NBi.Core.csproj" />
+    <ProjectReference Include="..\NBi.Extensibility\NBi.Extensibility.csproj" />
+    <ProjectReference Include="..\NBi.Framework\NBi.Framework.csproj" />
+    <ProjectReference Include="..\NBi.NUnit\NBi.NUnit.csproj" />
+    <ProjectReference Include="..\NBi.Xml\NBi.Xml.csproj" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-    <None Include="packages.config" />
     <None Include="SampleConfigFile.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\NBi.Core\NBi.Core.csproj">
-      <Project>{3f730647-fe31-4907-8a6e-a0c4a0c970ea}</Project>
-      <Name>NBi.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\NBi.Extensibility\NBi.Extensibility.csproj">
-      <Project>{a06cba63-d848-4dbc-abfc-63172613999d}</Project>
-      <Name>NBi.Extensibility</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\NBi.Framework\NBi.Framework.csproj">
-      <Project>{1ad339dc-60e0-4334-86cf-60eeafeaa6e4}</Project>
-      <Name>NBi.Framework</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\NBi.NUnit\NBi.NUnit.csproj">
-      <Project>{66314704-aa76-4153-80d8-ca2c5ff06976}</Project>
-      <Name>NBi.NUnit</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\NBi.Xml\NBi.Xml.csproj">
-      <Project>{3A9822B3-CCE4-441B-9C3E-D52817A994CA}</Project>
-      <Name>NBi.Xml</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
-  </ItemGroup>
-  <ItemGroup />
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <PropertyGroup>
-    <PostBuildEvent>xcopy /Q /Y "$(SolutionDir)NBi.Core\$(OutDir)Microsoft.AnalysisServices.AdomdClient.dll" "$(TargetDir)"
-rmdir /Q /S "$(TargetDir)Schema\"
-xcopy /E /Y "$(SolutionDir)NBi.Xsd.Preprocess\$(OutDir)Xsd" "$(TargetDir)Schema\"</PostBuildEvent>
-  </PropertyGroup>
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
 </Project>

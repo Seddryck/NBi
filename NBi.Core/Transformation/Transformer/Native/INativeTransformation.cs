@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.Transformation.Transformer.Native
+namespace NBi.Core.Transformation.Transformer.Native;
+
+public interface INativeTransformation
 {
-    public interface INativeTransformation
-    {
-        object Evaluate(object value);
-    }
+    object? Evaluate(object? value);
 }

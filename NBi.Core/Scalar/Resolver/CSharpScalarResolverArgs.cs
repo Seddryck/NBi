@@ -7,15 +7,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.Scalar.Resolver
-{
-    public class CSharpScalarResolverArgs : IScalarResolverArgs
-    {
-        public string Code { get; }
+namespace NBi.Core.Scalar.Resolver;
 
-        public CSharpScalarResolverArgs(string code)
-        {
-            Code = code;
-        }
+public class CSharpScalarResolverArgs : IScalarResolverArgs
+{
+    public string Code { get; }
+
+    public CSharpScalarResolverArgs(string code)
+    {
+        Code = code;
     }
 }

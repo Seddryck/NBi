@@ -17,113 +17,96 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Testing.Framework.FailureMessage.Json
+namespace NBi.Framework.Testing.FailureMessage.Json;
+
+public class LookupReverseExistsViolationMessageJsonTest
 {
-    public class LookupReverseExistsViolationMessageJsonTest
+    [Test]
+    public void RenderMessage_FullSamples_Correct()
     {
-        #region Helpers
-        private IEnumerable<IResultRow> GetDataRows(int count)
+        var referenceTable = new DataTable() { TableName = "MyTable" };
+        referenceTable.Columns.Add(new DataColumn("ForeignKey"));
+        referenceTable.Columns.Add(new DataColumn("Numeric value"));
+        referenceTable.LoadDataRow(["Alpha", 15], false);
+        referenceTable.LoadDataRow(["Beta", 20], false);
+        referenceTable.LoadDataRow(["Delta", 30], false);
+        referenceTable.LoadDataRow(["Epsilon", 40], false);
+        var rsReference = new DataTableResultSet(referenceTable);
+
+        var candidateTable = new DataTable() { TableName = "MyTable" };
+        candidateTable.Columns.Add(new DataColumn("ForeignKey"));
+        candidateTable.Columns.Add(new DataColumn("Numeric value"));
+        candidateTable.Columns.Add(new DataColumn("Boolean value"));
+        candidateTable.LoadDataRow(["Alpha", 10, true], false);
+        candidateTable.LoadDataRow(["Gamma", 20, false], false);
+        var rsCandidate = new DataTableResultSet(candidateTable);
+
+        var foreignKeyDefinition = new ColumnMetadata() { Identifier = new ColumnIdentifierFactory().Instantiate("ForeignKey"), Role = ColumnRole.Key };
+        var numericDefinition = new ColumnMetadata() { Identifier = new ColumnIdentifierFactory().Instantiate("Numeric value"), Role = ColumnRole.Value };
+
+        var keyMappings = new ColumnMappingCollection() { new ColumnMapping(foreignKeyDefinition.Identifier, ColumnType.Text) };
+        var valueMappings = new ColumnMappingCollection() { new ColumnMapping(numericDefinition.Identifier, ColumnType.Numeric) };
+
+        var violations = new LookupExistsViolationCollection(keyMappings);
+        violations.Register(new KeyCollection(new[] { "Gamma" }), rsCandidate.Rows.ElementAt(1));
+
+        var samplers = new Dictionary<string, ISampler<IResultRow>>()
         {
-            var dataTable = new DataTable() { TableName = "MyTable" };
-            dataTable.Columns.Add(new DataColumn("Id"));
-            dataTable.Columns.Add(new DataColumn("Numeric value"));
-            dataTable.Columns.Add(new DataColumn("Boolean value"));
-            for (int i = 0; i < count; i++)
-                dataTable.LoadDataRow(new object[] { "Alpha", i, true }, false);
-            var rs = new DataTableResultSet(dataTable);
+            { "candidate", new FullSampler<IResultRow>() },
+            { "reference", new FullSampler<IResultRow>() },
+            { "analysis", new FullSampler<IResultRow>() },
+        };
 
-            return rs.Rows;
-        }
-        #endregion
+        var message = new LookupReverseExistsViolationMessageJson(samplers);
+        message.Generate(rsReference.Rows, rsCandidate.Rows, violations, keyMappings, valueMappings);
 
-        [Test]
-        public void RenderMessage_FullSamples_Correct()
+        var text = message.RenderMessage();
+        Assert.That(text, Does.Contain("\"expected\":{\"total-rows\":4,\"table\""));
+        Assert.That(text, Does.Contain("\"actual\":{\"total-rows\":2,\"table\""));
+        Assert.That(text, Does.Contain("\"analysis\":{\"missing\":{\"total-rows\":1,"));
+        Assert.That(text, Does.Contain("[[\"Gamma\",\"20\",\"False\"]]"));
+    }
+
+    [Test]
+    public void RenderMessage_NoneSamples_Correct()
+    {
+        var referenceTable = new DataTable() { TableName = "MyTable" };
+        referenceTable.Columns.Add(new DataColumn("ForeignKey"));
+        referenceTable.Columns.Add(new DataColumn("Numeric value"));
+        referenceTable.LoadDataRow(["Alpha", 15], false);
+        referenceTable.LoadDataRow(["Beta", 20], false);
+        referenceTable.LoadDataRow(["Delta", 30], false);
+        referenceTable.LoadDataRow(["Epsilon", 40], false);
+        var rsReference = new DataTableResultSet(referenceTable);
+
+        var candidateTable = new DataTable() { TableName = "MyTable" };
+        candidateTable.Columns.Add(new DataColumn("ForeignKey"));
+        candidateTable.Columns.Add(new DataColumn("Numeric value"));
+        candidateTable.Columns.Add(new DataColumn("Boolean value"));
+        candidateTable.LoadDataRow(["Alpha", 10, true], false);
+        candidateTable.LoadDataRow(["Gamma", 20, false], false);
+        var rsCandidate = new DataTableResultSet(candidateTable);
+
+        var foreignKeyDefinition = new ColumnMetadata() { Identifier = new ColumnIdentifierFactory().Instantiate("ForeignKey"), Role = ColumnRole.Key };
+
+        var keyMappings = new ColumnMappingCollection() { new ColumnMapping(foreignKeyDefinition.Identifier, ColumnType.Text) };
+
+        var violations = new LookupExistsViolationCollection(keyMappings);
+        violations.Register(new KeyCollection(new[] { "Gamma" }), rsCandidate.Rows.ElementAt(1));
+
+        var samplers = new Dictionary<string, ISampler<IResultRow>>()
         {
-            var referenceTable = new DataTable() { TableName = "MyTable" };
-            referenceTable.Columns.Add(new DataColumn("ForeignKey"));
-            referenceTable.Columns.Add(new DataColumn("Numeric value"));
-            referenceTable.LoadDataRow(new object[] { "Alpha", 15 }, false);
-            referenceTable.LoadDataRow(new object[] { "Beta", 20 }, false);
-            referenceTable.LoadDataRow(new object[] { "Delta", 30 }, false);
-            referenceTable.LoadDataRow(new object[] { "Epsilon", 40 }, false);
-            var rsReference = new DataTableResultSet(referenceTable);
+            { "candidate", new NoneSampler<IResultRow>() },
+            { "reference", new NoneSampler<IResultRow>() },
+            { "analysis", new NoneSampler<IResultRow>() },
+        };
 
-            var candidateTable = new DataTable() { TableName = "MyTable" };
-            candidateTable.Columns.Add(new DataColumn("ForeignKey"));
-            candidateTable.Columns.Add(new DataColumn("Numeric value"));
-            candidateTable.Columns.Add(new DataColumn("Boolean value"));
-            candidateTable.LoadDataRow(new object[] { "Alpha", 10, true }, false);
-            candidateTable.LoadDataRow(new object[] { "Gamma", 20, false }, false);
-            var rsCandidate = new DataTableResultSet(candidateTable);
+        var message = new LookupReverseExistsViolationMessageJson(samplers);
+        message.Generate(rsReference.Rows, rsCandidate.Rows, violations, keyMappings, []);
 
-            var foreignKeyDefinition = new ColumnMetadata() { Identifier = new ColumnIdentifierFactory().Instantiate("ForeignKey"), Role = ColumnRole.Key };
-            var numericDefinition = new ColumnMetadata() { Identifier = new ColumnIdentifierFactory().Instantiate("Numeric value"), Role = ColumnRole.Value };
-
-            var keyMappings = new ColumnMappingCollection() { new ColumnMapping(foreignKeyDefinition.Identifier, ColumnType.Text) };
-            var valueMappings = new ColumnMappingCollection() { new ColumnMapping(numericDefinition.Identifier, ColumnType.Numeric) };
-
-            var violations = new LookupExistsViolationCollection(keyMappings);
-            violations.Register(new KeyCollection(new[] { "Gamma" }), rsCandidate.Rows.ElementAt(1));
-
-            var samplers = new Dictionary<string, ISampler<IResultRow>>()
-            {
-                { "candidate", new FullSampler<IResultRow>() },
-                { "reference", new FullSampler<IResultRow>() },
-                { "analysis", new FullSampler<IResultRow>() },
-            };
-
-            var message = new LookupReverseExistsViolationMessageJson(samplers);
-            message.Generate(rsReference.Rows, rsCandidate.Rows, violations, keyMappings, valueMappings);
-
-            var text = message.RenderMessage();
-            Assert.That(text, Does.Contain("\"expected\":{\"total-rows\":4,\"table\""));
-            Assert.That(text, Does.Contain("\"actual\":{\"total-rows\":2,\"table\""));
-            Assert.That(text, Does.Contain("\"analysis\":{\"missing\":{\"total-rows\":1,"));
-            Assert.That(text, Does.Contain("[[\"Gamma\",\"20\",\"False\"]]"));
-        }
-
-        [Test]
-        public void RenderMessage_NoneSamples_Correct()
-        {
-            var referenceTable = new DataTable() { TableName = "MyTable" };
-            referenceTable.Columns.Add(new DataColumn("ForeignKey"));
-            referenceTable.Columns.Add(new DataColumn("Numeric value"));
-            referenceTable.LoadDataRow(new object[] { "Alpha", 15 }, false);
-            referenceTable.LoadDataRow(new object[] { "Beta", 20 }, false);
-            referenceTable.LoadDataRow(new object[] { "Delta", 30 }, false);
-            referenceTable.LoadDataRow(new object[] { "Epsilon", 40 }, false);
-            var rsReference = new DataTableResultSet(referenceTable);
-
-            var candidateTable = new DataTable() { TableName = "MyTable" };
-            candidateTable.Columns.Add(new DataColumn("ForeignKey"));
-            candidateTable.Columns.Add(new DataColumn("Numeric value"));
-            candidateTable.Columns.Add(new DataColumn("Boolean value"));
-            candidateTable.LoadDataRow(new object[] { "Alpha", 10, true }, false);
-            candidateTable.LoadDataRow(new object[] { "Gamma", 20, false }, false);
-            var rsCandidate = new DataTableResultSet(candidateTable);
-
-            var foreignKeyDefinition = new ColumnMetadata() { Identifier = new ColumnIdentifierFactory().Instantiate("ForeignKey"), Role = ColumnRole.Key };
-            var numericDefinition = new ColumnMetadata() { Identifier = new ColumnIdentifierFactory().Instantiate("Numeric value"), Role = ColumnRole.Value };
-
-            var keyMappings = new ColumnMappingCollection() { new ColumnMapping(foreignKeyDefinition.Identifier, ColumnType.Text) };
-
-            var violations = new LookupExistsViolationCollection(keyMappings);
-            violations.Register(new KeyCollection(new[] { "Gamma" }), rsCandidate.Rows.ElementAt(1));
-
-            var samplers = new Dictionary<string, ISampler<IResultRow>>()
-            {
-                { "candidate", new NoneSampler<IResultRow>() },
-                { "reference", new NoneSampler<IResultRow>() },
-                { "analysis", new NoneSampler<IResultRow>() },
-            };
-
-            var message = new LookupReverseExistsViolationMessageJson(samplers);
-            message.Generate(rsReference.Rows, rsCandidate.Rows, violations, keyMappings, null);
-
-            var text = message.RenderMessage();
-            Assert.That(text, Does.Contain("\"expected\":{\"total-rows\":4}"));
-            Assert.That(text, Does.Contain("\"actual\":{\"total-rows\":2}"));
-            Assert.That(text, Does.Contain("\"analysis\":{\"missing\":{\"total-rows\":1}"));
-        }
+        var text = message.RenderMessage();
+        Assert.That(text, Does.Contain("\"expected\":{\"total-rows\":4}"));
+        Assert.That(text, Does.Contain("\"actual\":{\"total-rows\":2}"));
+        Assert.That(text, Does.Contain("\"analysis\":{\"missing\":{\"total-rows\":1}"));
     }
 }

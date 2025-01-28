@@ -6,16 +6,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.Sequence.Transformation.Aggregation
-{
-    public class AggregationArgs
-    {
-        public ColumnType ColumnType { get; }
-        public AggregationFunctionType Function { get; }
-        public IList<IScalarResolver> Parameters { get; } = new List<IScalarResolver>();
-        public IList<IAggregationStrategy> Strategies { get; } = new List<IAggregationStrategy>();
+namespace NBi.Core.Sequence.Transformation.Aggregation;
 
-        public AggregationArgs(AggregationFunctionType function, ColumnType columnType, IList<IScalarResolver> parameters)
-            => (ColumnType, Function, Parameters) = (columnType, function, parameters ?? new List<IScalarResolver>());
-    }
+public class AggregationArgs
+{
+    public ColumnType ColumnType { get; }
+    public AggregationFunctionType Function { get; }
+    public IList<IScalarResolver> Parameters { get; } = [];
+    public IList<IAggregationStrategy> Strategies { get; } = [];
+
+    public AggregationArgs(AggregationFunctionType function, ColumnType columnType, IList<IScalarResolver> parameters)
+        => (ColumnType, Function, Parameters) = (columnType, function, parameters ?? []);
 }

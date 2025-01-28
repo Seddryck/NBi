@@ -1,6 +1,5 @@
-﻿namespace NBi.Core.Sequence.Resolver
+﻿namespace NBi.Core.Sequence.Resolver;
+
+public interface ISequenceResolverArgs
 {
-    public interface ISequenceResolverArgs
-    {
-    }
 }

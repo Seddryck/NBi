@@ -9,16 +9,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.GenbiL.Action.Suite
+namespace NBi.GenbiL.Action.Suite;
+
+class GenerateCleanupGroupBySuiteAction : GenerateSuiteAction<CleanupStandaloneXml>
 {
-    class GenerateCleanupGroupBySuiteAction : GenerateSuiteAction<CleanupStandaloneXml>
-    {
-        public GenerateCleanupGroupBySuiteAction(string groupByPattern)
-            : base(false, groupByPattern) { }
+    public GenerateCleanupGroupBySuiteAction(string groupByPattern)
+        : base(false, groupByPattern) { }
 
-        public override string Display { get => $"Generating cleanups in groups '{GroupByPattern}'"; }      
+    public override string Display { get => $"Generating cleanups in groups '{GroupByPattern}'"; }      
 
-        protected override TreeNode BuildNode(CleanupStandaloneXml content)
-            => new CleanupNode(content);
-    }
+    protected override TreeNode BuildNode(CleanupStandaloneXml content)
+        => new CleanupNode(content);
 }

@@ -6,42 +6,41 @@ using System.Linq;
 using System.Text;
 using System.Xml.Serialization;
 
-namespace NBi.Xml
+namespace NBi.Xml;
+
+public abstract class InheritanceTestXml
 {
-    public abstract class InheritanceTestXml
+    protected List<string> categories;
+    protected List<TraitXml> traits;
+
+    protected SetupXml setup;
+
+    protected CleanupXml cleanup;
+
+    public InheritanceTestXml()
     {
-        protected List<string> categories;
-        protected List<TraitXml> traits;
+        categories = new List<string>();
+        traits = new List<TraitXml>();
+        setup = new SetupXml();
+        cleanup = new CleanupXml();
+    }
 
-        protected SetupXml setup;
+    public void AddInheritance(List<string> inheritedCategories, SetupXml inheritedSetup, CleanupXml inheritedCleanup)
+    {
+        this.categories.AddRange(inheritedCategories);
+        InheritDecoration(this.setup, inheritedSetup);
+        InheritDecoration(this.cleanup, inheritedCleanup);
+    }
 
-        protected CleanupXml cleanup;
-
-        public InheritanceTestXml()
-        {
-            categories = new List<string>();
-            traits = new List<TraitXml>();
-            setup = new SetupXml();
-            cleanup = new CleanupXml();
-        }
-
-        public void AddInheritance(List<string> inheritedCategories, SetupXml inheritedSetup, CleanupXml inheritedCleanup)
-        {
-            this.categories.AddRange(inheritedCategories);
-            InheritDecoration(this.setup, inheritedSetup);
-            InheritDecoration(this.cleanup, inheritedCleanup);
-        }
-
-        protected void InheritDecoration(DecorationXml obj, DecorationXml decoration)
-        {
-            if (decoration != null && decoration.Commands.Count > 0)
-                if (obj == null || decoration.Commands.Count == 0)
-                    obj = decoration;
-                else
-                {
-                    for (int i = 0; i < decoration.Commands.Count; i++)
-                        obj.Commands.Insert(i, decoration.Commands[i]);
-                }
-        }
+    protected void InheritDecoration(DecorationXml obj, DecorationXml decoration)
+    {
+        if (decoration != null && decoration.Commands.Count > 0)
+            if (obj == null || decoration.Commands.Count == 0)
+                obj = decoration;
+            else
+            {
+                for (int i = 0; i < decoration.Commands.Count; i++)
+                    obj.Commands.Insert(i, decoration.Commands[i]);
+            }
     }
 }

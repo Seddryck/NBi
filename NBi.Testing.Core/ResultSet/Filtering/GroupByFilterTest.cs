@@ -16,45 +16,44 @@ using System.Text;
 using System.Threading.Tasks;
 using static NBi.Core.ResultSet.SettingsOrdinalResultSet;
 
-namespace NBi.Testing.Core.ResultSet.Filtering
+namespace NBi.Core.Testing.ResultSet.Filtering;
+
+public class GroupByFilterTest
 {
-    public class GroupByFilterTest
+    [Test]
+    public void Execute_Top2OneKey_ResultSetReduced()
     {
-        [Test]
-        public void Execute_Top2OneKey_ResultSetReduced()
-        {
-            var args = new ObjectsResultSetResolverArgs(new[] { new object[] { "alpha", 1 }, new object[] { "alpha", 2 }, new object[] { "beta", 3 }, new object[] { "alpha", 4 } });
-            var resolver = new ObjectsResultSetResolver(args);
-            var rs = resolver.Execute();
+        var args = new ObjectsResultSetResolverArgs(new[] { new object[] { "alpha", 1 }, ["alpha", 2], ["beta", 3], ["alpha", 4] });
+        var resolver = new ObjectsResultSetResolver(args);
+        var rs = resolver.Execute();
 
-            var settings = new SettingsOrdinalResultSet(KeysChoice.First, ValuesChoice.None, NumericAbsoluteTolerance.None);
-            var grouping = new OrdinalColumnGrouping(settings, Context.None);
+        var settings = new SettingsOrdinalResultSet(KeysChoice.First, ValuesChoice.None, NumericAbsoluteTolerance.None);
+        var grouping = new OrdinalColumnGrouping(settings, Context.None);
 
-            var filter = new TopRanking(2, new ColumnOrdinalIdentifier(1), ColumnType.Numeric);
+        var filter = new TopRanking(2, new ColumnOrdinalIdentifier(1), ColumnType.Numeric);
 
-            var rankingByGroup = new GroupByFilter(filter, grouping);
+        var rankingByGroup = new GroupByFilter(filter, grouping);
 
-            var result = rankingByGroup.Apply(rs);
-            Assert.That(result.Rows.Count(), Is.EqualTo(3));
-            Assert.That(result.Rows.Where(x => x[0].ToString()=="alpha").Count(), Is.EqualTo(2));
-            Assert.That(result.Rows.Where(x => x[0].ToString() == "beta").Count(), Is.EqualTo(1));
-        }
+        var result = rankingByGroup.Apply(rs);
+        Assert.That(result.Rows.Count(), Is.EqualTo(3));
+        Assert.That(result.Rows.Where(x => x[0]?.ToString()=="alpha").Count(), Is.EqualTo(2));
+        Assert.That(result.Rows.Where(x => x[0]?.ToString() == "beta").Count(), Is.EqualTo(1));
+    }
 
-        [Test]
-        public void Execute_Top2None_ResultSetReduced()
-        {
-            var args = new ObjectsResultSetResolverArgs(new[] { new object[] { "alpha", 1 }, new object[] { "alpha", 2 }, new object[] { "beta", 3 }, new object[] { "alpha", 4 } });
-            var resolver = new ObjectsResultSetResolver(args);
-            var rs = resolver.Execute();
+    [Test]
+    public void Execute_Top2None_ResultSetReduced()
+    {
+        var args = new ObjectsResultSetResolverArgs(new[] { new object[] { "alpha", 1 }, ["alpha", 2], ["beta", 3], ["alpha", 4] });
+        var resolver = new ObjectsResultSetResolver(args);
+        var rs = resolver.Execute();
 
-            var filter = new TopRanking(2, new ColumnOrdinalIdentifier(1), ColumnType.Numeric);
+        var filter = new TopRanking(2, new ColumnOrdinalIdentifier(1), ColumnType.Numeric);
 
-            var rankingByGroup = new GroupByFilter(filter, new NoneGrouping());
+        var rankingByGroup = new GroupByFilter(filter, new NoneGrouping());
 
-            var result = rankingByGroup.Apply(rs);
-            Assert.That(result.Rows.Count(), Is.EqualTo(2));
-            Assert.That(result.Rows.Where(x => x[0].ToString() == "alpha").Count(), Is.EqualTo(1));
-            Assert.That(result.Rows.Where(x => x[0].ToString() == "beta").Count(), Is.EqualTo(1));
-        }
+        var result = rankingByGroup.Apply(rs);
+        Assert.That(result.Rows.Count(), Is.EqualTo(2));
+        Assert.That(result.Rows.Where(x => x[0]?.ToString() == "alpha").Count(), Is.EqualTo(1));
+        Assert.That(result.Rows.Where(x => x[0]?.ToString() == "beta").Count(), Is.EqualTo(1));
     }
 }

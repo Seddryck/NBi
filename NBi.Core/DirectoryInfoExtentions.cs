@@ -5,16 +5,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core
+namespace NBi.Core;
+
+public static class DirectoryInfoExtentions
 {
-    public static class DirectoryInfoExtentions
+    public static IEnumerable<FileInfo> GetFilesByExtensions(this DirectoryInfo dir, params string[] extensions)
     {
-        public static IEnumerable<FileInfo> GetFilesByExtensions(this DirectoryInfo dir, params string[] extensions)
-        {
-            if (extensions == null)
-                throw new ArgumentNullException("extensions");
-            IEnumerable<FileInfo> files = dir.EnumerateFiles();
-            return files.Where(f => extensions.Contains(f.Extension));
-        }
+        if (extensions == null)
+            throw new ArgumentNullException(nameof(extensions));
+        var files = dir.EnumerateFiles();
+        return files.Where(f => extensions.Contains(f.Extension));
     }
 }

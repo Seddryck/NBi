@@ -5,13 +5,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Testing.Core.Assemblies.Resource
-{
-    class CustomConditionWithOneParameter : ICustomCondition
-    {
-        public CustomConditionWithOneParameter(string name)
-        { }
+namespace Resource;
 
-        public CustomConditionResult Execute() => CustomConditionResult.SuccessfullCondition;
-    }
+class CustomConditionWithOneParameter : ICustomCondition
+{
+    public CustomConditionWithOneParameter(string name)
+    { }
+
+    public CustomConditionResult Execute() => CustomConditionResult.SuccessfullCondition;
 }

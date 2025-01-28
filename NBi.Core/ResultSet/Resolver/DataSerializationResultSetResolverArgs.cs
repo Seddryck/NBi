@@ -9,14 +9,13 @@ using NBi.Core.DataSerialization;
 using NBi.Core.DataSerialization.Reader;
 using NBi.Core.DataSerialization.Flattening;
 
-namespace NBi.Core.ResultSet.Resolver
-{
-    public class DataSerializationResultSetResolverArgs : ResultSetResolverArgs
-    {
-        public IReaderArgs Reader { get; }
-        public IFlattenizerArgs Flattenizer { get; }
+namespace NBi.Core.ResultSet.Resolver;
 
-        public DataSerializationResultSetResolverArgs(IReaderArgs reader, IFlattenizerArgs flattenizer)
-            => (Reader, Flattenizer) = (reader, flattenizer);
-    }
+public class DataSerializationResultSetResolverArgs : ResultSetResolverArgs
+{
+    public IReaderArgs Reader { get; }
+    public IFlattenizerArgs Flattenizer { get; }
+
+    public DataSerializationResultSetResolverArgs(IReaderArgs reader, IFlattenizerArgs flattenizer)
+        => (Reader, Flattenizer) = (reader, flattenizer);
 }

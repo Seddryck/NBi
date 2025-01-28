@@ -4,12 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.Scalar.Comparer
+namespace NBi.Core.Scalar.Comparer;
+
+public enum SideTolerance
 {
-    public enum SideTolerance
-    {
-        Both = 0
-        , More = 1
-        , Less = 2
-    }
+    Both = 0
+    , More = 1
+    , Less = 2
 }

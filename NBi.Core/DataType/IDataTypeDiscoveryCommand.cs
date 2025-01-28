@@ -5,11 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 
 
-namespace NBi.Core.DataType
+namespace NBi.Core.DataType;
+
+public interface IDataTypeDiscoveryCommand
 {
-    public interface IDataTypeDiscoveryCommand
-    {
-        CommandDescription Description { get; }
-        DataTypeInfo Execute();
-    }
+    CommandDescription Description { get; }
+    DataTypeInfo? Execute();
 }

@@ -18,10 +18,10 @@ namespace NBi.Testing.Integration.Core.Query.Execution
             var qe = new AdomdExecutionEngine(cmd.Connection, cmd);
             var ds = qe.Execute();
 
-            Assert.IsInstanceOf<string>(ds.Tables[0].Rows[0][0]);
+            Assert.That(ds.Tables[0].Rows[0][0], Is.InstanceOf<string>());
             Assert.AreEqual((string)ds.Tables[0].Rows[0][0], "CY 2005");
             Assert.AreEqual((string)ds.Tables[0].Rows[1][0], "CY 2006");
-            Assert.IsInstanceOf<double>(ds.Tables[0].Rows[1][1]);
+            Assert.That(ds.Tables[0].Rows[1][1], Is.InstanceOf<double>());
         }
 
         [Test]
@@ -32,9 +32,9 @@ namespace NBi.Testing.Integration.Core.Query.Execution
             var qe = new AdomdExecutionEngine(cmd.Connection, cmd);
             var ds = qe.Execute();
 
-            Assert.IsInstanceOf<string>(ds.Tables[0].Rows[0][0]);
+            Assert.That(ds.Tables[0].Rows[0][0], Is.InstanceOf<string>());
             Assert.AreEqual((string)ds.Tables[0].Rows[0][0], "CY 2010");
-            Assert.IsInstanceOf<DBNull>(ds.Tables[0].Rows[0][1]);
+            Assert.That(ds.Tables[0].Rows[0][1], Is.InstanceOf<DBNull>());
             Assert.That(ds.Tables[0].Rows[0].IsNull(1), Is.True);
         }
 
@@ -46,7 +46,7 @@ namespace NBi.Testing.Integration.Core.Query.Execution
             var qe = new AdomdExecutionEngine(cmd.Connection, cmd);
             var ds = qe.Execute();
 
-            Assert.IsInstanceOf<string>(ds.Tables[0].Rows[0][0]);
+            Assert.That(ds.Tables[0].Rows[0][0], Is.InstanceOf<string>());
             Assert.AreEqual((string)ds.Tables[0].Rows[0][0], "Mountain Bikes");
             Assert.AreEqual((string)ds.Tables[0].Rows[1][0], "Road Bikes");
             Assert.AreEqual((string)ds.Tables[0].Rows[2][0], "Touring Bikes");

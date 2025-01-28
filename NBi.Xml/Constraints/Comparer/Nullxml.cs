@@ -7,10 +7,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 
-namespace NBi.Xml.Constraints.Comparer
+namespace NBi.Xml.Constraints.Comparer;
+
+public class NullXml : PredicateXml
 {
-    public class NullXml : PredicateXml
-    {
-        public override ComparerType ComparerType { get => ComparerType.Null; }
-    }
+    public override ComparerType ComparerType { get => ComparerType.Null; }
 }

@@ -6,18 +6,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Testing.Core.Sequence.Resolver.Resources
+namespace NBi.Core.Testing.Sequence.Resolver.Resources;
+
+public class MyCustomClassWithParams : ISequenceResolver
 {
-    public class MyCustomClassWithParams : ISequenceResolver
-    {
-        private int Foo { get; }
-        private DateTime Bar { get; }
+    private int Foo { get; }
+    private DateTime Bar { get; }
 
-        public MyCustomClassWithParams(DateTime bar, int foo)
-            => (Bar, Foo) = (bar, foo);
+    public MyCustomClassWithParams(DateTime bar, int foo)
+        => (Bar, Foo) = (bar, foo);
 
-        public IList Execute() => new DateTime[] { Bar.AddDays(-Foo), Bar.AddDays(Foo) }.ToList();
+    public IList Execute() => new DateTime[] { Bar.AddDays(-Foo), Bar.AddDays(Foo) }.ToList();
 
-        object IResolver.Execute() => Execute();
-    }
+    object IResolver.Execute() => Execute();
 }

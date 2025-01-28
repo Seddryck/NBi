@@ -8,17 +8,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.Scalar.Resolver
-{
-    public class FormatScalarResolverArgs : IScalarResolverArgs
-    {
-        public string Text { get; }
-        public IDictionary<string, IVariable> GlobalVariables { get; }
+namespace NBi.Core.Scalar.Resolver;
 
-        public FormatScalarResolverArgs(string text, IDictionary<string, IVariable> globalVariables)
-        {
-            Text = text;
-            GlobalVariables = globalVariables;
-        }
-    }
+public class FormatScalarResolverArgs : IScalarResolverArgs
+{
+    public string Text { get; }
+    public Context Context { get; }
+
+    public FormatScalarResolverArgs(string text, Context context)
+        => (Text, Context) = (text, context);
 }

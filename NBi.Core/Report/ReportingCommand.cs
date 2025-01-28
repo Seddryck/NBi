@@ -5,11 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.Report
+namespace NBi.Core.Report;
+
+public class ReportingCommand
 {
-    public class ReportingCommand
-    {
-        public string Text { get; set; }
-        public CommandType CommandType { get; set; }
-    }
+    public string Text { get; set; } = string.Empty;
+    public CommandType CommandType { get; set; }
 }

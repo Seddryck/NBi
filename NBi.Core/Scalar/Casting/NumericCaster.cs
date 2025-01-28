@@ -6,26 +6,25 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.Scalar.Casting
+namespace NBi.Core.Scalar.Casting;
+
+class NumericCaster : BaseNumericCaster, ICaster<decimal>
 {
-    class NumericCaster : BaseNumericCaster, ICaster<decimal>
+    public decimal Execute(object? value)
     {
-        public decimal Execute(object value)
+        if (value is decimal dec)
+            return dec;
+
+        try
         {
-            if (value is decimal)
-                return (decimal)value;
-
-            try
-            {
-                return System.Convert.ToDecimal(value, NumberFormatInfo.InvariantInfo);
-            }
-            catch
-            {
-                throw new NBiException($"Can't cast the value '{(value==null || value==DBNull.Value ? "(null)" : value)}' to a decimal.");
-            }
-            
+            return Convert.ToDecimal(value, NumberFormatInfo.InvariantInfo);
         }
-
-        object ICaster.Execute(object value) => Execute(value);
+        catch
+        {
+            throw new NBiException($"Can't cast the value '{(value==null || value==DBNull.Value ? "(null)" : value)}' to a decimal.");
+        }
+        
     }
+
+    object ICaster.Execute(object? value) => Execute(value);
 }

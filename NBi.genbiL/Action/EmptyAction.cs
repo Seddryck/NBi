@@ -4,22 +4,21 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace NBi.GenbiL.Action
+namespace NBi.GenbiL.Action;
+
+class EmptyAction : IAction
 {
-    class EmptyAction : IAction
+
+    public void Execute(GenerationState state)
     {
+        return;
+    }
 
-        public void Execute(GenerationState state)
+    public string Display
+    {
+        get
         {
-            return;
-        }
-
-        public string Display
-        {
-            get
-            {
-                return string.Empty;
-            }
+            return string.Empty;
         }
     }
 }

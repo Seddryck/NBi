@@ -11,177 +11,156 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
-namespace NBi.Testing.Core.DataSerialization.Flattenizer
+namespace NBi.Core.Testing.DataSerialization.Flattenizer;
+
+public class JsonPathEngineTest
 {
-    public class JsonPathEngineTest
+    protected StreamReader GetResourceReader(string filename)
     {
-        protected StreamReader GetResourceReader(string filename)
+        // A Stream is needed to read the XML document.
+        var stream = Assembly.GetExecutingAssembly()
+                                       .GetManifestResourceStream($"{GetType().Namespace}.Resources.{filename}.json") ?? throw new NullReferenceException();
+        var reader = new StreamReader(stream);
+        return reader;
+    }
+
+
+    [Test]
+    [TestCase("$.PurchaseOrders[*].Items[*]", 5)]
+    [TestCase("$.PurchaseOrders[*]", 4)]
+    public void Execute_Example_RowCount(string from, int rowCount)
+    {
+        var selects = new List<ElementSelect>()
         {
-            // A Stream is needed to read the XML document.
-            var stream = Assembly.GetExecutingAssembly()
-                                           .GetManifestResourceStream($"{GetType().Namespace}.Resources.{filename}.json");
-            var reader = new StreamReader(stream);
-            return reader;
-        }
+            new ElementSelect(new LiteralScalarResolver<string>("$"))
+        };
 
+        using var reader = GetResourceReader("PurchaseOrders");
+        var engine = new JsonPathEngine(new LiteralScalarResolver<string>(from), selects);
+        var result = engine.Execute(reader);
+        Assert.That(result.Count, Is.EqualTo(rowCount));
+    }
 
-        [Test]
-        [TestCase("$.PurchaseOrders[*].Items[*]", 5)]
-        [TestCase("$.PurchaseOrders[*]", 4)]
-        public void Execute_Example_RowCount(string from, int rowCount)
+    [Test]
+    public void Execute_Example_FirstColumnIsCorrect()
+    {
+        var from = "$.PurchaseOrders[*].Items[*]";
+        var selects = new List<ElementSelect>()
         {
-            var selects = new List<ElementSelect>()
-            {
-                new ElementSelect(new LiteralScalarResolver<string>("$"))
-            };
+            new (new LiteralScalarResolver<string>("PartNumber"))
+        };
 
-            using (var reader = GetResourceReader("PurchaseOrders"))
-            {
-                var engine = new JsonPathEngine(new LiteralScalarResolver<string>(from), selects);
-                var result = engine.Execute(reader);
-                Assert.That(result.Count, Is.EqualTo(rowCount));
-            }
-        }
+        using var reader = GetResourceReader("PurchaseOrders");
+        var engine = new JsonPathEngine(new LiteralScalarResolver<string>(from), selects);
+        var result = engine.Execute(reader);
+        Assert.That(result.Count, Is.EqualTo(5));
+        Assert.That(result.Select(x => ((string)((IEnumerable<object>)x).ElementAt(0)).Length), Is.All.EqualTo(6)); //Format is 123-XY
+    }
 
-        [Test]
-        public void Execute_Example_FirstColumnIsCorrect()
+    [Test]
+    public void Execute_Example_AllColumnsAreCorrect()
+    {
+        var from = "$.PurchaseOrders[*].Items[*]";
+        var selects = new List<ElementSelect>()
         {
-            var from = "$.PurchaseOrders[*].Items[*]";
-            var selects = new List<ElementSelect>()
-            {
-                new ElementSelect(new LiteralScalarResolver<string>("PartNumber"))
-            };
+            new ElementSelect(new LiteralScalarResolver<string>("PartNumber")),
+            new ElementSelect(new LiteralScalarResolver<string>("Quantity"))
+        };
 
-            using (var reader = GetResourceReader("PurchaseOrders"))
-            {
-                var engine = new JsonPathEngine(new LiteralScalarResolver<string>(from), selects);
-                var result = engine.Execute(reader);
-                Assert.That(result.Count, Is.EqualTo(5));
-                Assert.That(result.Select(x => ((x as IEnumerable<object>).ElementAt(0) as string).Length), Is.All.EqualTo(6)); //Format is 123-XY
-            }
-        }
+        using var reader = GetResourceReader("PurchaseOrders");
+        var engine = new JsonPathEngine(new LiteralScalarResolver<string>(from), selects);
+        var result = engine.Execute(reader);
+        Assert.That(result.Count, Is.EqualTo(5));
+        Assert.That(result.Count, Is.EqualTo(5));
+        Assert.That(result.Select(x => ((string)((IEnumerable<object>)x).ElementAt(0)).Length), Is.All.EqualTo(6)); //Format is 123-XY
+        Assert.That(result.Select(x => ((IEnumerable<object>)x).ElementAt(1)), Is.All.EqualTo(1).Or.EqualTo(2)); //All quantity are between 1 and 2
+    }
 
-        [Test]
-        public void Execute_Example_AllColumnsAreCorrect()
+
+    [Test]
+    public void Execute_FromElement_ValueCorrect()
+    {
+        var from = "$.PurchaseOrders[*].Items[*].ProductName";
+        var selects = new List<ElementSelect>()
         {
-            var from = "$.PurchaseOrders[*].Items[*]";
-            var selects = new List<ElementSelect>()
-            {
-                new ElementSelect(new LiteralScalarResolver<string>("PartNumber")),
-                new ElementSelect(new LiteralScalarResolver<string>("Quantity"))
-            };
+            new (new LiteralScalarResolver<string>("$"))
+        };
 
-            using (var reader = GetResourceReader("PurchaseOrders"))
-            {
-                var engine = new JsonPathEngine(new LiteralScalarResolver<string>(from), selects);
-                var result = engine.Execute(reader);
-                Assert.That(result.Count, Is.EqualTo(5));
-                Assert.That(result.Count, Is.EqualTo(5));
-                Assert.That(result.Select(x => ((x as IEnumerable<object>).ElementAt(0) as string).Length), Is.All.EqualTo(6)); //Format is 123-XY
-                Assert.That(result.Select(x => (x as IEnumerable<object>).ElementAt(1)), Is.All.EqualTo(1).Or.EqualTo(2)); //All quantity are between 1 and 2
-            }
-        }
+        using var reader = GetResourceReader("PurchaseOrders");
+        var engine = new JsonPathEngine(new LiteralScalarResolver<string>(from), selects);
+        var result = engine.Execute(reader);
+        Assert.That(((IEnumerable<object>)result.ElementAt(0)).ElementAt(0), Is.EqualTo("Lawnmower"));
+    }
 
-
-        [Test]
-        public void Execute_FromElement_ValueCorrect()
+    [Test]
+    public void Execute_FromAttribute_ValueCorrect()
+    {
+        var from = "$.PurchaseOrders[*].Items[*]";
+        var selects = new List<ElementSelect>()
         {
-            var from = "$.PurchaseOrders[*].Items[*].ProductName";
-            var selects = new List<ElementSelect>()
-            {
-                new ElementSelect(new LiteralScalarResolver<string>("$"))
-            };
+            new ElementSelect(new LiteralScalarResolver<string>("$.PartNumber"))
+        };
 
-            using (var reader = GetResourceReader("PurchaseOrders"))
-            {
-                var engine = new JsonPathEngine(new LiteralScalarResolver<string>(from), selects);
-                var result = engine.Execute(reader);
-                Assert.That((result.ElementAt(0) as IEnumerable<object>).ElementAt(0), Is.EqualTo("Lawnmower"));
-            }
-        }
+        using var reader = GetResourceReader("PurchaseOrders");
+        var engine = new JsonPathEngine(new LiteralScalarResolver<string>(from), selects);
+        var result = engine.Execute(reader);
+        Assert.That(((IEnumerable<object>)result.ElementAt(0)).ElementAt(0), Is.EqualTo("872-AA"));
+    }
 
-        [Test]
-        public void Execute_FromAttribute_ValueCorrect()
+    [Test]
+    public void Execute_MissingElement_Null()
+    {
+        var from = "$.PurchaseOrders[*]";
+        var selects = new List<ElementSelect>()
         {
-            var from = "$.PurchaseOrders[*].Items[*]";
-            var selects = new List<ElementSelect>()
-            {
-                new ElementSelect(new LiteralScalarResolver<string>("$.PartNumber"))
-            };
+            new(new LiteralScalarResolver<string>("$.PurchaseOrderNumber"))
+        };
 
-            using (var reader = GetResourceReader("PurchaseOrders"))
-            {
-                var engine = new JsonPathEngine(new LiteralScalarResolver<string>(from), selects);
-                var result = engine.Execute(reader);
-                Assert.That((result.ElementAt(0) as IEnumerable<object>).ElementAt(0), Is.EqualTo("872-AA"));
-            }
-        }
+        using var reader = GetResourceReader("PurchaseOrders");
+        var engine = new JsonPathEngine(new LiteralScalarResolver<string>(from), selects);
+        var result = engine.Execute(reader);
+        Assert.That(((IEnumerable<object>)result.ElementAt(3)).ElementAt(0), Is.EqualTo("(null)"));
+    }
 
-        [Test]
-        public void Execute_MissingElement_Null()
+    [Test]
+    public void Execute_ParentElement_ValueCorrect()
+    {
+        var from = "$.PurchaseOrders[*].Items[*]";
+        var selects = new List<ElementSelect>()
         {
-            var from = "$.PurchaseOrders[*]";
-            var selects = new List<ElementSelect>()
-            {
-                new ElementSelect(new LiteralScalarResolver<string>("$.PurchaseOrderNumber"))
-            };
+            new (new LiteralScalarResolver<string>("!!.PurchaseOrderNumber")),
+            new (new LiteralScalarResolver<string>("$.PartNumber"))
+        };
 
-            using (var reader = GetResourceReader("PurchaseOrders"))
-            {
-                var engine = new JsonPathEngine(new LiteralScalarResolver<string>(from), selects);
-                var result = engine.Execute(reader);
-                Assert.That((result.ElementAt(3) as IEnumerable<object>).ElementAt(0), Is.EqualTo("(null)"));
-            }
-        }
+        using var reader = GetResourceReader("PurchaseOrders");
+        var engine = new JsonPathEngine(new LiteralScalarResolver<string>(from), selects);
+        var result = engine.Execute(reader);
+        Assert.That(((IEnumerable<object>)result.ElementAt(0)).ElementAt(0), Does.Contain("99503"));
+        Assert.That(((IEnumerable<object>)result.ElementAt(0)).ElementAt(1), Does.Contain("872-AA"));
+        Assert.That(((IEnumerable<object>)result.ElementAt(1)).ElementAt(0), Does.Contain("99503"));
+        Assert.That(((IEnumerable<object>)result.ElementAt(1)).ElementAt(1), Does.Contain("926-AA"));
+        Assert.That(((IEnumerable<object>)result.ElementAt(2)).ElementAt(0), Does.Contain("99505"));
+        Assert.That(((IEnumerable<object>)result.ElementAt(2)).ElementAt(1), Does.Contain("456-NM"));
+    }
 
-        [Test]
-        public void Execute_ParentElement_ValueCorrect()
+    [Test]
+    public void Execute_ParentElementGoingAboveRoot_ValueCorrect()
+    {
+        var from = "$.PurchaseOrders[*].Items[*]";
+        var selects = new List<ElementSelect>()
         {
-            var from = "$.PurchaseOrders[*].Items[*]";
-            var selects = new List<ElementSelect>()
-            {
-                new ElementSelect(new LiteralScalarResolver<string>("!!.PurchaseOrderNumber")),
-                new ElementSelect(new LiteralScalarResolver<string>("$.PartNumber"))
-            };
+            new(new LiteralScalarResolver<string>("!!!!!!.PurchaseOrderNumber")),
+            new(new LiteralScalarResolver<string>("$.PartNumber"))
+        };
 
-            using (var reader = GetResourceReader("PurchaseOrders"))
-            {
-                var engine = new JsonPathEngine(new LiteralScalarResolver<string>(from), selects);
-                var result = engine.Execute(reader);
-                Assert.That((result.ElementAt(0) as IEnumerable<object>).ElementAt(0), Does.Contain("99503"));
-                Assert.That((result.ElementAt(0) as IEnumerable<object>).ElementAt(1), Does.Contain("872-AA"));
-
-                Assert.That((result.ElementAt(1) as IEnumerable<object>).ElementAt(0), Does.Contain("99503"));
-                Assert.That((result.ElementAt(1) as IEnumerable<object>).ElementAt(1), Does.Contain("926-AA"));
-
-                Assert.That((result.ElementAt(2) as IEnumerable<object>).ElementAt(0), Does.Contain("99505"));
-                Assert.That((result.ElementAt(2) as IEnumerable<object>).ElementAt(1), Does.Contain("456-NM"));
-            }
-        }
-
-        [Test]
-        public void Execute_ParentElementGoingAboveRoot_ValueCorrect()
-        {
-            var from = "$.PurchaseOrders[*].Items[*]";
-            var selects = new List<ElementSelect>()
-            {
-                new ElementSelect(new LiteralScalarResolver<string>("!!!!!!.PurchaseOrderNumber")),
-                new ElementSelect(new LiteralScalarResolver<string>("$.PartNumber"))
-            };
-
-            using (var reader = GetResourceReader("PurchaseOrders"))
-            {
-                var engine = new JsonPathEngine(new LiteralScalarResolver<string>(from), selects);
-                var result = engine.Execute(reader);
-                Assert.That((result.ElementAt(0) as IEnumerable<object>).ElementAt(0), Does.Contain("(null)"));
-                Assert.That((result.ElementAt(0) as IEnumerable<object>).ElementAt(1), Does.Contain("872-AA"));
-
-                Assert.That((result.ElementAt(1) as IEnumerable<object>).ElementAt(0), Does.Contain("(null)"));
-                Assert.That((result.ElementAt(1) as IEnumerable<object>).ElementAt(1), Does.Contain("926-AA"));
-
-                Assert.That((result.ElementAt(2) as IEnumerable<object>).ElementAt(0), Does.Contain("(null)"));
-                Assert.That((result.ElementAt(2) as IEnumerable<object>).ElementAt(1), Does.Contain("456-NM"));
-            }
-        }
+        using var reader = GetResourceReader("PurchaseOrders");
+        var engine = new JsonPathEngine(new LiteralScalarResolver<string>(from), selects);
+        var result = engine.Execute(reader);
+        Assert.That(((IEnumerable<object>)result.ElementAt(0)).ElementAt(0), Does.Contain("(null)"));
+        Assert.That(((IEnumerable<object>)result.ElementAt(0)).ElementAt(1), Does.Contain("872-AA"));
+        Assert.That(((IEnumerable<object>)result.ElementAt(1)).ElementAt(0), Does.Contain("(null)"));
+        Assert.That(((IEnumerable<object>)result.ElementAt(1)).ElementAt(1), Does.Contain("926-AA"));
+        Assert.That(((IEnumerable<object>)result.ElementAt(2)).ElementAt(0), Does.Contain("(null)"));
+        Assert.That(((IEnumerable<object>)result.ElementAt(2)).ElementAt(1), Does.Contain("456-NM"));
     }
 }

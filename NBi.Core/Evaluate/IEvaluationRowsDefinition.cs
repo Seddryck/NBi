@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace NBi.Core.Evaluate
+namespace NBi.Core.Evaluate;
+
+public interface IEvaluationRowsDefinition
 {
-    public interface IEvaluationRowsDefinition
-    {
-        List<IColumnAlias> Variables { get; }
-        List<IColumnExpression> Expressions { get; }
-    }
+    List<IColumnAlias> Variables { get; }
+    List<IColumnExpression> Expressions { get; }
 }

@@ -7,11 +7,10 @@ using System.Threading.Tasks;
 using System.Xml.Serialization;
 using System.IO;
 
-namespace NBi.Xml.Decoration.Command
+namespace NBi.Xml.Decoration.Command;
+
+public class ExeKillXml : DecorationCommandXml
 {
-    public class ExeKillXml : DecorationCommandXml
-    {
-        [XmlAttribute("name")]
-        public string ProcessName { get; set; }
-    }
+    [XmlAttribute("name")]
+    public string ProcessName { get; set; }
 }

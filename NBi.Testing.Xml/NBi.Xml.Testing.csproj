@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+  <ItemGroup>
+    <ProjectReference Include="..\NBi.Core\NBi.Core.csproj" />
+    <ProjectReference Include="..\NBi.Extensibility\NBi.Extensibility.csproj" />
+    <ProjectReference Include="..\NBi.Xml\NBi.Xml.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.8.0" />
+    <PackageReference Include="NUnit" Version="4.0.1" />
+    <!--<PackageReference Include="NUnit.Analyzers" Version="3.10.0" />-->
+    <PackageReference Include="NUnit3TestAdapter" Version="4.6.0" />
+    <PackageReference Include="Appveyor.TestLogger" Version="2.0.0" />
+    <PackageReference Include="Moq" Version="4.20.70" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\QueryFileEuro.mdx" />
+    <EmbeddedResource Include="Resources\AllRowsXmlTestSuite.xml" />
+    <EmbeddedResource Include="Resources\AssemblyXmlTestSuite.xml" />
+    <EmbeddedResource Include="Resources\ColumnXmlTestSuite.xml" />
+    <EmbeddedResource Include="Resources\ConditionXmlTestSuite.xml" />
+    <EmbeddedResource Include="Resources\ContainedInXmlTestSuite.xml" />
+    <EmbeddedResource Include="Resources\ContainXmlTestSuite.xml" />
+    <EmbeddedResource Include="Resources\CountXmlTestSuite.xml" />
+    <EmbeddedResource Include="Resources\CsvProfileXmlTestSuite.xml" />
+    <EmbeddedResource Include="Resources\CsvProfileXmlTestSuite2.xml" />
+    <EmbeddedResource Include="Resources\DataTypeXmlTestSuite.xml" />
+    <EmbeddedResource Include="Resources\DecorationXmlTestSuite.xml" />
+    <EmbeddedResource Include="Resources\DescriptionXmlTestSuite.xml" />
+    <EmbeddedResource Include="Resources\EqualToXmlTestSuite.xml" />
+    <EmbeddedResource Include="Resources\EquivalentToXmlTestSuite.xml" />
+    <EmbeddedResource Include="Resources\EtlXmlTestSuite.xml" />
+    <EmbeddedResource Include="Resources\EtlXmlWithDefaultSsisDBTestSuite.xml" />
+    <EmbeddedResource Include="Resources\EtlXmlWithDefaultTestSuite.xml" />
+    <EmbeddedResource Include="Resources\EtlXmlWithReferenceTestSuite.xml" />
+    <EmbeddedResource Include="Resources\EvaluateRowsXmlTestSuite.xml" />
+    <EmbeddedResource Include="Resources\ExistsXmlTestSuite.xml" />
+    <EmbeddedResource Include="Resources\FasterThanXmlTestSuite.xml" />
+    <EmbeddedResource Include="Resources\FileLoopXmlTestSuite.xml" />
+    <EmbeddedResource Include="Resources\FormatXmlTestSuite.xml" />
+    <EmbeddedResource Include="Resources\GroupXmlTestSuite.xml" />
+    <EmbeddedResource Include="Resources\HierarchiesXmlTestSuite.xml" />
+    <EmbeddedResource Include="Resources\HierarchyXmlTestSuite.xml" />
+    <EmbeddedResource Include="Resources\IgnoreXmlTestSuite.xml" />
+    <EmbeddedResource Include="Resources\InstanceSettlingXmlTestSuite.xml" />
+    <EmbeddedResource Include="Resources\IsXmlTestSuite.xml" />
+    <EmbeddedResource Include="Resources\LinkedToXmlTestSuite.xml" />
+    <EmbeddedResource Include="Resources\LocalVariableXmlTestSuite.xml" />
+    <EmbeddedResource Include="Resources\LookupExistsXmlTestSuite.xml" />
+    <EmbeddedResource Include="Resources\LookupMatchesXmlTestSuite.xml" />
+    <EmbeddedResource Include="Resources\MatchPatternXmlTestSuite.xml" />
+    <EmbeddedResource Include="Resources\MatchPatternXmlWithReferenceTestSuite.xml" />
+    <EmbeddedResource Include="Resources\MeasureXmlTestSuite.xml" />
+    <EmbeddedResource Include="Resources\MembersXmlTestSuite.xml" />
+    <EmbeddedResource Include="Resources\NoRowsXmlTestSuite.xml" />
+    <EmbeddedResource Include="Resources\OrderedXmlTestSuite.xml" />
+    <EmbeddedResource Include="Resources\PerspectiveXmlTestSuite.xml" />
+    <EmbeddedResource Include="Resources\PredicateXmlTestSuite.xml" />
+    <EmbeddedResource Include="Resources\QueryFile.sql" />
+    <EmbeddedResource Include="Resources\QueryXmlTestSuite.xml" />
+    <EmbeddedResource Include="Resources\RankingXmlTestSuite.xml" />
+    <EmbeddedResource Include="Resources\ReportXmlTestSuite.xml" />
+    <EmbeddedResource Include="Resources\ResultSetSystemXmlTestSuite.xml" />
+    <EmbeddedResource Include="Resources\RowCountXmlTestSuite.xml" />
+    <EmbeddedResource Include="Resources\ScoreXmlTestSuite.xml" />
+    <EmbeddedResource Include="Resources\SelectAllProducts.sql" />
+    <EmbeddedResource Include="Resources\SentinelLoopXmlTestSuite.xml" />
+    <EmbeddedResource Include="Resources\SequenceCombinationXmlTestSuite.xml" />
+    <EmbeddedResource Include="Resources\SettingsExternal.xml" />
+    <EmbeddedResource Include="Resources\SettingsXmlWithDefault.xml" />
+    <EmbeddedResource Include="Resources\SettingsXmlWithDefaultAssert.xml" />
+    <EmbeddedResource Include="Resources\SettingsXmlWithDefaultEverywhere.xml" />
+    <EmbeddedResource Include="Resources\SettingsXmlWithoutDefault.xml" />
+    <EmbeddedResource Include="Resources\SettingsXmlWithoutParallelQueries.xml" />
+    <EmbeddedResource Include="Resources\SettingsXmlWithParallelQueriesSetFalse.xml" />
+    <EmbeddedResource Include="Resources\SettingsXmlWithParallelQueriesSetTrue.xml" />
+    <EmbeddedResource Include="Resources\SettingsXmlWithParameters.xml" />
+    <EmbeddedResource Include="Resources\SettingsXmlWithReference.xml" />
+    <EmbeddedResource Include="Resources\SettingsXmlWithVariables.xml" />
+    <EmbeddedResource Include="Resources\SetXmlTestSuite.xml" />
+    <EmbeddedResource Include="Resources\SharedDatasetXmlTestSuite.xml" />
+    <EmbeddedResource Include="Resources\StructureXmlTestSuite.xml" />
+    <EmbeddedResource Include="Resources\SuccessfulXmlTestSuite.xml" />
+    <EmbeddedResource Include="Resources\SupersetOfXmlTestSuite.xml" />
+    <EmbeddedResource Include="Resources\TablesXmlTestSuite.xml" />
+    <EmbeddedResource Include="Resources\TableXmlTestSuite.xml" />
+    <EmbeddedResource Include="Resources\TestSuiteForExternalSettings.xml" />
+    <EmbeddedResource Include="Resources\TestSuiteIncludedTestSuite.xml" />
+    <EmbeddedResource Include="Resources\TestSuiteWithIncludeTestSuite.xml" />
+    <EmbeddedResource Include="Resources\TestSuiteWithVariablesTestSuite.xml" />
+    <EmbeddedResource Include="Resources\TestXmlTestSuite.xml" />
+    <EmbeddedResource Include="Resources\TraitXmlTestSuite.xml" />
+    <EmbeddedResource Include="Resources\TransformXmlTestSuite.xml" />
+    <EmbeddedResource Include="Resources\UniqueRowsXmlTestSuite.xml" />
+    <EmbeddedResource Include="Resources\XmlManagerInvalidFormat.xml" />
+    <EmbeddedResource Include="Resources\XmlManagerInvalidSyntax.xml" />
+    <EmbeddedResource Include="Resources\XmlManagerInvalidSyntaxMultiple.xml" />
+    <EmbeddedResource Include="Resources\XmlManagerSample.xml" />
+    <EmbeddedResource Include="Resources\XmlSourceXmlTestSuite.xml" />
+    <EmbeddedResource Include="Resources\SingleRowXmlTestSuite.xml" />
+    <EmbeddedResource Include="Resources\SomeRowsXmlTestSuite.xml" />
+    <EmbeddedResource Include="Resources\JsonSourceXmlTestSuite.xml" />
+    <EmbeddedResource Include="Resources\RestXmlTestSuite.xml" />
+    <EmbeddedResource Include="Resources\QuerySequenceXmlTestSuite.xml" />
+    <EmbeddedResource Include="Resources\UniqueXmlTestSuite.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Items\Alteration\" />
+  </ItemGroup>
+</Project>

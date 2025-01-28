@@ -5,15 +5,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Extensibility.Resolving
-{
-    public interface ISequenceResolver : IResolver
-    {
-        new IList Execute();
-    }
+namespace NBi.Extensibility.Resolving;
 
-    public interface ISequenceResolver<T> : ISequenceResolver
-    {
-        new List<T> Execute();
-    }
+public interface ISequenceResolver : IResolver
+{
+    new IList Execute();
+}
+
+public interface ISequenceResolver<T> : ISequenceResolver
+{
+    new List<T> Execute();
 }

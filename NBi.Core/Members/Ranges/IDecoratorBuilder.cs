@@ -3,12 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace NBi.Core.Members.Ranges
+namespace NBi.Core.Members.Ranges;
+
+interface IDecoratorBuilder
 {
-    interface IDecoratorBuilder
-    {
-        void Apply(IEnumerable<string> values);
-        void Setup(IRange range);
-        IEnumerable<string> GetResult();
-    }
+    void Apply(IEnumerable<string> values);
+    void Setup(IRange range);
+    IEnumerable<string> GetResult();
 }

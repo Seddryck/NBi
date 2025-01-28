@@ -3,10 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using NBi.Xml.Settings;
 
-namespace NBi.Xml.Constraints
+namespace NBi.Xml.Constraints;
+
+interface IReferenceFriendly
 {
-    interface IReferenceFriendly
-    {
-        void AssignReferences(IEnumerable<ReferenceXml> references);
-    }
+    void AssignReferences(IEnumerable<ReferenceXml> references);
 }

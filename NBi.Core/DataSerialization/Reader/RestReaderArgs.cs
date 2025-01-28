@@ -6,13 +6,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.DataSerialization.Reader
-{
-    public class RestReaderArgs : IReaderArgs
-    {
-        public RestEngine Rest { get; }
+namespace NBi.Core.DataSerialization.Reader;
 
-        public RestReaderArgs(RestEngine rest)
-            => (Rest) = (rest);
-    }
+public class RestReaderArgs : IReaderArgs
+{
+    public RestEngine Rest { get; }
+
+    public RestReaderArgs(RestEngine rest)
+        => (Rest) = (rest);
 }

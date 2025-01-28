@@ -1,13 +1,13 @@
-﻿using System;
+﻿using NBi.Extensibility;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.ResultSet.Projecting
+namespace NBi.Core.ResultSet.Projecting;
+
+public interface IProjection
 {
-    public interface IProjection
-    {
-        ResultSet Execute(ResultSet resultSet);
-    }
+    IResultRow Execute(IResultRow resultSet);
 }

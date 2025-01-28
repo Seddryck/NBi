@@ -9,35 +9,33 @@ using System.Threading.Tasks;
 using NBi.Extensibility;
 using NBi.Extensibility.Resolving;
 
-namespace NBi.Core.ResultSet.Resolver
+namespace NBi.Core.ResultSet.Resolver;
+
+class DataSerializationResultSetResolver : IResultSetResolver
 {
-    class DataSerializationResultSetResolver : IResultSetResolver
+    private DataSerializationResultSetResolverArgs Args { get; }
+
+    public DataSerializationResultSetResolver(DataSerializationResultSetResolverArgs args)
+        => Args = args;
+
+    public virtual IResultSet Execute()
     {
-        private DataSerializationResultSetResolverArgs Args { get; }
-
-        public DataSerializationResultSetResolver(DataSerializationResultSetResolverArgs args)
-            => Args = args;
-
-        public virtual IResultSet Execute()
+        try
         {
-            try
-            {
-                var factory = new DataSerializationProcessorFactory();
-                var processor = factory.Instantiate(Args);
-                var objects = processor.Execute();
+            var factory = new DataSerializationProcessorFactory();
+            var processor = factory.Instantiate(Args);
+            var objects = processor.Execute();
 
-                var helper = new ObjectsToRowsHelper();
-                var rows = helper.Execute(objects);
+            var helper = new ObjectsToRowsHelper();
+            var rows = helper.Execute(objects);
 
-                var rs = new DataTableResultSet();
-                rs.Load(rows);
-                return rs;
-            }
-            catch (NBiException ex)
-            {
-                throw new ResultSetUnavailableException(ex);
-            }
+            var rs = new DataTableResultSet();
+            rs.Load(rows);
+            return rs;
+        }
+        catch (NBiException ex)
+        {
+            throw new ResultSetUnavailableException(ex);
         }
     }
-
 }

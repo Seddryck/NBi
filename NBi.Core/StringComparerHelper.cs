@@ -1,17 +1,15 @@
-﻿namespace NBi.Core
+﻿namespace NBi.Core;
+
+public class StringComparerHelper
 {
-    public class StringComparerHelper
-    {
-        public string Value { get; set; }
+    public string Value { get; }
 
-        public static StringComparerHelper Build(string value)
-        {
-            return new StringComparerHelper() { Value = value };
-        }
+    private StringComparerHelper(string value)
+        => Value = value;
 
-        public override string ToString()
-        {
-            return Value.ToString();
-        }
-    }
+    public static StringComparerHelper Build(string value)
+        => new (value);
+
+    public override string ToString()
+        => Value.ToString();
 }

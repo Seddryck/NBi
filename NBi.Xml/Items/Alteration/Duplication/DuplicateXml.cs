@@ -9,17 +9,16 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 
-namespace NBi.Xml.Items.Alteration.Duplication
+namespace NBi.Xml.Items.Alteration.Duplication;
+
+public class DuplicateXml : AlterationXml
 {
-    public class DuplicateXml : AlterationXml
-    {
-        [XmlElement("predicate")]
-        public SinglePredicationXml Predication { get; set; }
+    [XmlElement("predicate")]
+    public SinglePredicationXml Predication { get; set; }
 
-        [XmlElement("times")]
-        public string Times { get; set; } = "1";
+    [XmlElement("times")]
+    public string Times { get; set; } = "1";
 
-        [XmlElement("output")]
-        public List<OutputXml> Outputs { get; set; } = new List<OutputXml>();
-    }
+    [XmlElement("output")]
+    public List<OutputXml> Outputs { get; set; } = new List<OutputXml>();
 }

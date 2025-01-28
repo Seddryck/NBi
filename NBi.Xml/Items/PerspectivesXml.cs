@@ -4,25 +4,24 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Serialization;
 
-namespace NBi.Xml.Items
+namespace NBi.Xml.Items;
+
+
+public class PerspectivesXml : AbstractItem, IOwnerFilter
 {
+    [XmlAttribute("owner")]
+    public string Owner { get; set; }
 
-    public class PerspectivesXml : AbstractItem, IOwnerFilter
+    [XmlIgnore]
+    public override string TypeName
     {
-        [XmlAttribute("owner")]
-        public string Owner { get; set; }
+        get { return "perspectives"; }
+    }
 
-        [XmlIgnore]
-        public override string TypeName
-        {
-            get { return "perspectives"; }
-        }
-
-        internal override ICollection<string> GetAutoCategories()
-        {
-            var values = new List<string>();
-            values.Add("Perspectives");
-            return values;
-        }
+    internal override ICollection<string> GetAutoCategories()
+    {
+        var values = new List<string>();
+        values.Add("Perspectives");
+        return values;
     }
 }

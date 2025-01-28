@@ -10,21 +10,20 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Testing.Core.ResultSet.Alteration.Renaming
+namespace NBi.Core.Testing.ResultSet.Alteration.Renaming;
+
+public class RenamingFactoryTest
 {
-    public class RenamingFactoryTest
+    [Test]
+    public void Instantiate_NewNameRenamingEngineArgs_NewNameRenamingEngineArgs()
     {
-        [Test]
-        public void Instantiate_NewNameRenamingEngineArgs_NewNameRenamingEngineArgs()
-        {
-            var factory = new RenamingFactory();
-            var renamer = factory.Instantiate(new NewNameRenamingArgs(
-                new ColumnOrdinalIdentifier(1),
-                new LiteralScalarResolver<string>("myNewName"),
-                new FailureMissingColumnStrategy()
-                ));
-            Assert.That(renamer, Is.Not.Null);
-            Assert.That(renamer, Is.TypeOf<NewNameRenamingEngine>());
-        }
+        var factory = new RenamingFactory();
+        var renamer = factory.Instantiate(new NewNameRenamingArgs(
+            new ColumnOrdinalIdentifier(1),
+            new LiteralScalarResolver<string>("myNewName"),
+            new FailureMissingColumnStrategy()
+            ));
+        Assert.That(renamer, Is.Not.Null);
+        Assert.That(renamer, Is.TypeOf<NewNameRenamingEngine>());
     }
 }

@@ -8,11 +8,10 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 
-namespace NBi.Xml.Variables.Sequence
+namespace NBi.Xml.Variables.Sequence;
+
+public class PredicationSequenceXml : BasePredicationXml
 {
-    public class PredicationSequenceXml : BasePredicationXml
-    {
-        [XmlAttribute("operand")]
-        public string Operand { get; set; }
-    }
+    [XmlAttribute("operand")]
+    public string Operand { get; set; }
 }

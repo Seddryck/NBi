@@ -4,20 +4,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.DataSerialization.Reader
+namespace NBi.Core.DataSerialization.Reader;
+
+class DataSerializationReaderFactory
 {
-    class DataSerializationReaderFactory
+    public IDataSerializationReader Instantiate(IReaderArgs args)
     {
-        public IDataSerializationReader Instantiate(IReaderArgs args)
+        return args switch
         {
-            switch (args)
-            {
-                case FileReaderArgs fileArgs: return new FileReader(fileArgs.BasePath, fileArgs.Path);
-                case UrlReaderArgs urlArgs: return new UrlReader(urlArgs.Url);
-                case RestReaderArgs restArgs: return new RestReader(restArgs.Rest);
-                case ScalarReaderArgs scalarArgs: return new ScalarReader(scalarArgs.Value);
-                default: throw new ArgumentOutOfRangeException();
-            }
-        }
+            FileReaderArgs fileArgs => new FileReader(fileArgs.BasePath, fileArgs.Path),
+            UrlReaderArgs urlArgs => new UrlReader(urlArgs.Url),
+            RestReaderArgs restArgs => new RestReader(restArgs.Rest),
+            ScalarReaderArgs scalarArgs => new ScalarReader(scalarArgs.Value),
+            _ => throw new ArgumentOutOfRangeException(),
+        };
     }
 }

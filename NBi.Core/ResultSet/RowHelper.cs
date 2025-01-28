@@ -5,11 +5,10 @@ using System.Data;
 using System.Linq;
 using System.Text;
 
-namespace NBi.Core.ResultSet
+namespace NBi.Core.ResultSet;
+
+public class RowHelper
 {
-    public class RowHelper
-    {
-        public KeyCollection Keys { get; set; }
-        public IResultRow DataRowObj { get; set; }
-    }
+    public KeyCollection? Keys { get; set; }
+    public IResultRow? DataRowObj { get; set; }
 }

@@ -4,24 +4,23 @@ using System.Linq;
 using System.Xml.Serialization;
 using NBi.Core.Query;
 
-namespace NBi.Xml.Items
+namespace NBi.Xml.Items;
+
+public class QueryParameterXml: ParameterXml
 {
-    public class QueryParameterXml: ParameterXml
+    private string sqlType;
+    [XmlAttribute("sql-type")]
+    public string SqlType
     {
-        private string sqlType;
-        [XmlAttribute("sql-type")]
-        public string SqlType
+        get
         {
-            get
-            {
-                return sqlType;
-            }
-            set
-            {
-                sqlType = value;
-            }
+            return sqlType;
         }
-
-
+        set
+        {
+            sqlType = value;
+        }
     }
+
+
 }

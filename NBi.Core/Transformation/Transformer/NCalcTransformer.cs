@@ -1,45 +1,36 @@
-﻿using Microsoft.CSharp;
-using NBi.Core.Injection;
-using NBi.Core.Scalar.Casting;
+﻿using NBi.Core.Injection;
 using NBi.Core.Variable;
-using System;
-using System.CodeDom.Compiler;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
+using NCalc;
 
-namespace NBi.Core.Transformation.Transformer
+namespace NBi.Core.Transformation.Transformer;
+
+class NCalcTransformer<T> : ITransformer
 {
-    class NCalcTransformer<T> : ITransformer
+    protected Context Context { get; }
+    private Expression? method;
+
+    public NCalcTransformer() 
+        : this(null, Context.None) { }
+    public NCalcTransformer(ServiceLocator? serviceLocator, Context context)
+        => (Context) = (context);
+
+    public void Initialize(string code)
     {
-        private ServiceLocator ServiceLocator { get; }
-        protected Context Context { get; }
-        private NCalc.Expression method;
+       method = new Expression(code);
+    }
 
-        public NCalcTransformer() : this(null, null) { }
-        public NCalcTransformer(ServiceLocator serviceLocator, Context context)
-            => (ServiceLocator, Context) = (serviceLocator, context);
+    public object Execute(object value)
+    {
+        if (method is null)
+            throw new InvalidOperationException();
 
-        public void Initialize(string code)
-        {
-           method = new NCalc.Expression(code);
-        }
+        if (method.Parameters.ContainsKey("value"))
+            method.Parameters["value"] = value;
+        else
+            method.Parameters.Add("value", value);
 
-        public object Execute(object value)
-        {
-            if (method == null)
-                throw new InvalidOperationException();
+        var transformedValue = method.Evaluate();
 
-            if (method.Parameters.ContainsKey("value"))
-                method.Parameters["value"] = value;
-            else
-                method.Parameters.Add("value", value);
-
-            var transformedValue = method.Evaluate();
-
-            return transformedValue;
-        }
+        return transformedValue;
     }
 }

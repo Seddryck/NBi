@@ -9,57 +9,54 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.Structure.Relational
+namespace NBi.Core.Structure.Relational;
+
+
+class RelationalCommand : StructureDiscoveryCommand
 {
-
-    class RelationalCommand : StructureDiscoveryCommand
+    public RelationalCommand(IDbCommand command, IEnumerable<IPostCommandFilter> postFilters, CommandDescription description)
+        : base(command, postFilters, description)
     {
-        public RelationalCommand(IDbCommand command, IEnumerable<IPostCommandFilter> postFilters, CommandDescription description)
-            : base(command, postFilters, description)
+    }
+
+    public override IEnumerable<string> Execute()
+    {
+        var values = new List<RelationalRow>();
+
+        (command.Connection ?? throw new InvalidOperationException()).Open();
+        var rdr = ExecuteReader(command);
+        while (rdr.Read())
         {
-        }
+            var row = BuildRow(rdr);
+            var isValidRow = true;
 
-        public override IEnumerable<string> Execute()
+            foreach (var postFilter in postFilters)
+                isValidRow &= postFilter.Evaluate(row);
+
+            if (isValidRow)
+                values.Add(row);
+        }
+        command.Connection.Close();
+
+        return values.Select(v => v.Caption);
+    }
+
+    protected virtual RelationalRow BuildRow(IDataReader rdr)
+    {
+        var row = new RelationalRow(rdr.GetString(0));
+        return row;
+    }
+
+    protected IDataReader ExecuteReader(IDbCommand cmd)
+    {
+        Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceInfo, cmd.CommandText);
+
+        try
         {
-            var values = new List<RelationalRow>();
-
-            command.Connection.Open();
-            var rdr = ExecuteReader(command);
-            while (rdr.Read())
-            {
-                var row = BuildRow(rdr);
-                var isValidRow = true;
-
-                foreach (var postFilter in postFilters)
-                    isValidRow &= postFilter.Evaluate(row);
-
-                if (isValidRow)
-                    values.Add(row);
-            }
-            command.Connection.Close();
-
-            return values.Select(v => v.Caption);
+            var rdr = cmd.ExecuteReader();
+            return rdr;
         }
-
-        protected virtual RelationalRow BuildRow(IDataReader rdr)
-        {
-            var row = new RelationalRow();
-            row.Caption = rdr.GetString(0);
-            return row;
-        }
-
-        protected IDataReader ExecuteReader(IDbCommand cmd)
-        {
-            Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceInfo, cmd.CommandText);
-
-            IDataReader rdr = null;
-            try
-            {
-                rdr = cmd.ExecuteReader();
-                return rdr;
-            }
-            catch (Exception ex)
-            { throw new ConnectionException(ex, cmd.Connection.ConnectionString); }
-        }
+        catch (Exception ex)
+        { throw new ConnectionException(ex, cmd.Connection?.ConnectionString ?? "Connection-string not set."); }
     }
 }

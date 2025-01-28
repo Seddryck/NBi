@@ -8,19 +8,18 @@ using NBi.Core.ResultSet;
 using System.Xml.Serialization;
 using System.ComponentModel;
 
-namespace NBi.Xml.Items.Alteration.Transform
+namespace NBi.Xml.Items.Alteration.Transform;
+
+public class LightTransformXml : ITransformationInfo
 {
-    public class LightTransformXml : ITransformationInfo
-    {
-        [XmlText()]
-        public string Code { get; set; }
+    [XmlText()]
+    public string Code { get; set; }
 
-        [XmlAttribute("language")]
-        [DefaultValue(LanguageType.CSharp)]
-        public LanguageType Language { get; set; }
+    [XmlAttribute("language")]
+    [DefaultValue(LanguageType.CSharp)]
+    public LanguageType Language { get; set; }
 
-        [XmlAttribute("original-type")]
-        [DefaultValue(ColumnType.Text)]
-        public ColumnType OriginalType { get; set; }
-    }
+    [XmlAttribute("original-type")]
+    [DefaultValue(ColumnType.Text)]
+    public ColumnType OriginalType { get; set; }
 }

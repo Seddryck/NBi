@@ -7,15 +7,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.Sequence.Resolver
-{
-    public class QuerySequenceResolverArgs : ISequenceResolverArgs
-    {
-        public BaseQueryResolverArgs QueryArgs { get; }
+namespace NBi.Core.Sequence.Resolver;
 
-        public QuerySequenceResolverArgs(BaseQueryResolverArgs args)
-        {
-            this.QueryArgs = args;
-        }
+public class QuerySequenceResolverArgs : ISequenceResolverArgs
+{
+    public BaseQueryResolverArgs QueryArgs { get; }
+
+    public QuerySequenceResolverArgs(BaseQueryResolverArgs args)
+    {
+        this.QueryArgs = args;
     }
 }

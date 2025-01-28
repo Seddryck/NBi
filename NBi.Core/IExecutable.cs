@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace NBi.Core
+namespace NBi.Core;
+
+public interface IExecutableArgs
 {
-    public interface IExecutableArgs
-    {
-    }
 }

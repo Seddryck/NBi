@@ -4,12 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.ResultSet.Alteration.Duplication.OuputStrategies
+namespace NBi.Core.ResultSet.Alteration.Duplication.OuputStrategies;
+
+class IsOriginalOutputStrategy : IOutputStrategy
 {
-    class IsOriginalOutputStrategy : IOutputStrategy
-    {
-        public object Execute(bool isOriginal, bool isDuplicated, int times, int index) 
-            => isOriginal;
-        public bool IsApplicable(bool isOriginal) => true;
-    }
+    public object Execute(bool isOriginal, bool isDuplicated, int times, int index) 
+        => isOriginal;
+    public bool IsApplicable(bool isOriginal) => true;
 }

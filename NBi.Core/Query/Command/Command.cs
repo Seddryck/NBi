@@ -6,17 +6,16 @@ using System.Text;
 using System.Threading.Tasks;
 using NBi.Extensibility.Query;
 
-namespace NBi.Core.Query.Command
-{
-    class Command : ICommand
-    {
-        public object Implementation { get; }
-        public object Client { get; }
+namespace NBi.Core.Query.Command;
 
-        public Command(IDbConnection connection, IDbCommand command)
-        {
-            Client = connection;
-            Implementation = command;
-        }
+class Command : ICommand
+{
+    public object Implementation { get; }
+    public object Client { get; }
+
+    public Command(IDbConnection connection, IDbCommand command)
+    {
+        Client = connection;
+        Implementation = command;
     }
 }

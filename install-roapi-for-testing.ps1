@@ -1,8 +1,8 @@
 #Define the constants
 $downloadUrl = "https://github.com/roapi/roapi/releases/latest/download"
-$archiveName = "roapi-http-windows.tar.gz"
+$archiveName = "roapi-windows.tar.gz"
 $localFolder = "c:\projects\roapi"
-$exeName = "roapi-http.exe"
+$exeName = "roapi.exe"
 $configFile = "default.yml"
 $port = 8084
 
@@ -39,7 +39,9 @@ if (Test-Path "$localFolder\$archiveName" -NewerThan (Get-Date).AddHours(-10)) {
     Write-Host "Local copy of archive already existing (less than 10 hours old)"
 } else {
     Write-Host "Downloading roapi package ..."
+    Write-Host "$downloadurl/$archiveName"
     if ($appVeyor.ToLower() -eq "true") {
+        Write-Host "$downloadurl/$archiveName"
         Start-FileDownload "$downloadurl/$archiveName" -FileName "$localFolder\$archiveName"
     } else {
         Invoke-WebRequest -Uri "$downloadurl/$archiveName" -OutFile "$localFolder\$archiveName"
@@ -68,6 +70,7 @@ if (!(Test-Path "$localFolder\$($archiveName.Substring(0, $archiveName.LastIndex
        Write-Host "Something went wrong during extraction or package structure not cmpatible with this script (2nd level of extraction)"
        exit
     } else {
+       Get-ChildItem -Path "$localFolder\"
        Write-Host "Package extraction successful!"
     }
 }
@@ -117,7 +120,7 @@ if ($client.Connected) {
     Write-Host "Retrieving schemas ..."
     $schema = &curl "127.0.0.1:$port/api/schema"
     Write-Host "List of loaded tables:"
-    (ConvertFrom-Json $schema.Content).psobject.properties.name
+    (ConvertFrom-Json $schema).psobject.properties.name
 } else {
     Write-Host "Roapi is not correctly started or has stopped."
 }

@@ -7,10 +7,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 
-namespace NBi.Xml.Constraints.Comparer
-{
-    public class LessThanXml : MoreLessThanPredicateXml
-    { 
-        public override ComparerType ComparerType { get => OrEqual ? ComparerType.LessThanOrEqual : ComparerType.LessThan; }
-    }
+namespace NBi.Xml.Constraints.Comparer;
+
+public class LessThanXml : MoreLessThanPredicateXml
+{ 
+    public override ComparerType ComparerType { get => OrEqual ? ComparerType.LessThanOrEqual : ComparerType.LessThan; }
 }

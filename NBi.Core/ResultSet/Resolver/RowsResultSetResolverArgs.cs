@@ -6,14 +6,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.ResultSet.Resolver
+namespace NBi.Core.ResultSet.Resolver;
+
+public class RowsResultSetResolverArgs : ResultSetResolverArgs
 {
-    public class RowsResultSetResolverArgs : ResultSetResolverArgs
+    public IList<IRow> Rows { get; }
+    public RowsResultSetResolverArgs(IList<IRow> rows)
     {
-        public IList<IRow> Rows { get; }
-        public RowsResultSetResolverArgs(IList<IRow> rows)
-        {
-            Rows = rows;
-        }
+        Rows = rows;
     }
 }

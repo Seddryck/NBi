@@ -6,13 +6,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.Sequence.Resolver
-{
-    public interface ILoopSequenceResolverArgs : ISequenceResolverArgs
-    { }
+namespace NBi.Core.Sequence.Resolver;
 
-    public interface ISentinelLoopSequenceResolverArgs : ILoopSequenceResolverArgs
-    {
-        IntervalMode IntervalMode { get; }
-    }
+public interface ILoopSequenceResolverArgs : ISequenceResolverArgs
+{ }
+
+public interface ISentinelLoopSequenceResolverArgs : ILoopSequenceResolverArgs
+{
+    IntervalMode IntervalMode { get; }
 }

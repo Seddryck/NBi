@@ -5,75 +5,67 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.Scalar.Casting
+namespace NBi.Core.Scalar.Casting;
+
+class BooleanCaster : BaseNumericCaster, ICaster<bool>
 {
-    class BooleanCaster : BaseNumericCaster, ICaster<Boolean>
+    public bool Execute(object? value)
     {
-        public Boolean Execute(object value)
-        {
-            if (value is Boolean)
-                return (Boolean)value;
+        if (value is null)
+            throw new ArgumentOutOfRangeException(nameof(value));
 
-            if (value is bool)
-                return (bool)value;
+        if (value is bool v)
+            return v;
 
-            var boolValue = IntParsing(value);
-            if (boolValue != ThreeStateBoolean.Unknown)
-                return boolValue == ThreeStateBoolean.True;
+        var boolValue = IntParsing(value);
+        if (boolValue != ThreeStateBoolean.Unknown)
+            return boolValue == ThreeStateBoolean.True;
 
-            boolValue = StringParsing(value);
-            if (boolValue != ThreeStateBoolean.Unknown)
-                return boolValue == ThreeStateBoolean.True;
-
-            throw new ArgumentOutOfRangeException();
-        }
-
-        object ICaster.Execute(object value) => Execute(value);
-
-
-        public override bool IsValid(object value)
-        {
-            if (value is Boolean || value is bool)
-                return true;
-
-            return (base.IsValid(value) || StringParsing(value) != ThreeStateBoolean.Unknown);
-        }
-
-
-        protected ThreeStateBoolean IntParsing(object obj)
-        {
-            if (IsParsableNumeric(obj))
-            {
-                var dec = System.Convert.ToDecimal(obj, NumberFormatInfo.InvariantInfo);
-                if (dec == new decimal(0))
-                    return ThreeStateBoolean.False;
-                if (dec == new decimal(1))
-                    return ThreeStateBoolean.True;
-            }
-            return ThreeStateBoolean.Unknown;
-        }
-
-
-        protected ThreeStateBoolean StringParsing(object obj)
-        {
-            var str = obj.ToString().ToLowerInvariant();
-            if (str == "false" || str == "no")
-                return ThreeStateBoolean.False;
-            if (str == "true" || str == "yes")
-                return ThreeStateBoolean.True;
-            return ThreeStateBoolean.Unknown;
-        }
-
-        protected string ThreeStateToString(ThreeStateBoolean ts, string value)
-        {
-            switch (ts)
-            {
-                case ThreeStateBoolean.False:
-                    return "false";
-                case ThreeStateBoolean.True:
-                    return "true";
-            }
-            return value;
-        }
+        boolValue = StringParsing(value);
+        if (boolValue != ThreeStateBoolean.Unknown)
+            return boolValue == ThreeStateBoolean.True;
+        throw new ArgumentOutOfRangeException(nameof(value));
     }
+
+    object ICaster.Execute(object? value) => Execute(value);
+
+
+    public override bool IsValid(object? value)
+        => value switch
+        {
+            null => false,
+            bool => true,
+            string str => StringParsing(value) != ThreeStateBoolean.Unknown,
+            _ => base.IsValid(value)
+        };
+
+    protected ThreeStateBoolean IntParsing(object obj)
+    =>  (IsParsableNumeric(obj) 
+                            ? Convert.ToDecimal(obj, NumberFormatInfo.InvariantInfo) 
+                            : decimal.MinValue
+        ) switch
+            {
+                decimal.Zero => ThreeStateBoolean.False,
+                decimal.One => ThreeStateBoolean.True,
+                _ => ThreeStateBoolean.Unknown
+            };
+
+    protected virtual ThreeStateBoolean StringParsing(object obj)
+        => (obj.ToString() ?? string.Empty).ToLowerInvariant() switch
+        {
+            "false" => ThreeStateBoolean.False,
+            "no" => ThreeStateBoolean.False,
+            "true" => ThreeStateBoolean.True,
+            "yes" => ThreeStateBoolean.True,
+            _ => ThreeStateBoolean.Unknown
+        };
+
+    protected virtual string ThreeStateToString(ThreeStateBoolean ts, string defaultValue)
+        => ts switch
+        {
+            ThreeStateBoolean.False => "false",
+            ThreeStateBoolean.True => "true",
+            ThreeStateBoolean.Unknown => defaultValue,
+            _ => defaultValue
+        };
 }

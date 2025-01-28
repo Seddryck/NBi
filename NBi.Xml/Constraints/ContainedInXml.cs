@@ -6,15 +6,14 @@ using NBi.Xml.Items;
 using NBi.Xml.Settings;
 using NBi.Xml.Systems;
 
-namespace NBi.Xml.Constraints
+namespace NBi.Xml.Constraints;
+
+public class ContainedInXml : AbstractConstraintForCollectionXml
 {
-    public class ContainedInXml : AbstractConstraintForCollectionXml
-    {
 
-    }
+}
 
-    public class SubsetOfOldXml : ContainedInXml
-    {
+public class SubsetOfOldXml : ContainedInXml
+{
 
-    }
 }

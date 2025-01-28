@@ -4,17 +4,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace NBi.Core.Decoration.Process
+namespace NBi.Core.Decoration.Process;
+
+class ProcessConditionFactory
 {
-    class ProcessConditionFactory
+    public IDecorationCondition Instantiate(IProcessConditionArgs args)
     {
-        public IDecorationCondition Instantiate(IProcessConditionArgs args)
+        return args switch
         {
-            switch (args)
-            {
-                case IRunningConditionArgs runningArgs: return new RunningCondition(runningArgs);
-                default: throw new ArgumentOutOfRangeException();
-            }
-        }
+            IRunningConditionArgs runningArgs => new RunningCondition(runningArgs),
+            _ => throw new ArgumentOutOfRangeException(),
+        };
     }
 }

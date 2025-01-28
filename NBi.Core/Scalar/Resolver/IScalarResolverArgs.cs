@@ -1,6 +1,5 @@
-﻿namespace NBi.Core.Scalar.Resolver
+﻿namespace NBi.Core.Scalar.Resolver;
+
+public interface IScalarResolverArgs
 {
-    public interface IScalarResolverArgs
-    {
-    }
 }

@@ -1,26 +1,25 @@
 ﻿using NBi.Core.Decoration.IO;
 using NBi.Core.Decoration.IO.Commands;
 using System;
-using System.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 using System.Linq;
 
 
-namespace NBi.Core.Decoration.IO
+namespace NBi.Core.Decoration.IO;
+
+public class IOFactory
 {
-    public class IOFactory
+    public IDecorationCommand Instantiate(IIoCommandArgs args)
     {
-        public IDecorationCommand Instantiate(IIoCommandArgs args)
+        return args switch
         {
-            switch (args)
-            {
-                case IoDeleteCommandArgs deleteArgs: return new DeleteCommand(deleteArgs);
-                case IoDeletePatternCommandArgs patternArgs: return new DeletePatternCommand(patternArgs);
-                case IoDeleteExtensionCommandArgs extensionArgs: return new DeleteExtensionCommand(extensionArgs);
-                case IoCopyCommandArgs copyArgs: return new CopyCommand(copyArgs);
-                case IoCopyPatternCommandArgs patternArgs: return new CopyPatternCommand(patternArgs);
-                case IoCopyExtensionCommandArgs extensionArgs: return new CopyExtensionCommand(extensionArgs);
-                default: throw new ArgumentException();
-            }
-        }
+            IoDeleteCommandArgs deleteArgs => new DeleteCommand(deleteArgs),
+            IoDeletePatternCommandArgs patternArgs => new DeletePatternCommand(patternArgs),
+            IoDeleteExtensionCommandArgs extensionArgs => new DeleteExtensionCommand(extensionArgs),
+            IoCopyCommandArgs copyArgs => new CopyCommand(copyArgs),
+            IoCopyPatternCommandArgs patternArgs => new CopyPatternCommand(patternArgs),
+            IoCopyExtensionCommandArgs extensionArgs => new CopyExtensionCommand(extensionArgs),
+            _ => throw new ArgumentException(),
+        };
     }
 }

@@ -3,16 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace NBi.Testing.Core.Assemblies.Resource
+namespace Resource;
+
+class StaticKlass
 {
-    class StaticKlass
+    
+    public static string ExecuteStaticString(string paramString)
     {
-        
-        public static string ExecuteStaticString(string paramString)
-        {
-            if (paramString == "MyString")
-                return "Executed";
-            return "Incorrect Parameters";
-        }
+        if (paramString == "MyString")
+            return "Executed";
+        return "Incorrect Parameters";
     }
 }

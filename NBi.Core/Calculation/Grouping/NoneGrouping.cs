@@ -7,16 +7,15 @@ using System.Threading.Tasks;
 using NBi.Core.ResultSet;
 using NBi.Extensibility;
 
-namespace NBi.Core.Calculation.Grouping
+namespace NBi.Core.Calculation.Grouping;
+
+sealed class NoneGrouping : IGroupBy
 {
-    sealed class NoneGrouping : IGroupBy
+    public IDictionary<KeyCollection, IResultSet> Execute(IResultSet resultSet)
     {
-        public IDictionary<KeyCollection, IResultSet> Execute(IResultSet resultSet)
+        return new Dictionary<KeyCollection, IResultSet>()
         {
-            return new Dictionary<KeyCollection, IResultSet>()
-            {
-                { new KeyCollection(Array.Empty<object>()), resultSet }
-            };
-        }
+            { new KeyCollection([]), resultSet }
+        };
     }
 }

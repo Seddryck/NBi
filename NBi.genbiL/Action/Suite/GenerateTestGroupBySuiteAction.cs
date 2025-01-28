@@ -9,16 +9,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.GenbiL.Action.Suite
+namespace NBi.GenbiL.Action.Suite;
+
+public class GenerateTestGroupBySuiteAction : GenerateSuiteAction<TestStandaloneXml>
 {
-    public class GenerateTestGroupBySuiteAction : GenerateSuiteAction<TestStandaloneXml>
-    {
-        public GenerateTestGroupBySuiteAction(string groupByPattern)
-            : base(false, groupByPattern) { }
+    public GenerateTestGroupBySuiteAction(string groupByPattern)
+        : base(false, groupByPattern) { }
 
-        protected override TreeNode BuildNode(TestStandaloneXml content)
-            => new TestNode(content);
+    protected override TreeNode BuildNode(TestStandaloneXml content)
+        => new TestNode(content);
 
-        public override string Display { get => $"Generating tests in groups '{GroupByPattern}'"; }
-    }
+    public override string Display { get => $"Generating tests in groups '{GroupByPattern}'"; }
 }

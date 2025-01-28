@@ -6,76 +6,73 @@ using System.IO;
 using System.Linq;
 using System.Text;
 
-namespace NBi.Core.FlatFile
+namespace NBi.Core.FlatFile;
+
+public class CsvWriter
 {
-    public class CsvWriter
+    public event ProgressStatusHandler? ProgressStatusChanged;
+
+    public CsvProfile Definition { get; private set; }
+    public bool FirstLineIsColumnName { get; private set; }
+
+    public CsvWriter(bool firstLineIsColumnName)
     {
-        public event ProgressStatusHandler ProgressStatusChanged;
+        Definition = CsvProfile.SemiColumnDoubleQuote;
+        FirstLineIsColumnName = firstLineIsColumnName;
+    }
 
-        public CsvProfile Definition { get; private set; }
-        public bool FirstLineIsColumnName { get; private set; }
+    public void RaiseProgressStatus(string status)
+        => ProgressStatusChanged?.Invoke(this, new ProgressStatusEventArgs(status));
 
-        public CsvWriter(bool firstLineIsColumnName)
-        {
-            Definition = CsvProfile.SemiColumnDoubleQuote;
-            FirstLineIsColumnName = firstLineIsColumnName;
-        }
+    public void RaiseProgressStatus(string status, int current, int total)
+        => ProgressStatusChanged?.Invoke(this, new ProgressStatusEventArgs(string.Format(status, current, total), current, total));
+    
 
-        public void RaiseProgressStatus(string status)
-            => ProgressStatusChanged?.Invoke(this, new ProgressStatusEventArgs(status));
+    public void Write (DataTable table, string filename)
+    {
+        using var writer = new StreamWriter(filename, false, Encoding.UTF8);
+        Write(table, writer);
+    }
 
-        public void RaiseProgressStatus(string status, int current, int total)
-            => ProgressStatusChanged?.Invoke(this, new ProgressStatusEventArgs(string.Format(status, current, total), current, total));
+    protected internal void Write(DataTable table, TextWriter writer)
+    {
+        RaiseProgressStatus("Writing CSV file");
         
+        if (FirstLineIsColumnName)
+            WriteHeader(table, writer);
 
-        public void Write (DataTable table, string filename)
+        WriteContent(table, writer);
+        writer.Flush();
+        RaiseProgressStatus("CSV file written");
+    }
+
+    protected void WriteContent(DataTable table, TextWriter writer)
+    {
+        foreach (DataRow row in table.Rows)
         {
-            using (StreamWriter writer = new StreamWriter(filename, false, Encoding.UTF8))
-            {
-                Write(table, writer);
-            }
-        }
+            int rowCount = 0;
+            int count = table.Rows.Count;
+            RaiseProgressStatus($"writing row {rowCount} of {count}");
 
-        protected internal void Write(DataTable table, TextWriter writer)
-        {
-            RaiseProgressStatus("Writing CSV file");
-            
-            if (FirstLineIsColumnName)
-                WriteHeader(table, writer);
-
-            WriteContent(table, writer);
-            writer.Flush();
-            RaiseProgressStatus("CSV file written");
-        }
-
-        protected void WriteContent(DataTable table, TextWriter writer)
-        {
-            foreach (DataRow row in table.Rows)
-            {
-                int rowCount = 0;
-                int count = table.Rows.Count;
-                RaiseProgressStatus($"writing row {rowCount} of {count}");
-
-                for (int i = 0; i < table.Columns.Count; i++)
-                {
-                    var content = row[i].ToString();
-                    if (content.Contains(Definition.FieldSeparator) || content.Contains(Definition.RecordSeparator))
-                        content = Definition.TextQualifier + content + Definition.TextQualifier;
-                    
-                    writer.Write(content);
-                    writer.Write(i == table.Columns.Count - 1 ? Definition.RecordSeparator : Definition.FieldSeparator.ToString());
-                }
-            }
-        }
-
-        protected void WriteHeader(DataTable table, TextWriter writer)
-        {
-            RaiseProgressStatus("Writing header", 0, 0);
             for (int i = 0; i < table.Columns.Count; i++)
             {
-                writer.Write(table.Columns[i].ColumnName);
-                writer.Write(i == table.Columns.Count - 1 ? Definition.RecordSeparator : Definition.FieldSeparator.ToString());
+                var content = row[i].ToString() ?? string.Empty;
+                if (content.Contains(Definition.Descriptor.Delimiter) || content.Contains(Definition.Descriptor.LineTerminator))
+                    content = $"{Definition.Descriptor.QuoteChar}{content}{Definition.Descriptor.QuoteChar}";
+                
+                writer.Write(content);
+                writer.Write(i == table.Columns.Count - 1 ? Definition.Descriptor.LineTerminator : Definition.Descriptor.Delimiter);
             }
+        }
+    }
+
+    protected void WriteHeader(DataTable table, TextWriter writer)
+    {
+        RaiseProgressStatus("Writing header", 0, 0);
+        for (int i = 0; i < table.Columns.Count; i++)
+        {
+            writer.Write(table.Columns[i].ColumnName);
+            writer.Write(i == table.Columns.Count - 1 ? Definition.Descriptor.LineTerminator : Definition.Descriptor.Delimiter);
         }
     }
 }

@@ -4,17 +4,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.ResultSet.Alteration.Summarization
+namespace NBi.Core.ResultSet.Alteration.Summarization;
+
+public class SummarizationFactory
 {
-    public class SummarizationFactory
+    public ISummarizationEngine Instantiate(ISummarizationArgs args)
     {
-        public ISummarizationEngine Instantiate(ISummarizationArgs args)
+        return args switch
         {
-            switch(args)
-            {
-                case SummarizeArgs x: return new SummarizeEngine(x);
-                default: throw new ArgumentException();
-            }
-        }
+            SummarizeArgs x => new SummarizeEngine(x),
+            _ => throw new ArgumentException(),
+        };
     }
 }

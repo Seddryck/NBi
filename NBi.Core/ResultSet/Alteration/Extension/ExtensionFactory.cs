@@ -7,29 +7,28 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.ResultSet.Alteration.Extension
+namespace NBi.Core.ResultSet.Alteration.Extension;
+
+public class ExtensionFactory
 {
-    public class ExtensionFactory
+    protected ServiceLocator ServiceLocator { get; }
+    protected Context Context { get; }
+
+    public ExtensionFactory(ServiceLocator serviceLocator, Context context)
+        => (ServiceLocator, Context) = (serviceLocator, context);
+
+    public IExtensionEngine Instantiate(IExtensionArgs args)
     {
-        protected ServiceLocator ServiceLocator { get; }
-        protected Context Context { get; }
-
-        public ExtensionFactory(ServiceLocator serviceLocator, Context context)
-            => (ServiceLocator, Context) = (serviceLocator, context);
-
-        public IExtensionEngine Instantiate(IExtensionArgs args)
+        return args switch
         {
-            switch(args)
+            ExtendArgs x => x.Language switch
             {
-                case ExtendArgs x:
-                    switch (x.Language)
-                    {
-                        case LanguageType.NCalc: return new NCalcExtendEngine(ServiceLocator, Context, x.NewColumn, x.Code);
-                        case LanguageType.Native: return new NativeExtendEngine(ServiceLocator, Context, x.NewColumn, x.Code);
-                        default: throw new ArgumentException();
-                    }
-                default: throw new ArgumentException();
-            };
-        }
+                LanguageType.NCalc => new NCalcExtendEngine(ServiceLocator, Context, x.NewColumn, x.Code),
+                LanguageType.Native => new NativeExtendEngine(ServiceLocator, Context, x.NewColumn, x.Code),
+                _ => throw new ArgumentException(),
+            },
+            _ => throw new ArgumentException(),
+        };
+        ;
     }
 }

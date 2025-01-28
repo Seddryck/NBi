@@ -7,38 +7,37 @@ using NBi.Core.Decoration.IO;
 using System.Diagnostics;
 using NBi.Extensibility;
 
-namespace NBi.Core.Decoration.IO.Commands
+namespace NBi.Core.Decoration.IO.Commands;
+
+class DeleteExtensionCommand : IDecorationCommand
 {
-    class DeleteExtensionCommand : IDecorationCommand
+    private readonly IoDeleteExtensionCommandArgs args;
+
+    public DeleteExtensionCommand(IoDeleteExtensionCommandArgs args) => this.args = args;
+
+    public void Execute()
     {
-        private readonly IoDeleteExtensionCommandArgs args;
+        var path = PathExtensions.CombineOrRoot(args.BasePath, args.Path.Execute() ?? string.Empty);
+        var extensions = (args.Extension.Execute() ?? string.Empty).Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
+        Execute(path, extensions);
+    }
 
-        public DeleteExtensionCommand(IoDeleteExtensionCommandArgs args) => this.args = args;
+    internal void Execute(string path, string[] extensions)
+    {
+        Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceVerbose, $"Deleting file with extension{(extensions.Length > 1 ? "s" : string.Empty)} '{string.Join("', '", extensions)}' from '{path}' ...");
+        var dir = new DirectoryInfo(path);
 
-        public void Execute()
+        if (!dir.Exists)
+            throw new ExternalDependencyNotFoundException(path);
+
+        var files = dir.GetFilesByExtensions(extensions);
+        var fileCount = files.Count();
+
+        foreach (var file in files)
         {
-            var path = PathExtensions.CombineOrRoot(args.BasePath, args.Path.Execute());
-            var extensions = args.Extension.Execute().Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
-            Execute(path, extensions);
+            Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceVerbose, $"Deleting file '{file.FullName}' ...");
+            File.Delete(file.FullName);
         }
-
-        internal void Execute(string path, string[] extensions)
-        {
-            Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceVerbose, $"Deleting file with extension{(extensions.Count()>1 ? "s" : string.Empty)} '{string.Join("', '", extensions)}' from '{path}' ...");
-            var dir = new DirectoryInfo(path);
-
-            if (!dir.Exists)
-                throw new ExternalDependencyNotFoundException(path);
-
-            var files = dir.GetFilesByExtensions(extensions);
-            var fileCount = files.Count();
-
-            foreach (var file in files)
-            {
-                Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceVerbose, $"Deleting file '{file.FullName}' ...");
-                File.Delete(file.FullName);
-            }
-            Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceInfo, $"{fileCount} file{(fileCount > 1 ? "s" : string.Empty)} deleted from '{path}'.");
-        }
+        Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceInfo, $"{fileCount} file{(fileCount > 1 ? "s" : string.Empty)} deleted from '{path}'.");
     }
 }

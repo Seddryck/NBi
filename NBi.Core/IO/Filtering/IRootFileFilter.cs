@@ -5,10 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.IO.Filtering
+namespace NBi.Core.IO.Filtering;
+
+public interface IRootFileFilter : IFileFilter
 {
-    public interface IRootFileFilter : IFileFilter
-    {
-        FileInfo[] Execute(string path);
-    }
+    FileInfo[] Execute(string path);
 }

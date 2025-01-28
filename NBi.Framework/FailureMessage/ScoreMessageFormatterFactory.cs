@@ -10,22 +10,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Framework.FailureMessage
+namespace NBi.Framework.FailureMessage;
+
+public class ScoreMessageFormatterFactory
 {
-    public class ScoreMessageFormatterFactory
+    public virtual IScoreMessageFormatter Instantiate(IFailureReportProfile profile)
     {
-        public IScoreMessageFormatter Instantiate(IFailureReportProfile profile)
+        return profile.Format switch
         {
-            switch (profile.Format)
-            {
-                case FailureReportFormat.Markdown:
-                    return new ScoreMessageMarkdown();
-                case FailureReportFormat.Json:
-                    return new ScoreMessageJson();
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
-            
-        }
+            FailureReportFormat.Markdown => new ScoreMessageMarkdown(),
+            FailureReportFormat.Json => new ScoreMessageJson(),
+            _ => throw new ArgumentOutOfRangeException(),
+        };
     }
 }

@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.Configuration
+namespace NBi.Core.Configuration;
+
+public interface IFailureReportProfileConfiguration
 {
-    public interface IFailureReportProfileConfiguration
-    {
-        IFailureReportProfile FailureReportProfile { get; }
-    }
+    IFailureReportProfile? FailureReportProfile { get; }
 }

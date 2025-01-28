@@ -4,11 +4,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace NBi.Core.Decoration.Process
+namespace NBi.Core.Decoration.Process;
+
+public interface IRunningConditionArgs : IProcessConditionArgs
 {
-    public interface IRunningConditionArgs : IProcessConditionArgs
-    {
-        IScalarResolver<string> ServiceName { get; }
-        IScalarResolver<int> TimeOut { get; }
-    }
+    IScalarResolver<string> ServiceName { get; }
+    IScalarResolver<int> TimeOut { get; }
 }

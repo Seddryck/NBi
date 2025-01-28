@@ -6,13 +6,12 @@ using System.Text;
 using System.Threading.Tasks;
 using NBi.Extensibility;
 
-namespace NBi.Core.Scalar.Resolver
+namespace NBi.Core.Scalar.Resolver;
+
+public class RowCountResultSetScalarResolverArgs : ProjectionResultSetScalarResolverArgs
 {
-    public class RowCountResultSetScalarResolverArgs : ProjectionResultSetScalarResolverArgs
+    public RowCountResultSetScalarResolverArgs(ResultSetResolverArgs resultSetArgs)
+        : base((IResultSet rs) => rs.RowCount, resultSetArgs)
     {
-        public RowCountResultSetScalarResolverArgs(ResultSetResolverArgs resultSetArgs)
-            : base((IResultSet rs) => rs.RowCount, resultSetArgs)
-        {
-        }
     }
 }

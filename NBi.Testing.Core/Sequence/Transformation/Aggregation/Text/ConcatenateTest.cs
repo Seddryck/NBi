@@ -8,24 +8,23 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Testing.Unit.Core.Sequence.Transformation.Aggregation.Text
-{
-    public class ConcatenationTest
-    {
-        [Test]
-        public void Execute_Text_CorrectValue()
-        {
-            var list = new List<object>() { "alpha", "beta", "gamma"};
-            var aggregation = new ConcatenationText(new LiteralScalarResolver<string>("+"));
-            Assert.That(aggregation.Execute(list), Is.EqualTo("alpha+beta+gamma"));
-        }
+namespace NBi.Testing.Unit.Core.Sequence.Transformation.Aggregation.Text;
 
-        [Test]
-        public void Execute_EmptyValue_CorrectValue()
-        {
-            var list = new List<object>();
-            var aggregation = new ConcatenationText(new LiteralScalarResolver<string>("+"));
-            Assert.That(aggregation.Execute(list), Is.EqualTo(string.Empty));
-        }
+public class ConcatenationTest
+{
+    [Test]
+    public void Execute_Text_CorrectValue()
+    {
+        var list = new List<object>() { "alpha", "beta", "gamma"};
+        var aggregation = new ConcatenationText(new LiteralScalarResolver<string>("+"));
+        Assert.That(aggregation.Execute(list), Is.EqualTo("alpha+beta+gamma"));
+    }
+
+    [Test]
+    public void Execute_EmptyValue_CorrectValue()
+    {
+        var list = new List<object>();
+        var aggregation = new ConcatenationText(new LiteralScalarResolver<string>("+"));
+        Assert.That(aggregation.Execute(list), Is.EqualTo(string.Empty));
     }
 }

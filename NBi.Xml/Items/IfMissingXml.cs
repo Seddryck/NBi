@@ -5,11 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 
-namespace NBi.Xml.Items
+namespace NBi.Xml.Items;
+
+public class IfMissingXml
 {
-    public class IfMissingXml
-    {
-        [XmlElement("file")]
-        public FileXml File { get; set; } = new FileXml();
-    }
+    [XmlElement("file")]
+    public FileXml File { get; set; } = new FileXml();
 }

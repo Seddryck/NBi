@@ -12,40 +12,39 @@ using System.Threading.Tasks;
 using NBi.Extensibility.Query;
 using System.Collections;
 
-namespace NBi.Core.Sequence.Resolver
+namespace NBi.Core.Sequence.Resolver;
+
+class QuerySequenceResolver<T> : ISequenceResolver<T>
 {
-    class QuerySequenceResolver<T> : ISequenceResolver<T>
+    private QuerySequenceResolverArgs Args { get; }
+    private ServiceLocator ServiceLocator { get; }
+
+    public QuerySequenceResolver(QuerySequenceResolverArgs args, ServiceLocator serviceLocator)
+     => (Args, ServiceLocator) = (args, serviceLocator);
+    
+    protected virtual IQuery ResolveQuery()
     {
-        private QuerySequenceResolverArgs Args { get; }
-        private ServiceLocator ServiceLocator { get; }
-
-        public QuerySequenceResolver(QuerySequenceResolverArgs args, ServiceLocator serviceLocator)
-         => (Args, ServiceLocator) = (args, serviceLocator);
-        
-        protected virtual IQuery ResolveQuery()
-        {
-            var factory = ServiceLocator.GetQueryResolverFactory();
-            var resolver = factory.Instantiate(Args.QueryArgs);
-            var query = resolver.Execute();
-            return query;
-        }
-
-        protected virtual IEnumerable<T> ExecuteQuery(IQuery query)
-        {
-            var factory = ServiceLocator.GetExecutionEngineFactory();
-            var queryEngine = factory.Instantiate(query);
-            var value = queryEngine.ExecuteList<T>();
-            return value;
-        }
-
-        public List<T> Execute()
-        {
-            var cmd = ResolveQuery();
-            var value = ExecuteQuery(cmd);
-            return value.ToList();
-        }
-
-        object IResolver.Execute() => Execute();
-        IList ISequenceResolver.Execute() => Execute();
+        var factory = ServiceLocator.GetQueryResolverFactory();
+        var resolver = factory.Instantiate(Args.QueryArgs);
+        var query = resolver.Execute();
+        return query;
     }
+
+    protected virtual IEnumerable<T> ExecuteQuery(IQuery query)
+    {
+        var factory = ServiceLocator.GetExecutionEngineFactory();
+        var queryEngine = factory.Instantiate(query);
+        var value = queryEngine.ExecuteList<T>();
+        return value;
+    }
+
+    public List<T> Execute()
+    {
+        var cmd = ResolveQuery();
+        var value = ExecuteQuery(cmd);
+        return value.ToList();
+    }
+
+    object IResolver.Execute() => Execute();
+    IList ISequenceResolver.Execute() => Execute();
 }

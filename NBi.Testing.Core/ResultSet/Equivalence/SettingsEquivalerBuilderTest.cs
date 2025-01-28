@@ -9,97 +9,96 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Testing.Core.ResultSet.Equivalence
+namespace NBi.Core.Testing.ResultSet.Equivalence;
+
+[TestFixture]
+public class SettingsComparerBuilderTest
 {
-    [TestFixture]
-    public class SettingsComparerBuilderTest
+    [Test]
+    public void Build_NonDefaultKeyAndKeyName_Exception()
     {
-        [Test]
-        public void Build_NonDefaultKeyAndKeyName_Exception()
-        {
-            var builder = new SettingsEquivalerBuilder();
-            builder.Setup(SettingsOrdinalResultSet.KeysChoice.All, SettingsOrdinalResultSet.ValuesChoice.AllExpectFirst);
-            builder.Setup(new[] { "myKey" }, new string[0]);
-            Assert.Throws<InvalidOperationException>(() => builder.Build());
-        }
+        var builder = new SettingsEquivalerBuilder();
+        builder.Setup(SettingsOrdinalResultSet.KeysChoice.All, SettingsOrdinalResultSet.ValuesChoice.AllExpectFirst);
+        builder.Setup(["myKey"], []);
+        Assert.Throws<InvalidOperationException>(() => builder.Build());
+    }
 
-        [Test]
-        public void Build_NonDefaultKeyAndNamedColumn_Exception()
-        {
-            var columnDef = Mock.Of<IColumnDefinition>();
-            columnDef.Identifier = new ColumnNameIdentifier("MyKey");
+    [Test]
+    public void Build_NonDefaultKeyAndNamedColumn_Exception()
+    {
+        var columnDef = Mock.Of<IColumnDefinition>();
+        columnDef.Identifier = new ColumnNameIdentifier("MyKey");
 
-            var builder = new SettingsEquivalerBuilder();
-            builder.Setup(SettingsOrdinalResultSet.KeysChoice.All, SettingsOrdinalResultSet.ValuesChoice.AllExpectFirst);
-            builder.Setup(new[] { columnDef });
-            Assert.Throws<InvalidOperationException>(() => builder.Build());
-        }
+        var builder = new SettingsEquivalerBuilder();
+        builder.Setup(SettingsOrdinalResultSet.KeysChoice.All, SettingsOrdinalResultSet.ValuesChoice.AllExpectFirst);
+        builder.Setup([columnDef]);
+        Assert.Throws<InvalidOperationException>(() => builder.Build());
+    }
 
-        [Test]
-        public void Build_TwiceTheSameNamedColumn_Exception()
-        {
-            var columnDef = Mock.Of<IColumnDefinition>();
-            columnDef.Identifier = new ColumnNameIdentifier("MyKey");
+    [Test]
+    public void Build_TwiceTheSameNamedColumn_Exception()
+    {
+        var columnDef = Mock.Of<IColumnDefinition>();
+        columnDef.Identifier = new ColumnNameIdentifier("MyKey");
 
-            var builder = new SettingsEquivalerBuilder();
-            builder.Setup(SettingsOrdinalResultSet.KeysChoice.All, SettingsOrdinalResultSet.ValuesChoice.AllExpectFirst);
-            builder.Setup(Enumerable.Repeat(columnDef, 2).ToList());
-            Assert.Throws<InvalidOperationException>(() => builder.Build());
-        }
+        var builder = new SettingsEquivalerBuilder();
+        builder.Setup(SettingsOrdinalResultSet.KeysChoice.All, SettingsOrdinalResultSet.ValuesChoice.AllExpectFirst);
+        builder.Setup(Enumerable.Repeat(columnDef, 2).ToList());
+        Assert.Throws<InvalidOperationException>(() => builder.Build());
+    }
 
-        [Test]
-        public void Build_TwiceTheSameOrdinalColumn_Exception()
-        {
-            var columnDef = Mock.Of<IColumnDefinition>();
-            columnDef.Identifier = new ColumnOrdinalIdentifier(1);
+    [Test]
+    public void Build_TwiceTheSameOrdinalColumn_Exception()
+    {
+        var columnDef = Mock.Of<IColumnDefinition>();
+        columnDef.Identifier = new ColumnOrdinalIdentifier(1);
 
-            var builder = new SettingsEquivalerBuilder();
-            builder.Setup(SettingsOrdinalResultSet.KeysChoice.All, SettingsOrdinalResultSet.ValuesChoice.AllExpectFirst);
-            builder.Setup(Enumerable.Repeat(columnDef, 2).ToList());
-            Assert.Throws<InvalidOperationException>(() => builder.Build());
-        }
+        var builder = new SettingsEquivalerBuilder();
+        builder.Setup(SettingsOrdinalResultSet.KeysChoice.All, SettingsOrdinalResultSet.ValuesChoice.AllExpectFirst);
+        builder.Setup(Enumerable.Repeat(columnDef, 2).ToList());
+        Assert.Throws<InvalidOperationException>(() => builder.Build());
+    }
 
-        [Test]
-        public void Build_IncoherenceDefaultToleranceAndValueType_Exception()
-        {
-            var columnDef = Mock.Of<IColumnDefinition>();
-            columnDef.Identifier = new ColumnOrdinalIdentifier(1);
+    [Test]
+    public void Build_IncoherenceDefaultToleranceAndValueType_Exception()
+    {
+        var columnDef = Mock.Of<IColumnDefinition>();
+        columnDef.Identifier = new ColumnOrdinalIdentifier(1);
 
-            var builder = new SettingsEquivalerBuilder();
-            builder.Setup(ColumnType.Numeric, new DateTimeTolerance(new TimeSpan(1000)));
-            Assert.Throws<InvalidOperationException>(() => builder.Build());
-        }
+        var builder = new SettingsEquivalerBuilder();
+        builder.Setup(ColumnType.Numeric, new DateTimeTolerance(new TimeSpan(1000)));
+        Assert.Throws<InvalidOperationException>(() => builder.Build());
+    }
 
 
-        [Test]
-        public void Build_OverrideUniqueKey_Exception()
-        {
-            var columnDef = Mock.Of<IColumnDefinition>();
-            columnDef.Identifier = new ColumnOrdinalIdentifier(0);
-            columnDef.Role = ColumnRole.Value;
+    [Test]
+    public void Build_OverrideUniqueKey_Exception()
+    {
+        var columnDef = Mock.Of<IColumnDefinition>();
+        columnDef.Identifier = new ColumnOrdinalIdentifier(0);
+        columnDef.Role = ColumnRole.Value;
 
-            var builder = new SettingsEquivalerBuilder();
-            builder.Setup(true);
-            builder.Setup(new[] { columnDef });
-            builder.Setup(SettingsOrdinalResultSet.KeysChoice.First, SettingsOrdinalResultSet.ValuesChoice.AllExpectFirst);
-            Assert.Throws<InvalidOperationException>(() => builder.Build());
-        }
+        var builder = new SettingsEquivalerBuilder();
+        builder.Setup(true);
+        builder.Setup([columnDef]);
+        builder.Setup(SettingsOrdinalResultSet.KeysChoice.First, SettingsOrdinalResultSet.ValuesChoice.AllExpectFirst);
+        Assert.Throws<InvalidOperationException>(() => builder.Build());
+    }
 
-        public void Build_OverrideUniqueKeyButCreateNew_NoException()
-        {
-            var columnDef = Mock.Of<IColumnDefinition>();
-            columnDef.Identifier = new ColumnOrdinalIdentifier(0);
-            columnDef.Role = ColumnRole.Value;
+    public void Build_OverrideUniqueKeyButCreateNew_NoException()
+    {
+        var columnDef = Mock.Of<IColumnDefinition>();
+        columnDef.Identifier = new ColumnOrdinalIdentifier(0);
+        columnDef.Role = ColumnRole.Value;
 
-            var columnDefKey = Mock.Of<IColumnDefinition>();
-            columnDefKey.Identifier = new ColumnOrdinalIdentifier(1);
-            columnDefKey.Role = ColumnRole.Key;
+        var columnDefKey = Mock.Of<IColumnDefinition>();
+        columnDefKey.Identifier = new ColumnOrdinalIdentifier(1);
+        columnDefKey.Role = ColumnRole.Key;
 
-            var builder = new SettingsEquivalerBuilder();
-            builder.Setup(true);
-            builder.Setup(new[] { columnDef, columnDefKey });
-            builder.Setup(SettingsOrdinalResultSet.KeysChoice.First, SettingsOrdinalResultSet.ValuesChoice.AllExpectFirst);
-            Assert.DoesNotThrow(() => builder.Build());
-        }
+        var builder = new SettingsEquivalerBuilder();
+        builder.Setup(true);
+        builder.Setup([columnDef, columnDefKey]);
+        builder.Setup(SettingsOrdinalResultSet.KeysChoice.First, SettingsOrdinalResultSet.ValuesChoice.AllExpectFirst);
+        Assert.DoesNotThrow(() => builder.Build());
     }
 }

@@ -6,13 +6,12 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 
-namespace NBi.Xml.Items.Calculation
-{
-    public class UniqueXml
-    {
-        [XmlElement(ElementName = "group-by")]
-        public GroupByXml GroupBy { get; set; }
+namespace NBi.Xml.Items.Calculation;
 
-        public UniqueXml() { }
-    }
+public class UniqueXml
+{
+    [XmlElement(ElementName = "group-by")]
+    public GroupByXml GroupBy { get; set; }
+
+    public UniqueXml() { }
 }

@@ -5,11 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.Variable
+namespace NBi.Core.Variable;
+
+public class GlobalVariable : RuntimeVariable
 {
-    public class GlobalVariable : RuntimeVariable
-    {
-        public GlobalVariable(IScalarResolver resolver)
-            : base(resolver) { }
-    }
+    public GlobalVariable(IScalarResolver resolver)
+        : base(resolver) { }
 }

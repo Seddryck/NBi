@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Extensibility.Resolving
+namespace NBi.Extensibility.Resolving;
+
+public interface IResolver
 {
-    public interface IResolver
-    {
-        object Execute();
-    }
+    object? Execute();
 }

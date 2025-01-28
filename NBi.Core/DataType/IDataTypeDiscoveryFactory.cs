@@ -7,10 +7,9 @@ using System.Text;
 using System.Threading.Tasks;
 
 
-namespace NBi.Core.DataType
+namespace NBi.Core.DataType;
+
+public interface IDataTypeDiscoveryFactory
 {
-    public interface IDataTypeDiscoveryFactory
-    {
-        IDataTypeDiscoveryCommand Instantiate(Target target, IEnumerable<CaptionFilter> filters);
-    }
+    IDataTypeDiscoveryCommand Instantiate(Target target, IEnumerable<CaptionFilter> filters);
 }

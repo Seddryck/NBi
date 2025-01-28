@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.Structure.Olap
+namespace NBi.Core.Structure.Olap;
+
+interface IDimensionType
 {
-    interface IDimensionType
-    {
-        short DimensionType { get; set; }
-    }
+    short DimensionType { get; set; }
 }

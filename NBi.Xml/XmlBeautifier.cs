@@ -3,23 +3,24 @@ using System.Linq;
 using System.Text;
 using System.Xml;
 
-namespace NBi.Xml
+namespace NBi.Xml;
+
+internal class XmlBeautifier
 {
-    internal class XmlBeautifier
+    static public string Beautify(XmlDocument doc)
     {
-        static public string Beautify(XmlDocument doc)
+        var sb = new StringBuilder();
+        var settings = new XmlWriterSettings
         {
-            StringBuilder sb = new StringBuilder();
-            XmlWriterSettings settings = new XmlWriterSettings();
-            settings.Indent = true;
-            settings.IndentChars = "  ";
-            settings.NewLineChars = "\r\n";
-            settings.NewLineHandling = NewLineHandling.Replace;
-            using (XmlWriter writer = XmlWriter.Create(sb, settings))
-            {
-                doc.Save(writer);
-            }
-            return sb.ToString();
+            Indent = true,
+            IndentChars = "  ",
+            NewLineChars = "\r\n",
+            NewLineHandling = NewLineHandling.Replace
+        };
+        using (var writer = XmlWriter.Create(sb, settings))
+        {
+            doc.Save(writer);
         }
+        return sb.ToString();
     }
 }

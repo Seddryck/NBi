@@ -4,8 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace NBi.Core.Decoration.Process
-{
-    public interface IProcessCommandArgs : IDecorationCommandArgs
-    { }
-}
+namespace NBi.Core.Decoration.Process;
+
+public interface IProcessCommandArgs : IDecorationCommandArgs
+{ }

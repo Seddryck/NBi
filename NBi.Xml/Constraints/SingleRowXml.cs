@@ -13,11 +13,10 @@ using NBi.Xml.Constraints.Comparer;
 using NBi.Xml.Items.Calculation;
 using NBi.Core.Evaluate;
 
-namespace NBi.Xml.Constraints
+namespace NBi.Xml.Constraints;
+
+public class SingleRowXml : NoRowsXml
 {
-    public class SingleRowXml : NoRowsXml
-    {
-        public SingleRowXml() : base()
-        {  }
-    }
+    public SingleRowXml() : base()
+    {  }
 }

@@ -6,8 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.Assemblies.Decoration
-{
-    public interface ICustomConditionArgs : ICustomArgs, IDecorationConditionArgs
-    { }
-}
+namespace NBi.Core.Assemblies.Decoration;
+
+public interface ICustomConditionArgs : ICustomArgs, IDecorationConditionArgs
+{ }

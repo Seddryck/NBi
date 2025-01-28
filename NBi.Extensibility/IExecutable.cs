@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Extensibility
+namespace NBi.Extensibility;
+
+public interface IExecutable
 {
-    public interface IExecutable
-    {
-        IExecutionResult Execute();
-    }
+    IExecutionResult Execute();
 }

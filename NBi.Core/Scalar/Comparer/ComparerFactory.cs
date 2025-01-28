@@ -4,24 +4,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace NBi.Core.Scalar.Comparer
+namespace NBi.Core.Scalar.Comparer;
+
+class ComparerFactory
 {
-    class ComparerFactory
+    public BaseComparer Get(ColumnType type)
     {
-        public BaseComparer Get(ColumnType type)
+        return type switch
         {
-            switch (type)
-            {
-                case ColumnType.Text:
-                    return new TextComparer();
-                case ColumnType.Numeric:
-                    return new NumericComparer();
-                case ColumnType.DateTime:
-                    return new DateTimeComparer();
-                case ColumnType.Boolean:
-                    return new BooleanComparer();
-            }
-            throw new ArgumentException();
-        }
+            ColumnType.Text => new TextComparer(),
+            ColumnType.Numeric => new NumericComparer(),
+            ColumnType.DateTime => new DateTimeComparer(),
+            ColumnType.Boolean => new BooleanComparer(),
+            _ => throw new ArgumentException(),
+        };
     }
 }

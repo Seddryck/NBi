@@ -9,89 +9,32 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using System.Xml.XPath;
+using NBi.Core.Compiling;
 
-namespace NBi.Core.Scalar.Resolver
+namespace NBi.Core.Scalar.Resolver;
+
+class CSharpScalarResolver<T> : IScalarResolver<T>
 {
-    class CSharpScalarResolver<T> : IScalarResolver<T>
+    private CSharpScalarResolverArgs Args { get; }
+    private DynamicVariableCompiler? Compiler { get; set; }
+
+    public CSharpScalarResolver(CSharpScalarResolverArgs args)
+        => (Args) = (args);
+
+    public CSharpScalarResolver(string code)
+        : this(new CSharpScalarResolverArgs(code))
+    { }
+
+    public T? Execute()
     {
-        private readonly CSharpScalarResolverArgs args;
-
-        public CSharpScalarResolver(CSharpScalarResolverArgs args)
+        if (Compiler is null)
         {
-            this.args = args;
+            Compiler = new DynamicVariableCompiler();
+            Compiler.Compile(Args.Code);
         }
-
-        public CSharpScalarResolver(string code)
-        {
-            this.args = new CSharpScalarResolverArgs(code);
-        }
-
-        public T Execute()
-        {
-            var method = CreateFunction(args.Code);
-            if (method == null)
-                throw new InvalidOperationException();
-
-            var value = method.Invoke(null, new object[] { });
-
-            return (T)Convert.ChangeType(value, typeof(T));
-        }
-
-        private MethodInfo CreateFunction(string code)
-        {
-            string codeTemplate = @"
-                using System;
-                using System.Xml;
-                using System.Xml.Linq;
-                using System.Linq;
-                using System.Xml.XPath;
-            
-                namespace {1}
-                {{                
-                    public class VariableClass
-                    {{                
-                        public static object Function()
-                        {{
-                            return {0};
-                        }}
-                    }}
-                }}
-            ";
-
-            string finalCode = string.Format(codeTemplate, code, $"{GetType().Namespace}.Dynamic");
-
-            using (var provider = new CSharpCodeProvider())
-            {
-                var parameters = new CompilerParameters()
-                {
-                    GenerateInMemory = true,
-                    GenerateExecutable = false,
-                    ReferencedAssemblies =
-                    {
-                        "System.Xml.dll",
-                        "System.Xml.Linq.dll",
-                        "System.Linq.dll",
-                        "System.Core.dll",
-                        "System.Xml.XPath.dll"
-                    }
-                };
-
-                var results = provider.CompileAssemblyFromSource(parameters, finalCode);
-
-                if (results.Errors.HasErrors)
-                {
-                    var sb = new StringBuilder();
-                    foreach (CompilerError error in results.Errors)
-                        sb.AppendLine($"Error ({error.ErrorNumber}): {error.ErrorText}");
-
-                    throw new InvalidOperationException(sb.ToString());
-                }
-
-                var @class = results.CompiledAssembly.GetType($"{GetType().Namespace}.Dynamic.VariableClass");
-                return @class.GetMethod("Function");
-            }
-        }
-
-        object IResolver.Execute() => Execute();
+        var value = Compiler.Evaluate();
+        return (T?)Convert.ChangeType(value, typeof(T));
     }
+
+    object? IResolver.Execute() => Execute();
 }

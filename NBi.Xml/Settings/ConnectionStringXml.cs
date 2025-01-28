@@ -7,34 +7,33 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 
-namespace NBi.Xml.Settings
+namespace NBi.Xml.Settings;
+
+public class ConnectionStringXml
 {
-    public class ConnectionStringXml
+    [XmlText]
+    public string Inline { get; set; }
+
+    [XmlElement("environment")]
+    public EnvironmentXml Environment { get; set; }
+
+    protected IScalarResolverArgs Args
     {
-        [XmlText]
-        public string Inline { get; set; }
-
-        [XmlElement("environment")]
-        public EnvironmentXml Environment { get; set; }
-
-        protected IScalarResolverArgs Args
+        get
         {
-            get
-            {
-                if (!string.IsNullOrEmpty(Inline))
-                    return new LiteralScalarResolverArgs(Inline);
-                else if (Environment != null)
-                    return new EnvironmentScalarResolverArgs(Environment.Name);
-                else
-                    return new LiteralScalarResolverArgs(string.Empty);
-            }
+            if (!string.IsNullOrEmpty(Inline))
+                return new LiteralScalarResolverArgs(Inline);
+            else if (Environment != null)
+                return new EnvironmentScalarResolverArgs(Environment.Name);
+            else
+                return new LiteralScalarResolverArgs(string.Empty);
         }
+    }
 
-        public string GetValue()
-        {
-            var factory = new ScalarResolverFactory(null);
-            var resolver = factory.Instantiate<string>(Args);
-            return resolver.Execute();
-        }
+    public string GetValue()
+    {
+        var factory = new ScalarResolverFactory(null);
+        var resolver = factory.Instantiate<string>(Args);
+        return resolver.Execute();
     }
 }

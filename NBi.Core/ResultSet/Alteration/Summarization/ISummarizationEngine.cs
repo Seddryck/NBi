@@ -5,8 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using NBi.Extensibility;
 
-namespace NBi.Core.ResultSet.Alteration.Summarization
-{
-    public interface ISummarizationEngine : IAlteration
-    { }
-}
+namespace NBi.Core.ResultSet.Alteration.Summarization;
+
+public interface ISummarizationEngine : IAlteration
+{ }

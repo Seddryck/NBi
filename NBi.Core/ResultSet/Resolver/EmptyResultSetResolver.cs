@@ -7,29 +7,28 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.ResultSet.Resolver
+namespace NBi.Core.ResultSet.Resolver;
+
+public class EmptyResultSetResolver : IResultSetResolver
 {
-    public class EmptyResultSetResolver : IResultSetResolver
+    private EmptyResultSetResolverArgs Args { get; }
+
+    public EmptyResultSetResolver(EmptyResultSetResolverArgs args)
+        => Args = args;
+
+    public virtual IResultSet Execute()
     {
-        private EmptyResultSetResolverArgs Args { get; }
+        var dataTable = new DataTableResultSet();
+        if (Args.Identifiers != null)
+            foreach (var identifier in Args.Identifiers)
+                dataTable.AddColumn(identifier.Name);
 
-        public EmptyResultSetResolver(EmptyResultSetResolverArgs args)
-            => Args = args;
-
-        public virtual IResultSet Execute()
+        if (Args.ColumnCount!=null && dataTable.ColumnCount< Args.ColumnCount.Execute())
         {
-            var dataTable = new DataTableResultSet();
-            if (Args.Identifiers != null)
-                foreach (var identifier in Args.Identifiers)
-                    dataTable.AddColumn(identifier.Name);
-
-            if (Args.ColumnCount!=null && dataTable.ColumnCount< Args.ColumnCount.Execute())
-            {
-                var missingColumnCount = Args.ColumnCount.Execute() - dataTable.ColumnCount;
-                for (int i = 0; i < missingColumnCount; i++)
-                    dataTable.AddColumn($"Column_{dataTable.ColumnCount}");
-            }
-            return dataTable;
+            var missingColumnCount = Args.ColumnCount.Execute() - dataTable.ColumnCount;
+            for (int i = 0; i < missingColumnCount; i++)
+                dataTable.AddColumn($"Column_{dataTable.ColumnCount}");
         }
+        return dataTable;
     }
 }

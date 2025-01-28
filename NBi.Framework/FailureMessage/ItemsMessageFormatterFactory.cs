@@ -9,24 +9,20 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Framework.FailureMessage
-{
-    public class ItemsMessageFormatterFactory
-    {
-        public IItemsMessageFormatter Instantiate(IFailureReportProfile profile)
-        {
-            var factory = new SamplersFactory<string>();
-            var samplers = factory.Instantiate(profile);
+namespace NBi.Framework.FailureMessage;
 
-            switch (profile.Format)
-            {
-                case FailureReportFormat.Markdown:
-                    return new ItemsMessageMarkdown(samplers);
-                case FailureReportFormat.Json:
-                    return new ItemsMessageJson(samplers);
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
-        }
+public class ItemsMessageFormatterFactory
+{
+    public virtual IItemsMessageFormatter Instantiate(IFailureReportProfile profile)
+    {
+        var factory = new SamplersFactory<string>();
+        var samplers = factory.Instantiate(profile);
+
+        return profile.Format switch
+        {
+            FailureReportFormat.Markdown => new ItemsMessageMarkdown(samplers),
+            FailureReportFormat.Json => new ItemsMessageJson(samplers),
+            _ => throw new ArgumentOutOfRangeException(),
+        };
     }
 }

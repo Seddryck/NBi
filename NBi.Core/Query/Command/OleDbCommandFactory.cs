@@ -10,11 +10,10 @@ using System.Text;
 using System.Threading.Tasks;
 using NBi.Extensibility.Query;
 
-namespace NBi.Core.Query.Command
+namespace NBi.Core.Query.Command;
+
+class OleDbCommandFactory : DbCommandFactory
 {
-    class OleDbCommandFactory : DbCommandFactory
-    {
-        public override bool CanHandle(IClient client) => client.UnderlyingSessionType == typeof(OleDbConnection);
-    }
+    public override bool CanHandle(IClient client) => client.UnderlyingSessionType == typeof(OleDbConnection);
 }
 

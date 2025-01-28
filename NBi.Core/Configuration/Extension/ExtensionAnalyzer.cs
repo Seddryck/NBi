@@ -7,30 +7,29 @@ using System.Threading.Tasks;
 using NBi.Extensibility.FlatFile;
 using NBi.Extensibility.Query;
 
-namespace NBi.Core.Configuration.Extension
+namespace NBi.Core.Configuration.Extension;
+
+public class ExtensionAnalyzer
 {
-    public class ExtensionAnalyzer
+    public Type[] Execute(string name)
     {
-        public Type[] Execute(string name)
+        var types = Assembly.Load(name).GetTypes();
+
+        var interfaces = new[]
         {
-            var types = Assembly.Load(name).GetTypes();
+            typeof(IClientFactory),
+            typeof(ICommandFactory),
+            typeof(IExecutionEngine),
+            typeof(Query.Performance.IPerformanceEngine),
+            typeof(Query.Validation.IValidationEngine),
+            typeof(Query.Format.IFormatEngine),
+            typeof(IFlatFileReader)
+        };
 
-            var interfaces = new[]
-            {
-                typeof(IClientFactory),
-                typeof(ICommandFactory),
-                typeof(IExecutionEngine),
-                typeof(Query.Performance.IPerformanceEngine),
-                typeof(Query.Validation.IValidationEngine),
-                typeof(Query.Format.IFormatEngine),
-                typeof(IFlatFileReader)
-            };
+        var notables = new List<Type>();
+        foreach (var @interface in interfaces)
+            notables.AddRange(types.Where(x => @interface.IsAssignableFrom(x) && !x.IsAbstract && x.IsPublic));
 
-            var notables = new List<Type>();
-            foreach (var @interface in interfaces)
-                notables.AddRange(types.Where(x => @interface.IsAssignableFrom(x) && !x.IsAbstract && x.IsPublic));
-
-            return notables.ToArray();
-        }
+        return [.. notables];
     }
 }

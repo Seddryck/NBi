@@ -6,15 +6,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.ResultSet.Resolver
-{
-    class ObjectsResultSetResolverArgs : ResultSetResolverArgs
-    {
-        public IEnumerable<object> Objects { get; }
+namespace NBi.Core.ResultSet.Resolver;
 
-        public ObjectsResultSetResolverArgs(IEnumerable<object> objects)
-        {
-            Objects = objects;
-        }
+class ObjectsResultSetResolverArgs : ResultSetResolverArgs
+{
+    public IEnumerable<object?> Objects { get; }
+
+    public ObjectsResultSetResolverArgs(IEnumerable<object?> objects)
+    {
+        Objects = objects;
     }
 }

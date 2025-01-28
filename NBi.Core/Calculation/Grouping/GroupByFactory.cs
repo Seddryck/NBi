@@ -1,6 +1,5 @@
 ﻿using NBi.Core.Calculation.Grouping.CaseBased;
 using NBi.Core.Calculation.Grouping.ColumnBased;
-using NBi.Core.Calculation.Predication;
 using NBi.Core.ResultSet;
 using NBi.Core.ResultSet.Equivalence;
 using NBi.Core.Scalar.Comparer;
@@ -14,69 +13,55 @@ using System.Text;
 using System.Threading.Tasks;
 using static NBi.Core.ResultSet.SettingsOrdinalResultSet;
 
-namespace NBi.Core.Calculation.Grouping
+namespace NBi.Core.Calculation.Grouping;
+
+public class GroupByFactory
 {
-    public class GroupByFactory
+    public static IGroupBy None() => new NoneGrouping();
+
+    public IGroupBy Instantiate(IGroupByArgs args)
+        => args switch
+        {
+            NoneGroupByArgs x => None(),
+            ColumnGroupByArgs x => Instantiate(x.Columns, x.Context),
+            CaseGroupByArgs x => new CaseGrouping(x.Cases, x.Context),
+            _ => throw new ArgumentOutOfRangeException(),
+        };
+
+    protected virtual IGroupBy Instantiate(IEnumerable<IColumnDefinitionLight> columns, Context context)
     {
-        public static IGroupBy None() => new NoneGrouping();
+        if (!columns?.Any() ?? false)
+            return new NoneGrouping();
 
-        public IGroupBy Instantiate(IGroupByArgs args)
+        var definitions = columns!.Select(column =>  new ColumnDefinition(column.Identifier,column.Type)).ToList();
+
+        var builder = new SettingsEquivalerBuilder();
+        builder.Setup(KeysChoice.None, ValuesChoice.None);
+        builder.Setup(definitions);
+        builder.Build();
+
+        var settings = builder.GetSettings();
+        return settings switch
         {
-            switch (args)
-            {
-                case NoneGroupByArgs x: return None();
-                case ColumnGroupByArgs x: return Instantiate(x.Columns, x.Context);
-                case CaseGroupByArgs x: return new CaseGrouping(x.Cases, x.Context);
-                default: throw new ArgumentOutOfRangeException();
-            }
-        }
+            SettingsOrdinalResultSet ordinal => new OrdinalColumnGrouping(ordinal, context),
+            SettingsNameResultSet name => new NameColumnGrouping(name, context),
+            _ => throw new ArgumentOutOfRangeException(nameof(settings))
+        };
+    }
 
-        private IGroupBy Instantiate(IEnumerable<IColumnDefinitionLight> columns, Context context)
-        {
-            if ((columns?.Count() ?? 0) == 0)
-                return new NoneGrouping();
+    private class ColumnDefinition(IColumnIdentifier identifier, ColumnType type) : IColumnDefinition
+    {
+        public IColumnIdentifier Identifier { get; set; } = identifier;
+        public ColumnRole Role { get => ColumnRole.Key; set => throw new NotImplementedException(); }
+        public ColumnType Type { get; set; } = type;
 
-            var definitions = new List<ColumnDefinition>();
-            foreach (var column in columns)
-            {
-                var definition = new ColumnDefinition()
-                {
-                    Identifier = column.Identifier,
-                    Type = column.Type
-                };
-                definitions.Add(definition);
-            }
+        public string Tolerance { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
-            var builder = new SettingsEquivalerBuilder();
-            builder.Setup(KeysChoice.None, ValuesChoice.None);
-            builder.Setup(definitions);
-            builder.Build();
+        public bool IsToleranceSpecified => false;
 
-            var settings = builder.GetSettings();
-            if (settings is SettingsOrdinalResultSet)
-                return new OrdinalColumnGrouping(settings as SettingsOrdinalResultSet, context);
+        public Rounding.RoundingStyle RoundingStyle { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public string RoundingStep { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
-            else if (settings is SettingsNameResultSet)
-                return new NameColumnGrouping(settings as SettingsNameResultSet, context);
-
-            throw new ArgumentOutOfRangeException(nameof(settings));
-        }
-
-        private class ColumnDefinition : IColumnDefinition
-        {
-            public IColumnIdentifier Identifier { get; set; }
-            public ColumnRole Role { get => ColumnRole.Key; set => throw new NotImplementedException(); }
-            public ColumnType Type { get; set; }
-
-
-            public string Tolerance { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-
-            public bool IsToleranceSpecified => false;
-
-            public Rounding.RoundingStyle RoundingStyle { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-            public string RoundingStep { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-
-            public ITransformationInfo Transformation => throw new NotImplementedException();
-        }
+        public ITransformationInfo Transformation => throw new NotImplementedException();
     }
 }

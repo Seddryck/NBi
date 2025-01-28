@@ -9,33 +9,32 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Framework.FailureMessage.Json
+namespace NBi.Framework.FailureMessage.Json;
+
+class CompareTableHelperJson : TableHelperJson
 {
-    class CompareTableHelperJson : TableHelperJson
+    protected override void BuildRows(IEnumerable<IResultRow> rows, IEnumerable<IPresenter> presenters, JsonWriter writer)
     {
-        protected override void BuildRows(IEnumerable<IResultRow> rows, IEnumerable<IPresenter> presenters, JsonWriter writer)
+        writer.WritePropertyName("rows");
+        writer.WriteStartArray();
+        foreach (var row in rows)
         {
-            writer.WritePropertyName("rows");
             writer.WriteStartArray();
-            foreach (var row in rows)
+            for (int i = 0; i < row.ItemArray.Length; i++)
             {
-                writer.WriteStartArray();
-                for (int i = 0; i < row.ItemArray.Count(); i++)
+                var presenter = presenters.ElementAt(i);
+                writer.WriteStartObject();
+                writer.WritePropertyName("value");
+                writer.WriteValue(presenter.Execute(row[i]));
+                if (!string.IsNullOrEmpty(row.GetColumnError(i)))
                 {
-                    var presenter = presenters.ElementAt(i);
-                    writer.WriteStartObject();
-                    writer.WritePropertyName("value");
-                    writer.WriteValue(presenter.Execute(row[i]));
-                    if (!string.IsNullOrEmpty(row.GetColumnError(i)))
-                    {
-                        writer.WritePropertyName("expectation");
-                        writer.WriteValue(presenter.Execute(row.GetColumnError(i)));
-                    }
-                    writer.WriteEndObject();
+                    writer.WritePropertyName("expectation");
+                    writer.WriteValue(presenter.Execute(row.GetColumnError(i)));
                 }
-                writer.WriteEndArray();
+                writer.WriteEndObject();
             }
-            writer.WriteEndArray(); //rows
+            writer.WriteEndArray();
         }
+        writer.WriteEndArray(); //rows
     }
 }

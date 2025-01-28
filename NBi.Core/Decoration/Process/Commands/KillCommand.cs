@@ -4,28 +4,27 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 
-namespace NBi.Core.Decoration.Process.Commands
+namespace NBi.Core.Decoration.Process.Commands;
+
+class KillCommand : IDecorationCommand
 {
-    class KillCommand : IDecorationCommand
+    private readonly ProcessKillCommandArgs args;
+
+    public KillCommand(ProcessKillCommandArgs args) => this.args = args;
+
+    public void Execute() => Execute(args.ProcessName.Execute() ?? throw new NullReferenceException());
+
+    internal void Execute(string processName)
     {
-        private readonly ProcessKillCommandArgs args;
+        var processes = System.Diagnostics.Process.GetProcessesByName(processName);
 
-        public KillCommand(ProcessKillCommandArgs args) => this.args = args;
+        if (processes.Length == 0)
+            Console.WriteLine($"No process named '{processName}' to kill.");
 
-        public void Execute() => Execute(args.ProcessName.Execute());
-
-        internal void Execute(string processName)
+        foreach (var process in processes)
         {
-            var processes = System.Diagnostics.Process.GetProcessesByName(processName);
-
-            if (processes == null || processes.Count() == 0)
-                Console.WriteLine($"No process named '{processName}' to kill.");
-
-            foreach (var process in processes)
-            {
-                process.Kill();
-                Console.WriteLine($"Process named '{processName}' killed.");
-            }
+            process.Kill();
+            Console.WriteLine($"Process named '{processName}' killed.");
         }
     }
 }

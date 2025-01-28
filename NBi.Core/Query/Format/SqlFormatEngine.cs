@@ -6,19 +6,18 @@ using System.Reflection;
 using System.Data.Common;
 using System.Collections.Generic;
 using NBi.Core.Query.Execution;
-using System.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 
-namespace NBi.Core.Query.Format
+namespace NBi.Core.Query.Format;
+
+internal class SqlFormatEngine : SqlExecutionEngine, IFormatEngine
 {
-    internal class SqlFormatEngine : SqlExecutionEngine, IFormatEngine
-    {
-        protected internal SqlFormatEngine(SqlConnection connection, SqlCommand command)
-            : base(connection, command)
-        { }
+    protected internal SqlFormatEngine(SqlConnection connection, SqlCommand command)
+        : base(connection, command)
+    { }
 
-        public IEnumerable<string> ExecuteFormat()
-        {
-            return base.ExecuteList<string>();
-        }
+    public IEnumerable<string> ExecuteFormat()
+    {
+        return base.ExecuteList<string>();
     }
 }

@@ -12,27 +12,20 @@ using System.Threading.Tasks;
 using System.Data;
 using NBi.Extensibility;
 
-namespace NBi.Framework.FailureMessage
+namespace NBi.Framework.FailureMessage;
+
+public class LookupMatchesViolationsMessageFormatterFactory
 {
-    public class LookupMatchesViolationsMessageFormatterFactory
+    public virtual ILookupViolationMessageFormatter Instantiate(IFailureReportProfile profile)
     {
-        public ILookupViolationMessageFormatter Instantiate(IFailureReportProfile profile)
+        var dataRowsFactory = new SamplersFactory<IResultRow>();
+        var dataRowsSamplers = dataRowsFactory.InstantiateLookup(profile);
+
+        return profile.Format switch
         {
-            var dataRowsFactory = new SamplersFactory<IResultRow>();
-            var dataRowsSamplers = dataRowsFactory.InstantiateLookup(profile);
-
-            var keysCollectionFactory = new SamplersFactory<KeyCollection>();
-            var keysCollectionSamplers = keysCollectionFactory.Instantiate(profile);
-
-            switch (profile.Format)
-            {
-                case FailureReportFormat.Markdown:
-                    return new LookupMatchesViolationMessageMarkdown(dataRowsSamplers);
-                case FailureReportFormat.Json:
-                    return new LookupMatchesViolationMessageJson(dataRowsSamplers);
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
-        }
+            FailureReportFormat.Markdown => new LookupMatchesViolationMessageMarkdown(dataRowsSamplers),
+            FailureReportFormat.Json => new LookupMatchesViolationMessageJson(dataRowsSamplers),
+            _ => throw new ArgumentOutOfRangeException(),
+        };
     }
 }

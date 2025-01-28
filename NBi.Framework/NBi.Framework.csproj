@@ -1,131 +1,18 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{1AD339DC-60E0-4334-86CF-60EEAFEAA6E4}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>NBi.Framework</RootNamespace>
-    <AssemblyName>NBi.Framework</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
-    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
+    <PackageId>NBi.Framework</PackageId>
+    <RepositoryUrl>https://github.com/Seddryck/NBi</RepositoryUrl>
+    <PackageTags>testing;database;etl;nunit;test-automation;business-intelligence;data-quality-checks;data-quality;pipeline;data-engineering;pipeline-testing;</PackageTags>
+    <Description>NBi is an open-source framework to test your Business Intelligence solutions or validate your data quality.</Description>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="MarkdownLog, Version=0.9.64.0, Culture=neutral, PublicKeyToken=2b6c562c5dd991ab, processorArchitecture=MSIL">
-      <HintPath>..\packages\MarkdownLog.0.9.64\lib\netstandard2.0\MarkdownLog.dll</HintPath>
-    </Reference>
-    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
+    <PackageReference Include="MarkdownLog" Version="0.9.64.0"/>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\AssemblyInfo.cs">
-      <Link>Properties\AssemblyInfo.cs</Link>
-    </Compile>
-    <Compile Include="FailureMessage\Common\Helper\BaseTableHelper.cs" />
-    <Compile Include="FailureMessage\Common\LookupViolationMessage.cs" />
-    <Compile Include="FailureMessage\IScoreMessageFormatter.cs" />
-    <Compile Include="FailureMessage\Json\Helper\LookupTableHelperJson.cs" />
-    <Compile Include="FailureMessage\Json\Helper\TableHelperJson.cs" />
-    <Compile Include="FailureMessage\Json\Helper\BaseTableHelperJson.cs" />
-    <Compile Include="FailureMessage\Json\LookupReverseExistsViolationMessageJson.cs" />
-    <Compile Include="FailureMessage\Json\LookupMatchesViolationMessageJson.cs" />
-    <Compile Include="FailureMessage\Json\LookupExistsViolationMessageJson.cs" />
-    <Compile Include="FailureMessage\Json\sbReference.cs" />
-    <Compile Include="FailureMessage\Json\ScoreMessageJson.cs" />
-    <Compile Include="FailureMessage\Common\Helper\ITableHelper.cs" />
-    <Compile Include="FailureMessage\LookupExistsViolationsMessageFormatterFactory.cs" />
-    <Compile Include="FailureMessage\LookupReverseExistsViolationsMessageFormatterFactory.cs" />
-    <Compile Include="FailureMessage\Markdown\Helper\StandardTableHelperMarkdown.cs" />
-    <Compile Include="FailureMessage\Markdown\Helper\LookupTableHelperMarkdown.cs" />
-    <Compile Include="FailureMessage\Markdown\Helper\BaseTableHelperMarkdown.cs" />
-    <Compile Include="FailureMessage\Markdown\LookupReverseExistsViolationMessageMarkdown.cs" />
-    <Compile Include="FailureMessage\Markdown\LookupExistsViolationMessageMarkdown.cs" />
-    <Compile Include="FailureMessage\Markdown\LookupMatchesViolationMessageMarkdown.cs" />
-    <Compile Include="FailureMessage\Markdown\ScoreMessageMarkdown.cs" />
-    <Compile Include="FailureMessage\ScoreMessageFormatterFactory.cs" />
-    <Compile Include="FailureMessage\ILookupViolationMessageFormatter.cs" />
-    <Compile Include="FailureMessage\Json\Helper\CompareTableHelperJson.cs" />
-    <Compile Include="FailureMessage\Json\ItemsMessageJson.cs" />
-    <Compile Include="FailureMessage\Json\LookupViolationMessageJson.cs" />
-    <Compile Include="FailureMessage\Markdown\LookupViolationMessageMarkdown.cs" />
-    <Compile Include="FailureMessage\LookupMatchesViolationsMessageFormatterFactory.cs" />
-    <Compile Include="Sampling\FullSampler.cs" />
-    <Compile Include="Sampling\NoneSampler.cs" />
-    <Compile Include="Sampling\ISampler.cs" />
-    <Compile Include="Sampling\BasicSampler.cs" />
-    <Compile Include="FailureMessage\ItemsMessageFormatterFactory.cs" />
-    <Compile Include="FailureMessage\DataRowsMessageFormatterFactory.cs" />
-    <Compile Include="FailureMessage\IItemsMessageFormatter.cs" />
-    <Compile Include="FailureMessage\IDataRowsMessageFormatter.cs" />
-    <Compile Include="FailureMessage\Json\DataRowsMessageJson.cs" />
-    <Compile Include="FailureMessage\Json\Helper\StandardTableHelperJson.cs" />
-    <Compile Include="FailureMessage\Markdown\MarkdownLogExtension\EmptyTableCellExtended.cs" />
-    <Compile Include="FailureMessage\Markdown\MarkdownLogExtension\ITableCellExtended.cs" />
-    <Compile Include="FailureMessage\Markdown\MarkdownLogExtension\TableCellExtended.cs" />
-    <Compile Include="FailureMessage\Markdown\MarkdownLogExtension\TableCellRenderSpecificationExtended.cs" />
-    <Compile Include="FailureMessage\Markdown\MarkdownLogExtension\TableColumnExtended.cs" />
-    <Compile Include="FailureMessage\Markdown\MarkdownLogExtension\TableExtended.cs" />
-    <Compile Include="FailureMessage\Markdown\MarkdownLogExtension\TableRowExtended.cs" />
-    <Compile Include="Sampling\SamplersFactory.cs" />
-    <Compile Include="FailureMessage\Markdown\ItemsMessageMarkdown.cs" />
-    <Compile Include="FailureMessage\Common\ColumnPropertiesFormatter.cs" />
-    <Compile Include="FailureMessage\Markdown\Helper\CompareTableHelperMarkdown.cs" />
-    <Compile Include="FailureMessage\Markdown\Helper\TableHelperMarkdown.cs" />
-    <Compile Include="Properties\ProjectAssemblyInfo.cs" />
-    <Compile Include="FailureMessage\Markdown\DataRowsMessageMarkdown.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\NBi.Core\NBi.Core.csproj">
-      <Project>{3f730647-fe31-4907-8a6e-a0c4a0c970ea}</Project>
-      <Name>NBi.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\NBi.Extensibility\NBi.Extensibility.csproj">
-      <Project>{a06cba63-d848-4dbc-abfc-63172613999d}</Project>
-      <Name>NBi.Extensibility</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="app.config" />
-    <None Include="packages.config" />
+    <ProjectReference Include="..\NBi.Core\NBi.Core.csproj"/>
+    <ProjectReference Include="..\NBi.Extensibility\NBi.Extensibility.csproj"/>
   </ItemGroup>
   <ItemGroup />
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
 </Project>

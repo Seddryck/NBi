@@ -4,11 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.Scalar.Conversion
+namespace NBi.Core.Scalar.Conversion;
+
+public interface IConverter
 {
-    public interface IConverter
-    {
-        object Execute(object x);
-        Type DestinationType { get; }
-    }
+    object? Execute(object x);
+    Type DestinationType { get; }
 }

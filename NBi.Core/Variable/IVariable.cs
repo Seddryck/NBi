@@ -5,19 +5,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.Variable
+namespace NBi.Core.Variable;
+
+public interface IVariable
 {
-    public interface IVariable
-    {
-        object GetValue();
-        bool IsEvaluated();
-    }
-    interface ILoadtimeVariable : IVariable { }
-
-    interface IRuntimeVariable : IVariable 
-    {
-        void Evaluate();
-    }
-    
-
+    object? GetValue();
+    bool IsEvaluated();
 }
+interface ILoadtimeVariable : IVariable { }
+
+interface IRuntimeVariable : IVariable 
+{
+    void Evaluate();
+}
+

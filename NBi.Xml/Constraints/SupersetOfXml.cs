@@ -6,17 +6,16 @@ using NBi.Xml.Items;
 using NBi.Xml.Settings;
 using NBi.Xml.Systems;
 
-namespace NBi.Xml.Constraints
+namespace NBi.Xml.Constraints;
+
+public class SupersetOfXml : EqualToXml
 {
-    public class SupersetOfXml : EqualToXml
-    {
-        public SupersetOfXml()
-            : base() { }
+    public SupersetOfXml()
+        : base() { }
 
-        internal SupersetOfXml(SettingsXml settings)
-            : base(settings) { }
+    internal SupersetOfXml(SettingsXml settings)
+        : base(settings) { }
 
-        internal SupersetOfXml(bool parallelizeQueries)
-            : base(parallelizeQueries) { }
-    }
+    internal SupersetOfXml(bool parallelizeQueries)
+        : base(parallelizeQueries) { }
 }

@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.Structure
+namespace NBi.Core.Structure;
+
+public interface IValueFilter
 {
-    public interface IValueFilter
-    {
-        string Value { get; }
-    }
+    string Value { get; }
 }

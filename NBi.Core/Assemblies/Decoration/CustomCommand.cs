@@ -5,14 +5,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.Assemblies.Decoration
+namespace NBi.Core.Assemblies.Decoration;
+
+class CustomCommand : IDecorationCommand
 {
-    class CustomCommand : IDecorationCommand
-    {
-        private ICustomCommand Target { get; }
+    private ICustomCommand Target { get; }
 
-        public CustomCommand(ICustomCommand target) => Target = target;
+    public CustomCommand(ICustomCommand target) => Target = target;
 
-        public void Execute() => Target.Execute();
-    }
+    public void Execute() => Target.Execute();
 }

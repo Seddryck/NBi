@@ -6,23 +6,23 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.ResultSet.Alteration.Duplication
+namespace NBi.Core.ResultSet.Alteration.Duplication;
+
+public class DuplicationFactory
 {
-    public class DuplicationFactory
+    protected ServiceLocator ServiceLocator { get; }
+    protected Context Context { get; }
+
+    public DuplicationFactory(ServiceLocator serviceLocator, Context context)
+        => (ServiceLocator, Context) = (serviceLocator, context);
+
+    public IDuplicationEngine Instantiate(IDuplicationArgs args)
     {
-        protected ServiceLocator ServiceLocator { get; }
-        protected Context Context { get; }
-
-        public DuplicationFactory(ServiceLocator serviceLocator, Context context)
-            => (ServiceLocator, Context) = (serviceLocator, context);
-
-        public IDuplicationEngine Instantiate(IDuplicationArgs args)
+        return args switch
         {
-            switch (args)
-            {
-                case DuplicateArgs x: return new DuplicateEngine(ServiceLocator, Context, x.Predication, x.Times, x.Outputs);
-                default: throw new ArgumentException();
-            };
-        }
+            DuplicateArgs x => new DuplicateEngine(ServiceLocator, Context, x.Predication, x.Times, x.Outputs),
+            _ => throw new ArgumentException(),
+        };
+        ;
     }
 }

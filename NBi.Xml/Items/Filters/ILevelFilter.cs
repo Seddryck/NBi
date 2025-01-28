@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Xml.Items.Filters
+namespace NBi.Xml.Items.Filters;
+
+public interface ILevelFilter
 {
-    public interface ILevelFilter
-    {
-        string Level { get; set; }
-    }
+    string Level { get; set; }
 }

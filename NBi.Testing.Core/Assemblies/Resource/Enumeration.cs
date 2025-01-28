@@ -3,12 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace NBi.Testing.Core.Assemblies.Resource
+namespace Resource;
+
+enum Enumeration
 {
-    enum Enumeration
-    {
-        Alpha = 0,
-        Beta = 1,
-        Gamme = 2
-    }
+    Alpha = 0,
+    Beta = 1,
+    Gamme = 2
 }

@@ -7,49 +7,48 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.DataSerialization.Reader
+namespace NBi.Core.DataSerialization.Reader;
+
+class FileReader : IDataSerializationReader, IDisposable
 {
-    class FileReader : IDataSerializationReader, IDisposable
+    private StreamReader? StreamReader { get; set; }
+    public string BasePath { get; }
+    public IScalarResolver<string> ResolverPath { get; }
+
+    public FileReader( string basePath, IScalarResolver<string> resolverPath)
+        => (BasePath, ResolverPath) = (basePath, resolverPath);
+
+    public TextReader Execute()
     {
-        private StreamReader StreamReader { get; set; }
-        public string BasePath { get; }
-        public IScalarResolver<string> ResolverPath { get; }
+        var filePath = EnsureFileExist();
+        StreamReader = new StreamReader(filePath);
+        return StreamReader;
+    }
 
-        public FileReader( string basePath, IScalarResolver<string> resolverPath)
-            => (BasePath, ResolverPath) = (basePath, resolverPath);
+    protected virtual string EnsureFileExist()
+    {
+        var filePath = PathExtensions.CombineOrRoot(BasePath, string.Empty, ResolverPath.Execute() ?? string.Empty);
+        if (!File.Exists(filePath))
+            throw new ExternalDependencyNotFoundException(filePath);
+        return filePath;
+    }
 
-        public TextReader Execute()
+    bool disposed = false;
+    protected virtual void Dispose(bool disposing)
+    {
+        if (disposed)
+            return;
+
+        if (disposing)
         {
-            var filePath = EnsureFileExist();
-            StreamReader = new StreamReader(filePath);
-            return StreamReader;
+            StreamReader?.Dispose();
         }
+        disposed = true;
+    }
 
-        protected virtual string EnsureFileExist()
-        {
-            var filePath = PathExtensions.CombineOrRoot(BasePath, string.Empty, ResolverPath.Execute());
-            if (!File.Exists(filePath))
-                throw new ExternalDependencyNotFoundException(filePath);
-            return filePath;
-        }
-
-        bool disposed = false;
-        protected virtual void Dispose(bool disposing)
-        {
-            if (disposed)
-                return;
-
-            if (disposing)
-            {
-                StreamReader?.Dispose();
-            }
-            disposed = true;
-        }
-
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
+    public void Dispose()
+    {
+        Dispose(true);
+        GC.SuppressFinalize(this);
     }
 }

@@ -5,18 +5,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace NBi.Core.Decoration.Process
+namespace NBi.Core.Decoration.Process;
+
+class IoConditionFactory
 {
-    class IoConditionFactory
+    public IDecorationCondition Instantiate(IIoConditionArgs args)
     {
-        public IDecorationCondition Instantiate(IIoConditionArgs args)
+        return args switch
         {
-            switch (args)
-            {
-                case FolderExistsConditionArgs folderExistsArgs: return new FolderExistsCondition(folderExistsArgs);
-                case FileExistsConditionArgs fileExistsArgs: return new FileExistsCondition(fileExistsArgs);
-                default: throw new ArgumentOutOfRangeException();
-            }
-        }
+            FolderExistsConditionArgs folderExistsArgs => new FolderExistsCondition(folderExistsArgs),
+            FileExistsConditionArgs fileExistsArgs => new FileExistsCondition(fileExistsArgs),
+            _ => throw new ArgumentOutOfRangeException(),
+        };
     }
 }

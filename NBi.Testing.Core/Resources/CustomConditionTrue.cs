@@ -5,10 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Testing.Core.Resources
+namespace NBi.Core.Testing.Resources;
+
+public class CustomConditionTrue : ICustomCondition
 {
-    public class CustomConditionTrue : ICustomCondition
-    {
-        public CustomConditionResult Execute() => CustomConditionResult.SuccessfullCondition;
-    }
+    public CustomConditionResult Execute() => CustomConditionResult.SuccessfullCondition;
 }

@@ -6,20 +6,19 @@ using NBi.Xml.Constraints;
 using NUnit.Framework;
 #endregion
 
-namespace NBi.Testing.Xml.Unit.Constraints
-{
-    [TestFixture]
-    public class SuccessfulXmlTest : BaseXmlTest
-    { 
-        [Test]
-        public void Deserialize_SampleFile_ReadCorrectlySuccessful()
-        {
-            int testNr = 0;
+namespace NBi.Xml.Testing.Unit.Constraints;
 
-            // Create an instance of the XmlSerializer specifying type and namespace.
-            TestSuiteXml ts = DeserializeSample();
+[TestFixture]
+public class SuccessfulXmlTest : BaseXmlTest
+{ 
+    [Test]
+    public void Deserialize_SampleFile_ReadCorrectlySuccessful()
+    {
+        int testNr = 0;
 
-            Assert.That(ts.Tests[testNr].Constraints[0], Is.TypeOf<SuccessfulXml>());
-        }
+        // Create an instance of the XmlSerializer specifying type and namespace.
+        var ts = DeserializeSample();
+
+        Assert.That(ts.Tests[testNr].Constraints[0], Is.TypeOf<SuccessfulXml>());
     }
 }

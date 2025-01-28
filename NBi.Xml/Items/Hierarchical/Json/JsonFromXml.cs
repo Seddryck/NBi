@@ -5,11 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 
-namespace NBi.Xml.Items.Hierarchical.Json
+namespace NBi.Xml.Items.Hierarchical.Json;
+
+public class JsonFromXml
 {
-    public class JsonFromXml
-    {
-        [XmlText]
-        public string Value { get; set; }
-    }
+    [XmlText]
+    public string Value { get; set; }
 }

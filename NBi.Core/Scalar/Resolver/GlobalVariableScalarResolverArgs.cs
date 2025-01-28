@@ -5,18 +5,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.Scalar.Resolver
-{
-    public class GlobalVariableScalarResolverArgs : IScalarResolverArgs
-    {
-        public string VariableName { get; }
-        public IDictionary<string, IVariable> GlobalVariables { get; }
+namespace NBi.Core.Scalar.Resolver;
 
-        public GlobalVariableScalarResolverArgs(string variableName, IDictionary<string, IVariable> globalVariables)
-        {
-            this.VariableName = variableName;
-            this.GlobalVariables = globalVariables;
-        }
-        
-    }
+public class GlobalVariableScalarResolverArgs : IScalarResolverArgs
+{
+    public string VariableName { get; }
+    public Context Context { get; }
+
+    public GlobalVariableScalarResolverArgs(string variableName, Context context)
+        => (VariableName, Context) = (variableName, context);
 }

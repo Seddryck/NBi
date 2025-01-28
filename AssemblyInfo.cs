@@ -13,10 +13,11 @@ using System.Runtime.CompilerServices;
 
 //Reference the testing class to ensure access to internal members
 [assembly: InternalsVisibleTo("NBi.Testing")]
-[assembly: InternalsVisibleTo("NBi.Testing.Core")]
-[assembly: InternalsVisibleTo("NBi.Testing.Framework")]
-[assembly: InternalsVisibleTo("NBi.Testing.GenbiL")]
-[assembly: InternalsVisibleTo("NBi.Testing.Xml")]
+[assembly: InternalsVisibleTo("NBi.Core.Testing")]
+[assembly: InternalsVisibleTo("NBi.Core.Testing")]
+[assembly: InternalsVisibleTo("NBi.Framework.Testing")]
+[assembly: InternalsVisibleTo("NBi.GenbiL.Testing")]
+[assembly: InternalsVisibleTo("NBi.Xml.Testing")]
 
 // Version information for an assembly consists of the following four values:
 //

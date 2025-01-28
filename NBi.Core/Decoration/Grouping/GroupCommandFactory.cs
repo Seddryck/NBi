@@ -4,18 +4,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace NBi.Core.Decoration.Grouping
+namespace NBi.Core.Decoration.Grouping;
+
+class GroupCommandFactory
 {
-    class GroupCommandFactory
+    public IGroupCommand Instantiate(IGroupCommandArgs args, IEnumerable<IDecorationCommand> childrenCommands)
     {
-        public IGroupCommand Instantiate(IGroupCommandArgs args, IEnumerable<IDecorationCommand> childrenCommands)
+        return args switch
         {
-            switch (args)
-            {
-                case GroupParallelCommandArgs _: return new ParallelCommand(childrenCommands, args.RunOnce);
-                case GroupSequentialCommandArgs _: return new SequentialCommand(childrenCommands, args.RunOnce);
-                default: throw new ArgumentOutOfRangeException();
-            }
-        }
+            GroupParallelCommandArgs _ => new ParallelCommand(childrenCommands, args.RunOnce),
+            GroupSequentialCommandArgs _ => new SequentialCommand(childrenCommands, args.RunOnce),
+            _ => throw new ArgumentOutOfRangeException(),
+        };
     }
 }

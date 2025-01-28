@@ -4,12 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.ResultSet.Lookup.Violation
+namespace NBi.Core.ResultSet.Lookup.Violation;
+
+public enum RowViolationState
 {
-    public enum RowViolationState
-    {
-        Missing = 1,
-        Unexpected = 2,
-        Mismatch = 3,
-    }
+    Missing = 1,
+    Unexpected = 2,
+    Mismatch = 3,
 }

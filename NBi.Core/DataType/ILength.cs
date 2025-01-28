@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.DataType
+namespace NBi.Core.DataType;
+
+public interface ILength
 {
-    public interface ILength
-    {
-        int? Length { get; set; }
-    }
+    int? Length { get; set; }
 }

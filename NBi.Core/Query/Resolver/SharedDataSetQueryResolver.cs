@@ -9,34 +9,33 @@ using System.Text;
 using System.Threading.Tasks;
 using NBi.Extensibility.Query;
 
-namespace NBi.Core.Query.Resolver
+namespace NBi.Core.Query.Resolver;
+
+class SharedDataSetQueryResolver : IQueryResolver
 {
-    class SharedDataSetQueryResolver : IQueryResolver
+    private readonly SharedDataSetQueryResolverArgs args;
+    private readonly ReportingParserFactory factory = new ReportingParserFactory();
+
+    public SharedDataSetQueryResolver(SharedDataSetQueryResolverArgs args)
+    { 
+        this.args = args;
+    }
+
+    internal SharedDataSetQueryResolver(SharedDataSetQueryResolverArgs args, ReportingParserFactory factory)
+        : this(args)
     {
-        private readonly SharedDataSetQueryResolverArgs args;
-        private readonly ReportingParserFactory factory = new ReportingParserFactory();
+        this.factory = factory;
+    }
 
-        public SharedDataSetQueryResolver(SharedDataSetQueryResolverArgs args)
-        { 
-            this.args = args;
-        }
+    public IQuery Execute()
+    {
+        var parser = factory.Instantiate(args.Source);
 
-        internal SharedDataSetQueryResolver(SharedDataSetQueryResolverArgs args, ReportingParserFactory factory)
-            : this(args)
-        {
-            this.factory = factory;
-        }
+        var request = new SharedDatasetRequest(args.Source, args.Path,  args.Name);
 
-        public IQuery Execute()
-        {
-            var parser = factory.Instantiate(args.Source);
+        var parsingResult = parser.ExtractCommand(request);
 
-            var request = new SharedDatasetRequest(args.Source, args.Path,  args.Name);
-
-            var parsingResult = parser.ExtractCommand(request);
-
-            var query = new Query(parsingResult.Text, args.ConnectionString, args.Timeout, args.Parameters, args.Variables, parsingResult.CommandType);
-            return query;
-        }
+        var query = new Query(parsingResult.Text, args.ConnectionString, args.Timeout, args.Parameters, args.Variables, parsingResult.CommandType);
+        return query;
     }
 }

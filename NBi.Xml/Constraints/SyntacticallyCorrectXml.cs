@@ -1,8 +1,7 @@
-﻿namespace NBi.Xml.Constraints
-{
-    public class SyntacticallyCorrectXml : AbstractConstraintXml
-    {
-    }
+﻿namespace NBi.Xml.Constraints;
 
-    public class SyntacticallyCorrectOldXml : SyntacticallyCorrectXml { }
+public class SyntacticallyCorrectXml : AbstractConstraintXml
+{
 }
+
+public class SyntacticallyCorrectOldXml : SyntacticallyCorrectXml { }

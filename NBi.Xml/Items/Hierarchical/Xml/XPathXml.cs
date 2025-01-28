@@ -5,15 +5,14 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 
-namespace NBi.Xml.Items.Hierarchical.Xml
+namespace NBi.Xml.Items.Hierarchical.Xml;
+
+public class XPathXml
 {
-    public class XPathXml
-    {
-        [XmlAttribute("default-namespace-prefix")]
-        public string DefaultNamespacePrefix { get; set; }
-        [XmlElement("from")]
-        public FromXml From { get; set; }
-        [XmlElement("select")]
-        public List<SelectXml> Selects { get; set; } = new List<SelectXml>();
-    }
+    [XmlAttribute("default-namespace-prefix")]
+    public string DefaultNamespacePrefix { get; set; }
+    [XmlElement("from")]
+    public FromXml From { get; set; }
+    [XmlElement("select")]
+    public List<SelectXml> Selects { get; set; } = new List<SelectXml>();
 }

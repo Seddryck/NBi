@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Xml.Items.Filters
+namespace NBi.Xml.Items.Filters;
+
+public interface IParameterDirectionFilter
 {
-    public interface IParameterDirectionFilter
-    {
-        ParameterDirectionOption Direction { get; set; }
-    }
+    ParameterDirectionOption Direction { get; set; }
 }

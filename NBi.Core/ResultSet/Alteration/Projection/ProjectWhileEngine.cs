@@ -1,5 +1,5 @@
 ﻿//using NBi.Core.Calculation;
-//using NBi.Core.Calculation.Predicate;
+//using NBi.Core.Calculation.InternalPredicate;
 //using NBi.Core.Evaluate;
 //using NBi.Core.ResultSet.Alteration.ColumnBased.Strategy;
 //using System;
@@ -11,7 +11,7 @@
 
 //namespace NBi.Core.ResultSet.Alteration.ColumnBased
 //{
-//    class HoldWhileCondition : IAlteration
+//    class ProjectWhileEngine : IAlteration
 //    {
 //        protected IPredicateInfo predicateInfo;
 //        protected readonly IEnumerable<IColumnExpression> expressions;
@@ -43,7 +43,7 @@
 //            var identifiers = new List<IColumnIdentifier>();
 //            var result = true;
 //            int i = 0;
-//            while (result && i<resultSet.ColumnCount)
+//            while (result && i < resultSet.ColumnCount)
 //            {
 //                var currentIdentifier = new ColumnPositionIdentifier(i);
 //                predicateInfo.Operand = currentIdentifier;
@@ -65,7 +65,7 @@
 //                if (ordinal <= row.table.ColumnCount)
 //                    return row.ItemArray[ordinal];
 //                else
-//                    throw new ArgumentException($"The variable of the predicate is identified as '{identifier.Label}' but the column in position '{ordinal}' doesn't exist. The dataset only contains {row.table.ColumnCount} columns.");
+//                    throw new ArgumentException($"The variable of the InternalPredicate is identified as '{identifier.Label}' but the column in position '{ordinal}' doesn't exist. The dataset only contains {row.table.ColumnCount} columns.");
 //            }
 
 //            var name = (identifier as ColumnNameIdentifier).Name;
@@ -100,9 +100,9 @@
 //            var exp = new NCalc.Expression(expression.Value);
 //            var factory = new ColumnIdentifierFactory();
 
-//            exp.EvaluateParameter += delegate (string name, NCalc.ParameterArgs args)
+//            exp.EvaluateParameter += delegate (string name, NCalc.ParameterArgs Args)
 //            {
-//                args.Result = GetValueFromRow(row, factory.Instantiate(name));
+//                Args.Result = GetValueFromRow(row, factory.Instantiate(name));
 //            };
 
 //            return exp.Evaluate();

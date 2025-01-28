@@ -5,8 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 
-namespace NBi.Xml.Constraints.Comparer
-{
-    public abstract class ReferencePredicateXml : PredicateXml
-    { }
-}
+namespace NBi.Xml.Constraints.Comparer;
+
+public abstract class ReferencePredicateXml : PredicateXml
+{ }

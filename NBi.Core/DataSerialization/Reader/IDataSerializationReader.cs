@@ -5,10 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.DataSerialization.Reader
+namespace NBi.Core.DataSerialization.Reader;
+
+public interface IDataSerializationReader : IDisposable
 {
-    public interface IDataSerializationReader : IDisposable
-    {
-        TextReader Execute();
-    }
+    TextReader Execute();
 }

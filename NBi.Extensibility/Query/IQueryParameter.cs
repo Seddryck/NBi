@@ -3,13 +3,12 @@ using System.ComponentModel;
 using System.Linq;
 using System.Xml.Serialization;
 
-namespace NBi.Extensibility.Query
+namespace NBi.Extensibility.Query;
+
+public interface IQueryParameter
 {
-    public interface IQueryParameter
-    {
-        string Name { get;}
-        string SqlType { get; }
-        object GetValue();
-        
-    }
+    string Name { get;}
+    string SqlType { get; }
+    object GetValue();
+    
 }

@@ -5,11 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 
-namespace NBi.Xml.Constraints.Comparer
+namespace NBi.Xml.Constraints.Comparer;
+
+public abstract class SequenceReferencePredicateXml : ReferencePredicateXml
 {
-    public abstract class SequenceReferencePredicateXml : ReferencePredicateXml
-    {
-        [XmlElement("item")]
-        public List<string> References { get; set; }
-    }
+    [XmlElement("item")]
+    public List<string> References { get; set; }
 }

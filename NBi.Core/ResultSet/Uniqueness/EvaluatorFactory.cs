@@ -4,17 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.ResultSet.Uniqueness
+namespace NBi.Core.ResultSet.Uniqueness;
+
+public class EvaluatorFactory
 {
-    public class EvaluatorFactory
-    {
-        public Evaluator Instantiate(ISettingsResultSet settings)
+    public virtual Evaluator Instantiate(ISettingsResultSet settings)
+        => settings switch
         {
-            if (settings is SettingsOrdinalResultSet)
-                return new OrdinalEvaluator(settings as SettingsOrdinalResultSet);
-            else if (settings is SettingsNameResultSet)
-                return new NameEvaluator(settings as SettingsNameResultSet);
-            throw new ArgumentOutOfRangeException();
-        }
-    }
+            SettingsOrdinalResultSet ordinal => new OrdinalEvaluator(ordinal),
+            SettingsNameResultSet name => new NameEvaluator(name),
+            _ => throw new ArgumentOutOfRangeException()
+        };
 }

@@ -5,14 +5,13 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 
-namespace NBi.Xml.Decoration.Command
-{
-    public class CustomCommandParameterXml
-    {
-            [XmlAttribute("name")]
-            public string Name { get; set; }
+namespace NBi.Xml.Decoration.Command;
 
-            [XmlText]
-            public string StringValue { get; set; }
-    }
+public class CustomCommandParameterXml
+{
+        [XmlAttribute("name")]
+        public string Name { get; set; }
+
+        [XmlText]
+        public string StringValue { get; set; }
 }

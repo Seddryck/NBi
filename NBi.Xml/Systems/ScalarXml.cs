@@ -9,15 +9,14 @@ using NBi.Xml.Items.ResultSet;
 using System.IO;
 using NBi.Xml.Items.Alteration;
 
-namespace NBi.Xml.Systems
+namespace NBi.Xml.Systems;
+
+public class ScalarXml : AbstractSystemUnderTestXml
 {
-    public class ScalarXml : AbstractSystemUnderTestXml
-    {
-        [XmlElement("query-scalar")]
-        public virtual QueryScalarXml Query { get; set; }
+    [XmlElement("query-scalar")]
+    public virtual QueryScalarXml Query { get; set; }
 
-        public override BaseItem BaseItem => Query;
+    public override BaseItem BaseItem => Query;
 
-        public override ICollection<string> GetAutoCategories() => new List<string>() { "Scalar" };
-    }
+    public override ICollection<string> GetAutoCategories() => new List<string>() { "Scalar" };
 }

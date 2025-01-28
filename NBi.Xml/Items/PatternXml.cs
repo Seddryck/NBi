@@ -5,14 +5,13 @@ using System.Text;
 using System.Xml.Serialization;
 using NBi.Core.Analysis.Member;
 
-namespace NBi.Xml.Items
-{
-    public class PatternXml
-    {
-        [XmlAttribute("pattern")]
-        public Pattern Pattern { get; set; }
+namespace NBi.Xml.Items;
 
-        [XmlText]
-        public string Value { get; set; }
-    }
+public class PatternXml
+{
+    [XmlAttribute("pattern")]
+    public Pattern Pattern { get; set; }
+
+    [XmlText]
+    public string Value { get; set; }
 }

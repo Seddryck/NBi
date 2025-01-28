@@ -5,41 +5,40 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.ResultSet.Equivalence
+namespace NBi.Core.ResultSet.Equivalence;
+
+public class EquivalerFactory
 {
-    public class EquivalerFactory
+    public IEquivaler Instantiate(ISettingsResultSet settings, EquivalenceKind kind)
     {
-        public IEquivaler Instantiate(ISettingsResultSet settings, EquivalenceKind kind)
+        return settings switch
         {
-            switch (settings)
-            {
-                case ISettingsSingleRowResultSet x: return InstantiateSingleRow(x);
-                case ISettingsResultSet x: return InstantiateMultipleRows(x, kind);
-                default: throw new ArgumentException();
-            }
-        }
+            ISettingsSingleRowResultSet x => InstantiateSingleRow(x),
+            ISettingsResultSet x => InstantiateMultipleRows(x, kind),
+            _ => throw new ArgumentException(),
+        };
+    }
 
-        public IEquivaler InstantiateSingleRow(ISettingsSingleRowResultSet settings)
+    public IEquivaler InstantiateSingleRow(ISettingsSingleRowResultSet settings)
+    {
+        return settings switch
         {
-            switch (settings)
-            {
-                case SettingsSingleRowOrdinalResultSet x: return new SingleRowOrdinalEquivaler(x);
-                case SettingsSingleRowNameResultSet x: return new SingleRowNameEquivaler(x);
-                default: throw new ArgumentException();
-            }
-        }
+            SettingsSingleRowOrdinalResultSet x => new SingleRowOrdinalEquivaler(x),
+            SettingsSingleRowNameResultSet x => new SingleRowNameEquivaler(x),
+            _ => throw new ArgumentException(),
+        };
+    }
 
-        public IEquivaler InstantiateMultipleRows(ISettingsResultSet settings, EquivalenceKind kind)
+    public IEquivaler InstantiateMultipleRows(ISettingsResultSet settings, EquivalenceKind kind)
+    {
+        var factory = new AnalyzersFactory();
+        var analyzers = factory.Instantiate(kind);
+
+        return settings switch
         {
-            var factory = new AnalyzersFactory();
-            var analyzers = factory.Instantiate(kind);
-
-            switch (settings)
-            {
-                case SettingsOrdinalResultSet x: return new OrdinalEquivaler(analyzers, x);
-                case SettingsNameResultSet x: return new NameEquivaler(analyzers, x);
-                default: throw new ArgumentException();
-            }
-        }
+            SettingsOrdinalResultSet x => new OrdinalEquivaler(analyzers, x),
+            SettingsNameResultSet x => new NameEquivaler(analyzers, x),
+            _ => throw new ArgumentException(),
+        };
     }
 }

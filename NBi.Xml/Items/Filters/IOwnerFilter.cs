@@ -5,10 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 
-namespace NBi.Xml.Items.Filters
+namespace NBi.Xml.Items.Filters;
+
+public interface IOwnerFilter
 {
-    public interface IOwnerFilter
-    {
-        string Owner { get; set; }
-    }
+    string Owner { get; set; }
 }

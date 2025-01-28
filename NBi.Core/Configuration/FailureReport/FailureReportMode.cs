@@ -4,11 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.Configuration.FailureReport
+namespace NBi.Core.Configuration.FailureReport;
+
+public enum FailureReportMode
 {
-    public enum FailureReportMode
-    {
-        OnFailure = 1,
-        Always = 3,
-    }
+    OnFailure = 1,
+    Always = 3,
 }

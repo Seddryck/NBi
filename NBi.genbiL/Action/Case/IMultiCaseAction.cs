@@ -4,9 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace NBi.GenbiL.Action.Case
+namespace NBi.GenbiL.Action.Case;
+
+public interface IMultiCaseAction : ICaseAction
 {
-    public interface IMultiCaseAction : ICaseAction
-    {
-    }
 }

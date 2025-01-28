@@ -8,20 +8,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.Structure.Olap
+namespace NBi.Core.Structure.Olap;
+
+
+class DistinctOlapCommand : OlapCommand
 {
-
-    class DistinctOlapCommand : OlapCommand
+    public DistinctOlapCommand(IDbCommand command, IEnumerable<IPostCommandFilter> postFilters, CommandDescription description)
+        : base(command, postFilters, description)
     {
-        public DistinctOlapCommand(IDbCommand command, IEnumerable<IPostCommandFilter> postFilters, CommandDescription description)
-            : base(command, postFilters, description)
-        {
-        }
+    }
 
-        public override IEnumerable<string> Execute()
-        {
-            var values = base.Execute();
-            return values.Distinct();
-        }
+    public override IEnumerable<string> Execute()
+    {
+        var values = base.Execute();
+        return values.Distinct();
     }
 }

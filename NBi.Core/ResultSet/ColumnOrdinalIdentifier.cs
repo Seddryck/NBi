@@ -6,32 +6,24 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.ResultSet
+namespace NBi.Core.ResultSet;
+
+class ColumnOrdinalIdentifier(int position) : IColumnIdentifier
 {
-    class ColumnOrdinalIdentifier : IColumnIdentifier
+    public int Ordinal { get; protected set; } = position;
+
+    public virtual string Label => $"#{Ordinal}";
+
+    public IResultColumn? GetColumn(IResultSet rs) 
+        => Ordinal < rs.ColumnCount ? rs.GetColumn(Ordinal) : null;
+
+    public object? GetValue(IResultRow dataRow) => dataRow[Ordinal];
+
+    public override int GetHashCode() => Ordinal.GetHashCode();
+
+    public override bool Equals(object? value)
     {
-        public int Ordinal { get; protected set; }
-
-        public virtual string Label => $"#{Ordinal}";
-
-        public ColumnOrdinalIdentifier(int position)
-        {
-            Ordinal = position;
-        }
-
-        public IResultColumn GetColumn(IResultSet rs) 
-            => Ordinal < rs.ColumnCount ? rs.GetColumn(Ordinal) : null;
-
-        public object GetValue(IResultRow dataRow) => dataRow[Ordinal];
-
-        public override int GetHashCode() => Ordinal.GetHashCode();
-
-        public override bool Equals(object value)
-        {
-            var columnOrdinalIdentifier = value as ColumnOrdinalIdentifier;
-
-            return !(columnOrdinalIdentifier is null)
-                && Ordinal==columnOrdinalIdentifier.Ordinal;
-        }
+        return !(value is not ColumnOrdinalIdentifier columnOrdinalIdentifier)
+            && Ordinal == columnOrdinalIdentifier.Ordinal;
     }
 }

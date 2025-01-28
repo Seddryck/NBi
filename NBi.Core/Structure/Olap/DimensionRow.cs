@@ -4,10 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.Structure.Olap
+namespace NBi.Core.Structure.Olap;
+
+class DimensionRow : OlapRow, IDimensionType
 {
-    class DimensionRow : OlapRow, IDimensionType
-    {
-        public short DimensionType { get; set; }
-    }
+    public DimensionRow(string caption, string displayFolder, short dimensionType)
+        : base(caption, displayFolder)
+        => DimensionType = dimensionType;
+
+    public short DimensionType { get; set; }
 }

@@ -6,11 +6,10 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 
-namespace NBi.Xml.Items.Alteration
+namespace NBi.Xml.Items.Alteration;
+
+public class IterationXml
 {
-    public class IterationXml
-    {
-        [XmlElement("sequence")]
-        public SequenceXml Sequence { get; set; }
-    }
+    [XmlElement("sequence")]
+    public SequenceXml Sequence { get; set; }
 }

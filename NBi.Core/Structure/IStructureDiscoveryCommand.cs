@@ -4,11 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Core.Structure
+namespace NBi.Core.Structure;
+
+public interface IStructureDiscoveryCommand
 {
-    public interface IStructureDiscoveryCommand
-    {
-        CommandDescription Description { get; }
-        IEnumerable<string> Execute();
-    }
+    CommandDescription Description { get; }
+    IEnumerable<string> Execute();
 }

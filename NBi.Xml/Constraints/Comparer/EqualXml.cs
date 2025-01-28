@@ -5,10 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Xml.Constraints.Comparer
+namespace NBi.Xml.Constraints.Comparer;
+
+public class EqualXml : ScalarReferencePredicateXml
 {
-    public class EqualXml : ScalarReferencePredicateXml
-    {
-        public override ComparerType ComparerType { get => ComparerType.Equal; }
-    }
+    public override ComparerType ComparerType { get => ComparerType.Equal; }
 }

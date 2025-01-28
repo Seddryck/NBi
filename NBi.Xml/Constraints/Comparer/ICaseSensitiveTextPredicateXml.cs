@@ -7,13 +7,12 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 
-namespace NBi.Xml.Constraints.Comparer
+namespace NBi.Xml.Constraints.Comparer;
+
+public interface ICaseSensitiveTextPredicateXml : IPredicateXml
 {
-    public interface ICaseSensitiveTextPredicateXml : IPredicateXml
-    {
-        [XmlAttribute("ignore-case")]
-        [DefaultValue(false)]
-        bool IgnoreCase { get; set; }
-        string Reference { get; set; }
-    }
+    [XmlAttribute("ignore-case")]
+    [DefaultValue(false)]
+    bool IgnoreCase { get; set; }
+    string Reference { get; set; }
 }

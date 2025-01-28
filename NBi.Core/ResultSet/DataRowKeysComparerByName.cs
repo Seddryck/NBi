@@ -6,56 +6,55 @@ using System.Data;
 using System.Globalization;
 using System.Linq;
 
-namespace NBi.Core.ResultSet
+namespace NBi.Core.ResultSet;
+
+public class DataRowKeysComparerByName : DataRowKeysComparer
 {
-    public class DataRowKeysComparerByName : DataRowKeysComparer
+    private readonly SettingsNameResultSet settings;
+
+    public DataRowKeysComparerByName(SettingsNameResultSet settings)
     {
-        private readonly SettingsNameResultSet settings;
+        this.settings = settings;
+    }
 
-        public DataRowKeysComparerByName(SettingsNameResultSet settings)
+    protected override bool CheckKeysExist(IResultRow dr)
+    {
+        foreach (var columnName in settings.GetKeyNames())
         {
-            this.settings = settings;
+            if (!dr.Parent.ContainsColumn(columnName))
+                return false;
         }
-
-        protected override bool CheckKeysExist(IResultRow dr)
+        return true;
+    }
+    
+    public override KeyCollection GetKeys(IResultRow row)
+    {
+        var keys = new List<object>();
+        foreach (var keyName in settings.GetKeyNames())
         {
-            foreach (var columnName in settings.GetKeyNames())
+            try
             {
-                if (!dr.Parent.ContainsColumn(columnName))
-                    return false;
+                var value = FormatValue(settings.GetColumnType(keyName), row[keyName] ?? throw new NullReferenceException());
+                keys.Add(value);
             }
-            return true;
-        }
-        
-        public override KeyCollection GetKeys(IResultRow row)
-        {
-            var keys = new List<object>();
-            foreach (var keyName in settings.GetKeyNames())
+            catch (FormatException)
             {
-                try
+                var txt = "In the column with name '{0}', NBi can't convert the value '{1}' to the type '{2}'. Key columns must match with their respective types and don't support null, generic or interval values.";
+                var msg = string.Format(txt, keyName, row[keyName], settings.GetColumnType(keyName));
+                throw new NBiException(msg);
+            }
+            catch (InvalidCastException ex)
+            {
+                if (ex.Message.Contains("Object cannot be cast from DBNull to other types"))
                 {
-                    var value = FormatValue(settings.GetColumnType(keyName), row[keyName]);
-                    keys.Add(value);
-                }
-                catch (FormatException)
-                {
-                    var txt = "In the column with name '{0}', NBi can't convert the value '{1}' to the type '{2}'. Key columns must match with their respective types and don't support null, generic or interval values.";
+                    var txt = "In the column with name '{0}', NBi can't convert the value 'DBNull' to the type '{1}'. Key columns must match with their respective types and don't support null, generic or interval values.";
                     var msg = string.Format(txt, keyName, row[keyName], settings.GetColumnType(keyName));
                     throw new NBiException(msg);
                 }
-                catch (InvalidCastException ex)
-                {
-                    if (ex.Message.Contains("Object cannot be cast from DBNull to other types"))
-                    {
-                        var txt = "In the column with name '{0}', NBi can't convert the value 'DBNull' to the type '{1}'. Key columns must match with their respective types and don't support null, generic or interval values.";
-                        var msg = string.Format(txt, keyName, row[keyName], settings.GetColumnType(keyName));
-                        throw new NBiException(msg);
-                    }
-                    else
-                        throw ex;
-                }
+                else
+                    throw;
             }
-            return new KeyCollection(keys.ToArray());
         }
+        return new KeyCollection([.. keys]);
     }
 }

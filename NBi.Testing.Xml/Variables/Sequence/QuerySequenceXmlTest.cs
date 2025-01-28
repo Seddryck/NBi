@@ -15,31 +15,30 @@ using NBi.Core.ResultSet;
 using NBi.Xml.Variables.Sequence;
 using NBi.Core.Calculation;
 
-namespace NBi.Testing.Xml.Unit.Variables.Sequence
+namespace NBi.Xml.Testing.Unit.Variables.Sequence;
+
+public class QuerySequenceXmlTest : BaseXmlTest
 {
-    public class QuerySequenceXmlTest : BaseXmlTest
+
+    [Test]
+    public void Deserialize_SampleFile_VariableHasFileLoop()
     {
+        var ts = DeserializeSample();
+        var variable = ts.Tests[0].InstanceSettling.Variable as InstanceVariableXml;
 
-        [Test]
-        public void Deserialize_SampleFile_VariableHasFileLoop()
-        {
-            var ts = DeserializeSample();
-            var variable = ts.Tests[0].InstanceSettling.Variable as InstanceVariableXml;
+        // Check the properties of the object.
+        Assert.That(variable.Query, Is.Not.Null);
+        Assert.That(variable.Query, Is.TypeOf<QueryXml>());
+    }
 
-            // Check the properties of the object.
-            Assert.That(variable.Query, Is.Not.Null);
-            Assert.That(variable.Query, Is.TypeOf<QueryXml>());
-        }
+    [Test]
+    public void Deserialize_SampleFile_VariableHasCorrectNameAndType()
+    {
+        var ts = DeserializeSample();
+        var variable = ts.Tests[0].InstanceSettling.Variable;
 
-        [Test]
-        public void Deserialize_SampleFile_VariableHasCorrectNameAndType()
-        {
-            var ts = DeserializeSample();
-            var variable = ts.Tests[0].InstanceSettling.Variable as InstanceVariableXml;
-
-            // Check the properties of the object.
-            Assert.That(variable.Query.InlineQuery, Does.Contain(@"select [mycolumn] from myTable where [myFilter]=@filter"));
-            Assert.That(variable.Query.Parameters, Has.Count.EqualTo(1));
-        }
+        // Check the properties of the object.
+        Assert.That(variable.Query!.InlineQuery, Does.Contain(@"select [mycolumn] from myTable where [myFilter]=@filter"));
+        Assert.That(variable.Query.Parameters, Has.Count.EqualTo(1));
     }
 }

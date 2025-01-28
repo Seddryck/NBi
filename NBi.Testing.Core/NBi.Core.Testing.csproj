@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.8.0" />
+    <PackageReference Include="NUnit" Version="4.0.1" />
+    <!--<PackageReference Include="NUnit.Analyzers" Version="3.10.0" />-->
+    <PackageReference Include="NUnit3TestAdapter" Version="4.6.0" />
+    <PackageReference Include="Appveyor.TestLogger" Version="2.0.0" />
+    <PackageReference Include="Moq" Version="4.20.70" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\NBi.Core\NBi.Core.csproj" />
+    <ProjectReference Include="..\NBi.Extensibility\NBi.Extensibility.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Report\Resources\Currency_List - SProc.rdl" />
+    <EmbeddedResource Include="Report\Resources\Currency_List.rdl" />
+    <EmbeddedResource Include="Report\Resources\Currency_Rates.rdl" />
+    <EmbeddedResource Include="Report\Resources\Employee_Sales_Summary.rdl" />
+    <EmbeddedResource Include="Report\Resources\EmployeeSalesDetail.rsd" />
+    <EmbeddedResource Include="Report\Resources\EmployeeSalesYearOverYear.rsd" />
+    <EmbeddedResource Include="Report\Resources\EmpSalesMonth.rsd" />
+    <EmbeddedResource Include="Report\Resources\SalesEmployees.rsd" />
+    <EmbeddedResource Include="DataSerialization\Flattenizer\Resources\PurchaseOrders.xml" />
+    <EmbeddedResource Include="ResultSet\Resources\ResultDataSet.xml" />
+    <EmbeddedResource Include="DataSerialization\Flattenizer\Resources\PurchaseOrdersDefaultNamespace.xml" />
+    <EmbeddedResource Include="DataSerialization\Flattenizer\Resources\PurchaseOrdersManyNamespaces.xml" />
+    <EmbeddedResource Include="DataSerialization\Flattenizer\Resources\PurchaseOrders.json" />
+    <EmbeddedResource Include="Scalar\Resolver\Resources\PurchaseOrders.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ConnectionString.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <MyOptionalItems Include="ConnectionString.user.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </MyOptionalItems>
+  </ItemGroup>
+</Project>

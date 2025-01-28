@@ -1,251 +1,30 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
-  <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{DFB8AA0E-A144-49E3-976B-AD03BF2A55E7}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>NBi.GenbiL</RootNamespace>
-    <AssemblyName>NBi.GenbiL</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
-    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>
+<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
   <ItemGroup>
-    <Reference Include="Antlr3.Runtime, Version=3.5.0.2, Culture=neutral, PublicKeyToken=eb42632606e9261f, processorArchitecture=MSIL">
-      <HintPath>..\packages\Antlr3.Runtime.3.5.1\lib\net40-client\Antlr3.Runtime.dll</HintPath>
-    </Reference>
-    <Reference Include="Antlr4.StringTemplate, Version=4.0.7.0, Culture=neutral, PublicKeyToken=eb42632606e9261f, processorArchitecture=MSIL">
-      <HintPath>..\packages\StringTemplate4.4.0.8\lib\net35-client\Antlr4.StringTemplate.dll</HintPath>
-    </Reference>
-    <Reference Include="PocketCsvReader, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\PocketCsvReader.1.0.0\lib\net461\PocketCsvReader.dll</HintPath>
-    </Reference>
-    <Reference Include="Sprache, Version=2.3.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Sprache.2.3.1\lib\net45\Sprache.dll</HintPath>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net461\System.ValueTuple.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
+    <PackageReference Include="Domemtech.StringTemplate4" Version="4.3.0" />
+    <PackageReference Include="PocketCsvReader" Version="2.0.0" />
+    <PackageReference Include="Sprache" Version="2.3.1.0" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\AssemblyInfo.cs">
-      <Link>Properties\AssemblyInfo.cs</Link>
-    </Compile>
-    <Compile Include="Action\AxisType.cs" />
-    <Compile Include="Action\Case\AbstractCompareCaseAction.cs" />
-    <Compile Include="Action\Case\CrossJoinCaseAction.cs" />
-    <Compile Include="Action\Case\CrossFullCaseAction.cs" />
-    <Compile Include="Action\Case\DuplicateCaseAction.cs" />
-    <Compile Include="Action\Case\ICaseAction.cs" />
-    <Compile Include="Action\Case\LoadCaseFromDatatableAction.cs" />
-    <Compile Include="Action\Case\LoadOptionalCaseFromFileAction.cs" />
-    <Compile Include="Action\Case\ReduceCaseAction.cs" />
-    <Compile Include="Action\Case\GroupCaseAction.cs" />
-    <Compile Include="Action\Case\SplitCaseAction.cs" />
-    <Compile Include="Action\Case\SeparateCaseAction.cs" />
-    <Compile Include="Action\Case\SubstituteCaseAction.cs" />
-    <Compile Include="Action\Case\CrossVectorCaseAction.cs" />
-    <Compile Include="Action\Case\ConcatenateCaseAction.cs" />
-    <Compile Include="Action\Case\ReplaceCaseAction.cs" />
-    <Compile Include="Action\Case\MergeCaseAction.cs" />
-    <Compile Include="Action\Case\AddCaseAction.cs" />
-    <Compile Include="Action\Case\CopyCaseAction.cs" />
-    <Compile Include="Action\Case\CrossCaseAction.cs" />
-    <Compile Include="Action\Case\HoldCaseAction.cs" />
-    <Compile Include="Action\Case\SaveCaseAction.cs" />
-    <Compile Include="Action\Case\ScopeCaseAction.cs" />
-    <Compile Include="Action\Case\FilterDistinctCaseAction.cs" />
-    <Compile Include="Action\Case\LoadCaseFromQueryAction.cs" />
-    <Compile Include="Action\Case\FilterCaseAction.cs" />
-    <Compile Include="Action\Case\LoadCaseFromQueryFileAction.cs" />
-    <Compile Include="Action\Case\MoveCaseAction.cs" />
-    <Compile Include="Action\Case\RenameCaseAction.cs" />
-    <Compile Include="Action\Case\RemoveCaseAction.cs" />
-    <Compile Include="Action\Case\TrimCaseAction.cs" />
-    <Compile Include="Action\DefaultType.cs" />
-    <Compile Include="Action\Case\ISingleCaseAction.cs" />
-    <Compile Include="Action\Serializer.cs" />
-    <Compile Include="Action\EmptyAction.cs" />
-    <Compile Include="Action\IAction.cs" />
-    <Compile Include="Action\Case\IMultiCaseAction.cs" />
-    <Compile Include="Action\OperatorType.cs" />
-    <Compile Include="Action\Setting\CsvProfile\EmptyCellAction.cs" />
-    <Compile Include="Action\Setting\CsvProfile\FieldSeparatorAction.cs" />
-    <Compile Include="Action\Setting\CsvProfile\FirstRowHeaderAction.cs" />
-    <Compile Include="Action\Setting\CsvProfile\MissingCellAction.cs" />
-    <Compile Include="Action\Setting\CsvProfile\RecordSeparatorAction.cs" />
-    <Compile Include="Action\Setting\CsvProfile\TextQualifierAction.cs" />
-    <Compile Include="Action\Setting\IncludeSettingAction.cs" />
-    <Compile Include="Action\Setting\ICsvProfile.cs" />
-    <Compile Include="Action\Setting\ISettingAction.cs" />
-    <Compile Include="Action\Setting\ParameterActionFactory.cs" />
-    <Compile Include="Action\Setting\ParallelizeQueriesAction.cs" />
-    <Compile Include="Action\Suite\AddRangeSuiteAction.cs" />
-    <Compile Include="Action\Suite\GenerateCleanupGroupBySuiteAction.cs" />
-    <Compile Include="Action\Suite\GenerateSetupGroupBySuiteAction.cs" />
-    <Compile Include="Action\Suite\GenerateSuiteAction.cs" />
-    <Compile Include="Action\Suite\GenerateTestGroupBySuiteAction.cs" />
-    <Compile Include="Action\Suite\IncludeSuiteAction.cs" />
-    <Compile Include="Action\Suite\IncludeSuiteFromStringAction.cs" />
-    <Compile Include="Action\Suite\SaveSuiteAction.cs" />
-    <Compile Include="Action\Suite\ISuiteAction.cs" />
-    <Compile Include="Action\Template\AddEmbeddedTemplateAction.cs" />
-    <Compile Include="Action\Template\AddStringTemplateAction.cs" />
-    <Compile Include="Action\Template\ClearTemplateAction.cs" />
-    <Compile Include="Action\Template\ITemplateAction.cs" />
-    <Compile Include="Action\Template\AddFileTemplateAction.cs" />
-    <Compile Include="Action\Template\LoadStringTemplateAction.cs" />
-    <Compile Include="Action\Template\LoadTemplateAction.cs" />
-    <Compile Include="Action\Template\LoadFileTemplateAction.cs" />
-    <Compile Include="Action\Consumable\RevokeConsumableAction.cs" />
-    <Compile Include="Action\Consumable\IConsumableAction.cs" />
-    <Compile Include="Action\Consumable\AutoConsumableAction.cs" />
-    <Compile Include="Action\Consumable\SetConsumableAction.cs" />
-    <Compile Include="Action\Variable\IncludeVariableAction.cs" />
-    <Compile Include="Action\Variable\IVariableAction.cs" />
-    <Compile Include="Parser\Action.cs" />
-    <Compile Include="Parser\Consumable.cs" />
-    <Compile Include="Action\DirectionType.cs" />
-    <Compile Include="Parser\CsvProfile.cs" />
-    <Compile Include="Parser\Valuable\Column.cs" />
-    <Compile Include="Parser\Comment.cs" />
-    <Compile Include="Parser\Valuable\IValuable.cs" />
-    <Compile Include="Parser\Recipe.cs" />
-    <Compile Include="Parser\Setting.cs" />
-    <Compile Include="Action\Setting\DefaultAction.cs" />
-    <Compile Include="Parser\Suite.cs" />
-    <Compile Include="Action\Setting\ReferenceAction.cs" />
-    <Compile Include="Action\Suite\GenerateTestSuiteAction.cs" />
-    <Compile Include="Action\Template\LoadEmbeddedTemplateAction.cs" />
-    <Compile Include="Stateful\CaseCollection.cs" />
-    <Compile Include="Stateful\GenerationState.cs" />
-    <Compile Include="Action\Case\LoadCaseFromFileAction.cs" />
-    <Compile Include="Action\LoadType.cs" />
-    <Compile Include="Parser\Case.cs" />
-    <Compile Include="Parser\Template.cs" />
-    <Compile Include="Parser\Grammar.cs" />
-    <Compile Include="Parser\Keyword.cs" />
-    <Compile Include="Parser\Valuable\ValuableBuilder.cs" />
-    <Compile Include="Parser\Valuable\Value.cs" />
-    <Compile Include="Parser\Variable.cs" />
-    <Compile Include="Properties\ProjectAssemblyInfo.cs" />
-    <Compile Include="Stateful\Setting.cs" />
-    <Compile Include="Stateful\CaseSet.cs" />
-    <Compile Include="Stateful\Tree\BranchNode.cs" />
-    <Compile Include="Stateful\Tree\GroupNode.cs" />
-    <Compile Include="Stateful\Tree\LeafNode.cs" />
-    <Compile Include="Stateful\Tree\RootNode.cs" />
-    <Compile Include="Stateful\Tree\CleanupNode.cs" />
-    <Compile Include="Stateful\Tree\SetupNode.cs" />
-    <Compile Include="Stateful\Tree\TestNode.cs" />
-    <Compile Include="Stateful\Tree\TreeNode.cs" />
-    <Compile Include="Templating\ExpectedVariableNotFoundException.cs" />
-    <Compile Include="Templating\HomeMadeEngine.cs" />
-    <Compile Include="Templating\ProgressEventArgs.cs" />
-    <Compile Include="Templating\Resources\ResourcesFolder.cs" />
-    <Compile Include="Templating\StringTemplateEngine.cs" />
-    <Compile Include="Templating\TemplateExecutionException.cs" />
-    <Compile Include="TestSuiteGenerator.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\NBi.Core\NBi.Core.csproj">
-      <Project>{3f730647-fe31-4907-8a6e-a0c4a0c970ea}</Project>
-      <Name>NBi.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\NBi.Extensibility\NBi.Extensibility.csproj">
-      <Project>{a06cba63-d848-4dbc-abfc-63172613999d}</Project>
-      <Name>NBi.Extensibility</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\NBi.Xml\NBi.Xml.csproj">
-      <Project>{3a9822b3-cce4-441b-9c3e-d52817a994ca}</Project>
-      <Name>NBi.Xml</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="app.config" />
-    <None Include="packages.config" />
+    <ProjectReference Include="..\NBi.Core\NBi.Core.csproj" />
+    <ProjectReference Include="..\NBi.Extensibility\NBi.Extensibility.csproj" />
+    <ProjectReference Include="..\NBi.Xml\NBi.Xml.csproj" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Templating\Resources\ContainedInDimensions.txt" />
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="Templating\Resources\ContainedInHierarchies.txt" />
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="Templating\Resources\ContainedInLevels.txt" />
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="Templating\Resources\ContainedInMeasureGroup.txt" />
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="Templating\Resources\ContainedInMeasures.txt" />
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="Templating\Resources\ContainedInPerspectives.txt" />
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="Templating\Resources\ExistsDimension.txt" />
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="Templating\Resources\ExistsHierarchy.txt" />
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="Templating\Resources\ExistsLevel.txt" />
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="Templating\Resources\ExistsMeasure.txt" />
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="Templating\Resources\ExistsMeasureGroup.txt" />
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="Templating\Resources\ExistsPerspective.txt" />
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="Templating\Resources\LinkedToDimension.txt" />
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="Templating\Resources\LinkedToMeasureGroup.txt" />
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="Templating\Resources\QueryEqualToItself.txt" />
   </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
 </Project>

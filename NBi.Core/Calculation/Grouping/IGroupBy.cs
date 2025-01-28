@@ -7,10 +7,9 @@ using System.Threading.Tasks;
 using NBi.Extensibility;
 using NBi.Core.ResultSet;
 
-namespace NBi.Core.Calculation.Grouping
+namespace NBi.Core.Calculation.Grouping;
+
+public interface IGroupBy
 {
-    public interface IGroupBy
-    {
-        IDictionary<KeyCollection, IResultSet> Execute(IResultSet resultSet);
-    }
+    IDictionary<KeyCollection, IResultSet> Execute(IResultSet resultSet);
 }

@@ -7,7 +7,7 @@ version: 2
 updates:
   - package-ecosystem: "nuget" 
     directories:
-      - "/src/*" 
+      - "/NBi.*/*" 
     schedule:
       interval: "daily"
     labels:

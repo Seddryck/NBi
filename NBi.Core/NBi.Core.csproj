@@ -13,9 +13,9 @@
     <PackageReference Include="Azure.Identity" Version="1.12.0" /> 
     <PackageReference Include="Deedle" Version="3.0.0" />
     <PackageReference Include="Domemtech.StringTemplate4" Version="4.3.0" />
-    <PackageReference Include="DubUrl" Version="0.18.51" />
+    <PackageReference Include="DubUrl" Version="0.20.38" />
     <PackageReference Include="DubUrl.Adomd" Version="0.18.51" />
-    <PackageReference Include="DubUrl.Extensions" Version="0.18.51" />
+    <PackageReference Include="DubUrl.Extensions" Version="0.20.38" />
     <PackageReference Include="DubUrl.OleDb" Version="0.18.51" />
     <PackageReference Include="FSharp.Core" Version="8.0.101" />
     <PackageReference Include="FuzzyString.NETStandard" Version="1.0.0" />

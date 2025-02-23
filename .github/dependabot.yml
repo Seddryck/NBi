@@ -36,3 +36,16 @@ updates:
       Microsoft.Extensions:
           patterns:
             - "Microsoft.Extensions*"
+      System.Data:
+          patterns:
+            - "System.Data.*"
+      FSharp:
+          patterns:
+            - "FSharp.*"
+      Domemtech.StringTemplate4:
+          patterns:
+            - "Domemtech.StringTemplate4"
+      DubUrl:
+          patterns:
+            - "DubUrl"
+            - "DubUrl.*"

@@ -17,7 +17,7 @@
     <PackageReference Include="DubUrl.Adomd" Version="0.20.38" />
     <PackageReference Include="DubUrl.Extensions" Version="0.20.38" />
     <PackageReference Include="DubUrl.OleDb" Version="0.20.38" />
-    <PackageReference Include="FSharp.Core" Version="8.0.101" />
+    <PackageReference Include="FSharp.Core" Version="9.0.201" />
     <PackageReference Include="FuzzyString.NETStandard" Version="1.0.0" />
     <PackageReference Include="Microsoft.AnalysisServices.AdomdClient.NetCore.retail.amd64" Version="19.84.1" /><PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.8.0" /> 
     <PackageReference Include="Microsoft.Data.SqlClient" Version="5.1.4" /> 

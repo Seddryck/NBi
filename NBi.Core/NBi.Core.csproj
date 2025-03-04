@@ -24,7 +24,7 @@
     <PackageReference Include="NCalcSync" Version="3.10.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="Ninject" Version="3.3.6" />
-    <PackageReference Include="PocketCsvReader" Version="2.0.0" />
+    <PackageReference Include="PocketCsvReader" Version="2.27.7" />
     <PackageReference Include="RestSharp" Version="106.15.0" />
     <PackageReference Include="System.Data.Odbc" Version="9.0.2" />
     <PackageReference Include="System.Data.OleDb" Version="9.0.2" />

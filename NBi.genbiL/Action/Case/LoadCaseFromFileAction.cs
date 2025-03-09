@@ -17,8 +17,9 @@ public class LoadCaseFromFileAction : ISingleCaseAction
 
     public virtual void Execute(CaseSet testCases)
     {
-        var csvReader = new CsvReader();
-        testCases.Content = csvReader.ToDataTable(Filename, true);
+        var profile = new CsvProfile(true);
+        var csvReader = new CsvReader(profile);
+        testCases.Content = csvReader.ToDataTable(Filename);
         testCases.Content.AcceptChanges();
     }
 

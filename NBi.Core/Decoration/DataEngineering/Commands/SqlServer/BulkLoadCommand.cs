@@ -42,7 +42,7 @@ class BulkLoadCommand : IDecorationCommand
 
         // write the data in the "dataTable"
         var fileReader = new CsvReader();
-        var dataTable = fileReader.ToDataTable(filename, false);
+        var dataTable = fileReader.ToDataTable(filename);
         bulkCopy.WriteToServer(dataTable);
 
         connection.Close();

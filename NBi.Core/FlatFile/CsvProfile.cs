@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using NBi.Extensibility.FlatFile;
+using PocketCsvReader;
 
 namespace NBi.Core.FlatFile;
 
@@ -11,6 +12,7 @@ public class CsvProfile : PocketCsvReader.CsvProfile, IFlatFileProfile
         : base (
         (char)  (attributes.TryGetValue("field-separator", out var fs) ? fs : ';'),
         (char)  (attributes.TryGetValue("text-qualifier", out var tq) ? tq : '\"'),
+        '\\',
         (string)(attributes.TryGetValue("record-separator", out var rs) ? rs : "\r\n"),
         (bool)  (attributes.TryGetValue("first-row-header", out var frh) ? frh : false),
         (bool)  (attributes.TryGetValue("performance-optimized", out var po) ? po : true),
@@ -21,21 +23,24 @@ public class CsvProfile : PocketCsvReader.CsvProfile, IFlatFileProfile
 
     public IDictionary<string, object> Attributes => new Dictionary<string, object>()
             {
-                { "field-separator", Descriptor.Delimiter },
-                { "text-qualifier", Descriptor.QuoteChar },
-                { "record-separator", Descriptor.LineTerminator },
-                { "first-row-header", Descriptor.Header },
-                { "performance-optimized", base.PerformanceOptmized },
+                { "field-separator", Dialect.Delimiter },
+                { "text-qualifier", Dialect.QuoteChar! },
+                { "record-separator", Dialect.LineTerminator },
+                { "first-row-header", Dialect.Header },
+                { "performance-optimized", !ParserOptimizations.RowCountAtStart },
                 { "missing-cell", base.MissingCell },
                 { "empty-cell", base.EmptyCell },
             };
 
-    private CsvProfile(char fieldSeparator)
-        : base(fieldSeparator, '\"', '\\', "\r\n", false, true, 4096, "(empty)", "(null)") { }
+    internal CsvProfile(char fieldSeparator)
+        : this(fieldSeparator, '\"', "\r\n", false, true, "(empty)", "(null)")
+    { }
 
     public CsvProfile(bool firstRowHeader)
-        : base(firstRowHeader) { }
+        : this(';', '\"', "\r\n", firstRowHeader, true, "(empty)", "(null)")
+    { }
 
     public CsvProfile(char fieldSeparator, char textQualifier, string recordSeparator, bool firstRowHeader, bool performanceOptimized, string emptyCell, string missingCell)
-        : base(fieldSeparator, textQualifier, recordSeparator, firstRowHeader, performanceOptimized, 4096, emptyCell, missingCell) { }
+          : base(fieldSeparator, textQualifier, '\\', recordSeparator, firstRowHeader, !performanceOptimized, 4096, emptyCell, missingCell)
+    { }
 }

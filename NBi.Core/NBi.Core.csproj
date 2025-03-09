@@ -10,7 +10,6 @@
     <ProjectReference Include="..\NBi.Extensibility\NBi.Extensibility.csproj" />
   </ItemGroup>
   <ItemGroup> 
-    <PackageReference Include="Azure.Identity" Version="1.12.0" /> 
     <PackageReference Include="Deedle" Version="3.0.0" />
     <PackageReference Include="Domemtech.StringTemplate4" Version="4.3.0" />
     <PackageReference Include="DubUrl" Version="0.20.38" />
@@ -19,7 +18,8 @@
     <PackageReference Include="DubUrl.OleDb" Version="0.20.38" />
     <PackageReference Include="FSharp.Core" Version="9.0.201" />
     <PackageReference Include="FuzzyString.NETStandard" Version="1.0.0" />
-    <PackageReference Include="Microsoft.AnalysisServices.AdomdClient.NetCore.retail.amd64" Version="19.84.1" /><PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.8.0" /> 
+    <PackageReference Include="Microsoft.AnalysisServices.AdomdClient.NetCore.retail.amd64" Version="19.84.1" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.8.0" /> 
     <PackageReference Include="Microsoft.Data.SqlClient" Version="5.1.4" /> 
     <PackageReference Include="NCalcSync" Version="3.10.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />

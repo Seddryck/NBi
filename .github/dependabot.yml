@@ -21,9 +21,10 @@ updates:
       NUnit.Analyzers:
           patterns:
             - "NUnit.Analyzers"
-      Microsoft.NET.Test.Sdk:
+      TestRunners:
           patterns:
             - "Microsoft.NET.Test.Sdk"
+            - "NUnit3TestAdapter"
       Moq:
           patterns:
             - "Moq"
@@ -39,6 +40,7 @@ updates:
       System.Data:
           patterns:
             - "System.Data.*"
+            - "Microsoft.Data.*"
       FSharp:
           patterns:
             - "FSharp.*"
@@ -49,3 +51,15 @@ updates:
           patterns:
             - "DubUrl"
             - "DubUrl.*"
+      PocketCsvReader:
+          patterns:
+            - "PocketCsvReader"
+            - "PocketCsvReader.*"
+      RestSharp:
+          patterns:
+            - "RestSharp"
+            - "RestSharp.*"
+      NCalcSync:
+          patterns:
+            - "NCalcSync"
+            - "NCalcSync.*"

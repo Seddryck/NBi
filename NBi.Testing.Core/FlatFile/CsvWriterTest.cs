@@ -46,7 +46,7 @@ class CsvWriterTest
         using var streamReader = new StreamReader(stream);
         var text = streamReader.ReadToEnd();
         text.Remove(text.Length - 2); //Avoid miscount if last line as a record separator or not
-        var countLine = text.Count(c => c == Csv.Descriptor.LineTerminator[0]);
+        var countLine = text.Count(c => c == Csv.Dialect.LineTerminator[0]);
         Assert.That(countLine, Is.EqualTo(3));
     }
 
@@ -65,7 +65,7 @@ class CsvWriterTest
         using var streamReader = new StreamReader(stream);
         var text = streamReader.ReadToEnd();
         text.Remove(text.Length - 2); //Avoid miscount if last line as a record separator or not
-        var countLine = text.Count(c => c == Csv.Descriptor.LineTerminator[0]);
+        var countLine = text.Count(c => c == Csv.Dialect.LineTerminator[0]);
         Assert.That(countLine, Is.EqualTo(2));
     }
 
@@ -83,10 +83,10 @@ class CsvWriterTest
         stream.Position = 0;
         using var streamReader = new StreamReader(stream);
         var text = streamReader.ReadToEnd();
-        var lines = text.Split(new string[] { Csv.Descriptor.LineTerminator }, StringSplitOptions.RemoveEmptyEntries);
+        var lines = text.Split(new string[] { Csv.Dialect.LineTerminator }, StringSplitOptions.RemoveEmptyEntries);
         foreach (var line in lines)
         {
-            var countLine = line.Count(c => c == Csv.Descriptor.Delimiter);
+            var countLine = line.Count(c => c == Csv.Dialect.Delimiter);
             Assert.That(countLine, Is.EqualTo(2));
         }
     }
@@ -106,9 +106,9 @@ class CsvWriterTest
         stream.Position = 0;
         using var streamReader = new StreamReader(stream);
         var text = streamReader.ReadToEnd();
-        var lines = text.Split(new string[] { Csv.Descriptor.LineTerminator }, StringSplitOptions.RemoveEmptyEntries);
+        var lines = text.Split(new string[] { Csv.Dialect.LineTerminator }, StringSplitOptions.RemoveEmptyEntries);
         var lineHeader = lines[0];
-        var fields = lineHeader.Split(Csv.Descriptor.Delimiter);
+        var fields = lineHeader.Split(Csv.Dialect.Delimiter);
         Assert.That(fields, Is.EqualTo(columnNames.Split(',')));
     }
 
@@ -126,10 +126,10 @@ class CsvWriterTest
         stream.Position = 0;
         using var streamReader = new StreamReader(stream);
         var text = streamReader.ReadToEnd();
-        var firstCell = text.Split(new string[] { Csv.Descriptor.LineTerminator }, StringSplitOptions.RemoveEmptyEntries)[0];
-        Assert.That(firstCell, Does.StartWith(Csv.Descriptor.QuoteChar.ToString()));
-        Assert.That(firstCell, Does.EndWith(Csv.Descriptor.QuoteChar.ToString()));
-        Assert.That(firstCell, Does.Contain(Csv.Descriptor.Delimiter.ToString()));
+        var firstCell = text.Split([Csv.Dialect.LineTerminator], StringSplitOptions.RemoveEmptyEntries)[0];
+        Assert.That(firstCell, Does.StartWith(Csv.Dialect.QuoteChar.ToString()!));
+        Assert.That(firstCell, Does.EndWith(Csv.Dialect.QuoteChar.ToString()!));
+        Assert.That(firstCell, Does.Contain(Csv.Dialect.Delimiter.ToString()));
     }
 
     [Test]
@@ -146,9 +146,9 @@ class CsvWriterTest
         stream.Position = 0;
         using var streamReader = new StreamReader(stream);
         var text = streamReader.ReadToEnd();
-        var firstCell = text.Split(new string[] { Csv.Descriptor.LineTerminator }, StringSplitOptions.RemoveEmptyEntries)[0];
-        Assert.That(firstCell, Does.Not.StartsWith(Csv.Descriptor.QuoteChar.ToString()));
-        Assert.That(firstCell, Does.Not.EndsWith(Csv.Descriptor.QuoteChar.ToString()));
-        Assert.That(firstCell, Does.Not.Contain(Csv.Descriptor.Delimiter.ToString()));
+        var firstCell = text.Split([Csv.Dialect.LineTerminator], StringSplitOptions.RemoveEmptyEntries)[0];
+        Assert.That(firstCell, Does.Not.StartsWith(Csv.Dialect.QuoteChar.ToString()!));
+        Assert.That(firstCell, Does.Not.EndsWith(Csv.Dialect.QuoteChar.ToString()!));
+        Assert.That(firstCell, Does.Not.Contain(Csv.Dialect.Delimiter.ToString()));
     }
 }

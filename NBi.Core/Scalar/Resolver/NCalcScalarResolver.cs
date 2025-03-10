@@ -21,12 +21,12 @@ class NCalcScalarResolver<T> : IScalarResolver<T>
     public NCalcScalarResolver(NCalcScalarResolverArgs args)
         => Args = args;
 
-    public T Execute()
+    public T? Execute()
     {
         var exp = new NCalc.Expression(Args.Code);
         var factory = new ColumnIdentifierFactory();
 
-        exp.EvaluateParameter += delegate (string name, NCalc.ParameterArgs args)
+        exp.EvaluateParameter += delegate (string name, NCalc.Handlers.ParameterArgs args)
         {
             args.Result = name.StartsWith("@")
                 ? Args.Context.Variables[name]
@@ -35,7 +35,7 @@ class NCalcScalarResolver<T> : IScalarResolver<T>
 
         var rawValue = exp.Evaluate();
 
-        return (T)Convert.ChangeType(rawValue, typeof(T));
+        return (T?)Convert.ChangeType(rawValue, typeof(T));
     }
 
     protected virtual object? GetValueFromRow(IResultRow row, IColumnIdentifier identifier)

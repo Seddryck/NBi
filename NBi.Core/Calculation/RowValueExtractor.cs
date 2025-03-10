@@ -73,7 +73,7 @@ public class RowValueExtractor
             var exp = new NCalc.Expression(expression.Value);
             var factory = new ColumnIdentifierFactory();
 
-            exp.EvaluateParameter += delegate (string name, NCalc.ParameterArgs args)
+            exp.EvaluateParameter += delegate (string name, NCalc.Handlers.ParameterArgs args)
             {
                 args.Result = name.StartsWith("@")
                     ? context.Variables[name]

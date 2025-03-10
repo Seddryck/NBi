@@ -19,7 +19,7 @@ class NCalcTransformer<T> : ITransformer
        method = new Expression(code);
     }
 
-    public object Execute(object value)
+    public object? Execute(object value)
     {
         if (method is null)
             throw new InvalidOperationException();

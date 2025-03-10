@@ -56,12 +56,12 @@ class DataRowScorer : IScorer<IResultRow>
         throw new InvalidOperationException();
     }
 
-    protected object EvaluateExpression(IColumnExpression expression, IResultRow row)
+    protected object? EvaluateExpression(IColumnExpression expression, IResultRow row)
     {
         var exp = new NCalc.Expression(expression.Value);
         var factory = new ColumnIdentifierFactory(); 
 
-        exp.EvaluateParameter += delegate (string name, NCalc.ParameterArgs args)
+        exp.EvaluateParameter += delegate (string name, NCalc.Handlers.ParameterArgs args)
         {
             args.Result = GetValueFromRow(row, factory.Instantiate(name));
         };

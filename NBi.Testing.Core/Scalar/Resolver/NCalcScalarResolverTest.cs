@@ -104,5 +104,4 @@ public class NCalcScalarResolverTest
 
         Assert.That(output, Is.EqualTo(2 * Math.Max(5, 3) - 10));
     }
-
 }

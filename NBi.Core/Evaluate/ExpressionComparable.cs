@@ -42,7 +42,7 @@ public class ExpressionComparable
         isParsed = true;
     }
 
-    public object Evaluate(Dictionary<string, object> variables)
+    public object? Evaluate(Dictionary<string, object?> variables)
     {
         if (!isParsed)
             throw new InvalidOperationException("Before calling the Evaluate function, you must call the Parse function.");

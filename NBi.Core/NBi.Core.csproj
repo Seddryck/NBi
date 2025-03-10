@@ -21,7 +21,7 @@
     <PackageReference Include="Microsoft.AnalysisServices.AdomdClient.NetCore.retail.amd64" Version="19.84.1" />
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.8.0" /> 
     <PackageReference Include="Microsoft.Data.SqlClient" Version="5.1.4" /> 
-    <PackageReference Include="NCalcSync" Version="3.10.0" />
+    <PackageReference Include="NCalcSync" Version="5.4.1" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="Ninject" Version="3.3.6" />
     <PackageReference Include="PocketCsvReader" Version="2.27.8" />

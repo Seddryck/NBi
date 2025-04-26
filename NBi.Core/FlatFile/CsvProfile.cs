@@ -28,7 +28,7 @@ public class CsvProfile : PocketCsvReader.CsvProfile, IFlatFileProfile
                 { "record-separator", Dialect.LineTerminator },
                 { "first-row-header", Dialect.Header },
                 { "performance-optimized", !ParserOptimizations.RowCountAtStart },
-                { "missing-cell", base.MissingCell },
+                { "missing-cell", Dialect.MissingCell ?? "(null)" },
                 { "empty-cell", base.EmptyCell },
             };
 

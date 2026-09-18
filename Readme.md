@@ -78,7 +78,7 @@ The nuget packages built on appVeyor are pushed to nuget for beta, release candi
 ## Code and contributions ##
 NBi is using **Git** as DCVS and the code is hosted on [Github](https://github.com/Seddryck/NBi). Organization of the Git repository is based on [Git-flow](https://danielkummer.github.io/git-flow-cheatsheet/). 
 
-If you want to develop a new feature, you're encouraged to read the [contribution guidelines](https://github.com/Seddryck/NBi/blob/develop/contributing.md).
+If you want to develop a new feature, you're encouraged to read the [contribution guidelines](contributing.md).
 
 NBi is mostly developed in [C#](https://github.com/Seddryck/NBi/search?l=c%23) with a bit of [SQL](https://github.com/Seddryck/NBi/search?l=sql) and [XML](https://github.com/Seddryck/NBi/search?l=xml).
 

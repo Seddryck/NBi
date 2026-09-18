@@ -1,10 +1,8 @@
 # How to contribute
 
-Third-party patches are essential for keeping **DubUrl** great. We want to keep it as easy as possible to contribute changes. There are a few guidelines that we need contributors to follow so that we can have a chance of keeping on top of things.
+Third-party patches are essential for keeping **NBi** great. We want to keep it as easy as possible to contribute changes. There are a few guidelines that we need contributors to follow so that we can have a chance of keeping on top of things.
 
-We love pull requests from everyone. By participating in this project, you agree to abide by the thoughtbot [code of conduct].
-
-[code of conduct]: https://thoughtbot.com/open-source-code-of-conduct
+We love pull requests from everyone. By participating in this project, you agree to abide by our [code of conduct](CODE_OF_CONDUCT.md).
 
 ## Getting Started
 
@@ -19,7 +17,7 @@ We love pull requests from everyone. By participating in this project, you agree
 ## Making Changes
 
 * Create a topic branch from where you want to base your work.
-  * This is usually the master branch.
+  * This is usually the main branch.
   * Only target release branches if you are certain your fix must be on that
     branch.
   * To quickly create a topic branch based on main; `git checkout -b
@@ -42,7 +40,7 @@ appropriate to start the first line of a commit with '(doc)'.
 ## Submitting Changes
 
 * Push your changes to a topic branch in your fork of the repository.
-* Submit a pull request to the repository DubUrl (Seddryck/DubUrl).
+* Submit a pull request to the repository NBi (Seddryck/NBi).
 * Update your issue to mark that you have submitted code and are ready for it to be reviewed. Include a link to the pull request in the ticket.
 * At this point, you're waiting on us. We like to, at least, comment on pull requests within a few business days. We may suggest some changes or improvements or alternatives.
 
@@ -51,7 +49,7 @@ appropriate to start the first line of a commit with '(doc)'.
 ## Your issue will be quickly answered:
 
 * Write a good description of your problem in the issue ticket
-  * If you've a problem using DubUrl, post your test (not a screen capture) and explain what you're trying to achieve. Don't forget to post the error (full stack) that you're receiving!
+  * If you've a problem using NBi, post your test (not a screen capture) and explain what you're trying to achieve. Don't forget to post the error (full stack) that you're receiving!
   * If you'd like to suggest a feature, explain why you think it will be valuable and suggest a syntax.
 
 ## Your pull request is accepted:

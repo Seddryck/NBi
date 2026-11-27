@@ -1,0 +1,129 @@
+name: .NET 10 CI
+
+on:
+  push:
+    branches: ['**']
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  DOTNET_CLI_TELEMETRY_OPTOUT: '1'
+  DOTNET_NOLOGO: '1'
+
+jobs:
+  build:
+    name: Build, test, and pack
+    runs-on: windows-2025
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - uses: actions/setup-dotnet@v6
+        with:
+          global-json-file: global.json
+
+      - name: Calculate version
+        id: version
+        # GitVersion 5 supports the repository's Mainline configuration.
+        env:
+          DOTNET_ROLL_FORWARD: Major
+        run: |
+          $toolPath = Join-Path $env:RUNNER_TEMP gitversion
+          dotnet tool install GitVersion.Tool --version 5.12.0 --tool-path $toolPath
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          $version = & (Join-Path $toolPath dotnet-gitversion.exe) /showvariable SemVer /verbosity Quiet
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          if ($version -notmatch '^\d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?$') {
+            throw "GitVersion did not return a semantic version."
+          }
+          "semver=$version" >> $env:GITHUB_OUTPUT
+
+      - name: Build solution
+        env:
+          PACKAGE_VERSION: ${{ steps.version.outputs.semver }}
+        run: dotnet build NBi.sln -c Release -p:ContinuousIntegrationBuild=true "-p:Version=$env:PACKAGE_VERSION"
+
+      - name: Run .NET 10 tests
+        run: |
+          $results = Join-Path $env:RUNNER_TEMP nbi-test-results
+          $projects = @(
+            'NBi.Testing.Core/NBi.Core.Testing.csproj'
+            'NBi.Testing.GenbiL/NBi.GenbiL.Testing.csproj'
+            'NBi.Testing.Xml/NBi.Xml.Testing.csproj'
+            'NBi.Testing.Framework/NBi.Framework.Testing.csproj'
+          )
+          $failed = $false
+          foreach ($project in $projects) {
+            $name = [IO.Path]::GetFileNameWithoutExtension($project)
+            dotnet test $project -c Release --framework net10.0 --no-build --no-restore `
+              --logger "trx;LogFileName=$name.trx" --results-directory $results `
+              -p:CollectCoverage=true -p:CoverletOutputFormat=opencover `
+              -p:Threshold=10 -p:ThresholdType=line -p:ThresholdStat=total `
+              "-p:CoverletOutput=$results/$name.coverage.xml"
+            if ($LASTEXITCODE -ne 0) { $failed = $true }
+          }
+          if ($failed) { exit 1 }
+          exit 0
+
+      - name: Upload test results and coverage
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v7
+        with:
+          name: test-results
+          path: ${{ runner.temp }}/nbi-test-results
+
+      - name: Pack NuGet packages
+        env:
+          PACKAGE_VERSION: ${{ steps.version.outputs.semver }}
+        run: |
+          $packages = Join-Path $env:RUNNER_TEMP nbi-packages
+          foreach ($project in 'NBi.Extensibility', 'NBi.Core', 'NBi.Framework') {
+            dotnet pack $project -c Release --no-build --include-symbols `
+              "-p:Version=$env:PACKAGE_VERSION" --output $packages
+            if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          }
+
+      - name: Upload NuGet packages
+        uses: actions/upload-artifact@v7
+        with:
+          name: nuget-packages
+          path: ${{ runner.temp }}/nbi-packages
+          if-no-files-found: error
+
+  publish:
+    name: Publish to NuGet.org
+    needs: build
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main' && vars.NUGET_USER != ''
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/download-artifact@v8
+        with:
+          name: nuget-packages
+          path: packages
+
+      - uses: actions/setup-dotnet@v6
+        with:
+          dotnet-version: '10.0.x'
+
+      - uses: NuGet/login@v1
+        id: nuget
+        with:
+          user: ${{ vars.NUGET_USER }}
+
+      - name: Push packages and symbols
+        env:
+          NUGET_API_KEY: ${{ steps.nuget.outputs.NUGET_API_KEY }}
+        run: |
+          for package in packages/NBi.Extensibility.*.nupkg packages/NBi.[0-9]*.nupkg packages/NBi.Framework.*.nupkg; do
+            dotnet nuget push "$package" --api-key "$NUGET_API_KEY" \
+              --source https://api.nuget.org/v3/index.json --skip-duplicate
+          done

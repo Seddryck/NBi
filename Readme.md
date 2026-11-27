@@ -20,8 +20,7 @@ The main goal of this framework is to let users create tests with a declarative 
 ![Still maintained](https://img.shields.io/maintenance/yes/2025.svg)
 ![GitHub commit activity](https://img.shields.io/github/commit-activity/y/Seddryck/NBi)
 
-**Continuous integration builds:** [![Build status](https://ci.appveyor.com/api/projects/status/t5m0hr57vnsdv0v7?svg=true)](https://ci.appveyor.com/project/Seddryck/nbi)
-[![Tests](https://img.shields.io/appveyor/tests/seddryck/nbi.svg)](https://ci.appveyor.com/project/Seddryck/nbi/build/tests)
+**Continuous integration builds:** [![.NET 10 CI](https://github.com/Seddryck/NBi/actions/workflows/ci.yml/badge.svg)](https://github.com/Seddryck/NBi/actions/workflows/ci.yml)
 
 **Status:** [![stars badge](https://img.shields.io/github/stars/Seddryck/NBi.svg)](https://github.com/Seddryck/NBi/stargazers)
 [![Bugs badge](https://img.shields.io/github/issues/Seddryck/NBi/bug.svg?color=red&label=Bugs)](https://github.com/Seddryck/NBi/issues?utf8=%E2%9C%93&q=is:issue+is:open+label:bug+)
@@ -45,35 +44,11 @@ Compatibility of licenses in checked by FOSSA app:
 The list of bugs and feature's requests is hosted on [GitHub](https://github.com/Seddryck/NBi/issues)
 
 ## Continuous Integration and Testing ##
-A continuous integration service is available on [AppVeyor](https://ci.appveyor.com/project/Seddryck/nbi) and another on [Azure DevOps](https://seddryck.visualstudio.com/NBi/_build)
+[GitHub Actions](https://github.com/Seddryck/NBi/actions/workflows/ci.yml) builds the .NET 10 solution on Windows and runs the Core, GenbiL, XML, and Framework tests. The workflow uploads test results, coverage, and the NBi, Extensibility, and Framework NuGet packages.
 
-NBi has around 2750 automated tests, asserting most of the features supported by NBi during the build processes. These tests are organized in three folders:
+After a successful build on `main`, GitHub Actions publishes to NuGet.org when the `NUGET_USER` repository variable is set. Set it to the NuGet.org account name and configure a [Trusted Publishing policy](https://learn.microsoft.com/en-us/nuget/nuget-org/trusted-publishing) for this repository and `ci.yml`. The workflow uses the policy to request a short-lived publishing credential.
 
-- Acceptance: The tests are effectively written in nbits file and played end-to-end by the framework itself. They don't use any fake, mock or stub and are connected to real databases and cubes and perform queries on them.
-- Integration: These tests are used to assert interactions with external resources such as databases or cubes. They make usage of stubs to define parameters impacting the code to use.
-- Unit: These tests are never contacting an external resource and have a maximal scope equivalent to the code of a single class. Usage of stubs, fakes and mocks is welcome.
-
-In order to be able to build the software on different machines, the database and cube used during tests must always be Adventure Works 2008R2. In order to facilitate the integration, NBi is connected by default to the online SQL database hosted on Azure (Unfortunately no equivalent for SSAS). If you want to override the connection settings to execut the tests on your own environment, create a file named *ConnectionString.user.config* in the folder *NBi.Testing* and copy the content from the file ConnectionString.config into it, before adjusting for your environment.
-
-Note that all the tests are not executed on the continuous integration services, due to limitations in the availability of some components.
-
-- Unit tests are always executed
-- Integration tests are executed based on the availability of the underlying components:
-    - Database Engine: Yes. Due to the usage of an Azure database to run these tests, these tests are enabled on the CI platforms. About ODBC drivers, the *ODBC driver for SQL Server (13.1)* is used on appVeyor and the *SQL Server (10.0)* is used on Azure DevOps
-    - OLAP Engine: No
-    - ETL Engine (SSIS): No
-    - Windows Service: No (but planned to integrate them)
-    - Local Database: No (but planned to integrate them)
-    - Report Server: No (but planned to integrate them)
-- Acceptance tests are partially run. The test-suites covering the acceptance tests are executed but will return an *ignore* result when at least one of the test is not runnable due to service not running (most of the time, the reason for an ignore is the unavailability of Analysis Services).
-
-Three artefacts are packaged and published by this CI:
-
-- Framework.zip contains the dll needed to run tests written with NBi
-- UI.zip contains the exe and dlls needed to run Genbi
-- Nuget packages
-
-The nuget packages built on appVeyor are pushed to nuget for beta, release candidates and release branches.
+The legacy acceptance and integration tests are under `NBi.Testing`. To supply local database connection settings, copy `ConnectionString.config` to `ConnectionString.user.config` in that directory and adjust it for your environment.
 
 ## Code and contributions ##
 NBi is using **Git** as DCVS and the code is hosted on [Github](https://github.com/Seddryck/NBi). Organization of the Git repository is based on [Git-flow](https://danielkummer.github.io/git-flow-cheatsheet/). 

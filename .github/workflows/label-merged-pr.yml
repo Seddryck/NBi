@@ -1,0 +1,37 @@
+name: Label merged pull requests
+
+on:
+  pull_request_target:
+    branches: [main]
+    types: [closed]
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  label:
+    if: github.event.pull_request.merged
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+
+      - name: Apply conventional commit labels
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          $pr = (Get-Content -LiteralPath $env:GITHUB_EVENT_PATH -Raw | ConvertFrom-Json).pull_request
+          if ($pr.title -notmatch '^(?<type>[a-z]+)(?:\([^)]*\))?(?<breaking>!)?:') { exit 0 }
+          $mapping = Get-Content -LiteralPath .github/conventional_commits_labels.json -Raw |
+            ConvertFrom-Json -AsHashtable
+          $type = $Matches.type
+          if (-not $mapping.Contains($type)) { exit 0 }
+          $labels = @($mapping[$type])
+          if ($Matches.breaking) { $labels += $mapping['!'] }
+          $labels = @($labels | Where-Object { $_ -and $_ -ne 'none' })
+          if ($labels.Count -eq 0) { exit 0 }
+          gh pr edit $pr.number --repo $env:GITHUB_REPOSITORY --add-label ($labels -join ',')
+          exit $LASTEXITCODE

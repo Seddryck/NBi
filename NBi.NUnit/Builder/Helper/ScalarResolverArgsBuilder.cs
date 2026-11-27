@@ -28,7 +28,7 @@ namespace NBi.NUnit.Builder.Helper
         private ServiceLocator ServiceLocator { get; }
         private Context Context { get; }
 
-        public ScalarResolverArgsBuilder(ServiceLocator serviceLocator, Context context) 
+        public ScalarResolverArgsBuilder(ServiceLocator serviceLocator, Context context)
             => (ServiceLocator, Context) = (serviceLocator, context);
 
         public void Setup(object obj)
@@ -54,13 +54,13 @@ namespace NBi.NUnit.Builder.Helper
                     break;
                 case QueryXml obj:
                     var queryBuilder = new QueryResolverArgsBuilder(ServiceLocator);
-                    queryBuilder.Setup(obj, settings, scope, Context.Variables);
+                    queryBuilder.Setup(obj, settings, scope, Context.NBiVariables);
                     queryBuilder.Build();
                     args = new QueryScalarResolverArgs(queryBuilder.GetArgs());
                     break;
                 case ProjectionOldXml obj:
                     var resultSetBuilder = new ResultSetResolverArgsBuilder(ServiceLocator);
-                    resultSetBuilder.Setup(obj.ResultSet, settings, scope, Context.Variables);
+                    resultSetBuilder.Setup(obj.ResultSet, settings, scope, Context.NBiVariables);
                     resultSetBuilder.Build();
                     args = new RowCountResultSetScalarResolverArgs(resultSetBuilder.GetArgs());
                     break;

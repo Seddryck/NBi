@@ -36,7 +36,7 @@ namespace NBi.NUnit.Scoring
             msg.Initialize(Actual, Threshold, Success);
             return msg;
         }
-     
+
         /// <summary>
         /// Handle an IDbCommand and compare it to a predefined resultset
         /// </summary>
@@ -86,10 +86,12 @@ namespace NBi.NUnit.Scoring
         public override void WriteMessageTo(NUnitCtr.MessageWriter writer)
         {
             if (Configuration.FailureReportProfile.Format == FailureReportFormat.Json)
+            {
                 writer.Write(Failure.RenderMessage());
+            }
             else
             {
-                writer.WritePredicate("Score is not sufficient.");
+                writer.Write("Score is not sufficient.");
                 writer.WriteLine();
                 writer.WriteLine();
                 base.WriteMessageTo(writer);

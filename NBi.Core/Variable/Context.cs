@@ -14,13 +14,14 @@ namespace NBi.Core.Variable;
 
 public class Context : IContext
 {
-    public IEnumerable<IColumnAlias> Aliases { get; } = [];
-    public IEnumerable<IColumnExpression> Expressions { get; } = [];
+    public IEnumerable<IColumnAlias> Aliases { get; private init; } = [];
+    public IEnumerable<IColumnExpression> Expressions { get; private init; } = [];
 
     private static readonly NoneContext noneContext = new ();
     public static Context None => noneContext;
 
     public virtual ContextVariables Variables { get; }
+    internal IDictionary<string, IVariable> NBiVariables { get; } = new Dictionary<string, IVariable>();
 
     private readonly ContextObject currentObject = new();
     public ContextObject CurrentObject => currentObject;
@@ -32,10 +33,14 @@ public class Context : IContext
 
     internal Context(IDictionary<string, IVariable> variables)
     {
+        NBiVariables = variables;
         Variables = new();
         foreach (var variable in variables)
             Variables.Add<object>(variable.Key, variable.Value);
     }
+
+    internal static Context FromVariables(IDictionary<string, IVariable> variables, IEnumerable<IColumnAlias> aliases, IEnumerable<IColumnExpression> expressions)
+        => new(variables) { Aliases = aliases, Expressions = expressions };
 
     public Context(ContextVariables variables)
         => Variables = variables;

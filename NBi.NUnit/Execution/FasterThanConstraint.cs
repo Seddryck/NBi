@@ -18,7 +18,6 @@ namespace NBi.NUnit.Execution
 
         public FasterThanConstraint()
         {
-
         }
 
         public FasterThanConstraint MaxTimeMilliSeconds(int value)
@@ -48,14 +47,14 @@ namespace NBi.NUnit.Execution
         public bool doMatch(IExecutable actual)
         {
             Result = actual.Execute();
-            return 
+            return
                 (
                     Result.TimeElapsed.TotalMilliseconds < maxTimeMilliSeconds
                 );
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="writer"></param>
         public override void WriteDescriptionTo(NUnitCtr.MessageWriter writer)
@@ -63,7 +62,7 @@ namespace NBi.NUnit.Execution
             var sb = new System.Text.StringBuilder();
             sb.AppendLine("Execution of the query is slower than expected");
             sb.AppendFormat("Maximum expected was {0}ms", maxTimeMilliSeconds);
-            writer.WritePredicate(sb.ToString());           
+            writer.Write(sb.ToString());
         }
 
         public override void  WriteActualValueTo(NUnitCtr.MessageWriter writer)

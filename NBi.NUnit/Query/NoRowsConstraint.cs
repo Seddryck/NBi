@@ -19,12 +19,12 @@ namespace NBi.NUnit.Query
         {
             filterFunction = filter.Apply;
         }
-       
+
         public override void WriteDescriptionTo(NUnitCtr.MessageWriter writer)
         {
             if (Configuration.FailureReportProfile.Format == FailureReportFormat.Json)
                 return;
-            writer.WritePredicate($"no rows validate the predicate '{filter.Describe()}'.");
+            writer.Write($"no rows validate the predicate '{filter.Describe()}'.");
         }
 
         public override void WriteFilterMessageTo(NUnitCtr.MessageWriter writer)

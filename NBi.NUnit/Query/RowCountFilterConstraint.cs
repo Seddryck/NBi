@@ -37,26 +37,28 @@ namespace NBi.NUnit.Query
             msg.BuildFilter(actualResultSet.Rows, filterResultSet.Rows);
             return msg;
         }
-        
+
         protected override bool doMatch(IResultSet actual)
         {
             actualResultSet = actual;
             filterResultSet = filterFunction(actualResultSet);
-            return Matches(filterResultSet.Rows.Count);
+            return Matches(filterResultSet.Rows.Count());
         }
 
         public override void WriteDescriptionTo(NUnitCtr.MessageWriter writer)
         {
             if (Configuration.FailureReportProfile.Format == FailureReportFormat.Json)
                 return;
-            writer.WritePredicate($"count of rows validating the predicate '{filter.Describe()}' is");
-            ctr.WriteDescriptionTo(writer);
+            writer.Write($"count of rows validating the predicate '{filter.Describe()}' is ");
+            writer.Write(countResult?.Description);
         }
 
         public override void WriteMessageTo(NUnitCtr.MessageWriter writer)
         {
             if (Configuration.FailureReportProfile.Format == FailureReportFormat.Json)
+            {
                 writer.Write(Failure.RenderMessage());
+            }
             else
             {
                 base.WriteMessageTo(writer);
@@ -73,6 +75,5 @@ namespace NBi.NUnit.Query
                 return;
             writer.WriteLine("Filtered version of the result-set:");
         }
-
     }
 }

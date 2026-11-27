@@ -1,4 +1,4 @@
-﻿using NBi.Core.Calculation.Predicate;
+﻿using NBi.Core.Calculation.Asserting;
 using NBi.Core.Evaluate;
 using NBi.Core.Injection;
 using NBi.Core.ResultSet;
@@ -38,7 +38,6 @@ using NBi.Core.Calculation.Grouping;
 using NBi.Xml.Items.Calculation.Grouping;
 using NBi.Core.Calculation.Grouping.ColumnBased;
 using NBi.Core.Calculation.Grouping.CaseBased;
-using NBi.Core.Calculation.Predication;
 using NBi.Xml.Items.Alteration.Merging;
 using NBi.Core.ResultSet.Alteration.Merging;
 using NBi.Xml.Items.Alteration.Duplication;
@@ -117,7 +116,7 @@ namespace NBi.NUnit.Builder.Helper
 
                     return factory.Instantiate
                                 (
-                                    new PredicationArgs(filterXml.Predication.Operand, args)
+                                    new PredicationArgs(args, filterXml.Predication.Operand)
                                     , context
                                 );
                 }
@@ -128,7 +127,7 @@ namespace NBi.NUnit.Builder.Helper
                     foreach (var predication in filterXml.Combination.Predications)
                     {
                         var args = helper.Execute(predication.ColumnType, predication.Predicate);
-                        predicationArgs.Add(new PredicationArgs(predication.Operand, args));
+                        predicationArgs.Add(new PredicationArgs(args, predication.Operand));
                     }
 
                     return factory.Instantiate
@@ -149,7 +148,6 @@ namespace NBi.NUnit.Builder.Helper
                 var rankingGroupByArgs = new RankingGroupByArgs(groupBy, filterXml.Ranking.Option, filterXml.Ranking.Count, filterXml.Ranking.Operand, filterXml.Ranking.Type);
                 return factory.Instantiate(rankingGroupByArgs, context);
             }
-
             else if (filterXml.Uniqueness != null)
             {
                 var groupByArgs = BuildGroupByArgs(filterXml.Uniqueness.GroupBy, context);
@@ -182,7 +180,6 @@ namespace NBi.NUnit.Builder.Helper
                         var predicate = new PredicateFactory().Instantiate(args);
                         var predicationFactory = new PredicationFactory();
                         predications.Add(predicationFactory.Instantiate(predicate, predicationXml.Operand));
-
                     }
                 }
 
@@ -307,8 +304,7 @@ namespace NBi.NUnit.Builder.Helper
             var context = new Context(Variables);
 
             //Predication
-            var predicationFactory = new PredicationFactory();
-            var predication = predicationFactory.True;
+            var predication = Predication.AlwaysTrue;
             if (duplicateXml.Predication != null)
             {
                 var helper = new PredicateArgsBuilder(ServiceLocator, context);
@@ -316,7 +312,7 @@ namespace NBi.NUnit.Builder.Helper
                 var predicateFactory = new PredicateFactory();
                 var predicate = predicateFactory.Instantiate(predicateArgs);
 
-                predication = predicationFactory.Instantiate(predicate, duplicateXml.Predication.Operand);
+                predication = new Predication(predicate, duplicateXml.Predication.Operand);
             }
 
             //Times
@@ -325,12 +321,14 @@ namespace NBi.NUnit.Builder.Helper
             //Outputs
             var outputs = new List<OutputArgs>();
             foreach (var outputXml in duplicateXml.Outputs)
+            {
                 if (outputXml.Class == OutputClass.Script)
                     outputs.Add(new OutputScriptArgs(ServiceLocator, context, outputXml.Identifier, outputXml.Script.Language, outputXml.Script.Code));
                 else if (outputXml.Class == OutputClass.Static)
                     outputs.Add(new OutputValueArgs(outputXml.Identifier, outputXml.Value));
                 else
                     outputs.Add(new OutputArgs(outputXml.Identifier, outputXml.Class));
+            }
 
             //Duplicate
             var args = new DuplicateArgs(predication, times, outputs);

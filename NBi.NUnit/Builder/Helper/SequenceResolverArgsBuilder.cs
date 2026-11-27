@@ -107,15 +107,15 @@ namespace NBi.NUnit.Builder.Helper
         }
 
         public ISequenceResolverArgs GetArgs() => Args ?? throw new InvalidOperationException();
-        
-        private ISequenceResolverArgs BuildSentinelLoopResolverArgs<T, U>(string seed, string terminal, string step, IntervalMode intervalMode)
+
+        private ISequenceResolverArgs BuildSentinelLoopResolverArgs<T, TStep>(string seed, string terminal, string step, IntervalMode intervalMode)
         {
             var helper = new ScalarHelper(ServiceLocator, new Context(Variables));
-            
-            var args = new SentinelLoopSequenceResolverArgs<T, U>(
+
+            var args = new SentinelLoopSequenceResolverArgs<T, TStep>(
                     helper.InstantiateResolver<T>(seed).Execute(),
                     helper.InstantiateResolver<T>(terminal).Execute(),
-                    helper.InstantiateResolver<U>(step).Execute(),
+                    helper.InstantiateResolver<TStep>(step).Execute(),
                     intervalMode
                 );
 
@@ -125,11 +125,7 @@ namespace NBi.NUnit.Builder.Helper
         {
             var helper = new ScalarHelper(ServiceLocator, new Context(Variables));
 
-            var args = new FileLoopSequenceResolverArgs()
-            {
-                BasePath = settings.BasePath,
-                Path = helper.InstantiateResolver<string>(path).Execute()
-            };
+            var args = new FileLoopSequenceResolverArgs(settings.BasePath, helper.InstantiateResolver<string>(path).Execute());
 
             if (!string.IsNullOrEmpty(pattern))
                 args.Filters.Add(new PatternRootFilter(helper.InstantiateResolver<string>(pattern).Execute()));

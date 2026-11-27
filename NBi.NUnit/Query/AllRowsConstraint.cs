@@ -19,7 +19,7 @@ namespace NBi.NUnit.Query
         {
             filterFunction = filter.AntiApply;
         }
-        protected override bool doMatch(int actual) 
+        protected override bool doMatch(int actual)
             => filterResultSet.Rows.Count() == 0;
 
         public override void WriteDescriptionTo(NUnitCtr.MessageWriter writer)
@@ -27,7 +27,7 @@ namespace NBi.NUnit.Query
             if (Configuration.FailureReportProfile.Format == FailureReportFormat.Json)
                 return;
             else
-                writer.WritePredicate($"all rows validate the predicate '{filter.Describe()}'.");
+                writer.Write($"all rows validate the predicate '{filter.Describe()}'.");
         }
 
         public override void WriteFilterMessageTo(NUnitCtr.MessageWriter writer)

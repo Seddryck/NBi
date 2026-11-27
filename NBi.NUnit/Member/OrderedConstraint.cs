@@ -20,21 +20,22 @@ namespace NBi.NUnit.Member
 	{
 		private bool reversed;
 		private IList<object> specific;
-        private IQuery query;
+		private IQuery query;
 
 		/// <summary>
 		/// Construct a CollectionContainsConstraint specific for Members
 		/// </summary>
 		/// <param name="expected"></param>
-        public OrderedConstraint()
+		public OrderedConstraint()
 		{
 			Comparer = new AlphabeticalComparer();
 		}
 
-		#region Modifiers
+        #region Modifiers
 		/// <summary>
 		/// Flag the constraint to ignore case and return self.
 		/// </summary>
+		/// <value>The constraint configured for descending order.</value>
 		public OrderedConstraint Descending
 		{
 			get
@@ -43,10 +44,11 @@ namespace NBi.NUnit.Member
 				return this;
 			}
 		}
-		
+
 		/// <summary>
 		/// Flag the constraint to use StringComparaison.
 		/// </summary>
+		/// <value>The constraint configured to compare member captions as text.</value>
 		public OrderedConstraint Alphabetical
 		{
 			get
@@ -59,6 +61,7 @@ namespace NBi.NUnit.Member
 		/// <summary>
 		/// Flag the constraint to use DateTimeComparaison.
 		/// </summary>
+		/// <value>The constraint configured to compare member captions as dates.</value>
 		public OrderedConstraint Chronological
 		{
 			get
@@ -71,6 +74,7 @@ namespace NBi.NUnit.Member
 		/// <summary>
 		/// Flag the constraint to use DecimalComparaison.
 		/// </summary>
+		/// <value>The constraint configured to compare member captions as numbers.</value>
 		public OrderedConstraint Numerical
 		{
 			get
@@ -90,14 +94,12 @@ namespace NBi.NUnit.Member
 			return this;
 		}
 
-        public OrderedConstraint Specific(IQuery query)
+		public OrderedConstraint Specific(IQuery query)
         {
             this.query = query;
             Comparer = null;
             return this;
         }
-
-		
 
 		protected override NUnitCtr.Constraint BuildInternalConstraint()
 		{
@@ -114,15 +116,15 @@ namespace NBi.NUnit.Member
 		protected override bool DoMatch(NUnitCtr.Constraint ctr)
 		{
 				if (specific == null)
-					return ctr.Matches(actual);
+					return ctr.ApplyTo(actual).IsSuccess;
 				else
 					return SpecificMatches(actual);
 		}
 
 		protected bool SpecificMatches(object actual)
-		{          
+		{
 			int index=0;
-			
+
 			foreach (var item in (IEnumerable<Object>)actual)
 			{
 				var itemComparable = item is NBi.Core.Analysis.Member.Member ? ((NBi.Core.Analysis.Member.Member)item).Caption : item;
@@ -141,14 +143,14 @@ namespace NBi.NUnit.Member
 			return true;
 		}
 
-        protected override void PreInitializeMatching()
+		protected override void PreInitializeMatching()
         {
             base.PreInitializeMatching();
             if (query is IQuery)
                 specific = GetMembersFromResultSet(query as IQuery);
         }
 
-        protected IList<object> GetMembersFromResultSet(IQuery query)
+		protected IList<object> GetMembersFromResultSet(IQuery query)
         {
             var engineFactory = new ExecutionEngineFactory();
             var qe = engineFactory.Instantiate(query);
@@ -163,8 +165,7 @@ namespace NBi.NUnit.Member
 		/// <param name="writer">The writer on which the description is displayed</param>
 		public override void WriteDescriptionTo(NUnitCtr.MessageWriter writer)
 		{
-
-			writer.WritePredicate(string.Format("On perspective \"{0}\", the {1} of \"{2}\" are ordered {3}{4}"
+			writer.Write(string.Format("On perspective \"{0}\", the {1} of \"{2}\" are ordered {3}{4}"
 															, Request.Perspective
 															, Request.Function.ToLower()
 															, Request.Path
@@ -180,7 +181,7 @@ namespace NBi.NUnit.Member
 		protected class AlphabeticalComparer : IComparerWithLabel
 		{
 			private readonly IComparer internalComparer;
-			
+
 			public AlphabeticalComparer()
 			{
 				internalComparer = StringComparer.InvariantCultureIgnoreCase;
@@ -216,12 +217,12 @@ namespace NBi.NUnit.Member
 					return "chronologically";
 				}
 			}
-			
+
 			int IComparer.Compare(Object x, Object y)
 			{
 				x = x is NBi.Core.Analysis.Member.Member ? ((NBi.Core.Analysis.Member.Member)x).Caption : x;
 				y = y is NBi.Core.Analysis.Member.Member ? ((NBi.Core.Analysis.Member.Member)y).Caption : y;
-				
+
 				if (x is DateTime && y is DateTime)
 					return DateTime.Compare((DateTime)x,(DateTime)y);
 				if (x is DateTime && y is String)
@@ -248,7 +249,6 @@ namespace NBi.NUnit.Member
 						return 0;
 						//throw new ArgumentException(string.Format("'{0}' of type '{1}' or '{2}' of type '{3}' cannot be converted to DateTime", x, x.GetType().Name, y, y.GetType().Name));
 				}
-				
 
 				throw new ArgumentException(string.Format("'{0}' or '{1}' cannot be compared chronologically", x.GetType().Name, y.GetType().Name));
 			}
@@ -280,6 +280,5 @@ namespace NBi.NUnit.Member
 					//throw new ArgumentException(string.Format("'{0}' of type '{1}' or '{2}' of type '{3}' cannot be converted to Decimal", x, x.GetType().Name, y, y.GetType().Name));
 			}
 		}
-		
 	}
 }

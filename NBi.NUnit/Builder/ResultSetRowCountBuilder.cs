@@ -14,7 +14,6 @@ using NBi.Xml.Settings;
 using NBi.Core.ResultSet.Filtering;
 using NBi.Extensibility.Resolving;
 
-
 namespace NBi.NUnit.Builder
 {
     class ResultSetRowCountBuilder : AbstractResultSetBuilder
@@ -53,7 +52,7 @@ namespace NBi.NUnit.Builder
 
                 var value = EvaluatePotentialVariable(comparer.Reference.ToString().Replace(" ", ""));
 
-                var context = new Context(Variables, filterXml.Aliases, expressions);
+                var context = Context.FromVariables(Variables, filterXml.Aliases, expressions);
                 var factory = new ResultSetFilterFactory(ServiceLocator);
                 if (filterXml.Predication != null)
                 {
@@ -62,11 +61,10 @@ namespace NBi.NUnit.Builder
 
                     filter = factory.Instantiate
                                 (
-                                    new PredicationArgs(filterXml.Predication.Operand, args)
+                                    new PredicationArgs(args, filterXml.Predication.Operand)
                                     , context
                                 );
                 }
-
                 else if (filterXml.Combination != null)
                 {
                     var helper = new PredicateArgsBuilder(ServiceLocator, context);
@@ -74,7 +72,7 @@ namespace NBi.NUnit.Builder
                     foreach (var predication in filterXml.Combination.Predications)
                     {
                         var args = helper.Execute(predication.ColumnType, predication.Predicate);
-                        predicationArgs.Add(new PredicationArgs(predication.Operand, args));
+                        predicationArgs.Add(new PredicationArgs(args, predication.Operand));
                     }
 
                     filter = factory.Instantiate
@@ -90,7 +88,9 @@ namespace NBi.NUnit.Builder
                     ctr = new RowCountFilterConstraint(childConstraint, filter);
             }
             else
+            {
                 ctr = new RowCountConstraint(childConstraint);
+            }
 
             return ctr;
         }
@@ -135,13 +135,14 @@ namespace NBi.NUnit.Builder
                     ctrType = typeof(NUnitCtr.GreaterThanConstraint);
             }
             else if (xml is EqualXml)
+            {
                 ctrType = typeof(NUnitCtr.EqualConstraint);
+            }
 
             if (ctrType == null)
                 throw new ArgumentException();
 
             return new DifferedConstraint(ctrType, resolver);
         }
-
     }
 }

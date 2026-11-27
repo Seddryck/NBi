@@ -26,7 +26,7 @@ namespace NBi.NUnit.ResultSetComparison
         protected ResultResultSet result;
         private IDataRowsMessageFormatter failure;
         protected IDataRowsMessageFormatter Failure { get => failure ?? (failure = BuildFailure()); }
-        
+
         protected virtual IDataRowsMessageFormatter BuildFailure()
         {
             var factory = new DataRowsMessageFormatterFactory();
@@ -34,7 +34,7 @@ namespace NBi.NUnit.ResultSetComparison
             msg.BuildComparaison(expectedResultSet.Rows, actualResultSet.Rows, result);
             return msg;
         }
-     
+
         /// <summary>
         /// Engine dedicated to ResultSet comparaison
         /// </summary>
@@ -44,25 +44,26 @@ namespace NBi.NUnit.ResultSetComparison
             get => engine ?? (engine = new OrdinalEquivaler(AnalyzersFactory.EqualTo(), null));
             set => engine = value ?? throw new ArgumentNullException();
         }
-        
+
         public BaseResultSetComparisonConstraint(IResultSetResolver resolver)
         {
             this.expect = resolver;
         }
 
-        
         public BaseResultSetComparisonConstraint Using(IEquivaler engine)
         {
             this.Engine = engine;
             return this;
         }
 
+        protected virtual EquivalenceKind ComparisonKind => EquivalenceKind.EqualTo;
+
         public BaseResultSetComparisonConstraint Using(ISettingsResultSet settings)
         {
-            this.Engine.Settings = settings;
+            Engine = new EquivalerFactory().Instantiate(settings, ComparisonKind);
             return this;
         }
-        
+
         public BaseResultSetComparisonConstraint Parallel()
         {
             this.parallelizeQueries = true;
@@ -74,7 +75,7 @@ namespace NBi.NUnit.ResultSetComparison
             this.parallelizeQueries = false;
             return this;
         }
-        
+
         /// <summary>
         /// Handle an IDbCommand and compare it to a predefined resultset
         /// </summary>
@@ -118,14 +119,14 @@ namespace NBi.NUnit.ResultSetComparison
                 rsActual = ProcessParallel(actual);
             else
                 rsActual = actual.Execute();
-            
+
             return this.Matches(rsActual);
         }
 
         public IResultSet ProcessParallel(IResultSetResolver actual)
         {
             Trace.WriteLineIf(NBiTraceSwitch.TraceVerbose, string.Format("Queries exectued in parallel."));
-            
+
             IResultSet rsActual = null;
             System.Threading.Tasks.Parallel.Invoke(
                 () => {
@@ -135,12 +136,12 @@ namespace NBi.NUnit.ResultSetComparison
                         expectedResultSet = expect.Execute();
                 }
             );
-            
+
             return rsActual;
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="writer"></param>
         public override void WriteDescriptionTo(NUnitCtr.MessageWriter writer)
@@ -164,10 +165,12 @@ namespace NBi.NUnit.ResultSetComparison
         public override void WriteMessageTo(NUnitCtr.MessageWriter writer)
         {
             if (Configuration.FailureReportProfile.Format == FailureReportFormat.Json)
+            {
                 writer.Write(Failure.RenderMessage());
+            }
             else
             {
-                writer.WritePredicate("Execution of the query doesn't match the expected result");
+                writer.Write("Execution of the query doesn't match the expected result");
                 writer.WriteLine();
                 writer.WriteLine();
                 base.WriteMessageTo(writer);
@@ -175,7 +178,7 @@ namespace NBi.NUnit.ResultSetComparison
                 writer.WriteLine(Failure.RenderAnalysis());
             }
         }
-        
+
         internal bool IsParallelizeQueries()
         {
             return parallelizeQueries;

@@ -9,7 +9,6 @@ namespace NBi.NUnit.Execution
 {
     public class SuccessfulConstraint : NBiConstraint
     {
-        
         /// <summary>
         /// Store for the result of the engine's execution
         /// </summary>
@@ -23,7 +22,7 @@ namespace NBi.NUnit.Execution
             if (actual is IExecutable)
                 return doMatch((IExecutable)actual);
             else
-                return false;               
+                return false;
         }
 
         protected bool doMatch(IExecutable actual)
@@ -38,7 +37,7 @@ namespace NBi.NUnit.Execution
             sb.AppendLine();
             sb.AppendFormat("Successful execution of the etl.");
             sb.AppendLine();
-            writer.WritePredicate(sb.ToString());
+            writer.Write(sb.ToString());
         }
 
         public override void WriteActualValueTo(NUnitCtr.MessageWriter writer)

@@ -18,7 +18,7 @@ namespace NBi.NUnit.Query
         /// </summary>
         protected IResultSet actualResultSet;
         protected DifferedConstraint differed;
-        protected NUnitCtr.Constraint ctr;
+        protected NUnitCtr.ConstraintResult? countResult;
 
         public RowCountConstraint(DifferedConstraint childConstraint)
         {
@@ -49,9 +49,13 @@ namespace NBi.NUnit.Query
         public override bool Matches(object actual)
         {
             if (actual is IResultSetResolver)
+            {
                 return Matches(((IResultSetResolver)actual).Execute());
+            }
             else if (actual is IResultSet)
+            {
                 return doMatch(actual as IResultSet);
+            }
             else if (actual is int)
             {
                 var output = doMatch(((int)actual));
@@ -61,29 +65,29 @@ namespace NBi.NUnit.Query
 
                 return output;
             }
-                
             else
+            {
                 throw new ArgumentException($"The type '{actual.GetType().Name}' is not supported by the constraint '{this.GetType().Name}'. Use a IResultSetService or a ResultSet.", nameof(actual));
+            }
         }
 
         protected virtual bool doMatch(IResultSet actual)
         {
             actualResultSet = actual;
-            return Matches(actualResultSet.Rows.Count);
+            return Matches(actualResultSet.Rows.Count());
         }
 
         protected virtual bool doMatch(int actual)
         {
             this.actual = actual;
-            ctr = differed.Resolve();
-            var output = ctr.Matches(actual);
-            return output;
+            countResult = differed.Resolve().ApplyTo(actual);
+            return countResult.IsSuccess;
         }
-       
+
         public override void WriteDescriptionTo(NUnitCtr.MessageWriter writer)
         {
-            writer.WritePredicate("count of rows returned by the query is");
-            ctr.WriteDescriptionTo(writer);
+            writer.Write("count of rows returned by the query is ");
+            writer.Write(countResult?.Description);
         }
 
         public override void WriteMessageTo(NUnitCtr.MessageWriter writer)
@@ -96,7 +100,7 @@ namespace NBi.NUnit.Query
 
         public override void WriteActualValueTo(NUnitCtr.MessageWriter writer)
         {
-            ctr.WriteActualValueTo(writer);
+            countResult?.WriteActualValueTo(writer);
         }
     }
 }

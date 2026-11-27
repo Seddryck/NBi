@@ -1,4 +1,4 @@
-﻿using System;
+﻿using NBi.NUnit.Query;
 using NUnit.Framework.Constraints;
 using NF = NUnit.Framework;
 
@@ -17,7 +17,7 @@ namespace NBi.NUnit
         {
             return new OnDataSource(connectionString);
         }
-        
+
         public Is Is
         {
             get
@@ -29,7 +29,6 @@ namespace NBi.NUnit
 
     public class Is : NF.Is
     {
-
         public Is()
         {
         }
@@ -45,7 +44,5 @@ namespace NBi.NUnit
             ctr.MaxTimeMilliSeconds(maxTimeMilliSeconds);
             return ctr;
         }
-
-        
     }
 }

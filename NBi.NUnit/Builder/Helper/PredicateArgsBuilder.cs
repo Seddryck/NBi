@@ -1,5 +1,5 @@
 ﻿using NBi.Core;
-using NBi.Core.Calculation.Predicate;
+using NBi.Core.Calculation.Asserting;
 using NBi.Core.Injection;
 using NBi.Core.ResultSet;
 using NBi.Core.Sequence.Resolver;
@@ -22,9 +22,8 @@ namespace NBi.NUnit.Builder.Helper
 
         private ServiceLocator ServiceLocator { get; }
 
-        public PredicateArgsBuilder(ServiceLocator serviceLocator, Context context) 
+        public PredicateArgsBuilder(ServiceLocator serviceLocator, Context context)
             => (ServiceLocator, Context) = (serviceLocator, context);
-
 
         public PredicateArgs Execute(ColumnType columnType, PredicateXml xml)
         {
@@ -46,49 +45,46 @@ namespace NBi.NUnit.Builder.Helper
             => new ListSequenceResolver<string>(xml.References);
 
         private SecondOperandPredicateArgs BuildSecondOperandPredicateArgs(ColumnType columnType, SecondOperandPredicateXml xml)
-            => new SecondOperandPredicateArgs()
+            => new SecondOperandPredicateArgs(BuildScalarReference(columnType, xml), xml.SecondOperand)
             {
                 ColumnType = columnType,
                 ComparerType = xml.ComparerType,
-                Not = xml.Not,
-                Reference = BuildScalarReference(columnType, xml),
-                SecondOperand = xml.SecondOperand
+                Not = xml.Not
             };
 
         private CultureSensitivePredicateArgs BuildCultureSensitivePredicateArgs(ColumnType columnType, ICultureSensitiveTextPredicateXml xml)
-            => new CultureSensitivePredicateArgs()
+            => new CultureSensitivePredicateArgs(xml.Culture)
             {
                 ColumnType = columnType,
                 ComparerType = xml.ComparerType,
-                Not = xml.Not,
-                Culture = xml.Culture
+                Not = xml.Not
             };
 
         private CaseSensitivePredicateArgs BuildCaseSensitivePredicateArgs(ColumnType columnType, ICaseSensitiveTextPredicateXml xml)
-            => new CaseSensitivePredicateArgs()
+            => new CaseSensitivePredicateArgs(
+                xml is SequenceReferencePredicateXml sequence
+                    ? BuildSequenceReference(columnType, sequence)
+                    : BuildScalarReference(columnType, (ScalarReferencePredicateXml)xml),
+                xml.IgnoreCase ? StringComparison.InvariantCultureIgnoreCase : StringComparison.InvariantCulture)
             {
                 ColumnType = columnType,
                 ComparerType = xml.ComparerType,
                 Not = xml.Not,
-                StringComparison = xml.IgnoreCase ? StringComparison.InvariantCultureIgnoreCase : StringComparison.InvariantCulture,
-                Reference = xml is SequenceReferencePredicateXml 
-                ? BuildSequenceReference(columnType, xml as SequenceReferencePredicateXml) 
-                : BuildScalarReference(columnType, xml as ScalarReferencePredicateXml)
             };
 
         private ReferencePredicateArgs BuildReferencePredicateArgs(ColumnType columnType, ReferencePredicateXml xml)
-            => new CaseSensitivePredicateArgs()
+            => new ReferencePredicateArgs(
+                xml is SequenceReferencePredicateXml sequence
+                    ? BuildSequenceReference(columnType, sequence)
+                    : BuildScalarReference(xml is WithinRangeXml ? ColumnType.Text : columnType, (ScalarReferencePredicateXml)xml))
             {
                 ColumnType = columnType,
                 ComparerType = xml.ComparerType,
                 Not = xml.Not,
-                Reference = xml is SequenceReferencePredicateXml
-                ? BuildSequenceReference(columnType, xml as SequenceReferencePredicateXml)
-                : BuildScalarReference(xml is WithinRangeXml ? ColumnType.Text : columnType, xml as ScalarReferencePredicateXml)
             };
 
         private PredicateArgs BuildPredicateArgs(ColumnType columnType, PredicateXml xml)
-            => new CaseSensitivePredicateArgs()
+            => new PredicateArgs
             {
                 ColumnType = columnType,
                 ComparerType = xml.ComparerType,

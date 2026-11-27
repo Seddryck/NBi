@@ -30,9 +30,9 @@ namespace NBi.NUnit.Query
             if (actual is IQuery)
                 return doMatch((IQuery)actual);
             else
-                return false;               
+                return false;
         }
-        
+
         /// <summary>
         /// Handle a sql string and check it with the engine
         /// </summary>
@@ -49,8 +49,8 @@ namespace NBi.NUnit.Query
             var sb = new System.Text.StringBuilder();
             sb.AppendLine("Query is not syntactically correct.");
             foreach (var failure in parserResult.Errors)
-                sb.AppendLine(failure);    
-            writer.WritePredicate(sb.ToString());
+                sb.AppendLine(failure);
+            writer.Write(sb.ToString());
         }
     }
 }

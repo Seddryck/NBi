@@ -27,6 +27,7 @@ namespace NBi.NUnit.Structure
         /// <summary>
         /// Flag the constraint to ignore case and return self.
         /// </summary>
+        /// <value>The constraint configured to compare metadata captions without regard to case.</value>
         public new EquivalentToConstraint IgnoreCase
         {
             get
@@ -37,7 +38,7 @@ namespace NBi.NUnit.Structure
         }
 
         #endregion
-        
+
         /// <summary>
         /// Write a description of the constraint to a MessageWriter
         /// </summary>
@@ -54,11 +55,10 @@ namespace NBi.NUnit.Structure
                     expectationExpression.AppendFormat("<{0}>, ", item);
                 expectationExpression.Remove(expectationExpression.Length - 2, 2);
 
-                writer.WritePredicate(string.Format("find an exact list of {0} named '{1}' contained {2}",
+                writer.Write(string.Format("find an exact list of {0} named '{1}' contained {2}",
                     nextTargetExpression,
                     expectationExpression,
                     filterExpression));
-
             }
         }
     }

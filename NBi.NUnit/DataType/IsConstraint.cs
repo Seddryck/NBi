@@ -32,7 +32,9 @@ namespace NBi.NUnit.DataType
         public override bool Matches(object actual)
         {
             if (actual is IDataTypeDiscoveryCommand)
+            {
                 return Process((IDataTypeDiscoveryCommand)actual);
+            }
             else if (actual is DataTypeInfo)
             {
                 this.actual = actual;
@@ -43,7 +45,9 @@ namespace NBi.NUnit.DataType
                 return result;
             }
             else
+            {
                 throw new ArgumentException();
+            }
         }
 
         protected bool Process(IDataTypeDiscoveryCommand actual)
@@ -64,7 +68,7 @@ namespace NBi.NUnit.DataType
             var targetExpression = description.GetTargetExpression(Command.Description.Target);
             var captionExpression = Command.Description.Filters.Single(f => f.Target == Command.Description.Target).Caption;
 
-            writer.WritePredicate(string.Format("the type of {0} '{1}' ({2}) is '{3}'"
+            writer.Write(string.Format("the type of {0} '{1}' ({2}) is '{3}'"
                         , targetExpression
                         , captionExpression
                         , filterExpression
@@ -75,7 +79,9 @@ namespace NBi.NUnit.DataType
         {
             //IF actual is not empty it means we've an issue with Casing or a space at the end
             if (actual == null)
+            {
                 writer.WriteActualValue(new WriterHelper.NothingFoundMessage());
+            }
             else
             {
                 var result = Actual.Name;

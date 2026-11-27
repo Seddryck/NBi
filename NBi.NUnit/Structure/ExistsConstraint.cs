@@ -44,7 +44,7 @@ namespace NBi.NUnit.Structure
                 var targetExpression = description.GetTargetExpression(Command.Description.Target);
                 var captionExpression = Expected;
 
-                writer.WritePredicate(string.Format("find {0} {1} named '{2}' {3}"
+                writer.Write(string.Format("find {0} {1} named '{2}' {3}"
                             , notExpression
                             , targetExpression
                             , captionExpression
@@ -80,9 +80,10 @@ namespace NBi.NUnit.Structure
 
             if (!isApproximate)
             {
-   
                 if (((IEnumerable<string>)actual).Count() == 0)
+                {
                     writer.WriteActualValue(new WriterHelper.NothingFoundMessage());
+                }
                 else
                 {
                     base.WriteActualValueTo(writer);

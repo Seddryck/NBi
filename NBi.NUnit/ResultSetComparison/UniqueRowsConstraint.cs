@@ -63,8 +63,9 @@ namespace NBi.NUnit.Query
                 return result.AreUnique;
             }
             else
+            {
                 throw new ArgumentException();
-
+            }
         }
 
         #region "Error report"
@@ -88,10 +89,12 @@ namespace NBi.NUnit.Query
         public override void WriteMessageTo(NUnitCtr.MessageWriter writer)
         {
             if (Configuration?.FailureReportProfile.Format == FailureReportFormat.Json)
+            {
                 writer.Write(failure.RenderMessage());
+            }
             else
             {
-                writer.WritePredicate("Execution of the query returns duplicated rows");
+                writer.Write("Execution of the query returns duplicated rows");
                 writer.WriteLine();
                 writer.WriteLine();
                 base.WriteMessageTo(writer);

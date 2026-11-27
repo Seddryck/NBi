@@ -12,7 +12,6 @@ namespace NBi.NUnit.Structure
 {
     public class ContainedInConstraint : AbstractCollectionConstraint
     {
-        
         /// <summary>
         /// Construct a CollectionSubsetConstraint
         /// </summary>
@@ -27,6 +26,7 @@ namespace NBi.NUnit.Structure
         /// <summary>
         /// Flag the constraint to ignore case and return self.
         /// </summary>
+        /// <value>The constraint configured to compare metadata captions without regard to case.</value>
         public new ContainedInConstraint IgnoreCase
         {
             get
@@ -54,7 +54,7 @@ namespace NBi.NUnit.Structure
                     expectationExpression.AppendFormat("<{0}>, ", item);
                 expectationExpression.Remove(expectationExpression.Length - 2, 2);
 
-                writer.WritePredicate(string.Format("All {0} are defined in the set '{1}' for {2}",
+                writer.Write(string.Format("All {0} are defined in the set '{1}' for {2}",
                     nextTargetExpression,
                     expectationExpression.ToString(),
                     filterExpression));

@@ -23,7 +23,7 @@ namespace NBi.NUnit.Member
             : this(new List<string>() {expected})
         {
         }
-        
+
         /// <summary>
         /// Construct a ContainConstraint
         /// </summary>
@@ -41,7 +41,7 @@ namespace NBi.NUnit.Member
             : base(expected)
         {
         }
-        
+
         /// <summary>
         /// Construct a ContainConstraint
         /// </summary>
@@ -50,12 +50,12 @@ namespace NBi.NUnit.Member
             : base(expected)
         {
         }
-        
 
         #region Modifiers
         /// <summary>
         /// Flag the constraint to ignore case and return self.
         /// </summary>
+        /// <value>The constraint configured to compare member captions without regard to case.</value>
         public new ContainConstraint IgnoreCase
         {
             get
@@ -72,8 +72,7 @@ namespace NBi.NUnit.Member
             NUnitCtr.Constraint ctr = null;
             foreach (var item in ExpectedItems)
             {
-                var localCtr = new NUnitCtr.CollectionContainsConstraint(StringComparerHelper.Build(item));
-                var usingCtr = localCtr.Using(Comparer);
+                var usingCtr = new SomeItemsConstraint(new EqualConstraint(StringComparerHelper.Build(item)).Using(Comparer));
 
                 if (ctr != null)
                     ctr = new NUnitCtr.AndConstraint(ctr, usingCtr);
@@ -87,7 +86,7 @@ namespace NBi.NUnit.Member
         {
             IResolveConstraint exp = ctr;
             var multipleConstraint = exp.Resolve();
-            return multipleConstraint.Matches(actual);
+            return multipleConstraint.ApplyTo(actual).IsSuccess;
         }
 
         protected override string GetPredicate()
@@ -99,6 +98,5 @@ namespace NBi.NUnit.Member
         {
             return ListComparer.Comparison.MissingItems;
         }
-
     }
 }

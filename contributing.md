@@ -29,7 +29,7 @@ We love pull requests from everyone. By participating in this project, you agree
 * Make sure your commit messages are explicit.
 * Make sure you have added the necessary tests for your changes.
 * If possible, run _all_ the tests (for _all_ .NET versions supported) to assure nothing else was accidentally broken.
-* Check the status of your build on appVeyor. 
+* Check your build status in [GitHub Actions](https://github.com/Seddryck/NBi/actions/workflows/ci.yml).
 * If something is broken, try to fix it.
 
 ## Making Trivial Changes

@@ -1,7 +1,10 @@
-﻿using Moq;
+using Moq;
 using NBi.Core.Configuration;
 using NBi.Core.Configuration.FailureReport;
+using NBi.Core.Injection;
 using NBi.Core.ResultSet;
+using NBi.Core.Transformation.Transformer;
+using NBi.Core.Variable;
 using NBi.Extensibility;
 using NBi.Framework;
 using NBi.Framework.FailureMessage;
@@ -33,6 +36,37 @@ public class DataRowsMessageMardownTest
         return rs.Rows;
     }
     #endregion
+
+    [TestCase("[Name] | text-to-first-chars(#1)")]
+    [TestCase("#0 | text-to-first-chars([Length])")]
+    public void RenderActual_NativeColumnReferences_DisplayTransformedValues(string expression)
+    {
+        using var table = new DataTable();
+        table.Columns.Add("Name", typeof(string));
+        table.Columns.Add("Length", typeof(int));
+        table.Rows.Add("Alphabet", 3);
+        table.Rows.Add("Beta", 2);
+
+        using var resultSet = new DataTableResultSet(table);
+        var context = new Context();
+        var transformation = new NativeTransformationFactory(new ServiceLocator(), context).Instantiate(expression);
+        foreach (var row in resultSet.Rows)
+        {
+            context.Switch(row);
+            row[0] = transformation.Evaluate(null);
+        }
+
+        var samplers = new SamplersFactory<IResultRow>().Instantiate(FailureReportProfile.Default);
+        var message = new DataRowsMessageMarkdown(EngineStyle.ByIndex, samplers);
+        message.BuildCount(resultSet.Rows);
+
+        var output = message.RenderActual();
+        Assert.Multiple(() =>
+        {
+            Assert.That(output, Does.Contain("Alp").And.Not.Contain("Alphabet"));
+            Assert.That(output, Does.Contain("Be").And.Not.Contain("Beta"));
+        });
+    }
 
     [Test]
     public void RenderExpected_MoreThanMaxRowsCount_ReturnCorrectNumberOfRowsOnTop()

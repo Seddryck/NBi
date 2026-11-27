@@ -11,7 +11,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using NBi.Extensibility.Query;
-using DubUrl.Extensions;
 
 namespace NBi.Core.Testing.Query.Client;
 
@@ -33,7 +32,7 @@ public class ClientProviderTest
         Assert.That(connection.CreateNew(), Is.TypeOf(expectedType));
     }
 
-    [TestCase("pbipremium://api.powerbi.com/v1.0/myOrganization/myWorkspace", "AdomdConnectionWrapper")]
+    [TestCase("pbipremium://api.powerbi.com/v1.0/myOrganization/myWorkspace", "AdomdConnection")]
     public void Instantiate_ConnectionString_CorrectTypeName(string connectionString, string expectedType)
     {
         var factory = new ClientProvider();

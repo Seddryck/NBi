@@ -41,8 +41,16 @@ public class StructureDiscoveryFactoryProvider
     public IStructureDiscoveryFactory Instantiate(string connectionString)
     {
         var sessionFactory = new ClientProvider();
-        var connection = sessionFactory.Instantiate(connectionString).CreateNew() as IDbConnection
-            ?? throw new NullReferenceException();
+        var client = sessionFactory.Instantiate(connectionString);
+        var connection = (IDbConnection)client.CreateNew();
+        if (client is DubUrlClient dubUrl
+            && connection is not (SqlConnection or OleDbConnection or OdbcConnection or AdomdConnection)
+            && DubUrlSchemaDiscovery.TryCreate(dubUrl, out var discovery))
+        {
+            connection.Dispose();
+            return new DubUrlStructureDiscoveryFactory(discovery!);
+        }
+
         var dbType = MapConnectionTypeToDatabaseType(connection);
 
         if (!dico.TryGetValue(dbType, out var value))

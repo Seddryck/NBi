@@ -23,11 +23,19 @@ abstract class DbCommandFactory : ICommandFactory
         if (!CanHandle(client))
             throw new ArgumentException();
         var connection = (IDbConnection)client.CreateNew();
-        var cmd = Instantiate(connection, query, engine);
-        return new Command(connection, cmd);
+        try
+        {
+            var cmd = Instantiate(connection, query, engine, client);
+            return new Command(connection, cmd);
+        }
+        catch
+        {
+            connection.Dispose();
+            throw;
+        }
     }
 
-    protected IDbCommand Instantiate(IDbConnection connection, IQuery query, ITemplateEngine? engine)
+    protected IDbCommand Instantiate(IDbConnection connection, IQuery query, ITemplateEngine? engine, IClient? client = null)
     {
         var cmd = connection.CreateCommand();
         if (query.TemplateTokens is not null && query.TemplateTokens.Any() && engine is not null)
@@ -39,10 +47,7 @@ abstract class DbCommandFactory : ICommandFactory
         {
             foreach (var p in query.Parameters)
             {
-                var param = cmd.CreateParameter();
-                param.ParameterName = RenameParameter(p.Name);
-
-                param.Value = p.GetValue();
+                var param = CreateParameter(client, cmd, p.Name, p.GetValue());
                 var dbType = new DbTypeBuilder().Build(p.SqlType);
                 if (dbType != null)
                 {
@@ -62,6 +67,14 @@ abstract class DbCommandFactory : ICommandFactory
         cmd.CommandTimeout = commandTimeout;
 
         return cmd;
+    }
+
+    protected virtual IDbDataParameter CreateParameter(IClient? client, IDbCommand command, string name, object value)
+    {
+        var parameter = command.CreateParameter();
+        parameter.ParameterName = RenameParameter(name);
+        parameter.Value = value;
+        return parameter;
     }
 
     protected virtual string RenameParameter(string originalName) => originalName;

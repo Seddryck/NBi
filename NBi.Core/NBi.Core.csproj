@@ -12,23 +12,24 @@
   <ItemGroup> 
     <PackageReference Include="Deedle" Version="3.0.0" />
     <PackageReference Include="Domemtech.StringTemplate4" Version="4.3.0" />
-    <PackageReference Include="DubUrl" Version="0.20.38" />
-    <PackageReference Include="DubUrl.Adomd" Version="0.20.38" />
-    <PackageReference Include="DubUrl.Extensions" Version="0.20.38" />
-    <PackageReference Include="DubUrl.OleDb" Version="0.20.38" />
+    <PackageReference Include="DubUrl" Version="0.70.2" />
+    <PackageReference Include="DubUrl.Adomd" Version="0.70.2" />
+    <PackageReference Include="DubUrl.BulkCopy" Version="0.70.2" />
+    <PackageReference Include="DubUrl.OleDb" Version="0.70.2" />
+    <PackageReference Include="DubUrl.Provider.Odbc" Version="0.70.0" />
     <PackageReference Include="FSharp.Core" Version="9.0.201" />
     <PackageReference Include="FuzzyString.NETStandard" Version="1.0.0" />
-    <PackageReference Include="Microsoft.AnalysisServices.AdomdClient.NetCore.retail.amd64" Version="19.84.1" />
+    <PackageReference Include="Microsoft.AnalysisServices.AdomdClient" Version="19.117.0" />
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.8.0" /> 
     <PackageReference Include="Microsoft.Data.SqlClient" Version="6.0.1" /> 
     <PackageReference Include="NCalcSync" Version="5.4.1" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
     <PackageReference Include="Ninject" Version="3.3.6" />
-    <PackageReference Include="PocketCsvReader" Version="2.35.4" />
+    <PackageReference Include="PocketCsvReader" Version="2.36.30" />
     <PackageReference Include="RestSharp" Version="106.15.0" />
     <PackageReference Include="System.Data.Odbc" Version="9.0.3" />
-    <PackageReference Include="System.Data.OleDb" Version="9.0.3" />
-    <PackageReference Include="System.Management" Version="9.0.3" />
+    <PackageReference Include="System.Data.OleDb" Version="10.0.12" />
+    <PackageReference Include="System.Management" Version="9.0.8" />
     <PackageReference Include="System.ServiceProcess.ServiceController" Version="8.0.0" />
   </ItemGroup>
   <ItemGroup>

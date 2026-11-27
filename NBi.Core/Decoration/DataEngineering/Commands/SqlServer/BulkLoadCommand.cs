@@ -11,11 +11,16 @@ class BulkLoadCommand : IDecorationCommand
 {
     private readonly TableLoadCommandArgs args;
 
-    public BulkLoadCommand(TableLoadCommandArgs args) => this.args = args;
+    private readonly string connectionString;
+
+    public BulkLoadCommand(TableLoadCommandArgs args) : this(args, args.ConnectionString) { }
+
+    internal BulkLoadCommand(TableLoadCommandArgs args, string connectionString)
+        => (this.args, this.connectionString) = (args, connectionString);
 
     public void Execute()
     {
-        Execute(args.ConnectionString, args.TableName.Execute() ?? string.Empty, args.FileName.Execute() ?? string.Empty);
+        Execute(connectionString, args.TableName.Execute() ?? string.Empty, args.FileName.Execute() ?? string.Empty);
     }
 
     internal void Execute(string connectionString, string tableName, string filename)

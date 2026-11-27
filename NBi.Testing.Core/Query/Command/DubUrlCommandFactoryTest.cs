@@ -10,7 +10,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using NBi.Extensibility.Query;
-using DubUrl.Mapping;
 
 namespace NBi.Core.Testing.Query.Command;
 
@@ -29,7 +28,7 @@ public class DubUrlCommandFactoryTest
     [Test]
     public void Build_TimeoutSpecified_TimeoutSet()
     {
-        var conn = new DubUrlClient("mssql://server/db", new SchemeMapperBuilder());
+        var conn = new DubUrlClientFactory().Instantiate("mssql://server/db");
         var query = Mock.Of<IQuery>(
             x => x.ConnectionString == "mssql://server/db"
             && x.Statement == "WAITFOR DELAY '00:00:15'"
@@ -45,7 +44,7 @@ public class DubUrlCommandFactoryTest
     [Test]
     public void Build_TimeoutSetToZero_TimeoutSet0Seconds()
     {
-        var conn = new DubUrlClient("mssql://server/db", new SchemeMapperBuilder());
+        var conn = new DubUrlClientFactory().Instantiate("mssql://server/db");
         var query = Mock.Of<IQuery>(
             x => x.ConnectionString == "mssql://server/db"
             && x.Statement == "WAITFOR DELAY '00:00:15'"
@@ -61,7 +60,7 @@ public class DubUrlCommandFactoryTest
     [Test]
     public void Build_TimeoutSetTo30_TimeoutSet30Seconds()
     {
-        var conn = new DubUrlClient("mssql://server/db", new SchemeMapperBuilder());
+        var conn = new DubUrlClientFactory().Instantiate("mssql://server/db");
         var query = Mock.Of<IQuery>(
             x => x.ConnectionString == "mssql://server/db"
             && x.Statement == "WAITFOR DELAY '00:00:15'"
@@ -77,7 +76,7 @@ public class DubUrlCommandFactoryTest
     [Test]
     public void Build_CommandTypeSetToText_CommandTypeSetText()
     {
-        var conn = new DubUrlClient("mssql://server/db", new SchemeMapperBuilder());
+        var conn = new DubUrlClientFactory().Instantiate("mssql://server/db");
         var query = Mock.Of<IQuery>(
             x => x.ConnectionString == "mssql://server/db"
             && x.CommandType == System.Data.CommandType.Text
@@ -92,7 +91,7 @@ public class DubUrlCommandFactoryTest
     [Test]
     public void Build_CommandTypeSetToStoredProcedure_CommandTypeSetStoredProcedure()
     {
-        var conn = new DubUrlClient("mssql://server/db", new SchemeMapperBuilder());
+        var conn = new DubUrlClientFactory().Instantiate("mssql://server/db");
         var query = Mock.Of<IQuery>(
             x => x.ConnectionString == "mssql://server/db"
             && x.CommandType == System.Data.CommandType.StoredProcedure

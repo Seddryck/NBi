@@ -51,8 +51,11 @@ public abstract class EngineFactory<T>
         var key = cmd.Implementation.GetType().FullName ?? throw new NullReferenceException();
         if (engines.TryGetValue(key, out var value))
             return Instantiate(value, cmd);
-        throw new ArgumentException();
+        return InstantiateUnregistered(session, cmd);
     }
+
+    protected virtual T InstantiateUnregistered(IClient client, ICommand command)
+        => throw new ArgumentException($"No engine is registered for command type '{command.Implementation.GetType().FullName}'.");
 
     protected T Instantiate(Type type, ICommand cmd)
     {

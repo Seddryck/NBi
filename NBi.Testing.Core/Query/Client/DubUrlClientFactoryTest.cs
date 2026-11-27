@@ -11,7 +11,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using NBi.Extensibility.Query;
-using DubUrl.Extensions;
 using System.Data;
 
 namespace NBi.Core.Testing.Query.Client;

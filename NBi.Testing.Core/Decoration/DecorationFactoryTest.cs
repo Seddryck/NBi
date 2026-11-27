@@ -121,6 +121,24 @@ public class DecorationFactoryTest
         Assert.That(command, Is.TypeOf(commandType));
     }
 
+    [Test]
+    public void Instantiate_TableLoadWithSqlServerUrl_PreservesSqlServerBulkLoad()
+    {
+        var args = new TableLoadCommandArgs(Guid.NewGuid(), "mssql://server/db",
+            new LiteralScalarResolver<string>("sales"), new LiteralScalarResolver<string>("sales.csv"));
+
+        Assert.That(new DataEngineeringFactory().Instantiate(args), Is.TypeOf<BulkLoadCommand>());
+    }
+
+    [Test]
+    public void Instantiate_TableLoadWithNoBulkCapability_RejectsBeforeReading()
+    {
+        var args = new TableLoadCommandArgs(Guid.NewGuid(), "sqlite:///:memory:",
+            new LiteralScalarResolver<string>("sales"), new LiteralScalarResolver<string>("sales.csv"));
+
+        Assert.That(() => new DataEngineeringFactory().Instantiate(args), Throws.ArgumentException);
+    }
+
     private IDecorationConditionArgs GetConditionArgsMock(Type type)
     {
         return type switch

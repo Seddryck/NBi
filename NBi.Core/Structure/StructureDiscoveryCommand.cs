@@ -25,6 +25,13 @@ public abstract class StructureDiscoveryCommand : IStructureDiscoveryCommand
         this.description = description;
     }
 
+    protected StructureDiscoveryCommand(CommandDescription description)
+    {
+        command = null!;
+        postFilters = [];
+        this.description = description;
+    }
+
     public abstract IEnumerable<string> Execute();
 
 }

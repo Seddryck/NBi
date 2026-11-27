@@ -1,28 +1,34 @@
-﻿using DubUrl;
-using DubUrl.Mapping;
+using DubUrl;
+using DubUrl.Extensions;
 using Microsoft.AnalysisServices.AdomdClient;
 using NBi.Extensibility.Query;
-using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NBi.Core.Query.Client;
 
-internal class DubUrlClient : IClient
+internal class DubUrlClient(ConnectionUrl url, string connectionString) : IClient
 {
-    public string ConnectionString { get; }
-    private SchemeMapperBuilder SchemeMapperBuilder { get; }
+    public string ConnectionString { get; } = connectionString;
+    internal ConnectionUrl Url { get; } = url;
 
-    public Type UnderlyingSessionType => throw new NotImplementedException();
-
-    public DubUrlClient(string connectionString, SchemeMapperBuilder schemeMapperBuilder)
-        => (SchemeMapperBuilder, ConnectionString) = (schemeMapperBuilder, connectionString);
+    public Type UnderlyingSessionType
+    {
+        get
+        {
+            using var connection = CreateConnection();
+            return connection.GetType();
+        }
+    }
 
     public object CreateNew() => CreateConnection();
 
     public IDbConnection CreateConnection()
-        => new ConnectionUrl(ConnectionString, SchemeMapperBuilder).Connect();
+    {
+        var connection = Url.Connect();
+        if (connection is not IDubUrlConnectionWrapper { Connection: AdomdConnection })
+            return connection;
+
+        using (connection)
+            return new AdomdConnection(connection.ConnectionString);
+    }
 }

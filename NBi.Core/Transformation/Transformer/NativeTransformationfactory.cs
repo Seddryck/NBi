@@ -21,7 +21,7 @@ public class NativeTransformationFactory
 
     public INativeTransformation Instantiate(string code)
     {
-        var expression = new Expressif.Expression(code, Context);
+        var expression = NativeExpression.Create(code, Context);
         return new NativeTransformation(expression);
     }
 }

@@ -12,8 +12,7 @@ using Expressif.Predicates.Boolean;
 using Expressif.Values;
 using Exssif = Expressif.Predicates;
 using Expressif.Values.Casters;
-using NBi.Core.Scalar.Interval;
-using Expressif.Parsers;
+using System.Text.RegularExpressions;
 
 namespace NBi.Core.Calculation.Asserting;
 
@@ -110,15 +109,12 @@ public class PredicateFactory
             ComparerType.MoreThanOrEqual => new GreaterThanOrEqual(referenceFunc),
             ComparerType.MoreThan => new GreaterThan(referenceFunc),
             ComparerType.Null => new Exssif.Special.Null(),
-            ComparerType.WithinRange => new WithinInterval(buildInterval(reference!)),
-            ComparerType.Integer => new Integer(),
+            ComparerType.WithinRange => new WithinInterval(() => BuildInterval<decimal>(reference!)),
+            ComparerType.Integer => new WholeNumber(),
             ComparerType.Modulo => new Modulo(() => new NumericCaster().Cast(secondOperand ?? 0), referenceFunc),
             _ =>
                throw new ArgumentOutOfRangeException($"Numeric columns don't support the '{comparerType.ToString().ToDashedCase()}' comparer."),
         };
-
-        Func<Interval<decimal>> buildInterval(IResolver reference)
-              => () => (Interval<decimal>)new IntervalBuilder().Create((string)reference.Execute()!);
     }
 
     protected Exssif.IPredicate CreateFromDateTime(ComparerType comparerType, IResolver? reference)
@@ -133,7 +129,7 @@ public class PredicateFactory
             ComparerType.MoreThanOrEqual => new AfterOrSameInstant(referenceFunc),
             ComparerType.MoreThan => new After(referenceFunc),
             ComparerType.Null => new Exssif.Special.Null(),
-            ComparerType.WithinRange => new ContainedIn(buildInterval(reference!)),
+            ComparerType.WithinRange => new ContainedIn(() => BuildInterval<DateTime>(reference!)),
             ComparerType.OnTheDay => new OnTheDay(),
             ComparerType.OnTheHour => new OnTheHour(),
             ComparerType.OnTheMinute => new OnTheMinute(),
@@ -141,10 +137,49 @@ public class PredicateFactory
                    throw new ArgumentOutOfRangeException($"DateTime columns don't support the '{comparerType.ToString().ToDashedCase()}' comparer."),
         };
 
-        Func<Interval<DateTime>> buildInterval(IResolver reference)
-              => () => (Interval<DateTime>) new IntervalBuilder().Create((string)reference.Execute()!);
-
     }
+
+    private static Interval<T> BuildInterval<T>(IResolver reference) where T : struct, IComparable
+    {
+        var value = ((string)reference.Execute()!).Trim();
+
+        // NBi range definitions predate Expressif's I[...] syntax.
+        var range = Regex.Match(value, @"^([\[\]])\s*([^;]+?)\s*;\s*([^;]+?)\s*([\[\]])$");
+        if (range.Success)
+        {
+            var lower = FormatIntervalBound<T>(range.Groups[2].Value);
+            var upper = FormatIntervalBound<T>(range.Groups[3].Value);
+            value = $"I{range.Groups[1].Value}{lower}, {upper}{range.Groups[4].Value}";
+        }
+        else if (value.StartsWith('(') && value.EndsWith(')'))
+        {
+            var shorthand = value[1..^1].Trim();
+            var comparison = Regex.Match(shorthand, @"^([<>]=?)\s*(.+)$");
+            var bound = FormatIntervalBound<T>(comparison.Groups[2].Value.Trim());
+            value = comparison.Groups[1].Value switch
+            {
+                ">" => $"I]{bound}, +INF]",
+                ">=" => $"I[{bound}, +INF]",
+                "<" => $"I[-INF, {bound}[",
+                "<=" => $"I[-INF, {bound}]",
+                _ => shorthand.ToLowerInvariant() switch
+                {
+                    "positive" or "0+" => "I[0, +INF]",
+                    "negative" or "0-" => "I[-INF, 0]",
+                    "absolutely-positive" or "+" => "I]0, +INF]",
+                    "absolutely-negative" or "-" => "I[-INF, 0[",
+                    _ => value,
+                },
+            };
+        }
+
+        return (Interval<T>)new IntervalBuilder().Create(value);
+    }
+
+    private static string FormatIntervalBound<T>(string bound)
+        => typeof(T) == typeof(DateTime) && bound.Length > 0 && char.IsAsciiDigit(bound[0])
+            ? $"#\"{bound.Replace(' ', 'T')}\""
+            : bound;
 
     protected Exssif.IPredicate CreateFromBoolean(ComparerType comparerType, IResolver? reference)
     {

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace NBi.Core.Transformation.Transformer.Native;
 
-internal class NativeTransformation(Expressif.Expression expression) : INativeTransformation
+internal class NativeTransformation(Expressif.IExpression expression) : INativeTransformation
 {
     protected IFunction InternalFunction { get; } = expression;
 

@@ -14,17 +14,17 @@ class DataRowResultSet(DataRow dataRow) : IResultRow
     private DataRow DataRow { get; } = dataRow;
     private IResultSet? ResultSet { get; set; }
 
-    public object? this[int index] 
-    { 
-        get => DataRow[index]; 
-        set => DataRow[index] = value; 
+    public object? this[int index]
+    {
+        get => DataRow[index];
+        set => DataRow[index] = value;
     }
 
     public object? this[string columnName] { get => DataRow[columnName]; set => DataRow[columnName] = value; }
     public object? this[IColumnIdentifier identifier] { get => DataRow.GetValue(identifier); }
 
     public object?[] ItemArray { get => DataRow.ItemArray; set => DataRow.ItemArray = value; }
-    public T? Field<T>(int ordinal) => DataRow.Field<T>(ordinal); 
+    public T? Field<T>(int ordinal) => DataRow.Field<T>(ordinal);
     public bool IsNull(int index) => DataRow.IsNull(index);
     public bool IsNull(string columnName) => DataRow.IsNull(columnName);
     public IResultSet Parent { get => ResultSet ??= new DataTableResultSet(DataRow.Table); }

@@ -22,7 +22,6 @@ class NativeTransformer<T> : ITransformer
 
     protected Exssif.IFunction? InternalTransformation { get; set; }
 
-
     public NativeTransformer(ServiceLocator serviceLocator, Context context)
         => (ServiceLocator, Context) = (serviceLocator, context);
 

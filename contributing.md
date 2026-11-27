@@ -1,61 +1,17 @@
-# How to contribute
+# Contributing to NBi
 
-Third-party patches are essential for keeping **DubUrl** great. We want to keep it as easy as possible to contribute changes. There are a few guidelines that we need contributors to follow so that we can have a chance of keeping on top of things.
+Please follow the [Code of Conduct](CODE_OF_CONDUCT.md).
 
-We love pull requests from everyone. By participating in this project, you agree to abide by the thoughtbot [code of conduct].
+## Report a bug or request a feature
 
-[code of conduct]: https://thoughtbot.com/open-source-code-of-conduct
+Search the [NBi issues](https://github.com/Seddryck/NBi/issues) for an existing report. Use a descriptive title. For a bug, include the NBi version, the behavior you expected, the behavior you observed, and a minimal example. Share a text example of the `.nbits` file or GenbiL recipe when it helps reproduce the problem. Remove credentials and private data. For a feature request, describe the use case and proposed syntax if applicable.
 
-## Getting Started
+## Make and validate a change
 
-* Make sure you have a [GitHub account](https://github.com/signup/free) (It's free!)
-* Read the documentation.
-* Search in the issues if your problem hasn't already be submitted.
-* Submit an issue (assuming one does not already exist).
-  * Clearly describe the issue including steps to reproduce when it is a bug.
-  * Specify the version on which this bug has been found.
-* Fork the repository on GitHub
+Create a topic branch from `main` unless the change is intended for a specific release branch. See [AGENTS.md](AGENTS.md) for branch, worktree, and validation conventions.
 
-## Making Changes
+Run the focused tests for the area you changed. If the change affects public XML or GenbiL syntax, include a representative example and update the relevant tests and documentation. Legacy acceptance and integration tests may require external services.
 
-* Create a topic branch from where you want to base your work.
-  * This is usually the master branch.
-  * Only target release branches if you are certain your fix must be on that
-    branch.
-  * To quickly create a topic branch based on main; `git checkout -b
-    feature/my_contribution main`. Please avoid working directly on the
-    `main` branch.
-* Make commits of logical units.
-* Make sure your commit messages are explicit.
-* Make sure you have added the necessary tests for your changes.
-* If possible, run _all_ the tests (for _all_ .NET versions supported) to assure nothing else was accidentally broken.
-* Check your build status in [GitHub Actions](https://github.com/Seddryck/NBi/actions/workflows/ci.yml).
-* If something is broken, try to fix it.
+## Submit a pull request
 
-## Making Trivial Changes
-
-### Documentation
-
-For changes of a trivial nature to comments and documentation, it is not necessary to create an issue. In this case, it is
-appropriate to start the first line of a commit with '(doc)'.
-
-## Submitting Changes
-
-* Push your changes to a topic branch in your fork of the repository.
-* Submit a pull request to the repository DubUrl (Seddryck/DubUrl).
-* Update your issue to mark that you have submitted code and are ready for it to be reviewed. Include a link to the pull request in the ticket.
-* At this point, you're waiting on us. We like to, at least, comment on pull requests within a few business days. We may suggest some changes or improvements or alternatives.
-
-# Some things that will increase the chance that 
-
-## Your issue will be quickly answered:
-
-* Write a good description of your problem in the issue ticket
-  * If you've a problem using DubUrl, post your test (not a screen capture) and explain what you're trying to achieve. Don't forget to post the error (full stack) that you're receiving!
-  * If you'd like to suggest a feature, explain why you think it will be valuable and suggest a syntax.
-
-## Your pull request is accepted:
-
-* Link your pull request to an issue that is well documented.
-* Write unit tests.
-* Write the user documentation. 
+Open a pull request against [Seddryck/NBi](https://github.com/Seddryck/NBi) with a Conventional Commit title, a short description, and the validation results. Link the relevant issue if one exists. Documentation fixes can be submitted directly. Check the pull request build in [GitHub Actions](https://github.com/Seddryck/NBi/actions/workflows/ci.yml).

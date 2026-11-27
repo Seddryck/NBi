@@ -49,6 +49,54 @@ jobs:
           PACKAGE_VERSION: ${{ steps.version.outputs.semver }}
         run: dotnet build NBi.sln -c Release -p:ContinuousIntegrationBuild=true "-p:Version=$env:PACKAGE_VERSION"
 
+
+      - name: Set up the Excel OLE DB provider
+        timeout-minutes: 12
+        run: |
+          function Test-ExcelProvider {
+            $providers = powershell.exe -NoProfile -NonInteractive -Command {
+              Add-Type -AssemblyName System.Data
+              (New-Object System.Data.OleDb.OleDbEnumerator).GetElements() |
+                ForEach-Object { $_.SOURCES_NAME }
+            }
+            if ($LASTEXITCODE -ne 0) { throw "Could not enumerate the Windows OLE DB providers." }
+            return $providers -contains 'Microsoft.ACE.OLEDB.16.0'
+          }
+
+          if (Test-ExcelProvider) {
+            Write-Host 'Microsoft.ACE.OLEDB.16.0 is already available.'
+            exit 0
+          }
+
+          $installDir = Join-Path $env:RUNNER_TEMP 'access-runtime'
+          New-Item -ItemType Directory -Path $installDir | Out-Null
+          $installer = Join-Path $installDir 'officedeploymenttool.exe'
+          $odtUri = 'https://download.microsoft.com/download/6c1eeb25-cf8b-41d9-8d0d-cc1dbc032140/officedeploymenttool_20527-20150.exe'
+          Invoke-WebRequest -Uri $odtUri -OutFile $installer -MaximumRetryCount 3
+          if ((Get-FileHash $installer -Algorithm SHA256).Hash -ne '28bc762075c758b5ef841fe94487565168deeed59f78ded5d5dfdfb08a9e827a') {
+            throw "The Office Deployment Tool checksum did not match."
+          }
+
+          $extract = Start-Process -FilePath $installer -ArgumentList '/quiet', "/extract:`"$installDir`"" -WorkingDirectory $installDir -WindowStyle Hidden -Wait -PassThru
+          if ($extract.ExitCode -ne 0) { throw "Office Deployment Tool extraction failed ($($extract.ExitCode))." }
+
+          $configuration = Join-Path $installDir 'access-runtime.xml'
+          @'
+          <Configuration>
+            <Add OfficeClientEdition="64" Channel="Current">
+              <Product ID="AccessRuntimeRetail">
+                <Language ID="en-us" />
+              </Product>
+            </Add>
+            <Display Level="None" AcceptEULA="TRUE" />
+          </Configuration>
+          '@ | Set-Content -LiteralPath $configuration
+
+          $setup = Start-Process -FilePath (Join-Path $installDir 'setup.exe') -ArgumentList '/configure', "`"$configuration`"" -WorkingDirectory $installDir -WindowStyle Hidden -Wait -PassThru
+          if ($setup.ExitCode -ne 0) { throw "Microsoft 365 Access Runtime installation failed ($($setup.ExitCode))." }
+          if (-not (Test-ExcelProvider)) { throw "Microsoft.ACE.OLEDB.16.0 is unavailable after installation." }
+          Write-Host 'Microsoft.ACE.OLEDB.16.0 is available.'
+
       - name: Run .NET 10 tests
         run: |
           $results = Join-Path $env:RUNNER_TEMP nbi-test-results

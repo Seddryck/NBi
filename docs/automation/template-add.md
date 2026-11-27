@@ -1,0 +1,20 @@
+---
+title: Add template
+prev_section: template-load
+next_section: settings-load
+permalink: /automation/template-add/
+parent: "Test template"
+grand_parent: Automation
+nav_order: 2
+---
+This command lets you load a template without unloading the previously loaded templates. Using this command you'll have several templates. This command has the same options than *template load* and can load *embedded* or *file* templates. For more info about these options check the page about [load temmplate](/automation/template-load/)
+
+{% highlight xml%}
+template add embedded 'ExistsDimension';
+{% endhighlight %}
+
+or
+
+{% highlight xml%}
+template add file 'myTemplate.nbitt';
+{% endhighlight %}

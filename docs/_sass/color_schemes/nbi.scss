@@ -1,0 +1,19 @@
+$color-scheme: dark;
+
+$body-background-color: $nbi-espresso;
+$body-heading-color: $nbi-peach;
+$body-text-color: $nbi-cream;
+$link-color: $nbi-peach;
+$nav-child-link-color: $nbi-cream;
+$sidebar-color: $nbi-brown;
+$base-button-color: $nbi-brown;
+$btn-primary-color: $nbi-rust;
+$code-background-color: #291004;
+$code-linenumber-color: #dfa98c;
+$feedback-color: $nbi-espresso;
+$table-background-color: #421a08;
+$search-background-color: $nbi-brown;
+$search-result-preview-color: #efbfab;
+$border-color: #a75935;
+
+@import "./vendor/accessible-pygments/github-dark";

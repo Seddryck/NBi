@@ -1,0 +1,240 @@
+// -----------------------------------------------------------------------------
+// NBi content typography and vertical rhythm
+// -----------------------------------------------------------------------------
+
+.main-content {
+  // ---------------------------------------------------------------------------
+  // Page header
+  // ---------------------------------------------------------------------------
+
+  .page-header {
+    margin-bottom: 1.5rem;
+  }
+
+  .page-title {
+    max-width: 52rem;
+    margin: 0 0 0.5rem;
+
+    color: $body-heading-color;
+    font-size: 2.75rem;
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -0.035em;
+  }
+
+  .page-subtitle {
+    max-width: 48rem;
+    margin: 0;
+
+    color: $search-result-preview-color;
+    font-size: 1.2rem;
+    font-weight: 400;
+    line-height: 1.45;
+  }
+
+  // ---------------------------------------------------------------------------
+  // Headings
+  // ---------------------------------------------------------------------------
+
+  h2 {
+    margin-top: 2rem;
+    margin-bottom: 0.75rem;
+
+    color: $body-heading-color;
+    font-size: 1.85rem;
+    font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: -0.025em;
+  }
+
+  h3 {
+    margin-top: 1.5rem;
+    margin-bottom: 0.45rem;
+
+    color: $body-heading-color;
+    font-size: 1.4rem;
+    font-weight: 650;
+    line-height: 1.3;
+    letter-spacing: -0.015em;
+  }
+
+  h4 {
+    margin-top: 1.25rem;
+    margin-bottom: 0.35rem;
+
+    color: $body-heading-color;
+    font-size: 1.1rem;
+    font-weight: 650;
+    line-height: 1.4;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    > a {
+      color: inherit;
+      text-decoration: none;
+
+      &:hover,
+      &:focus {
+        color: $link-color;
+      }
+    }
+  }
+
+  // Avoid an excessive gap when a heading is the first content element.
+  .page-header + h2,
+  .page-header + h3 {
+    margin-top: 0;
+  }
+
+  // ---------------------------------------------------------------------------
+  // Paragraphs
+  // ---------------------------------------------------------------------------
+
+  p {
+    margin-top: 0;
+    margin-bottom: 0.85rem;
+  }
+
+  // Keep content following a heading visually connected to it.
+  h2 + p,
+  h3 + p,
+  h4 + p {
+    margin-top: 0;
+  }
+
+  // ---------------------------------------------------------------------------
+  // Lists
+  // ---------------------------------------------------------------------------
+
+  ul,
+  ol {
+    margin-top: 0.35rem;
+    margin-bottom: 1rem;
+    padding-left: 1.5rem;
+  }
+
+  li {
+    margin-bottom: 0.3rem;
+    padding-left: 0.25rem;
+
+    &::marker {
+      color: $nbi-orange;
+    }
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  // Use a restrained marker for unordered lists.
+  ul > li::marker {
+    font-size: 0.75em;
+  }
+
+  // Keep ordered-list numbers at their normal size.
+  ol > li::marker {
+    font-size: 1em;
+    font-weight: 600;
+  }
+
+  // Compact nested lists.
+  ul ul,
+  ul ol,
+  ol ul,
+  ol ol {
+    margin-top: 0.35rem;
+    margin-bottom: 0.35rem;
+    padding-left: 1.25rem;
+  }
+
+  // Keep lists close to the text that introduces them.
+  p + ul,
+  p + ol {
+    margin-top: 0.25rem;
+  }
+
+  // ---------------------------------------------------------------------------
+  // Code blocks
+  // ---------------------------------------------------------------------------
+
+  pre,
+  .highlight {
+    margin-top: 0.75rem;
+    margin-bottom: 1.25rem;
+  }
+
+  p + pre,
+  p + .highlight {
+    margin-top: 0.5rem;
+  }
+}
+
+// -----------------------------------------------------------------------------
+// Tablet
+// -----------------------------------------------------------------------------
+
+@media (max-width: 50rem) {
+  .main-content {
+    .page-header {
+      margin-bottom: 1.75rem;
+    }
+
+    .page-title {
+      font-size: 2.25rem;
+    }
+
+    .page-subtitle {
+      font-size: 1.1rem;
+    }
+
+    h2 {
+      margin-top: 1.75rem;
+      font-size: 1.65rem;
+    }
+
+    h3 {
+      margin-top: 1.25rem;
+      font-size: 1.3rem;
+    }
+  }
+}
+
+// -----------------------------------------------------------------------------
+// Mobile
+// -----------------------------------------------------------------------------
+
+@media (max-width: 31.25rem) {
+  .main-content {
+    .page-header {
+      margin-bottom: 1.5rem;
+    }
+
+    .page-title {
+      font-size: 2rem;
+      letter-spacing: -0.025em;
+    }
+
+    .page-subtitle {
+      font-size: 1rem;
+      line-height: 1.4;
+    }
+
+    h2 {
+      margin-top: 1.5rem;
+      font-size: 1.5rem;
+    }
+
+    h3 {
+      margin-top: 1.15rem;
+      font-size: 1.2rem;
+    }
+
+    ul,
+    ol {
+      padding-left: 1.25rem;
+    }
+  }
+}

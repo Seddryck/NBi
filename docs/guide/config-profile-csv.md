@@ -1,0 +1,72 @@
+---
+title: CSV profile
+prev_section: config-settings-external-file
+next_section: config-profile-failure-report
+permalink: /docs/config-profile-csv/
+parent: "Configuration and settings"
+grand_parent: Documentation
+nav_order: 3
+---
+
+## Separators
+
+A CSV file consists of any number of records, separated by line breaks of some kind; each record consists of fields, separated by some other character or string, most commonly a literal comma, semi-column or tab. A general standard for the CSV file format does not exist. The CSV profile offers the opportunity to specify the characters used to delimit fields and records.
+
+By default (if nothing else is specified), the CSV profile is defined with a field separator set to a semi-column (;) and a record separator set to carriage return line feed (\r\n).
+
+This value by default can be overridden in the xml element *settings* by adding a xml element named *csv-profile* . This element is requiring two xml attributes named *field-separator* and *record-separator*.
+
+{% highlight xml %}
+<settings>
+   <csv-profile field-separator="," record-separator="#"/>
+</settings>
+{% endhighlight %}
+
+Note that the field-separator must be limited to 1 character but the record separator can have more characters. For the moment, the escape and quoting characters are not implemented.
+
+The xml element automatically translates a few special values to their corresponding caracters.
+
+* *Tab* is translated to ```\t``` (tabulation) only for field-separator
+* *Cr* is translated to ```\r``` (carriage return) only for record-separator
+* *Lf* is translated to ```\n``` (line feed) only for record-separator
+
+In this example, a tabulation is specified as field-separator and a carriage return line feed for record-separator.
+{% highlight xml %}
+<settings>
+   <csv-profile field-separator="Tab" record-separator="CrLf"/>
+</settings>
+{% endhighlight %}
+
+## Text qualifier
+
+A text qualifier is a symbol that let's the parser know where a field begins and ends. It is used specifically when importing data containing the field separator. Say you need to import a text file that is comma delimited (comma is the field separator) but some of the fields can also contain comma.
+
+{% highlight xml %}
+<settings>
+   <csv-profile text-qualifier="Double-quote"/>
+</settings>
+{% endhighlight %}
+
+The xml attribute automatically translates a few special values to their corresponding caracters.
+
+* *Double-quote* is translated to ```"``` (double quotes) only for text-qualifier
+* *Single-quote* is translated to ```'``` (single quote) only for text-qualifier
+
+## First row and missing/empty cells
+
+By default, the first row is considered to be a row of data. If you've headers in your CSV files, you should activate the setting:
+{% highlight xml %}
+<settings>
+   <csv-profile first-row-header="true" />
+</settings>
+{% endhighlight %}
+
+You can also specify the behaviour when there is no value defined for a cell or when this cell is missing (missing field-separators).
+{% highlight xml %}
+<settings>
+   <csv-profile
+       empty-cell="NULL"
+       missing-cell="NULL"
+   />
+</settings>
+{% endhighlight %}

@@ -1,0 +1,76 @@
+// -----------------------------------------------------------------------------
+// NBi code blocks
+// -----------------------------------------------------------------------------
+
+.main-content {
+  .highlight {
+    position: relative;
+
+    margin: 0.65rem 0 1.25rem;
+
+    background-color: $code-background-color;
+    border: 1px solid $border-color;
+    border-radius: 0.5rem;
+
+    overflow: hidden;
+  }
+
+  .highlight pre {
+    margin: 0;
+    padding: 1rem 4.5rem 1rem 1.2rem;
+
+    color: $body-text-color;
+    background: transparent;
+    border: 0;
+
+    font-family: $mono-font-family;
+    font-size: 0.9rem;
+    line-height: 1.55;
+  }
+
+  .highlight code {
+    padding: 0;
+
+    color: inherit;
+    background: transparent;
+    border: 0;
+
+    font-size: inherit;
+  }
+
+  :not(pre) > code {
+    padding: 0.1em 0.32em;
+
+    color: $body-heading-color;
+    background-color: $code-background-color;
+    border: 1px solid $border-color;
+    border-radius: 0.25rem;
+
+    font-size: 0.88em;
+  }
+
+  // Just-the-Docs copy button.
+  .copy-code-button {
+    top: 0.55rem;
+    right: 0.55rem;
+
+    min-height: 2rem;
+    padding: 0.35rem 0.7rem;
+
+    color: $body-text-color;
+    background-color: $base-button-color;
+    border: 1px solid $border-color;
+    border-radius: 0.375rem;
+
+    font-family: $body-font-family;
+    font-size: 0.72rem;
+    font-weight: 650;
+
+    &:hover,
+    &:focus {
+      color: $body-text-color;
+      background-color: $nbi-rust;
+      border-color: $nbi-peach;
+    }
+  }
+}

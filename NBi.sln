@@ -17,7 +17,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{2396CA91
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Edition", "Edition", "{00C5543A-6670-44D7-B1AE-1208F14E040F}"
 	ProjectSection(SolutionItems) = preProject
-		.commitlint.yaml = .commitlint.yaml
+		commitlint.config.cjs = commitlint.config.cjs
 		.editorconfig = .editorconfig
 		.gitattributes = .gitattributes
 		.gitignore = .gitignore

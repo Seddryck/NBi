@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+base=$(git rev-parse --verify "$1^{commit}")
+tip=$(git rev-parse --verify "$2^{commit}")
+cd "$(git rev-parse --show-toplevel)"
+
+mapfile -d '' -t paths < <(git diff --name-only --diff-filter=ACMRT -z "$base" "$tip" -- '*.cs')
+if (("${#paths[@]}" == 0)); then
+    exit 0
+fi
+
+if ! git diff --quiet "$tip" -- "${paths[@]}"; then
+    echo 'Check out the commit being pushed and commit or stash changes to the files under analysis.' >&2
+    exit 1
+fi
+
+echo 'Checking changed C# files with the NBi analyzers'
+dotnet format analyzers NBi.sln --verify-no-changes --no-restore --include "${paths[@]}"

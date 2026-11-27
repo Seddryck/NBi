@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+remote=$1
+while read -r local_ref local_sha remote_ref remote_sha; do
+    # Deleted refs and non-branch refs have no working tree to check.
+    [[ $remote_ref == refs/heads/* ]] || continue
+    [[ $local_sha =~ ^0+$ ]] && continue
+    if [[ $remote_sha =~ ^0+$ ]] || ! git cat-file -e "$remote_sha^{commit}" 2>/dev/null; then
+        remote_main="refs/remotes/$remote/main"
+        if ! git rev-parse --verify --quiet "$remote_main" >/dev/null; then
+            echo "Fetch main from $remote before pushing a branch." >&2
+            exit 1
+        fi
+        remote_sha=$(git merge-base "$remote_main" "$local_sha")
+    fi
+    bash .githooks/check-code-analysis "$remote_sha" "$local_sha"
+done

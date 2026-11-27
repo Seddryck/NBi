@@ -105,7 +105,6 @@ public class DataRowsMessageMardownTest
         var value = msg.RenderExpected();
         var lines = value.Replace("\n", string.Empty).Split('\r');
 
-
         Assert.That(lines[0], Is.EqualTo("Result-set with 1 row"));
     }
 
@@ -169,7 +168,7 @@ public class DataRowsMessageMardownTest
         msg.BuildComparaison(rs.Rows, [], null);
         var value = msg.RenderExpected();
         var lines = value.Replace("\n", string.Empty).Split('\r');
-        
+
         Assert.That(lines.Count(l => l.Contains('|')), Is.EqualTo(rowCount + 3));
     }
 
@@ -200,7 +199,7 @@ public class DataRowsMessageMardownTest
         msg.BuildComparaison(rs.Rows, [], null);
         var value = msg.RenderExpected();
         var lines = value.Replace("\n", string.Empty).Split('\r');
-        
+
         Assert.That(lines.Count(l => l.Contains('|')), Is.EqualTo(max + 3));
     }
 
@@ -231,7 +230,7 @@ public class DataRowsMessageMardownTest
         msg.BuildComparaison(rs.Rows, [], null);
         var value = msg.RenderExpected();
         var lines = value.Replace("\n", string.Empty).Split('\r');
-        
+
         Assert.That(lines.Count(l => l.Contains('|')), Is.EqualTo(rowCount + 3));
     }
 
@@ -261,7 +260,6 @@ public class DataRowsMessageMardownTest
         msg.BuildComparaison(rs.Rows, [], null);
         var value = msg.RenderExpected();
         var lines = value.Replace("\n", string.Empty).Split('\r');
-
 
         Assert.That(lines.Count(l => l.Contains('|')), Is.EqualTo(0));
         Assert.That(lines, Has.All.EqualTo("Display skipped."));

@@ -21,7 +21,6 @@ public class PredicateFactory
     public IPredicate Instantiate(PredicateArgs args)
         => new Predicate(CreateFrom(args), args.Not);
 
-
     public IPredicate Instantiate(PredicateArgs[] args, CombinationOperator @operator)
     {
         var combiner = new Exssif.PredicateCombiner();
@@ -94,7 +93,6 @@ public class PredicateFactory
             ComparerType.AnyOf => new AnyOf(() => (IEnumerable<string>)((IScalarResolver)reference!).Execute()!, comparer),
             _ => throw new ArgumentOutOfRangeException($"Text columns don't support the '{comparerType.ToString().ToDashedCase()}' comparer."),
         };
-
     }
 
     protected Exssif.IPredicate CreateFromNumeric(ComparerType comparerType, IResolver? reference, object? secondOperand)
@@ -136,10 +134,10 @@ public class PredicateFactory
             _ =>
                    throw new ArgumentOutOfRangeException($"DateTime columns don't support the '{comparerType.ToString().ToDashedCase()}' comparer."),
         };
-
     }
 
-    private static Interval<T> BuildInterval<T>(IResolver reference) where T : struct, IComparable
+    private static Interval<T> BuildInterval<T>(IResolver reference)
+        where T : struct, IComparable
     {
         var value = ((string)reference.Execute()!).Trim();
 

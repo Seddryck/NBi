@@ -31,7 +31,7 @@ The main goal of this framework is to let users create tests with a declarative 
 Binaries for the different releases are hosted on [www.nbi.io](http://www.nbi.io/release/) or [GitHub](https://github.com/Seddryck/NBi/releases)
 
 ## Documentation ##
-The documentation is available on-line and is hosted on [www.nbi.io](http://www.nbi.io/docs/home/)
+To run your first NBi suite, follow the [test environment setup](https://www.nbi.io/docs/installation-environment/), create an [XML test suite](https://www.nbi.io/docs/installation-test-suite/), and set up the [NUnit project](https://www.nbi.io/docs/installation-nunit-project/) and its [configuration](https://www.nbi.io/docs/installation-config/). Then [run the suite with NUnit](https://www.nbi.io/docs/run-with-nunit/). Browse the [full documentation](https://www.nbi.io/docs/home/) for more examples.
 
 ## Licenses ##
 NBi is available on the terms of Apache 2.0. NBi is also using several OSS projects as libraries. 
@@ -51,9 +51,7 @@ After a successful build on `main`, GitHub Actions publishes to NuGet.org when t
 The legacy acceptance and integration tests are under `NBi.Testing`. To supply local database connection settings, copy `ConnectionString.config` to `ConnectionString.user.config` in that directory and adjust it for your environment.
 
 ## Code and contributions ##
-NBi is using **Git** as DCVS and the code is hosted on [Github](https://github.com/Seddryck/NBi). Organization of the Git repository is based on [Git-flow](https://danielkummer.github.io/git-flow-cheatsheet/). 
-
-If you want to develop a new feature, you're encouraged to read the [contribution guidelines](https://github.com/Seddryck/NBi/blob/develop/contributing.md).
+See the [contribution guide](contributing.md) for reporting issues and submitting changes.
 
 NBi is mostly developed in [C#](https://github.com/Seddryck/NBi/search?l=c%23) with a bit of [SQL](https://github.com/Seddryck/NBi/search?l=sql) and [XML](https://github.com/Seddryck/NBi/search?l=xml).
 

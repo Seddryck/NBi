@@ -2,14 +2,14 @@
 using System.IO;
 using System.Reflection;
 using NBi.Core.ResultSet;
-using NBi.Xml;
-using NBi.Xml.Constraints;
-using NBi.Xml.Items;
-using NBi.Xml.Systems;
+using NBi.Model.Xml;
+using NBi.Model.Xml.Constraints;
+using NBi.Model.Xml.Items;
+using NBi.Model.Xml.Systems;
 using NUnit.Framework;
 #endregion
 
-namespace NBi.Xml.Testing.Unit.Items;
+namespace NBi.Model.Xml.Testing.Unit.Items;
 
 [TestFixture]
 public class AssemblyXmlTest : BaseXmlTest

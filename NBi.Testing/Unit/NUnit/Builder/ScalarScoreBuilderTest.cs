@@ -1,11 +1,11 @@
 ﻿#region Using directives
 using Moq;
 using NBi.NUnit.Builder;
-using NBi.Xml.Constraints;
-using NBi.Xml.Items;
-using NBi.Xml.Settings;
+using NBi.Model.Xml.Constraints;
+using NBi.Model.Xml.Items;
+using NBi.Model.Xml.Settings;
 using NUnit.Framework;
-using Systems = NBi.Xml.Systems;
+using Systems = NBi.Model.Xml.Systems;
 using NBi.Extensibility.Resolving;
 using NBi.Core.Injection;
 using NBi.NUnit.Scoring;

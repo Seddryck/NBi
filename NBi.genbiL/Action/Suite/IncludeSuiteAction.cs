@@ -1,6 +1,6 @@
 ﻿using NBi.GenbiL.Stateful;
 using NBi.GenbiL.Stateful.Tree;
-using NBi.Xml;
+using NBi.Model;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -26,11 +26,11 @@ public class IncludeSuiteAction : Serializer, ISuiteAction
 
     protected BranchNode GetParentNode(RootNode root) => root.GetChildBranch(GroupPath) ?? throw new NullReferenceException();
 
-    protected internal TestStandaloneXml Include(Stream stream)
+    protected internal StandaloneTest Include(Stream stream)
     {
         using var reader = new StreamReader(stream, Encoding.UTF8, true);
         var str = reader.ReadToEnd();
-        var test = XmlDeserializeFromString<TestStandaloneXml>(str);
+        var test = XmlDeserializeFromString<StandaloneTest>(str);
         test.Content = XmlSerializeFrom(test);
         return test;
     }

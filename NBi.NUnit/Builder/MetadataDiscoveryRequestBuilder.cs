@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using NBi.Core.Analysis.Request;
 using NBi.NUnit.Builder.Helper;
-using NBi.Xml.Items;
+using NBi.Model.Xml.Items;
 
 namespace NBi.NUnit.Builder
 {

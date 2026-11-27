@@ -757,9 +757,9 @@
       <Project>{28b43c12-c599-49cd-b712-92b5590a6f20}</Project>
       <Name>NBi.UI.Genbi</Name>
     </ProjectReference>
-    <ProjectReference Include="..\NBi.Xml\NBi.Xml.csproj">
+    <ProjectReference Include="..\NBi.Model.Xml\NBi.Model.Xml.csproj">
       <Project>{3a9822b3-cce4-441b-9c3e-d52817a994ca}</Project>
-      <Name>NBi.Xml</Name>
+      <Name>NBi.Model.Xml</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

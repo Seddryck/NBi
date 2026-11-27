@@ -3,20 +3,20 @@ using System.IO;
 using System.Reflection;
 using NBi.Extensibility;
 using NBi.Core.ResultSet;
-using NBi.Xml;
-using NBi.Xml.Constraints;
-using NBi.Xml.Items;
-using NBi.Xml.Systems;
+using NBi.Model.Xml;
+using NBi.Model.Xml.Constraints;
+using NBi.Model.Xml.Items;
+using NBi.Model.Xml.Systems;
 using NUnit.Framework;
 using NBi.Core.Transformation;
-using NBi.Xml.Items.ResultSet;
-using NBi.Xml.Items.Alteration.Transform;
-using NBi.Xml.Items.Alteration;
+using NBi.Model.Xml.Items.ResultSet;
+using NBi.Model.Xml.Items.Alteration.Transform;
+using NBi.Model.Xml.Items.Alteration;
 using System.Collections.Generic;
 using System;
 #endregion
 
-namespace NBi.Xml.Testing.Unit.Items.ResultSet;
+namespace NBi.Model.Xml.Testing.Unit.Items.ResultSet;
 
 [TestFixture]
 public class TransformXmlTest : BaseXmlTest

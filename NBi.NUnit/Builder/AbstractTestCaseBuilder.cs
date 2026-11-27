@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
-using NBi.Xml.Constraints;
-using NBi.Xml.Systems;
+using NBi.Model.Xml.Constraints;
+using NBi.Model.Xml.Systems;
 using NUnit.Framework.Constraints;
 using NBi.Framework;
 using System.Collections.Generic;

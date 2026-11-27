@@ -1,14 +1,12 @@
 ﻿using NBi.GenbiL.Stateful;
-using NBi.Xml;
-using NBi.Xml.SerializationOption;
-using NBi.Xml.Settings;
+using NBi.Model;
+using NBi.Model.Settings;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Xml.Serialization;
 
 namespace NBi.GenbiL.Action.Setting;
 
@@ -35,12 +33,12 @@ public class IncludeSettingAction : Serializer, ISettingAction
         state.Settings.CsvProfile = settings.CsvProfile;
     }
 
-    protected internal SettingsXml Include(Stream stream)
+    protected internal SuiteSettings Include(Stream stream)
     {
         using var reader = new StreamReader(stream, Encoding.UTF8, true);
         var str = reader.ReadToEnd();
-        var standalone = XmlDeserializeFromString<SettingsStandaloneXml>(str);
-        var settings = new SettingsXml()
+        var standalone = XmlDeserializeFromString<SettingsStandalone>(str);
+        var settings = new SuiteSettings()
         {
             Defaults = standalone.Defaults,
             References = standalone.References,

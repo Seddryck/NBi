@@ -2,7 +2,7 @@
 using NBi.GenbiL.Action.Setting;
 using NBi.GenbiL.Stateful;
 using NUnit.Framework;
-using NBi.Xml.Settings;
+using NBi.Model.Settings;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -32,7 +32,7 @@ public class ReferenceActionTest
     public void Execute_OverrideExistingReferenceConnectionString_ReferenceOverriden()
     {
         var state = new GenerationState();
-        state.Settings.References.Add(new ReferenceXml() { Name = "myRef", ConnectionString = new ConnectionStringXml() { Inline = "other connString" } });
+        state.Settings.References.Add(new Reference() { Name = "myRef", ConnectionString = new ConnectionString() { Inline = "other connString" } });
 
         var action = new ReferenceAction("myRef", "ConnectionString", ConnectionStringValue);
         action.Execute(state);

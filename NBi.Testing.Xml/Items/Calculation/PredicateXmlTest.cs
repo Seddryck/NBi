@@ -1,8 +1,8 @@
 ﻿using NBi.Core.ResultSet;
-using NBi.Xml;
-using NBi.Xml.Constraints;
-using NBi.Xml.Constraints.Comparer;
-using NBi.Xml.Items.Calculation;
+using NBi.Model.Xml;
+using NBi.Model.Xml.Constraints;
+using NBi.Model.Xml.Constraints.Comparer;
+using NBi.Model.Xml.Items.Calculation;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
@@ -14,7 +14,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 
-namespace NBi.Xml.Testing.Unit.Items.Calculation;
+namespace NBi.Model.Xml.Testing.Unit.Items.Calculation;
 
 public class PredicateXmlTest : BaseXmlTest
 { 
@@ -73,7 +73,7 @@ public class PredicateXmlTest : BaseXmlTest
             }
         };
 
-        var serializer = new XmlSerializer(typeof(AllRowsXml));
+        var serializer = NBi.Model.Xml.XmlModelSerializer.GetPlainContractSerializer(typeof(AllRowsXml));
         var stream = new MemoryStream();
         var writer = new StreamWriter(stream, Encoding.UTF8);
         serializer.Serialize(writer, allRowsXml);
@@ -99,7 +99,7 @@ public class PredicateXmlTest : BaseXmlTest
             }
         };
 
-        var serializer = new XmlSerializer(typeof(AllRowsXml));
+        var serializer = NBi.Model.Xml.XmlModelSerializer.GetPlainContractSerializer(typeof(AllRowsXml));
         var stream = new MemoryStream();
         var writer = new StreamWriter(stream, Encoding.UTF8);
         serializer.Serialize(writer, allRowsXml);

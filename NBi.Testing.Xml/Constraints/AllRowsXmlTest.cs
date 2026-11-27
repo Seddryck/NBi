@@ -2,23 +2,23 @@
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using NBi.Xml;
-using NBi.Xml.Constraints;
+using NBi.Model.Xml;
+using NBi.Model.Xml.Constraints;
 using NUnit.Framework;
-using NBi.Xml.Constraints.Comparer;
+using NBi.Model.Xml.Constraints.Comparer;
 using NBi.Core.ResultSet;
-using NBi.Xml.Items.Calculation;
+using NBi.Model.Xml.Items.Calculation;
 using System.Collections.Generic;
 using System.Xml.Serialization;
 using System.Text;
 using System.Diagnostics;
 using System;
-using NBi.Xml.SerializationOption;
-using NBi.Xml.Variables;
+using NBi.Model.Xml.SerializationOption;
+using NBi.Model.Xml.Variables;
 using NBi.Core.Transformation;
 #endregion
 
-namespace NBi.Xml.Testing.Unit.Constraints;
+namespace NBi.Model.Xml.Testing.Unit.Constraints;
 
 [TestFixture]
 public class AllRowsXmlTest : BaseXmlTest
@@ -309,7 +309,7 @@ public class AllRowsXmlTest : BaseXmlTest
         };
 #pragma warning restore 0618
 
-        var serializer = new XmlSerializer(typeof(AllRowsXml));
+        var serializer = NBi.Model.Xml.XmlModelSerializer.GetPlainContractSerializer(typeof(AllRowsXml));
         var stream = new MemoryStream();
         var writer = new StreamWriter(stream, Encoding.UTF8);
         serializer.Serialize(writer, allRowsXml);
@@ -337,7 +337,7 @@ public class AllRowsXmlTest : BaseXmlTest
             }
         };
 
-        var serializer = new XmlSerializer(typeof(AllRowsXml));
+        var serializer = NBi.Model.Xml.XmlModelSerializer.GetPlainContractSerializer(typeof(AllRowsXml));
         var stream = new MemoryStream();
         var writer = new StreamWriter(stream, Encoding.UTF8);
         serializer.Serialize(writer, allRowsXml);
@@ -369,7 +369,7 @@ public class AllRowsXmlTest : BaseXmlTest
             ]
         };
 
-        var serializer = new XmlSerializer(typeof(AllRowsXml));
+        var serializer = NBi.Model.Xml.XmlModelSerializer.GetPlainContractSerializer(typeof(AllRowsXml));
         var content = string.Empty;
         using (var stream = new MemoryStream())
         {
@@ -431,7 +431,7 @@ public class AllRowsXmlTest : BaseXmlTest
             }
         };
 
-        var serializer = new XmlSerializer(typeof(AllRowsXml));
+        var serializer = NBi.Model.Xml.XmlModelSerializer.GetPlainContractSerializer(typeof(AllRowsXml));
         var content = string.Empty;
         using (var stream = new MemoryStream())
         {
@@ -472,7 +472,7 @@ public class AllRowsXmlTest : BaseXmlTest
             }
         };
 
-        var serializer = new XmlSerializer(typeof(AllRowsXml));
+        var serializer = NBi.Model.Xml.XmlModelSerializer.GetPlainContractSerializer(typeof(AllRowsXml));
         var content = string.Empty;
         using (var stream = new MemoryStream())
         {
@@ -511,7 +511,7 @@ public class AllRowsXmlTest : BaseXmlTest
             }
         };
 
-        var serializer = new XmlSerializer(typeof(AllRowsXml));
+        var serializer = NBi.Model.Xml.XmlModelSerializer.GetPlainContractSerializer(typeof(AllRowsXml));
         var content = string.Empty;
         using (var stream = new MemoryStream())
         {
@@ -550,7 +550,7 @@ public class AllRowsXmlTest : BaseXmlTest
             }
         };
 
-        var serializer = new XmlSerializer(typeof(AllRowsXml));
+        var serializer = NBi.Model.Xml.XmlModelSerializer.GetPlainContractSerializer(typeof(AllRowsXml));
         var content = string.Empty;
         using (var stream = new MemoryStream())
         {

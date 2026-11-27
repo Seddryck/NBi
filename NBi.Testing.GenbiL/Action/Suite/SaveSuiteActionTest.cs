@@ -1,6 +1,6 @@
-﻿using NBi.GenbiL.Action.Suite;
+using NBi.GenbiL.Action.Suite;
 using NBi.GenbiL.Stateful;
-using NBi.Xml;
+using NBi.Model.Xml;
 using NUnit.Framework;
 using System;
 using System.IO;

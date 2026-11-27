@@ -1,12 +1,12 @@
 ﻿using System.IO;
 using System.Reflection;
 using NBi.Core.Format;
-using NBi.Xml;
-using NBi.Xml.Constraints;
-using NBi.Xml.Items.Format;
+using NBi.Model.Xml;
+using NBi.Model.Xml.Constraints;
+using NBi.Model.Xml.Items.Format;
 using NUnit.Framework;
 
-namespace NBi.Xml.Testing.Unit.Items;
+namespace NBi.Model.Xml.Testing.Unit.Items;
 
 [TestFixture]
 public class FormatXmlTest : BaseXmlTest

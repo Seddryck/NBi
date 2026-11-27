@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using NBi.GenbiL.Stateful;
-using NBi.Xml.Settings;
+using NBi.Model.Xml.Settings;
 
 namespace NBi.UI.Genbi.Service
 {

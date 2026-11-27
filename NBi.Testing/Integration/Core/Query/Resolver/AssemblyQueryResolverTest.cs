@@ -1,7 +1,7 @@
 ﻿using NBi.Core;
 using NBi.Core.Query;
 using NBi.Core.Query.Resolver;
-using NBi.Xml.Items;
+using NBi.Model.Xml.Items;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;

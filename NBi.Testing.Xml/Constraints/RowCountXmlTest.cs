@@ -2,19 +2,19 @@
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using NBi.Xml;
-using NBi.Xml.Constraints;
+using NBi.Model.Xml;
+using NBi.Model.Xml.Constraints;
 using NUnit.Framework;
-using NBi.Xml.Constraints.Comparer;
+using NBi.Model.Xml.Constraints.Comparer;
 using NBi.Core.ResultSet;
-using NBi.Xml.Items.Calculation;
+using NBi.Model.Xml.Items.Calculation;
 using System.Xml.Serialization;
 using System.Text;
 using System.Diagnostics;
 using System.Collections.Generic;
 #endregion
 
-namespace NBi.Xml.Testing.Unit.Constraints;
+namespace NBi.Model.Xml.Testing.Unit.Constraints;
 
 [TestFixture]
 public class RowCountXmlTest : BaseXmlTest
@@ -185,7 +185,7 @@ public class RowCountXmlTest : BaseXmlTest
             LessThan = new LessThanXml()
         };
 
-        var serializer = new XmlSerializer(typeof(RowCountXml));
+        var serializer = NBi.Model.Xml.XmlModelSerializer.GetPlainContractSerializer(typeof(RowCountXml));
         var stream = new MemoryStream();
         var writer = new StreamWriter(stream, Encoding.UTF8);
         serializer.Serialize(writer, rowCountXml);
@@ -217,7 +217,7 @@ public class RowCountXmlTest : BaseXmlTest
             LessThan = new LessThanXml()
         };
 
-        var serializer = new XmlSerializer(typeof(RowCountXml));
+        var serializer = NBi.Model.Xml.XmlModelSerializer.GetPlainContractSerializer(typeof(RowCountXml));
         var stream = new MemoryStream();
         var writer = new StreamWriter(stream, Encoding.UTF8);
         serializer.Serialize(writer, rowCountXml);

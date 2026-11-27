@@ -6,10 +6,10 @@ using NBi.Core.Analysis.Member;
 using NBi.Core.Analysis.Request;
 using NBi.NUnit.Builder;
 using NBi.NUnit.Member;
-using NBi.Xml.Constraints;
-using NBi.Xml.Items;
-using NBi.Xml.Settings;
-using NBi.Xml.Systems;
+using NBi.Model.Xml.Constraints;
+using NBi.Model.Xml.Items;
+using NBi.Model.Xml.Settings;
+using NBi.Model.Xml.Systems;
 using NUnit.Framework;
 #endregion
 

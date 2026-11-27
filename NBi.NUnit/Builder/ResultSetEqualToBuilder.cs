@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using NBi.Core.ResultSet;
 using NBi.NUnit.ResultSetComparison;
-using NBi.Xml.Constraints;
-using NBi.Xml.Items;
-using NBi.Xml.Systems;
+using NBi.Model.Xml.Constraints;
+using NBi.Model.Xml.Items;
+using NBi.Model.Xml.Systems;
 using NBi.Core.Transformation;
 using NBi.Core.ResultSet.Equivalence;
 using NBi.NUnit.Builder.Helper;
-using NBi.Xml.Settings;
+using NBi.Model.Xml.Settings;
 using NBi.Core.Variable;
 using NBi.Extensibility.Resolving;
 
@@ -64,22 +64,7 @@ namespace NBi.NUnit.Builder
 
             //Manage settings for comparaison
             var builder = new SettingsEquivalerBuilder();
-            if (ConstraintXml.Behavior == EqualToXml.ComparisonBehavior.SingleRow)
-            {
-                builder.Setup(false);
-                builder.Setup(ConstraintXml.ValuesDefaultType, ConstraintXml.Tolerance);
-                builder.Setup(ConstraintXml.ColumnsDef);
-            }
-            else
-            {
-                builder.Setup(ConstraintXml.KeysDef, ConstraintXml.ValuesDef);
-                builder.Setup(
-                    ConstraintXml.KeyName?.Replace(" ", "").Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries).Distinct(),
-                    ConstraintXml.ValueName?.Replace(" ", "").Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries).Distinct());
-                builder.Setup(ConstraintXml.ValuesDefaultType, ConstraintXml.Tolerance);
-                builder.Setup(ConstraintXml.ColumnsDef);
-            }
-
+            builder.Setup(ConstraintXml.ToModel());
             builder.Build();
             var settings = builder.GetSettings();
 

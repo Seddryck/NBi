@@ -1,8 +1,8 @@
-﻿using NBi.Xml.Items;
-using NBi.Xml.Items.Api.Authentication;
-using NBi.Xml.Items.Api.Rest;
-using NBi.Xml.Items.Hierarchical.Json;
-using NBi.Xml.Systems;
+﻿using NBi.Model.Xml.Items;
+using NBi.Model.Xml.Items.Api.Authentication;
+using NBi.Model.Xml.Items.Api.Rest;
+using NBi.Model.Xml.Items.Hierarchical.Json;
+using NBi.Model.Xml.Systems;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
@@ -13,7 +13,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 
-namespace NBi.Xml.Testing.Items.Api.Rest;
+namespace NBi.Model.Xml.Testing.Items.Api.Rest;
 
 [TestFixture]
 public class RestXmlTest : BaseXmlTest
@@ -125,7 +125,7 @@ public class RestXmlTest : BaseXmlTest
             }
         };
 
-        var serializer = new XmlSerializer(jsonSource.GetType());
+        var serializer = NBi.Model.Xml.XmlModelSerializer.GetPlainContractSerializer(jsonSource.GetType());
         using (var stream = new MemoryStream())
         using (var writer = new StreamWriter(stream, Encoding.UTF8))
         {
@@ -158,7 +158,7 @@ public class RestXmlTest : BaseXmlTest
             }
         };
 
-        var serializer = new XmlSerializer(jsonSource.GetType());
+        var serializer = NBi.Model.Xml.XmlModelSerializer.GetPlainContractSerializer(jsonSource.GetType());
         using (var stream = new MemoryStream())
         using (var writer = new StreamWriter(stream, Encoding.UTF8))
         {

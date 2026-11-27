@@ -1,8 +1,8 @@
 ﻿using NBi.Core.ResultSet.Combination;
-using NBi.Xml;
-using NBi.Xml.Items.ResultSet.Combination;
-using NBi.Xml.Systems;
-using NBi.Xml.Variables.Sequence;
+using NBi.Model.Xml;
+using NBi.Model.Xml.Items.ResultSet.Combination;
+using NBi.Model.Xml.Systems;
+using NBi.Model.Xml.Variables.Sequence;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
@@ -12,7 +12,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Xml.Testing.Unit.Items.ResultSet;
+namespace NBi.Model.Xml.Testing.Unit.Items.ResultSet;
 
 public class SequenceCombinationXmlTest : BaseXmlTest
 {

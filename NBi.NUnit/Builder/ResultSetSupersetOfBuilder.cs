@@ -4,14 +4,14 @@ using System.Diagnostics;
 using System.Linq;
 using System.Data;
 using NBi.Core.ResultSet;
-using NBi.Xml.Constraints;
-using NBi.Xml.Systems;
+using NBi.Model.Xml.Constraints;
+using NBi.Model.Xml.Systems;
 using NBi.NUnit.ResultSetComparison;
 using NBi.Core.ResultSet.Resolver;
 using NBi.Core.Transformation;
 using NBi.Core.ResultSet.Equivalence;
 using NBi.NUnit.Builder.Helper;
-using NBi.Xml.Settings;
+using NBi.Model.Xml.Settings;
 using NBi.Extensibility.Resolving;
 
 namespace NBi.NUnit.Builder

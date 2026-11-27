@@ -1,8 +1,8 @@
 ﻿using System;
-using NBi.Xml;
+using NBi.Model.Xml;
 using NUnit.Framework;
 
-namespace NBi.Xml.Testing.Unit;
+namespace NBi.Model.Xml.Testing.Unit;
 
 [TestFixture]
 public class XmlManagerTest
@@ -10,7 +10,7 @@ public class XmlManagerTest
     [Test]
     public void Load_ValidFile_Success()
     {
-        var filename = FileOnDisk.CreatePhysicalFile("TestSuite.xml", $"{GetType().Assembly.GetName().Name}.Resources.XmlManagerSample.xml");
+        var filename = FileOnDisk.CreatePhysicalFile("XmlManagerTest-Load_ValidFile_Success.xml", $"{GetType().Assembly.GetName().Name}.Resources.XmlManagerSample.xml");
         
         var manager = new XmlManager();
         manager.Load(filename);
@@ -21,7 +21,7 @@ public class XmlManagerTest
     [Test]
     public void Load_ValidFile_TestContentIsCorrect()
     {
-        var filename = FileOnDisk.CreatePhysicalFile("TestContentIsCorrect.xml", $"{GetType().Assembly.GetName().Name}.Resources.XmlManagerSample.xml");
+        var filename = FileOnDisk.CreatePhysicalFile("XmlManagerTest-Load_ValidFile_TestContentIsCorrect.xml", $"{GetType().Assembly.GetName().Name}.Resources.XmlManagerSample.xml");
 
         var manager = new XmlManager();
         manager.Load(filename);

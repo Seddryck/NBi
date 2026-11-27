@@ -2,9 +2,9 @@
 using System.Linq;
 using System.Collections.Generic;
 using NBi.Core.Analysis.Request;
-using NBi.Xml.Constraints;
-using NBi.Xml.Items;
-using NBi.Xml.Systems;
+using NBi.Model.Xml.Constraints;
+using NBi.Model.Xml.Items;
+using NBi.Model.Xml.Systems;
 using NBi.Core.Analysis.Member;
 using NBi.NUnit.Builder.Helper;
 

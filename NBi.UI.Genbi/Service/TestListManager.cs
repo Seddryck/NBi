@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using NBi.Xml;
+using NBi.Model.Xml;
 using System.IO;
-using System.Xml.Serialization;
 using System.Text;
 using NBi.GenbiL.Templating;
 using NBi.GenbiL.Stateful;
@@ -252,38 +251,9 @@ namespace NBi.UI.Genbi.Service
         }
 
         protected object XmlDeserializeFromString(string objectData, Type type)
-        {
-            var serializer = new XmlSerializer(type);
-            object result;
-
-            using (TextReader reader = new StringReader(objectData))
-            {
-                result = serializer.Deserialize(reader);
-            }
-
-            return result;
-        }
+            => XmlModelSerializer.Deserialize(objectData, type);
 
         protected static string SerializeFrom(object objectData, Type type)
-        {
-            var serializer = new XmlSerializer(type);
-            var result = string.Empty;
-            using (var writer = new StringWriter())
-            {
-                // Use the Serialize method to store the object's state.
-                try
-                {
-                    serializer.Serialize(writer, objectData);
-                }
-                catch (Exception e)
-                {
-
-                    throw e;
-                }
-
-                result = writer.ToString();
-            }
-            return result;
-        }
+            => XmlModelSerializer.Serialize(objectData, type, useCData: false);
     }
 }

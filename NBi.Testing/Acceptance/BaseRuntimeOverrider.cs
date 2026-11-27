@@ -1,6 +1,6 @@
 ﻿using System.IO;
 using NBi.NUnit.Runtime;
-using NBi.Xml;
+using NBi.Model.Xml;
 using NUnit.Framework;
 using System.Diagnostics;
 using System.Reflection;

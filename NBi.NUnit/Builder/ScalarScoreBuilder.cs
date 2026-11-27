@@ -1,6 +1,6 @@
 ﻿using System;
-using NBi.Xml.Constraints;
-using NBi.Xml.Systems;
+using NBi.Model.Xml.Constraints;
+using NBi.Model.Xml.Systems;
 using NBi.NUnit.Scoring;
 
 namespace NBi.NUnit.Builder

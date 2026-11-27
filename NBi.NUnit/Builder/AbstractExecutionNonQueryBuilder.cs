@@ -2,8 +2,8 @@
 using System.Linq;
 using NBi.Core;
 using NBi.Extensibility;
-using NBi.Xml.Constraints;
-using NBi.Xml.Systems;
+using NBi.Model.Xml.Constraints;
+using NBi.Model.Xml.Systems;
 
 namespace NBi.NUnit.Builder
 {

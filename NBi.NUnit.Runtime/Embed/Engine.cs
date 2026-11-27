@@ -1,6 +1,6 @@
 ﻿using NBi.NUnit.Runtime.Embed.Result;
 using NBi.NUnit.Runtime;
-using NBi.Xml;
+using NBi.Model.Xml;
 using NUnit.Core;
 using NUnit.Core.Filters;
 using NUnit.Util;

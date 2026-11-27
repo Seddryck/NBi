@@ -3,16 +3,16 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using NBi.NUnit.Query;
-using NBi.Xml.Constraints;
-using NBi.Xml.Systems;
+using NBi.Model.Xml.Constraints;
+using NBi.Model.Xml.Systems;
 using NBi.Core.ResultSet.Uniqueness;
 using NBi.Core.ResultSet.Lookup;
 using NBi.NUnit.Builder.Helper;
 using NBi.Core.ResultSet;
 using NBi.NUnit.ResultSetComparison;
-using NBi.Xml.Items.ResultSet.Lookup;
+using NBi.Model.Xml.Items.ResultSet.Lookup;
 using NBi.Core.Scalar.Comparer;
-using NBi.Xml.Settings;
+using NBi.Model.Xml.Settings;
 using NBi.Extensibility;
 
 namespace NBi.NUnit.Builder

@@ -1,18 +1,18 @@
 ﻿using System.IO;
 #region Using directives
 
-using NBi.Xml;
+using NBi.Model.Xml;
 using System.Reflection;
-using NBi.Xml.Constraints;
-using NBi.Xml.Items;
-using NBi.Xml.Systems;
+using NBi.Model.Xml.Constraints;
+using NBi.Model.Xml.Items;
+using NBi.Model.Xml.Systems;
 using NUnit.Framework;
-using NBi.Xml.Settings;
+using NBi.Model.Xml.Settings;
 using System;
 using System.Collections.Generic;
 #endregion
 
-namespace NBi.Xml.Testing.Unit.Settings;
+namespace NBi.Model.Xml.Testing.Unit.Settings;
 
 [TestFixture]
 public class CsvProfileXmlTest

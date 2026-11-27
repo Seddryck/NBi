@@ -109,11 +109,16 @@ jobs:
           $failed = $false
           foreach ($project in $projects) {
             $name = [IO.Path]::GetFileNameWithoutExtension($project)
+            $coverageOptions = @()
+            if ($name -eq 'NBi.Framework.Testing') {
+              # Core, GenbiL, and XML measure the model. Keep the Framework gate scoped to its existing assemblies.
+              $coverageOptions += '-p:Exclude=[NBi.Model]*'
+            }
             dotnet test $project -c Release --framework net10.0 --no-build --no-restore `
               --logger "trx;LogFileName=$name.trx" --results-directory $results `
               -p:CollectCoverage=true -p:CoverletOutputFormat=opencover `
               -p:Threshold=10 -p:ThresholdType=line -p:ThresholdStat=total `
-              "-p:CoverletOutput=$results/$name.coverage.xml"
+              "-p:CoverletOutput=$results/$name.coverage.xml" @coverageOptions
             if ($LASTEXITCODE -ne 0) { $failed = $true }
           }
           if ($failed) { exit 1 }
@@ -131,7 +136,7 @@ jobs:
           PACKAGE_VERSION: ${{ steps.version.outputs.semver }}
         run: |
           $packages = Join-Path $env:RUNNER_TEMP nbi-packages
-          foreach ($project in 'NBi.Extensibility', 'NBi.Core', 'NBi.Framework') {
+          foreach ($project in 'NBi.Extensibility', 'NBi.Model', 'NBi.Core', 'NBi.Framework') {
             dotnet pack $project -c Release --no-build --include-symbols `
               "-p:Version=$env:PACKAGE_VERSION" --output $packages
             if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
@@ -171,7 +176,7 @@ jobs:
         env:
           NUGET_API_KEY: ${{ steps.nuget.outputs.NUGET_API_KEY }}
         run: |
-          for package in packages/NBi.Extensibility.*.nupkg packages/NBi.[0-9]*.nupkg packages/NBi.Framework.*.nupkg; do
+          for package in packages/NBi.Extensibility.*.nupkg packages/NBi.Model.*.nupkg packages/NBi.[0-9]*.nupkg packages/NBi.Framework.*.nupkg; do
             dotnet nuget push "$package" --api-key "$NUGET_API_KEY" \
               --source https://api.nuget.org/v3/index.json --skip-duplicate
           done

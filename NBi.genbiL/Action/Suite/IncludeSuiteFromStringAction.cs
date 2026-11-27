@@ -1,6 +1,6 @@
 ﻿using NBi.GenbiL.Stateful;
 using NBi.GenbiL.Stateful.Tree;
-using NBi.Xml;
+using NBi.Model;
 // BCL - Added class
 namespace NBi.GenbiL.Action.Suite;
 
@@ -20,9 +20,9 @@ public class IncludeSuiteFromStringAction : Serializer, ISuiteAction
 
     protected BranchNode GetParentNode(RootNode root) => root.GetChildBranch(GroupPath);
 
-    protected internal TestStandaloneXml Include(string str)
+    protected internal StandaloneTest Include(string str)
     {
-        var test = XmlDeserializeFromString<TestStandaloneXml>(str);
+        var test = XmlDeserializeFromString<StandaloneTest>(str);
         test.Content = XmlSerializeFrom(test);
         return test;
     }

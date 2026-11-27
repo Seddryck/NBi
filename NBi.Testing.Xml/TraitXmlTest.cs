@@ -1,10 +1,10 @@
 ﻿using System.IO;
 using System.Reflection;
-using NBi.Xml;
+using NBi.Model.Xml;
 using NUnit.Framework;
-using NBi.Xml.Settings;
+using NBi.Model.Xml.Settings;
 
-namespace NBi.Xml.Testing.Unit;
+namespace NBi.Model.Xml.Testing.Unit;
 
 [TestFixture]
 public class TraitXmlTest : BaseXmlTest

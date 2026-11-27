@@ -6,7 +6,7 @@ using NBi.Core.Decoration.Process;
 using NBi.Core.Injection;
 using NBi.Extensibility.Resolving;
 using NBi.Core.Variable;
-using NBi.Xml.Decoration.Condition;
+using NBi.Model.Xml.Decoration.Condition;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;

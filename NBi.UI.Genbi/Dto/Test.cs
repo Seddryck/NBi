@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Linq;
-using NBi.Xml;
+using NBi.Model.Xml;
 
 namespace NBi.IO.Genbi.Dto
 {

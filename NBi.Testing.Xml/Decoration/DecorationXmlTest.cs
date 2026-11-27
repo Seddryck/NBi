@@ -1,11 +1,11 @@
 ﻿using System.IO;
 using System.Reflection;
-using NBi.Xml;
-using NBi.Xml.Decoration;
-using NBi.Xml.Decoration.Command;
+using NBi.Model.Xml;
+using NBi.Model.Xml.Decoration;
+using NBi.Model.Xml.Decoration.Command;
 using NUnit.Framework;
 
-namespace NBi.Xml.Testing.Unit.Decoration;
+namespace NBi.Model.Xml.Testing.Unit.Decoration;
 
 [TestFixture]
 public class DecorationXmlTest : BaseXmlTest

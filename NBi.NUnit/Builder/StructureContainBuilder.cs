@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Linq;
 using NBi.Core.Analysis.Request;
-using NBi.Xml.Constraints;
-using NBi.Xml.Items;
-using NBi.Xml.Systems;
+using NBi.Model.Xml.Constraints;
+using NBi.Model.Xml.Items;
+using NBi.Model.Xml.Systems;
 using NBi.Core.Structure;
 
 namespace NBi.NUnit.Builder

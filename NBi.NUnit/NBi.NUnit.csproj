@@ -7,7 +7,7 @@
     <ProjectReference Include="..\NBi.Core\NBi.Core.csproj" />
     <ProjectReference Include="..\NBi.Extensibility\NBi.Extensibility.csproj" />
     <ProjectReference Include="..\NBi.Framework\NBi.Framework.csproj" />
-    <ProjectReference Include="..\NBi.Xml\NBi.Xml.csproj" />
+    <ProjectReference Include="..\NBi.Model.Xml\NBi.Model.Xml.csproj" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

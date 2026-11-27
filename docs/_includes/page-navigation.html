@@ -1,0 +1,30 @@
+{% assign section = page.url | split: "/" | slice: 1 | first %}
+{% assign section_url = "/" | append: section | append: "/" %}
+{% assign previous_page = nil %}
+{% assign next_page = nil %}
+{% if page.prev_section %}
+  {% assign previous_url = section_url | append: page.prev_section | append: "/" %}
+  {% assign previous_page = site.html_pages | find: "url", previous_url %}
+{% endif %}
+{% if page.next_section %}
+  {% assign next_url = section_url | append: page.next_section | append: "/" %}
+  {% assign next_page = site.html_pages | find: "url", next_url %}
+{% endif %}
+{% if previous_page or next_page %}
+  <nav class="page-nav" aria-label="Documentation pagination">
+    {% if previous_page %}
+      <a class="page-nav__link page-nav__link--previous" href="{{ previous_page.url | relative_url }}" rel="prev">
+        <span class="page-nav__direction">← Previous</span>
+        <span class="page-nav__title">{{ previous_page.title | escape }}</span>
+      </a>
+    {% else %}
+      <span class="page-nav__spacer" aria-hidden="true"></span>
+    {% endif %}
+    {% if next_page %}
+      <a class="page-nav__link page-nav__link--next" href="{{ next_page.url | relative_url }}" rel="next">
+        <span class="page-nav__direction">Next →</span>
+        <span class="page-nav__title">{{ next_page.title | escape }}</span>
+      </a>
+    {% endif %}
+  </nav>
+{% endif %}

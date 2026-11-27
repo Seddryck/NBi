@@ -1,0 +1,15 @@
+---
+title: Include global variables
+prev_section: settings-load
+next_section: suite-generate
+permalink: /automation/variable-include/
+parent: "Settings management"
+grand_parent: Automation
+nav_order: 3
+---
+For global variables, the command is always an *include*. You must specify a parameter option with the help of the keyword *file* and the name of the xml file containing the definition of the global variables.
+
+Example:
+{% highlight xml%}
+variable include file 'global.nbivariables';
+{% endhighlight %}

@@ -1,0 +1,41 @@
+title: NBi
+description: Testing framework for Business Intelligence and data quality
+lang: en
+url: https://www.nbi.io
+baseurl: ""
+repository: https://github.com/Seddryck/NBi
+google_analytics_id: UA-64208458-1
+
+theme: just-the-docs
+color_scheme: nbi
+logo: /img/logo-2x.png
+favicon_ico: /favicon.ico
+heading_anchors: true
+
+defaults:
+  - scope:
+      path: ""
+    values:
+      layout: docs
+
+aux_links:
+  Issue tracking: https://github.com/Seddryck/NBi/issues
+  View on GitHub: https://github.com/Seddryck/NBi
+aux_links_new_tab: true
+
+search_enabled: true
+search:
+  heading_level: 2
+  previews: 2
+  preview_words_before: 5
+  preview_words_after: 10
+  tokenizer_separator: /[\s/]+/
+  rel_url: true
+  focus_shortcut_key: k
+
+sass:
+  quiet_deps: true
+  silence_deprecations: [import, global-builtin, color-functions]
+
+exclude:
+  - README.md

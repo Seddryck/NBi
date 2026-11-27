@@ -1,0 +1,59 @@
+// Previous/next controls at the end of documentation pages.
+.page-nav {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+  margin-top: 3rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid $border-color;
+}
+
+.page-nav__link {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  min-width: 0;
+  padding: 0.9rem 1rem;
+  border: 1px solid $border-color;
+  border-radius: 0.5rem;
+  text-decoration: none;
+
+  &:hover,
+  &:focus {
+    border-color: $link-color;
+    background-color: rgba($link-color, 0.04);
+    text-decoration: none;
+  }
+}
+
+.page-nav__link--next {
+  grid-column: 2;
+  text-align: right;
+}
+
+.page-nav__direction {
+  color: $body-text-color;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.page-nav__title {
+  overflow-wrap: anywhere;
+  font-weight: 600;
+}
+
+@media (max-width: 31.25rem) {
+  .page-nav {
+    grid-template-columns: 1fr;
+  }
+
+  .page-nav__spacer {
+    display: none;
+  }
+
+  .page-nav__link--next {
+    grid-column: 1;
+  }
+}

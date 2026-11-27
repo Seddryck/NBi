@@ -1,0 +1,98 @@
+// Search results sit on the dark header surface. The theme defaults use muted
+// body colours and very small desktop type, which makes scanning difficult.
+.search-results {
+  border: 1px solid rgba($base-button-color, 0.16);
+  border-top: 0;
+  box-shadow: 0 1rem 2.5rem rgba($principal-dark-color, 0.3);
+}
+
+.search-results-list {
+  margin: 0;
+  font-size: 0.9375rem !important;
+}
+
+.search-results-list-item + .search-results-list-item {
+  border-top: 1px solid rgba($base-button-color, 0.1);
+}
+
+.search-result {
+  padding: 0.75rem 1rem;
+  color: #cbd5e1;
+  transition: background-color 120ms ease, box-shadow 120ms ease;
+
+  &:hover,
+  &.active,
+  &:focus-visible {
+    background-color: lighten($search-background-color, 6%);
+    box-shadow: inset 3px 0 0 $accent-color;
+  }
+
+  &:focus-visible {
+    outline: 2px solid $accent-color;
+    outline-offset: -2px;
+  }
+}
+
+.search-result-title {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+.search-result-doc {
+  color: #f8fafc;
+  font-weight: 600;
+  line-height: 1.4;
+
+  &.search-result-doc-parent {
+    color: #94a3b8;
+    font-size: 0.8125rem !important;
+    font-weight: 500;
+    opacity: 1;
+  }
+}
+
+.search-result-section {
+  margin-top: 0.2rem;
+  color: #dbeafe;
+  line-height: 1.4;
+}
+
+.search-result-rel-url {
+  margin-top: 0.25rem;
+  color: #94a3b8;
+  font-size: 0.75rem !important;
+  line-height: 1.35;
+}
+
+.search-result-previews {
+  color: #cbd5e1;
+  font-size: 0.875rem !important;
+  line-height: 1.55;
+  border-left-color: #64748b;
+}
+
+.search-result-highlight {
+  color: #ffffff;
+  font-weight: 700;
+  text-decoration: underline;
+  text-decoration-color: $accent-color;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 0.15em;
+}
+
+.search-no-result {
+  padding: 1rem;
+  color: #cbd5e1;
+}
+
+@media (min-width: 31.25rem) {
+  .search-result-title {
+    padding-right: 1rem;
+  }
+
+  .search-result-previews {
+    padding-top: 0;
+    padding-bottom: 0;
+    padding-left: 1rem;
+  }
+}

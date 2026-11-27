@@ -1,0 +1,45 @@
+// -----------------------------------------------------------------------------
+// NBi content layout
+// -----------------------------------------------------------------------------
+
+.main-content-wrap {
+  max-width: none;
+}
+
+.main-content {
+  width: 100%;
+  max-width: $content-width;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+// Long-form prose should remain narrower than tables and reference content.
+.main-content {
+  > p,
+  > ul,
+  > ol,
+  > blockquote,
+  > .note,
+  > .warning,
+  > .recommendation {
+    max-width: 52rem;
+  }
+}
+
+// Tables, code blocks and reference components can use the full content width.
+.main-content {
+  table,
+  .table-wrapper,
+  .highlight,
+  pre,
+  .function-reference,
+  .function-grid {
+    max-width: none;
+  }
+}
+
+@media (max-width: 66rem) {
+  .main-content {
+    max-width: 100%;
+  }
+}

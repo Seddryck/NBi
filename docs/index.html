@@ -1,0 +1,151 @@
+---
+layout: landing
+---
+
+<div class="home">
+    <section class="intro">
+        <div class="grid">
+            <div class="unit whole center-on-mobiles">
+                <p class="first">NBi is an open-source framework to test your Business Intelligence solutions or validate your data quality.</p>
+            </div>
+        </div>
+    </section>
+    <section class="features">
+        <div class="grid">
+            <div class="unit one-third">
+                <h2>Just plain xml</h2>
+                <p>No need of C#, Java or any other development language to test your BI Solution. Your tests are written in xml by the means of a useful and intuitive syntax.</p>
+            </div>
+            <div class="unit one-third">
+                <h2>All your components</h2>
+                <p>NBi helps you to create tests targeting your databases, cubes, etls and reports with a <em>unique</em> framework. You can natively connect to any database supporting OleDb or ODBC connections and by the means of extensions you can reach an additional bunch of NoSQL databases. When using the Microsoft BI stack, this framework let you test your SQL Server Database, SSIS, SSAS and SSRS components.</p>
+            </div>
+            <div class="unit one-third">
+                <h2>Automate generation</h2>
+                <p>NBi is shipped with a tool to facilitate the <em>automation of creation of test-cases</em>. Build hundreds tests in a couple of minutes and facilitate the maintenance of these tests.</p>
+            </div>
+            <div class="clear"></div>
+        </div>
+    </section>
+    <section class="quickstart">
+        <div class="grid">
+            <div class="unit golden-large code">
+                <p class="title">Compare two query results</p>
+                <div class="nbitx">
+                    <p class="line">
+                        <span class="test">&lt;test name="Compare two query results"&gt;</span>
+                    </p>
+                    <p class="line">
+                        <span class="first">&nbsp;&nbsp;&lt;system-under-test&gt;</span>
+                    </p>
+                    <p class="line">
+                        <span class="second">&nbsp;&nbsp;&nbsp;&nbsp;&lt;execution&gt;</span>
+                    </p>
+                    <p class="line">
+                        <span class="query">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;query&gt;</span>
+                    </p>
+                    <p class="line">
+                        <span class="text">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;select * from FirstTable;</span>
+                    </p>
+                    <p class="line">
+                        <span class="query">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/query&gt;</span>
+                    </p>
+                    <p class="line">
+                        <span class="second">&nbsp;&nbsp;&nbsp;&nbsp;&lt;/execution&gt;</span>
+                    </p>
+                    <p class="line">
+                        <span class="first">&nbsp;&nbsp;&lt;/system-under-test&gt;</span>
+                    </p>
+                    <p class="line">
+                        <span class="first">&nbsp;&nbsp;&lt;assert&gt;</span>
+                    </p>
+                    <p class="line">
+                        <span class="second">&nbsp;&nbsp;&nbsp;&nbsp;&lt;equalTo&gt;</span>
+                    </p>
+                    <p class="line">
+                        <span class="query">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;query&gt;</span>
+                    </p>
+                    <p class="line">
+                        <span class="text">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;select * from SecondTable;</span>
+                    </p>
+                    <p class="line">
+                        <span class="query">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/query&gt;</span>
+                    </p>
+                    <p class="line">
+                        <span class="second">&nbsp;&nbsp;&nbsp;&nbsp;&lt;/equalTo&gt;</span>
+                    </p>
+                    <p class="line">
+                        <span class="first">&nbsp;&nbsp;&lt;/assert&gt;</span>
+                    </p>
+                    <p class="line">
+                        <span class="test">&lt;/test&gt;</span>
+                    </p>
+                </div>
+            </div>
+            <div class="unit golden-small center-on-mobiles">
+              <h4>Express your testing intentions.</h4>
+              <div class="clear"></div>
+              <br/>
+              <section class="btn-wrapper-download" style="text-align: center">
+                <a id="downloadURL" href="https://github.com/Seddryck/NBi/releases/latest">
+                  <div>
+                    <span class="download-text" style="background:#5CCD00;
+                        	background:-moz-linear-gradient(top,#feac80 0%,#fd5800 100%);
+                        	background:-webkit-gradient(linear,left top,left bottom,color-stop(0%,#feac80),color-stop(100%,#fd5800));
+                        	background:-webkit-linear-gradient(top,#feac80 0%,#fd5800 100%);
+                        	background:-o-linear-gradient(top,#feac80 0%,#fd5800 100%);
+                        	background:-ms-linear-gradient(top,#feac80 0%,#fd5800 100%);
+                        	background:linear-gradient(top,#feac80 0%,#fd5800 100%);
+                        	filter: progid: DXImageTransform.Microsoft.gradient( startColorstr='#feac80', endColorstr='#fd5800',GradientType=0);
+                        	padding:10px 15px;
+                        	color:#371200;
+                        	font-size:32px;
+                        	border-radius:5px;
+                        	-moz-border-radius:5px;
+                        	-webkit-border-radius:5px;
+                        	border:1px solid #371200">
+                          <i class="fa fa-cloud-download">&nbsp;&nbsp;</i>Download
+                    </span>
+                </div>
+              </a>
+              <br/>
+              <div id="download-info" style="font-size: 12px;">
+                  Current stable release is&nbsp;<span id="releaseName" style="font-weight: bold">vx.y.z</span>.
+                  <br/>
+                  NBi has been downloaded&nbsp;<span id="downloadCount" style="font-weight: bold">???</span>&nbsp;times.
+              </div>
+              </section>
+            </div>
+            <script type="text/javascript">
+              function GetLatestReleaseInfo() {
+                  $.getJSON("https://api.github.com/repos/Seddryck/NBi/releases/latest").done(function (release) {
+                      var asset = release.assets.find(function(asset) {return asset.name.includes("Framework");});
+                      $("#downloadURL").attr("href", asset.browser_download_url);
+         			  $("#releaseName").text(release.name);
+                      $("#releaseName").fadeIn("slow");
+                  });
+                  
+                  var downloadCount = 1956; //Codeplex
+                  $.getJSON("https://api-v2v3search-0.nuget.org/query?q=NBi").done(function (json) {
+                      for (i in json.data) {
+                          if(json.data[i].id.startsWith("NBi.")) {
+                            downloadCount += json.data[i].totalDownloads;
+                          }
+                      }
+                      $("#downloadCount").text(downloadCount);
+                  });
+        
+                  $.getJSON("https://api.github.com/repos/Seddryck/NBi/releases").done(function (json) {
+                      for (i in json) {
+                        for (j in json[i].assets) {
+                            downloadCount += json[i].assets[j].download_count;
+                        }
+                      }
+                      $("#downloadCount").text(downloadCount);
+                  });           
+              }
+              GetLatestReleaseInfo();
+            </script> 
+        </div>
+    </section>
+</div>

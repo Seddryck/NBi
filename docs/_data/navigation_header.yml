@@ -1,0 +1,9 @@
+left:
+  - title: Home
+    url: /
+  - title: Documentation
+    url: /docs/home/
+  - title: Automation
+    url: /automation/home/
+  - title: Releases
+    url: /release/

@@ -1,0 +1,10 @@
+<nav class="top-navigation" aria-label="Primary navigation">
+  {% for item in site.data.navigation_header.left %}
+  <a
+    href="{{ item.url | relative_url }}"
+    class="top-navigation__link{% if page.url == item.url %} active{% endif %}"
+  >
+    {{ item.title }}
+  </a>
+  {% endfor %}
+</nav>

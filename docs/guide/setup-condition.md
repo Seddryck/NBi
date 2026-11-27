@@ -1,0 +1,60 @@
+---
+title: Conditions for execution
+prev_section: setup-process
+next_section: setu-custom
+permalink: /docs/setup-condition/
+parent: "Setup and Cleanup"
+grand_parent: Documentation
+nav_order: 5
+---
+In addition to the [setup and cleanup decorations](../setup-cleanup) a test can also be preceded by a list of *conditions*. If one the conditions is not validated, the test will be *ignored (and not failed)*. An appropriate message will be inserted into the ignore message to explain why the test has been ignored by the framework.
+
+This may be really interesting if you don't want that all your tests related to a specific windows service (SSRS or SSIS) fail, just because this service has not been started in the server executing your test-suite.
+
+Note that the conditions are executed *before* the list of commands registered in the *setup*! In consequence, if you're checking that a service is running and it's not the case, the test will stop and be reported as *ignored* (and not failed). It's not possible to continue and ask to start the service in the setup. If your intempt is to be sure that a service is running and if it's not the case then start it, you can skip the condition and just add a setp *service-start* in the setup.
+
+{% highlight xml %}
+<test>
+  <condition>
+    ...
+  </condition>
+  <setup>
+    ...
+  </setup>
+  <system-under-test>
+    ...
+  </system-under-test>
+</test>
+{% endhighlight %}
+
+## Available predicates
+
+All the xml attributes accept [literal values](../primitive-scalar/#literal), and [variables](../primitive-scalar/#reference-to-a-variable) including [formatting](../primitive-scalar/#formatting) and [inline transformations](../primitive-scalar/#inline-transformations).
+
+### Windows Service
+
+The following predicate is defined:
+
+* service-running: this service will validate if the service is effectively running. This returns *false* when this service is not existing.
+
+If the service is not in the expected state, NBi will wait maximum the time set in the attribute named *timeout-milliseconds* to ensure that the service is not changing its state before reporting the test as *ignored*. If this timeout is not defined, a default value of 5 seconds will be used.
+
+{% highlight xml %}
+<condition>
+  <service-running name="MyService"/>
+  <service-running name="MyService2" timeout-milliseconds="1000"/>
+</condition>
+{% endhighlight %}
+
+### File or folder exist
+
+These conditions will validate if the specified file (or the folder) exists. if it's not the case then the test will not be run and the condition will report the missing file (or folder). For both options, you must specify a path and the name (of the file or the folder).
+
+It's possible to add a variant by specifying the attribute *not-empty* to true. In case of a file, the additional condition is that this file can't have a size of 0 byte. When a folder is asserted, this folder must at least contain one file.
+
+{% highlight xml %}
+<condition>
+  <file-exists path="." name="MyFile.txt"/>
+  <folder-exists path="Folder\" name="MySybFolder" not-empty="true"/>
+</condition>
+{% endhighlight %}

@@ -28,7 +28,7 @@ class NativeTransformer<T> : ITransformer
 
     public void Initialize(string code)
     {
-        InternalTransformation = new Expressif.Expression(code, Context);
+        InternalTransformation = NativeExpression.Create(code, Context);
     }
 
     public object? Execute(object? value)

@@ -30,6 +30,7 @@ class DataRowResultSet(DataRow dataRow) : IResultRow
     public IResultSet Parent { get => ResultSet ??= new DataTableResultSet(DataRow.Table); }
 
     public int ColumnCount => Parent.ColumnCount;
+    public IReadOnlyList<string> ColumnNames => DataRow.Table.Columns.Cast<DataColumn>().Select(column => column.ColumnName).ToArray();
 
     public void SetColumnError(string columnName, string message)
         => DataRow.SetColumnError(columnName, message);

@@ -27,7 +27,7 @@
     }
 
     > .nav-list-link {
-      color: #f8fafc;
+      color: $body-heading-color;
       font-weight: 650;
       letter-spacing: 0.01em;
     }
@@ -62,22 +62,22 @@
   // Current page.
   .nav-list-link.active {
     position: relative;
-    color: #ffffff;
-    background-color: #1e293b;
+    color: $body-text-color;
+    background-color: $nbi-espresso;
     font-weight: 600;
-    box-shadow: inset 3px 0 0 $accent-color;
+    box-shadow: inset 3px 0 0 $nbi-orange;
 
     &:hover,
     &:focus {
-      color: #ffffff;
-      background-color: #263449;
+      color: $body-text-color;
+      background-color: $nbi-rust;
     }
   }
 
   // Active child page
   .nav-list .nav-list-link.active {
-    color: #ffffff;
-    background-color: #1e293b;
+    color: $body-text-color;
+    background-color: $nbi-espresso;
   }
 
   // Keep nested active links aligned with their indentation.
@@ -88,7 +88,7 @@
   // Subtle hover state for non-active links.
   .nav-list-link:not(.active):hover,
   .nav-list-link:not(.active):focus {
-    color: #ffffff;
+    color: $body-text-color;
     background-color: rgba(255, 255, 255, 0.05);
   }
 
@@ -98,7 +98,7 @@
 
     &:hover,
     &:focus {
-      color: #ffffff;
+      color: $body-text-color;
       background-color: rgba(255, 255, 255, 0.05);
     }
   }
@@ -107,25 +107,27 @@
 .side-bar {
   .site-header {
     min-height: 4.5rem;
+    border-top: 5px solid $nbi-rust;
   }
 
   .site-title {
     gap: 0.7rem;
     padding: 0.55rem 0;
-    color: #f8fafc;
+    color: $body-heading-color;
     font-weight: 700;
     letter-spacing: -0.05em;
     text-decoration: none;
 
     &::after {
       content: "NBi";
+      font-size: 1.6rem;
       display: inline-block;
-      transform: translateY(0.25rem);
+
     }
 
     &:hover,
     &:focus {
-      color: #ffffff;
+      color: $body-text-color;
       text-decoration: none;
     }
   }

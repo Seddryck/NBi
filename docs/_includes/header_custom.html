@@ -1,10 +1,17 @@
+{% assign page_section = page.url | split: "/" | slice: 1 | first %}
 <nav class="top-navigation" aria-label="Primary navigation">
   {% for item in site.data.navigation_header.left %}
-  <a
-    href="{{ item.url | relative_url }}"
-    class="top-navigation__link{% if page.url == item.url %} active{% endif %}"
-  >
-    {{ item.title }}
-  </a>
+    {% assign item_section = item.url | split: "/" | slice: 1 | first %}
+    {% assign current = false %}
+    {% if page.url == item.url or page_section == item_section %}
+      {% assign current = true %}
+    {% elsif item_section == "release" and page_section == "downloads" %}
+      {% assign current = true %}
+    {% endif %}
+    <a href="{{ item.url | relative_url }}"
+       class="top-navigation__link{% if current %} active{% endif %}"
+       {% if current %}aria-current="{% if page.url == item.url %}page{% else %}location{% endif %}"{% endif %}>
+      {{ item.title }}
+    </a>
   {% endfor %}
 </nav>

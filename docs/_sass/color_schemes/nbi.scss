@@ -1,28 +1,19 @@
-$principal-dark-color: #0f172a;
+$color-scheme: dark;
 
-$body-background-color: #f8fafc;
-$sidebar-color: $principal-dark-color;
+$body-background-color: $nbi-espresso;
+$body-heading-color: $nbi-peach;
+$body-text-color: $nbi-cream;
+$link-color: $nbi-peach;
+$nav-child-link-color: $nbi-cream;
+$sidebar-color: $nbi-brown;
+$base-button-color: $nbi-brown;
+$btn-primary-color: $nbi-rust;
+$code-background-color: #291004;
+$code-linenumber-color: #dfa98c;
+$feedback-color: $nbi-espresso;
+$table-background-color: #421a08;
+$search-background-color: $nbi-brown;
+$search-result-preview-color: #efbfab;
+$border-color: #a75935;
 
-$body-text-color: $principal-dark-color;
-$body-heading-color: $principal-dark-color;
-
-$link-color: #2563eb;
-$nav-child-link-color: #cbd5e1;
-
-$btn-primary-color: #a66a3f;
-$border-color: #e2e8f0;
-
-$code-background-color: #f1f5f9;
-$search-background-color: #1e293b;
-
-$table-background-color: #ffffff;
-$feedback-color: lighten($sidebar-color, 4%);
-$search-result-preview-color: #64748b;
-$base-button-color: #ffffff;
-
-$accent-color: #d4a373;
-
-$principal-light-color: #a66a3f;
-
-$page-nav-background-color: #ffffff;
-$page-nav-background-color-hover: #f1f5f9;
+@import "./vendor/accessible-pygments/github-dark";

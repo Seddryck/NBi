@@ -1,271 +1,79 @@
-// -----------------------------------------------------------------------------
-// NBi top header
-// -----------------------------------------------------------------------------
-
 .main-header {
-  background-color: $body-background-color;
+  align-items: center;
+  gap: 1rem;
+  padding-inline: 1.5rem;
+  background-color: $sidebar-color;
   border-bottom: 1px solid $border-color;
 }
 
-.main-header .header-holder {
-  min-height: 4.5rem;
-}
-
-.main-header,
-.main-header .header-holder {
-  align-items: center;
-}
-
-// -----------------------------------------------------------------------------
-// Search
-// -----------------------------------------------------------------------------
-
 .search {
-  flex: 0 1 16rem;
-  max-width: 16rem;
+  flex: 1 1 12rem;
+  min-width: 0;
 }
 
 .search-input {
-  height: 2.5rem;
-  padding-right: 0.75rem;
-
   color: $body-text-color;
-  background-color: transparent;
-  border-radius: 0.5rem;
-
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
-    sans-serif;
-  font-size: 0.95rem;
+  font-family: $body-font-family;
 
   &::placeholder {
     color: $search-result-preview-color;
     opacity: 1;
   }
-
-  &:focus {
-    background-color: $docs-slate-100;
-    box-shadow: 0 0 0 2px rgba($link-color, 0.12);
-  }
 }
 
 .search-label {
-  color: $search-result-preview-color;
+  color: $link-color;
 }
 
-// -----------------------------------------------------------------------------
-// Search alignment
-// -----------------------------------------------------------------------------
-
-.main-header {
-  align-items: center;
-}
-
-.main-header .header-holder {
-  align-items: center;
-}
-
-.search {
-  align-self: center;
-  margin: 0;
-}
-
-.search-input-wrap {
-  margin: 0;
-}
-
-.search-input {
-  top: calc(50% - 2px);
-  margin: 0;
-  transform: translateY(-50%);
-}
-
-.search-label {
-  transform: translateY(-1px);
-}
-
-// -----------------------------------------------------------------------------
-// Primary navigation
-// -----------------------------------------------------------------------------
-
-.top-navigation {
+.top-navigation, .aux-nav-list {
   display: flex;
-  align-items: stretch;
-  align-self: stretch;
-  gap: 1.75rem;
-
-  margin-left: auto;
-
-  white-space: nowrap;
+  align-items: center;
+  gap: 0.25rem;
 }
 
-.top-navigation__link {
-  position: relative;
+.aux-nav {
+  flex-shrink: 0;
+  margin: 0;
+}
 
+.top-navigation__link, .aux-nav-list-item a {
   display: inline-flex;
   align-items: center;
-
-  padding: 0 0.1rem;
-
-  color: $docs-slate-500;
-
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
-    sans-serif;
-  font-size: 0.875rem;
-  font-weight: 600;
-  line-height: 1;
+  min-height: 2rem;
+  padding: 0.35rem 0.65rem;
+  border-radius: 5px;
+  color: $link-color;
+  font: 900 0.75rem/1.2 $body-font-family;
   text-decoration: none;
+  text-transform: uppercase;
+  white-space: nowrap;
 
-  transition:
-    color 140ms ease,
-    opacity 140ms ease;
-
-  &:hover,
-  &:focus {
-    color: $body-heading-color;
+  &:hover, &:focus-visible {
+    background-color: $nbi-rust;
+    color: $body-text-color;
     text-decoration: none;
   }
 
   &.active {
-    color: $body-heading-color;
-
-    &::after {
-      position: absolute;
-      right: 0;
-      bottom: 0.85rem;
-      left: 0;
-
-      height: 3px;
-
-      background-color: $coffee-200;
-      border-radius: 999px;
-
-      content: "";
-    }
+    background-color: $nbi-orange;
+    color: $nbi-espresso;
   }
 }
 
-// -----------------------------------------------------------------------------
-// Auxiliary navigation
-// -----------------------------------------------------------------------------
-
-.aux-nav {
-  display: flex;
-  align-items: center;
-  align-self: center;
-
-  height: auto;
-  margin-left: 1.5rem;
-}
-
-.aux-nav-list {
-  display: flex;
-  align-items: center;
-  gap: 0.65rem;
-
-  height: auto;
-  margin: 0;
-  padding: 0;
-}
-
-.aux-nav-list-item {
-  display: flex;
-  align-items: center;
-
-  height: auto;
-  margin: 0;
-  padding: 0;
-}
-
-.aux-nav-list-item a {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-
-  width: auto;
-  min-width: 0;
-  height: 2.25rem;
-  min-height: 0;
-  padding: 0 0.9rem;
-
-  color: $body-heading-color;
-  background-color: transparent;
-  border: 1px solid $border-color;
-  border-radius: 0.4rem;
-
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
-    sans-serif;
-  font-size: 0.78rem;
-  font-weight: 650;
-  line-height: 1;
-  text-decoration: none;
-  white-space: nowrap;
-
-  box-shadow: none;
-  transform: none;
-
-  &:hover,
-  &:focus {
-    color: $body-heading-color;
-    background-color: $code-background-color;
-    border-color: darken($border-color, 8%);
-    text-decoration: none;
-    transform: none;
-  }
-}
-
-// Primary action
-.aux-nav-list-item:first-child a {
-  color: #ffffff;
-  background-color: $principal-light-color;
-  border-color: $principal-light-color;
-
-  &:hover,
-  &:focus {
-    color: #ffffff;
-    background-color: darken($principal-light-color, 7%);
-    border-color: darken($principal-light-color, 7%);
-  }
-}
-
-// Secondary action
-.aux-nav-list-item:last-child a {
-  color: $body-heading-color;
-  background-color: transparent;
-  border-color: $border-color;
-
-  &:hover,
-  &:focus {
-    color: $principal-light-color;
-    background-color: rgba($principal-light-color, 0.06);
-    border-color: rgba($principal-light-color, 0.4);
-  }
-}
-
-// -----------------------------------------------------------------------------
-// Responsive header
-// -----------------------------------------------------------------------------
-
-@media (max-width: 72rem) {
-  .top-navigation {
-    gap: 1.1rem;
-  }
-
-  .aux-nav {
-    margin-left: 1rem;
-  }
-
-  .aux-nav-list-item a {
-    padding-right: 0.9rem;
-    padding-left: 0.9rem;
-  }
-}
-
-@media (max-width: 62rem) {
+@media (max-width: 67rem) {
   .top-navigation {
     display: none;
   }
+}
 
-  .search {
-    max-width: none;
+@media (max-width: 37rem) {
+  .main-header {
+    gap: 0.5rem;
+    padding-inline: 0.75rem;
+  }
+
+  .aux-nav-list-item a {
+    padding-inline: 0.35rem;
+    font-size: 0.65rem;
   }
 }

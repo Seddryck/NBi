@@ -1,24 +1,11 @@
-// Layout
-$sidebar-width: 280px;
+// Homepage colors shared by the documentation theme.
+$nbi-espresso: #371200;
+$nbi-brown: #602100;
+$nbi-rust: #a73a00;
+$nbi-orange: #fe762d;
+$nbi-peach: #feac80;
+$nbi-cream: #faebe3;
+
 $content-width: 60rem;
-
-// NBi coffee palette
-$coffee-000: #faf6f1;
-$coffee-100: #ead8c5;
-$coffee-200: #cda472;
-$coffee-300: #9a633d;
-
-// Slate palette used by custom components
-$docs-slate-050: #f8fafc;
-$docs-slate-100: #f1f5f9;
-$docs-slate-200: #e2e8f0;
-$docs-slate-300: #cbd5e1;
-$docs-slate-500: #64748b;
-$docs-slate-700: #334155;
-$docs-slate-900: #0f172a;
-
-// Shared brand tokens used by custom partials across multiple theme entrypoints.
-$nav-child-link-color: #cbd5e1 !default;
-$accent-color: #d4a373 !default;
-$principal-light-color: #a66a3f !default;
-$principal-dark-color: $docs-slate-900 !default;
+$body-font-family: Lato, "Helvetica Neue", Helvetica, Arial, sans-serif;
+$mono-font-family: Menlo, Consolas, "Courier New", monospace;

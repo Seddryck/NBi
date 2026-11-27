@@ -61,6 +61,60 @@ dotnet_style_qualification_for_event = false:suggestion
 
 # C# files
 [*.cs]
+# Match CodeFactor's published default StyleCop policy. CodeFactor disables most
+# rules in these categories and leaves the rules listed below enabled.
+dotnet_analyzer_diagnostic.category-StyleCop.CSharp.DocumentationRules.severity = none
+dotnet_diagnostic.SA1609.severity = warning
+dotnet_diagnostic.SA1610.severity = warning
+dotnet_diagnostic.SA1651.severity = warning
+
+dotnet_analyzer_diagnostic.category-StyleCop.CSharp.LayoutRules.severity = none
+dotnet_diagnostic.SA1505.severity = warning
+dotnet_diagnostic.SA1506.severity = warning
+dotnet_diagnostic.SA1507.severity = warning
+dotnet_diagnostic.SA1508.severity = warning
+dotnet_diagnostic.SA1509.severity = warning
+dotnet_diagnostic.SA1510.severity = warning
+dotnet_diagnostic.SA1511.severity = warning
+dotnet_diagnostic.SA1519.severity = warning
+dotnet_diagnostic.SA1520.severity = warning
+
+dotnet_analyzer_diagnostic.category-StyleCop.CSharp.MaintainabilityRules.severity = none
+dotnet_diagnostic.SA1403.severity = warning
+dotnet_diagnostic.SA1407.severity = warning
+dotnet_diagnostic.SA1408.severity = warning
+dotnet_diagnostic.SA1414.severity = warning
+
+dotnet_analyzer_diagnostic.category-StyleCop.CSharp.NamingRules.severity = none
+dotnet_diagnostic.SA1312.severity = warning
+dotnet_diagnostic.SA1313.severity = warning
+dotnet_diagnostic.SA1314.severity = warning
+dotnet_diagnostic.SA1316.severity = warning
+
+dotnet_analyzer_diagnostic.category-StyleCop.CSharp.OrderingRules.severity = none
+dotnet_diagnostic.SA1214.severity = warning
+dotnet_diagnostic.SA1217.severity = warning
+
+dotnet_analyzer_diagnostic.category-StyleCop.CSharp.ReadabilityRules.severity = none
+dotnet_diagnostic.SA1106.severity = warning
+dotnet_diagnostic.SA1127.severity = warning
+dotnet_diagnostic.SA1128.severity = warning
+dotnet_diagnostic.SA1129.severity = warning
+dotnet_diagnostic.SA1130.severity = warning
+dotnet_diagnostic.SA1131.severity = warning
+dotnet_diagnostic.SA1132.severity = warning
+dotnet_diagnostic.SA1133.severity = warning
+dotnet_diagnostic.SA1134.severity = warning
+dotnet_diagnostic.SA1135.severity = warning
+dotnet_diagnostic.SA1136.severity = warning
+dotnet_diagnostic.SA1137.severity = warning
+dotnet_diagnostic.SA1139.severity = warning
+dotnet_diagnostic.SA1141.severity = warning
+dotnet_diagnostic.SA1142.severity = warning
+
+dotnet_analyzer_diagnostic.category-StyleCop.CSharp.SpacingRules.severity = none
+dotnet_diagnostic.SA1028.severity = warning
+
 # New line preferences
 csharp_new_line_before_open_brace = all
 csharp_new_line_before_else = true
@@ -112,7 +166,7 @@ dotnet_naming_symbols.static_fields.applicable_accessibilities = private, intern
 dotnet_naming_style.static_prefix_style.required_prefix = s_
 dotnet_naming_style.static_prefix_style.capitalization = camel_case
 
-# internal and private fields should be _camelCase
+# internal and private fields should be camelCase
 dotnet_naming_rule.camel_case_for_private_internal_fields.severity = suggestion
 dotnet_naming_rule.camel_case_for_private_internal_fields.symbols  = private_internal_fields
 dotnet_naming_rule.camel_case_for_private_internal_fields.style = camel_case_style
@@ -222,3 +276,6 @@ csharp_style_prefer_extended_property_pattern = true:suggestion
 [*.{csproj,props,targets}]
 indent_size = 2
 charset = utf-8
+
+[.githooks/*]
+end_of_line = lf

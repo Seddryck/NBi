@@ -50,6 +50,17 @@ jobs:
         run: dotnet build NBi.sln -c Release -p:ContinuousIntegrationBuild=true "-p:Version=$env:PACKAGE_VERSION"
 
 
+      - name: Check C# code analysis
+        shell: bash
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.before }}
+        run: |
+          base="$BASE_SHA"
+          if [[ -z "$base" || "$base" =~ ^0+$ ]] || ! git cat-file -e "$base^{commit}" 2>/dev/null; then
+            base=$(git merge-base origin/main HEAD)
+          fi
+          bash .githooks/check-code-analysis "$base" HEAD
+
       - name: Set up the Excel OLE DB provider
         timeout-minutes: 12
         run: |

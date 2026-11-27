@@ -1,0 +1,8 @@
+repos:
+  - repo: local
+    hooks:
+      - id: csharp-stylecop
+        name: C# StyleCop
+        entry: dotnet format analyzers NBi.sln --verify-no-changes --no-restore --include
+        language: system
+        files: '\.cs$'

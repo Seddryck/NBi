@@ -15,6 +15,9 @@ updates:
     commit-message:
       prefix: "chore"
     groups:
+      StyleCop:
+          patterns:
+            - "StyleCop.Analyzers"
       NUnit:
           patterns:
             - "NUnit"

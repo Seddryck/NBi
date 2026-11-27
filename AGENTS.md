@@ -9,8 +9,12 @@ Choose a descriptive branch name. Use `fix/<name>` for defects and regressions, 
 ## Issues and pull requests
 
 - Use natural-language issue titles. When managing existing issues, use the repository's labels, such as `bug`, `feature-request`, `small-improvement`, and `documentation`.
-- Use Conventional Commit titles for commits and pull requests. See [the commitlint configuration](.commitlint.yaml) for allowed types and length limits. The optional [commit-msg hook](.commitlint/hooks/commit-msg) requires commitlint on PATH.
+- Use Conventional Commit titles for commits and pull requests. See [the commitlint configuration](commitlint.config.cjs) for allowed types and length limits.
 - Follow [the contribution guide](contributing.md) when submitting a change. Use `gh` to manage GitHub issues and pull requests. Link the corresponding issue when one exists and include the validation performed.
+
+## Git hooks
+
+Enable the tracked hooks as described in [the contribution guide](contributing.md#git-hooks). The commit hook checks the message and the pre-push hook verifies analyzer fixes for changed C# files. Restore the solution before pushing C# changes.
 
 ## Projects and validation
 

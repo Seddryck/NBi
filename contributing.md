@@ -12,6 +12,24 @@ Create a topic branch from `main` unless the change is intended for a specific r
 
 Run the focused tests for the area you changed. If the change affects public XML or GenbiL syntax, include a representative example and update the relevant tests and documentation. Legacy acceptance and integration tests may require external services.
 
+## Git hooks
+
+Install the .NET SDK selected by [global.json](global.json), Git, and Node.js. To enable the hooks for the checkout, run:
+
+```text
+npm install --global @commitlint/cli @commitlint/config-conventional
+git config --local core.hooksPath .githooks
+dotnet restore NBi.sln
+```
+
+The commit hook checks Conventional Commit messages. Before pushing, the analysis hook checks the C# files changed by the push. GitHub Actions runs the same check. To run it before pushing a branch, use Git Bash on Windows or Bash on other platforms:
+
+```bash
+bash .githooks/check-code-analysis "$(git merge-base origin/main HEAD)" HEAD
+```
+
+If you already use pre-commit, run `pre-commit run csharp-stylecop` to check staged C# files before committing.
+
 ## Submit a pull request
 
 Open a pull request against [Seddryck/NBi](https://github.com/Seddryck/NBi) with a Conventional Commit title, a short description, and the validation results. Link the relevant issue if one exists. Documentation fixes can be submitted directly. Check the pull request build in [GitHub Actions](https://github.com/Seddryck/NBi/actions/workflows/ci.yml).

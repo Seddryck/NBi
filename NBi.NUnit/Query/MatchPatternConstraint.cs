@@ -11,12 +11,13 @@ namespace NBi.NUnit.Query
 {
     public class MatchPatternConstraint : NBiConstraint
     {
-        private string regex;
         private readonly IList<string> invalidMembers = new List<string>();
+        private string regex;
         protected IFormatEngine engine;
         /// <summary>
         /// Engine dedicated to ResultSet comparaison
         /// </summary>
+        /// <value>The engine that formats query results before checking the pattern.</value>
         protected internal IFormatEngine Engine
         {
             set
@@ -67,13 +68,15 @@ namespace NBi.NUnit.Query
         {
             IResolveConstraint exp = ctr;
             var multipleConstraint = exp.Resolve();
-            return multipleConstraint.Matches(caption);
+            return multipleConstraint.ApplyTo(caption).IsSuccess;
         }
 
         public override bool Matches(object actual)
         {
             if (actual is IQuery)
+            {
                 return Process((IQuery)actual);
+            }
             else if (actual is IEnumerable<string>)
             {
                 this.actual = actual;
@@ -91,7 +94,9 @@ namespace NBi.NUnit.Query
                 return res;
             }
             else
+            {
                 throw new ArgumentException();
+            }
         }
 
         /// <summary>
@@ -113,19 +118,21 @@ namespace NBi.NUnit.Query
         {
             //writer.WriteActualValue(actual);
 
-            writer.WritePredicate(string.Format("The formatted value of each cell matchs the"));
+            writer.Write(string.Format("The formatted value of each cell matchs the"));
 
             if (!string.IsNullOrEmpty(regex))
             {
-                writer.WritePredicate(" regex pattern ");
-                writer.WritePredicate(regex);
+                writer.Write(" regex pattern ");
+                writer.Write(regex);
             }
         }
 
         public override void WriteActualValueTo(NUnitCtr.MessageWriter writer)
         {
             if (invalidMembers.Count == 1)
+            {
                 writer.WriteMessageLine(string.Format("The element <{0}> doesn't validate this pattern", invalidMembers[0]));
+            }
             else
             {
                 writer.WriteMessageLine(string.Format("{0} elements don't validate this pattern:", invalidMembers.Count));

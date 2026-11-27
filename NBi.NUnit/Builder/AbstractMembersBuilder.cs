@@ -23,7 +23,7 @@ namespace NBi.NUnit.Builder
 		{
 			discoveryFactory = factory;
 		}
-		
+
 		protected MembersXml SystemUnderTestXml { get; set; }
 
 		protected override void BaseSetup(AbstractSystemUnderTestXml sutXml, AbstractConstraintXml ctrXml)
@@ -39,20 +39,19 @@ namespace NBi.NUnit.Builder
 			SystemUnderTest = InstantiateSystemUnderTest(SystemUnderTestXml);
 		}
 
-        protected object InstantiateSystemUnderTest(MembersXml sutXml)
+		protected object InstantiateSystemUnderTest(MembersXml sutXml)
         {
-            try 
-	        {	        
+            try
+	        {
 		        return InstantiateMembersDiscovery(sutXml);
 	        }
 	        catch (ArgumentOutOfRangeException)
 	        {
-		
 		        throw new ArgumentOutOfRangeException("sutXml", sutXml, "The system-under-test for members must be a hierarchy or a level or a set");
 	        }
         }
-  
-        protected MembersDiscoveryRequest InstantiateMembersDiscovery(MembersXml membersXml)
+
+		protected MembersDiscoveryRequest InstantiateMembersDiscovery(MembersXml membersXml)
         {
             string perspective = null, dimension = null, hierarchy = null, level = null, set=null;
             MembersDiscoveryRequest disco = null;
@@ -92,7 +91,7 @@ namespace NBi.NUnit.Builder
                     hierarchy,
                     level);
             }
-                
+
             if (membersXml.Item is SetXml)
             {
                 perspective = ((SetXml)membersXml.Item).Perspective;
@@ -117,13 +116,10 @@ namespace NBi.NUnit.Builder
 		{
 			var res = new List<PatternValue>();
 			if (patterns != null)
-			{ 
+			{
 				foreach (var p in patterns)
 				{
-					var pv = new PatternValue();
-					pv.Pattern = p.Pattern;
-					pv.Text = p.Value;
-					res.Add(pv);
+					res.Add(new PatternValue(p.Pattern, p.Value));
 				}
 			}
 			return res;

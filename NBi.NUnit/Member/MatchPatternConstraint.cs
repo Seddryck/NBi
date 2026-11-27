@@ -56,15 +56,17 @@ namespace NBi.NUnit.Member
         {
             IResolveConstraint exp = ctr;
             var multipleConstraint = exp.Resolve();
-            return multipleConstraint.Matches(member);
+            return multipleConstraint.ApplyTo(member).IsSuccess;
         }
 
         public override bool Matches(object actual)
         {
             if (actual is MembersDiscoveryRequest)
+            {
                 return Process((MembersDiscoveryRequest)actual);
+            }
             else if (actual is MemberResult)
-            {   
+            {
                 this.actual = actual;
 
                 var res = true;
@@ -80,7 +82,9 @@ namespace NBi.NUnit.Member
                 return res;
             }
             else
+            {
                 throw new ArgumentException();
+            }
         }
 
         /// <summary>
@@ -90,22 +94,24 @@ namespace NBi.NUnit.Member
         public override void WriteDescriptionTo(NUnitCtr.MessageWriter writer)
         {
             //writer.WriteActualValue(actual);
-            
-            writer.WritePredicate(string.Format("On perspective \"{0}\", the {1} of \"{2}\" match the"
+
+            writer.Write(string.Format("On perspective \"{0}\", the {1} of \"{2}\" match the"
                                                             , Request.Perspective
                                                             , Request.Function.ToLower()
                                                             , Request.Path));
             if (!string.IsNullOrEmpty(regex))
             {
-                writer.WritePredicate("regex pattern");
-                writer.WritePredicate(regex);
-            }           
+                writer.Write(" regex pattern ");
+                writer.Write(regex);
+            }
         }
 
         public override void WriteActualValueTo(NUnitCtr.MessageWriter writer)
         {
             if (invalidMembers.Count == 1)
+            {
                 writer.WriteMessageLine(string.Format("The element <{0}> doesn't validate this pattern", invalidMembers[0]));
+            }
             else
             {
                 writer.WriteMessageLine(string.Format("{0} elements don't validate this pattern:", invalidMembers.Count));

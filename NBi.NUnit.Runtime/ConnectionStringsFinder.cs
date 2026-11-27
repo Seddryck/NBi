@@ -13,7 +13,7 @@ namespace NBi.NUnit.Runtime
 		protected internal virtual NameValueCollection Find()
 		{
 			var list = new NameValueCollection();
-            string configFile = GetConfigFile();
+			string configFile = GetConfigFile();
 			//Try to find a config file, if existing take the path inside for the TestSuite
 			if (File.Exists(configFile))
 			{
@@ -29,16 +29,14 @@ namespace NBi.NUnit.Runtime
 					foreach (ConnectionStringSettings css in configuration.ConnectionStrings.ConnectionStrings)
 					{
 						list.Add(css.Name, css.ConnectionString);
-						Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceVerbose, string.Format("Connection string named '{0}' loaded with value '{1}'", css.Name, css.ConnectionString));
+						Trace.WriteLineIf(Extensibility.NBiTraceSwitch.TraceVerbose, string.Format("Connection string named '{0}' loaded.", css.Name));
 					}
 				}
-					
-						
 			}
 			return list;
 		}
 
-        protected virtual string GetConfigFile() => AppDomain.CurrentDomain.SetupInformation.ConfigurationFile;
-        protected virtual System.Configuration.Configuration GetConfiguration() => ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None); 
+		protected virtual string GetConfigFile() => ConfigurationProvider.GetConfigurationFile();
+		protected virtual System.Configuration.Configuration GetConfiguration() => ConfigurationProvider.OpenConfiguration(GetConfigFile());
     }
 }

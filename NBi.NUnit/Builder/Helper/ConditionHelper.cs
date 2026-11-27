@@ -19,12 +19,18 @@ namespace NBi.NUnit.Builder.Helper
     public class ConditionHelper
     {
         private readonly ServiceLocator serviceLocator;
+        private readonly string basePath;
         private readonly IDictionary<string, IVariable> variables;
 
         public ConditionHelper(ServiceLocator serviceLocator, IDictionary<string, IVariable> variables)
+            : this(serviceLocator, variables, string.Empty)
+        { }
+
+        public ConditionHelper(ServiceLocator serviceLocator, IDictionary<string, IVariable> variables, string basePath)
         {
             this.serviceLocator = serviceLocator;
             this.variables = variables;
+            this.basePath = basePath;
         }
 
         public IDecorationConditionArgs Execute(object condition)
@@ -63,7 +69,7 @@ namespace NBi.NUnit.Builder.Helper
         {
             var scalarHelper = new ScalarHelper(serviceLocator, new Context(variables));
             return new FileExistsConditionArgs(
-                serviceLocator.BasePath
+                basePath
                 , scalarHelper.InstantiateResolver<string>(fileExists.Path)
                 , scalarHelper.InstantiateResolver<string>(fileExists.Name)
                 , scalarHelper.InstantiateResolver<bool>(fileExists.NotEmpty)
@@ -74,7 +80,7 @@ namespace NBi.NUnit.Builder.Helper
         {
             var scalarHelper = new ScalarHelper(serviceLocator, new Context(variables));
             return new FolderExistsConditionArgs(
-                serviceLocator.BasePath
+                basePath
                 , scalarHelper.InstantiateResolver<string>(folderExists.Path)
                 , scalarHelper.InstantiateResolver<string>(folderExists.Name)
                 , scalarHelper.InstantiateResolver<bool>(folderExists.NotEmpty)

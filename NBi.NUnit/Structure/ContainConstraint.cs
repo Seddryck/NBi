@@ -12,7 +12,7 @@ namespace NBi.NUnit.Structure
     public class ContainConstraint : AbstractCollectionConstraint
     {
         /// <summary>
-        /// Construct a CollectionContainsConstraint
+        /// Construct a SomeItemsConstraint
         /// </summary>
         /// <param name="expected"></param>
         public ContainConstraint(string expected)
@@ -20,7 +20,7 @@ namespace NBi.NUnit.Structure
         {
         }
         /// <summary>
-        /// Construct a CollectionContainsConstraint
+        /// Construct a SomeItemsConstraint
         /// </summary>
         /// <param name="expected"></param>
         public ContainConstraint(IEnumerable<string> expected)
@@ -31,7 +31,7 @@ namespace NBi.NUnit.Structure
 
         /// <summary>
         /// Build a collection of constraint (in fact one by expected item)
-        /// Pay really attention that CollectionContainsConstraint is expecting one unique item!
+        /// Pay really attention that SomeItemsConstraint is expecting one unique item!
         /// So if you cant to check for several items, you need to apply several Constraint (one by expected item)
         /// </summary>
         protected virtual void BuildInternalConstraint()
@@ -39,8 +39,7 @@ namespace NBi.NUnit.Structure
             NUnitCtr.Constraint ctr = null;
             foreach (var item in Expected)
             {
-                var localCtr = new NUnitCtr.CollectionContainsConstraint(item);
-                var usingCtr = localCtr.Using(Comparer);
+                var usingCtr = new SomeItemsConstraint(new EqualConstraint(item).Using(Comparer));
 
                 if (ctr != null)
                     ctr = new AndConstraint(ctr, usingCtr);
@@ -51,16 +50,16 @@ namespace NBi.NUnit.Structure
             if (ctr == null)
                 ctr = new NUnitCtr.EmptyCollectionConstraint();
 
-            IResolveConstraint exp = ctr;
-            InternalConstraint = exp.Resolve();
+            InternalConstraint = ctr;
         }
 
         #region Modifiers
         /// <summary>
         /// Flag the constraint to ignore case and return self.
-        /// Pay attention that we need to rebuild the constraint from scratch 
+        /// Pay attention that we need to rebuild the constraint from scratch
         /// because the Using is applied for each constraint contained in this constraint
         /// </summary>
+        /// <value>The constraint configured to compare metadata captions without regard to case.</value>
         public new ContainConstraint IgnoreCase
         {
             get
@@ -86,7 +85,7 @@ namespace NBi.NUnit.Structure
 
             if (Expected.Count() == 1)
             {
-                writer.WritePredicate(string.Format("find a {0} named '{1}'{2}.",
+                writer.Write(string.Format("find a {0} named '{1}'{2}.",
                     description.GetTargetExpression(Command.Description.Target),
                     Expected.First(),
                     filterExpression));
@@ -98,7 +97,7 @@ namespace NBi.NUnit.Structure
                     expectationExpression.AppendFormat("<{0}>, ", item);
                 expectationExpression.Remove(expectationExpression.Length - 2, 2);
 
-                writer.WritePredicate(string.Format("find the {0} named '{1}'{2}.",
+                writer.Write(string.Format("find the {0} named '{1}'{2}.",
                     description.GetTargetPluralExpression(Command.Description.Target),
                     expectationExpression.ToString(),
                     filterExpression));

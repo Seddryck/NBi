@@ -19,10 +19,9 @@ namespace NBi.NUnit.Member
 {
     public abstract class AbstractMembersCollectionConstraint : AbstractMembersConstraint
     {
-
         private readonly IResultSetResolver expectedResolver;
         private readonly MembersDiscoveryRequest membersDiscoveryRequest;
-        
+
         private IEnumerable<string> expectedItems;
 
         protected IEnumerable<string> ExpectedItems
@@ -94,7 +93,6 @@ namespace NBi.NUnit.Member
             membersDiscoveryRequest = expected;
         }
 
-       
         #region Specific NUnit
 
         protected override void PreInitializeMatching()
@@ -135,19 +133,17 @@ namespace NBi.NUnit.Member
         //{
         //    if (Request != null)
         //    {
-        //        writer.WritePredicate(string.Format("On perspective \"{0}\", {1} "
+        //        writer.Write(string.Format("On perspective \"{0}\", {1} "
         //                                                    , Request.Perspective
         //                                                    , GetPredicate()));
-
         //        writer.WriteLine();
-        //        writer.WriteExpectedValue(Failure.RenderExpected());
+        //        writer.WriteValue(Failure.RenderExpected());
         //        writer.WriteLine();
         //        writer.WriteActualValue("But was: " + Failure.RenderActual());
         //        writer.WriteLine();
         //        writer.WriteLine(Failure.RenderCompared());
         //    }
         //}
-
         public override void WriteDescriptionTo(NUnitCtr.MessageWriter writer)
         {
             writer.WriteLine();
@@ -162,7 +158,7 @@ namespace NBi.NUnit.Member
 
         public override void WriteMessageTo(NUnitCtr.MessageWriter writer)
         {
-            writer.WritePredicate(string.Format("On perspective \"{0}\", {1} "
+            writer.Write(string.Format("On perspective \"{0}\", {1} "
                                                             , Request.Perspective
                                                             , GetPredicate()));
             writer.WriteLine();
@@ -174,8 +170,6 @@ namespace NBi.NUnit.Member
 
         protected abstract ListComparer.Comparison GetComparisonType();
         protected abstract string GetPredicate();
-
-       
 
         protected string GetFunctionLabel(string function)
         {

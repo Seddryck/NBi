@@ -9,6 +9,8 @@ namespace NBi.NUnit.Runtime
 {
     public class ConfigurationProvider
     {
+        internal static AsyncLocal<string?> ExplicitFile { get; } = new();
+
         public virtual NBiSection GetSection()
         {
             string configFile = GetFileName();
@@ -21,13 +23,27 @@ namespace NBi.NUnit.Runtime
                 var section = (NBiSection)(configuration.GetSection("nbi"));
                 if (section != null)
                     return section;
-                    
             }
             return new NBiSection();
         }
 
-        protected virtual string GetFileName() => AppDomain.CurrentDomain.SetupInformation.ConfigurationFile;
-        protected virtual System.Configuration.Configuration Open() => ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
-        
+        protected virtual string GetFileName() => GetConfigurationFile();
+        protected virtual System.Configuration.Configuration Open() => OpenConfiguration(GetFileName());
+
+        internal static string GetConfigurationFile()
+        {
+            if (ExplicitFile.Value is { } explicitFile)
+                return explicitFile;
+
+            var runtimeFile = typeof(TestSuite).Assembly.Location + ".config";
+            return File.Exists(runtimeFile)
+                ? runtimeFile
+                : ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None).FilePath;
+        }
+
+        internal static System.Configuration.Configuration OpenConfiguration(string path)
+            => ConfigurationManager.OpenMappedExeConfiguration(
+                new ExeConfigurationFileMap { ExeConfigFilename = path },
+                ConfigurationUserLevel.None);
     }
 }

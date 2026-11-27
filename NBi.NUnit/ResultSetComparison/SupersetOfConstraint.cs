@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NBi.Core.ResultSet.Equivalence;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -11,6 +12,8 @@ namespace NBi.NUnit.ResultSetComparison
 {
     class SupersetOfConstraint : BaseResultSetComparisonConstraint
     {
+        protected override EquivalenceKind ComparisonKind => EquivalenceKind.SupersetOf;
+
         public SupersetOfConstraint(IResultSetResolver service)
             : base(service)
         { }

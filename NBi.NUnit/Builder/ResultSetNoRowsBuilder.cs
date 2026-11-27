@@ -8,7 +8,7 @@ using NBi.Xml.Systems;
 using NBi.Core.Calculation;
 using NBi.Core.Evaluate;
 using NBi.NUnit.Builder.Helper;
-using NBi.Core.Calculation.Predicate;
+using NBi.Core.Calculation.Asserting;
 using NBi.Core.ResultSet;
 using NBi.Core.Variable;
 using NBi.Core.ResultSet.Filtering;
@@ -18,7 +18,7 @@ namespace NBi.NUnit.Builder
     class ResultSetNoRowsBuilder : AbstractResultSetBuilder
     {
         protected NoRowsXml ConstraintXml {get; set;}
-        
+
         protected override void SpecificSetup(AbstractSystemUnderTestXml sutXml, AbstractConstraintXml ctrXml)
         {
             if (!(ctrXml is NoRowsXml))
@@ -41,7 +41,7 @@ namespace NBi.NUnit.Builder
 
         protected IResultSetFilter InstantiateFilter()
         {
-            var context = new Context(Variables, ConstraintXml.Aliases, ConstraintXml.Expressions);
+            var context = Context.FromVariables(Variables, ConstraintXml.Aliases, ConstraintXml.Expressions);
             var factory = new ResultSetFilterFactory(ServiceLocator);
             if (ConstraintXml.Predication != null)
             {
@@ -50,7 +50,7 @@ namespace NBi.NUnit.Builder
 
                 return factory.Instantiate
                             (
-                                new PredicationArgs(ConstraintXml.Predication.Operand, args)
+                                new PredicationArgs(args, ConstraintXml.Predication.Operand)
                                 , context
                             );
             }
@@ -62,7 +62,7 @@ namespace NBi.NUnit.Builder
                 foreach (var predicationXml in ConstraintXml.Combination.Predications)
                 {
                     var args = helper.Execute(predicationXml.ColumnType, predicationXml.Predicate);
-                    predicationArgs.Add(new PredicationArgs(predicationXml.Operand, args));
+                    predicationArgs.Add(new PredicationArgs(args, predicationXml.Operand));
                 }
 
                 return factory.Instantiate
@@ -73,7 +73,9 @@ namespace NBi.NUnit.Builder
                             );
             }
             else
+            {
                 throw new ArgumentException("You must specify a predicate or a combination of predicates. None of them is specified");
+            }
         }
     }
 }

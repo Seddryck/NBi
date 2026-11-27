@@ -75,7 +75,7 @@ namespace NBi.NUnit.Member
         {
             IResolveConstraint exp = ctr;
             var multipleConstraint = exp.Resolve();
-            return multipleConstraint.Matches(((MemberResult)actual).Count);
+            return multipleConstraint.ApplyTo(((MemberResult)actual).Count).IsSuccess;
         }
 
         /// <summary>
@@ -84,37 +84,37 @@ namespace NBi.NUnit.Member
         /// <param name="writer">The writer on which the description is displayed</param>
         public override void WriteDescriptionTo(NUnitCtr.MessageWriter writer)
         {
-            writer.WritePredicate(string.Format("On perspective \"{0}\", the {1} of \"{2}\" are "
+            writer.Write(string.Format("On perspective \"{0}\", the {1} of \"{2}\" are "
                                                             , Request.Perspective
                                                             , Request.Function.ToLower()
                                                             , Request.Path));
             if (exactly.HasValue)
             {
-                writer.WritePredicate("exactly");
-                writer.WriteExpectedValue(exactly.Value);
+                writer.Write("exactly ");
+                writer.WriteValue(exactly.Value);
                 return;
             }
 
             if (moreThan.HasValue && lessThan.HasValue)
             {
-                writer.WritePredicate("between");
-                writer.WriteExpectedValue(moreThan.Value);
-                writer.WriteConnector("and");
-                writer.WriteExpectedValue(lessThan.Value); 
+                writer.Write("between ");
+                writer.WriteValue(moreThan.Value);
+                writer.Write(" and ");
+                writer.WriteValue(lessThan.Value);
                 return;
             }
 
             if (moreThan.HasValue)
             {
-                writer.WritePredicate("more than");
-                writer.WriteExpectedValue(moreThan.Value);
+                writer.Write("more than ");
+                writer.WriteValue(moreThan.Value);
                 return;
             }
 
             if (lessThan.HasValue)
             {
-                writer.WritePredicate("less than");
-                writer.WriteExpectedValue(lessThan.Value);
+                writer.Write("less than ");
+                writer.WriteValue(lessThan.Value);
                 return;
             }
 

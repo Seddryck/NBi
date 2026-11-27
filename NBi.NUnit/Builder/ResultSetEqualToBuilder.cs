@@ -86,7 +86,6 @@ namespace NBi.NUnit.Builder
             var factory = new EquivalerFactory();
             var comparer = factory.Instantiate(settings, EquivalenceKind);
             ctr = ctr.Using(comparer);
-            ctr = ctr.Using(settings);
 
             //Manage parallelism
             if (ConstraintXml.ParallelizeQueries)

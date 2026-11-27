@@ -25,7 +25,7 @@ namespace NBi.NUnit.Query
         {
             if (Configuration.FailureReportProfile.Format == FailureReportFormat.Json)
                 return;
-            writer.WritePredicate($"single row validates the predicate '{filter.Describe()}'.");
+            writer.Write($"single row validates the predicate '{filter.Describe()}'.");
         }
 
         public override void WriteFilterMessageTo(NUnitCtr.MessageWriter writer)

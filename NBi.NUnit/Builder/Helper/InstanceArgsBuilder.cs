@@ -1,4 +1,4 @@
-﻿using NBi.Core.Calculation.Predicate;
+﻿using NBi.Core.Calculation.Asserting;
 using NBi.Core.Injection;
 using NBi.Core.ResultSet;
 using NBi.Core.Sequence.Resolver;
@@ -49,8 +49,9 @@ namespace NBi.NUnit.Builder.Helper
                 throw new InvalidOperationException();
 
             if (obj == InstanceSettlingXml.Unique)
+            {
                 args = new DefaultInstanceArgs();
-
+            }
             else if ((obj as InstanceSettlingXml).Variable != null)
             {
                 var variable = (obj as InstanceSettlingXml).Variable;
@@ -80,10 +81,8 @@ namespace NBi.NUnit.Builder.Helper
 
                 if (((obj as InstanceSettlingXml).DerivedVariables?.Count() ?? 0) == 0)
                 {
-                    args = new SingleVariableInstanceArgs()
+                    args = new SingleVariableInstanceArgs(variable.Name, sequenceResolver)
                     {
-                        Name = variable.Name,
-                        Resolver = sequenceResolver,
                         Categories = (obj as InstanceSettlingXml).Categories,
                         Traits = (obj as InstanceSettlingXml).Traits.ToDictionary(x => x.Name, x => x.Value),
                     };
@@ -97,14 +96,11 @@ namespace NBi.NUnit.Builder.Helper
                         var transformerFactory = new TransformerFactory(ServiceLocator, new Context(Variables));
                         var transformer = transformerFactory.Instantiate(transformerArgs);
                         transformer.Initialize(derivation.Script.Code);
-                        derivationArgs.Add(derivation.Name, new DerivationArgs() { Source = derivation.BasedOn, Transformer = transformer });
+                        derivationArgs.Add(derivation.Name, new DerivationArgs(derivation.BasedOn, transformer));
                     }
 
-                    args = new DerivedVariableInstanceArgs()
+                    args = new DerivedVariableInstanceArgs(variable.Name, sequenceResolver, derivationArgs)
                     {
-                        Name = variable.Name,
-                        Resolver = sequenceResolver,
-                        Derivations = derivationArgs,
                         Categories = (obj as InstanceSettlingXml).Categories,
                         Traits = (obj as InstanceSettlingXml).Traits.ToDictionary(x => x.Name, x => x.Value),
                     };

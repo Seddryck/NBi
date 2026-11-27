@@ -1,17 +1,13 @@
-﻿using NUnit.Core.Filters;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using NUnit.Framework.Interfaces;
+using NUnit.Framework.Internal;
 
-namespace NBi.NUnit.Runtime.Embed.Filter
+namespace NBi.NUnit.Runtime.Embed.Filter;
+
+[Serializable]
+public class NBiNameFilter(string name) : TestFilter
 {
-    [Serializable]
-    public class NBiNameFilter : SimpleNameFilter
-    {
-        public NBiNameFilter(string name)
-            : base($@"NBi.NUnit.Runtime.TestSuite.{name}")
-        { }
-    }
+    public override bool Match(ITest test) => test.Name == name;
+
+    public override TNode AddToXml(TNode parentNode, bool recursive)
+        => parentNode.AddElement("name", name);
 }

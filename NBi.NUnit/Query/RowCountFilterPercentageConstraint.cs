@@ -1,12 +1,5 @@
-﻿using System;
-using NBi.Core;
-using NUnitCtr = NUnit.Framework.Constraints;
-using NUnitFwk = NUnit.Framework;
-using NBi.Core.ResultSet;
-using System.Data;
-using NBi.Core.Calculation;
+﻿using NUnitCtr = NUnit.Framework.Constraints;
 using NBi.Core.ResultSet.Filtering;
-using System.Linq;
 
 namespace NBi.NUnit.Query
 {
@@ -18,33 +11,19 @@ namespace NBi.NUnit.Query
 
         protected override bool doMatch(int actual)
         {
-            this.actual = Convert.ToDecimal(actual) / actualResultSet.Rows.Count() * 100;
-            ctr = differed.Resolve();
-            return ctr.Matches(this.actual);
+            var percentage = (decimal)actual / actualResultSet.Rows.Count() * 100;
+            countResult = differed.Resolve().ApplyTo(percentage);
+            return countResult.IsSuccess;
         }
-       
+
         public override void WriteDescriptionTo(NUnitCtr.MessageWriter writer)
         {
-            writer.WritePredicate("percentage of rows matching the predicate is " + TransformDecimalToPercentage(ctr.WriteDescriptionTo));
+            writer.Write("percentage of rows matching the predicate is " + countResult?.Description.TrimEnd('m') + "%");
         }
 
         public override void WriteActualValueTo(NUnitCtr.MessageWriter writer)
         {
-            writer.WriteActualValue(TransformDecimalToPercentage(ctr.WriteActualValueTo));
+            writer.WriteActualValue($"{countResult?.ActualValue:G29}%");
         }
-
-        protected string TransformDecimalToPercentage(Action<NUnitFwk.TextMessageWriter> action)
-        {
-            var sb = new System.Text.StringBuilder();
-            var localWriter = new NUnitFwk.TextMessageWriter();
-            action(localWriter);
-            var childMessage = localWriter.ToString();
-            sb.Append(childMessage.Substring(0, childMessage.LastIndexOf(" ") + 1));
-            sb.Append(decimal.Parse(childMessage.Substring(childMessage.LastIndexOf(" ") + 1).Replace("m", ""), System.Threading.Thread.CurrentThread.CurrentUICulture.NumberFormat));
-            sb.Append("%");
-
-            return sb.ToString();
-        }
-
     }
 }

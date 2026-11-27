@@ -19,7 +19,7 @@ namespace NBi.NUnit.Structure
         public LinkedToConstraint(string expected)
             : base()
         {
-            InternalConstraint = new CollectionContainsConstraint(expected);
+            InternalConstraint = new SomeItemsConstraint(new EqualConstraint(expected));
             this.Expected = expected;
         }
 
@@ -27,6 +27,7 @@ namespace NBi.NUnit.Structure
         /// <summary>
         /// Flag the constraint to ignore case and return self.
         /// </summary>
+        /// <value>The constraint configured to compare metadata captions without regard to case.</value>
         public new LinkedToConstraint IgnoreCase
         {
             get
@@ -52,7 +53,7 @@ namespace NBi.NUnit.Structure
                 var captionExpression = Expected;
                 var filterExpression = description.GetFilterExpression(Command.Description.Filters.Where(f => f is CaptionFilter).Cast<CaptionFilter>().Where(f => f.Target != Command.Description.Target)).Remove(0, 3);
 
-                writer.WritePredicate(string.Format("find {0} {1} named '{2}' linked to {3}"
+                writer.Write(string.Format("find {0} {1} named '{2}' linked to {3}"
                             , notExpression
                             , targetExpression
                             , captionExpression
@@ -63,7 +64,7 @@ namespace NBi.NUnit.Structure
         public override void WriteActualValueTo(MessageWriter writer)
         {
             //actual is equal to the List of Dimensions/Measure-Group effectively linkedTo, so we don't need to perform an investigation.
-            
+
             ////IF actual is not empty it means we've an issue with Casing or a space at the end
             //if (actual is IEnumerable<IField> && ((IEnumerable<IField>)actual).Count() == 1)
             //{
@@ -84,8 +85,5 @@ namespace NBi.NUnit.Structure
                     writer.WriteActualValue(new WriterHelper.NothingFoundMessage());
             //}
         }
-
-        
-        
     }
 }

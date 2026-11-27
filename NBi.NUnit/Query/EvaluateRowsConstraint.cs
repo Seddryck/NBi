@@ -14,8 +14,6 @@ namespace NBi.NUnit.Query
 {
     public class EvaluateRowsConstraint : NBiConstraint
     {
-        
-        
         private readonly IEnumerable<IColumnAlias> variables;
         private readonly IEnumerable<IColumnExpression> expressions;
 
@@ -41,7 +39,6 @@ namespace NBi.NUnit.Query
                 return doMatch((IResultSet)actual);
             else
                 return false;
-
         }
 
         protected bool doMatch(IResultSet actual)
@@ -54,15 +51,15 @@ namespace NBi.NUnit.Query
             foreach (DataRow row in actualResultSet.Rows)
 	        {
 		        var valuedVariables = new Dictionary<string, Object>();
-                foreach (var v in variables)
+		        foreach (var v in variables)
 	                valuedVariables.Add(v.Name, row[v.Column]);
 
-                var valuedExpressions = new List<ValuedExpression>();
-                foreach (var e in expressions)
+		        var valuedExpressions = new List<ValuedExpression>();
+		        foreach (var e in expressions)
                     valuedExpressions.Add(new ValuedExpression(e.Value, row[e.Column], e.Type, e.Tolerance));
 
-                evaluationResults.Add(new RowEvaluationResult(rowIndex, valuedVariables, validationEngine.Execute(valuedVariables, valuedExpressions)));
-                rowIndex += 1;
+		        evaluationResults.Add(new RowEvaluationResult(rowIndex, valuedVariables, validationEngine.Execute(valuedVariables, valuedExpressions)));
+		        rowIndex += 1;
 	        }
             bool value = evaluationResults.Aggregate<RowEvaluationResult, bool>(true, (total, r) => total && (r.CountExpressionValidationFailed()==0));
             return value;
@@ -89,12 +86,11 @@ namespace NBi.NUnit.Query
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="writer"></param>
         public override void WriteDescriptionTo(NUnitCtr.MessageWriter writer)
         {
-            
         }
 
         public override void WriteActualValueTo(NUnitCtr.MessageWriter writer)
@@ -104,7 +100,7 @@ namespace NBi.NUnit.Query
 
         public override void WriteMessageTo(NUnitCtr.MessageWriter writer)
         {
-            writer.WritePredicate("The result of the query's execution doesn't validate the list of expressions.");
+            writer.Write("The result of the query's execution doesn't validate the list of expressions.");
             var totalFailed = evaluationResults.Aggregate<RowEvaluationResult, int>(0, (total, r) => total += r.CountExpressionValidationFailed());
             if (totalFailed>1)
                 writer.WriteLine("{0} expressions are not matching with the expected result.", totalFailed);
@@ -125,7 +121,7 @@ namespace NBi.NUnit.Query
 
             var failedRowsSample = failedRows.Take(10);
             foreach (var failedRow in failedRowsSample)
-            {               
+            {
                 writer.WriteLine();
                 writer.WriteLine("Row {0}: ", failedRow.RowIndex);
                 foreach (var failedExpression in failedRow.Results.Where(exp => !exp.IsValid))

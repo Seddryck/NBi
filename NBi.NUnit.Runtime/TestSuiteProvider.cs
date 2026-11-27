@@ -23,16 +23,14 @@ namespace NBi.NUnit.Runtime
                 if (Path.IsPathRooted(path))
                     return path;
                 else
-                    return AppDomain.CurrentDomain.SetupInformation.ApplicationBase + path;
+                    return Path.GetFullPath(path, Path.GetDirectoryName(ConfigurationProvider.GetConfigurationFile()) ?? AppContext.BaseDirectory);
             }
         }
 
         private string GetUnspecifiedFilename()
         {
             // If no config file is registered then search the first "nbits" (NBi Test Suite) file
-            var codeBase = Assembly.GetExecutingAssembly().CodeBase;
-            var uri = new UriBuilder(codeBase);
-            var path = Uri.UnescapeDataString(uri.Path);
+            var path = typeof(TestSuite).Assembly.Location;
             var directory = Path.GetDirectoryName(path);
             var files = Directory.GetFiles(directory, "*.nbits");
             if (files.Count() > 0)

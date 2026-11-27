@@ -1,51 +1,52 @@
-﻿using NBi.NUnit.Runtime.Embed.Result;
-using NBi.NUnit.Runtime;
-using NBi.Xml;
-using NUnit.Core;
-using NUnit.Core.Filters;
-using NUnit.Util;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.IO;
+using NUnit.Framework.Api;
+using NUnit.Framework.Interfaces;
+using NUnit.Framework.Internal;
 
-namespace NBi.NUnit.Runtime.Embed
+namespace NBi.NUnit.Runtime.Embed;
+
+public class Engine
 {
-    public class Engine
+    private static readonly object RunLock = new();
+
+    protected string BinPath { get; }
+
+    public Engine()
+        : this(string.Empty)
+    { }
+
+    public Engine(string binPath)
+        => BinPath = binPath;
+
+    public ITestResult Execute(string configFileName)
+        => Execute(configFileName, TestFilter.Empty);
+
+    public ITestResult Execute(string configFileName, ITestFilter filter)
     {
-        protected string BinPath { get; }
+        // The runtime keeps suite variables in static properties.
+        lock (RunLock)
+            return Run(configFileName, filter);
+    }
 
-        public TestResult Execute(string configFileName) => Execute(configFileName, TestFilter.Empty);
-
-        public TestResult Execute(string configFileName, ITestFilter filter)
+    private ITestResult Run(string configFileName, ITestFilter filter)
+    {
+        var previousFile = ConfigurationProvider.ExplicitFile.Value;
+        ConfigurationProvider.ExplicitFile.Value = Path.GetFullPath(configFileName);
+        try
         {
-            if (ServiceManager.Services.GetService(typeof(DomainManager))==null)
-            {
-                ServiceManager.Services.AddService(new DomainManager());
-                ServiceManager.Services.InitializeServices();
-            }
-            
-            var package = new NBiPackage(BinPath, configFileName);
-
-            using (var runner = new TestDomain())
-            { 
-                runner.Load(package);
-                var testResult = runner.Run(new NullListener(), filter, false, LoggingThreshold.Warn);
-                return testResult;
-            }
+            var assembly = typeof(TestSuite).Assembly;
+            var runner = new NUnitTestAssemblyRunner(new DefaultTestAssemblyBuilder());
+            var settings = new Dictionary<string, object>();
+            if (string.IsNullOrEmpty(BinPath))
+                runner.Load(assembly, settings);
+            else
+                runner.Load(Path.Combine(AppContext.BaseDirectory, BinPath, Path.GetFileName(assembly.Location)), settings);
+            return runner.Run(TestListener.NULL, filter);
         }
-
-        public Engine()
+        finally
         {
-            BinPath = string.Empty;
+            ConfigurationProvider.ExplicitFile.Value = previousFile;
         }
-
-        public Engine(string binPath)
-        {
-            BinPath = binPath;
-        }
-
-
     }
 }

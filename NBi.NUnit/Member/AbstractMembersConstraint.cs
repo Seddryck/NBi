@@ -6,7 +6,6 @@ using NBi.Core.Analysis.Request;
 using NUnitCtr = NUnit.Framework.Constraints;
 using NBi.Framework;
 
-
 namespace NBi.NUnit.Member
 {
     public abstract class AbstractMembersConstraint : NBiConstraint
@@ -14,17 +13,19 @@ namespace NBi.NUnit.Member
         private MembersAdomdEngine membersEngine;
         private NUnitCtr.Constraint internalConstraint;
         private bool isInitialized=false;
-        
+
         public IComparer Comparer { get; set; }
-        
+
         /// <summary>
         /// Request for metadata extraction
         /// </summary>
+        /// <value>The metadata request used to retrieve the members.</value>
         public MembersDiscoveryRequest Request { get; protected set; }
 
         /// <summary>
         /// Engine dedicated to Members acquisition
         /// </summary>
+        /// <value>The engine that retrieves members for the metadata request.</value>
         protected internal MembersAdomdEngine MembersEngine
         {
             get
@@ -58,15 +59,17 @@ namespace NBi.NUnit.Member
         }
 
         #endregion
-        
+
         #region Specific NUnit
         public override bool Matches(object actual)
         {
             if (!isInitialized)
                 InitializeMatching();
-                
+
             if (actual is MembersDiscoveryRequest)
+            {
                 return Process((MembersDiscoveryRequest)actual);
+            }
             else if (actual is MemberResult)
             {
                 this.actual = actual;
@@ -77,14 +80,15 @@ namespace NBi.NUnit.Member
                 return res;
             }
             else
+            {
                 throw new ArgumentException();
+            }
         }
 
         protected virtual bool DoMatch(NUnitCtr.Constraint ctr)
         {
-            return ctr.Matches(actual);
+            return ctr.ApplyTo(actual).IsSuccess;
         }
-
 
         private void InitializeMatching()
         {
@@ -96,7 +100,6 @@ namespace NBi.NUnit.Member
 
         protected virtual void PreInitializeMatching()
         {
-            
         }
 
         protected abstract NUnitCtr.Constraint BuildInternalConstraint();

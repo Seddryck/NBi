@@ -14,15 +14,15 @@ namespace NBi.NUnit.Structure
         //Internal Constraint is not necessary an CollectionItemsEqualConstraint
         //By expl, for ContainConstraint we've a collection of constrain and not just one constraint
         protected virtual NUnitCtr.Constraint InternalConstraint {get; set;}
-        
+
         public IComparer Comparer { get; set; }
-        
+
         /// <summary>
         /// Request for metadata extraction
         /// </summary>
+        /// <value>The discovery command used to retrieve metadata.</value>
         public IStructureDiscoveryCommand Command { get; protected set; }
         public IStructureDiscoveryCommand InvestigateCommand { get; protected set; }
-
 
         /// <summary>
         /// Construct a CollectionContainsConstraint
@@ -53,12 +53,14 @@ namespace NBi.NUnit.Structure
         }
 
         #endregion
-        
+
         #region Specific NUnit
         public override bool Matches(object actual)
         {
             if (actual is IStructureDiscoveryCommand)
+            {
                 return Process((IStructureDiscoveryCommand)actual);
+            }
             else if (actual is IEnumerable<string>)
             {
                 this.actual = actual;
@@ -67,11 +69,13 @@ namespace NBi.NUnit.Structure
                     //Only the type CollectionItemsEqualConstraint is supporting Using()
                     //Others constraint are mostly a composition of constraints and the comparer is applied to each constraint.
                     ctr = ((CollectionItemsEqualConstraint)ctr).Using(Comparer);
-                var res = ctr.Matches(actual);
+                var res = ctr.ApplyTo(actual).IsSuccess;
                 return res;
             }
             else
+            {
                 throw new ArgumentException();
+            }
         }
 
         protected bool Process(IStructureDiscoveryCommand actual)

@@ -41,7 +41,7 @@ namespace NBi.NUnit.ResultSetComparison
             msg.Generate(rsReference.Rows, rsCandidate.Rows, violations, mappings, null);
             return msg;
         }
-        
+
         protected ILookupAnalyzer engine;
         protected internal virtual ILookupAnalyzer Engine
         {
@@ -113,10 +113,12 @@ namespace NBi.NUnit.ResultSetComparison
         public override void WriteMessageTo(NUnitCtr.MessageWriter writer)
         {
             if (Configuration.FailureReportProfile.Format == FailureReportFormat.Json)
+            {
                 writer.Write(Failure.RenderMessage());
+            }
             else
             {
-                writer.WritePredicate(Failure.RenderPredicate());
+                writer.Write(Failure.RenderPredicate());
                 writer.WriteLine();
                 writer.WriteLine();
                 base.WriteMessageTo(writer);
@@ -124,6 +126,5 @@ namespace NBi.NUnit.ResultSetComparison
                 writer.WriteLine(Failure.RenderAnalysis());
             }
         }
-
     }
 }

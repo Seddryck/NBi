@@ -1,22 +1,12 @@
-﻿using Microsoft.CSharp;
-using System;
-using System.CodeDom.Compiler;
+using NBi.Core.Assemblies;
 using NBi.Extensibility.Resolving;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Linq;
-using System.Xml.XPath;
-using NBi.Core.Compiling;
 
 namespace NBi.Core.Scalar.Resolver;
 
 class CSharpScalarResolver<T> : IScalarResolver<T>
 {
     private CSharpScalarResolverArgs Args { get; }
-    private DynamicVariableCompiler? Compiler { get; set; }
+    private Func<object?>? evaluate;
 
     public CSharpScalarResolver(CSharpScalarResolverArgs args)
         => (Args) = (args);
@@ -27,12 +17,8 @@ class CSharpScalarResolver<T> : IScalarResolver<T>
 
     public T? Execute()
     {
-        if (Compiler is null)
-        {
-            Compiler = new DynamicVariableCompiler();
-            Compiler.Compile(Args.Code);
-        }
-        var value = Compiler.Evaluate();
+        evaluate ??= CSharpRuntime.Instance.CompileScalar(Args.Code);
+        var value = evaluate();
         return (T?)Convert.ChangeType(value, typeof(T));
     }
 

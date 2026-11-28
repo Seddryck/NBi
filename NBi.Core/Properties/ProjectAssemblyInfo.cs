@@ -1,4 +1,4 @@
-﻿using System.Reflection;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
@@ -16,5 +16,6 @@ using System.Runtime.InteropServices;
 // The following GUID is for the ID of the typelib if this project is exposed to COM
 [assembly: Guid("64c44ca6-f17a-4591-adbe-f9905039dfa1")]
 
+[assembly: InternalsVisibleTo("NBi.CSharp")]
 [assembly: InternalsVisibleTo("NBi.NUnit")]
 [assembly: InternalsVisibleTo("NBi.NUnit.Runtime")]

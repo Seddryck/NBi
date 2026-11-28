@@ -33,6 +33,10 @@ Binaries for the different releases are hosted on [www.nbi.io](http://www.nbi.io
 ## Documentation ##
 To run your first NBi suite, follow the [test environment setup](https://www.nbi.io/docs/installation-environment/), create an [XML test suite](https://www.nbi.io/docs/installation-test-suite/), and set up the [NUnit project](https://www.nbi.io/docs/installation-nunit-project/) and its [configuration](https://www.nbi.io/docs/installation-config/). Then [run the suite with NUnit](https://www.nbi.io/docs/run-with-nunit/). Browse the [full documentation](https://www.nbi.io/docs/home/) for more examples.
 
+### Optional runner packages
+
+Add a reference to the NBi.CSharp NuGet package in the NBi runner project when a suite uses inline C# or loads custom .NET extensions. Use the same release version as the rest of the NBi packages.
+
 ## Licenses ##
 NBi is available on the terms of Apache 2.0. NBi is also using several OSS projects as libraries. 
 
@@ -44,7 +48,7 @@ Compatibility of licenses in checked by FOSSA app:
 The list of bugs and feature's requests is hosted on [GitHub](https://github.com/Seddryck/NBi/issues)
 
 ## Continuous Integration and Testing ##
-[GitHub Actions](https://github.com/Seddryck/NBi/actions/workflows/ci.yml) builds the .NET 10 solution on Windows and runs the Core, GenbiL, XML, and Framework tests. The workflow uploads test results, coverage, and the NBi, NBi.Model, Extensibility, and Framework NuGet packages.
+[GitHub Actions](https://github.com/Seddryck/NBi/actions/workflows/ci.yml) builds the .NET 10 solution on Windows and runs the Core, GenbiL, XML, and Framework tests. The workflow uploads test results, coverage, and the core, framework, and optional feature NuGet packages.
 
 After a successful build on `main`, GitHub Actions publishes to NuGet.org when the `NUGET_USER` repository variable is set. Set it to the NuGet.org account name and configure a [Trusted Publishing policy](https://learn.microsoft.com/en-us/nuget/nuget-org/trusted-publishing) for this repository and `ci.yml`. The workflow uses the policy to request a short-lived publishing credential.
 

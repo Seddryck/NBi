@@ -1,0 +1,114 @@
+// The existing download control identifies the Releases page in the shared layout.
+body:has(#main-content > main > .btn-wrapper-download #downloadFramework) {
+  .side-bar {
+    background-color: $table-background-color;
+  }
+
+  #main-content > main {
+    --release-inset: clamp(1rem, 4vw, 2rem);
+
+    max-inline-size: 62rem;
+    margin-inline: auto;
+    padding: 0;
+    background: transparent;
+    border: 0;
+    box-shadow: none;
+
+    > .page-header {
+      margin-block-end: 2rem;
+    }
+
+    .page-title {
+      font-size: clamp(2.25rem, 5vw, 3.5rem);
+      font-weight: 750;
+      line-height: 1.08;
+    }
+
+    > h2:has(+ .btn-wrapper-download) {
+      margin-block: 2rem 0;
+      padding: var(--release-inset) var(--release-inset) 0.75rem;
+      background-color: $nbi-brown;
+      border: 1px solid $border-color;
+      border-bottom: 0;
+      border-radius: 0.875rem 0.875rem 0 0;
+    }
+
+    > .btn-wrapper-download {
+      display: grid;
+      gap: 0.625rem;
+      padding: 0 var(--release-inset) var(--release-inset);
+      background-color: $nbi-brown;
+      border: 1px solid $border-color;
+      border-top: 0;
+      border-radius: 0 0 0.875rem 0.875rem;
+      overflow-wrap: anywhere;
+
+      > br {
+        display: none;
+      }
+    }
+
+    #downloadFramework {
+      display: inline-flex;
+      max-inline-size: 100%;
+      text-decoration: none;
+    }
+
+    // The existing button span sets these declarations inline.
+    #downloadFramework .download-text {
+      padding: 0.75rem 1rem !important;
+      color: $nbi-espresso !important;
+      background: $nbi-peach !important;
+      border: 0 !important;
+      border-radius: 0.5rem !important;
+      font-size: 1rem !important;
+      font-weight: 700;
+      line-height: 1.5;
+    }
+
+    #downloadFramework:hover .download-text {
+      background: $nbi-cream !important;
+    }
+
+    a:focus-visible {
+      outline: 2px solid $nbi-peach;
+      outline-offset: 4px;
+    }
+
+    > div:has(> h2) {
+      margin-block-start: 2rem;
+      padding-block-start: 1.5rem;
+      border-top: 1px solid $border-color;
+
+      > h2:first-child {
+        margin-block-start: 0;
+      }
+    }
+
+    pre {
+      background-color: $table-background-color;
+    }
+
+    .table-wrapper {
+      max-inline-size: 100%;
+      overflow-x: auto;
+      border: 1px solid $border-color;
+      border-radius: 0.75rem;
+
+      table {
+        margin: 0;
+      }
+
+      th,
+      td {
+        padding: 0.625rem 0.875rem;
+      }
+
+      th {
+        background-color: $table-background-color;
+        color: $nbi-peach;
+        font-weight: 700;
+      }
+    }
+  }
+}

@@ -5,19 +5,18 @@ using System.IO;
 using System.Reflection;
 using System.Text;
 using System.Xml.Serialization;
-using NBi.Xml;
-using NBi.Xml.Items;
-using NBi.Xml.Settings;
-using NBi.Xml.Systems;
+using NBi.Model.Xml;
+using NBi.Model.Xml.Items;
+using NBi.Model.Xml.Settings;
+using NBi.Model.Xml.Systems;
 using NUnit.Framework;
 #endregion
 
-namespace NBi.Xml.Testing.Unit.Systems;
+namespace NBi.Model.Xml.Testing.Unit.Systems;
 
 [TestFixture]
 public class StructureXmlTest : BaseXmlTest
 {
-
     [Test]
     public void Deserialize_SampleFile_Hierarchy()
     {
@@ -25,7 +24,7 @@ public class StructureXmlTest : BaseXmlTest
 
         // Create an instance of the XmlSerializer specifying type and namespace.
         var ts = DeserializeSample();
-        
+
         // Check the properties of the object.
         Assert.That(ts.Tests[testNr].Systems[0], Is.TypeOf<StructureXml>());
         Assert.That(((StructureXml)ts.Tests[testNr].Systems[0]).Item, Is.TypeOf<HierarchyXml>());
@@ -36,7 +35,6 @@ public class StructureXmlTest : BaseXmlTest
         Assert.That(item.Perspective, Is.EqualTo("Perspective"));
         Assert.That(item.ConnectionString, Is.EqualTo("ConnectionString"));
     }
-
 
     [Test]
     public void GetAutoCategories_Hierarchy_ValidList()
@@ -107,7 +105,7 @@ public class StructureXmlTest : BaseXmlTest
         };
         var structureXml = new StructureXml() { Item = perspectiveXml };
 
-        var serializer = new XmlSerializer(typeof(StructureXml));
+        var serializer = NBi.Model.Xml.XmlModelSerializer.GetPlainContractSerializer(typeof(StructureXml));
         var stream = new MemoryStream();
         var writer = new StreamWriter(stream, Encoding.UTF8);
         serializer.Serialize(writer, structureXml);
@@ -121,6 +119,4 @@ public class StructureXmlTest : BaseXmlTest
         Assert.That(content, Does.Not.Contain("efault"));
         Assert.That(content, Does.Not.Contain("eference"));
     }
-    
-
 }

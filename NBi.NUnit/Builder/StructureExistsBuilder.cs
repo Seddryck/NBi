@@ -2,9 +2,9 @@
 using System.Linq;
 using NBi.Core.Analysis.Request;
 using NBi.NUnit.Structure;
-using NBi.Xml.Constraints;
-using NBi.Xml.Items;
-using NBi.Xml.Systems;
+using NBi.Model.Xml.Constraints;
+using NBi.Model.Xml.Items;
+using NBi.Model.Xml.Systems;
 using NBi.Core.Structure;
 
 namespace NBi.NUnit.Builder
@@ -13,7 +13,8 @@ namespace NBi.NUnit.Builder
     {
         protected ExistsXml ConstraintXml {get; set;}
 
-        public StructureExistsBuilder() : base()
+        public StructureExistsBuilder()
+            : base()
         {
         }
 
@@ -50,6 +51,5 @@ namespace NBi.NUnit.Builder
                 ctr = ctr.IgnoreCase;
             return ctr;
         }
-
     }
 }

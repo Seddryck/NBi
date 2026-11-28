@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Linq;
 using NBi.NUnit.Structure;
-using NBi.Xml.Constraints;
-using NBi.Xml.Items;
-using NBi.Xml.Systems;
+using NBi.Model.Xml.Constraints;
+using NBi.Model.Xml.Items;
+using NBi.Model.Xml.Systems;
 using NBi.Core.Structure;
 using System.Collections.Generic;
-using NBi.Xml.Items.Filters;
+using NBi.Model.Xml.Items.Filters;
 using NBi.NUnit.Builder.Helper;
 
 namespace NBi.NUnit.Builder
@@ -15,7 +15,8 @@ namespace NBi.NUnit.Builder
     {
         protected LinkedToXml ConstraintXml { get; set; }
 
-        public StructureLinkedToBuilder() : base()
+        public StructureLinkedToBuilder()
+            : base()
         {
         }
 
@@ -45,7 +46,7 @@ namespace NBi.NUnit.Builder
 
         protected override StructureDiscoveryCommand InstantiateCommand(AbstractItem item)
         {
-            var connectionString = new ConnectionStringHelper().Execute(item, Xml.Settings.SettingsXml.DefaultScope.SystemUnderTest);
+            var connectionString = new ConnectionStringHelper().Execute(item, NBi.Model.Xml.Settings.SettingsXml.DefaultScope.SystemUnderTest);
             var factory = discoveryProvider.Instantiate(connectionString);
 
             var target = BuildTarget(item);
@@ -57,7 +58,6 @@ namespace NBi.NUnit.Builder
 
         protected override Target BuildTarget(AbstractItem item)
         {
-
             if (item is MeasureGroupXml)
                 return Target.Dimensions;
             if (item is DimensionXml)
@@ -70,13 +70,12 @@ namespace NBi.NUnit.Builder
         {
             if (item is IPerspectiveFilter)
                 yield return new CaptionFilter(Target.Perspectives, ((IPerspectiveFilter)item).Perspective);
-            
+
             var itselfTarget = Target.Dimensions;
             if (item is MeasureGroupXml)
                 itselfTarget=Target.MeasureGroups;
-            
-            yield return new CaptionFilter(itselfTarget, item.Caption);                
-        }
 
+            yield return new CaptionFilter(itselfTarget, item.Caption);
+        }
     }
 }

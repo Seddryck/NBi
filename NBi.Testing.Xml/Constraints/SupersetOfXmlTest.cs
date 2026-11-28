@@ -3,26 +3,25 @@ using System.IO;
 using System.Reflection;
 using NBi.Core.ResultSet;
 using NBi.Core.Scalar.Comparer;
-using NBi.Xml;
-using NBi.Xml.Constraints;
-using NBi.Xml.Items;
+using NBi.Model.Xml;
+using NBi.Model.Xml.Constraints;
+using NBi.Model.Xml.Items;
 using NUnit.Framework;
-using NBi.Xml.Items.ResultSet;
+using NBi.Model.Xml.Items.ResultSet;
 using NBi.Core.Transformation;
-using NBi.Xml.Items.Alteration.Transform;
+using NBi.Model.Xml.Items.Alteration.Transform;
 #endregion
 
-namespace NBi.Xml.Testing.Unit.Constraints;
+namespace NBi.Model.Xml.Testing.Unit.Constraints;
 
 [TestFixture]
 public class SupersetOfXmlTest : BaseXmlTest
 {
-
     [Test]
     public void DeserializeSupersetResultSet_QueryFile0_Inline()
     {
         int testNr = 0;
-        
+
         // Create an instance of the XmlSerializer specifying type and namespace.
         var ts = DeserializeSample();
 
@@ -36,7 +35,7 @@ public class SupersetOfXmlTest : BaseXmlTest
     public void DeserializeSupersetResultSet_QueryFile1_ExternalFile()
     {
         int testNr = 1;
-        
+
         // Create an instance of the XmlSerializer specifying type and namespace.
         var ts = DeserializeSample();
 
@@ -49,7 +48,7 @@ public class SupersetOfXmlTest : BaseXmlTest
     public void DeserializeSupersetKey_QueryFile2_List()
     {
         int testNr = 2;
-        
+
         // Create an instance of the XmlSerializer specifying type and namespace.
         var ts = DeserializeSample();
 
@@ -105,8 +104,6 @@ public class SupersetOfXmlTest : BaseXmlTest
 
         Assert.That(((SupersetOfXml)ts.Tests[testNr].Constraints[0]).ValuesDef, Is.EqualTo(SettingsOrdinalResultSet.ValuesChoice.Last));
         Assert.That(((SupersetOfXml)ts.Tests[testNr].Constraints[0]).Tolerance, Is.EqualTo("100"));
-
-        
     }
 
     [Test]
@@ -179,7 +176,6 @@ public class SupersetOfXmlTest : BaseXmlTest
         Assert.That(ts.Tests[testNr].Constraints[0], Is.TypeOf<SupersetOfXml>());
         var ctr = (SupersetOfXml)ts.Tests[testNr].Constraints[0];
 
-
         Assert.That(ctr.ColumnsDef[0].Transformation, Is.TypeOf<LightTransformXml>());
         var transfo = (LightTransformXml)ctr.ColumnsDef[0].Transformation!;
 
@@ -198,7 +194,6 @@ public class SupersetOfXmlTest : BaseXmlTest
 
         Assert.That(ts.Tests[testNr].Constraints[0], Is.TypeOf<SupersetOfXml>());
         var ctr = (SupersetOfXml)ts.Tests[testNr].Constraints[0];
-
 
         Assert.That(ctr.ColumnsDef[1].Transformation, Is.TypeOf<LightTransformXml>());
         var transfo = (LightTransformXml)ctr.ColumnsDef[1].Transformation!;

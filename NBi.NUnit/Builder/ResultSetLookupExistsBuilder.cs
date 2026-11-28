@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using NBi.NUnit.Query;
-using NBi.Xml.Constraints;
-using NBi.Xml.Systems;
+using NBi.Model.Xml.Constraints;
+using NBi.Model.Xml.Systems;
 using NBi.Core.ResultSet.Uniqueness;
 using NBi.Core.ResultSet.Lookup;
 using NBi.NUnit.Builder.Helper;
 using NBi.Core.ResultSet;
 using NBi.NUnit.ResultSetComparison;
-using NBi.Xml.Settings;
+using NBi.Model.Xml.Settings;
 
 namespace NBi.NUnit.Builder
 {
@@ -20,7 +20,6 @@ namespace NBi.NUnit.Builder
 
         public ResultSetLookupExistsBuilder()
         {
-
         }
 
         protected override void SpecificSetup(AbstractSystemUnderTestXml sutXml, AbstractConstraintXml ctrXml)
@@ -55,6 +54,5 @@ namespace NBi.NUnit.Builder
             var ctr = ctrXml.IsReversed ? new LookupReverseExistsConstraint(resolver) : new LookupExistsConstraint(resolver);
             Constraint = ctr.Using(mappings);
         }
-
     }
 }

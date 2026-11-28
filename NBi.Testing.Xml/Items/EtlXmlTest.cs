@@ -3,13 +3,13 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using NBi.Core.Etl;
-using NBi.Xml;
-using NBi.Xml.Decoration.Command;
-using NBi.Xml.Items;
-using NBi.Xml.Systems;
+using NBi.Model.Xml;
+using NBi.Model.Xml.Decoration.Command;
+using NBi.Model.Xml.Items;
+using NBi.Model.Xml.Systems;
 using NUnit.Framework;
 
-namespace NBi.Xml.Testing.Unit.Items;
+namespace NBi.Model.Xml.Testing.Unit.Items;
 
 [TestFixture]
 public class EtlXmlTest
@@ -152,7 +152,6 @@ public class EtlXmlTest
         Assert.That(etl.Name, Is.EqualTo("Sample"));
         Assert.That(etl.UserName, Is.EqualTo(@"sa"));
         Assert.That(etl.Password, Is.EqualTo("p@ssw0rd"));
-
     }
 
     [Test]
@@ -173,7 +172,6 @@ public class EtlXmlTest
         Assert.That(etl.Project, Is.EqualTo(@"Project"));
         Assert.That(etl.Name, Is.EqualTo("Sample"));
         Assert.That(etl.Is32Bits, Is.False);
-
     }
 
     [Test]

@@ -1,5 +1,5 @@
-﻿using NBi.Xml;
-using NBi.Xml.Decoration;
+﻿using NBi.Model;
+using NBi.Model.Decoration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +10,7 @@ namespace NBi.GenbiL.Stateful.Tree;
 
 public class SetupNode : TreeNode
 {
-    public SetupStandaloneXml Content { get; }
-    public SetupNode(SetupStandaloneXml setup)
+    public SetupStandalone Content { get; }
+    public SetupNode(SetupStandalone setup)
         : base("setup") => Content = setup;
 }

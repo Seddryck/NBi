@@ -7,9 +7,9 @@ using NBi.Core.Injection;
 using NBi.Core.Scalar.Resolver;
 using NBi.Core.Variable;
 using NBi.NUnit.Builder.Helper;
-using NBi.Xml.Items.Api.Authentication;
-using NBi.Xml.Items.Api.Rest;
-using NBi.Xml.Settings;
+using NBi.Model.Xml.Items.Api.Authentication;
+using NBi.Model.Xml.Items.Api.Rest;
+using NBi.Model.Xml.Settings;
 using NUnit.Framework;
 
 namespace NBi.Testing.Unit.NUnit.Builder.Helper

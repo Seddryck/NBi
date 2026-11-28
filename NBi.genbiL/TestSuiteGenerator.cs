@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using NBi.GenbiL.Action;
 using NBi.GenbiL.Parser;
-using NBi.Xml;
+using NBi.Model;
+using NBi.Model.Xml;
 using Sprache;
 using System.IO;
 using NBi.GenbiL.Stateful;
@@ -16,7 +17,6 @@ public class TestSuiteGenerator
 
     public TestSuiteGenerator()
     {
-        
     }
 
     public void Load(string filename)
@@ -67,12 +67,11 @@ public class TestSuiteGenerator
             OnActionInfoEvent(new ActionInfoEventArgs(action.Display));
             action.Execute(state);
         }
-            
+
         return state;
     }
 
-
-    protected virtual void Save(string filename, TestSuiteXml testSuite)
+    protected virtual void Save(string filename, TestSuite testSuite)
     {
         var xmlManager = new XmlManager();
         xmlManager.Persist(filename, testSuite);
@@ -91,12 +90,12 @@ public class TestSuiteGenerator
 
     protected virtual void OnActionInfoEvent(ActionInfoEventArgs e)
     {
-        // Make a temporary copy of the event to avoid possibility of 
-        // a race condition if the last subscriber unsubscribes 
+        // Make a temporary copy of the event to avoid possibility of
+        // a race condition if the last subscriber unsubscribes
         // immediately after the null check and before the event is raised.
         var handler = ActionInfoEvent!;
 
-        // Event will be null if there are no subscribers 
+        // Event will be null if there are no subscribers
         if (handler != null)
         {
             // Format the string to send inside the CustomEventArgs parameter

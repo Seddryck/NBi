@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Linq;
-using NBi.Xml.Constraints;
-using NBi.Xml.Items;
-using NBi.Xml.Systems;
+using NBi.Model.Xml.Constraints;
+using NBi.Model.Xml.Items;
+using NBi.Model.Xml.Systems;
 using NBi.Core.Structure;
 
 namespace NBi.NUnit.Builder
@@ -10,8 +10,9 @@ namespace NBi.NUnit.Builder
     class StructureContainedInBuilder: StructureContainBuilder
     {
         protected new ContainedInXml ConstraintXml { get; set; }
-        
-        public StructureContainedInBuilder() : base()
+
+        public StructureContainedInBuilder()
+            : base()
         {
         }
 
@@ -38,7 +39,7 @@ namespace NBi.NUnit.Builder
             var ctr = new NBi.NUnit.Structure.ContainedInConstraint(ctrXml.GetItems());
 
                 //Ignore-case if requested
-                if (ctrXml.IgnoreCase)
+            if (ctrXml.IgnoreCase)
                     ctr = ctr.IgnoreCase;
             return ctr;
         }

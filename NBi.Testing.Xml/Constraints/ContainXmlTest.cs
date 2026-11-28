@@ -5,21 +5,20 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Xml.Serialization;
-using NBi.Xml;
-using NBi.Xml.Constraints;
+using NBi.Model.Xml;
+using NBi.Model.Xml.Constraints;
 using NUnit.Framework;
 
-namespace NBi.Xml.Testing.Unit.Constraints;
+namespace NBi.Model.Xml.Testing.Unit.Constraints;
 
 [TestFixture]
 public class ContainXmlTest : BaseXmlTest
 {
-
     [Test]
     public void Deserialize_SampleFile_ContainCaptionNotIgnoringCaseImplicitely()
     {
         int testNr = 0;
-        
+
         // Create an instance of the XmlSerializer specifying type and namespace.
         var ts = DeserializeSample();
 
@@ -34,7 +33,7 @@ public class ContainXmlTest : BaseXmlTest
     public void Deserialize_SampleFile_ContainCaptionIgnoringCaseExplicitely()
     {
         int testNr = 1;
-        
+
         // Create an instance of the XmlSerializer specifying type and namespace.
         var ts = DeserializeSample();
 
@@ -58,7 +57,6 @@ public class ContainXmlTest : BaseXmlTest
         Assert.That(((ContainXml)ts.Tests[testNr].Constraints[0]).Items[1], Is.EqualTo("abc"));
     }
 
-
     [Test]
     public void Serialize_ContainWithCaption_ContainItems()
     {
@@ -67,7 +65,7 @@ public class ContainXmlTest : BaseXmlTest
             Items = ["myMember"]
         };
 
-        var serializer = new XmlSerializer(typeof(ContainXml));
+        var serializer = NBi.Model.Xml.XmlModelSerializer.GetPlainContractSerializer(typeof(ContainXml));
         var stream = new MemoryStream();
         var writer = new StreamWriter(stream, Encoding.UTF8);
         serializer.Serialize(writer, containXml);

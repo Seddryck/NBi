@@ -2,15 +2,14 @@
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using NBi.Xml;
+using NBi.Model.Xml;
 using NUnit.Framework;
 
-namespace NBi.Xml.Testing.Unit;
+namespace NBi.Model.Xml.Testing.Unit;
 
 [TestFixture]
 public class GroupXmlTest : BaseXmlTest
 {
-
     [Test]
     public void Deserialize_SampleFile_TestSuiteLoaded()
     {
@@ -92,5 +91,4 @@ public class GroupXmlTest : BaseXmlTest
         Assert.That(test.GroupNames, Has.Member("My second tests' group"));
         Assert.That(test.GroupNames, Has.Member("group in group"));
     }
-
 }

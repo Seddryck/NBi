@@ -1,7 +1,7 @@
-﻿using NBi.Xml;
-using NBi.Xml.Items;
-using NBi.Xml.SerializationOption;
-using NBi.Xml.Systems;
+﻿using NBi.Model.Xml;
+using NBi.Model.Xml.Items;
+using NBi.Model.Xml.SerializationOption;
+using NBi.Model.Xml.Systems;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Xml.Testing.Unit.Items;
+namespace NBi.Model.Xml.Testing.Unit.Items;
 
 public class FileXmlTest
 {

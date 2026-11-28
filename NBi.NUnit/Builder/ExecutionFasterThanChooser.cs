@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Linq;
 using NBi.Core;
-using NBi.Xml.Constraints;
-using NBi.Xml.Systems;
+using NBi.Model.Xml.Constraints;
+using NBi.Model.Xml.Systems;
 
 namespace NBi.NUnit.Builder
 {
     class ExecutionFasterThanChooser : ITestCaseBuilderChooser
     {
         public TestCaseFactory.BuilderRegistration Target { get; set; }
-        
+
         public void Choose(AbstractSystemUnderTestXml sut, AbstractConstraintXml ctr)
         {
             if (sut.BaseItem is IExecutableArgs)

@@ -1,6 +1,6 @@
 ﻿using NBi.NUnit.Builder.Helper;
-using NBi.Xml.Items;
-using NBi.Xml.Settings;
+using NBi.Model.Xml.Items;
+using NBi.Model.Xml.Settings;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;

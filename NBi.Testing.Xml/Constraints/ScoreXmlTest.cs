@@ -2,26 +2,25 @@
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using NBi.Xml;
-using NBi.Xml.Constraints;
+using NBi.Model.Xml;
+using NBi.Model.Xml.Constraints;
 using NUnit.Framework;
-using NBi.Xml.Constraints.Comparer;
+using NBi.Model.Xml.Constraints.Comparer;
 using NBi.Core.ResultSet;
-using NBi.Xml.Settings;
+using NBi.Model.Xml.Settings;
 using NBi.Core.Evaluate;
-using NBi.Xml.Items.Calculation;
+using NBi.Model.Xml.Items.Calculation;
 using System.Collections.Generic;
 using System.Xml.Serialization;
 using System.Text;
 using System.Diagnostics;
 #endregion
 
-namespace NBi.Xml.Testing.Unit.Constraints;
+namespace NBi.Model.Xml.Testing.Unit.Constraints;
 
 [TestFixture]
 public class ScoreXmlTest : BaseXmlTest
 {
-
     [Test]
     public void Deserialize_SampleFile_ReadCorrectlyScore()
     {

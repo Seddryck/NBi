@@ -7,12 +7,12 @@ using NBi.Core.Query;
 using NBi.Core.ResultSet;
 using NBi.Core.Scalar.Comparer;
 using NBi.NUnit.Query;
-using NBi.Xml.Constraints;
-using NBi.Xml.Items;
-using NBi.Xml.Systems;
+using NBi.Model.Xml.Constraints;
+using NBi.Model.Xml.Items;
+using NBi.Model.Xml.Systems;
 using NBi.NUnit.Execution;
 using NUnitCtr = NUnit.Framework.Constraints;
-using NBi.Xml.Constraints.Comparer;
+using NBi.Model.Xml.Constraints.Comparer;
 using NBi.Core.Calculation;
 using NBi.Core.Evaluate;
 

@@ -1,22 +1,21 @@
 ﻿using System.IO;
 using System.Reflection;
 using NBi.Core.Format;
-using NBi.Xml;
-using NBi.Xml.Constraints;
-using NBi.Xml.Items.Format;
+using NBi.Model.Xml;
+using NBi.Model.Xml.Constraints;
+using NBi.Model.Xml.Items.Format;
 using NUnit.Framework;
 
-namespace NBi.Xml.Testing.Unit.Items;
+namespace NBi.Model.Xml.Testing.Unit.Items;
 
 [TestFixture]
 public class FormatXmlTest : BaseXmlTest
 {
-
     [Test]
     public void Deserialize_SampleFile_NumericFormat()
     {
         int testNr = 0;
-        
+
         // Create an instance of the XmlSerializer specifying type and namespace.
         var ts = DeserializeSample();
 
@@ -66,5 +65,4 @@ public class FormatXmlTest : BaseXmlTest
         Assert.That(format.CurrencyPattern, Is.EqualTo(CurrencyPattern.Prefix));
         Assert.That(format.CurrencySymbol, Is.EqualTo("SEK"));
     }
-           
 }

@@ -1,23 +1,23 @@
-﻿using System;
+using System;
 using System.Data;
 using System.Linq;
 using NUnit.Framework;
+using Is = NUnit.Framework.Is;
 using System.Collections.Generic;
-using NBi.Xml.Systems;
-using NBi.Xml.Constraints;
+using NBi.Model.Systems;
+using NBi.Model.Constraints;
 using System.Reflection;
 using System.IO;
 using System.Threading;
 using System.Globalization;
 using NBi.GenbiL.Templating;
-using NBi.Xml;
+using NBi.Model;
 
 namespace NBi.GenbiL.Testing.Templating;
 
 [TestFixture]
 public class StringTemplateEngineTest
 {
-
     private string ReadTemplateFile(string filename)
     {
         var template = string.Empty;
@@ -42,7 +42,6 @@ public class StringTemplateEngineTest
         return caseBuilt;
     }
 
-
     [Test]
     public void Build_OrderedLightTemplate_CorrectTest()
     {
@@ -53,16 +52,16 @@ public class StringTemplateEngineTest
             BuildCase(["myPerspective", "myDimension", "myHierarchy", "numerical"])
         };
         var engine = new StringTemplateEngine(template, variables);
-        var testSuite = engine.Build<TestStandaloneXml>(data, new Dictionary<string, object>());
+        var testSuite = engine.Build<StandaloneTest>(data, new Dictionary<string, object>());
         var test = testSuite.ElementAt(0);
 
         //Test the object
-        var members = test.Systems[0] as MembersXml;
+        var members = test.Systems[0] as Members;
         Assert.That(members!.Exclude.Items, Is.Null.Or.Empty);
         Assert.That(members!.Exclude.Patterns, Is.Null.Or.Empty);
 
-        var ordered = test.Constraints[0] as OrderedXml;
-        Assert.That(ordered!.Rule, Is.EqualTo(OrderedXml.Order.Numerical));
+        var ordered = test.Constraints[0] as Ordered;
+        Assert.That(ordered!.Rule, Is.EqualTo(Ordered.Order.Numerical));
         Assert.That(ordered.Descending, Is.EqualTo(false));
         Assert.That(ordered.Definition, Is.Null.Or.Empty);
 
@@ -72,7 +71,6 @@ public class StringTemplateEngineTest
         Assert.That(content, Does.Not.Contain("descending=\"false\""));
         Assert.That(content, Does.Not.Contain("<rule-definition"));
         Assert.That(content, Does.Not.Contain("<exclude"));
-        
     }
 
     [Test]
@@ -85,7 +83,7 @@ public class StringTemplateEngineTest
             BuildCase(["myPerspective", "myDimension", "myHierarchy", "numerical"])
         };
         var engine = new StringTemplateEngine(template, variables);
-        var testSuite = engine.Build<TestStandaloneXml>(data, new Dictionary<string, object>());
+        var testSuite = engine.Build<StandaloneTest>(data, new Dictionary<string, object>());
         var test = testSuite.ElementAt(0);
 
         //Test the content serialized
@@ -106,15 +104,15 @@ public class StringTemplateEngineTest
         };
 
         var engine = new StringTemplateEngine(template, variables);
-        var testSuite = engine.Build<TestStandaloneXml>(data, new Dictionary<string, object>());
+        var testSuite = engine.Build<StandaloneTest>(data, new Dictionary<string, object>());
         var test = testSuite.ElementAt(0);
 
         //Test the object
-        var members = test.Systems[0] as MembersXml;
+        var members = test.Systems[0] as Members;
         Assert.That(members!.Exclude.Items, Is.Not.Null.And.Not.Empty);
 
-        var ordered = test.Constraints[0] as OrderedXml;
-        Assert.That(ordered!.Rule, Is.EqualTo(OrderedXml.Order.Specific));
+        var ordered = test.Constraints[0] as Ordered;
+        Assert.That(ordered!.Rule, Is.EqualTo(Ordered.Order.Specific));
         Assert.That(ordered.Descending, Is.EqualTo(true));
         Assert.That(ordered.Definition, Is.Not.Null.And.Not.Empty);
 
@@ -142,7 +140,6 @@ public class StringTemplateEngineTest
         var result = engine.RenderTemplate(values);
 
         Assert.That(result, Is.EqualTo("<dimension caption='myDim' perspective='myPersp'/>"));
-
     }
 
     [Test]

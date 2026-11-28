@@ -1,16 +1,15 @@
 ﻿using System.IO;
 using System.Reflection;
-using NBi.Xml;
-using NBi.Xml.Items;
-using NBi.Xml.Systems;
+using NBi.Model.Xml;
+using NBi.Model.Xml.Items;
+using NBi.Model.Xml.Systems;
 using NUnit.Framework;
 
-namespace NBi.Xml.Testing.Unit.Items;
+namespace NBi.Model.Xml.Testing.Unit.Items;
 
 [TestFixture]
 public class SetXmlTest : BaseXmlTest
 {
-
     [Test]
     public void Deserialize_SampleFile_SetLoaded()
     {
@@ -59,5 +58,5 @@ public class SetXmlTest : BaseXmlTest
         var item = (SetXml)((MembersXml)ts.Tests[testNr].Systems[0]).Item;
         Assert.That(item.Perspective, Is.EqualTo("perspective"));
         Assert.That(item.Caption, Is.EqualTo("set"));
-    }      
+    }
 }

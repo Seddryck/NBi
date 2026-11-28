@@ -8,10 +8,10 @@ using NBi.Core.Injection;
 using NBi.Core.Members.Predefined;
 using NBi.NUnit.Builder;
 using NBi.NUnit.Member;
-using NBi.Xml.Constraints;
-using NBi.Xml.Items;
-using NBi.Xml.Items.Ranges;
-using NBi.Xml.Systems;
+using NBi.Model.Xml.Constraints;
+using NBi.Model.Xml.Items;
+using NBi.Model.Xml.Items.Ranges;
+using NBi.Model.Xml.Systems;
 using NUnit.Framework;
 #endregion
 

@@ -1,28 +1,26 @@
 ﻿using System.IO;
 #region Using directives
 
-using NBi.Xml;
+using NBi.Model.Xml;
 using System.Reflection;
-using NBi.Xml.Constraints;
-using NBi.Xml.Items;
-using NBi.Xml.Systems;
+using NBi.Model.Xml.Constraints;
+using NBi.Model.Xml.Items;
+using NBi.Model.Xml.Systems;
 using NUnit.Framework;
-using NBi.Xml.Settings;
+using NBi.Model.Xml.Settings;
 using System;
 #endregion
 
-namespace NBi.Xml.Testing.Unit.Settings;
+namespace NBi.Model.Xml.Testing.Unit.Settings;
 
 [TestFixture]
 public class SettingsXmlTest
 {
-
     #region SetUp & TearDown
     //Called only at instance creation
     [OneTimeSetUp]
     public void SetupMethods()
     {
-
     }
 
     //Called only at instance destruction
@@ -63,7 +61,7 @@ public class SettingsXmlTest
 
     [Test]
     public void DeserializeEqualToResultSet_SettingsWithDefault_DefaultLoaded()
-    {           
+    {
         // Create an instance of the XmlSerializer specifying type and namespace.
         var ts = DeserializeSample("SettingsXmlWithDefault");
 
@@ -192,7 +190,7 @@ public class SettingsXmlTest
         // Create an instance of the XmlSerializer specifying type and namespace.
         var ts = DeserializeSample("SettingsXmlWithReference");
 
-        Assert.Throws<System.ArgumentOutOfRangeException>(delegate { ts.Settings.GetReference("not-existing"); });
+        Assert.Throws<System.ArgumentOutOfRangeException>(() => { ts.Settings.GetReference("not-existing"); });
     }
 
     [Test]
@@ -226,7 +224,6 @@ public class SettingsXmlTest
         Assert.That(((QueryXml)((ExecutionXml)ts.Tests[testNr].Systems[0]).Item).ConnectionString, Is.Null.Or.Empty);
         Assert.That(((ExecutionXml)ts.Tests[testNr].Systems[0]).Item.ConnectionString, Is.Null.Or.Empty);
     }
-
 
     [Test]
     public void DeserializeStructurePerspective_SettingsWithoutParallelizeQueries_False()

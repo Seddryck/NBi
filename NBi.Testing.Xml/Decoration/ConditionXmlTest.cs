@@ -2,17 +2,16 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
-using NBi.Xml;
-using NBi.Xml.Decoration;
-using NBi.Xml.Decoration.Condition;
+using NBi.Model.Xml;
+using NBi.Model.Xml.Decoration;
+using NBi.Model.Xml.Decoration.Condition;
 using NUnit.Framework;
 
-namespace NBi.Xml.Testing.Unit.Decoration;
+namespace NBi.Model.Xml.Testing.Unit.Decoration;
 
 [TestFixture]
 public class ConditionXmlTest : BaseXmlTest
 {
-
     [Test]
     public void Deserialize_SampleFile_Check()
     {
@@ -24,7 +23,6 @@ public class ConditionXmlTest : BaseXmlTest
         // Check the properties of the object.
         Assert.That(ts.Tests[testNr].Condition, Is.TypeOf<ConditionXml>());
     }
-
 
     [Test]
     public void Deserialize_SampleFile_SetupCountCommands()
@@ -50,13 +48,13 @@ public class ConditionXmlTest : BaseXmlTest
         Assert.That(ts.Tests[testNr].Condition.Predicates[0], Is.TypeOf<ServiceRunningConditionXml>());
         var check = (ServiceRunningConditionXml)ts.Tests[testNr].Condition.Predicates[0];
         Assert.That(check.TimeOut, Is.EqualTo("5000")); //Default value
-        Assert.That(check.ServiceName, Is.EqualTo("MyService")); 
+        Assert.That(check.ServiceName, Is.EqualTo("MyService"));
 
         // Check the properties of the object.
         Assert.That(ts.Tests[testNr].Condition.Predicates[1], Is.TypeOf<ServiceRunningConditionXml>());
         var check2 = (ServiceRunningConditionXml)ts.Tests[testNr].Condition.Predicates[1];
         Assert.That(check2.TimeOut, Is.EqualTo("1000")); //Value Specified
-        Assert.That(check2.ServiceName, Is.EqualTo("MyService2")); 
+        Assert.That(check2.ServiceName, Is.EqualTo("MyService2"));
     }
 
     [Test]

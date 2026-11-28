@@ -1,5 +1,4 @@
 ﻿using NBi.GenbiL.Stateful;
-using NBi.Xml.Settings;
 
 namespace NBi.GenbiL.Action.Setting.CsvProfile;
 
@@ -12,7 +11,7 @@ public class TextQualifierAction : ICsvProfileAction
 
     public void Execute(GenerationState state)
     {
-        state.Settings.CsvProfile = (state.Settings.CsvProfile ?? new CsvProfileXml());
+        state.Settings.CsvProfile = (state.Settings.CsvProfile ?? new NBi.Model.Settings.CsvProfile());
         state.Settings.CsvProfile.TextQualifier = Value;
     }
 

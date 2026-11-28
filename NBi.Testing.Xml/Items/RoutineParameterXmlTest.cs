@@ -5,13 +5,13 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Xml.Serialization;
-using NBi.Xml.Items;
-using NBi.Xml.Settings;
+using NBi.Model.Xml.Items;
+using NBi.Model.Xml.Settings;
 using NUnit.Framework;
-using NBi.Xml.Systems;
-using NBi.Xml.Items.Filters;
+using NBi.Model.Xml.Systems;
+using NBi.Model.Xml.Items.Filters;
 
-namespace NBi.Xml.Testing.Unit.Items;
+namespace NBi.Model.Xml.Testing.Unit.Items;
 
 [TestFixture]
 public class RoutineParameterXmlTest
@@ -28,7 +28,7 @@ public class RoutineParameterXmlTest
         };
         structureXml.Item = parameterXml;
 
-        var serializer = new XmlSerializer(typeof(StructureXml));
+        var serializer = NBi.Model.Xml.XmlModelSerializer.GetPlainContractSerializer(typeof(StructureXml));
         var stream = new MemoryStream();
         var writer = new StreamWriter(stream, Encoding.UTF8);
         serializer.Serialize(writer, structureXml);
@@ -59,7 +59,7 @@ public class RoutineParameterXmlTest
         };
         structureXml.Item = parameterXml;
 
-        var serializer = new XmlSerializer(typeof(StructureXml));
+        var serializer = NBi.Model.Xml.XmlModelSerializer.GetPlainContractSerializer(typeof(StructureXml));
         var stream = new MemoryStream();
         var writer = new StreamWriter(stream, Encoding.UTF8);
         serializer.Serialize(writer, structureXml);

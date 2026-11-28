@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Linq;
 using NBi.Core.Analysis.Request;
-using NBi.Xml.Constraints;
-using NBi.Xml.Systems;
+using NBi.Model.Xml.Constraints;
+using NBi.Model.Xml.Systems;
 
 namespace NBi.NUnit.Builder
 {
@@ -10,7 +10,8 @@ namespace NBi.NUnit.Builder
     {
         protected MatchPatternXml ConstraintXml {get; set;}
 
-        public MembersMatchPatternBuilder() : base()
+        public MembersMatchPatternBuilder()
+            : base()
         {
         }
 
@@ -40,6 +41,5 @@ namespace NBi.NUnit.Builder
 
             return ctr;
         }
-
     }
 }

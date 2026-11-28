@@ -1,14 +1,13 @@
 ﻿using System.IO;
 using System.Reflection;
-using NBi.Xml;
+using NBi.Model.Xml;
 using NUnit.Framework;
 
-namespace NBi.Xml.Testing.Unit;
+namespace NBi.Model.Xml.Testing.Unit;
 
 [TestFixture]
 public class DescriptionXmlTest : BaseXmlTest
 {
-
     [Test]
     public void Deserialize_DescriptionAttributeNotSpecified_NoDescription()
     {

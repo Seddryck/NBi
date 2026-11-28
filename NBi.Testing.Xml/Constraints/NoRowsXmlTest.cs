@@ -2,19 +2,18 @@
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using NBi.Xml;
-using NBi.Xml.Constraints;
+using NBi.Model.Xml;
+using NBi.Model.Xml.Constraints;
 using NUnit.Framework;
-using NBi.Xml.Constraints.Comparer;
+using NBi.Model.Xml.Constraints.Comparer;
 using NBi.Core.ResultSet;
 #endregion
 
-namespace NBi.Xml.Testing.Unit.Constraints;
+namespace NBi.Model.Xml.Testing.Unit.Constraints;
 
 [TestFixture]
 public class NoRowsXmlTest : BaseXmlTest
 {
-
     [Test]
     public void Deserialize_SampleFile_ReadCorrectlyNoRows()
     {
@@ -45,5 +44,4 @@ public class NoRowsXmlTest : BaseXmlTest
         var moreThan = (MoreThanXml)comparison.Predicate!;
         Assert.That(moreThan.Reference, Is.EqualTo("10"));
     }
-
 }

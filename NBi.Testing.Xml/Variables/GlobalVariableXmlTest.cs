@@ -1,18 +1,18 @@
-﻿using NBi.Xml;
+﻿using NBi.Model.Xml;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using NBi.Xml.Variables;
+using NBi.Model.Xml.Variables;
 using System.Xml.Serialization;
 using System.IO;
 using System.Diagnostics;
-using NBi.Xml.Items;
-using NBi.Xml.Variables.Custom;
+using NBi.Model.Xml.Items;
+using NBi.Model.Xml.Variables.Custom;
 
-namespace NBi.Xml.Testing.Unit.Variables;
+namespace NBi.Model.Xml.Testing.Unit.Variables;
 
 public class GlobalVariableXmlTest
 {
@@ -31,7 +31,7 @@ public class GlobalVariableXmlTest
             ]
         };
 
-        var serializer = new XmlSerializer(typeof(TestSuiteXml));
+        var serializer = NBi.Model.Xml.XmlModelSerializer.GetPlainContractSerializer(typeof(TestSuiteXml));
         var stream = new MemoryStream();
         var writer = new StreamWriter(stream, Encoding.UTF8);
         serializer.Serialize(writer, testSuiteXml);
@@ -61,7 +61,7 @@ public class GlobalVariableXmlTest
             ]
         };
 
-        var serializer = new XmlSerializer(typeof(TestSuiteXml));
+        var serializer = NBi.Model.Xml.XmlModelSerializer.GetPlainContractSerializer(typeof(TestSuiteXml));
         var stream = new MemoryStream();
         var writer = new StreamWriter(stream, Encoding.UTF8);
         serializer.Serialize(writer, testSuiteXml);
@@ -91,7 +91,7 @@ public class GlobalVariableXmlTest
             ]
         };
 
-        var serializer = new XmlSerializer(typeof(TestSuiteXml));
+        var serializer = NBi.Model.Xml.XmlModelSerializer.GetPlainContractSerializer(typeof(TestSuiteXml));
         var stream = new MemoryStream();
         var writer = new StreamWriter(stream, Encoding.UTF8);
         serializer.Serialize(writer, testSuiteXml);
@@ -126,7 +126,7 @@ public class GlobalVariableXmlTest
             ]
         };
 
-        var serializer = new XmlSerializer(typeof(TestSuiteXml));
+        var serializer = NBi.Model.Xml.XmlModelSerializer.GetPlainContractSerializer(typeof(TestSuiteXml));
         var stream = new MemoryStream();
         var writer = new StreamWriter(stream, Encoding.UTF8);
         serializer.Serialize(writer, testSuiteXml);
@@ -149,7 +149,7 @@ public class GlobalVariableXmlTest
             Variables = []
         };
 
-        var serializer = new XmlSerializer(typeof(TestSuiteXml));
+        var serializer = NBi.Model.Xml.XmlModelSerializer.GetPlainContractSerializer(typeof(TestSuiteXml));
         var stream = new MemoryStream();
         var writer = new StreamWriter(stream, Encoding.UTF8);
         serializer.Serialize(writer, testSuiteXml);
@@ -186,7 +186,7 @@ public class GlobalVariableXmlTest
             ]
         };
 
-        var serializer = new XmlSerializer(typeof(TestSuiteXml));
+        var serializer = NBi.Model.Xml.XmlModelSerializer.GetPlainContractSerializer(typeof(TestSuiteXml));
         using (var stream = new MemoryStream())
         using (var writer = new StreamWriter(stream, Encoding.UTF8))
         {

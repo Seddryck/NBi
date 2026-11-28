@@ -1,14 +1,13 @@
 ﻿using System.IO;
 using System.Reflection;
-using NBi.Xml;
+using NBi.Model.Xml;
 using NUnit.Framework;
 
-namespace NBi.Xml.Testing.Unit;
+namespace NBi.Model.Xml.Testing.Unit;
 
 [TestFixture]
 public class IgnoreXmlTest : BaseXmlTest
 {
-
     [Test]
     public void Deserialize_IgnoreAttributeNotSpecified_NotIgnored()
     {
@@ -56,5 +55,4 @@ public class IgnoreXmlTest : BaseXmlTest
         Assert.That(ts.Tests[testNr], Is.TypeOf<TestXml>());
         Assert.That(ts.Tests[testNr].IgnoreReason, Is.EqualTo("The reason to ignore this test."));
     }
-
 }

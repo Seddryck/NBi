@@ -3,13 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using NBi.Core.Analysis.Request;
 using NBi.NUnit.Builder.Helper;
-using NBi.Xml.Items;
+using NBi.Model.Xml.Items;
 
 namespace NBi.NUnit.Builder
 {
     internal class MetadataDiscoveryRequestBuilder
     {
-
         public enum MetadataDiscoveryRequestType
         {
             Direct,
@@ -89,7 +88,6 @@ namespace NBi.NUnit.Builder
             var target = GetTargetForProperty(propertyName);
             var filter = new CaptionFilter(caption, target);
             return filter;
-
         }
 
         private IFilter BuildCaptionFilterForCaptionProperty(object src, DiscoveryTarget target)
@@ -121,7 +119,7 @@ namespace NBi.NUnit.Builder
             if (filter != null)
                 filters.Add(filter);
 
-            var connectionString = new ConnectionStringHelper().Execute(item, Xml.Settings.SettingsXml.DefaultScope.SystemUnderTest);
+            var connectionString = new ConnectionStringHelper().Execute(item, NBi.Model.Xml.Settings.SettingsXml.DefaultScope.SystemUnderTest);
 
             var factory = new DiscoveryRequestFactory();
             MetadataDiscoveryRequest request = null;
@@ -138,8 +136,6 @@ namespace NBi.NUnit.Builder
                     break;
             }
             return request;
-        }      
-
-        
+        }
     }
 }

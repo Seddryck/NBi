@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Linq;
 using NBi.Core.Structure;
-using NBi.Xml.Constraints;
-using NBi.Xml.Items;
-using NBi.Xml.Systems;
+using NBi.Model.Xml.Constraints;
+using NBi.Model.Xml.Items;
+using NBi.Model.Xml.Systems;
 using System.Collections.Generic;
-using NBi.Xml.Items.Filters;
+using NBi.Model.Xml.Items.Filters;
 using NBi.Core.Structure.Relational.PostFilters;
 using NBi.NUnit.Builder.Helper;
 
@@ -46,7 +46,7 @@ namespace NBi.NUnit.Builder
 
         protected virtual StructureDiscoveryCommand InstantiateCommand(AbstractItem item)
         {
-            var connectionString = new ConnectionStringHelper().Execute(item, Xml.Settings.SettingsXml.DefaultScope.SystemUnderTest);
+            var connectionString = new ConnectionStringHelper().Execute(item, NBi.Model.Xml.Settings.SettingsXml.DefaultScope.SystemUnderTest);
 
             var factory = discoveryProvider.Instantiate(connectionString);
 
@@ -90,7 +90,6 @@ namespace NBi.NUnit.Builder
 
         protected virtual Target BuildTarget(AbstractItem item)
         {
-
             if (item is MeasuresXml || item is MeasureXml)
                 return Target.Measures;
             if (item is MeasureGroupsXml || item is MeasureGroupXml)
@@ -118,6 +117,5 @@ namespace NBi.NUnit.Builder
             else
                 throw new ArgumentException(item.GetType().Name);
         }
-
     }
 }

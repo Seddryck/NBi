@@ -1,13 +1,13 @@
 ﻿using NBi.Core.ResultSet;
 using NBi.Extensibility;
-using NBi.Xml;
-using NBi.Xml.Constraints;
-using NBi.Xml.Constraints.Comparer;
-using NBi.Xml.Items.Calculation;
-using NBi.Xml.Items.Calculation.Grouping;
-using NBi.Xml.Items.Calculation.Ranking;
-using NBi.Xml.Items.ResultSet;
-using NBi.Xml.Systems;
+using NBi.Model.Xml;
+using NBi.Model.Xml.Constraints;
+using NBi.Model.Xml.Constraints.Comparer;
+using NBi.Model.Xml.Items.Calculation;
+using NBi.Model.Xml.Items.Calculation.Grouping;
+using NBi.Model.Xml.Items.Calculation.Ranking;
+using NBi.Model.Xml.Items.ResultSet;
+using NBi.Model.Xml.Systems;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
@@ -19,11 +19,10 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 
-namespace NBi.Xml.Testing.Unit.Items.Calculation;
+namespace NBi.Model.Xml.Testing.Unit.Items.Calculation;
 
 public class RankingXmlTest : BaseXmlTest
 {
-
     [Test]
     public void Deserialize_RankingWithDefaultType_RankingXml()
     {
@@ -130,7 +129,7 @@ public class RankingXmlTest : BaseXmlTest
             }
         };
 
-        var serializer = new XmlSerializer(typeof(FilterXml));
+        var serializer = NBi.Model.Xml.XmlModelSerializer.GetPlainContractSerializer(typeof(FilterXml));
         var content = string.Empty;
         using (var stream = new MemoryStream())
         using (var writer = new StreamWriter(stream, Encoding.UTF8))
@@ -178,7 +177,7 @@ public class RankingXmlTest : BaseXmlTest
             }
         };
 
-        var serializer = new XmlSerializer(typeof(FilterXml));
+        var serializer = NBi.Model.Xml.XmlModelSerializer.GetPlainContractSerializer(typeof(FilterXml));
         var content = string.Empty;
         using (var stream = new MemoryStream())
         using (var writer = new StreamWriter(stream, Encoding.UTF8))
@@ -234,5 +233,4 @@ public class RankingXmlTest : BaseXmlTest
         Assert.That(filter.Ranking.GroupBy.Cases[1].Predication, Is.Not.Null);
         Assert.That(filter.Ranking.GroupBy.Cases[1].Predication, Is.TypeOf<CombinationPredicationXml>());
     }
-
 }

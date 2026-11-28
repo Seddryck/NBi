@@ -2,10 +2,10 @@
 using NBi.Core.Scalar.Resolver;
 using NBi.Core.Transformation;
 using NBi.Core.Variable;
-using NBi.Xml.Items;
-using NBi.Xml.Settings;
-using NBi.Xml.Variables;
-using NBi.Xml.Variables.Custom;
+using NBi.Model.Xml.Items;
+using NBi.Model.Xml.Settings;
+using NBi.Model.Xml.Variables;
+using NBi.Model.Xml.Variables.Custom;
 using NBi.Extensibility.Resolving;
 using System;
 using System.Collections.Generic;

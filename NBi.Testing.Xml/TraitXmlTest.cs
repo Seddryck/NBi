@@ -1,15 +1,14 @@
 ﻿using System.IO;
 using System.Reflection;
-using NBi.Xml;
+using NBi.Model.Xml;
 using NUnit.Framework;
-using NBi.Xml.Settings;
+using NBi.Model.Xml.Settings;
 
-namespace NBi.Xml.Testing.Unit;
+namespace NBi.Model.Xml.Testing.Unit;
 
 [TestFixture]
 public class TraitXmlTest : BaseXmlTest
 {
-
     [Test]
     public void Deserialize_TraitAttributeNotSpecified_NoTrait()
     {
@@ -35,7 +34,6 @@ public class TraitXmlTest : BaseXmlTest
         var firstTrait = ts.Tests[testNr].Traits[0];
         Assert.That(firstTrait.Name, Is.EqualTo("My Property One"));
         Assert.That(firstTrait.Value, Is.EqualTo("My Value"));
-        
     }
 
     [Test]
@@ -56,7 +54,7 @@ public class TraitXmlTest : BaseXmlTest
         var test = new TestXml();
         var trait = new TraitXml() { Name = "My Trait", Value = "My Trait's value" };
         test.Traits.Add(trait);
-        
+
         var manager = new XmlManager();
         var xml = manager.XmlSerializeFrom<TestXml>(test);
 

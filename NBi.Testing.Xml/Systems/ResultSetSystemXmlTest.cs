@@ -2,36 +2,35 @@
 using NBi.Core.ResultSet.Alteration.Duplication;
 using NBi.Core.ResultSet.Alteration.Merging;
 using NBi.Core.Transformation;
-using NBi.Xml;
-using NBi.Xml.Items;
-using NBi.Xml.Items.Alteration;
-using NBi.Xml.Items.Alteration.Conversion;
-using NBi.Xml.Items.Alteration.Duplication;
-using NBi.Xml.Items.Alteration.Extension;
-using NBi.Xml.Items.Alteration.Lookup;
-using NBi.Xml.Items.Alteration.Merging;
-using NBi.Xml.Items.Alteration.Projection;
-using NBi.Xml.Items.Alteration.Renaming;
-using NBi.Xml.Items.Alteration.Reshaping;
-using NBi.Xml.Items.Alteration.Summarization;
-using NBi.Xml.Items.Alteration.Transform;
-using NBi.Xml.Items.Calculation;
-using NBi.Xml.Items.Calculation.Grouping;
-using NBi.Xml.Items.ResultSet;
-using NBi.Xml.Items.ResultSet.Lookup;
-using NBi.Xml.Systems;
-using NBi.Xml.Variables.Sequence;
+using NBi.Model.Xml;
+using NBi.Model.Xml.Items;
+using NBi.Model.Xml.Items.Alteration;
+using NBi.Model.Xml.Items.Alteration.Conversion;
+using NBi.Model.Xml.Items.Alteration.Duplication;
+using NBi.Model.Xml.Items.Alteration.Extension;
+using NBi.Model.Xml.Items.Alteration.Lookup;
+using NBi.Model.Xml.Items.Alteration.Merging;
+using NBi.Model.Xml.Items.Alteration.Projection;
+using NBi.Model.Xml.Items.Alteration.Renaming;
+using NBi.Model.Xml.Items.Alteration.Reshaping;
+using NBi.Model.Xml.Items.Alteration.Summarization;
+using NBi.Model.Xml.Items.Alteration.Transform;
+using NBi.Model.Xml.Items.Calculation;
+using NBi.Model.Xml.Items.Calculation.Grouping;
+using NBi.Model.Xml.Items.ResultSet;
+using NBi.Model.Xml.Items.ResultSet.Lookup;
+using NBi.Model.Xml.Systems;
+using NBi.Model.Xml.Variables.Sequence;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace NBi.Xml.Testing.Unit.Systems;
+namespace NBi.Model.Xml.Testing.Unit.Systems;
 
 [TestFixture]
 public class ResultSetSystemXmlTest : BaseXmlTest
 {
-
     [Test]
     public void Deserialize_SampleFile_CsvFile()
     {
@@ -368,7 +367,6 @@ public class ResultSetSystemXmlTest : BaseXmlTest
         Assert.That(projectAway.Columns, Is.Not.Null);
         Assert.That(projectAway.Columns.Count, Is.EqualTo(2));
     }
-
 
     [Test]
     public void Deserialize_SampleFile_AlterationLookupReplace()
@@ -756,7 +754,7 @@ public class ResultSetSystemXmlTest : BaseXmlTest
             [
                 new LookupReplaceXml()
                 {
-                    Missing = new NBi.Xml.Items.Alteration.Lookup.MissingXml() { Behavior= Behavior.DefaultValue, DefaultValue="(null)" },
+                    Missing = new NBi.Model.Xml.Items.Alteration.Lookup.MissingXml() { Behavior= Behavior.DefaultValue, DefaultValue="(null)" },
                     Join = new JoinXml() { Usings = [new ColumnUsingXml() { Column = "#1" }] },
                     ResultSet = new ResultSetSystemXml(),
                     Replacement = new ColumnDefinitionLightXml() { Identifier = new ColumnNameIdentifier("foo") }
@@ -875,7 +873,6 @@ public class ResultSetSystemXmlTest : BaseXmlTest
         Assert.That(xml, Does.Not.Contain("<column"));
     }
 
-
     [Test]
     public void Serialize_IfUnavailable_Correct()
     {
@@ -910,15 +907,15 @@ public class ResultSetSystemXmlTest : BaseXmlTest
     {
         var root = new ResultSetSystemXml()
         {
-            Iteration = new IterationXml() 
-            { 
+            Iteration = new IterationXml()
+            {
                 Sequence = new SequenceXml()
-                { 
+                {
                     Name="month", Type=ColumnType.DateTime
                     , SentinelLoop = new SentinelLoopXml() { Seed="2020-01-01", Terminal="2020-03-01", Step="1 month" }
                 }
             },
-            NestedResultSet = new ResultSetSystemXml() 
+            NestedResultSet = new ResultSetSystemXml()
             {
                 File = new FileXml() { Path = @"Data_{@month:yyyy}_{@month:MM}.csv" },
             }

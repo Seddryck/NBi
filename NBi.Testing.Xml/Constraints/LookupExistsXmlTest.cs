@@ -1,9 +1,9 @@
 ﻿using NBi.Core.ResultSet;
-using NBi.Xml;
-using NBi.Xml.Constraints;
-using NBi.Xml.Items.ResultSet;
-using NBi.Xml.Items.ResultSet.Lookup;
-using NBi.Xml.Systems;
+using NBi.Model.Xml;
+using NBi.Model.Xml.Constraints;
+using NBi.Model.Xml.Items.ResultSet;
+using NBi.Model.Xml.Items.ResultSet.Lookup;
+using NBi.Model.Xml.Systems;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
@@ -15,12 +15,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 
-namespace NBi.Xml.Testing.Unit.Constraints;
+namespace NBi.Model.Xml.Testing.Unit.Constraints;
 
 [TestFixture]
 public class LookupExistsXmlTest : BaseXmlTest
 {
-
     [Test]
     public void Deserialize_SampleFile_ReadCorrectlyReferenceExists()
     {
@@ -114,7 +113,7 @@ public class LookupExistsXmlTest : BaseXmlTest
             ResultSet = new ResultSetSystemXml()
         };
 
-        var serializer = new XmlSerializer(typeof(LookupExistsXml));
+        var serializer = NBi.Model.Xml.XmlModelSerializer.GetPlainContractSerializer(typeof(LookupExistsXml));
         var stream = new MemoryStream();
         var writer = new StreamWriter(stream, Encoding.UTF8);
         serializer.Serialize(writer, lookupExistsXml);

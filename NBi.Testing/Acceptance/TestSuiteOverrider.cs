@@ -1,7 +1,7 @@
 ﻿using NBi.Core.Configuration;
 using NBi.Core.Variable;
 using NBi.NUnit.Runtime;
-using NBi.Xml;
+using NBi.Model.Xml;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;

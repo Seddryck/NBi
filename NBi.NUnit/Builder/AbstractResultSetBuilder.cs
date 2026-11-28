@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using NBi.Core.Query;
-using NBi.Xml.Constraints;
-using NBi.Xml.Items;
-using NBi.Xml.Systems;
+using NBi.Model.Xml.Constraints;
+using NBi.Model.Xml.Items;
+using NBi.Model.Xml.Systems;
 using NBi.Core.ResultSet;
 using NBi.Core.ResultSet.Resolver;
 using NBi.Core.ResultSet.Alteration;
@@ -22,7 +22,7 @@ using NBi.Core.Configuration;
 using NBi.Core.Injection;
 using NBi.Core.Variable;
 using NBi.Extensibility.Query;
-using NBi.Xml.Settings;
+using NBi.Model.Xml.Settings;
 using NBi.Extensibility.Resolving;
 
 namespace NBi.NUnit.Builder
@@ -30,7 +30,7 @@ namespace NBi.NUnit.Builder
     abstract class AbstractResultSetBuilder : AbstractTestCaseBuilder
     {
         protected AbstractSystemUnderTestXml SystemUnderTestXml { get; set; }
-        
+
         public override void Setup(AbstractSystemUnderTestXml sutXml, AbstractConstraintXml ctrXml, IConfiguration config, IDictionary<string, IVariable> variables, ServiceLocator serviceLocator)
         {
             base.Setup(sutXml, ctrXml, config, variables, serviceLocator);

@@ -1,7 +1,7 @@
 ﻿using NBi.Core;
-using NBi.Xml.Items;
-using NBi.Xml.Settings;
-using NBi.Xml.Systems;
+using NBi.Model.Xml.Items;
+using NBi.Model.Xml.Settings;
+using NBi.Model.Xml.Systems;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -61,9 +61,13 @@ namespace NBi.NUnit.Builder.Helper
                     return references.FirstOrDefault(x => x.Name == connectionString.Remove(0, 1))?.ConnectionString?.GetValue();
             }
             else if (@default != null && @default.ConnectionString != null)
+            {
                 return @default.ConnectionString.GetValue();
+            }
             else
+            {
                 return null;
+            }
         }
     }
 }

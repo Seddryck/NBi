@@ -1,17 +1,16 @@
 ﻿#region Using directives
 using System.IO;
 using System.Reflection;
-using NBi.Xml;
-using NBi.Xml.Constraints;
+using NBi.Model.Xml;
+using NBi.Model.Xml.Constraints;
 using NUnit.Framework;
 #endregion
 
-namespace NBi.Xml.Testing.Unit.Constraints;
+namespace NBi.Model.Xml.Testing.Unit.Constraints;
 
 [TestFixture]
 public class FasterThanXmlTest : BaseXmlTest
 {
-
     [Test]
     public void Deserialize_SampleFile_ReadCorrectlyParametersFasterThanConstraint()
     {
@@ -72,7 +71,4 @@ public class FasterThanXmlTest : BaseXmlTest
         Assert.That(ts.Tests[testNr].Constraints[0], Is.AssignableTo<FasterThanXml>());
         Assert.That(((FasterThanXml)ts.Tests[testNr].Constraints[0]).TimeOutMilliSeconds, Is.EqualTo(10000));
     }
-
-    
-
 }

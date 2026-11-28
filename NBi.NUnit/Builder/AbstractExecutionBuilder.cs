@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using NBi.Core.Query;
-using NBi.Xml.Constraints;
-using NBi.Xml.Items;
-using NBi.Xml.Systems;
+using NBi.Model.Xml.Constraints;
+using NBi.Model.Xml.Items;
+using NBi.Model.Xml.Systems;
 using NBi.Core.ResultSet;
 using NBi.Core.ResultSet.Resolver;
 using NBi.NUnit.Builder.Helper;
@@ -49,7 +49,5 @@ namespace NBi.NUnit.Builder
             var query = resolver.Execute();
             return query;
         }
-
-
     }
 }

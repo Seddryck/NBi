@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Linq;
 using NBi.Core.Analysis.Request;
-using NBi.Xml.Constraints;
-using NBi.Xml.Systems;
+using NBi.Model.Xml.Constraints;
+using NBi.Model.Xml.Systems;
 using NBi.NUnit.Builder.Helper;
 using NBi.Core.Query.Resolver;
 using NBi.Core.ResultSet.Resolver;
-using NBi.Xml.Settings;
+using NBi.Model.Xml.Settings;
 
 namespace NBi.NUnit.Builder
 {
@@ -14,7 +14,8 @@ namespace NBi.NUnit.Builder
     {
         protected EquivalentToXml ConstraintXml { get; set; }
 
-        public MembersEquivalentToBuilder() : base()
+        public MembersEquivalentToBuilder()
+            : base()
         {
         }
 
@@ -55,13 +56,14 @@ namespace NBi.NUnit.Builder
                 ctr = new Member.EquivalentToConstraint(disco);
             }
             else
+            {
                 ctr = new Member.EquivalentToConstraint(ctrXml.GetItems());
+            }
 
             //Ignore-case if requested
             if (ctrXml.IgnoreCase)
                 ctr = ctr.IgnoreCase;
             return ctr;
         }
-
     }
 }

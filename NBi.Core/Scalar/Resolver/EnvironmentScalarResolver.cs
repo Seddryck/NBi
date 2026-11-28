@@ -18,9 +18,7 @@ class EnvironmentScalarResolver<T> : IScalarResolver<T>
 
     public T? Execute()
     {
-        var value = Environment.GetEnvironmentVariable(args.Name, EnvironmentVariableTarget.Process)
-                        ?? Environment.GetEnvironmentVariable(args.Name, EnvironmentVariableTarget.User)
-                        ?? Environment.GetEnvironmentVariable(args.Name, EnvironmentVariableTarget.Machine);
+        var value = Model.Items.EnvironmentVariable.GetValue(args.Name);
         return (T?)Convert.ChangeType(value, typeof(T));
     }
 

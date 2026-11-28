@@ -14,8 +14,8 @@ using NBi.Core.Scalar.Resolver;
 using NBi.Core.Variable;
 using NBi.Extensibility.Resolving;
 using NBi.NUnit.Builder.Helper;
-using NBi.Xml.Decoration;
-using NBi.Xml.Decoration.Command;
+using NBi.Model.Xml.Decoration;
+using NBi.Model.Xml.Decoration.Command;
 using NUnit.Framework;
 
 namespace NBi.Testing.Unit.NUnit.Builder.Helper

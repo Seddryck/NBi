@@ -8,7 +8,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Xml.Serialization;
 
 namespace NBi.Core.ResultSet.Alteration.Duplication;
 
@@ -45,20 +44,4 @@ public class OutputValueArgs : OutputArgs
     public OutputValueArgs(IColumnIdentifier identifier, string value)
         : base(identifier, OutputClass.Static)
         => Strategy = new ValueOutputStrategy(value);
-}
-
-public enum OutputClass
-{
-    [XmlEnum(Name = "static")]
-    Static = 0,
-    [XmlEnum(Name = "script")]
-    Script = 1,
-    [XmlEnum(Name = "index")]
-    Index = 2,
-    [XmlEnum(Name = "total")]
-    Total = 3,
-    [XmlEnum(Name = "is-original")]
-    IsOriginal = 4,
-    [XmlEnum(Name = "is-duplicable")]
-    IsDuplicable = 5,
 }

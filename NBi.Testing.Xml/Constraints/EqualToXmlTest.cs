@@ -3,28 +3,27 @@ using System.IO;
 using System.Reflection;
 using NBi.Core.ResultSet;
 using NBi.Core.Scalar.Comparer;
-using NBi.Xml;
-using NBi.Xml.Constraints;
-using NBi.Xml.Items;
+using NBi.Model.Xml;
+using NBi.Model.Xml.Constraints;
+using NBi.Model.Xml.Items;
 using NUnit.Framework;
-using NBi.Xml.Items.ResultSet;
+using NBi.Model.Xml.Items.ResultSet;
 using NBi.Core.Transformation;
-using NBi.Xml.Items.Alteration.Transform;
+using NBi.Model.Xml.Items.Alteration.Transform;
 using System.Xml.Serialization;
 using System.Text;
 using System.Diagnostics;
 using System.Collections.Generic;
-using NBi.Xml.Systems;
+using NBi.Model.Xml.Systems;
 using NBi.Core.Calculation;
-using NBi.Xml.Items.Calculation;
+using NBi.Model.Xml.Items.Calculation;
 #endregion
 
-namespace NBi.Xml.Testing.Unit.Constraints;
+namespace NBi.Model.Xml.Testing.Unit.Constraints;
 
 [TestFixture]
 public class EqualToXmlTest : BaseXmlTest
-{ 
-
+{
     [Test]
     public void DeserializeEqualToResultSet_QueryFile0_Inline()
     {
@@ -112,8 +111,6 @@ public class EqualToXmlTest : BaseXmlTest
 
         Assert.That(((EqualToXml)ts.Tests[testNr].Constraints[0]).ValuesDef, Is.EqualTo(SettingsOrdinalResultSet.ValuesChoice.Last));
         Assert.That(((EqualToXml)ts.Tests[testNr].Constraints[0]).Tolerance, Is.EqualTo("100"));
-
-
     }
 
     [Test]
@@ -186,7 +183,6 @@ public class EqualToXmlTest : BaseXmlTest
         Assert.That(ts.Tests[testNr].Constraints[0], Is.AssignableTo<EqualToXml>());
         var ctr = (EqualToXml)ts.Tests[testNr].Constraints[0]!;
 
-
         Assert.That(ctr.ColumnsDef[0].Transformation, Is.TypeOf<LightTransformXml>());
         var transfo = (LightTransformXml)ctr.ColumnsDef[0].Transformation!;
 
@@ -205,7 +201,6 @@ public class EqualToXmlTest : BaseXmlTest
 
         Assert.That(ts.Tests[testNr].Constraints[0], Is.AssignableTo<EqualToXml>());
         var ctr = (EqualToXml)ts.Tests[testNr].Constraints[0]!;
-
 
         Assert.That(ctr.ColumnsDef[1].Transformation, Is.TypeOf<LightTransformXml>());
         var transfo = (LightTransformXml)ctr.ColumnsDef[1].Transformation!;
@@ -250,7 +245,6 @@ public class EqualToXmlTest : BaseXmlTest
     [Test]
     public void SerializeEqualToQuery_Transform_SingleRow()
     {
-
         // Create an instance of the XmlSerializer specifying type and namespace.
         var cdXml = new ColumnDefinitionXml()
         {
@@ -264,7 +258,7 @@ public class EqualToXmlTest : BaseXmlTest
             }
         };
 
-        var serializer = new XmlSerializer(typeof(ColumnDefinitionXml));
+        var serializer = NBi.Model.Xml.XmlModelSerializer.GetPlainContractSerializer(typeof(ColumnDefinitionXml));
         var content = string.Empty;
         using (var stream = new MemoryStream())
         {
@@ -284,7 +278,6 @@ public class EqualToXmlTest : BaseXmlTest
     [Test]
     public void SerializeEqualToQuery_EqualTo_NewSyntax()
     {
-
         // Create an instance of the XmlSerializer specifying type and namespace.
         var cdXml = new TestXml()
         {
@@ -297,7 +290,7 @@ public class EqualToXmlTest : BaseXmlTest
             ]
         };
 
-        var serializer = new XmlSerializer(typeof(TestXml));
+        var serializer = NBi.Model.Xml.XmlModelSerializer.GetPlainContractSerializer(typeof(TestXml));
         var content = string.Empty;
         using (var stream = new MemoryStream())
         {

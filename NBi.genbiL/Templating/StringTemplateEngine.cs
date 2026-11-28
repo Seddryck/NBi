@@ -2,18 +2,14 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Xml.Serialization;
 using Antlr4.StringTemplate;
-using NBi.Xml;
-using NBi.Xml.SerializationOption;
+using NBi.Model;
+using NBi.Model.Xml;
 
 namespace NBi.GenbiL.Templating;
 
 public class StringTemplateEngine
 {
-    private readonly IDictionary<Type, XmlSerializer> cacheSerializer;
-    private readonly IDictionary<Type, XmlSerializer> cacheDeserializer;
-
     public string TemplateXml { get; private set; }
     protected Template? Template { get; private set; }
     public string PreProcessedTemplate { get; private set; } = string.Empty;
@@ -23,18 +19,16 @@ public class StringTemplateEngine
     {
         TemplateXml = templateXml;
         Variables = variables;
-        cacheSerializer = new Dictionary<Type, XmlSerializer>();
-        cacheDeserializer = new Dictionary<Type, XmlSerializer>();
     }
 
-    public IEnumerable<TestStandaloneXml> BuildTests(List<List<List<object>>> table, IDictionary<string, object> consumables)
-        => Build<TestStandaloneXml>(table, consumables);
+    public IEnumerable<StandaloneTest> BuildTests(List<List<List<object>>> table, IDictionary<string, object> consumables)
+        => Build<StandaloneTest>(table, consumables);
 
     protected internal IEnumerable<T> Build<T>(List<List<List<object>>> table, IDictionary<string, object> consumables)
     {
         InitializeTemplate(consumables);
 
-        //For each row, we need to fill the variables and render the template. 
+        //For each row, we need to fill the variables and render the template.
         int count = 0;
         foreach (var row in table)
         {
@@ -46,7 +40,7 @@ public class StringTemplateEngine
                 Template?.Remove(variable);
 
             var obj = (typeof(T) == typeof(string)) ? (T)Convert.ChangeType(str, typeof(T)) : Deserialize<T>(str);
-            if (obj is TestStandaloneXml standalone)
+            if (obj is StandaloneTest standalone)
                 standalone.Content = XmlSerializeFrom(standalone);
             InvokeProgress(new ProgressEventArgs(count, table.Count));
             yield return obj;
@@ -71,8 +65,10 @@ public class StringTemplateEngine
 
         //Add all the global variables (not defined in a scope)
         if (consumables != null)
+        {
             foreach (var variable in consumables)
                 Template.Add(variable.Key, variable.Value);
+        }
     }
 
     protected internal virtual string RenderTemplate(List<List<object>> values)
@@ -96,50 +92,15 @@ public class StringTemplateEngine
     protected internal string XmlSerializeFrom<T>(T objectData)
         => SerializeFrom(objectData!, typeof(T));
 
-
     protected virtual object XmlDeserializeFromString(string objectData, Type type)
-    {
-        if (!cacheDeserializer.TryGetValue(type, out var value))
-        {
-            var overrides = new ReadOnlyAttributes();
-            overrides.Build();
-            var builtDeserializer = new XmlSerializer(type, overrides);
-            value = builtDeserializer;
-            cacheDeserializer.Add(type, value);
-        }
-
-        var serializer = value;
-
-        using TextReader reader = new StringReader(objectData);
-        return serializer.Deserialize(reader) ?? throw new NullReferenceException();
-    }
+        => XmlModelSerializer.Deserialize(objectData, type);
 
     protected virtual string SerializeFrom(object objectData, Type type)
-    {
-        if (!cacheSerializer.TryGetValue(type, out var value))
-        {
-            var overrides = new WriteOnlyAttributes();
-            overrides.Build();
-            var builtSerializer = new XmlSerializer(type, overrides);
-            value = builtSerializer;
-            cacheSerializer.Add(type, value);
-        }
-
-        var serializer = value;
-
-        var result = string.Empty;
-        using (var writer = new StringWriter())
-        {
-            serializer.Serialize(writer, objectData);
-            result = writer.ToString();
-        }
-        return result;
-    }
+        => XmlModelSerializer.Serialize(objectData, type);
 
     public event EventHandler<ProgressEventArgs>? Progressed;
     protected virtual void InvokeProgress(ProgressEventArgs e)
     {
         Progressed?.Invoke(this, e);
     }
-
 }

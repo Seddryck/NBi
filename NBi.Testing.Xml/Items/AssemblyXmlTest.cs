@@ -2,24 +2,23 @@
 using System.IO;
 using System.Reflection;
 using NBi.Core.ResultSet;
-using NBi.Xml;
-using NBi.Xml.Constraints;
-using NBi.Xml.Items;
-using NBi.Xml.Systems;
+using NBi.Model.Xml;
+using NBi.Model.Xml.Constraints;
+using NBi.Model.Xml.Items;
+using NBi.Model.Xml.Systems;
 using NUnit.Framework;
 #endregion
 
-namespace NBi.Xml.Testing.Unit.Items;
+namespace NBi.Model.Xml.Testing.Unit.Items;
 
 [TestFixture]
 public class AssemblyXmlTest : BaseXmlTest
 {
-
     [Test]
     public void Deserialize_MethodWithoutParam_AssemblyXml()
     {
         int testNr = 0;
-        
+
         // Create an instance of the XmlSerializer specifying type and namespace.
         var ts = DeserializeSample();
 
@@ -113,7 +112,7 @@ public class AssemblyXmlTest : BaseXmlTest
         Assert.That(assembly.MethodParameters[0].Name, Is.EqualTo("MyDateTime"));
         Assert.That(assembly.MethodParameters[0].Value, Is.EqualTo("2012-10-16 10:15"));
     }
-    
+
     [Test]
     public void Deserialize_MethodWithConnectionStringInfo_AssemblyXml()
     {
@@ -132,6 +131,4 @@ public class AssemblyXmlTest : BaseXmlTest
         Assert.That(assembly.ConnectionString, Does.Contain("data source=foo;initial catalog=bar"));
         Assert.That(assembly.Roles, Does.Contain("admin"));
     }
-
-
 }

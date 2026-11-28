@@ -4,9 +4,9 @@ using System.Linq;
 using NBi.Core.Format;
 using NBi.Core.Query;
 using NBi.NUnit.Query;
-using NBi.Xml.Constraints;
-using NBi.Xml.Items;
-using NBi.Xml.Systems;
+using NBi.Model.Xml.Constraints;
+using NBi.Model.Xml.Items;
+using NBi.Model.Xml.Systems;
 
 namespace NBi.NUnit.Builder
 {
@@ -16,9 +16,7 @@ namespace NBi.NUnit.Builder
 
         public ExecutionMatchPatternBuilder()
         {
-
         }
-
 
         protected override void SpecificSetup(AbstractSystemUnderTestXml sutXml, AbstractConstraintXml ctrXml)
         {
@@ -46,7 +44,7 @@ namespace NBi.NUnit.Builder
 
             if (matchPatternXml.CurrencyFormat != null && !matchPatternXml.CurrencyFormat.IsEmpty)
                 ctr = ctr.Regex(regexBuilder.Build(matchPatternXml.CurrencyFormat));
-            
+
             return ctr;
         }
 
@@ -66,6 +64,5 @@ namespace NBi.NUnit.Builder
         //    }
         //    throw new ArgumentException();
         //}
-
     }
 }

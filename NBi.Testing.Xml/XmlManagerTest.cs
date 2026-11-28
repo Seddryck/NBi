@@ -1,8 +1,8 @@
 ﻿using System;
-using NBi.Xml;
+using NBi.Model.Xml;
 using NUnit.Framework;
 
-namespace NBi.Xml.Testing.Unit;
+namespace NBi.Model.Xml.Testing.Unit;
 
 [TestFixture]
 public class XmlManagerTest
@@ -10,8 +10,8 @@ public class XmlManagerTest
     [Test]
     public void Load_ValidFile_Success()
     {
-        var filename = FileOnDisk.CreatePhysicalFile("TestSuite.xml", $"{GetType().Assembly.GetName().Name}.Resources.XmlManagerSample.xml");
-        
+        var filename = FileOnDisk.CreatePhysicalFile("XmlManagerTest-Load_ValidFile_Success.xml", $"{GetType().Assembly.GetName().Name}.Resources.XmlManagerSample.xml");
+
         var manager = new XmlManager();
         manager.Load(filename);
 
@@ -21,7 +21,7 @@ public class XmlManagerTest
     [Test]
     public void Load_ValidFile_TestContentIsCorrect()
     {
-        var filename = FileOnDisk.CreatePhysicalFile("TestContentIsCorrect.xml", $"{GetType().Assembly.GetName().Name}.Resources.XmlManagerSample.xml");
+        var filename = FileOnDisk.CreatePhysicalFile("XmlManagerTest-Load_ValidFile_TestContentIsCorrect.xml", $"{GetType().Assembly.GetName().Name}.Resources.XmlManagerSample.xml");
 
         var manager = new XmlManager();
         manager.Load(filename);
@@ -36,7 +36,7 @@ public class XmlManagerTest
         var filename = FileOnDisk.CreatePhysicalFile("InvalidFormat.nbits", $"{GetType().Assembly.GetName().Name}.Resources.XmlManagerInvalidFormat.xml");
 
         var manager = new XmlManager();
-        var ex = Assert.Throws<ArgumentException>(delegate { manager.Load(filename); });
+        var ex = Assert.Throws<ArgumentException>(() => { manager.Load(filename); });
         Assert.That(ex!.Message, Does.Contain("At line 14"));
     }
 
@@ -47,7 +47,7 @@ public class XmlManagerTest
         var filename = FileOnDisk.CreatePhysicalFile("TestSuiteInvalidSyntax.xml", $"{GetType().Assembly.GetName().Name}.Resources.XmlManagerInvalidSyntax.xml");
 
         var manager = new XmlManager();
-        Assert.Throws<ArgumentException>(delegate { manager.Load(filename); });
+        Assert.Throws<ArgumentException>(() => { manager.Load(filename); });
     }
 
     [Test]
@@ -56,7 +56,7 @@ public class XmlManagerTest
         var filename = FileOnDisk.CreatePhysicalFile("TestSuiteInvalidSyntax.xml", $"{GetType().Assembly.GetName().Name}.Resources.XmlManagerInvalidSyntax.xml");
 
         var manager = new XmlManager();
-        var exception = Assert.Throws<ArgumentException>(delegate { manager.Load(filename); });
+        var exception = Assert.Throws<ArgumentException>(() => { manager.Load(filename); });
         Assert.That(exception!.Message, Does.Contain("1 error has been found during the validation of the test-suite"));
         Assert.That(exception.Message, Does.Contain("\tAt line 4: The element 'test' in namespace 'http://NBi/TestSuite' has invalid child element 'syntacticallyCorrect' in namespace 'http://NBi/TestSuite'."));
     }
@@ -68,7 +68,7 @@ public class XmlManagerTest
         var filename = FileOnDisk.CreatePhysicalFile("TestSuiteInvalidSyntaxMultiple.xml", $"{GetType().Assembly.GetName().Name}.Resources.XmlManagerInvalidSyntaxMultiple.xml");
 
         var manager = new XmlManager();
-        Assert.Throws<ArgumentException>(delegate { manager.Load(filename); });
+        Assert.Throws<ArgumentException>(() => { manager.Load(filename); });
     }
 
     [Test]
@@ -77,7 +77,7 @@ public class XmlManagerTest
         var filename = FileOnDisk.CreatePhysicalFile("TestSuiteInvalidSyntaxMultiple.xml", $"{GetType().Assembly.GetName().Name}.Resources.XmlManagerInvalidSyntaxMultiple.xml");
 
         var manager = new XmlManager();
-        var exception = Assert.Throws<ArgumentException>(delegate { manager.Load(filename); });
+        var exception = Assert.Throws<ArgumentException>(() => { manager.Load(filename); });
         Assert.That(exception!.Message, Does.Contain("2 errors have been found during the validation of the test-suite"));
         Assert.That(exception.Message, Does.Contain("At line 6: The element 'execution' in namespace 'http://NBi/TestSuite' has invalid child element 'sql' in namespace 'http://NBi/TestSuite'."));
         Assert.That(exception.Message, Does.Contain("At line 11: The 'name' attribute is not declared."));

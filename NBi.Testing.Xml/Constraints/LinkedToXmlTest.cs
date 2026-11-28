@@ -1,11 +1,11 @@
 ﻿using System.IO;
 using System.Reflection;
-using NBi.Xml;
-using NBi.Xml.Constraints;
-using NBi.Xml.Items;
+using NBi.Model.Xml;
+using NBi.Model.Xml.Constraints;
+using NBi.Model.Xml.Items;
 using NUnit.Framework;
 
-namespace NBi.Xml.Testing.Unit.Constraints;
+namespace NBi.Model.Xml.Testing.Unit.Constraints;
 
 [TestFixture]
 public class LinkedToXmlTest : BaseXmlTest
@@ -14,7 +14,7 @@ public class LinkedToXmlTest : BaseXmlTest
     public void Deserialize_SampleFile_LinkedToMeasureGroup()
     {
         int testNr = 0;
-        
+
         // Create an instance of the XmlSerializer specifying type and namespace.
         var ts = DeserializeSample();
 
@@ -39,5 +39,4 @@ public class LinkedToXmlTest : BaseXmlTest
         Assert.That(ctr.Item, Is.TypeOf<DimensionXml>());
         Assert.That(ctr.Item.Caption, Is.EqualTo("dimension"));
     }
-
 }

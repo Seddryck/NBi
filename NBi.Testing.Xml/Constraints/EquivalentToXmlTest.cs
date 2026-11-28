@@ -4,18 +4,17 @@ using System.IO;
 using System.Reflection;
 using NBi.Core.Members.Predefined;
 using NBi.Core.Members.Ranges;
-using NBi.Xml;
-using NBi.Xml.Constraints;
-using NBi.Xml.Items.Ranges;
+using NBi.Model.Xml;
+using NBi.Model.Xml.Constraints;
+using NBi.Model.Xml.Items.Ranges;
 using NUnit.Framework;
 #endregion
 
-namespace NBi.Xml.Testing.Unit.Constraints;
+namespace NBi.Model.Xml.Testing.Unit.Constraints;
 
 [TestFixture]
 public class EquivalentToXmlTest : BaseXmlTest
 {
-
     [Test]
     public void DeserializeEquivalentToItems_ListOfItems_Inline()
     {

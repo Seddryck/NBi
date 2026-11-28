@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using NBi.NUnit.Builder;
-using NBi.Xml.Constraints;
-using NBi.Xml.Systems;
+using NBi.Model.Xml.Constraints;
+using NBi.Model.Xml.Systems;
 using System.Linq;
 using NUnitCtr = NUnit.Framework.Constraints;
 using NBi.Framework;
@@ -112,7 +112,7 @@ namespace NBi.NUnit
 
         internal bool IsHandling(Type sutType, Type ctrType) => registrations.Any(reg => IsRegistered(reg, sutType, ctrType));
 
-        private bool IsRegistered(BuilderRegistration reg, Type sutType, Type ctrType) 
+        private bool IsRegistered(BuilderRegistration reg, Type sutType, Type ctrType)
             => (reg.SystemUnderTestType.Equals(sutType) || reg.SystemUnderTestType.Name == sutType.Name.Replace("OldXml", "Xml"))
                     && (reg.ConstraintType.Equals(ctrType) || reg.ConstraintType.Name == ctrType.Name.Replace("OldXml", "Xml"));
 

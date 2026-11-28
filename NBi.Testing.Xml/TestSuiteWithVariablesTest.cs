@@ -1,14 +1,14 @@
 ﻿using System;
-using NBi.Xml;
+using NBi.Model.Xml;
 using NUnit.Framework;
 using NBi.Core.Transformation;
-using NBi.Xml.Variables;
+using NBi.Model.Xml.Variables;
 using System.Xml.Serialization;
 using System.IO;
 using System.Text;
 using System.Diagnostics;
 
-namespace NBi.Xml.Testing.Unit;
+namespace NBi.Model.Xml.Testing.Unit;
 
 [TestFixture]
 public class TestSuiteWithVariablesTest
@@ -16,7 +16,7 @@ public class TestSuiteWithVariablesTest
     [Test]
     public void Load_ValidFile_Success()
     {
-        var filename = FileOnDisk.CreatePhysicalFile("TestSuite.xml", $"{GetType().Assembly.GetName().Name}.Resources.TestSuiteWithVariablesTestSuite.xml");
+        var filename = FileOnDisk.CreatePhysicalFile("TestSuiteWithVariablesTest-Load_ValidFile_Success.xml", $"{GetType().Assembly.GetName().Name}.Resources.TestSuiteWithVariablesTestSuite.xml");
 
         var manager = new XmlManager();
         manager.Load(filename);
@@ -28,7 +28,7 @@ public class TestSuiteWithVariablesTest
     [Test]
     public void Load_ValidFile_VariablesLoaded()
     {
-        var filename = FileOnDisk.CreatePhysicalFile("TestContentIsCorrect.xml", $"{GetType().Assembly.GetName().Name}.Resources.TestSuiteWithVariablesTestSuite.xml");
+        var filename = FileOnDisk.CreatePhysicalFile("TestSuiteWithVariablesTest-Load_ValidFile_VariablesLoaded.xml", $"{GetType().Assembly.GetName().Name}.Resources.TestSuiteWithVariablesTestSuite.xml");
 
         var manager = new XmlManager();
         manager.Load(filename);
@@ -43,7 +43,7 @@ public class TestSuiteWithVariablesTest
     [Parallelizable(ParallelScope.None)]
     public void Load_ValidFileImplicitLanguage_LanguageSetToCSharp()
     {
-        var filename = FileOnDisk.CreatePhysicalFile("TestContentIsCorrect.xml", $"{GetType().Assembly.GetName().Name}.Resources.TestSuiteWithVariablesTestSuite.xml");
+        var filename = FileOnDisk.CreatePhysicalFile("TestSuiteWithVariablesTest-Load_ValidFileImplicitLanguage_LanguageSetToCSharp.xml", $"{GetType().Assembly.GetName().Name}.Resources.TestSuiteWithVariablesTestSuite.xml");
 
         var manager = new XmlManager();
         manager.Load(filename);
@@ -65,7 +65,7 @@ public class TestSuiteWithVariablesTest
             }
         });
 
-        var serializer = new XmlSerializer(typeof(TestSuiteXml));
+        var serializer = NBi.Model.Xml.XmlModelSerializer.GetPlainContractSerializer(typeof(TestSuiteXml));
         var stream = new MemoryStream();
         var writer = new StreamWriter(stream, Encoding.UTF8);
         serializer.Serialize(writer, testSuiteXml);

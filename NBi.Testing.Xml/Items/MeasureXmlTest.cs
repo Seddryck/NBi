@@ -1,21 +1,20 @@
 ﻿using System.IO;
 using System.Reflection;
-using NBi.Xml;
-using NBi.Xml.Items;
-using NBi.Xml.Systems;
+using NBi.Model.Xml;
+using NBi.Model.Xml.Items;
+using NBi.Model.Xml.Systems;
 using NUnit.Framework;
 
-namespace NBi.Xml.Testing.Unit.Items;
+namespace NBi.Model.Xml.Testing.Unit.Items;
 
 [TestFixture]
 public class MeasureXmlTest : BaseXmlTest
 {
-
     [Test]
     public void Deserialize_SampleFile_MeasureGroupLoaded()
     {
         int testNr = 0;
-        
+
         // Create an instance of the XmlSerializer specifying type and namespace.
         var ts = DeserializeSample();
 
@@ -95,6 +94,4 @@ public class MeasureXmlTest : BaseXmlTest
         Assert.That(item.DisplayFolder, Is.Empty);
         Assert.That(item.Specification.IsDisplayFolderSpecified, Is.True);
     }
-
-           
 }

@@ -15,6 +15,31 @@ namespace NBi.Core.Testing.ResultSet.Equivalence;
 public class SettingsComparerBuilderTest
 {
     [Test]
+    public void Build_ModelComparison_UsesNamedColumnsAndDefaultType()
+    {
+        var comparison = new Model.Constraints.EqualTo
+        {
+            KeyName = "Id, Id",
+            ValueName = "Price",
+            ValuesDefaultType = ColumnType.Numeric,
+            Tolerance = "0.01",
+        };
+        var builder = new SettingsEquivalerBuilder();
+
+        builder.Setup(comparison);
+        builder.Build();
+
+        var settings = (SettingsNameResultSet)builder.GetSettings();
+        Assert.Multiple(() =>
+        {
+            Assert.That(settings.GetColumnRole("Id"), Is.EqualTo(ColumnRole.Key));
+            Assert.That(settings.GetColumnRole("Price"), Is.EqualTo(ColumnRole.Value));
+            Assert.That(settings.GetColumnType("Price"), Is.EqualTo(ColumnType.Numeric));
+            Assert.That(settings.GetTolerance("Price"), Is.TypeOf<NumericAbsoluteTolerance>());
+        });
+    }
+
+    [Test]
     public void Build_NonDefaultKeyAndKeyName_Exception()
     {
         var builder = new SettingsEquivalerBuilder();
@@ -69,7 +94,6 @@ public class SettingsComparerBuilderTest
         builder.Setup(ColumnType.Numeric, new DateTimeTolerance(new TimeSpan(1000)));
         Assert.Throws<InvalidOperationException>(() => builder.Build());
     }
-
 
     [Test]
     public void Build_OverrideUniqueKey_Exception()

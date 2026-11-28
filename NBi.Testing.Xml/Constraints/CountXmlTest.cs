@@ -1,20 +1,19 @@
 ﻿using System.IO;
 using System.Reflection;
-using NBi.Xml;
-using NBi.Xml.Constraints;
+using NBi.Model.Xml;
+using NBi.Model.Xml.Constraints;
 using NUnit.Framework;
 
-namespace NBi.Xml.Testing.Unit.Constraints;
+namespace NBi.Model.Xml.Testing.Unit.Constraints;
 
 [TestFixture]
 public class CountXmlTest : BaseXmlTest
 {
-
     [Test]
     public void Deserialize_SampleFile_CountExactly()
     {
         int testNr = 0;
-        
+
         // Create an instance of the XmlSerializer specifying type and namespace.
         var ts = DeserializeSample();
 

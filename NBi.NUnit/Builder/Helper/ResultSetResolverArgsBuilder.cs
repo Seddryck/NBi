@@ -3,18 +3,18 @@ using NBi.Core.ResultSet;
 using NBi.Core.ResultSet.Resolver;
 using NBi.Core.Sequence.Resolver;
 using NBi.Core.Variable;
-using NBi.Xml.Items;
+using NBi.Model.Xml.Items;
 using NBi.Core.DataSerialization.Flattening;
 using NBi.Core.DataSerialization.Flattening.Xml;
 using NBi.Core.DataSerialization.Reader;
 using NBi.Core.DataSerialization.Flattening.Json;
-using NBi.Xml.Items.Hierarchical.Json;
-using NBi.Xml.Items.ResultSet;
-using NBi.Xml.Items.ResultSet.Combination;
-using NBi.Xml.Items.Hierarchical.Xml;
-using NBi.Xml.Settings;
-using NBi.Xml.Systems;
-using NBi.Xml.Variables.Sequence;
+using NBi.Model.Xml.Items.Hierarchical.Json;
+using NBi.Model.Xml.Items.ResultSet;
+using NBi.Model.Xml.Items.ResultSet.Combination;
+using NBi.Model.Xml.Items.Hierarchical.Xml;
+using NBi.Model.Xml.Settings;
+using NBi.Model.Xml.Systems;
+using NBi.Model.Xml.Variables.Sequence;
 using NBi.Extensibility.Resolving;
 using System;
 using System.Collections.Generic;
@@ -23,7 +23,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using NBi.Xml.Items.Alteration;
+using NBi.Model.Xml.Items.Alteration;
 using NBi.Core.ResultSet.Alteration;
 
 namespace NBi.NUnit.Builder.Helper
@@ -70,7 +70,6 @@ namespace NBi.NUnit.Builder.Helper
                 case JsonSourceXml x: args = BuildJsonPathResolverArgs(x); break;
                 default: throw new ArgumentException();
             }
-
         }
 
         private ResultSetResolverArgs BuildResultSetSystemXml(ResultSetSystemXml xml)
@@ -136,11 +135,12 @@ namespace NBi.NUnit.Builder.Helper
             }
             //ResultSet (embedded)
             else if (xml.Rows != null)
+            {
                 return BuildEmbeddedResolverArgs(xml.Content);
+            }
 
             throw new ArgumentException();
         }
-
 
         private ResultSetResolverArgs BuildSequenceCombinationResolverArgs(SequenceCombinationXml sequenceCombinationXml)
         {
@@ -163,7 +163,6 @@ namespace NBi.NUnit.Builder.Helper
 
         private ResultSetResolverArgs BuildSequenceResolverArgs(SequenceXml sequenceXml)
         {
-
             var sequenceFactory = new SequenceResolverFactory(ServiceLocator);
             var builder = new SequenceResolverArgsBuilder(ServiceLocator);
             builder.Setup(settings);
@@ -303,7 +302,6 @@ namespace NBi.NUnit.Builder.Helper
                 var args = ServiceLocator.GetScalarResolverFactory().Instantiate<string>(builder.GetArgs());
                 reader = new ScalarReaderArgs(args);
             }
-
 
             var selects = new List<IPathSelect>();
             var selectFactory = new PathFlattenizerFactory();

@@ -1,24 +1,24 @@
 ﻿using System.IO;
 using System.Reflection;
-using NBi.Xml;
-using NBi.Xml.Constraints;
-using NBi.Xml.Items;
-using NBi.Xml.Systems;
+using NBi.Model.Xml;
+using NBi.Model.Xml.Constraints;
+using NBi.Model.Xml.Items;
+using NBi.Model.Xml.Systems;
 using NUnit.Framework;
 using System.Xml.Serialization;
 using System.Text;
 using System.Diagnostics;
 
-namespace NBi.Xml.Testing.Unit.Constraints;
+namespace NBi.Model.Xml.Testing.Unit.Constraints;
 
 [TestFixture]
 public class ContainedInXmlTest : BaseXmlTest
-{ 
+{
     [Test]
     public void Deserialize_SampleFile_ContainedInNotIgnoringCaseImplicitely()
     {
         int testNr = 0;
-        
+
         // Create an instance of the XmlSerializer specifying type and namespace.
         var ts = DeserializeSample();
 
@@ -44,7 +44,7 @@ public class ContainedInXmlTest : BaseXmlTest
     public void Deserialize_SampleFile_ContainedInCaptionIgnoringCaseExplicitely()
     {
         int testNr = 2;
-        
+
         // Create an instance of the XmlSerializer specifying type and namespace.
         var ts = DeserializeSample();
 
@@ -90,7 +90,7 @@ public class ContainedInXmlTest : BaseXmlTest
         var containedInXml = new ContainedInXml()
         {
             IgnoreCase=true,
-            IntegerRange = new NBi.Xml.Items.Ranges.IntegerRangeXml()
+            IntegerRange = new NBi.Model.Xml.Items.Ranges.IntegerRangeXml()
             {
                 Start = 10,
                 End = 20,
@@ -99,7 +99,7 @@ public class ContainedInXmlTest : BaseXmlTest
         };
         testXml.Constraints.Add(containedInXml);
 
-        var serializer = new XmlSerializer(typeof(TestXml));
+        var serializer = NBi.Model.Xml.XmlModelSerializer.GetPlainContractSerializer(typeof(TestXml));
         var stream = new MemoryStream();
         var writer = new StreamWriter(stream, Encoding.UTF8);
         serializer.Serialize(writer, testXml);

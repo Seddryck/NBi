@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Linq;
 using NBi.Core.Analysis.Request;
-using NBi.Xml.Constraints;
-using NBi.Xml.Systems;
-using NBi.Xml.Items;
+using NBi.Model.Xml.Constraints;
+using NBi.Model.Xml.Systems;
+using NBi.Model.Xml.Items;
 using NBi.Core.Query;
 using NBi.Extensibility.Query;
 using NBi.NUnit.Builder.Helper;
@@ -14,7 +14,8 @@ namespace NBi.NUnit.Builder
     {
         protected OrderedXml ConstraintXml {get; set;}
 
-        public MembersOrderedBuilder() : base()
+        public MembersOrderedBuilder()
+            : base()
         {
         }
 
@@ -68,12 +69,9 @@ namespace NBi.NUnit.Builder
 
         private IQuery BuildQuery(QueryXml queryXml)
         {
-            var connectionString = new ConnectionStringHelper().Execute(queryXml, Xml.Settings.SettingsXml.DefaultScope.SystemUnderTest);
+            var connectionString = new ConnectionStringHelper().Execute(queryXml, NBi.Model.Xml.Settings.SettingsXml.DefaultScope.SystemUnderTest);
 
             return new NBi.Core.Query.Query(queryXml.InlineQuery, connectionString, new TimeSpan(0, 0, 0));
         }
-
-
-
     }
 }

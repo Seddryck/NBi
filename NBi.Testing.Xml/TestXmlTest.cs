@@ -4,20 +4,19 @@ using System.IO;
 using System.Reflection;
 using System.Text;
 using System.Xml.Serialization;
-using NBi.Xml;
-using NBi.Xml.Constraints;
-using NBi.Xml.Items;
-using NBi.Xml.Settings;
-using NBi.Xml.Systems;
+using NBi.Model.Xml;
+using NBi.Model.Xml.Constraints;
+using NBi.Model.Xml.Items;
+using NBi.Model.Xml.Settings;
+using NBi.Model.Xml.Systems;
 using NUnit.Framework;
 using System.Xml;
 
-namespace NBi.Xml.Testing.Unit;
+namespace NBi.Model.Xml.Testing.Unit;
 
 [TestFixture]
 public class TestXmlTest
 {
-
     protected TestSuiteXml DeserializeSample()
     {
         // Declare an object variable of the type to be deserialized.
@@ -33,7 +32,7 @@ public class TestXmlTest
         }
         return manager.TestSuite!;
     }
-    
+
     [Test]
     public void Deserialize_SampleFile_TestSuiteLoaded()
     {
@@ -43,7 +42,6 @@ public class TestXmlTest
         // Check the properties of the object.
         Assert.That(ts.Name, Is.EqualTo("The TestSuite"));
     }
-
 
     [Test]
     public void Deserialize_SampleFile_TestsLoaded()
@@ -83,7 +81,6 @@ public class TestXmlTest
 
         // Check the properties of the object.
         ts.Tests.GetRange(0,2).ForEach(t => Assert.That(t.Constraints[0], Is.InstanceOf<SyntacticallyCorrectXml>()));
-
     }
 
     [Test]
@@ -107,8 +104,6 @@ public class TestXmlTest
         Assert.That(ts.Tests[2].Constraints[0], Is.InstanceOf<EqualToXml>());
         //Assert.That(((EqualToXml)ts.Tests[2].Constraints[0]).ResultSetFile, Is.Not.Empty);
     }
-    
-    
 
     [Test]
     public void Deserialize_SampleFile_TestCategoriesLoaded()
@@ -175,7 +170,7 @@ public class TestXmlTest
     [Test]
     public void Serialize_StructureXml_NoDefaultAndSettings()
     {
-        var references = new List<ReferenceXml>() 
+        var references = new List<ReferenceXml>()
                 { new ()
                     { Name = "Bob", ConnectionString = new ConnectionStringXml() { Inline = "connStr" } }
                 };
@@ -188,7 +183,7 @@ public class TestXmlTest
                 References = references
             }
         };
-        var structureXml = new StructureXml() 
+        var structureXml = new StructureXml()
         {
             Item = perspectiveXml,
             Default = new DefaultXml() { ApplyTo = SettingsXml.DefaultScope.Assert, ConnectionString = new ConnectionStringXml() { Inline = "connStr" } },
@@ -202,7 +197,7 @@ public class TestXmlTest
                 ]
         };
 
-        var serializer = new XmlSerializer(typeof(TestXml));
+        var serializer = NBi.Model.Xml.XmlModelSerializer.GetPlainContractSerializer(typeof(TestXml));
         var stream = new MemoryStream();
         var writer = new StreamWriter(stream, Encoding.UTF8);
         serializer.Serialize(writer, testXml);
@@ -237,7 +232,7 @@ public class TestXmlTest
             ]
         };
 
-        var serializer = new XmlSerializer(typeof(TestSuiteXml));
+        var serializer = NBi.Model.Xml.XmlModelSerializer.GetPlainContractSerializer(typeof(TestSuiteXml));
         var stream = new MemoryStream();
         var writer = new StreamWriter(stream, Encoding.UTF8);
         serializer.Serialize(writer, testSuiteXml);
@@ -255,5 +250,4 @@ public class TestXmlTest
         Assert.That(content, Does.Contain("<nodes"));
         Assert.That(content, Does.Contain("<assert"));
     }
-
 }

@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Linq;
-using NBi.Xml.Settings;
+using NBi.Model.Settings;
 
 namespace NBi.GenbiL.Action.Setting;
 
-public class ParameterActionFactory 
+public class ParameterActionFactory
 {
     public ParameterActionFactory()
     {
@@ -16,5 +16,4 @@ public class ParameterActionFactory
             return new ParallelizeQueriesAction(value);
         throw new ArgumentOutOfRangeException();
     }
-
 }

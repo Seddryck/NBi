@@ -1,21 +1,20 @@
 ﻿using System.IO;
 using System.Reflection;
-using NBi.Xml;
-using NBi.Xml.Items;
-using NBi.Xml.Systems;
+using NBi.Model.Xml;
+using NBi.Model.Xml.Items;
+using NBi.Model.Xml.Systems;
 using NUnit.Framework;
 
-namespace NBi.Xml.Testing.Unit.Systems;
+namespace NBi.Model.Xml.Testing.Unit.Systems;
 
 [TestFixture]
 public class MembersXmlTest : BaseXmlTest
 {
-
     [Test]
     public void Deserialize_SampleFile_MembersWithLevel()
     {
         int testNr = 0;
-        
+
         // Create an instance of the XmlSerializer specifying type and namespace.
         var ts = DeserializeSample();
 
@@ -52,7 +51,7 @@ public class MembersXmlTest : BaseXmlTest
     public void Deserialize_SampleFile_MembersWithHierarchy()
     {
         int testNr = 1;
-        
+
         // Create an instance of the XmlSerializer specifying type and namespace.
         var ts = DeserializeSample();
 
@@ -66,12 +65,12 @@ public class MembersXmlTest : BaseXmlTest
         Assert.That(item.Perspective, Is.EqualTo("Perspective"));
         Assert.That(item.ConnectionString, Is.EqualTo("ConnectionString"));
     }
-    
+
     [Test]
     public void Deserialize_SampleFile_MembersWithChildrenOf()
     {
         int testNr = 2;
-        
+
         // Create an instance of the XmlSerializer specifying type and namespace.
         var ts = DeserializeSample();
 
@@ -96,5 +95,4 @@ public class MembersXmlTest : BaseXmlTest
         Assert.That(exclude.Items, Has.Member("Arizona"));
         Assert.That(exclude.Items, Has.Member("Iowa"));
     }
-
 }

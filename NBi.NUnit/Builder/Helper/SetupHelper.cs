@@ -9,7 +9,7 @@ using NBi.Core.Variable;
 using NBi.Extensibility.Decoration;
 using NBi.Extensibility.Decoration.DataEngineering;
 using NBi.Extensibility.Resolving;
-using NBi.Xml.Decoration.Command;
+using NBi.Model.Xml.Decoration.Command;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -160,7 +160,7 @@ namespace NBi.NUnit.Builder.Helper
                         helper.InstantiateResolver<string>(custom.TypeName),
                         custom.Parameters.ToDictionary(x => x.Name, y => (IScalarResolver)helper.InstantiateResolver<string>(y.StringValue))
                     );
-                case CommandGroupXml group: 
+                case CommandGroupXml group:
                     switch(group.Parallel)
                     {
                         case true:
@@ -179,6 +179,5 @@ namespace NBi.NUnit.Builder.Helper
                 default: throw new ArgumentOutOfRangeException();
             }
         }
-
     }
 }

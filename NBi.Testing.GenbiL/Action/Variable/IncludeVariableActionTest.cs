@@ -2,7 +2,7 @@
 using NBi.GenbiL;
 using NBi.GenbiL.Action.Variable;
 using NBi.GenbiL.Stateful;
-using NBi.Xml.Variables;
+using NBi.Model.Variables;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
@@ -25,7 +25,7 @@ public class IncludeVariableActionTest
             Stream = stream;
         }
 
-        protected override IEnumerable<GlobalVariableXml> ReadXml(string filename)
+        protected override IEnumerable<GlobalVariable> ReadXml(string filename)
         {
             return ReadXml(Stream);
         }

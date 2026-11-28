@@ -44,7 +44,7 @@ Compatibility of licenses in checked by FOSSA app:
 The list of bugs and feature's requests is hosted on [GitHub](https://github.com/Seddryck/NBi/issues)
 
 ## Continuous Integration and Testing ##
-[GitHub Actions](https://github.com/Seddryck/NBi/actions/workflows/ci.yml) builds the .NET 10 solution on Windows and runs the Core, GenbiL, XML, and Framework tests. The workflow uploads test results, coverage, and the NBi, Extensibility, and Framework NuGet packages.
+[GitHub Actions](https://github.com/Seddryck/NBi/actions/workflows/ci.yml) builds the .NET 10 solution on Windows and runs the Core, GenbiL, XML, and Framework tests. The workflow uploads test results, coverage, and the NBi, NBi.Model, Extensibility, and Framework NuGet packages.
 
 After a successful build on `main`, GitHub Actions publishes to NuGet.org when the `NUGET_USER` repository variable is set. Set it to the NuGet.org account name and configure a [Trusted Publishing policy](https://learn.microsoft.com/en-us/nuget/nuget-org/trusted-publishing) for this repository and `ci.yml`. The workflow uses the policy to request a short-lived publishing credential.
 

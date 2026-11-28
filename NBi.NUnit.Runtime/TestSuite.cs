@@ -4,14 +4,14 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using NBi.Core;
-using NBi.Xml;
-using NBi.Xml.Decoration;
+using NBi.Model.Xml;
+using NBi.Model.Xml.Decoration;
 using NUnit.Framework;
 using NUnitCtr = NUnit.Framework.Constraints;
 using NBi.NUnit.Runtime.Configuration;
 using NBi.Core.Configuration;
 using NBi.Core.Variable;
-using NBi.Xml.Variables;
+using NBi.Model.Xml.Variables;
 using NBi.NUnit.Builder.Helper;
 using NBi.Core.Injection;
 using NBi.Core.Configuration.Extension;
@@ -321,8 +321,8 @@ namespace NBi.NUnit.Runtime
                     else if (variable.QueryScalar != null)
                     {
                         variable.QueryScalar.Settings = TestSuiteManager.TestSuite.Settings;
-                        variable.QueryScalar.Default = TestSuiteManager.TestSuite.Settings.GetDefault(Xml.Settings.SettingsXml.DefaultScope.Variable);
-                        builder.Setup(variable.QueryScalar, variable.QueryScalar.Settings, Xml.Settings.SettingsXml.DefaultScope.Variable);
+                        variable.QueryScalar.Default = TestSuiteManager.TestSuite.Settings.GetDefault(NBi.Model.Xml.Settings.SettingsXml.DefaultScope.Variable);
+                        builder.Setup(variable.QueryScalar, variable.QueryScalar.Settings, NBi.Model.Xml.Settings.SettingsXml.DefaultScope.Variable);
                     }
                     else if (variable.Environment != null)
                     {

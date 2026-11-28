@@ -4,13 +4,13 @@ using System.Linq;
 using Moq;
 using NBi.NUnit.Builder;
 using NBi.NUnit.Structure;
-using NBi.Xml.Constraints;
-using NBi.Xml.Items;
-using NBi.Xml.Settings;
-using NBi.Xml.Systems;
+using NBi.Model.Xml.Constraints;
+using NBi.Model.Xml.Items;
+using NBi.Model.Xml.Settings;
+using NBi.Model.Xml.Systems;
 using NUnit.Framework;
 using NBi.Core.Structure.Olap;
-using NBi.Xml.Items.Filters;
+using NBi.Model.Xml.Items.Filters;
 using NBi.Core.Structure;
 using System.Collections.Generic;
 

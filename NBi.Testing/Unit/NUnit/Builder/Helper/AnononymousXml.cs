@@ -1,4 +1,4 @@
-﻿using NBi.Xml.Items.Api.Authentication;
+﻿using NBi.Model.Xml.Items.Api.Authentication;
 
 namespace NBi.Testing.Unit.NUnit.Builder.Helper
 {

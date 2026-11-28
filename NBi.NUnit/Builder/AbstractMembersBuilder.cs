@@ -2,9 +2,9 @@
 using System.Linq;
 using System.Collections.Generic;
 using NBi.Core.Analysis.Request;
-using NBi.Xml.Constraints;
-using NBi.Xml.Items;
-using NBi.Xml.Systems;
+using NBi.Model.Xml.Constraints;
+using NBi.Model.Xml.Items;
+using NBi.Model.Xml.Systems;
 using NBi.Core.Analysis.Member;
 using NBi.NUnit.Builder.Helper;
 
@@ -79,7 +79,7 @@ namespace NBi.NUnit.Builder
             }
             if (membersXml.Item is HierarchyXml || membersXml.Item is LevelXml)
             {
-                var connectionString = new ConnectionStringHelper().Execute(membersXml.Item, Xml.Settings.SettingsXml.DefaultScope.SystemUnderTest);
+                var connectionString = new ConnectionStringHelper().Execute(membersXml.Item, NBi.Model.Xml.Settings.SettingsXml.DefaultScope.SystemUnderTest);
 
                 disco = discoveryFactory.Build(
                     connectionString,
@@ -96,7 +96,7 @@ namespace NBi.NUnit.Builder
             {
                 perspective = ((SetXml)membersXml.Item).Perspective;
                 set = membersXml.Item.Caption;
-                var connectionString = new ConnectionStringHelper().Execute(membersXml.Item, Xml.Settings.SettingsXml.DefaultScope.SystemUnderTest);
+                var connectionString = new ConnectionStringHelper().Execute(membersXml.Item, NBi.Model.Xml.Settings.SettingsXml.DefaultScope.SystemUnderTest);
 
                 disco = discoveryFactory.Build(
                     connectionString,

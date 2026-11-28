@@ -3,8 +3,8 @@ using NBi.Core.Query;
 using NBi.Core.Query.Resolver;
 using NBi.Core.Scalar.Resolver;
 using NBi.Core.Variable;
-using NBi.Xml.Items;
-using NBi.Xml.Settings;
+using NBi.Model.Xml.Items;
+using NBi.Model.Xml.Settings;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -20,8 +20,8 @@ namespace NBi.NUnit.Builder.Helper
 {
     class QueryResolverArgsBuilder
     {
-        private bool isSetup = false;
         private readonly ServiceLocator serviceLocator;
+        private bool isSetup = false;
 
         private object obj = null;
         protected SettingsXml Settings { get; private set; } = SettingsXml.Empty;
@@ -73,9 +73,10 @@ namespace NBi.NUnit.Builder.Helper
             var timeout = Convert.ToInt32(Math.Ceiling(queryXml.Timeout / 1000m)); //Timeout is expressed in milliseconds
 
             if (!string.IsNullOrEmpty(queryXml.InlineQuery))
+            {
                 args = new EmbeddedQueryResolverArgs(queryXml.InlineQuery
                     , connectionString, parameters, templateVariables, new TimeSpan(0, 0, timeout));
-
+            }
             else if (!string.IsNullOrEmpty(queryXml.File))
             {
                 var file = GetFullPath(Settings?.BasePath, queryXml.File);
@@ -83,17 +84,18 @@ namespace NBi.NUnit.Builder.Helper
                 args = new ExternalFileQueryResolverArgs(file
                     , connectionString, parameters, templateVariables, new TimeSpan(0, 0, timeout));
             }
-
             else if (queryXml.Assembly != null)
+            {
                 args = Build(queryXml.Assembly, connectionString, parameters, templateVariables, new TimeSpan(0, 0, timeout));
-
-
+            }
             else if (queryXml.Report != null)
+            {
                 args = Build(queryXml.Report, connectionString, parameters, templateVariables, new TimeSpan(0, 0, timeout));
-
-
+            }
             else if (queryXml.SharedDataset != null)
+            {
                 args = Build(queryXml.SharedDataset, connectionString, parameters, templateVariables, new TimeSpan(0, 0, timeout));
+            }
 
             if (args == null)
                 throw new ArgumentException();
@@ -130,7 +132,9 @@ namespace NBi.NUnit.Builder.Helper
         protected void Build(ExecutableXml executableXml)
         {
             if (executableXml is QueryXml)
+            {
                 Build(executableXml as QueryXml);
+            }
             else
             {
                 var connectionString = new ConnectionStringHelper().Execute(executableXml, Scope);

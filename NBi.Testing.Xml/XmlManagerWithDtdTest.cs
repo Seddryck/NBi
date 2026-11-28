@@ -1,10 +1,10 @@
 ﻿using System;
-using NBi.Xml;
+using NBi.Model.Xml;
 using NUnit.Framework;
 using System.Xml;
 using System.IO;
 
-namespace NBi.Xml.Testing.Unit;
+namespace NBi.Model.Xml.Testing.Unit;
 
 [TestFixture]
 [Parallelizable(ParallelScope.None)]
@@ -12,14 +12,14 @@ public class XmlManagerWithDtdTest
 {
     private string filename { get; set; } = string.Empty;
     private string includedFilename { get; set; } = string.Empty;
-    
+
     [SetUp]
     public void Setup()
     {
         includedFilename = FileOnDisk.CreatePhysicalFile("TestSuiteIncludedTestSuite.xml", $"{GetType().Assembly.GetName().Name}.Resources.TestSuiteIncludedTestSuite.xml");
         filename = FileOnDisk.CreatePhysicalFile("TestSuiteWithIncludeTestSuite.nbits", $"{GetType().Assembly.GetName().Name}.Resources.TestSuiteWithIncludeTestSuite.xml");
     }
-        
+
     [Test]
     public void Load_ValidFile_Success()
     {
@@ -61,7 +61,7 @@ public class XmlManagerWithDtdTest
     public void Load_ValidFileButWithoutDtdProcessingSetToTrue_Successfully()
     {
         var manager = new XmlManager();
-        var ex = Assert.Throws<ArgumentException>(delegate { manager.Load(filename, false); });
+        var ex = Assert.Throws<ArgumentException>(() => { manager.Load(filename, false); });
         Assert.That(ex!.Message, Does.Contain("DTD is prohibited. To activate it, set the flag allow-dtd-processing to true in the config file associated to this test-suite"));
     }
 }

@@ -1,20 +1,19 @@
 ﻿using System.IO;
 using System.Reflection;
-using NBi.Xml;
-using NBi.Xml.Constraints;
+using NBi.Model.Xml;
+using NBi.Model.Xml.Constraints;
 using NUnit.Framework;
 
-namespace NBi.Xml.Testing.Unit.Constraints;
+namespace NBi.Model.Xml.Testing.Unit.Constraints;
 
 [TestFixture]
 public class OrderedXmlTest : BaseXmlTest
 {
-
     [Test]
     public void Deserialize_SampleFile_OrderedConstraintAlphabeticalNothingSpecified()
     {
         int testNr = 0;
-        
+
         // Create an instance of the XmlSerializer specifying type and namespace.
         var ts = DeserializeSample();
 
@@ -27,7 +26,7 @@ public class OrderedXmlTest : BaseXmlTest
     public void Deserialize_SampleFile_OrderedConstraintAlphabeticalDescendingSpecified()
     {
         int testNr = 1;
-        
+
         // Create an instance of the XmlSerializer specifying type and namespace.
         var ts = DeserializeSample();
 
@@ -39,7 +38,7 @@ public class OrderedXmlTest : BaseXmlTest
     public void Deserialize_SampleFile_OrderedConstraintChronologicalSpecified()
     {
         int testNr = 2;
-        
+
         // Create an instance of the XmlSerializer specifying type and namespace.
         var ts = DeserializeSample();
 
@@ -51,7 +50,7 @@ public class OrderedXmlTest : BaseXmlTest
     public void Deserialize_SampleFile_OrderedConstraintAlphabeticalSpecificSpecified()
     {
         int testNr = 3;
-        
+
         // Create an instance of the XmlSerializer specifying type and namespace.
         var ts = DeserializeSample();
 

@@ -1,16 +1,15 @@
 ﻿using System.IO;
 using System.Reflection;
-using NBi.Xml;
-using NBi.Xml.Decoration;
-using NBi.Xml.Decoration.Command;
+using NBi.Model.Xml;
+using NBi.Model.Xml.Decoration;
+using NBi.Model.Xml.Decoration.Command;
 using NUnit.Framework;
 
-namespace NBi.Xml.Testing.Unit.Decoration;
+namespace NBi.Model.Xml.Testing.Unit.Decoration;
 
 [TestFixture]
 public class DecorationXmlTest : BaseXmlTest
-{ 
-    
+{
     [Test]
     public void Deserialize_SampleFile_Setup()
     {
@@ -22,7 +21,6 @@ public class DecorationXmlTest : BaseXmlTest
         // Check the properties of the object.
         Assert.That(ts.Tests[testNr].Setup, Is.TypeOf<SetupXml>());
     }
-
 
     [Test]
     public void Deserialize_SampleFile_SetupCountCommands()
@@ -75,7 +73,6 @@ public class DecorationXmlTest : BaseXmlTest
         Assert.That(cmd.TableName, Is.EqualTo("Users"));
         Assert.That(cmd.InternalFileName, Is.EqualTo("Users.csv"));
     }
-
 
     [Test]
     public void Deserialize_SampleFile_ResetCommand()
@@ -139,13 +136,13 @@ public class DecorationXmlTest : BaseXmlTest
         Assert.That(ts.Tests[testNr].Setup.Commands[0], Is.TypeOf<ServiceStartXml>());
         var cmd = (ServiceStartXml)ts.Tests[testNr].Setup.Commands[0];
         Assert.That(cmd.TimeOut, Is.EqualTo("5000")); //Default value
-        Assert.That(cmd.ServiceName, Is.EqualTo("MyService")); 
+        Assert.That(cmd.ServiceName, Is.EqualTo("MyService"));
 
         // Check the properties of the object.
         Assert.That(ts.Tests[testNr].Cleanup.Commands[0], Is.TypeOf<ServiceStopXml>());
         var cmdCleanup = (ServiceStopXml)ts.Tests[testNr].Cleanup.Commands[0];
         Assert.That(cmdCleanup.TimeOut, Is.EqualTo("15000")); //Value Specified
-        Assert.That(cmdCleanup.ServiceName, Is.EqualTo("MyService")); 
+        Assert.That(cmdCleanup.ServiceName, Is.EqualTo("MyService"));
     }
 
     [Test]
@@ -322,7 +319,6 @@ public class DecorationXmlTest : BaseXmlTest
         Assert.That(run.TimeOut, Is.EqualTo("0"));
     }
 
-
     [Test]
     public void Deserialize_SampleFile_BatchRun()
     {
@@ -373,7 +369,6 @@ public class DecorationXmlTest : BaseXmlTest
         Assert.That(delete.Path, Is.EqualTo(@"Temp\"));
     }
 
-    
     [Test]
     public void Deserialize_SampleFile_FileMove()
     {

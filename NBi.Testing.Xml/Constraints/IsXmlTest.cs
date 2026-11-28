@@ -1,20 +1,19 @@
 ﻿#region Using directives
 using System.IO;
 using System.Reflection;
-using NBi.Xml;
-using NBi.Xml.Constraints;
+using NBi.Model.Xml;
+using NBi.Model.Xml.Constraints;
 using NUnit.Framework;
 using System.Xml.Serialization;
 using System.Text;
 using System.Diagnostics;
 #endregion
 
-namespace NBi.Xml.Testing.Unit.Constraints;
+namespace NBi.Model.Xml.Testing.Unit.Constraints;
 
 [TestFixture]
 public class IsXmlTest : BaseXmlTest
 {
-
     [Test]
     public void Deserialize_SampleFile_IsConstraint()
     {
@@ -52,7 +51,6 @@ public class IsXmlTest : BaseXmlTest
         Assert.That(ctrXml.Value, Is.EqualTo("varchar(50)"));
     }
 
-
     [Test]
     public void Serialize_IsXml_NoDefaultAndSettings()
     {
@@ -64,7 +62,7 @@ public class IsXmlTest : BaseXmlTest
         var testXml = new TestXml();
         testXml.Constraints.Add(isXml);
 
-        var serializer = new XmlSerializer(typeof(TestXml));
+        var serializer = NBi.Model.Xml.XmlModelSerializer.GetPlainContractSerializer(typeof(TestXml));
         var stream = new MemoryStream();
         var writer = new StreamWriter(stream, Encoding.UTF8);
         serializer.Serialize(writer, testXml);

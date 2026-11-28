@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using NBi.NUnit.Query;
-using NBi.Xml.Constraints;
-using NBi.Xml.Systems;
+using NBi.Model.Xml.Constraints;
+using NBi.Model.Xml.Systems;
 using NBi.Core.ResultSet.Uniqueness;
 
 namespace NBi.NUnit.Builder
@@ -15,7 +15,6 @@ namespace NBi.NUnit.Builder
 
         public ResultSetUniqueRowsBuilder()
         {
-
         }
 
         protected override void SpecificSetup(AbstractSystemUnderTestXml sutXml, AbstractConstraintXml ctrXml)
@@ -43,6 +42,5 @@ namespace NBi.NUnit.Builder
             var evaluator = factory.Instantiate(settings);
             Constraint = ctr.Using(evaluator);
         }
-
     }
 }

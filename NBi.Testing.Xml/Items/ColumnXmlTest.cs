@@ -1,21 +1,20 @@
 ﻿using System.IO;
 using System.Reflection;
-using NBi.Xml;
-using NBi.Xml.Items;
-using NBi.Xml.Systems;
+using NBi.Model.Xml;
+using NBi.Model.Xml.Items;
+using NBi.Model.Xml.Systems;
 using NUnit.Framework;
 
-namespace NBi.Xml.Testing.Unit.Items;
+namespace NBi.Model.Xml.Testing.Unit.Items;
 
 [TestFixture]
 public class ColumnXmlTest : BaseXmlTest
 {
-
     [Test]
     public void Deserialize_SampleFile_TableAndPerspectiveLoaded()
     {
         int testNr = 0;
-        
+
         // Create an instance of the XmlSerializer specifying type and namespace.
         var ts = DeserializeSample();
 
@@ -28,6 +27,4 @@ public class ColumnXmlTest : BaseXmlTest
         Assert.That(item.Table, Is.EqualTo("table"));
         Assert.That(item.Perspective, Is.EqualTo("perspective"));
     }
-
-           
 }

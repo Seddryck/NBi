@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Linq;
 using NBi.Core.DataType;
-using NBi.Xml.Constraints;
-using NBi.Xml.Items;
-using NBi.Xml.Systems;
+using NBi.Model.Xml.Constraints;
+using NBi.Model.Xml.Items;
+using NBi.Model.Xml.Systems;
 using System.Collections.Generic;
-using NBi.Xml.Items.Filters;
+using NBi.Model.Xml.Items.Filters;
 using NBi.NUnit.Builder.Helper;
 
 namespace NBi.NUnit.Builder
@@ -45,7 +45,7 @@ namespace NBi.NUnit.Builder
 
         protected virtual IDataTypeDiscoveryCommand InstantiateCommand(AbstractItem item)
         {
-            var connectionString = new ConnectionStringHelper().Execute(item, Xml.Settings.SettingsXml.DefaultScope.SystemUnderTest);
+            var connectionString = new ConnectionStringHelper().Execute(item, NBi.Model.Xml.Settings.SettingsXml.DefaultScope.SystemUnderTest);
             var factory = discoveryProvider.Instantiate(connectionString);
 
             var target = BuildTarget(item);
@@ -85,9 +85,8 @@ namespace NBi.NUnit.Builder
                 return Target.Columns;
             if (item is PropertyXml)
                 return Target.Properties;
-           
+
             throw new ArgumentException(item.GetType().Name);
         }
-
     }
 }

@@ -1,11 +1,11 @@
 ﻿using System.IO;
 using System.Reflection;
-using NBi.Xml;
-using NBi.Xml.Constraints;
+using NBi.Model.Xml;
+using NBi.Model.Xml.Constraints;
 using NUnit.Framework;
-using NBi.Xml.Items.Format;
+using NBi.Model.Xml.Items.Format;
 
-namespace NBi.Xml.Testing.Unit.Constraints;
+namespace NBi.Model.Xml.Testing.Unit.Constraints;
 
 [TestFixture]
 public class MatchPatternXmlTest
@@ -27,19 +27,19 @@ public class MatchPatternXmlTest
         manager.ApplyDefaultSettings();
         return manager.TestSuite!;
     }
-    
+
     [Test]
     public void Deserialize_SampleFile_MatchPatternRegex()
     {
         int testNr = 0;
-        
+
         // Create an instance of the XmlSerializer specifying type and namespace.
         var ts = DeserializeSample("");
 
         // Check the properties of the object.
         Assert.That(ts.Tests[testNr].Constraints[0], Is.TypeOf<MatchPatternXml>());
         var matchPatternConstraint = (MatchPatternXml)ts.Tests[testNr].Constraints[0];
-        
+
         Assert.That(matchPatternConstraint.Regex, Is.EqualTo(@"^[2-9]\d{2}-\d{3}-\d{4}$"));
     }
 
@@ -105,7 +105,6 @@ public class MatchPatternXmlTest
         var matchPattern = new MatchPatternXml();
         matchPattern.NumericFormat.DecimalDigits = 2;
 
-
         var manager = new XmlManager();
         var str = manager.XmlSerializeFrom(matchPattern);
 
@@ -126,7 +125,6 @@ public class MatchPatternXmlTest
         var matchPattern = new MatchPatternXml();
         matchPattern.NumericFormat.DecimalDigits = 5;
         matchPattern.NumericFormat.GroupSeparator = " ";
-
 
         var manager = new XmlManager();
         var str = manager.XmlSerializeFrom(matchPattern);
@@ -151,7 +149,6 @@ public class MatchPatternXmlTest
         matchPattern.NumericFormat.DecimalDigits = 5;
         matchPattern.NumericFormat.GroupSeparator = " ";
         matchPattern.NumericFormat.DecimalSeparator = ",";
-
 
         var manager = new XmlManager();
         var str = manager.XmlSerializeFrom(matchPattern);
@@ -179,7 +176,6 @@ public class MatchPatternXmlTest
         matchPattern.CurrencyFormat.CurrencyPattern = NBi.Core.Format.CurrencyPattern.PrefixSpace;
         matchPattern.CurrencyFormat.CurrencySymbol = "£";
 
-
         var manager = new XmlManager();
         var str = manager.XmlSerializeFrom(matchPattern);
 
@@ -204,7 +200,6 @@ public class MatchPatternXmlTest
         var matchPattern = new MatchPatternXml();
         matchPattern.CurrencyFormat.CurrencyPattern = NBi.Core.Format.CurrencyPattern.PrefixSpace;
         matchPattern.CurrencyFormat.CurrencySymbol = "£";
-
 
         var manager = new XmlManager();
         var str = manager.XmlSerializeFrom(matchPattern);

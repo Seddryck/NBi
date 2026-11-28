@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Linq;
 using NBi.Core.Analysis.Request;
-using NBi.Xml.Constraints;
-using NBi.Xml.Items;
-using NBi.Xml.Systems;
+using NBi.Model.Xml.Constraints;
+using NBi.Model.Xml.Items;
+using NBi.Model.Xml.Systems;
 using NBi.Core.Structure;
 
 namespace NBi.NUnit.Builder
@@ -11,8 +11,9 @@ namespace NBi.NUnit.Builder
     class StructureEquivalentToBuilder: AbstractStructureBuilder
     {
         protected EquivalentToXml ConstraintXml { get; set; }
-        
-        public StructureEquivalentToBuilder() : base()
+
+        public StructureEquivalentToBuilder()
+            : base()
         {
         }
 
@@ -37,13 +38,12 @@ namespace NBi.NUnit.Builder
         protected NBiConstraint InstantiateConstraint(EquivalentToXml ctrXml)
         {
             var ctr = new NBi.NUnit.Structure.EquivalentToConstraint(ctrXml.GetItems());
-        
+
             //Ignore-case if requested
             if (ctrXml.IgnoreCase)
                 ctr = ctr.IgnoreCase;
 
             return ctr;
         }
-
     }
 }

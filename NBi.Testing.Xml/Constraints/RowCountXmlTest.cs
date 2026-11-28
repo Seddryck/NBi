@@ -2,24 +2,23 @@
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using NBi.Xml;
-using NBi.Xml.Constraints;
+using NBi.Model.Xml;
+using NBi.Model.Xml.Constraints;
 using NUnit.Framework;
-using NBi.Xml.Constraints.Comparer;
+using NBi.Model.Xml.Constraints.Comparer;
 using NBi.Core.ResultSet;
-using NBi.Xml.Items.Calculation;
+using NBi.Model.Xml.Items.Calculation;
 using System.Xml.Serialization;
 using System.Text;
 using System.Diagnostics;
 using System.Collections.Generic;
 #endregion
 
-namespace NBi.Xml.Testing.Unit.Constraints;
+namespace NBi.Model.Xml.Testing.Unit.Constraints;
 
 [TestFixture]
 public class RowCountXmlTest : BaseXmlTest
 {
-
     [Test]
     public void Deserialize_SampleFile_ReadCorrectlyRowCount()
     {
@@ -31,7 +30,6 @@ public class RowCountXmlTest : BaseXmlTest
         Assert.That(ts.Tests[testNr].Constraints[0], Is.TypeOf<RowCountXml>());
         Assert.That(ts.Tests[testNr].Constraints[0].Not, Is.False);
     }
-
 
     //TODO ROW-COUNT
     // [Test]
@@ -45,7 +43,7 @@ public class RowCountXmlTest : BaseXmlTest
     //    Assert.That(rowCount.Equal, Is.Not.Null);
     //    Assert.That(rowCount.Equal, Is.TypeOf<EqualXml>());
     //    Assert.That(rowCount.Comparer, Is.EqualTo(rowCount.Equal));
-        
+
     //    var comparer = rowCount.Equal as PredicateXml;
     //    Assert.That(comparer.Value, Is.EqualTo("2"));
     //}
@@ -185,7 +183,7 @@ public class RowCountXmlTest : BaseXmlTest
             LessThan = new LessThanXml()
         };
 
-        var serializer = new XmlSerializer(typeof(RowCountXml));
+        var serializer = NBi.Model.Xml.XmlModelSerializer.GetPlainContractSerializer(typeof(RowCountXml));
         var stream = new MemoryStream();
         var writer = new StreamWriter(stream, Encoding.UTF8);
         serializer.Serialize(writer, rowCountXml);
@@ -217,7 +215,7 @@ public class RowCountXmlTest : BaseXmlTest
             LessThan = new LessThanXml()
         };
 
-        var serializer = new XmlSerializer(typeof(RowCountXml));
+        var serializer = NBi.Model.Xml.XmlModelSerializer.GetPlainContractSerializer(typeof(RowCountXml));
         var stream = new MemoryStream();
         var writer = new StreamWriter(stream, Encoding.UTF8);
         serializer.Serialize(writer, rowCountXml);

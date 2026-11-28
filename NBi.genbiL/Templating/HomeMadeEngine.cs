@@ -3,7 +3,7 @@
 //using System.IO;
 //using System.Linq;
 //using System.Xml.Serialization;
-//using NBi.Xml;
+//using NBi.Model.Xml;
 
 //namespace NBi.GenbiL.Templating
 //{
@@ -42,7 +42,7 @@
 //        {
 //            if (string.IsNullOrEmpty(PreProcessedTemplate))
 //                PreProcessedTemplate = PreProcess(TemplateXml, Variables, GetDynamicNames());
-            
+
 //            var tests = new List<TestXml>();
 
 //            foreach (var row in rows)
@@ -59,7 +59,7 @@
 
 //                    throw new ExpectedVariableNotFoundException();
 //                }
-                
+
 //                var test = XmlDeserializeFromString <TestStandaloneXml>(str);
 //                tests.Add(test);
 //	        }
@@ -102,7 +102,7 @@
 //        {
 //            return new string[]
 //            {
-//                DateTime.Today.ToShortDateString() + " " + DateTime.Now.ToLongTimeString(), 
+//                DateTime.Today.ToShortDateString() + " " + DateTime.Now.ToLongTimeString(),
 //                DateTime.Now.ToLongTimeString(),
 //                DateTime.Today.ToShortDateString(),
 //                (++uid).ToString(),

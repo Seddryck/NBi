@@ -10,10 +10,26 @@ if (("${#paths[@]}" == 0)); then
     exit 0
 fi
 
-if ! git diff --quiet "$tip" -- "${paths[@]}"; then
-    echo 'Check out the commit being pushed and commit or stash changes to the files under analysis.' >&2
-    exit 1
-fi
+check_batch() {
+    if ! git diff --quiet "$tip" -- "$@"; then
+        echo 'Check out the commit being pushed and commit or stash changes to the files under analysis.' >&2
+        exit 1
+    fi
+    dotnet format analyzers NBi.sln --verify-no-changes --no-restore --include "$@"
+}
 
 echo 'Checking changed C# files with the NBi analyzers'
-dotnet format analyzers NBi.sln --verify-no-changes --no-restore --include "${paths[@]}"
+# Windows limits the command line passed to dotnet-format.
+batch=()
+length=0
+for path in "${paths[@]}"; do
+    size=$((${#path} + 3))
+    if ((length + size > 16000 && ${#batch[@]} > 0)); then
+        check_batch "${batch[@]}"
+        batch=()
+        length=0
+    fi
+    batch+=("$path")
+    length=$((length + size))
+done
+check_batch "${batch[@]}"

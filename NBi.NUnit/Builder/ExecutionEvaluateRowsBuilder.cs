@@ -5,8 +5,8 @@ using NBi.Core;
 using NBi.Core.ResultSet;
 using NBi.Core.Scalar.Comparer;
 using NBi.NUnit.Query;
-using NBi.Xml.Constraints;
-using NBi.Xml.Systems;
+using NBi.Model.Xml.Constraints;
+using NBi.Model.Xml.Systems;
 
 namespace NBi.NUnit.Builder
 {
@@ -16,7 +16,6 @@ namespace NBi.NUnit.Builder
 
         public ExecutionEvaluateRowsBuilder()
         {
-
         }
 
         protected override void SpecificSetup(AbstractSystemUnderTestXml sutXml, AbstractConstraintXml ctrXml)

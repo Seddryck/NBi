@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using NBi.NUnit.Query;
-using NBi.Xml.Constraints;
-using NBi.Xml.Systems;
+using NBi.Model.Xml.Constraints;
+using NBi.Model.Xml.Systems;
 using NBi.Core.Calculation;
 using NBi.Core.Evaluate;
 
@@ -31,6 +31,5 @@ namespace NBi.NUnit.Builder
             var ctr = new SingleRowConstraint(filter);
             return ctr;
         }
-
     }
 }

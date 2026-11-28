@@ -1,9 +1,9 @@
 ﻿using NBi.Core.ResultSet;
-using NBi.Xml;
-using NBi.Xml.Constraints;
-using NBi.Xml.Items.ResultSet;
-using NBi.Xml.Items.ResultSet.Lookup;
-using NBi.Xml.Systems;
+using NBi.Model.Xml;
+using NBi.Model.Xml.Constraints;
+using NBi.Model.Xml.Items.ResultSet;
+using NBi.Model.Xml.Items.ResultSet.Lookup;
+using NBi.Model.Xml.Systems;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
@@ -15,12 +15,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 
-namespace NBi.Xml.Testing.Unit.Constraints;
+namespace NBi.Model.Xml.Testing.Unit.Constraints;
 
 [TestFixture]
 public class LookupMatchesXmlTest : BaseXmlTest
 {
-
     [Test]
     public void Deserialize_SampleFile_ReadCorrectlyReferenceExists()
     {
@@ -58,7 +57,7 @@ public class LookupMatchesXmlTest : BaseXmlTest
         var ts = DeserializeSample();
         var lookupMatches = (LookupMatchesXml)ts.Tests[testNr].Constraints[0]!;
         var mappings = lookupMatches.Inclusion!.Mappings;
-         
+
         Assert.That(mappings, Has.Count.EqualTo(1));
         Assert.That(mappings[0].Candidate, Is.EqualTo("DepartmentName"));
         Assert.That(mappings[0].Reference, Is.EqualTo("Name"));

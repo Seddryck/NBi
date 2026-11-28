@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
-using NBi.Xml.Constraints;
-using NBi.Xml.Systems;
+using NBi.Model.Xml.Constraints;
+using NBi.Model.Xml.Systems;
 using NUnit.Framework.Constraints;
 using NBi.Framework;
 using System.Collections.Generic;
@@ -19,7 +19,7 @@ namespace NBi.NUnit.Builder
         protected object SystemUnderTest { get; set; }
         protected NBiConstraint Constraint { get; set; }
         protected IConfiguration Configuration { get; private set; }
-        
+
         protected IDictionary<string, IVariable> Variables { get; private set; }
         protected ServiceLocator ServiceLocator { get; private set; }
 
@@ -103,6 +103,5 @@ namespace NBi.NUnit.Builder
 
             return Constraint;
         }
-
     }
 }

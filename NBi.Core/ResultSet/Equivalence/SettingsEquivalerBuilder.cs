@@ -15,6 +15,23 @@ public class SettingsEquivalerBuilder : SettingsResultSetBuilder
     private ColumnType valuesDefaultType = ColumnType.Numeric;
     private Tolerance? defaultTolerance = null;
 
+    public void Setup(Model.Constraints.EqualTo comparison)
+    {
+        ArgumentNullException.ThrowIfNull(comparison);
+
+        var multipleRows = comparison.Behavior == Model.Constraints.EqualTo.ComparisonBehavior.MultipleRows;
+        Setup(multipleRows);
+        Setup(multipleRows ? (SettingsOrdinalResultSet.KeysChoice)comparison.KeysDef : default,
+            multipleRows ? (SettingsOrdinalResultSet.ValuesChoice)comparison.ValuesDef : default);
+        Setup(multipleRows ? ParseColumnNames(comparison.KeyName) : [],
+            multipleRows ? ParseColumnNames(comparison.ValueName) : []);
+        Setup(comparison.ValuesDefaultType, comparison.Tolerance ?? string.Empty);
+        Setup(comparison.ColumnsDef);
+    }
+
+    private static IEnumerable<string> ParseColumnNames(string? names)
+        => names?.Replace(" ", "").Split(',', StringSplitOptions.RemoveEmptyEntries).Distinct() ?? [];
+
     public void Setup(bool isMultipleRows)
     {
         isBuild = false;
@@ -62,7 +79,6 @@ public class SettingsEquivalerBuilder : SettingsResultSetBuilder
             throw new InvalidOperationException($"You cannot define a default type for values as '{valuesDefaultType}' and setup a dateTime default tolerance.");
     }
 
-
     protected override void OnBuild()
     {
         BuildSettings(ColumnType.Text, valuesDefaultType, defaultTolerance!);
@@ -71,7 +87,9 @@ public class SettingsEquivalerBuilder : SettingsResultSetBuilder
     protected override void BuildSettings(ColumnType keysDefaultType, ColumnType valuesDefaultType, Tolerance defaultTolerance)
     {
         if (isMultipleRows)
+        {
             base.BuildSettings(keysDefaultType, valuesDefaultType, defaultTolerance);
+        }
         else
         {
             if (IsByName())

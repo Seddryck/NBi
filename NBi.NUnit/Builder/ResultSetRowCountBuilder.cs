@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using NBi.NUnit.Query;
-using NBi.Xml.Constraints;
-using NBi.Xml.Systems;
+using NBi.Model.Xml.Constraints;
+using NBi.Model.Xml.Systems;
 using NUnitCtr = NUnit.Framework.Constraints;
-using NBi.Xml.Constraints.Comparer;
+using NBi.Model.Xml.Constraints.Comparer;
 using NBi.Core.Evaluate;
 using NBi.NUnit.Builder.Helper;
 using NBi.Core.Variable;
-using NBi.Xml.Settings;
+using NBi.Model.Xml.Settings;
 using NBi.Core.ResultSet.Filtering;
 using NBi.Extensibility.Resolving;
 

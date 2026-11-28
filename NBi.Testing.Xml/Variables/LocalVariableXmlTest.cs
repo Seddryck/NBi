@@ -1,24 +1,23 @@
-﻿using NBi.Xml;
+﻿using NBi.Model.Xml;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using NBi.Xml.Variables;
+using NBi.Model.Xml.Variables;
 using System.Xml.Serialization;
 using System.IO;
 using System.Diagnostics;
-using NBi.Xml.Items;
+using NBi.Model.Xml.Items;
 using System.Reflection;
 using NBi.Core.ResultSet;
-using NBi.Xml.Variables.Custom;
+using NBi.Model.Xml.Variables.Custom;
 
-namespace NBi.Xml.Testing.Unit.Variables;
+namespace NBi.Model.Xml.Testing.Unit.Variables;
 
 public class LocalVariableXmlTest : BaseXmlTest
 {
-
     [Test]
     public void Deserialize_SampleFile_InstanceDefinitionHasVariable()
     {
@@ -52,7 +51,7 @@ public class LocalVariableXmlTest : BaseXmlTest
             }
         };
 
-        var serializer = new XmlSerializer(typeof(InstanceSettlingXml));
+        var serializer = NBi.Model.Xml.XmlModelSerializer.GetPlainContractSerializer(typeof(InstanceSettlingXml));
         using (var stream = new MemoryStream())
         using (var writer = new StreamWriter(stream, Encoding.UTF8))
         {
@@ -96,7 +95,7 @@ public class LocalVariableXmlTest : BaseXmlTest
             }
         };
 
-        var serializer = new XmlSerializer(root.GetType());
+        var serializer = NBi.Model.Xml.XmlModelSerializer.GetPlainContractSerializer(root.GetType());
         using (var stream = new MemoryStream())
         using (var writer = new StreamWriter(stream, Encoding.UTF8))
         {
@@ -138,7 +137,7 @@ public class LocalVariableXmlTest : BaseXmlTest
             }
         };
 
-        var serializer = new XmlSerializer(root.GetType());
+        var serializer = NBi.Model.Xml.XmlModelSerializer.GetPlainContractSerializer(root.GetType());
         using (var stream = new MemoryStream())
         using (var writer = new StreamWriter(stream, Encoding.UTF8))
         {

@@ -17,5 +17,6 @@ using System.Runtime.InteropServices;
 [assembly: Guid("64c44ca6-f17a-4591-adbe-f9905039dfa1")]
 
 [assembly: InternalsVisibleTo("NBi.CSharp")]
+[assembly: InternalsVisibleTo("NBi.Windows.ServiceManagement")]
 [assembly: InternalsVisibleTo("NBi.NUnit")]
 [assembly: InternalsVisibleTo("NBi.NUnit.Runtime")]

@@ -1,0 +1,10 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <Description>Windows service setup, cleanup, and conditions for NBi.</Description>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="System.ServiceProcess.ServiceController" Version="8.0.0" />
+    <ProjectReference Include="..\NBi.Core\NBi.Core.csproj" />
+    <InternalsVisibleTo Include="NBi.Core.Testing" />
+  </ItemGroup>
+</Project>

@@ -35,7 +35,10 @@ To run your first NBi suite, follow the [test environment setup](https://www.nbi
 
 ### Optional runner packages
 
-Add a reference to the NBi.CSharp NuGet package in the NBi runner project when a suite uses inline C# or loads custom .NET extensions. Use the same release version as the rest of the NBi packages.
+Add these NuGet package references to the NBi runner project as needed. Use the same release version as the rest of the NBi packages.
+
+- NBi.CSharp for inline C# and custom .NET extensions.
+- NBi.Windows.ServiceManagement for service-start, service-stop, and service-running on Windows.
 
 ## Licenses ##
 NBi is available on the terms of Apache 2.0. NBi is also using several OSS projects as libraries. 

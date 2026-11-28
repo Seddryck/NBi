@@ -164,7 +164,7 @@ internal static class ModelMapper
         if (sourceType.IsEnum)
             return Enum.Parse(targetType, source.ToString()!);
 
-        var target = Activator.CreateInstance(targetType)
+        var target = Activator.CreateInstance(targetType, nonPublic: true)
             ?? throw new InvalidOperationException($"Cannot create {targetType}.");
         visited.Add(source, target);
 

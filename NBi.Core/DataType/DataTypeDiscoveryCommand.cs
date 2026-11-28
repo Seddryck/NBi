@@ -23,6 +23,12 @@ public abstract class DataTypeDiscoveryCommand : IDataTypeDiscoveryCommand
         this.description = description;
     }
 
+    protected DataTypeDiscoveryCommand(CommandDescription description)
+    {
+        command = null!;
+        this.description = description;
+    }
+
     public abstract DataTypeInfo? Execute();
 
 }

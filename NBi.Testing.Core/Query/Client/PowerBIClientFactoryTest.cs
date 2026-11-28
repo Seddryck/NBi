@@ -16,6 +16,11 @@ public class PowerBIClientFactoryTest
 
     #region Power BI Desktop
 
+    [Test]
+    public void ToConnectionUrl_WindowTitle_EscapesOnePathSegment()
+        => Assert.That(PowerBiDesktopConnectionStringBuilder.ToConnectionUrl("Sales / Europe #1"),
+            Is.EqualTo("pbix:///Sales%20%2F%20Europe%20%231"));
+
     private class PowerBiDesktopConnectionStringBuilderFake : PowerBiDesktopConnectionStringBuilder
     {
         public static string ConnectionString = "Data Source=localhost:2325;";

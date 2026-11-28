@@ -40,5 +40,13 @@ public class ExecutionEngineFactory: EngineFactory<IExecutionEngine>
         RegisterEngines(classics.Union(extensions).ToArray());
     }
 
+    protected override IExecutionEngine InstantiateUnregistered(IClient client, ICommand command)
+    {
+        if (client is DubUrlClient dubUrl && command.Implementation is System.Data.Common.DbCommand dbCommand)
+            return new DubUrlExecutionEngine(dubUrl, dbCommand);
+
+        return base.InstantiateUnregistered(client, command);
+    }
+
     internal int ExtensionCount { get => engines.Count - classics.Length; }
 }

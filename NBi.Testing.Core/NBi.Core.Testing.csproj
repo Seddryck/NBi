@@ -10,6 +10,8 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NBi.Core\NBi.Core.csproj" />
+    <ProjectReference Include="..\NBi.CSharp\NBi.CSharp.csproj" />
+    <ProjectReference Include="..\NBi.Windows.ServiceManagement\NBi.Windows.ServiceManagement.csproj" />
     <ProjectReference Include="..\NBi.Extensibility\NBi.Extensibility.csproj" />
   </ItemGroup>
   <ItemGroup>

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,22 +6,20 @@ using System.Threading.Tasks;
 
 namespace NBi.Core.Compiling;
 
-internal class DynamicVariableCompiler : CSharpCompiler
+internal class TransformerCompiler<T> : CSharpCompiler
 {
-    protected override string[] TemplateVariables => [Namespace];
+    protected override string[] TemplateVariables
+        => [Namespace, GetType().GetGenericArguments()[0].Name];
+
     protected override string Template
         => @"
                 using System;
-                using System.Xml;
-                using System.Xml.Linq;
-                using System.Linq;
-                using System.Xml.XPath;
             
                 namespace {1}
                 {{                
-                    public class DynamicVariableClass
+                    public class TransformerClass
                     {{                
-                        public static object? Function()
+                        public static object Function({2} value)
                         {{
                             return {0};
                         }}
@@ -32,9 +30,9 @@ internal class DynamicVariableCompiler : CSharpCompiler
     public override void Compile(string code)
     {
         base.Compile(code);
-        Prepare("DynamicVariableClass", "Function");
+        Prepare("TransformerClass", "Function");
     }
 
-    public object? Evaluate()
-        => Evaluate([]);
+    public object? Evaluate(T value)
+        => Evaluate([value]);
 }

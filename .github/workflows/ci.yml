@@ -164,7 +164,7 @@ jobs:
           PACKAGE_VERSION: ${{ steps.version.outputs.semver }}
         run: |
           $packages = Join-Path $env:RUNNER_TEMP nbi-packages
-          foreach ($project in 'NBi.Extensibility', 'NBi.Model', 'NBi.Core', 'NBi.Framework') {
+          foreach ($project in 'NBi.Extensibility', 'NBi.Model', 'NBi.Core', 'NBi.CSharp', 'NBi.Windows.ServiceManagement', 'NBi.Framework') {
             dotnet pack $project -c Release --no-build --include-symbols `
               "-p:Version=$env:PACKAGE_VERSION" --output $packages
             if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
@@ -204,7 +204,7 @@ jobs:
         env:
           NUGET_API_KEY: ${{ steps.nuget.outputs.NUGET_API_KEY }}
         run: |
-          for package in packages/NBi.Extensibility.*.nupkg packages/NBi.Model.*.nupkg packages/NBi.[0-9]*.nupkg packages/NBi.Framework.*.nupkg; do
+          for package in packages/NBi.Extensibility.*.nupkg packages/NBi.Model.*.nupkg packages/NBi.[0-9]*.nupkg packages/NBi.CSharp.*.nupkg packages/NBi.Windows.ServiceManagement.*.nupkg packages/NBi.Framework.*.nupkg; do
             dotnet nuget push "$package" --api-key "$NUGET_API_KEY" \
               --source https://api.nuget.org/v3/index.json --skip-duplicate
           done

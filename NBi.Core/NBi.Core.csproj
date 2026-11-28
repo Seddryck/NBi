@@ -20,7 +20,6 @@
     <PackageReference Include="FSharp.Core" Version="9.0.201" />
     <PackageReference Include="FuzzyString.NETStandard" Version="1.0.0" />
     <PackageReference Include="Microsoft.AnalysisServices.AdomdClient.NetCore.retail.amd64" Version="19.84.1" />
-    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.8.0" /> 
     <PackageReference Include="Microsoft.Data.SqlClient" Version="6.0.1" /> 
     <PackageReference Include="NCalcSync" Version="5.4.1" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
@@ -30,7 +29,6 @@
     <PackageReference Include="System.Data.Odbc" Version="9.0.3" />
     <PackageReference Include="System.Data.OleDb" Version="9.0.3" />
     <PackageReference Include="System.Management" Version="9.0.3" />
-    <PackageReference Include="System.ServiceProcess.ServiceController" Version="8.0.0" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Query\Performance\CleanCache.xmla" />

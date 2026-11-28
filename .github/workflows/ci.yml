@@ -109,17 +109,34 @@ jobs:
           $failed = $false
           foreach ($project in $projects) {
             $name = [IO.Path]::GetFileNameWithoutExtension($project)
-            $coverageOptions = @()
-            if ($name -eq 'NBi.Framework.Testing') {
-              # Core, GenbiL, and XML measure the model. Keep the Framework gate scoped to its existing assemblies.
-              $coverageOptions += '-p:Exclude=[NBi.Model]*'
-            }
+            $projectResults = Join-Path $results $name
             dotnet test $project -c Release --framework net10.0 --no-build --no-restore `
-              --logger "trx;LogFileName=$name.trx" --results-directory $results `
-              -p:CollectCoverage=true -p:CoverletOutputFormat=opencover `
-              -p:Threshold=10 -p:ThresholdType=line -p:ThresholdStat=total `
-              "-p:CoverletOutput=$results/$name.coverage.xml" @coverageOptions
-            if ($LASTEXITCODE -ne 0) { $failed = $true }
+              --logger "trx;LogFileName=$name.trx" --results-directory $projectResults `
+              --collect 'XPlat Code Coverage;Format=opencover'
+            if ($LASTEXITCODE -ne 0) {
+              $failed = $true
+              continue
+            }
+            $reports = @(Get-ChildItem -LiteralPath $projectResults -Depth 1 -Filter coverage.opencover.xml -File)
+            if ($reports.Count -ne 1) {
+              Write-Host "::error::Expected one OpenCover report for $name, found $($reports.Count)."
+              $failed = $true
+              continue
+            }
+            [xml]$coverage = Get-Content -LiteralPath $reports[0].FullName -Raw
+            $summary = $coverage.CoverageSession.Summary
+            $total = [long]$summary.numSequencePoints
+            $visited = [long]$summary.visitedSequencePoints
+            if ($name -eq 'NBi.Framework.Testing') {
+              # The Core, GenbiL, and XML gates already measure NBi.Model.
+              $points = '/CoverageSession/Modules/Module[ModuleName != "NBi.Model"]//SequencePoint'
+              $total = $coverage.SelectNodes($points).Count
+              $visited = $coverage.SelectNodes("$points[@vc > 0]").Count
+            }
+            if ($total -eq 0 -or $visited * 100 -lt $total * 10) {
+              Write-Host "::error::$name covered $visited of $total sequence points, below 10%."
+              $failed = $true
+            }
           }
           if ($failed) { exit 1 }
           exit 0

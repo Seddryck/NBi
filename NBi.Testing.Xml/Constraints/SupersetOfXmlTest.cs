@@ -3,16 +3,16 @@ using System.IO;
 using System.Reflection;
 using NBi.Core.ResultSet;
 using NBi.Core.Scalar.Comparer;
-using NBi.Xml;
-using NBi.Xml.Constraints;
-using NBi.Xml.Items;
+using NBi.Model.Xml;
+using NBi.Model.Xml.Constraints;
+using NBi.Model.Xml.Items;
 using NUnit.Framework;
-using NBi.Xml.Items.ResultSet;
+using NBi.Model.Xml.Items.ResultSet;
 using NBi.Core.Transformation;
-using NBi.Xml.Items.Alteration.Transform;
+using NBi.Model.Xml.Items.Alteration.Transform;
 #endregion
 
-namespace NBi.Xml.Testing.Unit.Constraints;
+namespace NBi.Model.Xml.Testing.Unit.Constraints;
 
 [TestFixture]
 public class SupersetOfXmlTest : BaseXmlTest

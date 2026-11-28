@@ -3,7 +3,7 @@
 //using System.IO;
 //using System.Linq;
 //using System.Xml.Serialization;
-//using NBi.Xml;
+//using NBi.Model.Xml;
 
 //namespace NBi.GenbiL.Templating
 //{

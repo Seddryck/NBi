@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using NBi.GenbiL.Stateful;
-using NBi.Xml.Settings;
+using NBi.Model.Settings;
 
 namespace NBi.GenbiL.Action.Setting;
 
@@ -24,17 +24,17 @@ public class DefaultAction : ISettingAction
             throw new ArgumentException("Currently you must define the variable as ConnectionString. Other options are not supported!");
 
         var defaultScope = MapDefaultScope(DefaultType);
-        state.Settings.GetDefault(defaultScope).ConnectionString = new ConnectionStringXml() { Inline = Value };
+        state.Settings.GetDefault(defaultScope).ConnectionString = new ConnectionString() { Inline = Value };
     }
 
-    private SettingsXml.DefaultScope MapDefaultScope(DefaultType defaultValue)
+    private SuiteSettings.DefaultScope MapDefaultScope(DefaultType defaultValue)
     {
         switch (defaultValue)
         {
-            case DefaultType.Everywhere: return SettingsXml.DefaultScope.Everywhere;
-            case DefaultType.SystemUnderTest:return SettingsXml.DefaultScope.SystemUnderTest;
-            case DefaultType.Assert:return SettingsXml.DefaultScope.Assert;
-            case DefaultType.SetupCleanup: return SettingsXml.DefaultScope.Decoration;
+            case DefaultType.Everywhere: return SuiteSettings.DefaultScope.Everywhere;
+            case DefaultType.SystemUnderTest:return SuiteSettings.DefaultScope.SystemUnderTest;
+            case DefaultType.Assert:return SuiteSettings.DefaultScope.Assert;
+            case DefaultType.SetupCleanup: return SuiteSettings.DefaultScope.Decoration;
             default: throw new ArgumentOutOfRangeException();
         }
     }

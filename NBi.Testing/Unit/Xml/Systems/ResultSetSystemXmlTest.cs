@@ -1,14 +1,14 @@
 ﻿using NBi.Core.ResultSet;
 using NBi.Core.ResultSet.Lookup;
 using NBi.Core.Transformation;
-using NBi.Xml;
-using NBi.Xml.Items.Alteration;
-using NBi.Xml.Items.Alteration.Conversion;
-using NBi.Xml.Items.Alteration.Lookup;
-using NBi.Xml.Items.Alteration.Transform;
-using NBi.Xml.Items.ResultSet;
-using NBi.Xml.Items.ResultSet.Lookup;
-using NBi.Xml.Systems;
+using NBi.Model.Xml;
+using NBi.Model.Xml.Items.Alteration;
+using NBi.Model.Xml.Items.Alteration.Conversion;
+using NBi.Model.Xml.Items.Alteration.Lookup;
+using NBi.Model.Xml.Items.Alteration.Transform;
+using NBi.Model.Xml.Items.ResultSet;
+using NBi.Model.Xml.Items.ResultSet.Lookup;
+using NBi.Model.Xml.Systems;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
@@ -282,7 +282,7 @@ namespace NBi.Testing.Unit.Xml.Systems
                 }
             };
 
-            var serializer = new XmlSerializer(alteration.GetType());
+            var serializer = NBi.Model.Xml.XmlModelSerializer.GetPlainContractSerializer(alteration.GetType());
             using (var stream = new MemoryStream())
             using (var writer = new StreamWriter(stream, Encoding.UTF8))
             {

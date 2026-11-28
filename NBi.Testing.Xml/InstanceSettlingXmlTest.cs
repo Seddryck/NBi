@@ -1,21 +1,21 @@
-﻿using NBi.Xml;
+﻿using NBi.Model.Xml;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using NBi.Xml.Variables;
+using NBi.Model.Xml.Variables;
 using System.Xml.Serialization;
 using System.IO;
 using System.Diagnostics;
-using NBi.Xml.Items;
+using NBi.Model.Xml.Items;
 using System.Reflection;
-using NBi.Xml.Settings;
+using NBi.Model.Xml.Settings;
 using NBi.Core.Transformation;
 using NBi.Core.ResultSet;
 
-namespace NBi.Xml.Testing.Unit;
+namespace NBi.Model.Xml.Testing.Unit;
 
 public class InstanceSettlingXmlTest : BaseXmlTest
 {
@@ -43,7 +43,7 @@ public class InstanceSettlingXmlTest : BaseXmlTest
             }
         };
 
-        var serializer = new XmlSerializer(typeof(TestXml));
+        var serializer = NBi.Model.Xml.XmlModelSerializer.GetPlainContractSerializer(typeof(TestXml));
         using (var stream = new MemoryStream())
         using (var writer = new StreamWriter(stream, Encoding.UTF8))
         {
@@ -84,7 +84,7 @@ public class InstanceSettlingXmlTest : BaseXmlTest
     {
         var test = new TestXml();
 
-        var serializer = new XmlSerializer(typeof(TestXml));
+        var serializer = NBi.Model.Xml.XmlModelSerializer.GetPlainContractSerializer(typeof(TestXml));
         using (var stream = new MemoryStream())
         using (var writer = new StreamWriter(stream, Encoding.UTF8))
         {
@@ -110,7 +110,7 @@ public class InstanceSettlingXmlTest : BaseXmlTest
             }
         };
 
-        var serializer = new XmlSerializer(test.GetType());
+        var serializer = NBi.Model.Xml.XmlModelSerializer.GetPlainContractSerializer(test.GetType());
         using (var stream = new MemoryStream())
         using (var writer = new StreamWriter(stream, Encoding.UTF8))
         {
@@ -174,7 +174,7 @@ public class InstanceSettlingXmlTest : BaseXmlTest
             }
         };
 
-        var serializer = new XmlSerializer(typeof(TestXml));
+        var serializer = NBi.Model.Xml.XmlModelSerializer.GetPlainContractSerializer(typeof(TestXml));
         using (var stream = new MemoryStream())
         {
             using (var writer = new StreamWriter(stream, Encoding.UTF8))

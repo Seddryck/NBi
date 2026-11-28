@@ -1,7 +1,7 @@
 ﻿using NBi.Core;
-using NBi.Xml.Items;
-using NBi.Xml.Settings;
-using NBi.Xml.Systems;
+using NBi.Model.Xml.Items;
+using NBi.Model.Xml.Settings;
+using NBi.Model.Xml.Systems;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;

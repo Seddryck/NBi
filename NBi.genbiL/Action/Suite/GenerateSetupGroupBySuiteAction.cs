@@ -1,7 +1,7 @@
 ﻿using NBi.GenbiL.Stateful;
 using NBi.GenbiL.Stateful.Tree;
 using NBi.GenbiL.Templating;
-using NBi.Xml.Decoration;
+using NBi.Model.Decoration;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -11,13 +11,13 @@ using System.Threading.Tasks;
 
 namespace NBi.GenbiL.Action.Suite;
 
-class GenerateSetupGroupBySuiteAction : GenerateSuiteAction<SetupStandaloneXml>
+class GenerateSetupGroupBySuiteAction : GenerateSuiteAction<SetupStandalone>
 {
     public GenerateSetupGroupBySuiteAction(string groupByPattern)
         : base(false, groupByPattern) { }
 
     public override string Display { get => $"Generating Items in groups '{GroupByPattern}'"; }      
 
-    protected override TreeNode BuildNode(SetupStandaloneXml content)
+    protected override TreeNode BuildNode(SetupStandalone content)
         => new SetupNode(content);
 }

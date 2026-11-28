@@ -408,9 +408,9 @@
       <Project>{dfb8aa0e-a144-49e3-976b-ad03bf2a55e7}</Project>
       <Name>NBi.GenbiL</Name>
     </ProjectReference>
-    <ProjectReference Include="..\NBi.Xml\NBi.Xml.csproj">
+    <ProjectReference Include="..\NBi.Model.Xml\NBi.Model.Xml.csproj">
       <Project>{3a9822b3-cce4-441b-9c3e-d52817a994ca}</Project>
-      <Name>NBi.Xml</Name>
+      <Name>NBi.Model.Xml</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

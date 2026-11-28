@@ -1,7 +1,7 @@
 ﻿using System;
 using NBi.Core.ResultSet;
-using NBi.Xml.Constraints;
-using NBi.Xml.Systems;
+using NBi.Model.Xml.Constraints;
+using NBi.Model.Xml.Systems;
 using NBi.NUnit.ResultSetComparison;
 using NBi.Core.ResultSet.Equivalence;
 using NBi.Extensibility.Resolving;

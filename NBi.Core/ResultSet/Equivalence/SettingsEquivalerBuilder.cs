@@ -15,6 +15,23 @@ public class SettingsEquivalerBuilder : SettingsResultSetBuilder
     private ColumnType valuesDefaultType = ColumnType.Numeric;
     private Tolerance? defaultTolerance = null;
 
+    public void Setup(Model.Constraints.EqualTo comparison)
+    {
+        ArgumentNullException.ThrowIfNull(comparison);
+
+        var multipleRows = comparison.Behavior == Model.Constraints.EqualTo.ComparisonBehavior.MultipleRows;
+        Setup(multipleRows);
+        Setup(multipleRows ? (SettingsOrdinalResultSet.KeysChoice)comparison.KeysDef : default,
+            multipleRows ? (SettingsOrdinalResultSet.ValuesChoice)comparison.ValuesDef : default);
+        Setup(multipleRows ? ParseColumnNames(comparison.KeyName) : [],
+            multipleRows ? ParseColumnNames(comparison.ValueName) : []);
+        Setup(comparison.ValuesDefaultType, comparison.Tolerance ?? string.Empty);
+        Setup(comparison.ColumnsDef);
+    }
+
+    private static IEnumerable<string> ParseColumnNames(string? names)
+        => names?.Replace(" ", "").Split(',', StringSplitOptions.RemoveEmptyEntries).Distinct() ?? [];
+
     public void Setup(bool isMultipleRows)
     {
         isBuild = false;

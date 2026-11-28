@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using NBi.GenbiL.Action;
 using NBi.GenbiL.Parser;
-using NBi.Xml;
+using NBi.Model;
+using NBi.Model.Xml;
 using Sprache;
 using System.IO;
 using NBi.GenbiL.Stateful;
@@ -72,7 +73,7 @@ public class TestSuiteGenerator
     }
 
 
-    protected virtual void Save(string filename, TestSuiteXml testSuite)
+    protected virtual void Save(string filename, TestSuite testSuite)
     {
         var xmlManager = new XmlManager();
         xmlManager.Persist(filename, testSuite);

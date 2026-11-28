@@ -1,4 +1,4 @@
-﻿using NBi.Xml;
+﻿using NBi.Model.Xml;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -7,7 +7,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBi.Xml.Testing;
+namespace NBi.Model.Xml.Testing;
 
 public abstract class BaseXmlTest
 {

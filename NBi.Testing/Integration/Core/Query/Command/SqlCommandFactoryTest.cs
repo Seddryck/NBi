@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using NBi.Core.Query;
-using NBi.Xml.Items;
+using NBi.Model.Xml.Items;
 using NUnit.Framework;
 using NBi.Core.Scalar.Resolver;
 using System.Data.SqlClient;

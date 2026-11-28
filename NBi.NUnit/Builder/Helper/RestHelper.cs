@@ -6,10 +6,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using NBi.Core.Api.Rest;
-using NBi.Xml.Items.Api.Rest;
+using NBi.Model.Xml.Items.Api.Rest;
 using NBi.Core.Api.Authentication;
-using NBi.Xml.Items.Api.Authentication;
-using NBi.Xml.Settings;
+using NBi.Model.Xml.Items.Api.Authentication;
+using NBi.Model.Xml.Settings;
 
 namespace NBi.NUnit.Builder.Helper
 {

@@ -1,8 +1,8 @@
 ﻿using System;
-using NBi.Xml;
+using NBi.Model.Xml;
 using NUnit.Framework;
 
-namespace NBi.Xml.Testing.Unit;
+namespace NBi.Model.Xml.Testing.Unit;
 
 [TestFixture]
 [Parallelizable(ParallelScope.None)]
@@ -36,8 +36,8 @@ public class XmlManagerWithExternalSettingsTest
         Assert.That(manager.TestSuite!.Settings, Is.Not.Null);
         //defaults
         Assert.That(manager.TestSuite.Settings.Defaults, Is.Not.Null);
-        Assert.That(manager.TestSuite.Settings.GetDefault(NBi.Xml.Settings.SettingsXml.DefaultScope.SystemUnderTest), Is.Not.Null);
-        Assert.That(manager.TestSuite.Settings.GetDefault(NBi.Xml.Settings.SettingsXml.DefaultScope.SystemUnderTest).ConnectionString.Inline, Is.EqualTo("My Sut Default Connection String"));
+        Assert.That(manager.TestSuite.Settings.GetDefault(NBi.Model.Xml.Settings.SettingsXml.DefaultScope.SystemUnderTest), Is.Not.Null);
+        Assert.That(manager.TestSuite.Settings.GetDefault(NBi.Model.Xml.Settings.SettingsXml.DefaultScope.SystemUnderTest).ConnectionString.Inline, Is.EqualTo("My Sut Default Connection String"));
 
         //references
         Assert.That(manager.TestSuite.Settings.References, Is.Not.Null);
@@ -56,8 +56,8 @@ public class XmlManagerWithExternalSettingsTest
         Assert.That(manager.TestSuite!.Settings, Is.Not.Null);
         //defaults
         Assert.That(manager.TestSuite.Settings.Defaults, Is.Not.Null);
-        Assert.That(manager.TestSuite.Settings.GetDefault(NBi.Xml.Settings.SettingsXml.DefaultScope.SystemUnderTest), Is.Not.Null);
-        Assert.That(manager.TestSuite.Settings.GetDefault(NBi.Xml.Settings.SettingsXml.DefaultScope.SystemUnderTest).ConnectionString.Inline, Is.EqualTo("My Sut Default Connection String"));
+        Assert.That(manager.TestSuite.Settings.GetDefault(NBi.Model.Xml.Settings.SettingsXml.DefaultScope.SystemUnderTest), Is.Not.Null);
+        Assert.That(manager.TestSuite.Settings.GetDefault(NBi.Model.Xml.Settings.SettingsXml.DefaultScope.SystemUnderTest).ConnectionString.Inline, Is.EqualTo("My Sut Default Connection String"));
 
         //references
         Assert.That(manager.TestSuite.Settings.References, Is.Not.Null);

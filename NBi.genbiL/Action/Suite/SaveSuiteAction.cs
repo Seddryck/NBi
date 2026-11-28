@@ -1,7 +1,8 @@
 ﻿using NBi.GenbiL.Stateful;
 using NBi.GenbiL.Stateful.Tree;
-using NBi.Xml;
-using NBi.Xml.Decoration;
+using NBi.Model;
+using NBi.Model.Xml;
+using NBi.Model.Decoration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,7 +21,7 @@ public class SaveSuiteAction : ISuiteAction
     
     public void Execute(GenerationState state)
     {
-        var suiteXml = new TestSuiteXml()
+        var suiteXml = new TestSuite()
         {
             Settings = state.Settings,
             Variables = [.. state.Variables],
@@ -32,26 +33,26 @@ public class SaveSuiteAction : ISuiteAction
         manager.Persist(Filename, suiteXml);
     }
 
-    protected virtual void AppendNodes(IList<GroupXml> groups, IList<TestXml> tests, IEnumerable<TreeNode> nodes)
+    protected virtual void AppendNodes(IList<Group> groups, IList<TestDefinition> tests, IEnumerable<TreeNode> nodes)
     {
         foreach (var node in nodes.Where(x => x is GroupNode).Cast<GroupNode>())
         {
-            var newGroup = new GroupXml() { Name = node.Name };
+            var newGroup = new Group() { Name = node.Name };
             groups.Add(newGroup);
 
             var setupNode = (node).Children.FirstOrDefault(x => x is SetupNode);
             if (setupNode != null)
-                newGroup.Setup = new SetupXml(((SetupNode)setupNode).Content);
+                newGroup.Setup = new Setup(((SetupNode)setupNode).Content);
 
             var cleanupNode = (node).Children.FirstOrDefault(x => x is CleanupNode);
             if (cleanupNode != null)
-                newGroup.Cleanup = new CleanupXml(((CleanupNode)cleanupNode).Content);
+                newGroup.Cleanup = new Cleanup(((CleanupNode)cleanupNode).Content);
 
             AppendNodes(newGroup.Groups, newGroup.Tests, node.Children);
         }
 
         foreach (var node in nodes.Where(x => x is TestNode).Cast<TestNode>())
-            tests.Add(new TestXml(node.Content));
+            tests.Add(new TestDefinition(node.Content));
     }
 
 

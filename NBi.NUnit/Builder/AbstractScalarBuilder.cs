@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using NBi.Xml.Constraints;
-using NBi.Xml.Systems;
+using NBi.Model.Xml.Constraints;
+using NBi.Model.Xml.Systems;
 using NBi.NUnit.Builder.Helper;
 using NBi.Core.Configuration;
 using NBi.Core.Injection;
 using NBi.Core.Variable;
 using NBi.Extensibility.Resolving;
-using NBi.Xml.Settings;
+using NBi.Model.Xml.Settings;
 
 namespace NBi.NUnit.Builder
 {

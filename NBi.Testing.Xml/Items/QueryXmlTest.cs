@@ -1,18 +1,18 @@
-﻿using System;
+using System;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using NBi.Xml;
-using NBi.Xml.Items;
-using NBi.Xml.Systems;
+using NBi.Model.Xml;
+using NBi.Model.Xml.Items;
+using NBi.Model.Xml.Systems;
 using NUnit.Framework;
-using NBi.Xml.Constraints;
+using NBi.Model.Xml.Constraints;
 using System.Xml.Serialization;
 using System.Text;
 using System.Diagnostics;
-using NBi.Xml.SerializationOption;
+using NBi.Model.Xml.SerializationOption;
 
-namespace NBi.Xml.Testing.Unit.Items;
+namespace NBi.Model.Xml.Testing.Unit.Items;
 
 [TestFixture]
 public class QueryXmlTest : BaseXmlTest

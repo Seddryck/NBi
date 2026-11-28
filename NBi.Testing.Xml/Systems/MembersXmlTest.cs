@@ -1,11 +1,11 @@
 ﻿using System.IO;
 using System.Reflection;
-using NBi.Xml;
-using NBi.Xml.Items;
-using NBi.Xml.Systems;
+using NBi.Model.Xml;
+using NBi.Model.Xml.Items;
+using NBi.Model.Xml.Systems;
 using NUnit.Framework;
 
-namespace NBi.Xml.Testing.Unit.Systems;
+namespace NBi.Model.Xml.Testing.Unit.Systems;
 
 [TestFixture]
 public class MembersXmlTest : BaseXmlTest

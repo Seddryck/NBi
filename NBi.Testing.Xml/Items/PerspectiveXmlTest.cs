@@ -5,14 +5,14 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Xml.Serialization;
-using NBi.Xml.Items;
-using NBi.Xml.Settings;
+using NBi.Model.Xml.Items;
+using NBi.Model.Xml.Settings;
 using NUnit.Framework;
-using NBi.Xml;
+using NBi.Model.Xml;
 using System.Reflection;
-using NBi.Xml.Systems;
+using NBi.Model.Xml.Systems;
 
-namespace NBi.Xml.Testing.Unit.Items;
+namespace NBi.Model.Xml.Testing.Unit.Items;
 
 [TestFixture]
 public class PerspectiveXmlTest : BaseXmlTest
@@ -33,7 +33,7 @@ public class PerspectiveXmlTest : BaseXmlTest
             }
         };
 
-        var serializer = new XmlSerializer(typeof(PerspectiveXml));
+        var serializer = NBi.Model.Xml.XmlModelSerializer.GetPlainContractSerializer(typeof(PerspectiveXml));
         var stream = new MemoryStream();
         var writer = new StreamWriter(stream, Encoding.UTF8);
         serializer.Serialize(writer, perspectiveXml);
@@ -58,7 +58,7 @@ public class PerspectiveXmlTest : BaseXmlTest
             ConnectionString = "connStr"
         };
 
-        var serializer = new XmlSerializer(typeof(PerspectiveXml));
+        var serializer = NBi.Model.Xml.XmlModelSerializer.GetPlainContractSerializer(typeof(PerspectiveXml));
         var stream = new MemoryStream();
         var writer = new StreamWriter(stream, Encoding.UTF8);
         serializer.Serialize(writer, perspectiveXml);

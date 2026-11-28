@@ -1,5 +1,5 @@
-﻿using NBi.Xml;
-using NBi.Xml.Decoration;
+﻿using NBi.Model;
+using NBi.Model.Decoration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +10,7 @@ namespace NBi.GenbiL.Stateful.Tree;
 
 public class CleanupNode : TreeNode
 {
-    public CleanupStandaloneXml Content { get; }
-    public CleanupNode(CleanupStandaloneXml cleanup)
+    public CleanupStandalone Content { get; }
+    public CleanupNode(CleanupStandalone cleanup)
         : base("cleanup") => Content = cleanup;
 }

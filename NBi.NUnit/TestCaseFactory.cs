@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using NBi.NUnit.Builder;
-using NBi.Xml.Constraints;
-using NBi.Xml.Systems;
+using NBi.Model.Xml.Constraints;
+using NBi.Model.Xml.Systems;
 using System.Linq;
 using NUnitCtr = NUnit.Framework.Constraints;
 using NBi.Framework;

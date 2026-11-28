@@ -1,21 +1,21 @@
-﻿using NBi.Xml;
+﻿using NBi.Model.Xml;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using NBi.Xml.Variables;
+using NBi.Model.Xml.Variables;
 using System.Xml.Serialization;
 using System.IO;
 using System.Diagnostics;
-using NBi.Xml.Items;
+using NBi.Model.Xml.Items;
 using System.Reflection;
 using NBi.Core.ResultSet;
-using NBi.Xml.Variables.Sequence;
+using NBi.Model.Xml.Variables.Sequence;
 using NBi.Core.Calculation;
 
-namespace NBi.Xml.Testing.Unit.Variables.Sequence;
+namespace NBi.Model.Xml.Testing.Unit.Variables.Sequence;
 
 public class FileLoopXmlTest : BaseXmlTest
 {
@@ -66,7 +66,7 @@ public class FileLoopXmlTest : BaseXmlTest
             }
         };
 
-        var serializer = new XmlSerializer(typeof(InstanceVariableXml));
+        var serializer = NBi.Model.Xml.XmlModelSerializer.GetPlainContractSerializer(typeof(InstanceVariableXml));
         var stream = new MemoryStream();
         var writer = new StreamWriter(stream, Encoding.UTF8);
         serializer.Serialize(writer, instanceVariable);

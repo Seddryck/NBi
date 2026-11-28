@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using NBi.GenbiL.Stateful;
-using NBi.Xml.Settings;
+using NBi.Model.Settings;
 
 namespace NBi.GenbiL.Action.Setting;
 
@@ -26,10 +26,10 @@ public class ReferenceAction : ISettingAction
         var newReference = state.Settings.References.SingleOrDefault(d => d.Name == Name);
         if (newReference == null)
         {
-            newReference = new ReferenceXml() { Name = Name };
+            newReference = new Reference() { Name = Name };
             state.Settings.References.Add(newReference);
         }
-        newReference.ConnectionString = new ConnectionStringXml() { Inline = Value };
+        newReference.ConnectionString = new ConnectionString() { Inline = Value };
     }
 
     public string Display => $"Create reference named 'Name' with value for {Variable} and defining it to '{Value}'";

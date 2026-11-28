@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Linq;
 using NBi.Core.DataType;
-using NBi.Xml.Constraints;
-using NBi.Xml.Items;
-using NBi.Xml.Systems;
+using NBi.Model.Xml.Constraints;
+using NBi.Model.Xml.Items;
+using NBi.Model.Xml.Systems;
 using System.Collections.Generic;
-using NBi.Xml.Items.Filters;
+using NBi.Model.Xml.Items.Filters;
 using NBi.NUnit.Builder.Helper;
 
 namespace NBi.NUnit.Builder

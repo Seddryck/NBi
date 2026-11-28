@@ -1,13 +1,13 @@
 ﻿using System.IO;
 using System.Reflection;
-using NBi.Xml;
-using NBi.Xml.Items;
-using NBi.Xml.Items.Hierarchical.Json;
-using NBi.Xml.Constraints;
+using NBi.Model.Xml;
+using NBi.Model.Xml.Items;
+using NBi.Model.Xml.Items.Hierarchical.Json;
+using NBi.Model.Xml.Constraints;
 using NUnit.Framework;
 using System;
 
-namespace NBi.Xml.Testing.Unit.Items.Hierarchical;
+namespace NBi.Model.Xml.Testing.Unit.Items.Hierarchical;
 
 public class JsonSourceXmlTest : BaseXmlTest
 {

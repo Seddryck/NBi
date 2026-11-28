@@ -9,7 +9,7 @@ using NBi.Core.Variable;
 using NBi.Extensibility.Decoration;
 using NBi.Extensibility.Decoration.DataEngineering;
 using NBi.Extensibility.Resolving;
-using NBi.Xml.Decoration.Command;
+using NBi.Model.Xml.Decoration.Command;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;

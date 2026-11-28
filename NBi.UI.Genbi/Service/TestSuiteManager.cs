@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using NBi.Xml;
-using NBi.Xml.Settings;
-using NBi.Xml.Variables;
+using NBi.Model.Xml;
+using NBi.Model.Xml.Settings;
+using NBi.Model.Xml.Variables;
 using NBi.GenbiL.Stateful;
 using NBi.IO.Genbi.Dto;
 

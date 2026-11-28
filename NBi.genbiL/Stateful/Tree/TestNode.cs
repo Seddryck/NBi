@@ -1,4 +1,4 @@
-﻿using NBi.Xml;
+﻿using NBi.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +9,7 @@ namespace NBi.GenbiL.Stateful.Tree;
 
 public class TestNode : TreeNode
 {
-    public TestStandaloneXml Content { get; }
-    public TestNode(TestStandaloneXml test)
+    public StandaloneTest Content { get; }
+    public TestNode(StandaloneTest test)
         : base(test.Name) => Content = test;
 }

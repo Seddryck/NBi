@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
   <ItemGroup>
-    <ProjectReference Include="..\NBi.Xml\NBi.Xml.csproj"/>
+    <ProjectReference Include="..\NBi.Model.Xml\NBi.Model.Xml.csproj"/>
   </ItemGroup>
 </Project>

@@ -1,8 +1,8 @@
 ﻿using NBi.Core.Injection;
 using NBi.Core.ResultSet;
 using NBi.Core.Variable;
-using NBi.Xml.Settings;
-using NBi.Xml.Systems;
+using NBi.Model.Xml.Settings;
+using NBi.Model.Xml.Systems;
 using NBi.Extensibility.Resolving;
 using System;
 using System.Collections.Generic;

@@ -4,16 +4,16 @@ using System.Data;
 using Moq;
 using NBi.NUnit.Builder;
 using NBi.NUnit.Query;
-using NBi.Xml.Constraints;
-using NBi.Xml.Items;
-using NBi.Xml.Systems;
+using NBi.Model.Xml.Constraints;
+using NBi.Model.Xml.Items;
+using NBi.Model.Xml.Systems;
 using NUnit.Framework;
 using NBi.Core.ResultSet;
 using NBi.Core.ResultSet.Resolver;
 using NBi.Core.Query;
 using NBi.Core.Injection;
 using NBi.Extensibility.Query;
-using NBi.Xml.Settings;
+using NBi.Model.Xml.Settings;
 #endregion
 
 namespace NBi.Testing.Unit.NUnit.Builder

@@ -8,6 +8,7 @@
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\NBi.Extensibility\NBi.Extensibility.csproj" />
+    <ProjectReference Include="..\NBi.Model\NBi.Model.csproj" />
   </ItemGroup>
   <ItemGroup> 
     <PackageReference Include="Deedle" Version="3.0.0" />

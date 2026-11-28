@@ -3,7 +3,7 @@ using NBi.Core.Injection;
 using NBi.Core.Scalar.Resolver;
 using NBi.Core.Variable;
 using NBi.NUnit.Builder.Helper;
-using NBi.Xml.Constraints.Comparer;
+using NBi.Model.Xml.Constraints.Comparer;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
